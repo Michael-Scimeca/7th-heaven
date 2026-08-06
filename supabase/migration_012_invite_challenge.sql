@@ -15,10 +15,6 @@ create table if not exists public.show_invite_challenges (
 -- RLS
 alter table public.show_invite_challenges enable row level security;
 
--- Admins (service role) can do everything
-create policy "service_role_all" on public.show_invite_challenges
-  for all using (true) with check (true);
-
 -- Public read (show page fetches the active challenge)
 create policy "public_read" on public.show_invite_challenges
   for select using (enabled = true);
@@ -38,6 +34,3 @@ alter table public.show_invite_referrals enable row level security;
 
 create policy "users_read_own" on public.show_invite_referrals
   for select using (auth.uid() = inviter_id);
-
-create policy "service_role_all_referrals" on public.show_invite_referrals
-  for all using (true) with check (true);

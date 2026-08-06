@@ -66,9 +66,8 @@ export default function CookieConsentBanner() {
 
   return (
     <div
-      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] transition-all duration-350 ease-out ${
-        closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
-      }`}
+      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] transition-all duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
+        }`}
       role="dialog"
       aria-modal="true"
       aria-label="Cookie consent"
@@ -89,11 +88,11 @@ export default function CookieConsentBanner() {
               <h2 className="text-white font-bold text-base leading-tight mb-0.5">Your Privacy</h2>
               <p className="text-white/40 text-sm leading-snug">
                 We use cookies to improve your experience. By using 7thHeavenBand.com you agree to our{" "}
-                <a href="/privacy" className="text-[var(--color-accent)]/80 hover:text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
+                <a href="/privacy" className=" text-[var(--color-accent)]/80 hover: text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
                   Privacy Policy
                 </a>{" "}
                 and{" "}
-                <a href="/terms" className="text-[var(--color-accent)]/80 hover:text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
+                <a href="/terms" className=" text-[var(--color-accent)]/80 hover: text-[var(--color-accent)] underline underline-offset-2 transition-colors" target="_blank" rel="noopener">
                   Terms of Service
                 </a>.
               </p>
@@ -125,9 +124,8 @@ export default function CookieConsentBanner() {
                   onClick={() => setAnalytics(!analytics)}
                   aria-checked={analytics}
                   role="switch"
-                  className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors duration-200 shrink-0 ${
-                    analytics ? "bg-[var(--color-accent)] justify-end" : "bg-white/[0.1] justify-start"
-                  }`}
+                  className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors duration-200 shrink-0 ${analytics ? "bg-[var(--color-accent)] justify-end" : "bg-white/[0.1] justify-start"
+                    }`}
                 >
                   <div className="w-4 h-4 rounded-full bg-white shadow-sm" />
                 </button>
@@ -144,9 +142,8 @@ export default function CookieConsentBanner() {
                   onClick={() => setMarketing(!marketing)}
                   aria-checked={marketing}
                   role="switch"
-                  className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors duration-200 shrink-0 ${
-                    marketing ? "bg-[var(--color-accent)] justify-end" : "bg-white/[0.1] justify-start"
-                  }`}
+                  className={`w-9 h-5 rounded-full flex items-center px-0.5 transition-colors duration-200 shrink-0 ${marketing ? "bg-[var(--color-accent)] justify-end" : "bg-white/[0.1] justify-start"
+                    }`}
                 >
                   <div className="w-4 h-4 rounded-full bg-white shadow-sm" />
                 </button>

@@ -60,7 +60,7 @@ function CancelContent() {
             </div>
             <h1 className="text-2xl font-extrabold text-white mb-3">Cancel Booking?</h1>
             <p className="text-white/40 text-sm mb-2 leading-relaxed">
-              You&apos;re about to cancel booking <span className="text-[var(--color-accent)] font-bold">{bookingId}</span>.
+              You&apos;re about to cancel booking <span className=" text-[var(--color-accent)] font-bold">{bookingId}</span>.
             </p>
             <p className="text-white/30 text-sm mb-8">This action cannot be undone. Our team will be notified.</p>
             <div className="flex flex-col gap-3">
@@ -88,12 +88,12 @@ function CancelContent() {
 
         {status === "done" && (
           <>
-            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
             <h1 className="text-2xl font-extrabold text-white mb-3">Booking Cancelled</h1>
             <p className="text-white/40 text-sm mb-2">
-              Booking <span className="text-[var(--color-accent)] font-bold">{bookingId}</span> has been cancelled.
+              Booking <span className=" text-[var(--color-accent)] font-bold">{bookingId}</span> has been cancelled.
             </p>
             <p className="text-white/30 text-sm mb-8">Our team has been notified. If you change your mind, you can submit a new booking request anytime.</p>
             <div className="flex flex-col gap-3">

@@ -94,7 +94,7 @@ function CircleVideoNode({
     if (!video) return;
 
     if (shouldPlay) {
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     } else {
       video.pause();
     }
@@ -114,11 +114,11 @@ function CircleVideoNode({
 }
 
 /* ── Layout constants (SVG coordinate space) ── */
-const SVG_W   = 1400;
-const STEP_H  = 680;
-const LEFT_X  = 68;   // Safe left margin (prevents circle border clipping)
+const SVG_W = 1400;
+const STEP_H = 680;
+const LEFT_X = 68;   // Safe left margin (prevents circle border clipping)
 const RIGHT_X = 1332; // Safe right margin (prevents circle border clipping)
-const NODE_R  = 32;
+const NODE_R = 32;
 
 const DAY_ICONS = ['📍', '🎸', '🏝️', '🥂', '⚓', '🌊', '🌴'];
 
@@ -212,7 +212,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   };
 
   const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.25, durationMs = 800) => {
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
     const startTime = performance.now();
     const startVol = audio.volume;
 
@@ -276,9 +276,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       const currentDay = itinerary[activeNodeIndex];
       const isSea = isAtSeaDay(currentDay);
       if (isSea && seaAudioRef.current) {
-        seaAudioRef.current.play().catch(() => {});
+        seaAudioRef.current.play().catch(() => { });
       } else if (portAudioRef.current) {
-        portAudioRef.current.play().catch(() => {});
+        portAudioRef.current.play().catch(() => { });
       }
     };
 
@@ -356,9 +356,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   }, []);
 
   const sectionRef = useRef<HTMLElement>(null);
-  const canvasRef  = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const shipContainerRef = useRef<HTMLDivElement>(null);
-  const cardRefs   = useRef<(HTMLDivElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Load saved tuning from localStorage on mount (position boat cleanly on the path line)
   useEffect(() => {
@@ -377,7 +377,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.speedMultiplier = 1.0;
         setTuning({ ...DEFAULT_TUNING, ...saved, shipScale: 1.5, nodeMinScale: 1.0, nodeAction: 'none', shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 0 });
       }
-    } catch {}
+    } catch { }
   }, []);
 
   // ── Sync tuning state to ref for requestAnimationFrame loop ──
@@ -391,7 +391,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       localStorage.setItem('7h_cruise_tuning', JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   const handleResetTuning = () => {
@@ -400,7 +400,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       localStorage.removeItem('7h_cruise_tuning');
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   // Canvas height: last node Y + card height (450px) so card bottom sits flush at container padding boundary
@@ -425,9 +425,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   });
 
   /* ── Animated water-wave serpentine path ── */
-  const trackRef     = useRef<SVGPathElement>(null);
-  const fillRef      = useRef<SVGPathElement>(null);
-  const currentRef   = useRef<SVGPathElement>(null);
+  const trackRef = useRef<SVGPathElement>(null);
+  const fillRef = useRef<SVGPathElement>(null);
+  const currentRef = useRef<SVGPathElement>(null);
   const highlightRef = useRef<SVGPathElement>(null);
 
   const buildWavyPath = (phase: number, amp?: number) => {
@@ -571,7 +571,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         shipScaleFactorRef.current = 1.0;
         const opacityVal = 1.0;
-        
+
         // Compute direction tangent for ship heading angle (sample 24px behind & ahead for smooth angle)
         const pPrev = fill.getPointAtLength(Math.max(0, shipDist - 24));
         const pNext = fill.getPointAtLength(Math.min(totalLen, shipDist + 24));
@@ -618,7 +618,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       startLoop();
       return () => { running = false; cancelAnimationFrame(rafId); };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itinerary.length, layoutMode]);
 
 
@@ -655,7 +655,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
         {showSettings && mounted && createPortal(
-          <div 
+          <div
             data-settings-panel
             className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[var(--color-bg-deep)]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
             style={{ zIndex: 999999, pointerEvents: 'auto' }}
@@ -679,7 +679,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setShowSettings(false)}
                 className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-all"
               >
@@ -689,7 +689,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
             {/* Controls Sliders Grid — 2-Column organized sections */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              
+
               {/* SECTION 1: Velocity & Viewport Triggers */}
               <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
                 <div className="flex justify-between items-center text-cyan-300 font-black text-sm">
@@ -869,11 +869,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         <button
                           key={act.id}
                           onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                          className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${
-                            (tuning.nodeAction ?? 'hide') === act.id
-                              ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
-                              : 'bg-white/5 text-white/60 hover:bg-white/10'
-                          }`}
+                          className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${(tuning.nodeAction ?? 'hide') === act.id
+                            ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                            : 'bg-white/5 text-white/60 hover:bg-white/10'
+                            }`}
                         >
                           {act.label}
                         </button>
@@ -1008,7 +1007,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
               <div className="flex items-center gap-3">
                 {saveToast && (
-                  <span className="text-xs font-bold text-emerald-400 animate-in fade-in duration-300">
+                  <span className="text-xs font-bold text-[var(--color-accent)] animate-in fade-in duration-300">
                     ✓ Settings Saved!
                   </span>
                 )}
@@ -1086,7 +1085,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
         {nodes.map((node, i) => {
-          const topPct  = (node.y / totalH) * 100;
+          const topPct = (node.y / totalH) * 100;
           const leftPct = (node.x / SVG_W) * 100;
           const day = itinerary[i];
           const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
@@ -1098,10 +1097,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="group">
               {dayImage && (
                 <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
-                  <img 
-                    src={dayImage} 
-                    alt={day.theme} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                  <img
+                    src={dayImage}
+                    alt={day.theme}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
               )}
@@ -1259,9 +1258,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${
-                  isActive ? 'scale-105 opacity-100' : 'opacity-85'
-                }`}
+                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                  }`}
               >
                 <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}
               </div>

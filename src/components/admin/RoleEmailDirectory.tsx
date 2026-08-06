@@ -87,8 +87,8 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
     return combinedUsers.filter(u => {
       const matchRole =
         activeTab === "all" ? true :
-        activeTab === "planner" ? (u.role === "planner" || u.role === "event_planner") :
-        u.role === activeTab;
+          activeTab === "planner" ? (u.role === "planner" || u.role === "event_planner") :
+            u.role === activeTab;
 
       const q = search.toLowerCase().trim();
       const matchSearch =
@@ -111,7 +111,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
   const handleExportCSV = () => {
     const csvContent = "Name,Email,Role,Phone,Status\n" +
       filteredUsers.map(u => `"${u.name}","${u.email}","${u.role}","${u.phone || ''}","${u.status || 'Active'}"`).join("\n");
-    
+
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -128,14 +128,14 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
       case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
       case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
       case "planner":
-      case "event_planner": return "bg-[var(--color-accent)] text-[var(--color-accent)] border-[var(--color-accent)]";
-      default: return "bg-[var(--color-accent)] text-[var(--color-accent)] border-[var(--color-accent)]";
+      case "event_planner": return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
+      default: return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
     }
   };
 
   return (
     <div className="p-6 bg-white border-t border-black/10 space-y-6 text-black font-sans">
-      
+
       {/* Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Role Tabs */}
@@ -145,11 +145,10 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-all cursor-pointer border flex items-center gap-2 ${
-                activeTab === tab
+              className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-all cursor-pointer border flex items-center gap-2 ${activeTab === tab
                   ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
                   : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
-              }`}
+                }`}
             >
               <span>
                 {tab === "all" ? " ALL" : tab === "crew" ? " CREW" : tab === "fan" ? " FANS" : tab === "cruise" ? " CRUISE" : tab === "planner" ? " PLANNERS" : " ADMINS"}
@@ -217,12 +216,12 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
                 filteredUsers.map(user => (
                   <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-[var(--border-color)]">
                     <td className="py-3 px-4 font-bold text-[var(--text-color)] flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--color-accent)] font-black text-[var(--font-size-3xs)]">
+                      <div className="w-7 h-7 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center  text-[var(--color-accent)] font-black text-[var(--font-size-3xs)]">
                         {user.name.charAt(0)}
                       </div>
                       <span>{user.name}</span>
                     </td>
-                    <td className="py-3 px-4 text-[var(--color-accent)] font-mono text-xs font-extrabold select-all">
+                    <td className="py-3 px-4  text-[var(--color-accent)] font-mono text-xs font-extrabold select-all">
                       {user.email}
                     </td>
                     <td className="py-3 px-4">
@@ -238,7 +237,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
                         href={`mailto:${user.email}`}
                         className="px-2.5 py-1 bg-[var(--card-bg)] hover:bg-[var(--bg-color)] border border-[var(--border-color)] text-[var(--text-color)] font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
-                         Email
+                        Email
                       </a>
                     </td>
                   </tr>

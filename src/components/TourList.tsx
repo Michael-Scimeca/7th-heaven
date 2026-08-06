@@ -9,193 +9,193 @@ import { useMember } from "@/context/MemberContext";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
- const canvasRef = useRef<HTMLCanvasElement>(null);
- const phaseRef = useRef(0);
- const rafRef  = useRef<number | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const phaseRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
 
- const draw = useCallback((phase: number, isHovered: boolean, isActive: boolean) => {
-  const canvas = canvasRef.current;
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  const W = canvas.width;
-  const H = canvas.height;
-  ctx.clearRect(0, 0, W, H);
+  const draw = useCallback((phase: number, isHovered: boolean, isActive: boolean) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const W = canvas.width;
+    const H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
 
-  let s = seed + 1;
-  const rand = () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+    let s = seed + 1;
+    const rand = () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
 
-  const grad = ctx.createLinearGradient(0, 0, W, 0);
-  if (isActive) {
-    // Site purple — always-on up-next show
-    grad.addColorStop(0,   'rgba(255,10,61,0)');
-    grad.addColorStop(0.1, 'rgba(160,40,255,0.85)');
-    grad.addColorStop(0.5, 'rgba(180,50,255,1)');
-    grad.addColorStop(0.9, 'rgba(160,40,255,0.85)');
-    grad.addColorStop(1,   'rgba(255,10,61,0)');
-  } else if (isHovered) {
-   grad.addColorStop(0,   'rgba(80,50,140,0)');
-   grad.addColorStop(0.1, 'rgba(120,60,200,0.75)');
-   grad.addColorStop(0.5, 'rgba(150,70,230,0.95)');
-   grad.addColorStop(0.9, 'rgba(120,60,200,0.75)');
-   grad.addColorStop(1,   'rgba(80,50,140,0)');
-  } else {
-   grad.addColorStop(0,   'rgba(60,40,100,0)');
-   grad.addColorStop(0.1, 'rgba(80,50,130,0.55)');
-   grad.addColorStop(0.5, 'rgba(100,60,160,0.7)');
-   grad.addColorStop(0.9, 'rgba(80,50,130,0.55)');
-   grad.addColorStop(1,   'rgba(60,40,100,0)');
-  }
+    const grad = ctx.createLinearGradient(0, 0, W, 0);
+    if (isActive) {
+      // Site purple — always-on up-next show
+      grad.addColorStop(0, 'rgba(255,10,61,0)');
+      grad.addColorStop(0.1, 'rgba(160,40,255,0.85)');
+      grad.addColorStop(0.5, 'rgba(180,50,255,1)');
+      grad.addColorStop(0.9, 'rgba(160,40,255,0.85)');
+      grad.addColorStop(1, 'rgba(255,10,61,0)');
+    } else if (isHovered) {
+      grad.addColorStop(0, 'rgba(80,50,140,0)');
+      grad.addColorStop(0.1, 'rgba(120,60,200,0.75)');
+      grad.addColorStop(0.5, 'rgba(150,70,230,0.95)');
+      grad.addColorStop(0.9, 'rgba(120,60,200,0.75)');
+      grad.addColorStop(1, 'rgba(80,50,140,0)');
+    } else {
+      grad.addColorStop(0, 'rgba(60,40,100,0)');
+      grad.addColorStop(0.1, 'rgba(80,50,130,0.55)');
+      grad.addColorStop(0.5, 'rgba(100,60,160,0.7)');
+      grad.addColorStop(0.9, 'rgba(80,50,130,0.55)');
+      grad.addColorStop(1, 'rgba(60,40,100,0)');
+    }
 
-  ctx.strokeStyle = grad;
-  ctx.lineWidth = (isActive || isHovered) ? 1.6 : 1.1;
-  ctx.lineJoin = 'round';
-  ctx.lineCap  = 'round';
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = (isActive || isHovered) ? 1.6 : 1.1;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
 
-  const midY    = H / 2;
-  const segments = 18;
-  const segW    = W / segments;
-  const amp     = isActive ? 5 : isHovered ? 4.5 : 2.5;
+    const midY = H / 2;
+    const segments = 18;
+    const segW = W / segments;
+    const amp = isActive ? 5 : isHovered ? 4.5 : 2.5;
 
-  ctx.beginPath();
-  ctx.moveTo(0, midY + Math.sin(phase) * amp * 0.4 * (rand() - 0.5) * 2);
-  for (let i = 0; i < segments; i++) {
-   const x0   = i * segW;
-   const x1   = (i + 1) * segW;
-   const wave = Math.sin(phase + i * 0.45) * amp;
-   const cp1x = x0 + segW * 0.35;
-   const cp1y = midY + (rand() - 0.5) * 5 + wave;
-   const cp2x = x0 + segW * 0.65;
-   const cp2y = midY + (rand() - 0.5) * 5 + Math.sin(phase + i * 0.45 + 1.1) * amp;
-   const ex   = x1;
-   const ey   = midY + (rand() - 0.5) * 3 + Math.sin(phase + (i + 1) * 0.45) * amp * 0.6;
-   ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, ex, ey);
-  }
-  ctx.stroke();
- }, [seed]);
+    ctx.beginPath();
+    ctx.moveTo(0, midY + Math.sin(phase) * amp * 0.4 * (rand() - 0.5) * 2);
+    for (let i = 0; i < segments; i++) {
+      const x0 = i * segW;
+      const x1 = (i + 1) * segW;
+      const wave = Math.sin(phase + i * 0.45) * amp;
+      const cp1x = x0 + segW * 0.35;
+      const cp1y = midY + (rand() - 0.5) * 5 + wave;
+      const cp2x = x0 + segW * 0.65;
+      const cp2y = midY + (rand() - 0.5) * 5 + Math.sin(phase + i * 0.45 + 1.1) * amp;
+      const ex = x1;
+      const ey = midY + (rand() - 0.5) * 3 + Math.sin(phase + (i + 1) * 0.45) * amp * 0.6;
+      ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, ex, ey);
+    }
+    ctx.stroke();
+  }, [seed]);
 
- // Static draw on mount
- useEffect(() => { draw(0, false, false); }, [draw]);
+  // Static draw on mount
+  useEffect(() => { draw(0, false, false); }, [draw]);
 
- // Animate when active (up-next) or hovered
- useEffect(() => {
-  const shouldAnimate = hovered || active;
-  if (shouldAnimate) {
-   const loop = () => {
-    phaseRef.current += active ? 0.05 : 0.07;
-    draw(phaseRef.current, hovered, active);
-    rafRef.current = requestAnimationFrame(loop);
-   };
-   rafRef.current = requestAnimationFrame(loop);
-  } else {
-   if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
-   // wind back to static
-   draw(phaseRef.current, false, false);
-  }
-  return () => { if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; } };
- }, [hovered, active, draw]);
+  // Animate when active (up-next) or hovered
+  useEffect(() => {
+    const shouldAnimate = hovered || active;
+    if (shouldAnimate) {
+      const loop = () => {
+        phaseRef.current += active ? 0.05 : 0.07;
+        draw(phaseRef.current, hovered, active);
+        rafRef.current = requestAnimationFrame(loop);
+      };
+      rafRef.current = requestAnimationFrame(loop);
+    } else {
+      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+      // wind back to static
+      draw(phaseRef.current, false, false);
+    }
+    return () => { if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; } };
+  }, [hovered, active, draw]);
 
- return (
-  <canvas
-   ref={canvasRef}
-   width={1200}
-   height={14}
-   className="w-full block transition-opacity duration-300"
-   style={{ height: 14, opacity: (active || hovered) ? 1 : 0.85 }}
-   aria-hidden="true"
-  />
- );
+  return (
+    <canvas
+      ref={canvasRef}
+      width={1200}
+      height={14}
+      className="w-full block transition-opacity duration-300"
+      style={{ height: 14, opacity: (active || hovered) ? 1 : 0.85 }}
+      aria-hidden="true"
+    />
+  );
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
 
 export const shows = [
- { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
- { day: "Sat", date: "January 3", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
- { day: "Fri", date: "January 9", venue: "Rookies", city: "Hoffman Est.", state: "IL", time: "8:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=4607%20W%20Higgins%20Rd,%20Hoffman%20Estates,%20IL%2060192,%20United%20States&coordinate=42.074379,-88.191220&name=4607%20W%20Higgins%20Rd", websiteUrl: "https://www.rookiespub.com/hoffmanestates.html" },
- { day: "Sat", date: "January 10", venue: "Private Event", city: "", state: "", time: "", info: "", mapUrl: "", websiteUrl: "" },
- { day: "Sun", date: "January 11", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "2:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
- { day: "Sat", date: "January 17", venue: "Chicago Music Cruise", city: "Miami", state: "FL", time: "", info: "MSC World America", mapUrl: "", websiteUrl: "http://www.chicagomusiccruise.com" },
- { day: "Wed", date: "January 28", venue: "WGN TV News Segment", city: "Chicago", state: "IL", time: "10:00am", info: "TV Appearance", mapUrl: "", websiteUrl: "https://wgntv.com" },
- { day: "Fri", date: "January 30", venue: "Youth Services Fundraiser", city: "Wilmette", state: "IL", time: "7:00pm", info: "Fundraiser - Join Us!", mapUrl: "https://maps.apple.com/?address=1100%20Laramie%20Ave,%20Wilmette,%20IL%2060091", websiteUrl: "https://e.givesmart.com/events/Lk3/" },
- { day: "Sat", date: "January 31", venue: "Des Plaines Theater", city: "Des Plaines", state: "IL", time: "9:00pm", info: "", mapUrl: "https://maps.apple.com/place?address=1476%20Miner%20St,%20Des%20Plaines,%20IL%2060161,%20United%20States&coordinate=42.041800,-87.887154&name=1476%20Miner%20St", websiteUrl: "https://desplainestheatre.com" },
- { day: "Fri", date: "February 6", venue: "Chicago Auto Show First Look", city: "Chicago", state: "IL", time: "7:30pm", info: "Ticketed Gala", mapUrl: "https://maps.apple.com/?address=2301%20S%20Dr%20Martin%20Luther%20King%20Jr,%20Chicago,%20IL%2060616&q=McCormick%20Place", websiteUrl: "https://www.chicagoautoshow.com/first-look-for-charity/" },
- { day: "Sat", date: "February 7", venue: "Hard Rock Casino", city: "Gary", state: "IN", time: "9:00pm", info: "Casino Show", mapUrl: "https://maps.apple.com/?address=5400%20W%2029th%20Ave,%20Gary,%20IN%2046406", websiteUrl: "https://www.hardrockcasinonorthernindiana.com" },
- { day: "Fri", date: "February 13", venue: "Durty Nellies", city: "Palatine", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=180%20N%20Smith%20St,%20Palatine,%20IL%2060067", websiteUrl: "https://durtynellies.com" },
- { day: "Sat", date: "February 14", venue: "Stage 119", city: "Elmhurst", state: "IL", time: "8:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=119%20N%20York%20St,%20Elmhurst,%20IL%2060126", websiteUrl: "https://www.stage-events-elmhurst.com" },
- { day: "Fri", date: "February 20", venue: "Jamos Live", city: "Mokena", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=10160%20191st%20St,%20Mokena,%20IL%2060448", websiteUrl: "https://www.jamoslive.com" },
- { day: "Sat", date: "February 21", venue: "Barb's Rescue Gala", city: "Schaumburg", state: "IL", time: "8:30pm", info: "Ticketed Gala", mapUrl: "https://maps.apple.com/?address=401%20N%20Roselle%20Rd,%20Schaumburg,%20IL%2060194", websiteUrl: "https://www.barbsrescue.org" },
- { day: "Fri", date: "February 27", venue: "Evenflow", city: "Geneva", state: "IL", time: "9:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=302%20W%20State%20St,%20Geneva,%20IL%2060134", websiteUrl: "https://evenflowmusic.com" },
- { day: "Sat", date: "February 28", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
- { day: "Fri", date: "March 6", venue: "Bannerman's", city: "Bartlett", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=858%20S%20Illinois%20Rte%2059,%20Bartlett,%20IL%2060103", websiteUrl: "https://bannermanssportsgrill.com" },
- { day: "Sat", date: "March 7", venue: "Broken Oar", city: "P. Barrington", state: "IL", time: "9:00pm", info: "", mapUrl: "https://maps.apple.com/?address=614%20Rawson%20Bridge%20Rd,%20Barrington,%20IL", websiteUrl: "https://www.brokenoar.com" },
- { day: "Tue", date: "March 11", venue: "Home Show", city: "Chicago", state: "IL", time: "", info: "McCormick Place", mapUrl: "https://maps.apple.com/place?address=2301%20S%20Indiana%20Ave,%20Chicago,%20IL%2060616&name=McCormick%20Place%20West", websiteUrl: "https://www.theinspiredhomeshow.com/events/" },
- { day: "Sat", date: "March 22", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
- { day: "Fri", date: "March 27", venue: "Tailgaters", city: "Bolingbrook", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=431%20W%20Boughton%20Rd,%20Bolingbrook,%20IL%2060444", websiteUrl: "http://www.tailgatersgrill.com" },
- { day: "Sat", date: "March 28", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
- { day: "Fri", date: "April 3", venue: "Rookie's Rockhouse", city: "Hoffman Est.", state: "IL", time: "8:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=4607%20W%20Higgins%20Rd,%20Hoffman%20Estates,%20IL%2060192,%20United%20States&coordinate=42.074379,-88.191220&name=4607%20W%20Higgins%20Rd", websiteUrl: "https://www.rookiespub.com/hoffmanestates.html" },
- { day: "Sat", date: "April 4", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
- { day: "Fri", date: "April 10", venue: "Corrigan's Pub", city: "Shorewood", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=700%20W%20Jefferson%20St,%20Shorewood,%20IL%2060404", websiteUrl: "https://corriganspub52.com" },
- { day: "Sat", date: "April 11", venue: "Midway Sports", city: "Bartlett", state: "IL", time: "8:30pm", info: "All-Age till 10pm", mapUrl: "https://maps.apple.com/?q=Midway+Sports+Bartlett+IL", websiteUrl: "https://midwaybartlett.com" },
- { day: "Thu", date: "April 17", venue: "Joe's Live", city: "Rosemont", state: "IL", time: "8:00pm", info: "", mapUrl: "https://maps.apple.com/?address=5441%20Park%20Pl,%20Des%20Plaines,%20IL%2060118", websiteUrl: "https://www.joesliverosemont.com" },
- { day: "Fri", date: "April 18", venue: "Stage 119", city: "Elmhurst", state: "IL", time: "8:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=119%20N%20York%20St,%20Elmhurst,%20IL%2060126", websiteUrl: "https://www.stage-events-elmhurst.com" },
- { day: "Thu", date: "April 24", venue: "Evenflow", city: "Geneva", state: "IL", time: "9:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=302%20W%20State%20St,%20Geneva,%20IL%2060134", websiteUrl: "https://evenflowmusic.com" },
- { day: "Fri", date: "April 25", venue: "Rochaus", city: "West Dundee", state: "IL", time: "9:00pm", info: "", mapUrl: "https://maps.apple.com/?address=96%20W%20Main%20St,%20West%20Dundee,%20IL%2060118", websiteUrl: "https://rochaus.com" },
- { day: "Fri", date: "May 1", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
- { day: "Sat", date: "May 2", venue: "Deer Park Fest", city: "Deer Park", state: "IL", time: "6:00pm", info: "Outdoor All-Age Festival", mapUrl: "", websiteUrl: "" },
- { day: "Fri", date: "May 8", venue: "Bannerman's", city: "Bartlett", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=858%20S%20Illinois%20Rte%2059,%20Bartlett,%20IL%2060103", websiteUrl: "https://bannermanssportsgrill.com" },
- { day: "Sat", date: "May 9", venue: "Sideouts", city: "Island Lake", state: "IL", time: "9:00pm", info: "Outdoor Beer Garden", mapUrl: "https://maps.apple.com/?address=4018%20Roberts%20Rd,%20Island%20Lake,%20IL%2060042", websiteUrl: "https://www.3dsideouts.com/events/7th-heaven/" },
- { day: "Thu", date: "May 15", venue: "Durty Nellies", city: "Palatine", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=180%20N%20Smith%20St,%20Palatine,%20IL%2060067", websiteUrl: "https://durtynellies.com" },
- { day: "Fri", date: "May 16", venue: "Tailgaters", city: "Bolingbrook", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=431%20W%20Boughton%20Rd,%20Bolingbrook,%20IL%2060444", websiteUrl: "http://www.tailgatersgrill.com" },
- { day: "Sat", date: "May 22", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
- { day: "Fri", date: "May 23", venue: "Hard Rock Casino", city: "Rockford", state: "IL", time: "9:00pm", info: "Casino Show", mapUrl: "https://maps.apple.com/?address=7801%20E%20State%20St,%20Rockford,%20IL%2061108", websiteUrl: "https://casino.hardrock.com/rockford/entertainment/upcoming-events/7th-heaven" },
- { day: "Sat", date: "May 24", venue: "Bandito Barney's", city: "East Dundee", state: "IL", time: "9:00pm", info: "Outdoor", mapUrl: "https://maps.apple.com/?address=10%20N%20River%20St,%20East%20Dundee,%20IL%2060118", websiteUrl: "https://www.banditobarneysbeachclub.com" },
- { day: "Thu", date: "May 29", venue: "Will County Beer & Bourbon Fest", city: "Joliet", state: "IL", time: "6:00pm", info: "Festival", mapUrl: "", websiteUrl: "https://habitatwill.org/events/mix-of-26-beyond-beer-bourbon-fest/friday-event-details/" },
- { day: "Fri", date: "May 30", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
- { day: "Wed", date: "July 1", venue: "Arlington Hts Frontier Days", city: "Arlington Hts", state: "IL", time: "8:00pm", info: "Outdoor All-Age Festival", mapUrl: "https://maps.apple.com/?address=Arlington+Heights,+IL", websiteUrl: "" },
+  { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
+  { day: "Sat", date: "January 3", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
+  { day: "Fri", date: "January 9", venue: "Rookies", city: "Hoffman Est.", state: "IL", time: "8:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=4607%20W%20Higgins%20Rd,%20Hoffman%20Estates,%20IL%2060192,%20United%20States&coordinate=42.074379,-88.191220&name=4607%20W%20Higgins%20Rd", websiteUrl: "https://www.rookiespub.com/hoffmanestates.html" },
+  { day: "Sat", date: "January 10", venue: "Private Event", city: "", state: "", time: "", info: "", mapUrl: "", websiteUrl: "" },
+  { day: "Sun", date: "January 11", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "2:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
+  { day: "Sat", date: "January 17", venue: "Chicago Music Cruise", city: "Miami", state: "FL", time: "", info: "MSC World America", mapUrl: "", websiteUrl: "http://www.chicagomusiccruise.com" },
+  { day: "Wed", date: "January 28", venue: "WGN TV News Segment", city: "Chicago", state: "IL", time: "10:00am", info: "TV Appearance", mapUrl: "", websiteUrl: "https://wgntv.com" },
+  { day: "Fri", date: "January 30", venue: "Youth Services Fundraiser", city: "Wilmette", state: "IL", time: "7:00pm", info: "Fundraiser - Join Us!", mapUrl: "https://maps.apple.com/?address=1100%20Laramie%20Ave,%20Wilmette,%20IL%2060091", websiteUrl: "https://e.givesmart.com/events/Lk3/" },
+  { day: "Sat", date: "January 31", venue: "Des Plaines Theater", city: "Des Plaines", state: "IL", time: "9:00pm", info: "", mapUrl: "https://maps.apple.com/place?address=1476%20Miner%20St,%20Des%20Plaines,%20IL%2060161,%20United%20States&coordinate=42.041800,-87.887154&name=1476%20Miner%20St", websiteUrl: "https://desplainestheatre.com" },
+  { day: "Fri", date: "February 6", venue: "Chicago Auto Show First Look", city: "Chicago", state: "IL", time: "7:30pm", info: "Ticketed Gala", mapUrl: "https://maps.apple.com/?address=2301%20S%20Dr%20Martin%20Luther%20King%20Jr,%20Chicago,%20IL%2060616&q=McCormick%20Place", websiteUrl: "https://www.chicagoautoshow.com/first-look-for-charity/" },
+  { day: "Sat", date: "February 7", venue: "Hard Rock Casino", city: "Gary", state: "IN", time: "9:00pm", info: "Casino Show", mapUrl: "https://maps.apple.com/?address=5400%20W%2029th%20Ave,%20Gary,%20IN%2046406", websiteUrl: "https://www.hardrockcasinonorthernindiana.com" },
+  { day: "Fri", date: "February 13", venue: "Durty Nellies", city: "Palatine", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=180%20N%20Smith%20St,%20Palatine,%20IL%2060067", websiteUrl: "https://durtynellies.com" },
+  { day: "Sat", date: "February 14", venue: "Stage 119", city: "Elmhurst", state: "IL", time: "8:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=119%20N%20York%20St,%20Elmhurst,%20IL%2060126", websiteUrl: "https://www.stage-events-elmhurst.com" },
+  { day: "Fri", date: "February 20", venue: "Jamos Live", city: "Mokena", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=10160%20191st%20St,%20Mokena,%20IL%2060448", websiteUrl: "https://www.jamoslive.com" },
+  { day: "Sat", date: "February 21", venue: "Barb's Rescue Gala", city: "Schaumburg", state: "IL", time: "8:30pm", info: "Ticketed Gala", mapUrl: "https://maps.apple.com/?address=401%20N%20Roselle%20Rd,%20Schaumburg,%20IL%2060194", websiteUrl: "https://www.barbsrescue.org" },
+  { day: "Fri", date: "February 27", venue: "Evenflow", city: "Geneva", state: "IL", time: "9:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=302%20W%20State%20St,%20Geneva,%20IL%2060134", websiteUrl: "https://evenflowmusic.com" },
+  { day: "Sat", date: "February 28", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
+  { day: "Fri", date: "March 6", venue: "Bannerman's", city: "Bartlett", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=858%20S%20Illinois%20Rte%2059,%20Bartlett,%20IL%2060103", websiteUrl: "https://bannermanssportsgrill.com" },
+  { day: "Sat", date: "March 7", venue: "Broken Oar", city: "P. Barrington", state: "IL", time: "9:00pm", info: "", mapUrl: "https://maps.apple.com/?address=614%20Rawson%20Bridge%20Rd,%20Barrington,%20IL", websiteUrl: "https://www.brokenoar.com" },
+  { day: "Tue", date: "March 11", venue: "Home Show", city: "Chicago", state: "IL", time: "", info: "McCormick Place", mapUrl: "https://maps.apple.com/place?address=2301%20S%20Indiana%20Ave,%20Chicago,%20IL%2060616&name=McCormick%20Place%20West", websiteUrl: "https://www.theinspiredhomeshow.com/events/" },
+  { day: "Sat", date: "March 22", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
+  { day: "Fri", date: "March 27", venue: "Tailgaters", city: "Bolingbrook", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=431%20W%20Boughton%20Rd,%20Bolingbrook,%20IL%2060444", websiteUrl: "http://www.tailgatersgrill.com" },
+  { day: "Sat", date: "March 28", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
+  { day: "Fri", date: "April 3", venue: "Rookie's Rockhouse", city: "Hoffman Est.", state: "IL", time: "8:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=4607%20W%20Higgins%20Rd,%20Hoffman%20Estates,%20IL%2060192,%20United%20States&coordinate=42.074379,-88.191220&name=4607%20W%20Higgins%20Rd", websiteUrl: "https://www.rookiespub.com/hoffmanestates.html" },
+  { day: "Sat", date: "April 4", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
+  { day: "Fri", date: "April 10", venue: "Corrigan's Pub", city: "Shorewood", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=700%20W%20Jefferson%20St,%20Shorewood,%20IL%2060404", websiteUrl: "https://corriganspub52.com" },
+  { day: "Sat", date: "April 11", venue: "Midway Sports", city: "Bartlett", state: "IL", time: "8:30pm", info: "All-Age till 10pm", mapUrl: "https://maps.apple.com/?q=Midway+Sports+Bartlett+IL", websiteUrl: "https://midwaybartlett.com" },
+  { day: "Thu", date: "April 17", venue: "Joe's Live", city: "Rosemont", state: "IL", time: "8:00pm", info: "", mapUrl: "https://maps.apple.com/?address=5441%20Park%20Pl,%20Des%20Plaines,%20IL%2060118", websiteUrl: "https://www.joesliverosemont.com" },
+  { day: "Fri", date: "April 18", venue: "Stage 119", city: "Elmhurst", state: "IL", time: "8:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=119%20N%20York%20St,%20Elmhurst,%20IL%2060126", websiteUrl: "https://www.stage-events-elmhurst.com" },
+  { day: "Thu", date: "April 24", venue: "Evenflow", city: "Geneva", state: "IL", time: "9:30pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=302%20W%20State%20St,%20Geneva,%20IL%2060134", websiteUrl: "https://evenflowmusic.com" },
+  { day: "Fri", date: "April 25", venue: "Rochaus", city: "West Dundee", state: "IL", time: "9:00pm", info: "", mapUrl: "https://maps.apple.com/?address=96%20W%20Main%20St,%20West%20Dundee,%20IL%2060118", websiteUrl: "https://rochaus.com" },
+  { day: "Fri", date: "May 1", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
+  { day: "Sat", date: "May 2", venue: "Deer Park Fest", city: "Deer Park", state: "IL", time: "6:00pm", info: "Outdoor All-Age Festival", mapUrl: "", websiteUrl: "" },
+  { day: "Fri", date: "May 8", venue: "Bannerman's", city: "Bartlett", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=858%20S%20Illinois%20Rte%2059,%20Bartlett,%20IL%2060103", websiteUrl: "https://bannermanssportsgrill.com" },
+  { day: "Sat", date: "May 9", venue: "Sideouts", city: "Island Lake", state: "IL", time: "9:00pm", info: "Outdoor Beer Garden", mapUrl: "https://maps.apple.com/?address=4018%20Roberts%20Rd,%20Island%20Lake,%20IL%2060042", websiteUrl: "https://www.3dsideouts.com/events/7th-heaven/" },
+  { day: "Thu", date: "May 15", venue: "Durty Nellies", city: "Palatine", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=180%20N%20Smith%20St,%20Palatine,%20IL%2060067", websiteUrl: "https://durtynellies.com" },
+  { day: "Fri", date: "May 16", venue: "Tailgaters", city: "Bolingbrook", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=431%20W%20Boughton%20Rd,%20Bolingbrook,%20IL%2060444", websiteUrl: "http://www.tailgatersgrill.com" },
+  { day: "Sat", date: "May 22", venue: "Sundance Saloon", city: "Mundelein", state: "IL", time: "9:00pm", info: "21 & Over", mapUrl: "https://maps.apple.com/?address=2061%20W%20Maple%20Ave,%20Mundelein,%20IL%2060060,%20United%20States&ll=42.276570,-88.041803", websiteUrl: "https://www.theoriginalsundancesaloon.com" },
+  { day: "Fri", date: "May 23", venue: "Hard Rock Casino", city: "Rockford", state: "IL", time: "9:00pm", info: "Casino Show", mapUrl: "https://maps.apple.com/?address=7801%20E%20State%20St,%20Rockford,%20IL%2061108", websiteUrl: "https://casino.hardrock.com/rockford/entertainment/upcoming-events/7th-heaven" },
+  { day: "Sat", date: "May 24", venue: "Bandito Barney's", city: "East Dundee", state: "IL", time: "9:00pm", info: "Outdoor", mapUrl: "https://maps.apple.com/?address=10%20N%20River%20St,%20East%20Dundee,%20IL%2060118", websiteUrl: "https://www.banditobarneysbeachclub.com" },
+  { day: "Thu", date: "May 29", venue: "Will County Beer & Bourbon Fest", city: "Joliet", state: "IL", time: "6:00pm", info: "Festival", mapUrl: "", websiteUrl: "https://habitatwill.org/events/mix-of-26-beyond-beer-bourbon-fest/friday-event-details/" },
+  { day: "Fri", date: "May 30", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
+  { day: "Wed", date: "July 1", venue: "Arlington Hts Frontier Days", city: "Arlington Hts", state: "IL", time: "8:00pm", info: "Outdoor All-Age Festival", mapUrl: "https://maps.apple.com/?address=Arlington+Heights,+IL", websiteUrl: "" },
 ];
 
 // --- Helper functions ---
 function getShowTags(show: any): string[] {
- const info = show.info || '';
- const lower = info.toLowerCase();
- const rawTags = show.tags || [];
- const hasTag = (t: string) => rawTags.map((x: string) => x.toLowerCase()).includes(t.toLowerCase());
+  const info = show.info || '';
+  const lower = info.toLowerCase();
+  const rawTags = show.tags || [];
+  const hasTag = (t: string) => rawTags.map((x: string) => x.toLowerCase()).includes(t.toLowerCase());
 
- const tags: string[] = [];
- if (lower.includes("unplugged") || hasTag("unplugged")) tags.push("Unplugged");
- if (lower.includes("outdoor") || lower.includes("beer garden") || hasTag("outdoor")) tags.push("Outdoor");
- if (lower.includes("21 &") || lower.includes("21+") || show.allAges === false || hasTag("21+")) tags.push("21+");
- if (lower.includes("all age") || lower.includes("all-age") || show.allAges === true || hasTag("all ages") || hasTag("all-ages")) tags.push("All Ages");
- if (
-   lower.includes("gala") || 
-   lower.includes("fundraiser") || 
-   lower.includes("festival") || 
-   lower.includes("casino") || 
-   lower.includes("cruise") || 
-   lower.includes("tv appearance") ||
-   hasTag("festival") ||
-   hasTag("special") ||
-   hasTag("gala") ||
-   hasTag("fundraiser") ||
-   hasTag("casino") ||
-   hasTag("cruise") ||
-   hasTag("tv appearance")
- ) {
-   tags.push("Special Event");
- }
- return tags;
+  const tags: string[] = [];
+  if (lower.includes("unplugged") || hasTag("unplugged")) tags.push("Unplugged");
+  if (lower.includes("outdoor") || lower.includes("beer garden") || hasTag("outdoor")) tags.push("Outdoor");
+  if (lower.includes("21 &") || lower.includes("21+") || show.allAges === false || hasTag("21+")) tags.push("21+");
+  if (lower.includes("all age") || lower.includes("all-age") || show.allAges === true || hasTag("all ages") || hasTag("all-ages")) tags.push("All Ages");
+  if (
+    lower.includes("gala") ||
+    lower.includes("fundraiser") ||
+    lower.includes("festival") ||
+    lower.includes("casino") ||
+    lower.includes("cruise") ||
+    lower.includes("tv appearance") ||
+    hasTag("festival") ||
+    hasTag("special") ||
+    hasTag("gala") ||
+    hasTag("fundraiser") ||
+    hasTag("casino") ||
+    hasTag("cruise") ||
+    hasTag("tv appearance")
+  ) {
+    tags.push("Special Event");
+  }
+  return tags;
 }
 
 function getShowIcon(show: any): string {
- return "";
+  return "";
 }
 
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
 const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-all duration-200 focus:outline-none hover:border-[var(--color-accent)]";
-const activeSelect = "!border-[var(--color-accent)] !text-[var(--color-accent)]";
+const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
   const start = getShowDateTime(show.startDate, show.date, show.time);
@@ -250,15 +250,21 @@ function getICSFileUrl(show: any) {
 }
 
 interface TourListProps {
- initialShows?: any[];
- hideMap?: boolean;
- maxShows?: number;
+  initialShows?: any[];
+  hideMap?: boolean;
+  maxShows?: number;
 }
 
 export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
   const { member, isLoggedIn, openModal } = useMember();
   const isFan = isLoggedIn && member?.email && (member?.role === 'fan' || member?.role === 'admin');
-  const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
+  // devBypass: false on SSR, updated client-side after mount to avoid hydration mismatch.
+  const [devBypass, setDevBypass] = useState(false);
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setDevBypass(localStorage.getItem('7h_dev_bypass') === 'true');
+    }
+  }, []);
   const [showPastShows, setShowPastShows] = useState(false);
   const [activeMonth, setActiveMonth] = useState("All");
   const [activeType, setActiveType] = useState("All");
@@ -376,14 +382,14 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormIsOutdoor(currentTags.includes("outdoor") || lowerNotes.includes("outdoor") || lowerNotes.includes("beer garden"));
       setFormIsCasino(currentTags.includes("casino") || lowerNotes.includes("casino"));
       setFormIsSpecialEvent(
-        currentTags.includes("special") || 
-        currentTags.includes("gala") || 
-        currentTags.includes("fundraiser") || 
-        currentTags.includes("cruise") || 
+        currentTags.includes("special") ||
+        currentTags.includes("gala") ||
+        currentTags.includes("fundraiser") ||
+        currentTags.includes("cruise") ||
         currentTags.includes("tv") ||
-        lowerNotes.includes("gala") || 
-        lowerNotes.includes("fundraiser") || 
-        lowerNotes.includes("cruise") || 
+        lowerNotes.includes("gala") ||
+        lowerNotes.includes("fundraiser") ||
+        lowerNotes.includes("cruise") ||
         lowerNotes.includes("tv")
       );
     } else {
@@ -548,7 +554,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       if (res.ok) {
         setSubscribedShowIds(prev => prev.filter(id => id !== showId));
       }
-    } catch {} finally {
+    } catch { } finally {
       setSubscribingId(null);
     }
   };
@@ -604,8 +610,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     const showDate = parseShowDate(show.date, show.startDate);
     const today = new Date();
     return showDate.getFullYear() === today.getFullYear() &&
-           showDate.getMonth() === today.getMonth() &&
-           showDate.getDate() === today.getDate();
+      showDate.getMonth() === today.getMonth() &&
+      showDate.getDate() === today.getDate();
   }, [parseShowDate]);
 
   const getCountdownString = useCallback((show: any): string => {
@@ -672,73 +678,73 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       .sort((a, b) => a.city.localeCompare(b.city));
   }, [upcomingShowsList]);
 
- const tableRef = useRef<HTMLDivElement>(null);
- const sentinelRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
- // Detect when sticky sort bar locks in — toggle class on <html> for connected corner effect
- useEffect(() => {
-  const sentinel = sentinelRef.current;
-  if (!sentinel) return;
-  const observer = new IntersectionObserver(
-   ([entry]) => {
-    // Only "stuck" if the sentinel has scrolled ABOVE the nav (top < nav height)
-    // If sentinel is below the viewport (not yet reached), top will be positive/large — don't add class
-    const isAboveNav = !entry.isIntersecting && entry.boundingClientRect.top < 89;
-    if (isAboveNav) {
-     document.documentElement.classList.add('tour-sort-stuck');
-    } else {
-     document.documentElement.classList.remove('tour-sort-stuck');
-    }
-   },
-   { rootMargin: '-89px 0px 0px 0px', threshold: 0 }
-  );
-  observer.observe(sentinel);
-  return () => {
-   observer.disconnect();
-   document.documentElement.classList.remove('tour-sort-stuck');
-  };
- }, []);
+  // Detect when sticky sort bar locks in — toggle class on <html> for connected corner effect
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Only "stuck" if the sentinel has scrolled ABOVE the nav (top < nav height)
+        // If sentinel is below the viewport (not yet reached), top will be positive/large — don't add class
+        const isAboveNav = !entry.isIntersecting && entry.boundingClientRect.top < 89;
+        if (isAboveNav) {
+          document.documentElement.classList.add('tour-sort-stuck');
+        } else {
+          document.documentElement.classList.remove('tour-sort-stuck');
+        }
+      },
+      { rootMargin: '-89px 0px 0px 0px', threshold: 0 }
+    );
+    observer.observe(sentinel);
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove('tour-sort-stuck');
+    };
+  }, []);
 
   const scrollToShow = useCallback((venue: string, date: string) => {
-   // Clear any filters first so the row is visible
-   setActiveMonth("All");
-   setActiveType("All");
-   setActiveCity("All");
-   setSearchQuery("");
-   const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
-   // Delay to let filters clear and DOM update
-   setTimeout(() => {
-    const el = document.querySelector(`[id^="${prefix}"]`);
-    if (el) {
-     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-     setHighlightedId(el.id);
-     setTimeout(() => setHighlightedId(null), 3000);
-    }
-   }, 100);
+    // Clear any filters first so the row is visible
+    setActiveMonth("All");
+    setActiveType("All");
+    setActiveCity("All");
+    setSearchQuery("");
+    const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
+    // Delay to let filters clear and DOM update
+    setTimeout(() => {
+      const el = document.querySelector(`[id^="${prefix}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setHighlightedId(el.id);
+        setTimeout(() => setHighlightedId(null), 3000);
+      }
+    }, 100);
   }, []);
 
   // Map pin click — scroll WITHOUT clearing filters (row is already visible since map is filter-synced)
   const handleMapPinClick = useCallback((venue: string, date: string) => {
-   const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
-   setTimeout(() => {
-    const el = document.querySelector(`[id^="${prefix}"]`);
-    if (el) {
-     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-     setHighlightedId(el.id);
-     setTimeout(() => setHighlightedId(null), 3000);
-    }
-   }, 100);
+    const prefix = `tour-${venue}-${date}`.replace(/\s+/g, '-').toLowerCase();
+    setTimeout(() => {
+      const el = document.querySelector(`[id^="${prefix}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setHighlightedId(el.id);
+        setTimeout(() => setHighlightedId(null), 3000);
+      }
+    }, 100);
   }, []);
 
   const filtered = useMemo(() => {
-   const q = searchQuery.toLowerCase().trim();
-   return activeShowsByTime.filter((s) => {
-    if (activeMonth !== "All" && !s.date.startsWith(activeMonth)) return false;
-    if (activeType !== "All" && !getShowTags(s).includes(activeType)) return false;
-    if (activeCity !== "All" && s.city !== activeCity) return false;
-    if (q && !s.venue.toLowerCase().includes(q) && !s.city.toLowerCase().includes(q) && !s.info.toLowerCase().includes(q)) return false;
-    return true;
-   });
+    const q = searchQuery.toLowerCase().trim();
+    return activeShowsByTime.filter((s) => {
+      if (activeMonth !== "All" && !s.date.startsWith(activeMonth)) return false;
+      if (activeType !== "All" && !getShowTags(s).includes(activeType)) return false;
+      if (activeCity !== "All" && s.city !== activeCity) return false;
+      if (q && !s.venue.toLowerCase().includes(q) && !s.city.toLowerCase().includes(q) && !s.info.toLowerCase().includes(q)) return false;
+      return true;
+    });
   }, [activeShowsByTime, activeMonth, activeType, activeCity, searchQuery]);
 
   const hasActiveFilters = activeMonth !== "All" || activeType !== "All" || activeCity !== "All" || searchQuery !== "";
@@ -821,22 +827,22 @@ ${filterLine}
     }
   }, [filtered, activeMonth, activeCity, searchQuery]);
 
- const showCount = filtered.length;
+  const showCount = filtered.length;
 
- const upcomingCount = useMemo(() => {
-  return displayShows.filter(s => !isShowOver(s)).length;
- }, [displayShows]);
+  const upcomingCount = useMemo(() => {
+    return displayShows.filter(s => !isShowOver(s)).length;
+  }, [displayShows]);
 
- const filteredUpcomingCount = useMemo(() => {
-  return filtered.filter(s => !isShowOver(s)).length;
- }, [filtered]);
+  const filteredUpcomingCount = useMemo(() => {
+    return filtered.filter(s => !isShowOver(s)).length;
+  }, [filtered]);
 
- // Build active filter labels
- const activeLabels: string[] = [];
- if (activeMonth !== "All") activeLabels.push(activeMonth);
- if (activeType !== "All") activeLabels.push(activeType);
- if (activeCity !== "All") activeLabels.push(activeCity);
- if (searchQuery) activeLabels.push(`"${searchQuery}"`);
+  // Build active filter labels
+  const activeLabels: string[] = [];
+  if (activeMonth !== "All") activeLabels.push(activeMonth);
+  if (activeType !== "All") activeLabels.push(activeType);
+  if (activeCity !== "All") activeLabels.push(activeCity);
+  if (searchQuery) activeLabels.push(`"${searchQuery}"`);
 
   // Find the next upcoming show
 
@@ -890,9 +896,10 @@ ${filterLine}
     : "grid-cols-1 lg:grid-cols-[60px_120px_2.5fr_1.4fr_1fr_140px_120px]";
 
   return (
-   <>
-    {/* Style override tag for font & layout customizer */}
-    <style dangerouslySetInnerHTML={{ __html: `
+    <>
+      {/* Style override tag for font & layout customizer */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
       #tour-table-container,
       #tour-table-container span,
       #tour-table-container a,
@@ -921,967 +928,980 @@ ${filterLine}
       }
     `}} />
 
-    {/* Table */}
-    <section className="pt-0 pb-12 relative" ref={tableRef} id="tour-table-container">
-      <div className="w-full px-4 sm:px-8 md:px-12 relative z-10">
+      {/* Table */}
+      <section className="pt-0 pb-12 relative" ref={tableRef} id="tour-table-container">
+        <div className="w-full px-4 sm:px-8 md:px-12 relative z-10">
 
-     {!hideMap && (
-      <div className="mt-[100px] mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate" style={{transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden'}}>
-        <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
-      </div>
-     )}
+          {!hideMap && (
+            <div className="mt-[100px] mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+              <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
+            </div>
+          )}
 
-     {/* Up Next — Neon Glow / Festival */}
-     {upNext && (
-      <div className="my-6 relative z-10">
-       <div className="relative overflow-hidden">
-         <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-end gap-6">
-           {/* Left Column: Info */}
-           <div className="relative flex flex-col justify-between min-h-[140px]">
-             {/* UP NEXT label */}
-             <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
-               <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
-               <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : "text-[var(--color-accent)] font-extrabold"}>
-                 {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
-               </span>
-               {daysLabel && daysLabel !== "Happening Now" && (
-                 <>
-                   <span className="text-black/30">·</span>
-                   <span className="text-[var(--color-accent)] font-extrabold">{daysLabel}</span>
-                 </>
-               )}
-             </div>
+          {/* Up Next — Neon Glow / Festival */}
+          {upNext && (
+            <div className="my-6 relative z-10">
+              <div className="relative overflow-hidden">
+                <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-end gap-6">
+                  {/* Left Column: Info */}
+                  <div className="relative flex flex-col justify-between min-h-[140px]">
+                    {/* UP NEXT label */}
+                    <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] mb-5">
+                      <span className={`w-1.5 h-1.5 rounded-full ${daysLabel === "Happening Now" ? "bg-red-500 animate-ping" : "bg-[var(--color-accent)] animate-pulse"}`} />
+                      <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : " text-[var(--color-accent)] font-extrabold"}>
+                        {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
+                      </span>
+                      {daysLabel && daysLabel !== "Happening Now" && (
+                        <>
+                          <span className="text-black/30">·</span>
+                          <span className=" text-[var(--color-accent)] font-extrabold">{daysLabel}</span>
+                        </>
+                      )}
+                    </div>
 
-             {/* Venue name */}
-             <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-black text-black leading-[1] mb-4 uppercase whitespace-nowrap">
-               {upNext.venue}
-             </h3>
+                    {/* Venue name */}
+                    <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-black text-black leading-[1] mb-4 uppercase whitespace-nowrap">
+                      {upNext.venue}
+                    </h3>
 
-             {/* Date + Location + Time */}
-              <div className="flex items-center gap-2 text-[0.85rem] text-black/80 font-bold">
-                <span>
-                  {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
-                </span>
-                 {upNext.city && (
-                   <>
-                     <span className="text-black/30">·</span>
-                     <span>{upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
-                   </>
-                 )}
-                 {upNext.playTime ? (
-                   <>
-                     <span className="text-black/30">·</span>
-                     <span className="text-rose-600 font-extrabold">Plays: {upNext.playTime}</span>
-                     {upNext.time && (
-                       <>
-                         <span className="text-black/30">·</span>
-                         <span className="text-black/50">Event: {upNext.time}</span>
-                       </>
-                     )}
-                   </>
-                 ) : (
-                   upNext.time && (
-                     <>
-                       <span className="text-black/30">·</span>
-                       <span className="text-black/60">{upNext.time}</span>
-                     </>
-                   )
-                 )}
-              </div>
-              {upNext.info && (
-                <p className="mt-3 text-[0.7rem] font-extrabold uppercase tracking-[0.15em] text-[var(--color-accent)]">
-                  {upNext.info}
-                </p>
-              )}
-           </div>
+                    {/* Date + Location + Time */}
+                    <div className="flex items-center gap-2 text-[0.85rem] text-black/80 font-bold">
+                      <span>
+                        {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
+                      </span>
+                      {upNext.city && (
+                        <>
+                          <span className="text-black/30">·</span>
+                          <span>{upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
+                        </>
+                      )}
+                      {upNext.playTime ? (
+                        <>
+                          <span className="text-black/30">·</span>
+                          <span className="text-rose-600 font-extrabold">Plays: {upNext.playTime}</span>
+                          {upNext.time && (
+                            <>
+                              <span className="text-black/30">·</span>
+                              <span className="text-black/50">Event: {upNext.time}</span>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        upNext.time && (
+                          <>
+                            <span className="text-black/30">·</span>
+                            <span className="text-black/60">{upNext.time}</span>
+                          </>
+                        )
+                      )}
+                    </div>
+                    {upNext.info && (
+                      <p className="mt-3 text-[0.7rem] font-extrabold uppercase tracking-[0.15em]  text-[var(--color-accent)]">
+                        {upNext.info}
+                      </p>
+                    )}
+                  </div>
 
-           <div className="flex flex-col items-stretch md:items-end justify-end gap-5 shrink-0 w-full md:w-[460px]">
-             <CountdownTimer 
-               targetDate={`${upNext.date}, ${new Date().getFullYear()}`} 
-               targetTime={upNext.playTime || upNext.time} 
-               className="justify-start md:justify-end gap-4 md:gap-5"
-             />
-             <div className="flex gap-6 items-center flex-wrap">
-                {upNext.mapUrl && (
-                   <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-purple-500/50 hover:text-[var(--color-accent)] hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-map">
-                     <span>Directions</span>
-                   </a>
-                )}
-                {upNext.websiteUrl && (
-                  <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none" id="upnext-website">
-                    Website
-                  </a>
-                )}
-                <div className="flex items-center gap-4">
-                  <div className="relative calendar-dropdown-container">
-                    <button
-                      onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                      className="upnext-link text-[10px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
-                      id="upnext-calendar-btn"
-                    >
-                      Add to Calendar
-                    </button>
-                    {activeCalDropdownId === 'upnext' && (
-                      <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 shadow-xl z-50 min-w-[170px] text-[var(--text-color)]">
-                        <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Google Calendar</a>
-                        <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Apple / iCal</a>
-                        <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Outlook</a>
+                  <div className="flex flex-col items-stretch md:items-end justify-end gap-5 shrink-0 w-full md:w-[460px]">
+                    <CountdownTimer
+                      targetDate={`${upNext.date}, ${new Date().getFullYear()}`}
+                      targetTime={upNext.playTime || upNext.time}
+                      className="justify-start md:justify-end gap-4 md:gap-5"
+                    />
+                    <div className="flex gap-6 items-center flex-wrap">
+                      {upNext.mapUrl && (
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 decoration-purple-500/50 hover: text-[var(--color-accent)] hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-map">
+                          <span>Directions</span>
+                        </a>
+                      )}
+                      {upNext.websiteUrl && (
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none" id="upnext-website">
+                          Website
+                        </a>
+                      )}
+                      <div className="flex items-center gap-4">
+                        <div className="relative calendar-dropdown-container">
+                          <button
+                            onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+                            className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
+                            id="upnext-calendar-btn"
+                          >
+                            Add to Calendar
+                          </button>
+                          {activeCalDropdownId === 'upnext' && (
+                            <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 shadow-xl z-50 min-w-[170px] text-[var(--text-color)]">
+                              <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Google Calendar</a>
+                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Apple / iCal</a>
+                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Outlook</a>
+                              <button
+                                onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
+                                className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
+                              >SMS / Text Alerts</button>
+                            </div>
+                          )}
+                        </div>
                         <button
-                          onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
-                        >SMS / Text Alerts</button>
+                          onClick={handlePrintTourList}
+                          className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
+                        >
+                          Print Tour List
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center justify-end mb-3">
+            <div className="flex items-center gap-3">
+              {member?.role === 'admin' && (
+                <button
+                  onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
+                  className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
+                >
+                  ➕ Add Show
+                </button>
+              )}
+
+              {hasActiveFilters && (
+                <button
+                  onClick={clearAll}
+                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
+                >Clear</button>
+              )}
+            </div>
+          </div>
+
+          {/* Sentinel — detects when sticky sort bar locks in */}
+          <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 bg-[#000000]/95 backdrop-blur-md items-center relative text-white transition-colors duration-200`}>
+            <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+            <div className="relative">
+              <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
+                <option value="All">Month</option>
+                {months.map((m) => <option key={m} value={m}>{m}</option>)}
+              </select>
+              <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+            <div className="relative">
+              <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--placeholder-color)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg pl-8 pr-7 py-2 text-[0.8rem] text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-colors font-semibold" id="tour-search" />
+              {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-[var(--text-color)] text-[0.6rem] cursor-pointer">✕</button>)}
+            </div>
+            <div className="relative">
+              <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
+                <option value="All">City</option>
+                {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
+              </select>
+              <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+            <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+
+            <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+            <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+            {member?.role === 'admin' && (
+              <div className="text-right" />
+            )}
+          </div>
+
+          <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
+            {(() => {
+              let rows = filtered;
+              if (maxShows && upNext) {
+                const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
+                rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
+              } else if (maxShows) {
+                rows = filtered.slice(0, maxShows);
+              }
+              return rows;
+            })().map((show, i) => {
+              const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
+              const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
+              const isHighlighted = highlightedId === rowId;
+              const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
+              const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
+              return (
+                <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible"
+                  onMouseEnter={() => setHoveredRowIdx(i)}
+                  onMouseLeave={() => setHoveredRowIdx(null)}
+                >
+                  {/* Desktop Row Layout */}
+                  <div
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-all duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    id={rowId}
+                  >
+                    <span className="font-[var(--font-heading)] font-extrabold text-sm uppercase  text-[var(--color-accent)]">{show.day}</span>
+                    <span className="text-black font-bold text-base">{show.date}</span>
+                    <span className="font-black text-black text-base">{show.venue}</span>
+                    <span className="text-black/80 font-medium text-sm">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="flex items-center gap-2 flex-wrap text-left">
+                      {(show.doorsTime || show.time || show.playTime) ? (
+                        <div className="flex flex-col gap-0.5">
+                          {show.doorsTime && <span className="text-black/50 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
+                          {show.playTime && <span className="text-rose-600 font-extrabold text-[0.8rem] whitespace-nowrap">Show: {show.playTime}</span>}
+                          {show.time && (show.doorsTime || show.playTime) && <span className="text-black/60 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Event: {show.time}</span>}
+                          {!show.doorsTime && !show.playTime && show.time && <span className="text-black font-bold whitespace-nowrap">{show.time}</span>}
+                        </div>
+                      ) : null}
+                      {isShowToday(show) && (
+                        <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
+                          {getCountdownString(show)}
+                        </span>
+                      )}
+                    </span>
+                    <span className="flex items-center justify-center gap-2">
+                      {!isPrivate && (
+                        <>
+                          {show._id && isFan && (
+                            <button
+                              onClick={() => handleToggleNotification(show)}
+                              disabled={subscribingId === show._id}
+                              title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
+                              className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIds.includes(show._id)
+                                  ? "bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
+                                  : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
+                                }`}
+                            >
+                              {subscribingId === show._id ? (
+                                <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                              ) : subscribedShowIds.includes(show._id) ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                                </svg>
+                              ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                              )}
+                            </button>
+                          )}
+                          <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                            {show.mapUrl ? (() => {
+                              const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                              const showType = getShowType(show.info || '');
+                              const cfg = typeConfig[showType] || typeConfig.full;
+                              return (
+                                <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ color: cfg.color }} className="flex items-center justify-center p-1 text-black hover:opacity-75 transition-opacity">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+                                </a>
+                              );
+                            })() : null}
+                          </div>
+                          <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-black/80 hover:text-black transition-colors cursor-pointer bg-transparent border-none">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            </button>
+                            {activeCalDropdownId === rowId && (
+                              <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 shadow-xl z-50 min-w-[150px] text-black">
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Outlook</a>
+                                <button
+                                  onClick={() => {
+                                    setActiveCalDropdownId(null);
+                                    document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                                  }}
+                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
+                                >
+                                  💬 SMS / Text Alerts
+                                </button>
+                                <button
+                                  onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
+                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
+                                >
+                                  🖨️ Print Tour List
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </span>
+                    <span className="flex justify-end">
+                      {!isPrivate && show.websiteUrl && (
+                        <a
+                          href={show.websiteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
+                          style={{ fontSize: websiteBtnFontSize }}
+                        >
+                          Website
+                        </a>
+                      )}
+                    </span>
+
+                    {/* Admin Row Actions */}
+                    {member?.role === 'admin' && (
+                      <div className="flex items-center gap-1.5 justify-end w-full md:w-auto">
+                        {show._id ? (
+                          <>
+                            <button
+                              onClick={() => handleEditClick(show)}
+                              className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeleteShow(show._id)}
+                              className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
+                            >
+                              Del
+                            </button>
+                          </>
+                        ) : null}
                       </div>
                     )}
                   </div>
-                  <button
-                    onClick={handlePrintTourList}
-                    className="upnext-link text-[10px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
+
+                  {/* Mobile/Tablet Card Layout */}
+                  <div
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(255,10,61,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    id={`${rowId}-mobile`}
                   >
-                    Print Tour List
-                  </button>
-                </div>
-             </div>
-           </div>
-         </div>
-       </div>
-      </div>
-     )}
 
-     <div className="flex items-center justify-end mb-3">
-      <div className="flex items-center gap-3">
-        {member?.role === 'admin' && (
-          <button
-            onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-            className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
-          >
-            ➕ Add Show
-          </button>
-        )}
-
-        {hasActiveFilters && (
-         <button
-          onClick={clearAll}
-          className="text-[0.6rem] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
-         >Clear</button>
-        )}
-       </div>
-     </div>
-
-     {/* Sentinel — detects when sticky sort bar locks in */}
-     <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-      <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 bg-[#000000]/95 backdrop-blur-md items-center relative text-white transition-colors duration-200`}>
-       <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-       <div className="relative">
-        <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
-         <option value="All">Month</option>
-         {months.map((m) => <option key={m} value={m}>{m}</option>)}
-        </select>
-        <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-       </div>
-       <div className="relative">
-        <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--placeholder-color)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-        <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg pl-8 pr-7 py-2 text-[0.8rem] text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-colors font-semibold" id="tour-search" />
-        {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-[var(--text-color)] text-[0.6rem] cursor-pointer">✕</button>)}
-       </div>
-       <div className="relative">
-        <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
-         <option value="All">City</option>
-         {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
-        </select>
-        <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-       </div>
-       <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
-
-       <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-       <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
-       {member?.role === 'admin' && (
-          <div className="text-right" />
-        )}
-      </div>
-
-     <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
-      {(() => {
-        let rows = filtered;
-        if (maxShows && upNext) {
-          const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
-rows = filtered.slice(startIdx >= 0 ? startIdx : 0, (startIdx >= 0 ? startIdx : 0) + maxShows);
-        } else if (maxShows) {
-          rows = filtered.slice(0, maxShows);
-        }
-        return rows;
-       })().map((show, i) => {
-        const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
-        const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
-       const isHighlighted = highlightedId === rowId;
-       const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
-        const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
-       return (
-         <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible"
-           onMouseEnter={() => setHoveredRowIdx(i)}
-           onMouseLeave={() => setHoveredRowIdx(null)}
-         >
-           {/* Desktop Row Layout */}
-           <div
-            className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-all duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
-            id={rowId}
-           >
-             <span className="font-[var(--font-heading)] font-extrabold text-sm uppercase text-[var(--color-accent)]">{show.day}</span>
-             <span className="text-black font-bold text-base">{show.date}</span>
-             <span className="font-black text-black text-base">{show.venue}</span>
-             <span className="text-black/80 font-medium text-sm">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
-             <span className="flex items-center gap-2 flex-wrap text-left">
-                  {show.playTime ? (
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-rose-600 font-extrabold text-[0.8rem] whitespace-nowrap">Plays: {show.playTime}</span>
-                      {show.time && <span className="text-black/50 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Starts: {show.time}</span>}
-                    </div>
-                  ) : (
-                    <span className="text-black font-bold whitespace-nowrap">{show.time}</span>
-                  )}
-                  {isShowToday(show) && (
-                    <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
-                      {getCountdownString(show)}
-                    </span>
-                  )}
-               </span>
-              <span className="flex items-center justify-center gap-2">
-                {!isPrivate && (
-                  <>
-                    {show._id && isFan && (
-                      <button
-                        onClick={() => handleToggleNotification(show)}
-                        disabled={subscribingId === show._id}
-                        title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                        className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-xs cursor-pointer border shrink-0 ${
-                          subscribedShowIds.includes(show._id)
-                            ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
-                            : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
-                        }`}
-                      >
-                        {subscribingId === show._id ? (
-                          <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        ) : subscribedShowIds.includes(show._id) ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                          </svg>
-                        ) : (
-                          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                          </svg>
+                    {/* Header Row: Date & Time */}
+                    <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+                      <div className="flex items-baseline gap-2">
+                        <span className="font-[var(--font-heading)] font-bold text-xs uppercase  text-[var(--color-accent)]">{show.day}</span>
+                        <span className="text-black font-bold text-base">{show.date}</span>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        {(show.doorsTime || show.time || show.playTime) && (
+                          <div className="flex flex-col items-end gap-0.5">
+                            {show.doorsTime && (
+                              <span className="text-black/50 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-black/5 border border-black/10 rounded whitespace-nowrap">
+                                Doors: {show.doorsTime}
+                              </span>
+                            )}
+                            {show.playTime && (
+                              <span className="text-rose-600 text-xs font-extrabold px-2 py-0.5 bg-rose-500/8 border border-rose-500/15 rounded whitespace-nowrap">
+                                Show: {show.playTime}
+                              </span>
+                            )}
+                            {show.time && (
+                              <span className="text-black/70 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-black/5 border border-black/10 rounded whitespace-nowrap">
+                                {show.playTime ? `Event: ${show.time}` : show.time}
+                              </span>
+                            )}
+                          </div>
                         )}
-                      </button>
-                    )}
-                     <div className="w-7 h-7 flex items-center justify-center shrink-0">
-                       {show.mapUrl ? (() => {
-                        const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
-                        const showType = getShowType(show.info || '');
-                        const cfg = typeConfig[showType] || typeConfig.full;
-                        return (
-                         <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ color: cfg.color }} className="flex items-center justify-center p-1 text-black hover:opacity-75 transition-opacity">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                         </a>
-                        );
-                       })() : null}
-                     </div>
-                     <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
-                      <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-black/80 hover:text-black transition-colors cursor-pointer bg-transparent border-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      </button>
-                      {activeCalDropdownId === rowId && (
-                        <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 shadow-xl z-50 min-w-[150px] text-black">
-                          <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Google Cal</a>
-                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">iCal / Apple</a>
-                          <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Outlook</a>
-                          <button
-                            onClick={() => {
-                              setActiveCalDropdownId(null);
-                              document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
-                            }}
-                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
-                          >
-                            💬 SMS / Text Alerts
-                          </button>
-                          <button
-                            onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
-                            className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
-                          >
-                            🖨️ Print Tour List
-                          </button>
-                        </div>
+                        {isShowToday(show) && (
+                          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 animate-pulse">
+                            {getCountdownString(show)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Details: Venue & Location */}
+                    <div>
+                      <h4 className="text-lg font-black text-black leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                      {show.city && (
+                        <p className="text-xs text-black/60 flex items-center gap-1 mt-1 font-semibold">
+                          {show.city}{show.state ? `, ${show.state}` : ""}
+                        </p>
                       )}
                     </div>
-                  </>
-                )}
-              </span>
-               <span className="flex justify-end">
-                {!isPrivate && show.websiteUrl && (
-                  <a 
-                   href={show.websiteUrl} 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
-                   style={{ fontSize: websiteBtnFontSize }}
-                  >
-                   Website
-                  </a>
-                )}
-               </span>
 
-              {/* Admin Row Actions */}
-             {member?.role === 'admin' && (
-               <div className="flex items-center gap-1.5 justify-end w-full md:w-auto">
-                 {show._id ? (
-                   <>
-                     <button
-                       onClick={() => handleEditClick(show)}
-                       className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
-                     >
-                       Edit
-                     </button>
-                     <button
-                       onClick={() => handleDeleteShow(show._id)}
-                       className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
-                     >
-                       Del
-                     </button>
-                   </>
-                  ) : null}
-               </div>
-             )}
-           </div>
+                    {/* Tags Row */}
+                    {!isPrivate && (
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-xs">{getShowIcon(show)}</span>
+                        {show.info && <span className="text-[var(--font-size-2xs)] text-white/40 italic">{show.info}</span>}
+                        {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
+                          <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
+                        )}
+                        {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
+                          <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded">21+</span>
+                        )}
+                        {getShowTags(show).map(tag => {
+                          if (tag === "All Ages" || tag === "21+") return null;
+                          let tagColors = "bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/20";
+                          if (tag === "Unplugged") tagColors = "bg-purple-600/10 text-purple-300 border-purple-500/20";
+                          else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
+                          else if (tag === "Special Event") tagColors = "bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/20";
+                          else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+                          return (
+                            <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
+                          );
+                        })}
+                      </div>
+                    )}
 
-           {/* Mobile/Tablet Card Layout */}
-           <div
-            className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(255,10,61,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
-            id={`${rowId}-mobile`}
-           >
-             
-             {/* Header Row: Date & Time */}
-             <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
-               <div className="flex items-baseline gap-2">
-                 <span className="font-[var(--font-heading)] font-bold text-xs uppercase text-[var(--color-accent)]">{show.day}</span>
-                 <span className="text-black font-bold text-base">{show.date}</span>
-               </div>
-               <div className="flex flex-col items-end gap-1">
-                 {show.time && (
-                   <span className="text-black/85 text-xs font-semibold px-2 py-0.5 bg-black/5 border border-black/10 rounded">
-                     {show.playTime ? `Plays: ${show.playTime} (Starts: ${show.time})` : show.time}
-                   </span>
-                 )}
-                 {isShowToday(show) && (
-                   <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 animate-pulse">
-                     {getCountdownString(show)}
-                   </span>
-                 )}
-               </div>
-             </div>
+                    {/* Action Buttons Row */}
+                    {!isPrivate && (
+                      <div className="flex items-center gap-3 mt-1.5">
+                        {/* Maps Directions */}
+                        {show.mapUrl && (() => {
+                          const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                          const showType = getShowType(show.info || '');
+                          const cfg = typeConfig[showType] || typeConfig.full;
+                          return (
+                            <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-all duration-300 shrink-0">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+                            </a>
+                          );
+                        })()}
 
-             {/* Details: Venue & Location */}
-             <div>
-               <h4 className="text-lg font-black text-black leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
-               {show.city && (
-                 <p className="text-xs text-black/60 flex items-center gap-1 mt-1 font-semibold">
-                   {show.city}{show.state ? `, ${show.state}` : ""}
-                 </p>
-               )}
-             </div>
+                        {show._id && isFan && !isPrivate && (
+                          <button
+                            onClick={() => handleToggleNotification(show)}
+                            disabled={subscribingId === show._id}
+                            title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
+                            className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 ${subscribedShowIds.includes(show._id)
+                                ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40  text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
+                                : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
+                              }`}
+                          >
+                            {subscribingId === show._id ? (
+                              <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            ) : subscribedShowIds.includes(show._id) ? (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                              </svg>
+                            ) : (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                              </svg>
+                            )}
+                          </button>
+                        )}
 
-                          {/* Tags Row */}
-             {!isPrivate && (
-               <div className="flex items-center gap-1.5 flex-wrap">
-                 <span className="text-xs">{getShowIcon(show)}</span>
-                 {show.info && <span className="text-[var(--font-size-2xs)] text-white/40 italic">{show.info}</span>}
-                 {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                   <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
-                 )}
-                 {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                   <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded">21+</span>
-                 )}
-                 {getShowTags(show).map(tag => {
-                   if (tag === "All Ages" || tag === "21+") return null;
-                   let tagColors = "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/20";
-                   if (tag === "Unplugged") tagColors = "bg-purple-600/10 text-purple-300 border-purple-500/20";
-                   else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-                   else if (tag === "Special Event") tagColors = "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/20";
-                   else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
-                   return (
-                     <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
-                   );
-                 })}
-               </div>
-             )}
+                        {/* Calendar Add */}
+                        {!isPrivate && (
+                          <div className="relative calendar-dropdown-container shrink-0">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            </button>
+                            {activeCalDropdownId === `${rowId}-mobile` && (
+                              <div className="absolute left-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
+                                <button
+                                  onClick={() => {
+                                    setActiveCalDropdownId(null);
+                                    document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
+                                  }}
+                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
+                                >
+                                  💬 SMS / Text Alerts
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        )}
 
-                          {/* Action Buttons Row */}
-             {!isPrivate && (
-               <div className="flex items-center gap-3 mt-1.5">
-                 {/* Maps Directions */}
-               {show.mapUrl && (() => {
-                 const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
-                 const showType = getShowType(show.info || '');
-                 const cfg = typeConfig[showType] || typeConfig.full;
-                 return (
-                   <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-all duration-300 shrink-0">
-                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                   </a>
-                 );
-               })()}
+                        {/* Directions & Parking — shown only when the show has a directionsLink or parking/directions notes */}
+                        {!isPrivate && (show.directionsLink || show.notes) && (() => {
+                          const href = show.directionsLink || (show.mapUrl
+                            ? (show.mapUrl.includes('maps.apple.com')
+                              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}`
+                              : show.mapUrl)
+                            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}`);
+                          return (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-all rounded-md text-center"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                              Directions{show.notes ? ' & Parking' : ''}
+                            </a>
+                          );
+                        })()}
+                      </div>
+                    )}
 
-               {show._id && isFan && !isPrivate && (
-                 <button
-                   onClick={() => handleToggleNotification(show)}
-                   disabled={subscribingId === show._id}
-                   title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                   className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 ${
-                     subscribedShowIds.includes(show._id)
-                       ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
-                       : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
-                   }`}
-                 >
-                   {subscribingId === show._id ? (
-                     <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                   ) : subscribedShowIds.includes(show._id) ? (
-                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                     </svg>
-                   ) : (
-                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                     </svg>
-                   )}
-                 </button>
-               )}
-
-               {/* Calendar Add */}
-                {!isPrivate && (
-                  <div className="relative calendar-dropdown-container shrink-0">
-                 <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer">
-                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                 </button>
-                 {activeCalDropdownId === `${rowId}-mobile` && (
-                   <div className="absolute left-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
-                     <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Cal</a>
-                     <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
-                     <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
-                     <button
-                       onClick={() => {
-                         setActiveCalDropdownId(null);
-                         document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
-                       }}
-                       className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
-                     >
-                       💬 SMS / Text Alerts
-                     </button>
-                   </div>
-                 )}
+                    {/* Admin Actions */}
+                    {member?.role === 'admin' && show._id && (
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Edit</button>
+                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Del</button>
+                      </div>
+                    )}
+                  </div>
+                  <WavyDivider seed={i} hovered={hoveredRowIdx === i} active={isUpNext} />
                 </div>
-                )}
+              );
+            })}
+          </div>
 
-                {/* Tickets / Website Link */}
-                {!isPrivate && (show.websiteUrl ? (
-                 <a href={show.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-all rounded-md text-center">
-                   Website
-                 </a>
-               ) : (
-                 <span className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 border border-white/5 text-white/10 rounded-md text-center">
-                   Website
-                 </span>
-               ))}
-               </div>
-             )}
-             
-             {/* Admin Actions */}
-               {member?.role === 'admin' && show._id && (
-                 <div className="flex items-center gap-1.5 shrink-0">
-                   <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Edit</button>
-                   <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Del</button>
-                 </div>
-               )}
-           </div>
-           <WavyDivider seed={i} hovered={hoveredRowIdx === i} active={isUpNext} />
-         </div>
-       );
-      })}
-     </div>
-
-     {filtered.length === 0 && (
-      <div className="text-center py-16 text-[var(--color-text-muted)]">
-       <p className="text-lg">No shows match your filters.</p>
-       <button onClick={clearAll} className="mt-4 text-sm text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
-        Clear all filters
-       </button>
-      </div>
-     )}
-     </div>
-    </section>
-
-    {/* Show Edit/Add Modal */}
-    {isModalOpen && (
-      <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-3xl w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
-          <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
-          <div className="p-6 md:p-8 text-left">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                <span>{editingShow ? "✏️ Edit Show Date" : "➕ Add New Show Date"}</span>
-              </h3>
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="text-white/40 hover:text-white transition-colors cursor-pointer text-sm"
-              >
-                ✕ Close
+          {filtered.length === 0 && (
+            <div className="text-center py-16 text-[var(--color-text-muted)]">
+              <p className="text-lg">No shows match your filters.</p>
+              <button onClick={clearAll} className="mt-4 text-sm  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
+                Clear all filters
               </button>
             </div>
+          )}
+        </div>
+      </section>
 
-            {modalError && (
-              <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs mb-6">
-                {modalError}
-              </div>
-            )}
-
-            <form onSubmit={handleSaveShow} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
-                  <input type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                    placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
-                </div>
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
-                  <input type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="sm:col-span-2">
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
-                  <input type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                    placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
-                </div>
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
-                  <input type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                    placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
-                </div>
+      {/* Show Edit/Add Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto font-sans">
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 rounded-3xl w-full max-w-2xl relative my-8 overflow-hidden animate-[fade-in-up_0.2s_ease-out]">
+            <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
+            <div className="p-6 md:p-8 text-left">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                  <span>{editingShow ? "✏️ Edit Show Date" : "➕ Add New Show Date"}</span>
+                </h3>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-white/40 hover:text-white transition-colors cursor-pointer text-sm"
+                >
+                  ✕ Close
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
-                  <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                    placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+              {modalError && (
+                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs mb-6">
+                  {modalError}
                 </div>
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
-                  <input type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                    placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+              )}
+
+              <form onSubmit={handleSaveShow} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
+                    <input type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
+                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
+                    <input type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
+                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
                 </div>
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
-                  <input type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                    placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="sm:col-span-2">
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
+                    <input type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
+                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
+                    <input type="text" required value={formState} onChange={e => setFormState(e.target.value)}
+                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
                 </div>
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
-                  <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                    placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
+                    <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
+                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
+                    <input type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
+                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
+                    <input type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
+                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
+                    <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
+                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
+                    <input type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
+                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
+                    <input type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
+                      placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
+                  <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
+                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all resize-none" />
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formAllAges} onChange={e => setFormAllAges(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    All Ages Show
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formIsFestival} onChange={e => setFormIsFestival(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    Is Festival
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formIsPrivate} onChange={e => setFormIsPrivate(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    Private Event
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formIsUnplugged} onChange={e => setFormIsUnplugged(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    Unplugged Show
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formIsOutdoor} onChange={e => setFormIsOutdoor(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    Outdoor Show
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formIsCasino} onChange={e => setFormIsCasino(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    Casino Show
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <input type="checkbox" checked={formIsSpecialEvent} onChange={e => setFormIsSpecialEvent(e.target.checked)}
+                      className="accent-[var(--color-accent)] w-4 h-4" />
+                    Special Event
+                  </label>
+                </div>
+
+                <div className="flex gap-3 pt-4 border-t border-white/5">
+                  <button type="button" onClick={() => setIsModalOpen(false)}
+                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-all cursor-pointer">
+                    Cancel
+                  </button>
+                  <button type="submit" disabled={submitting}
+                    className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer">
+                    {submitting ? "Saving..." : "Save Show"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══ Notification Preferences Popup ═══ */}
+      {notifyPopupShow && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setNotifyPopupShow(null)}>
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
+            {/* Accent bar */}
+            <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
+
+            <div className="p-6">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5  text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold text-sm">Set Up Alerts</h3>
+                    <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
+                  </div>
+                </div>
+                <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
-                  <input type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                    placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
-                </div>
-                <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
-                  <input type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
-                    placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
-                </div>
+              {/* Show info */}
+              <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
+                <p className="text-xs text-white/60 font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
+                <p className="text-[var(--font-size-3xs)] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
               </div>
 
-              <div>
-                <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
-                <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                  placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all resize-none" />
+              {/* What would you like? */}
+              <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-2 font-bold">What would you like to be notified about?</p>
+
+              <div className="flex flex-col gap-2">
+                {/* This show */}
+                <button
+                  type="button"
+                  onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${notifyPrefs.thisShow
+                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    }`}
+                >
+                  <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                    }`}>
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
+                      }`} />
+                  </span>
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-white/80">🎤 This specific show</p>
+                    <p className="text-[var(--font-size-3xs)] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
+                  </div>
+                </button>
+
+                {/* Proximity shows */}
+                <button
+                  type="button"
+                  onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${notifyPrefs.proximity
+                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    }`}
+                >
+                  <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                    }`}>
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
+                      }`} />
+                  </span>
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-white/80">📍 Shows near me</p>
+                    <p className="text-[var(--font-size-3xs)] text-white/30">Get emailed when we book near your area</p>
+                  </div>
+                </button>
+
+                {/* Newsletter */}
+                <button
+                  type="button"
+                  onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${notifyPrefs.newsletter
+                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    }`}
+                >
+                  <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                    }`}>
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
+                      }`} />
+                  </span>
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-white/80">📧 Newsletter & exclusives</p>
+                    <p className="text-[var(--font-size-3xs)] text-white/30">News, drops & merch updates</p>
+                  </div>
+                </button>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formAllAges} onChange={e => setFormAllAges(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  All Ages Show
-                </label>
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formIsFestival} onChange={e => setFormIsFestival(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  Is Festival
-                </label>
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formIsPrivate} onChange={e => setFormIsPrivate(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  Private Event
-                </label>
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formIsUnplugged} onChange={e => setFormIsUnplugged(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  Unplugged Show
-                </label>
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formIsOutdoor} onChange={e => setFormIsOutdoor(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  Outdoor Show
-                </label>
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formIsCasino} onChange={e => setFormIsCasino(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  Casino Show
-                </label>
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                  <input type="checkbox" checked={formIsSpecialEvent} onChange={e => setFormIsSpecialEvent(e.target.checked)}
-                    className="accent-[var(--color-accent)] w-4 h-4" />
-                  Special Event
-                </label>
-              </div>
+              {/* Sending to email */}
+              <p className="text-[var(--font-size-3xs)] text-white/20 mt-3 text-center">
+                Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
+              </p>
 
-              <div className="flex gap-3 pt-4 border-t border-white/5">
-                <button type="button" onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-all cursor-pointer">
+              {/* Actions */}
+              <div className="flex gap-2 mt-4">
+                <button
+                  onClick={() => setNotifyPopupShow(null)}
+                  className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                >
                   Cancel
                 </button>
-                <button type="submit" disabled={submitting}
-                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer">
-                  {submitting ? "Saving..." : "Save Show"}
+                <button
+                  onClick={handleNotifyConfirm}
+                  disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
+                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                >
+                  {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
+      {/* ── Table Style Button ── */}
+      {!isFontCustomizerOpen && (
+        <button
+          onClick={() => setIsFontCustomizerOpen(true)}
+          className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
+          title="Table Font & Style Settings"
+        >
+          <span className="text-[11px]">Aa</span>
+          <span>Table Style</span>
+        </button>
+      )}
 
-    {/* ═══ Notification Preferences Popup ═══ */}
-    {notifyPopupShow && (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setNotifyPopupShow(null)}>
-        <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
-          {/* Accent bar */}
-          <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
+      {/* ── Font Customizer Modal/Panel ── */}
+      {isFontCustomizerOpen && (
+        <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
+          <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
 
-          <div className="p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/40 rounded-full flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[var(--color-accent)]" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-sm">Set Up Alerts</h3>
-                  <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
-                </div>
+            <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
+              <h3 className="text-white font-extrabold text-sm uppercase tracking-wider">Font Tester</h3>
+              <button
+                onClick={() => setIsFontCustomizerOpen(false)}
+                className="text-white/40 hover:text-white text-xs cursor-pointer bg-white/5 hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Font Family */}
+            <div className="mb-5">
+              <label className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
+              <select
+                value={tourFontFamily}
+                onChange={(e) => setTourFontFamily(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+              >
+                <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Barlow (Default)</option>
+                <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
+                <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
+                <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>
+                <option value="Outfit" className="bg-[var(--color-bg-surface)] text-white">Outfit</option>
+                <option value="Syne" className="bg-[var(--color-bg-surface)] text-white">Syne</option>
+                <option value="Playfair Display" className="bg-[var(--color-bg-surface)] text-white">Playfair Display</option>
+                <option value="Courier New" className="bg-[var(--color-bg-surface)] text-white">Monospace</option>
+              </select>
+            </div>
+
+            {/* Font Size */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
+                <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
               </div>
-              <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-              </button>
+              <input
+                type="range"
+                min="10"
+                max="24"
+                value={parseInt(tourFontSize) || 13}
+                onChange={(e) => setTourFontSize(`${e.target.value}px`)}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+              />
+              <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                <span>10px</span>
+                <span>17px</span>
+                <span>24px</span>
+              </div>
             </div>
 
-            {/* Show info */}
-            <div className="bg-white/[0.03] border border-white/5 rounded-lg px-3 py-2.5 mb-4">
-              <p className="text-xs text-white/60 font-semibold">{notifyPopupShow.venue} — {notifyPopupShow.city}, {notifyPopupShow.state}</p>
-              <p className="text-[var(--font-size-3xs)] text-white/30 mt-0.5">{notifyPopupShow.date} · {notifyPopupShow.time}</p>
+            {/* Website Button Font Size */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
+                <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{websiteBtnFontSize}</span>
+              </div>
+              <input
+                type="range"
+                min="8"
+                max="22"
+                value={parseInt(websiteBtnFontSize) || 10}
+                onChange={(e) => {
+                  const v = `${e.target.value}px`;
+                  setWebsiteBtnFontSize(v);
+                  localStorage.setItem("7h_tour_website_btn_font_size", v);
+                }}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+              />
+              <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                <span>8px</span>
+                <span>15px</span>
+                <span>22px</span>
+              </div>
             </div>
 
-            {/* What would you like? */}
-            <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-2 font-bold">What would you like to be notified about?</p>
-
-            <div className="flex flex-col gap-2">
-              {/* This show */}
-              <button
-                type="button"
-                onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
-                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${
-                  notifyPrefs.thisShow
-                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-                }`}
-              >
-                <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${
-                  notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                }`}>
-                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
-                    notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
-                  }`} />
-                </span>
-                <div className="text-left">
-                  <p className="text-xs font-bold text-white/80">🎤 This specific show</p>
-                  <p className="text-[var(--font-size-3xs)] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
-                </div>
-              </button>
-
-              {/* Proximity shows */}
-              <button
-                type="button"
-                onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
-                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${
-                  notifyPrefs.proximity
-                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-                }`}
-              >
-                <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${
-                  notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                }`}>
-                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
-                    notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
-                  }`} />
-                </span>
-                <div className="text-left">
-                  <p className="text-xs font-bold text-white/80">📍 Shows near me</p>
-                  <p className="text-[var(--font-size-3xs)] text-white/30">Get emailed when we book near your area</p>
-                </div>
-              </button>
-
-              {/* Newsletter */}
-              <button
-                type="button"
-                onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
-                className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${
-                  notifyPrefs.newsletter
-                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-                }`}
-              >
-                <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${
-                  notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                }`}>
-                  <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${
-                    notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
-                  }`} />
-                </span>
-                <div className="text-left">
-                  <p className="text-xs font-bold text-white/80">📧 Newsletter & exclusives</p>
-                  <p className="text-[var(--font-size-3xs)] text-white/30">News, drops & merch updates</p>
-                </div>
-              </button>
+            {/* Row Padding */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
+                <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowPadding}</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="40"
+                value={parseInt(tourRowPadding) || 0}
+                onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+              />
+              <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                <span>0px</span>
+                <span>20px</span>
+                <span>40px</span>
+              </div>
             </div>
 
-            {/* Sending to email */}
-            <p className="text-[var(--font-size-3xs)] text-white/20 mt-3 text-center">
-              Notifications will be sent to <span className="text-white/40 font-semibold">{member?.email}</span>
-            </p>
+            {/* Row Spacing */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
+                <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowGap}</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="30"
+                value={parseInt(tourRowGap) || 0}
+                onChange={(e) => setTourRowGap(`${e.target.value}px`)}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+              />
+              <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                <span>0px</span>
+                <span>15px</span>
+                <span>30px</span>
+              </div>
+            </div>
 
-            {/* Actions */}
-            <div className="flex gap-2 mt-4">
+            {/* Row Height */}
+            <div className="mb-5">
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
+                <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowHeight}</span>
+              </div>
+              <input
+                type="range"
+                min="30"
+                max="100"
+                value={parseInt(tourRowHeight) || 40}
+                onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+              />
+              <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                <span>30px</span>
+                <span>65px</span>
+                <span>100px</span>
+              </div>
+            </div>
+
+            {/* Code telemetry */}
+            <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[var(--font-size-4xs)] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
+              {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
+            </div>
+
+            {/* Action buttons */}
+            <div className="grid grid-cols-2 gap-3">
               <button
-                onClick={() => setNotifyPopupShow(null)}
-                className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors animate-all"
               >
-                Cancel
+                {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
               <button
-                onClick={handleNotifyConfirm}
-                disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                onClick={() => {
+                  localStorage.setItem("7h_tour_font_size", tourFontSize);
+                  localStorage.setItem("7h_tour_font_family", tourFontFamily);
+                  localStorage.setItem("7h_tour_row_padding", tourRowPadding);
+                  localStorage.setItem("7h_tour_row_gap", tourRowGap);
+                  localStorage.setItem("7h_tour_row_height", tourRowHeight);
+                  setIsFontCustomizerOpen(false);
+                }}
+                className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
               >
-                {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
+                Apply & Save
               </button>
             </div>
           </div>
         </div>
-      </div>
-    )}
-    {/* ── Table Style Button ── */}
-    {!isFontCustomizerOpen && (
-      <button
-        onClick={() => setIsFontCustomizerOpen(true)}
-        className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
-        title="Table Font & Style Settings"
-      >
-        <span className="text-[11px]">Aa</span>
-        <span>Table Style</span>
-      </button>
-    )}
-
-    {/* ── Font Customizer Modal/Panel ── */}
-    {isFontCustomizerOpen && (
-      <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">
-        <div className="w-full max-w-sm bg-[var(--color-bg-surface)]/95 border border-white/10 p-6 md:p-8 relative flex flex-col font-sans select-none pointer-events-auto animate-[fadeIn_0.2s_ease]" style={{ animation: "scaleIn 0.2s ease" }}>
-          
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-            <h3 className="text-white font-extrabold text-sm uppercase tracking-wider">Font Tester</h3>
-            <button 
-              onClick={() => setIsFontCustomizerOpen(false)}
-              className="text-white/40 hover:text-white text-xs cursor-pointer bg-white/5 hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
-            >
-              ✕
-            </button>
-          </div>
-
-          {/* Font Family */}
-          <div className="mb-5">
-            <label className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
-            <select 
-              value={tourFontFamily} 
-              onChange={(e) => setTourFontFamily(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
-            >
-              <option value="var(--font-body)" className="bg-[var(--color-bg-surface)] text-white">Barlow (Default)</option>
-              <option value="var(--font-heading)" className="bg-[var(--color-bg-surface)] text-white">Rockstar (Heading)</option>
-              <option value="Inter" className="bg-[var(--color-bg-surface)] text-white">Inter</option>
-              <option value="Montserrat" className="bg-[var(--color-bg-surface)] text-white">Montserrat</option>
-              <option value="Outfit" className="bg-[var(--color-bg-surface)] text-white">Outfit</option>
-              <option value="Syne" className="bg-[var(--color-bg-surface)] text-white">Syne</option>
-              <option value="Playfair Display" className="bg-[var(--color-bg-surface)] text-white">Playfair Display</option>
-              <option value="Courier New" className="bg-[var(--color-bg-surface)] text-white">Monospace</option>
-            </select>
-          </div>
-
-          {/* Font Size */}
-          <div className="mb-4">
-             <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
-               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
-             </div>
-             <input 
-               type="range" 
-               min="10" 
-               max="24" 
-               value={parseInt(tourFontSize) || 13}
-               onChange={(e) => setTourFontSize(`${e.target.value}px`)}
-               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-             />
-             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
-               <span>10px</span>
-               <span>17px</span>
-               <span>24px</span>
-             </div>
-           </div>
-
-           {/* Website Button Font Size */}
-           <div className="mb-4">
-             <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
-               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{websiteBtnFontSize}</span>
-             </div>
-             <input
-               type="range"
-               min="8"
-               max="22"
-               value={parseInt(websiteBtnFontSize) || 10}
-               onChange={(e) => {
-                 const v = `${e.target.value}px`;
-                 setWebsiteBtnFontSize(v);
-                 localStorage.setItem("7h_tour_website_btn_font_size", v);
-               }}
-               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-             />
-             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
-               <span>8px</span>
-               <span>15px</span>
-               <span>22px</span>
-             </div>
-           </div>
-
-           {/* Row Padding */}
-           <div className="mb-4">
-             <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
-               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowPadding}</span>
-             </div>
-             <input 
-               type="range" 
-               min="0" 
-               max="40" 
-               value={parseInt(tourRowPadding) || 0}
-               onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
-               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-             />
-             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
-               <span>0px</span>
-               <span>20px</span>
-               <span>40px</span>
-             </div>
-           </div>
-
-           {/* Row Spacing */}
-           <div className="mb-4">
-             <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
-               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowGap}</span>
-             </div>
-             <input 
-               type="range" 
-               min="0" 
-               max="30" 
-               value={parseInt(tourRowGap) || 0}
-               onChange={(e) => setTourRowGap(`${e.target.value}px`)}
-               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-             />
-             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
-               <span>0px</span>
-               <span>15px</span>
-               <span>30px</span>
-             </div>
-           </div>
-
-           {/* Row Height */}
-           <div className="mb-5">
-             <div className="flex justify-between items-center mb-1.5">
-               <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
-               <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowHeight}</span>
-             </div>
-             <input 
-               type="range" 
-               min="30" 
-               max="100" 
-               value={parseInt(tourRowHeight) || 40}
-               onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
-               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
-             />
-             <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
-               <span>30px</span>
-               <span>65px</span>
-               <span>100px</span>
-             </div>
-           </div>
-
-          {/* Code telemetry */}
-          <div className="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 font-mono text-[var(--font-size-4xs)] text-white/60 select-all leading-relaxed whitespace-pre-wrap">
-            {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
-          </div>
-
-          {/* Action buttons */}
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              onClick={() => {
-                navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              }}
-              className="py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors animate-all"
-            >
-              {copied ? "Copied! ✓" : "Copy CSS"}
-            </button>
-            <button 
-              onClick={() => {
-                localStorage.setItem("7h_tour_font_size", tourFontSize);
-                localStorage.setItem("7h_tour_font_family", tourFontFamily);
-                localStorage.setItem("7h_tour_row_padding", tourRowPadding);
-                localStorage.setItem("7h_tour_row_gap", tourRowGap);
-                localStorage.setItem("7h_tour_row_height", tourRowHeight);
-                setIsFontCustomizerOpen(false);
-              }}
-              className="py-2.5 bg-[var(--color-accent)] hover:bg-[rgba(255,10,61,0.9)] rounded-lg text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
-            >
-              Apply & Save
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-  </>
- );
+      )}
+    </>
+  );
 }

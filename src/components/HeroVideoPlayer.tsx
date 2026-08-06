@@ -10,11 +10,11 @@ import {
 } from "@/context/VideoSnapshotContext";
 
 const ALBUM_VIDEOS: Record<string, string> = {
-  "be-here":         "/movie/are-we-there-yet.mp4",
+  "be-here": "/movie/are-we-there-yet.mp4",
   "color-in-motion": "/movie/hero-colorinmostion.mp4",
-  "luminous":        "/movie/luminous.mp4",
-  "next":            "/movie/next.mp4",
-  "spectrum":        "/movie/spectrum.mp4",
+  "luminous": "/movie/luminous.mp4",
+  "next": "/movie/next.mp4",
+  "spectrum": "/movie/spectrum.mp4",
 };
 
 const DEFAULT_VIDEO = "/movie/are-we-there-yet.mp4";
@@ -50,7 +50,7 @@ const GRADIENT_PRESETS = [
 
 export default function HeroVideoPlayer({ children }: { children?: ReactNode }) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
-  const videoRef  = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
 
   const isYouTube = !videoSrc.includes(".mp4");
@@ -77,7 +77,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     const savedColor = localStorage.getItem("7h_tint_color");
     const savedOpacity = localStorage.getItem("7h_tint_opacity");
     const savedBlend = localStorage.getItem("7h_tint_blend");
-    
+
     if (savedColor) setTintColor(savedColor);
     if (savedOpacity) setTintOpacity(parseFloat(savedOpacity));
     if (savedBlend) setMixBlendMode(savedBlend as any);
@@ -148,7 +148,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     try {
       const canvas = document.createElement("canvas");
       // Capture at half-resolution for speed / memory
-      canvas.width  = Math.round(video.videoWidth  / 2);
+      canvas.width = Math.round(video.videoWidth / 2);
       canvas.height = Math.round(video.videoHeight / 2);
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
@@ -196,7 +196,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     setTimeout(() => {
       if (videoRef.current) {
         videoRef.current.load();
-        videoRef.current.play().catch(() => {});
+        videoRef.current.play().catch(() => { });
       }
     }, 0);
   };
@@ -206,7 +206,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
       {/* CSS Animations style tag */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes scaleIn {
           from { transform: scale(0.95); opacity: 0; }
           to { transform: scale(1); opacity: 1; }
@@ -228,7 +229,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           <source src={videoSrc} type="video/mp4" />
         </video>
       )}
-      <div 
+      <div
         className="absolute inset-0 z-[1] pointer-events-none transition-all duration-300"
         style={{
           backgroundColor: tintColor,
@@ -238,7 +239,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       />
 
       {/* ── Bottom-Up Black Gradient Overlay ── */}
-      <div 
+      <div
         className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-150"
         style={{
           height: `${gradHeight}%`,
@@ -262,7 +263,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
               <div className="flex flex-col">
-                <span className="font-[family-name:var(--font-rockstar)] text-xs font-black uppercase tracking-wider text-purple-400">
+                <span className="font-[family-name:var(--font-rockstar)] text-xs font-black uppercase tracking-wider  text-[var(--color-accent)]">
                   Hero Gradient Controls
                 </span>
                 <span className="text-[9px] text-white/50 uppercase font-semibold">
@@ -302,7 +303,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Height</span>
-                <span className="text-purple-400 font-mono font-black">{gradHeight}%</span>
+                <span className=" text-[var(--color-accent)] font-mono font-black">{gradHeight}%</span>
               </div>
               <input
                 type="range"
@@ -319,7 +320,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Bottom Black Opacity</span>
-                <span className="text-purple-400 font-mono font-black">{Math.round(gradOpacity * 100)}%</span>
+                <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(gradOpacity * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -336,7 +337,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Fade Midpoint Stop</span>
-                <span className="text-purple-400 font-mono font-black">{gradMidstop}%</span>
+                <span className=" text-[var(--color-accent)] font-mono font-black">{gradMidstop}%</span>
               </div>
               <input
                 type="range"
@@ -353,7 +354,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             <div className="space-y-1.5">
               <div className="flex justify-between items-center text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Gradient Color</span>
-                <span className="text-purple-400 font-mono font-bold text-[9px]">{gradColor}</span>
+                <span className=" text-[var(--color-accent)] font-mono font-bold text-[9px]">{gradColor}</span>
               </div>
               <div className="flex items-center gap-2">
                 {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
@@ -406,37 +407,37 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
-              <svg 
-                width="18" 
-                height="18" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="text-white/80 group-hover:text-purple-400 group-hover:rotate-45 transition-all duration-300"
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white/80 group-hover: text-[var(--color-accent)] group-hover:rotate-45 transition-all duration-300"
               >
-                <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/>
-                <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-                <path d="M12 2v2"/>
-                <path d="M12 20v2"/>
-                <path d="m4.93 4.93 1.41 1.41"/>
-                <path d="m17.66 17.66 1.41 1.41"/>
-                <path d="M2 12h2"/>
-                <path d="M20 12h2"/>
-                <path d="m6.34 17.66-1.41 1.41"/>
-                <path d="m19.07 4.93-1.41 1.41"/>
+                <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+                <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
               </svg>
             </button>
           ) : (
-            <div 
+            <div
               className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <div className="flex flex-col">
-                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider text-purple-400">
+                  <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] font-black uppercase tracking-wider  text-[var(--color-accent)]">
                     Video Tint Tester
                   </span>
                   <span className="text-[var(--font-size-4xs)] text-white/40 uppercase font-semibold">
@@ -460,7 +461,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       key={preset.color}
                       onClick={() => updateColor(preset.color)}
                       className={`w-6 h-6 rounded-full border transition-all hover:scale-115 relative cursor-pointer flex items-center justify-center`}
-                      style={{ 
+                      style={{
                         backgroundColor: preset.color,
                         borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
                       }}
@@ -472,17 +473,17 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     </button>
                   ))}
                   {/* Custom Color Selector */}
-                  <div 
+                  <div
                     className="w-6 h-6 rounded-full border border-white/20 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
                     title="Custom Color"
                   >
-                    <input 
-                      type="color" 
-                      value={tintColor} 
-                      onChange={(e) => updateColor(e.target.value)} 
+                    <input
+                      type="color"
+                      value={tintColor}
+                      onChange={(e) => updateColor(e.target.value)}
                       className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 bg-transparent opacity-0"
                     />
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white drop-shadow"><path d="M12 5v14M5 12h14"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-white drop-shadow"><path d="M12 5v14M5 12h14" /></svg>
                   </div>
                 </div>
               </div>
@@ -491,7 +492,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               <div className="space-y-1.5">
                 <div className="flex justify-between text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider">
                   <span>Opacity</span>
-                  <span className="text-purple-400 font-mono font-black">{Math.round(tintOpacity * 100)}%</span>
+                  <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(tintOpacity * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -512,11 +513,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     <button
                       key={mode}
                       onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-all cursor-pointer ${
-                        mixBlendMode === mode
-                          ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-black"
-                          : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
-                      }`}
+                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-all cursor-pointer ${mixBlendMode === mode
+                        ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-black"
+                        : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
+                        }`}
                     >
                       {mode}
                     </button>

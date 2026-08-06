@@ -46,7 +46,7 @@ export default function DevGuideLine() {
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
-            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 text-[var(--color-accent)] border border-[var(--color-accent)]/40 rounded text-[10px] uppercase font-bold tracking-wider transition-colors cursor-pointer"
+            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40  text-[var(--color-accent)] border border-[var(--color-accent)]/40 rounded text-[10px] uppercase font-bold tracking-wider transition-colors cursor-pointer"
           >
             Guides: {showVerticalGuides ? "ON" : "OFF"}
           </button>

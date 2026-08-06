@@ -12,7 +12,9 @@
  */
 
 const domain = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com').replace(/"/g, '');
-const storefrontAccessToken = (process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || 'demo_token').replace(/"/g, '');
+// No hardcoded token fallback — missing token will cause a 401 from Shopify,
+// which is the correct and visible failure mode for misconfiguration.
+const storefrontAccessToken = (process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '').replace(/"/g, '');
 
 async function shopifyFetch<T>({ query, variables }: { query: string; variables?: any }): Promise<{ status: number; body: T }> {
   const endpoint = `https://${domain}/api/2025-01/graphql.json`;

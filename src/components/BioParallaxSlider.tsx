@@ -87,7 +87,7 @@ function MemberVideoThumbnail({
     const vid = videoRef.current;
     if (!vid) return;
     if (isActive) {
-      vid.play().catch(() => {});
+      vid.play().catch(() => { });
     } else {
       vid.pause();
       vid.currentTime = 0;
@@ -114,7 +114,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   // Construct 5-member stage explicitly: Frankie, Nick (Left), Adam (Center), Richard (Right), Mark
   const displayMembers = useMemo(() => {
     const list = members.length ? members : FALLBACK_MEMBERS;
-    
+
     const adam = list.find((m) => m.name?.toLowerCase().includes("adam")) || FALLBACK_MEMBERS[2];
     const nick = list.find((m) => m.name?.toLowerCase().includes("nick")) || FALLBACK_MEMBERS[1];
     const richard = list.find((m) => m.name?.toLowerCase().includes("richard") || m.name?.toLowerCase().includes("rick")) || FALLBACK_MEMBERS[3];
@@ -146,7 +146,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     if (idx === 4) return 360;  // Mark
     return idx * 100;
   };
-  
+
   // Smooothy Physics & Tuned UI Configuration
   const [physicsMode, setPhysicsMode] = useState<"snap" | "free">("free");
   const [lerpSpeed, setLerpSpeed] = useState<number>(0.10);
@@ -197,7 +197,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       const targetHeight = isMobile
         ? Math.max(300, Math.min(520, Math.round((vh - 80) * 0.52)))
         : Math.max(360, Math.min(730, Math.round((vh - 100) * 0.57)));
-      
+
       const targetWidth = isMobile
         ? Math.min(Math.round(vw * 0.72), Math.round(targetHeight * 0.72))
         : Math.round(targetHeight * 0.77);
@@ -489,7 +489,7 @@ height: ${overlayHeight}vh`;
 
   return (
     <div className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-black pt-0 pb-0">
-      
+
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
         <div className="absolute left-2 sm:left-6 md:left-8 top-[36px] z-30 flex flex-col items-start select-none">
@@ -503,9 +503,8 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-all duration-300 ${
-                    isActive ? "z-20" : ""
-                  }`}
+                  className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-all duration-300 ${isActive ? "z-20" : ""
+                    }`}
                 >
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
@@ -521,15 +520,14 @@ height: ${overlayHeight}vh`;
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-all duration-300 whitespace-nowrap block text-left ${
-                    isActive
+                  <div className={`transition-all duration-300 whitespace-nowrap block text-left ${isActive
                       ? "opacity-100 translate-x-0"
                       : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                  }`}>
+                    }`}>
                     <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
+                    <p className="text-[10px] sm:text-xs font-bold  text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
                       {m?.role || "Musician"}
                     </p>
                   </div>
@@ -553,20 +551,18 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-all duration-300 ${
-                    isActive ? "z-20" : ""
-                  }`}
+                  className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-all duration-300 ${isActive ? "z-20" : ""
+                    }`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-all duration-300 whitespace-nowrap block text-right ${
-                    isActive
+                  <div className={`transition-all duration-300 whitespace-nowrap block text-right ${isActive
                       ? "opacity-100 translate-x-0"
                       : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
-                  }`}>
+                    }`}>
                     <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
                     </p>
-                    <p className="text-[10px] sm:text-xs font-bold text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
+                    <p className="text-[10px] sm:text-xs font-bold  text-[var(--color-accent)] mt-0.5 sm:mt-1 tracking-wide">
                       {m?.role || "Musician"}
                     </p>
                   </div>
@@ -628,7 +624,7 @@ height: ${overlayHeight}vh`;
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
-                      
+
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
                         className="relative flex items-end justify-center overflow-visible bg-transparent transition-all duration-150 origin-bottom"
@@ -651,7 +647,7 @@ height: ${overlayHeight}vh`;
 
                         {/* Div that overlays the img tag (Full Control UI Tunable) */}
                         {maskEnabled && (
-                          <div 
+                          <div
                             className="pointer-events-none z-10"
                             style={{
                               background: `linear-gradient(to top, rgb(0, 0, 0) ${gradientStart}%, rgba(0, 0, 0, 0) ${gradientEnd}%)`,
@@ -682,7 +678,7 @@ height: ${overlayHeight}vh`;
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block mt-0.5">
+                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -693,7 +689,7 @@ height: ${overlayHeight}vh`;
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -704,7 +700,7 @@ height: ${overlayHeight}vh`;
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -715,7 +711,7 @@ height: ${overlayHeight}vh`;
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block mt-0.5">
+                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -726,7 +722,7 @@ height: ${overlayHeight}vh`;
                           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
                             {m?.role}
                           </span>
                         </div>
@@ -753,16 +749,14 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${
-                    isActive ? "scale-110" : "opacity-60 hover:opacity-100 hover:scale-105"
-                  }`}
+                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-110" : "opacity-60 hover:opacity-100 hover:scale-105"
+                    }`}
                 >
                   <div
-                    className={`w-12 h-16 sm:w-16 sm:h-20  overflow-hidden relative transition-all duration-300 ${
-                      isActive
+                    className={`w-12 h-16 sm:w-16 sm:h-20  overflow-hidden relative transition-all duration-300 ${isActive
                         ? "ring-2 ring-purple-500 shadow-[0_0_25px_rgba(255,10,61,0.9)] border border-[var(--color-accent)]"
                         : "border border-white/20 group-hover:border-white/50"
-                    }`}
+                      }`}
                   >
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
@@ -788,17 +782,15 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${
-                    isActive ? "scale-115 z-10" : "opacity-50 hover:opacity-100 hover:scale-105"
-                  }`}
+                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-115 z-10" : "opacity-50 hover:opacity-100 hover:scale-105"
+                    }`}
                 >
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden relative border-2 transition-all duration-300 ${
-                    isActive ? "border-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.9)]" : "border-white/20 group-hover:border-white/60"
-                  }`}>
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden relative border-2 transition-all duration-300 ${isActive ? "border-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.9)]" : "border-white/20 group-hover:border-white/60"
+                    }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     {isActive && <div className="absolute inset-0 border-2 border-[var(--color-accent)] rounded-full animate-ping opacity-40" />}
                   </div>
-                  <span className={`text-[10px] font-black uppercase tracking-wider mt-1 transition-colors ${isActive ? "text-[var(--color-accent)]" : "text-white/60 group-hover:text-white"}`}>
+                  <span className={`text-[10px] font-black uppercase tracking-wider mt-1 transition-colors ${isActive ? " text-[var(--color-accent)]" : "text-white/60 group-hover:text-white"}`}>
                     {firstName}
                   </span>
                 </button>
@@ -819,16 +811,14 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex flex-col items-center cursor-pointer transition-all duration-200 ${
-                    isActive ? "scale-105" : "opacity-60 hover:opacity-100"
-                  }`}
+                  className={`relative flex flex-col items-center cursor-pointer transition-all duration-200 ${isActive ? "scale-105" : "opacity-60 hover:opacity-100"
+                    }`}
                 >
-                  <div className={`w-13 h-16 sm:w-15 sm:h-18 rounded-lg overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-[var(--color-accent)]/40"
-                  }`}>
+                  <div className={`w-13 h-16 sm:w-15 sm:h-18 rounded-lg overflow-hidden relative border-2 transition-all ${isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-[var(--color-accent)]/40"
+                    }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
-                    <span className="absolute top-1 left-1 text-[8px] font-mono font-bold text-cyan-300">0{idx+1}</span>
+                    <span className="absolute top-1 left-1 text-[8px] font-mono font-bold text-cyan-300">0{idx + 1}</span>
                     <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-mono font-bold uppercase text-white truncate px-0.5">
                       {firstName}
                     </span>
@@ -852,13 +842,11 @@ height: ${overlayHeight}vh`;
                     key={idx}
                     type="button"
                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                    className={`relative group flex flex-col items-center cursor-pointer transition-all ${
-                      isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
-                    }`}
+                    className={`relative group flex flex-col items-center cursor-pointer transition-all ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
+                      }`}
                   >
-                    <div className={`w-14 h-18 sm:w-16 sm:h-20 rounded-md overflow-hidden relative border-2 transition-all ${
-                      isActive ? "border-purple-400 shadow-[0_0_25px_rgba(147, 51, 234,0.8)]" : "border-purple-500/30"
-                    }`}>
+                    <div className={`w-14 h-18 sm:w-16 sm:h-20 rounded-md overflow-hidden relative border-2 transition-all ${isActive ? "border-purple-400 shadow-[0_0_25px_rgba(147, 51, 234,0.8)]" : "border-purple-500/30"
+                      }`}>
                       <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
                       <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-black uppercase text-purple-100 tracking-widest truncate">
@@ -883,13 +871,11 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex flex-col items-center cursor-pointer transition-all duration-300 ${
-                    isActive ? "scale-110" : "opacity-50 hover:opacity-100"
-                  }`}
+                  className={`relative flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-110" : "opacity-50 hover:opacity-100"
+                    }`}
                 >
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden relative border transition-all ${
-                    isActive ? "border-white " : "border-transparent"
-                  }`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden relative border transition-all ${isActive ? "border-white " : "border-transparent"
+                    }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                   </div>
                   {isActive && <div className="w-4 h-1 bg-white rounded-full mt-1.5 animate-pulse" />}
@@ -912,13 +898,11 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${
-                    isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
-                  }`}
+                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
+                    }`}
                 >
-                  <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_var(--color-purple-glow)]" : "border-white/20"
-                  }`}>
+                  <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-all ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_var(--color-purple-glow)]" : "border-white/20"
+                    }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     <span className="absolute bottom-1 inset-x-0 text-center text-[10px] font-black uppercase text-white tracking-widest truncate">
@@ -943,19 +927,17 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex items-center gap-2 cursor-pointer transition-all duration-300 ${
-                    isActive ? "bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/60 p-1.5 " : "opacity-60 hover:opacity-100"
-                  }`}
+                  className={`relative flex items-center gap-2 cursor-pointer transition-all duration-300 ${isActive ? "bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/60 p-1.5 " : "opacity-60 hover:opacity-100"
+                    }`}
                 >
-                  <div className={`w-12 h-14 sm:w-14 sm:h-16  overflow-hidden relative border transition-all ${
-                    isActive ? "border-[var(--color-accent)] shadow-[0_0_20px_#a855f7]" : "border-white/20"
-                  }`}>
+                  <div className={`w-12 h-14 sm:w-14 sm:h-16  overflow-hidden relative border transition-all ${isActive ? "border-[var(--color-accent)] shadow-[0_0_20px_#a855f7]" : "border-white/20"
+                    }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                   </div>
                   {isActive && (
                     <div className="flex flex-col items-start pr-3">
                       <span className="text-xs font-black uppercase text-white tracking-wider">{firstName}</span>
-                      <span className="text-[9px] font-bold text-[var(--color-accent)] truncate max-w-[90px]">{m?.role}</span>
+                      <span className="text-[9px] font-bold  text-[var(--color-accent)] truncate max-w-[90px]">{m?.role}</span>
                     </div>
                   )}
                 </button>
@@ -975,13 +957,11 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group cursor-pointer transition-all duration-300 ${
-                    isActive ? "scale-125 z-10" : "opacity-50 hover:opacity-100 hover:scale-110"
-                  }`}
+                  className={`relative group cursor-pointer transition-all duration-300 ${isActive ? "scale-125 z-10" : "opacity-50 hover:opacity-100 hover:scale-110"
+                    }`}
                 >
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45  overflow-hidden relative border-2 transition-all ${
-                    isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/30"
-                  }`}>
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45  overflow-hidden relative border-2 transition-all ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/30"
+                    }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover -rotate-45 scale-125" />
                   </div>
                 </button>

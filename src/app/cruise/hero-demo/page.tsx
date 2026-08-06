@@ -17,11 +17,10 @@ export default function HeroDemoPage() {
           <button
             key={l}
             onClick={() => setActive(l)}
-            className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${
-              active === l
-                ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30"
-                : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
-            }`}
+            className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l
+              ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30"
+              : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
+              }`}
           >
             {l}
           </button>
@@ -83,7 +82,7 @@ export default function HeroDemoPage() {
 
               {/* Right — Glass Card */}
               <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
+                <p className="text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-white/[0.05] backdrop-blur-md border border-white/[0.1] p-5 text-center">
                     <p className="text-4xl font-black text-white">5</p>
@@ -222,10 +221,10 @@ export default function HeroDemoPage() {
               {/* Right — Vertical glass ticker */}
               <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-6 w-72 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">Live Ticker</p>
+                  <p className="text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)]">Live Ticker</p>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-emerald-400/70">Live</span>
+                    <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-accent)]/70">Live</span>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -253,7 +252,7 @@ export default function HeroDemoPage() {
                     <p className="text-2xl font-black text-white">9</p>
                     <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/25">Total Guests</p>
                   </div>
-                  <a href="#signup" className="px-5 py-2.5 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs rounded-lg transition-all hover:bg-[var(--color-accent)]/30">
+                  <a href="#signup" className="px-5 py-2.5 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs rounded-lg transition-all hover:bg-[var(--color-accent)]/30">
                     Join →
                   </a>
                 </div>
@@ -339,7 +338,7 @@ export default function HeroDemoPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.3em] text-white/40">Cabin Class</p>
-                  <p className="text-sm font-black uppercase tracking-widest text-[var(--color-accent)]">VIP Fan</p>
+                  <p className="text-sm font-black uppercase tracking-widest  text-[var(--color-accent)]">VIP Fan</p>
                 </div>
               </div>
 
@@ -437,7 +436,7 @@ export default function HeroDemoPage() {
             <div className="flex-1 flex items-end">
               <div className="site-container pb-24 w-full">
                 <div className="max-w-3xl">
-                  <p className="text-xs font-black uppercase tracking-[0.4em] text-[var(--color-accent)] mb-3">Caribbean 2027</p>
+                  <p className="text-xs font-black uppercase tracking-[0.4em]  text-[var(--color-accent)] mb-3">Caribbean 2027</p>
                   <h1 className="text-5xl md:text-[6.5rem] font-black uppercase italic text-white leading-[0.85] tracking-tighter" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                     Rock the<br />Ocean
                   </h1>
@@ -460,7 +459,7 @@ export default function HeroDemoPage() {
                     { val: "∞", label: "Memories", accent: false },
                   ].map(s => (
                     <div key={s.label} className="flex items-baseline gap-2">
-                      <span className={`text-3xl font-black ${s.accent ? "text-[var(--color-accent)]" : "text-white"}`}>{s.val}</span>
+                      <span className={`text-3xl font-black ${s.accent ? " text-[var(--color-accent)]" : "text-white"}`}>{s.val}</span>
                       <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/30">{s.label}</span>
                     </div>
                   ))}
@@ -501,7 +500,7 @@ export default function HeroDemoPage() {
             <div className="flex items-center justify-center gap-6">
               <a href="#signup" className="group flex items-center gap-3">
                 <span className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(255,10,61,0.4)]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                 </span>
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 group-hover:text-white transition-colors">Count Me In</span>
               </a>
@@ -519,7 +518,7 @@ export default function HeroDemoPage() {
             </div>
             <span className="text-xs font-bold uppercase tracking-widest text-white/40">9 guests interested</span>
             <div className="w-px h-4 bg-white/10" />
-            <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]">Free signup</span>
+            <span className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]">Free signup</span>
           </div>
         </section>
       )}
@@ -539,7 +538,7 @@ export default function HeroDemoPage() {
             <div className="max-w-xl mx-auto w-full space-y-4">
               {/* Title Card */}
               <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20  text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest mb-4">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse" />
                   2027 Caribbean
                 </div>

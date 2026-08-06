@@ -4,16 +4,16 @@ import React from "react";
 
 // --- Components ---
 
-function Node({ 
-  label, 
-  sub, 
-  color = "blue", 
+function Node({
+  label,
+  sub,
+  color = "blue",
   icon,
   wide = false,
   small = false
-}: { 
-  label: string; 
-  sub?: string; 
+}: {
+  label: string;
+  sub?: string;
   color?: "blue" | "purple" | "red" | "amber" | "cyan" | "emerald";
   icon?: string;
   wide?: boolean;
@@ -83,10 +83,10 @@ export default function EmailMapPage() {
   return (
     <main className="min-h-screen bg-[#050505] text-white pt-24 pb-40 px-6">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* Header */}
         <div className="mb-16">
-          <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-3 py-1 mb-4">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] border border-[var(--color-accent)]/30 px-3 py-1 mb-4">
             System Architecture
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight mb-4">
@@ -107,7 +107,7 @@ export default function EmailMapPage() {
 
         <div className="overflow-x-auto pb-8">
           <div className="min-w-[1000px]">
-            
+
             {/* Entry Point */}
             <div className="flex justify-center">
               <Node label="EMAIL ENGINE" sub="src/lib/email.ts" icon="📧" color="blue" wide />
@@ -116,7 +116,7 @@ export default function EmailMapPage() {
 
             {/* Top Level Categories */}
             <div className="grid grid-cols-4 gap-4">
-              
+
               {/* Category 1: Account & Fan */}
               <div className="flex flex-col items-center">
                 <Node label="FAN ACCOUNT" sub="Auth Triggers" color="purple" />

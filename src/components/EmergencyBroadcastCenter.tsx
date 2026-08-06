@@ -17,7 +17,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
   const [selectedShowDate, setSelectedShowDate] = useState<string>("");
   const [alertType, setAlertType] = useState<"cancellation" | "time_change" | "venue_change" | "announcement">("cancellation");
   const [targetAudience, setTargetAudience] = useState<"all_fans" | "show_fans" | "crew_and_band">("all_fans");
-  
+
   const [sendSms, setSendSms] = useState(true);
   const [sendEmail, setSendEmail] = useState(true);
   const [sendDashboardBanner, setSendDashboardBanner] = useState(true);
@@ -40,19 +40,19 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
   // Apply Preset Templates based on selected show & alert type
   const activeTitle = customTitle || (
     alertType === "cancellation" ? `🚨 SHOW CANCELLED: ${selectedShow.venue}` :
-    alertType === "time_change" ? `⏰ TIME CHANGE: ${selectedShow.venue}` :
-    alertType === "venue_change" ? `📍 VENUE UPDATE: ${selectedShow.venue}` :
-    `🎟️ SPECIAL NOTICE: ${selectedShow.venue}`
+      alertType === "time_change" ? `⏰ TIME CHANGE: ${selectedShow.venue}` :
+        alertType === "venue_change" ? `📍 VENUE UPDATE: ${selectedShow.venue}` :
+          `🎟️ SPECIAL NOTICE: ${selectedShow.venue}`
   );
 
   const activeBody = customBody || (
     alertType === "cancellation"
       ? `ALERT: 7th Heaven show at ${selectedShow.venue} (${selectedShow.city || 'IL'}) on ${selectedShow.date} has been CANCELLED due to severe weather/emergency. Refunds will be issued automatically. Stay safe!`
       : alertType === "time_change"
-      ? `TIME UPDATE: 7th Heaven performance at ${selectedShow.venue} on ${selectedShow.date} has been moved up to ${selectedShow.time || '5:00 PM'}. Doors open early at 4:00 PM!`
-      : alertType === "venue_change"
-      ? `LOCATION UPDATE: 7th Heaven performance on ${selectedShow.date} has been relocated to ${selectedShow.venue} (${selectedShow.city || 'IL'}). All existing tickets remain valid.`
-      : `SPECIAL NOTICE: Exclusive VIP meet & greet upgrades for 7th Heaven at ${selectedShow.venue} on ${selectedShow.date} are now live on the fan dashboard!`
+        ? `TIME UPDATE: 7th Heaven performance at ${selectedShow.venue} on ${selectedShow.date} has been moved up to ${selectedShow.time || '5:00 PM'}. Doors open early at 4:00 PM!`
+        : alertType === "venue_change"
+          ? `LOCATION UPDATE: 7th Heaven performance on ${selectedShow.date} has been relocated to ${selectedShow.venue} (${selectedShow.city || 'IL'}). All existing tickets remain valid.`
+          : `SPECIAL NOTICE: Exclusive VIP meet & greet upgrades for 7th Heaven at ${selectedShow.venue} on ${selectedShow.date} are now live on the fan dashboard!`
   );
 
   // Recipient Count Calculation
@@ -109,7 +109,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
   return (
     <div className="p-5 bg-[var(--card-bg)] border-t border-[var(--border-color)] space-y-4 text-[var(--text-color)] font-sans">
-      
+
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
         <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
@@ -130,7 +130,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
         <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[8px] font-black uppercase tracking-wider text-[var(--color-accent)] block">Twilio SMS Rate</span>
+            <span className="text-[8px] font-black uppercase tracking-wider  text-[var(--color-accent)] block">Twilio SMS Rate</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">${estimatedSmsCost.toFixed(2)} (${smsRatePerSegment}/msg)</span>
           </div>
           <span className="text-sm">💳</span>
@@ -138,8 +138,8 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
         <div className="p-2.5 bg-black/30 border border-[var(--border-color)] flex items-center justify-between shadow-xs">
           <div>
-            <span className="text-[8px] font-black uppercase tracking-wider text-emerald-400 block">Total Est. Campaign Cost</span>
-            <span className="text-[11px] font-black text-emerald-400">${totalEstimatedCost.toFixed(2)}</span>
+            <span className="text-[8px] font-black uppercase tracking-wider text-[var(--color-accent)] block">Total Est. Campaign Cost</span>
+            <span className="text-[11px] font-black text-[var(--color-accent)]">${totalEstimatedCost.toFixed(2)}</span>
           </div>
           <span className="text-sm">💵</span>
         </div>
@@ -154,11 +154,10 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
-              alertType === "cancellation"
-                ? "bg-rose-600 border-rose-600 text-white shadow-md"
-                : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
-            }`}
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "cancellation"
+              ? "bg-rose-600 border-rose-600 text-white shadow-md"
+              : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
+              }`}
           >
             🚨 Show Cancelled
           </button>
@@ -166,11 +165,10 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
-              alertType === "time_change"
-                ? "bg-purple-700 border-purple-600 text-white shadow-md"
-                : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
-            }`}
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "time_change"
+              ? "bg-purple-700 border-purple-600 text-white shadow-md"
+              : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
+              }`}
           >
             ⏰ Time Moved Up
           </button>
@@ -178,11 +176,10 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
-              alertType === "venue_change"
-                ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
-                : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
-            }`}
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "venue_change"
+              ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
+              : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
+              }`}
           >
             📍 Venue Changed
           </button>
@@ -190,11 +187,10 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${
-              alertType === "announcement"
-                ? "bg-cyan-600 border-cyan-600 text-white shadow-md"
-                : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
-            }`}
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "announcement"
+              ? "bg-cyan-600 border-cyan-600 text-white shadow-md"
+              : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
+              }`}
           >
             🎟️ VIP / Special Alert
           </button>
@@ -246,12 +242,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div
             onClick={() => setSendSms(!sendSms)}
-            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
-              sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
-            }`}
+            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+              }`}
           >
             <div className="flex items-center gap-2">
-              <input type="checkbox" checked={sendSms} onChange={() => {}} className="accent-amber-500 w-3.5 h-3.5" />
+              <input type="checkbox" checked={sendSms} onChange={() => { }} className="accent-amber-500 w-3.5 h-3.5" />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] block">📱 Twilio SMS Alert</span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedSmsCost.toFixed(2)} total</span>
@@ -261,12 +256,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
           <div
             onClick={() => setSendEmail(!sendEmail)}
-            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
-              sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
-            }`}
+            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+              }`}
           >
             <div className="flex items-center gap-2">
-              <input type="checkbox" checked={sendEmail} onChange={() => {}} className="accent-purple-500 w-3.5 h-3.5" />
+              <input type="checkbox" checked={sendEmail} onChange={() => { }} className="accent-purple-500 w-3.5 h-3.5" />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] block">📧 Email Broadcast</span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
@@ -276,12 +270,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
           <div
             onClick={() => setSendDashboardBanner(!sendDashboardBanner)}
-            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
-              sendDashboardBanner ? "bg-cyan-500/15 border-cyan-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
-            }`}
+            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${sendDashboardBanner ? "bg-cyan-500/15 border-cyan-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+              }`}
           >
             <div className="flex items-center gap-2">
-              <input type="checkbox" checked={sendDashboardBanner} onChange={() => {}} className="accent-cyan-500 w-3.5 h-3.5" />
+              <input type="checkbox" checked={sendDashboardBanner} onChange={() => { }} className="accent-cyan-500 w-3.5 h-3.5" />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] block">🔔 Fan Wall Banner</span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">Free ($0.00)</span>
@@ -377,9 +370,8 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
       {/* Dispatch Result Feedback */}
       {dispatchResult && (
-        <div className={`p-3 rounded-lg border text-[10px] font-bold flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${
-          dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"
-        }`}>
+        <div className={`p-3 rounded-lg border text-[10px] font-bold flex items-center justify-between animate-[fadeIn_0.2s_ease-out] ${dispatchResult.success ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-300" : "bg-rose-500/15 border-rose-500/30 text-rose-300"
+          }`}>
           <div>
             <span className="block font-black uppercase text-[11px] mb-0.5">
               {dispatchResult.success ? "✅ Broadcast Dispatched Successfully!" : "❌ Dispatch Failed"}

@@ -27,7 +27,8 @@ function PlannerVerifyContent() {
 
   useEffect(() => {
     if (step === "pin") {
-      setTimeout(() => inputRefs.current[0]?.focus(), 100);
+      const t = setTimeout(() => inputRefs.current[0]?.focus(), 100);
+      return () => clearTimeout(t);
     }
   }, [step]);
 

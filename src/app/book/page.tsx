@@ -42,7 +42,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
   const month = calMonth.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
   const daysCount = new Date(year, month + 1, 0).getDate();
-  const mNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
     <div className="relative">
@@ -53,14 +53,14 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
         className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3  text-lg text-left transition-all hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
       >
         {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
       </button>
       {showCal && (
         <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-white border border-black/15 p-4 animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
-            <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover:text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg></button>
+            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover: text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
@@ -83,31 +83,31 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
             </div>
           ) : (
             <>
-          <div className="grid grid-cols-7 mb-1">
-            {['S','M','T','W','T','F','S'].map((d,i) => <div key={i} className="text-center text-lg font-bold text-black/40 uppercase">{d}</div>)}
-          </div>
-          <div className="grid grid-cols-7 gap-1">
-            {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
-            {Array.from({ length: daysCount }).map((_, i) => {
-              const d = new Date(year, month, i + 1);
-              const ds = d.toISOString().split('T')[0];
-              const isPast = d < minDate;
-              const isSel = value === ds;
-              return (
-                <button
-                  key={ds} type="button" disabled={isPast}
-                  onClick={() => { onChange(ds); setShowCal(false); }}
-                  className={`h-8 w-full rounded-lg text-xs font-bold transition-all ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
-                >
-                  {i + 1}
-                </button>
-              );
-            })}
-          </div>
-          {value && (
-            <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
-          )}
-          </>
+              <div className="grid grid-cols-7 mb-1">
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} className="text-center text-lg font-bold text-black/40 uppercase">{d}</div>)}
+              </div>
+              <div className="grid grid-cols-7 gap-1">
+                {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
+                {Array.from({ length: daysCount }).map((_, i) => {
+                  const d = new Date(year, month, i + 1);
+                  const ds = d.toISOString().split('T')[0];
+                  const isPast = d < minDate;
+                  const isSel = value === ds;
+                  return (
+                    <button
+                      key={ds} type="button" disabled={isPast}
+                      onClick={() => { onChange(ds); setShowCal(false); }}
+                      className={`h-8 w-full rounded-lg text-xs font-bold transition-all ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
+                    >
+                      {i + 1}
+                    </button>
+                  );
+                })}
+              </div>
+              {value && (
+                <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
+              )}
+            </>
           )}
         </div>
       )}
@@ -146,8 +146,8 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
           className={`py-2 px-4  text-lg font-bold tracking-wide transition-all border
-            ${value === o 
-              ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-md" 
+            ${value === o
+              ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-md"
               : "bg-black/[0.04] border-black/15 text-black/70 hover:bg-black/10 hover:border-black/30 hover:text-black"
             }
           `}
@@ -228,14 +228,14 @@ function BookPageContent() {
     fetch('/api/booking/availability')
       .then(r => r.json())
       .then(d => setBlockedDates(d.blockedDates || []))
-      .catch(() => {});
+      .catch(() => { });
 
     try {
       const saved = localStorage.getItem('7h_planner_last_form');
       if (saved) {
         setHasSavedForm(true);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
@@ -274,7 +274,7 @@ function BookPageContent() {
             }]);
           }
         }
-      } catch {}
+      } catch { }
 
       // URL params override localStorage (for specific field overrides)
       const allFields = ["name", "email", "phone", "organization", "venueName", "venueCity", "venueState", "startTime", "endTime", "indoorOutdoor", "expectedAttendance", "budget", "soundSystem", "stageAvailable", "backlineProvided", "ageRestriction", "loadInTime", "details"] as const;
@@ -351,7 +351,7 @@ function BookPageContent() {
           setAddOns(parsed.addOns);
         }
       }
-    } catch {}
+    } catch { }
   };
 
   const handleSendPin = async () => {
@@ -455,7 +455,7 @@ function BookPageContent() {
       const eventDate = new Date(slot.date + 'T12:00:00');
       const now = new Date();
       const daysOut = Math.ceil((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-      
+
       if (daysOut < 0) {
         errors.push(`Show #${idx + 1} (${slot.date}): Cannot book a date in the past.`);
       } else if (daysOut > 365) {
@@ -486,14 +486,14 @@ function BookPageContent() {
       if (recent.length >= 3) {
         errors.push("Too many booking requests. Please wait before submitting another.");
       }
-    } catch {}
+    } catch { }
 
     return errors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Run validation
     const errors = validateBooking();
     if (errors.length > 0) {
@@ -508,24 +508,24 @@ function BookPageContent() {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          ...formData, 
+        body: JSON.stringify({
+          ...formData,
           bookingSlots,
           eventDates: bookingSlots.map(s => s.date),
           eventDate: bookingSlots[0]?.date || "",
-          eventType: selectedType, 
-          altDate1, 
-          altDate2, 
-          addOns, 
-          website: formData.website 
+          eventType: selectedType,
+          altDate1,
+          altDate2,
+          addOns,
+          website: formData.website
         }),
       });
       const result = await res.json();
 
       if (res.ok && result.success) {
         // Save full form data for rebook auto-fill
-        localStorage.setItem('7h_planner_last_form', JSON.stringify({ 
-          ...formData, 
+        localStorage.setItem('7h_planner_last_form', JSON.stringify({
+          ...formData,
           eventType: selectedType,
           bookingSlots,
           eventDates: bookingSlots.map(s => s.date),
@@ -538,7 +538,7 @@ function BookPageContent() {
           timestamps.push(Date.now());
           const oneHourAgo = Date.now() - 60 * 60 * 1000;
           localStorage.setItem('7h_booking_timestamps', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
-        } catch {}
+        } catch { }
 
         // Persist phone number to user account if logged in
         if (isLoggedIn && member && formData.phone) {
@@ -593,13 +593,13 @@ function BookPageContent() {
           <h1 className="text-3xl font-extrabold text-white mb-3 tracking-tight">Request Received</h1>
           <p className="text-white/50 text-lg leading-relaxed mb-8">
             Thank you for your interest in booking 7th Heaven! We&apos;ve sent a confirmation email to <strong className="text-white">{formData.email}</strong>. Please check your inbox to verify your request.
-            <br /><span className="text-base text-emerald-400/70 mt-2 inline-block">✓ Notification sent to band management</span>
+            <br /><span className="text-base text-[var(--color-accent)]/70 mt-2 inline-block">✓ Notification sent to band management</span>
           </p>
 
           <div className="flex flex-col gap-3 w-full">
-            <a href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
+            <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
               Book Another Show
-            </a>
+            </Link>
             {!isLoggedIn && (
               creatingAccount ? (
                 <div className="bg-white/[0.03] border border-[var(--color-accent)]/30 p-5 text-left">
@@ -615,13 +615,13 @@ function BookPageContent() {
                           disabled={pinSent || pinLoading}
                           className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
                         />
-                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
+                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base  text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <span className="text-lg text-white font-bold">{accountEmail}</span>
                         {!pinSent && (
-                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover:text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
+                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
                         )}
                       </div>
                     )}
@@ -679,17 +679,17 @@ function BookPageContent() {
                         </button>
                       </div>
                       <div className="flex justify-between items-center text-sm mt-2">
-                        <button 
-                          type="button" 
-                          onClick={handleSendPin} 
+                        <button
+                          type="button"
+                          onClick={handleSendPin}
                           disabled={pinLoading}
-                          className="text-[var(--color-accent)] hover:underline font-bold disabled:opacity-40"
+                          className=" text-[var(--color-accent)] hover:underline font-bold disabled:opacity-40"
                         >
                           Resend Code
                         </button>
-                        <button 
-                          type="button" 
-                          onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }} 
+                        <button
+                          type="button"
+                          onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }}
                           disabled={pinLoading}
                           className="text-white/30 hover:text-white/60 hover:underline"
                         >
@@ -705,15 +705,15 @@ function BookPageContent() {
                     </div>
                   )}
 
-                  <button 
-                    type="button" 
-                    onClick={() => { 
-                      setCreatingAccount(false); 
-                      setEditingEmail(false); 
-                      setPinSent(false); 
-                      setPinError(""); 
-                      setPinCode(""); 
-                    }} 
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCreatingAccount(false);
+                      setEditingEmail(false);
+                      setPinSent(false);
+                      setPinError("");
+                      setPinCode("");
+                    }}
                     className="text-base text-white/30 hover:text-white/50 mt-4 cursor-pointer transition-colors block text-center w-full"
                   >
                     Cancel
@@ -734,9 +734,9 @@ function BookPageContent() {
                 </div>
               )
             )}
-            <a href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-white/5">
+            <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-white/5">
               Return to Homepage
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -747,875 +747,873 @@ function BookPageContent() {
     <div className="bg-[var(--color-bg-deep)] min-h-screen relative overflow-clip pt-[88px]">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
-      
+
       <section className="pt-[25px] pb-24 relative z-10" id="book-event">
         <div className="site-container">
 
-        {/* Signed-in Identity Block */}
-        {isLoggedIn && member && (
-          <div className="flex items-center justify-between mb-8 pb-6 border-b border-black/10">
-            <div className="flex items-center gap-4">
-              <div className="relative w-14 h-14 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-lg font-black text-[var(--color-accent)]">
-                {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
-                <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${
-                  member.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'
-                } border-2 border-white flex items-center justify-center`}>
-                  <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? '📋' : '★'}</span>
-                </span>
-              </div>
-              <div className="text-left">
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-black italic tracking-tight text-black">{member.name}</h2>
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${
-                    member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-600 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30'
-                  }`}>
-                    {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
+          {/* Signed-in Identity Block */}
+          {isLoggedIn && member && (
+            <div className="flex items-center justify-between mb-8 pb-6 border-b border-black/10">
+              <div className="flex items-center gap-4">
+                <div className="relative w-14 h-14 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-lg font-black  text-[var(--color-accent)]">
+                  {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
+                  <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${member.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'
+                    } border-2 border-white flex items-center justify-center`}>
+                    <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? '📋' : '★'}</span>
                   </span>
                 </div>
-                <p className="text-base text-black/50 font-mono mt-0.5">{member.email}</p>
-              </div>
-            </div>
-            <div className="hidden md:flex items-center gap-2 text-base text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              Account data auto-filled
-            </div>
-          </div>
-        )}
-
-
-        {/* Planner Account CTA */}
-        {!isFromPlanner && (
-          member?.role === 'event_planner' ? (
-            <div className="flex items-center justify-between gap-6 mb-8 py-2">
-              <div className="flex items-center gap-5">
-                <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                  <span className="text-lg font-black text-purple-600">{member?.name?.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() || '👋'}</span>
-                </div>
-                <div>
-                  <p className="text-black text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-600">{member?.name?.split(' ')[0]}</span></p>
-                  <p className="text-black/50 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
+                <div className="text-left">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-black italic tracking-tight text-black">{member.name}</h2>
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-600 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30'
+                      }`}>
+                      {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
+                    </span>
+                  </div>
+                  <p className="text-base text-black/50 font-mono mt-0.5">{member.email}</p>
                 </div>
               </div>
-              <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
-                My Dashboard →
-              </Link>
-            </div>
-          ) : (
-            <div className="flex items-center justify-between gap-6 mb-8 py-2">
-              <div className="flex items-center gap-5">
-                <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                </div>
-                <div>
-                  <p className="text-black text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-600">Get Your Own Dashboard</span></p>
-                  <p className="text-black/50 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
-                </div>
-              </div>
-              <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
-                Planner Portal →
-              </Link>
-            </div>
-          )
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {isFromPlanner && (
-            <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 flex items-center gap-4">
-              <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-              </div>
-              <div>
-                <p className="text-fuchsia-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
-                <p className="text-white/40 text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+              <div className="hidden md:flex items-center gap-2 text-base text-emerald-700 bg-emerald-500/10 border  border-[var(--color-accent)]/30 px-4 py-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Account data auto-filled
               </div>
             </div>
           )}
 
-          {hasSavedForm && !isFromPlanner && (
-            <div className="p-5 bg-purple-600/10 border border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
-              <div className="flex items-center gap-3">
-                <span className="text-xl shrink-0">📋</span>
-                <div>
-                  <p className="text-white font-bold text-base">Re-fill with details from your last booking?</p>
-                  <p className="text-white/40 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={handleLoadLastForm}
-                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
-              >
-                ⚡ Populate
-              </button>
-            </div>
-          )}
 
-          {/* Step 1: Event Schedule & Format */}
-          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
-              Event Schedule & Format
-            </h2>
-            <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 flex items-start gap-3">
-              <span className="text-xl mt-0.5">💡</span>
-              <div>
-                <h4 className="text-sm font-bold text-black uppercase tracking-wider">Multi-Date Bookings Supported</h4>
-                <p className="text-black/60 text-sm mt-1">You can select **multiple dates** on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
-              </div>
-            </div>
-            <div className="mb-6">
-              <CalendarPicker 
-                label="Primary Event Schedule"
-                required
-                slots={bookingSlots}
-                onChangeSlots={setBookingSlots}
-                startTime={formData.startTime}
-                onStartTimeChange={(t) => setFormData(p => ({ ...p, startTime: t }))}
-                endTime={formData.endTime}
-                onEndTimeChange={(t) => setFormData(p => ({ ...p, endTime: t }))}
-                selectedType={selectedType || undefined}
-                onSelectType={(t) => setSelectedType(t)}
-                customDetails={formData.customEventType}
-                onCustomDetailsChange={(d) => setFormData(p => ({ ...p, customEventType: d }))}
-                blockedDates={blockedDates}
-              />
-
-              {/* Alternate Dates */}
-              <div className="mt-6 p-5 bg-black/[0.02] border border-black/10">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-lg">📅</span>
+          {/* Planner Account CTA */}
+          {!isFromPlanner && (
+            member?.role === 'event_planner' ? (
+              <div className="flex items-center justify-between gap-6 mb-8 py-2">
+                <div className="flex items-center gap-5">
+                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
+                    <span className="text-lg font-black text-purple-600">{member?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '👋'}</span>
+                  </div>
                   <div>
-                    <h4 className="text-base font-bold uppercase tracking-widest text-black">Flexible? Add Backup Dates</h4>
-                    <p className="text-base text-black/50">Increase your chances — we&apos;ll try your preferred date first</p>
+                    <p className="text-black text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-600">{member?.name?.split(' ')[0]}</span></p>
+                    <p className="text-black/50 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <MiniDatePicker label="2nd Choice" value={altDate1} onChange={setAltDate1} />
-                  <MiniDatePicker label="3rd Choice" value={altDate2} onChange={setAltDate2} />
-                </div>
-                {(altDate1 || altDate2) && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-base text-black/50 uppercase tracking-widest font-bold">Priority:</span>
-                    <span className="text-base bg-[var(--color-accent)]/20 text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
-                    {altDate1 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                    {altDate2 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                  </div>
-                )}
-              </div>
-            </div>
-            {/* Pricing hint per type */}
-            {selectedType && (
-              <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-black/60 mb-4">
-                <span className="text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
-                {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
-                {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
-                {selectedType === "private" && "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
-                {selectedType === "custom" && "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
-              </div>
-            )}
-          </div>
-
-          {/* Your Scheduled Shows (Full Width Grid) */}
-          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-            {bookingSlots.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-black/15 bg-black/[0.01]">
-                <span className="text-4xl block mb-4">📅</span>
-                <h4 className="text-lg font-bold text-black uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
-                <p className="text-black/50 text-base max-w-md mx-auto">
-                  Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
-                </p>
+                <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
+                  My Dashboard →
+                </Link>
               </div>
             ) : (
-              <>
-                <div className="flex items-center justify-between border-b border-black/10 pb-4 mb-6">
-                  <div>
-                    <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-black">Your Scheduled Shows</h4>
-                    <p className="text-base text-black/50 mt-1 uppercase">Configure individual times and formats for each show below</p>
+              <div className="flex items-center justify-between gap-6 mb-8 py-2">
+                <div className="flex items-center gap-5">
+                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/25">
-                    {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
-                  </span>
+                  <div>
+                    <p className="text-black text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-600">Get Your Own Dashboard</span></p>
+                    <p className="text-black/50 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {bookingSlots.map((slot, index) => {
-                    const formattedDate = new Date(slot.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-                    return (
-                      <div 
-                        key={slot.id} 
-                        className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 p-6 relative group transition-all shadow-sm hover:shadow-md"
-                      >
-                        {/* Duplicate and Remove buttons */}
-                        <div className="absolute top-4 right-4 flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const newSlot = {
-                                ...slot,
-                                id: Math.random().toString(36).substring(2, 9),
-                              };
-                              setBookingSlots([...bookingSlots, newSlot]);
-                            }}
-                            className="text-black/50 hover:text-[var(--color-accent)] transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-black/10 hover:border-[var(--color-accent)]/25"
-                            title="Add another show on this date"
-                          >
-                            ➕ Add Another
-                          </button>
-                          <button 
-                            type="button" 
-                            onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                            className="text-black/50 hover:text-rose-600 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-black/10 hover:border-rose-500/25"
-                            title="Remove this show"
-                          >
-                            ✕ Remove
-                          </button>
-                        </div>
+                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
+                  Planner Portal →
+                </Link>
+              </div>
+            )
+          )}
 
-                        <div className="mb-4">
-                          <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
-                          <h5 className="text-base font-bold text-black tracking-wide">{formattedDate}</h5>
-                        </div>
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {isFromPlanner && (
+              <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </div>
+                <div>
+                  <p className="text-fuchsia-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
+                  <p className="text-white/40 text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+                </div>
+              </div>
+            )}
 
-                        <div className="space-y-3 mt-4 border-t border-black/10 pt-4">
-                          {/* Format */}
-                          <div>
-                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
-                            <div className="relative">
-                              <select 
-                                value={slot.eventType}
-                                onChange={(e) => {
-                                  const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
-                                  setBookingSlots(updated);
-                                }}
-                                className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
-                              >
-                                <option value="full_band" className="bg-white text-black">🎸 Full Band</option>
-                                <option value="unplugged" className="bg-white text-black">🎤 Unplugged</option>
-                                <option value="private" className="bg-white text-black">🎉 Private Event</option>
-                                <option value="custom" className="bg-white text-black">✨ Custom Booking</option>
-                              </select>
-                              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                              </div>
-                            </div>
-                            {slot.eventType === 'custom' && (
-                              <input 
-                                type="text"
-                                placeholder="Describe show type (e.g. Street Fest)..."
-                                value={slot.customEventType || ""}
-                                onChange={(e) => {
-                                  const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
-                                  setBookingSlots(updated);
-                                }}
-                                className="w-full mt-1.5 bg-black/[0.04] border border-[var(--color-accent)]/30 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                              />
-                            )}
+            {hasSavedForm && !isFromPlanner && (
+              <div className="p-5 bg-purple-600/10 border border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
+                <div className="flex items-center gap-3">
+                  <span className="text-xl shrink-0">📋</span>
+                  <div>
+                    <p className="text-white font-bold text-base">Re-fill with details from your last booking?</p>
+                    <p className="text-white/40 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleLoadLastForm}
+                  className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
+                >
+                  ⚡ Populate
+                </button>
+              </div>
+            )}
+
+            {/* Step 1: Event Schedule & Format */}
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
+                Event Schedule & Format
+              </h2>
+              <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 flex items-start gap-3">
+                <span className="text-xl mt-0.5">💡</span>
+                <div>
+                  <h4 className="text-sm font-bold text-black uppercase tracking-wider">Multi-Date Bookings Supported</h4>
+                  <p className="text-black/60 text-sm mt-1">You can select **multiple dates** on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
+                </div>
+              </div>
+              <div className="mb-6">
+                <CalendarPicker
+                  label="Primary Event Schedule"
+                  required
+                  slots={bookingSlots}
+                  onChangeSlots={setBookingSlots}
+                  startTime={formData.startTime}
+                  onStartTimeChange={(t) => setFormData(p => ({ ...p, startTime: t }))}
+                  endTime={formData.endTime}
+                  onEndTimeChange={(t) => setFormData(p => ({ ...p, endTime: t }))}
+                  selectedType={selectedType || undefined}
+                  onSelectType={(t) => setSelectedType(t)}
+                  customDetails={formData.customEventType}
+                  onCustomDetailsChange={(d) => setFormData(p => ({ ...p, customEventType: d }))}
+                  blockedDates={blockedDates}
+                />
+
+                {/* Alternate Dates */}
+                <div className="mt-6 p-5 bg-black/[0.02] border border-black/10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-lg">📅</span>
+                    <div>
+                      <h4 className="text-base font-bold uppercase tracking-widest text-black">Flexible? Add Backup Dates</h4>
+                      <p className="text-base text-black/50">Increase your chances — we&apos;ll try your preferred date first</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <MiniDatePicker label="2nd Choice" value={altDate1} onChange={setAltDate1} />
+                    <MiniDatePicker label="3rd Choice" value={altDate2} onChange={setAltDate2} />
+                  </div>
+                  {(altDate1 || altDate2) && (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="text-base text-black/50 uppercase tracking-widest font-bold">Priority:</span>
+                      <span className="text-base bg-[var(--color-accent)]/20  text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
+                      {altDate1 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                      {altDate2 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* Pricing hint per type */}
+              {selectedType && (
+                <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-black/60 mb-4">
+                  <span className=" text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
+                  {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
+                  {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
+                  {selectedType === "private" && "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
+                  {selectedType === "custom" && "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
+                </div>
+              )}
+            </div>
+
+            {/* Your Scheduled Shows (Full Width Grid) */}
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
+              {bookingSlots.length === 0 ? (
+                <div className="text-center py-12 border-2 border-dashed border-black/15 bg-black/[0.01]">
+                  <span className="text-4xl block mb-4">📅</span>
+                  <h4 className="text-lg font-bold text-black uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
+                  <p className="text-black/50 text-base max-w-md mx-auto">
+                    Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between border-b border-black/10 pb-4 mb-6">
+                    <div>
+                      <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-black">Your Scheduled Shows</h4>
+                      <p className="text-base text-black/50 mt-1 uppercase">Configure individual times and formats for each show below</p>
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/25">
+                      {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {bookingSlots.map((slot, index) => {
+                      const formattedDate = new Date(slot.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                      return (
+                        <div
+                          key={slot.id}
+                          className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 p-6 relative group transition-all shadow-sm hover:shadow-md"
+                        >
+                          {/* Duplicate and Remove buttons */}
+                          <div className="absolute top-4 right-4 flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newSlot = {
+                                  ...slot,
+                                  id: Math.random().toString(36).substring(2, 9),
+                                };
+                                setBookingSlots([...bookingSlots, newSlot]);
+                              }}
+                              className="text-black/50 hover: text-[var(--color-accent)] transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-black/10 hover:border-[var(--color-accent)]/25"
+                              title="Add another show on this date"
+                            >
+                              ➕ Add Another
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
+                              className="text-black/50 hover:text-rose-600 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-black/10 hover:border-rose-500/25"
+                              title="Remove this show"
+                            >
+                              ✕ Remove
+                            </button>
                           </div>
 
-                          {/* Times */}
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="mb-4">
+                            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
+                            <h5 className="text-base font-bold text-black tracking-wide">{formattedDate}</h5>
+                          </div>
+
+                          <div className="space-y-3 mt-4 border-t border-black/10 pt-4">
+                            {/* Format */}
                             <div>
-                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
+                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
                               <div className="relative">
-                                <select 
-                                  value={slot.startTime}
+                                <select
+                                  value={slot.eventType}
                                   onChange={(e) => {
-                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
                                   className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                 >
-                                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                    <option key={t} value={t} className="bg-white text-black">{t}</option>
-                                  ))}
+                                  <option value="full_band" className="bg-white text-black">🎸 Full Band</option>
+                                  <option value="unplugged" className="bg-white text-black">🎤 Unplugged</option>
+                                  <option value="private" className="bg-white text-black">🎉 Private Event</option>
+                                  <option value="custom" className="bg-white text-black">✨ Custom Booking</option>
                                 </select>
                                 <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </div>
                               </div>
-                            </div>
-                            <div>
-                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
-                              <div className="relative">
-                                <select 
-                                  value={slot.endTime}
+                              {slot.eventType === 'custom' && (
+                                <input
+                                  type="text"
+                                  placeholder="Describe show type (e.g. Street Fest)..."
+                                  value={slot.customEventType || ""}
                                   onChange={(e) => {
-                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
-                                >
-                                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
-                                    <option key={t} value={t} className="bg-white text-black">{t}</option>
-                                  ))}
-                                </select>
-                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
-                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </div>
-                              </div>
+                                  className="w-full mt-1.5 bg-black/[0.04] border border-[var(--color-accent)]/30 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                />
+                              )}
                             </div>
-                          </div>
-                        </div>
 
-                        {/* Separate Contact/Venue details toggle buttons & form fields */}
-                        <div className="mt-4 pt-4 border-t border-black/10">
-                          <div className="mb-3">
-                            <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</label>
-                            <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 border border-white/5">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = bookingSlots.map(s => s.id === slot.id ? { 
-                                    ...s, 
-                                    useSeparateInfo: false,
-                                    contactName: "",
-                                    contactEmail: "",
-                                    contactPhone: "",
-                                    venueName: "",
-                                    venueCity: "",
-                                    venueState: "",
-                                  } : s);
-                                  setBookingSlots(updated);
-                                }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
-                              >
-                                Share Main Info
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = bookingSlots.map(s => s.id === slot.id ? { 
-                                    ...s, 
-                                    useSeparateInfo: true,
-                                    contactName: s.contactName || formData.name || "",
-                                    contactEmail: s.contactEmail || formData.email || "",
-                                    contactPhone: s.contactPhone || formData.phone || "",
-                                    venueName: s.venueName || formData.venueName || "",
-                                    venueCity: s.venueCity || formData.venueCity || "",
-                                    venueState: s.venueState || formData.venueState || "",
-                                  } : s);
-                                  setBookingSlots(updated);
-                                }}
-                                className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
-                              >
-                                Use Separate Info
-                              </button>
-                            </div>
-                          </div>
-                          
-                          {!slot.useSeparateInfo ? (
-                            <div className="p-3.5 bg-white/[0.02] border border-white/5 text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
-                              <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
-                                <span className="text-white font-medium text-right break-all">
-                                  {formData.name || <span className="text-white/20 italic">(empty)</span>}
-                                  {formData.email && <span className="block text-[var(--font-size-4xs)] text-white/40 font-mono mt-0.5">{formData.email}</span>}
-                                </span>
-                              </div>
-                              <div className="flex justify-between items-start gap-2">
-                                <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
-                                <span className="text-white font-medium text-right break-all">
-                                  {formData.venueName || <span className="text-white/20 italic">(empty)</span>}
-                                  {(formData.venueCity || formData.venueState) && (
-                                    <span className="block text-[var(--font-size-4xs)] text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
-                                  )}
-                                </span>
-                              </div>
-                              <p className="text-[var(--font-size-4xs)] text-[var(--color-accent)] font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/5 text-right flex items-center justify-end gap-1">
-                                <span>🔗 Link Active: Shares contact & venue data</span>
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5">
-                              <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
-                                <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
-                                <div className="flex gap-2">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { 
-                                        ...s,
-                                        contactName: formData.name,
-                                        contactEmail: formData.email,
-                                        contactPhone: formData.phone,
-                                        venueName: formData.venueName,
-                                        venueCity: formData.venueCity,
-                                        venueState: formData.venueState,
-                                      } : s);
+                            {/* Times */}
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
+                                <div className="relative">
+                                  <select
+                                    value={slot.startTime}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="text-[var(--font-size-4xs)] font-bold text-[var(--color-accent)] hover:underline cursor-pointer"
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
                                   >
-                                    ⚡ Copy Main
-                                  </button>
-                                  {hasSavedForm && (
+                                    {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
+                                      <option key={t} value={t} className="bg-white text-black">{t}</option>
+                                    ))}
+                                  </select>
+                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
+                                <div className="relative">
+                                  <select
+                                    value={slot.endTime}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                  >
+                                    {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
+                                      <option key={t} value={t} className="bg-white text-black">{t}</option>
+                                    ))}
+                                  </select>
+                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Separate Contact/Venue details toggle buttons & form fields */}
+                          <div className="mt-4 pt-4 border-t border-black/10">
+                            <div className="mb-3">
+                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</label>
+                              <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 border border-white/5">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? {
+                                      ...s,
+                                      useSeparateInfo: false,
+                                      contactName: "",
+                                      contactEmail: "",
+                                      contactPhone: "",
+                                      venueName: "",
+                                      venueCity: "",
+                                      venueState: "",
+                                    } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                >
+                                  Share Main Info
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? {
+                                      ...s,
+                                      useSeparateInfo: true,
+                                      contactName: s.contactName || formData.name || "",
+                                      contactEmail: s.contactEmail || formData.email || "",
+                                      contactPhone: s.contactPhone || formData.phone || "",
+                                      venueName: s.venueName || formData.venueName || "",
+                                      venueCity: s.venueCity || formData.venueCity || "",
+                                      venueState: s.venueState || formData.venueState || "",
+                                    } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                >
+                                  Use Separate Info
+                                </button>
+                              </div>
+                            </div>
+
+                            {!slot.useSeparateInfo ? (
+                              <div className="p-3.5 bg-white/[0.02] border border-white/5 text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                                <div className="flex justify-between items-start gap-2">
+                                  <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
+                                  <span className="text-white font-medium text-right break-all">
+                                    {formData.name || <span className="text-white/20 italic">(empty)</span>}
+                                    {formData.email && <span className="block text-[var(--font-size-4xs)] text-white/40 font-mono mt-0.5">{formData.email}</span>}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between items-start gap-2">
+                                  <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
+                                  <span className="text-white font-medium text-right break-all">
+                                    {formData.venueName || <span className="text-white/20 italic">(empty)</span>}
+                                    {(formData.venueCity || formData.venueState) && (
+                                      <span className="block text-[var(--font-size-4xs)] text-white/40 mt-0.5">{formData.venueCity || '—'}, {formData.venueState || '—'}</span>
+                                    )}
+                                  </span>
+                                </div>
+                                <p className="text-[var(--font-size-4xs)]  text-[var(--color-accent)] font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/5 text-right flex items-center justify-end gap-1">
+                                  <span>🔗 Link Active: Shares contact & venue data</span>
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5">
+                                <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
+                                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
+                                  <div className="flex gap-2">
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        try {
-                                          const saved = localStorage.getItem('7h_planner_last_form');
-                                          if (saved) {
-                                            const parsed = JSON.parse(saved);
-                                            const updated = bookingSlots.map(s => s.id === slot.id ? { 
-                                              ...s,
-                                              contactName: parsed.name || s.contactName,
-                                              contactEmail: parsed.email || s.contactEmail,
-                                              contactPhone: parsed.phone || s.contactPhone,
-                                              venueName: parsed.venueName || s.venueName,
-                                              venueCity: parsed.venueCity || s.venueCity,
-                                              venueState: parsed.venueState || s.venueState,
-                                            } : s);
-                                            setBookingSlots(updated);
-                                          }
-                                        } catch {}
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? {
+                                          ...s,
+                                          contactName: formData.name,
+                                          contactEmail: formData.email,
+                                          contactPhone: formData.phone,
+                                          venueName: formData.venueName,
+                                          venueCity: formData.venueCity,
+                                          venueState: formData.venueState,
+                                        } : s);
+                                        setBookingSlots(updated);
                                       }}
-                                      className="text-[var(--font-size-4xs)] font-bold text-fuchsia-400 hover:underline cursor-pointer"
+                                      className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:underline cursor-pointer"
                                     >
-                                      ⚡ Load Last
+                                      ⚡ Copy Main
                                     </button>
-                                  )}
-                                </div>
-                              </div>
-                              
-                              <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
-                                  <input 
-                                    type="text"
-                                    placeholder="e.g. Jane Doe"
-                                    value={slot.contactName || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
-                                  <input 
-                                    type="email"
-                                    placeholder="e.g. jane@email.com"
-                                    value={slot.contactEmail || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                  />
-                                </div>
-                              </div>
-                              
-                              <div>
-                                <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
-                                <input 
-                                  type="text"
-                                  placeholder="e.g. House of Blues"
-                                  value={slot.venueName || ""}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
-                                    setBookingSlots(updated);
-                                  }}
-                                  className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                />
-                              </div>
-                              
-                              <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
-                                  <input 
-                                    type="text"
-                                    placeholder="Chicago"
-                                    value={slot.venueCity || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
-                                  <input 
-                                    type="text"
-                                    placeholder="IL"
-                                    value={slot.venueState || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="mt-4 pt-4 border-t border-black/10">
-                          <button
-                            type="button"
-                            onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                            className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] hover:text-purple-600 transition-colors"
-                          >
-                            <span>📢 Tour Page Details {expandedMetadata[slot.id] ? "▼" : "▶"}</span>
-                            <span className="text-[var(--font-size-4xs)] text-black/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
-                          </button>
-                          
-                          {expandedMetadata[slot.id] && (
-                            <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
-                              {/* Age Restriction & Doors Time */}
-                              <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
-                                  <div className="relative">
-                                    <select 
-                                      value={slot.ageRestriction || "all_ages"}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
-                                        setBookingSlots(updated);
-                                      }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
-                                    >
-                                      <option value="all_ages" className="bg-white text-black">All Ages</option>
-                                      <option value="21_plus" className="bg-white text-black">21 & Over</option>
-                                      <option value="18_plus" className="bg-white text-black">18 & Over</option>
-                                    </select>
-                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
-                                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                    </div>
+                                    {hasSavedForm && (
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          try {
+                                            const saved = localStorage.getItem('7h_planner_last_form');
+                                            if (saved) {
+                                              const parsed = JSON.parse(saved);
+                                              const updated = bookingSlots.map(s => s.id === slot.id ? {
+                                                ...s,
+                                                contactName: parsed.name || s.contactName,
+                                                contactEmail: parsed.email || s.contactEmail,
+                                                contactPhone: parsed.phone || s.contactPhone,
+                                                venueName: parsed.venueName || s.venueName,
+                                                venueCity: parsed.venueCity || s.venueCity,
+                                                venueState: parsed.venueState || s.venueState,
+                                              } : s);
+                                              setBookingSlots(updated);
+                                            }
+                                          } catch { }
+                                        }}
+                                        className="text-[var(--font-size-4xs)] font-bold text-fuchsia-400 hover:underline cursor-pointer"
+                                      >
+                                        ⚡ Load Last
+                                      </button>
+                                    )}
                                   </div>
                                 </div>
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
-                                  <div className="relative">
-                                    <select 
-                                      value={slot.doorsTime || ""}
+
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
+                                    <input
+                                      type="text"
+                                      placeholder="e.g. Jane Doe"
+                                      value={slot.contactName || ""}
                                       onChange={(e) => {
-                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
-                                    >
-                                      <option value="" className="bg-white text-black">Same as Start</option>
-                                      {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                        <option key={t} value={t} className="bg-white text-black">{t}</option>
-                                      ))}
-                                    </select>
-                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
-                                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                    </div>
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
+                                    <input
+                                      type="email"
+                                      placeholder="e.g. jane@email.com"
+                                      value={slot.contactEmail || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
+                                  <input
+                                    type="text"
+                                    placeholder="e.g. House of Blues"
+                                    value={slot.venueName || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
+                                      setBookingSlots(updated);
+                                    }}
+                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                  />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
+                                    <input
+                                      type="text"
+                                      placeholder="Chicago"
+                                      value={slot.venueCity || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
+                                    <input
+                                      type="text"
+                                      placeholder="IL"
+                                      value={slot.venueState || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    />
                                   </div>
                                 </div>
                               </div>
+                            )}
+                          </div>
 
-                              {/* Ticket Price & Link */}
-                              <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
-                                  <input 
-                                    type="text"
-                                    placeholder="e.g. Free, $15..."
-                                    value={slot.cover || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                  />
+                          <div className="mt-4 pt-4 border-t border-black/10">
+                            <button
+                              type="button"
+                              onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
+                              className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] hover:text-purple-600 transition-colors"
+                            >
+                              <span>📢 Tour Page Details {expandedMetadata[slot.id] ? "▼" : "▶"}</span>
+                              <span className="text-[var(--font-size-4xs)] text-black/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
+                            </button>
+
+                            {expandedMetadata[slot.id] && (
+                              <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
+                                {/* Age Restriction & Doors Time */}
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
+                                    <div className="relative">
+                                      <select
+                                        value={slot.ageRestriction || "all_ages"}
+                                        onChange={(e) => {
+                                          const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
+                                          setBookingSlots(updated);
+                                        }}
+                                        className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                      >
+                                        <option value="all_ages" className="bg-white text-black">All Ages</option>
+                                        <option value="21_plus" className="bg-white text-black">21 & Over</option>
+                                        <option value="18_plus" className="bg-white text-black">18 & Over</option>
+                                      </select>
+                                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
+                                    <div className="relative">
+                                      <select
+                                        value={slot.doorsTime || ""}
+                                        onChange={(e) => {
+                                          const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
+                                          setBookingSlots(updated);
+                                        }}
+                                        className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                      >
+                                        <option value="" className="bg-white text-black">Same as Start</option>
+                                        {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
+                                          <option key={t} value={t} className="bg-white text-black">{t}</option>
+                                        ))}
+                                      </select>
+                                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
-                                  <input 
-                                    type="text"
-                                    placeholder="https://..."
-                                    value={slot.ticketLink || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                  />
+
+                                {/* Ticket Price & Link */}
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
+                                    <input
+                                      type="text"
+                                      placeholder="e.g. Free, $15..."
+                                      value={slot.cover || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
+                                    <input
+                                      type="text"
+                                      placeholder="https://..."
+                                      value={slot.ticketLink || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Show Type Checkbox & Notes */}
+                                <div className="space-y-2">
+                                  <label className="flex items-center gap-2 text-xs text-black/70 cursor-pointer select-none">
+                                    <input
+                                      type="checkbox"
+                                      checked={slot.isFestival || false}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, isFestival: e.target.checked } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="accent-[var(--color-accent)] cursor-pointer"
+                                    />
+                                    <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-black">This is a Festival / Fair show</span>
+                                  </label>
+
+                                  <div>
+                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Public Notes (shown to fans)</label>
+                                    <textarea
+                                      placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
+                                      value={slot.notes || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, notes: e.target.value } : s);
+                                        setBookingSlots(updated);
+                                      }}
+                                      rows={2}
+                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40 resize-none"
+                                    />
+                                  </div>
                                 </div>
                               </div>
-
-                              {/* Show Type Checkbox & Notes */}
-                              <div className="space-y-2">
-                                <label className="flex items-center gap-2 text-xs text-black/70 cursor-pointer select-none">
-                                  <input 
-                                    type="checkbox"
-                                    checked={slot.isFestival || false}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, isFestival: e.target.checked } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="accent-[var(--color-accent)] cursor-pointer"
-                                  />
-                                  <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-black">This is a Festival / Fair show</span>
-                                </label>
-                                
-                                <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Public Notes (shown to fans)</label>
-                                  <textarea 
-                                    placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
-                                    value={slot.notes || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, notes: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    rows={2}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40 resize-none"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* Step 2: Contact Information */}
-          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
-            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">2</span>
-              Contact Information
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
-              <InputField label="Organization" name="organization" value={formData.organization} onChange={handleChange} placeholder="Venue or company name" />
-              <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@email.com" />
-              <InputField label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" />
-            </div>
-          </div>
-
-          {/* Step 3: Venue Details */}
-          <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
-            <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">3</span>
-              Venue Details
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputField label="Load-in / Setup Time" name="loadInTime" value={formData.loadInTime} onChange={handleChange} placeholder="e.g. 3:00 PM, 2 hours before" />
-              <InputField label="Venue Name" name="venueName" value={formData.venueName} onChange={handleChange} placeholder="Venue name" />
-              <InputField label="City" name="venueCity" value={formData.venueCity} onChange={handleChange} required placeholder="Chicago" />
-              <InputField label="State" name="venueState" value={formData.venueState} onChange={handleChange} required placeholder="IL" />
-            </div>
-          </div>
-
-          {/* Steps 4-6 and Sidebar 2-Column Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
-            <div className="flex flex-col gap-8">
-
-            {/* Step 4: Technical & Logistics */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">4</span>
-                Technical & Logistics
-              </h2>
-            <div className="flex flex-col gap-8">
-              <RadioPillField label="Indoor / Outdoor" name="indoorOutdoor" value={formData.indoorOutdoor} onChange={handleChange} options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]} />
-              <RadioPillField label="Sound System Available?" name="soundSystem" value={formData.soundSystem} onChange={handleChange} options={["Yes — full PA system", "Partial — need supplemental", "No — band needs to provide", "Not sure"]} />
-              <RadioPillField label="Stage Available?" name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
-              <RadioPillField label="Backline Provided?" name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-black/10 pt-8">
-                <div>
-                   <InputField label="Expected Attendance" name="expectedAttendance" value={formData.expectedAttendance} onChange={handleChange} placeholder="~200 people" />
-                </div>
-              </div>
-            </div>
-            </div>
-
-            {/* Step 5: Additional Options */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">5</span>
-                Production & Extras
-              </h2>
-              <p className="text-black/50 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
-                  const isActive = addOns.includes(option.id);
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                      className={`w-full text-left p-4  border transition-all cursor-pointer flex items-start gap-3 group
-                        ${isActive
-                          ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
-                          : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
-                        }`}
-                    >
-                      <span className="text-xl mt-0.5">{option.icon}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className={`text-base font-bold block ${isActive ? 'text-[var(--color-accent)]' : 'text-black/80'}`}>{option.label}</span>
-                          {isActive && (
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                          )}
-                        </div>
-                        <span className="text-base text-black/50 block leading-snug">{option.desc}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-              {addOns.length > 0 && (
-                <div className="mt-5 pt-4 border-t border-black/10 flex items-center gap-3 flex-wrap">
-                  <span className="text-base font-bold uppercase tracking-widest text-black/50">Selected:</span>
-                  {addOns.map(id => (
-                    <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10 text-[var(--color-accent)] text-base font-bold rounded-full border border-[var(--color-accent)]/20">
-                      {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                      <button type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-[var(--color-accent)]/50 hover:text-[var(--color-accent)] cursor-pointer">×</button>
-                    </span>
-                  ))}
-                </div>
+                      );
+                    })}
+                  </div>
+                </>
               )}
             </div>
 
-            {/* Step 6: Notes & Questions */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">6</span>
-                Notes & Questions
+            {/* Step 2: Contact Information */}
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">2</span>
+                Contact Information
               </h2>
-              <p className="text-black/50 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
-              <textarea
-                name="details"
-                value={formData.details}
-                onChange={handleChange}
-                rows={5}
-                placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 focus:border-[var(--color-accent)] outline-none transition-all resize-none placeholder:text-black/40"
-              />
-              {formData.details && (
-                <div className="mt-3 flex items-center gap-2 text-base text-emerald-700">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
-                </div>
-              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
+                <InputField label="Organization" name="organization" value={formData.organization} onChange={handleChange} placeholder="Venue or company name" />
+                <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@email.com" />
+                <InputField label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" />
+              </div>
             </div>
 
-            {/* Honeypot */}
-            <div className="hidden" aria-hidden="true">
-              <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+            {/* Step 3: Venue Details */}
+            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">3</span>
+                Venue Details
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <InputField label="Load-in / Setup Time" name="loadInTime" value={formData.loadInTime} onChange={handleChange} placeholder="e.g. 3:00 PM, 2 hours before" />
+                <InputField label="Venue Name" name="venueName" value={formData.venueName} onChange={handleChange} placeholder="Venue name" />
+                <InputField label="City" name="venueCity" value={formData.venueCity} onChange={handleChange} required placeholder="Chicago" />
+                <InputField label="State" name="venueState" value={formData.venueState} onChange={handleChange} required placeholder="IL" />
+              </div>
             </div>
 
-          </div>
+            {/* Steps 4-6 and Sidebar 2-Column Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
+              <div className="flex flex-col gap-8">
 
+                {/* Step 4: Technical & Logistics */}
+                <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
+                    <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">4</span>
+                    Technical & Logistics
+                  </h2>
+                  <div className="flex flex-col gap-8">
+                    <RadioPillField label="Indoor / Outdoor" name="indoorOutdoor" value={formData.indoorOutdoor} onChange={handleChange} options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]} />
+                    <RadioPillField label="Sound System Available?" name="soundSystem" value={formData.soundSystem} onChange={handleChange} options={["Yes — full PA system", "Partial — need supplemental", "No — band needs to provide", "Not sure"]} />
+                    <RadioPillField label="Stage Available?" name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
+                    <RadioPillField label="Backline Provided?" name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
 
-
-          {/* Right Column: Sticky Summary Sidebar */}
-          <div>
-            <div className="sticky top-32">
-            <div className="bg-white border border-black/15 rounded-3xl p-6 shadow-xl">
-               <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-black/70 mb-6 pb-4 border-b border-black/10">Booking Summary</h3>
-               
-               <div className="flex flex-col gap-4 mb-8">
-                  <div className="flex justify-between items-start">
-                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Date</span>
-                     <span className="text-base font-bold text-black text-right">
-                       {bookingSlots.length === 1 ? (
-                         new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric'})
-                       ) : bookingSlots.length > 1 ? (
-                         `${bookingSlots.length} Shows Scheduled`
-                       ) : (
-                         <span className="text-black/30">—</span>
-                       )}
-                     </span>
-                  </div>
-                  <div className="flex justify-between items-start">
-                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Time</span>
-                     <span className="text-base font-bold text-black text-right">
-                       {bookingSlots.length === 1 ? (
-                         `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
-                       ) : bookingSlots.length > 1 ? (
-                         "Varies by show"
-                       ) : (
-                         <span className="text-black/30">—</span>
-                       )}
-                     </span>
-                  </div>
-                  <div className="flex justify-between items-start">
-                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Format</span>
-                     <span className="text-base font-bold text-[var(--color-accent)] text-right">
-                       {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-[var(--color-accent)]/30">—</span>}
-                     </span>
-                  </div>
-                  <div className="flex justify-between items-start pt-4 border-t border-black/10">
-                     <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Venue</span>
-                     <span className="text-base font-bold text-black text-right break-words max-w-[150px]">
-                       {formData.venueName ? formData.venueName : <span className="text-black/30">—</span>}
-                       {formData.venueCity && <span className="block text-base text-black/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
-                     </span>
-                  </div>
-                  {addOns.length > 0 && (
-                    <div className="flex justify-between items-start pt-4 border-t border-black/10">
-                      <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Add-Ons</span>
-                      <div className="text-right">
-                        <span className="text-base font-bold text-[var(--color-accent)]">{addOns.length} selected</span>
-                        <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
-                          {addOns.slice(0, 3).map(id => (
-                            <span key={id} className="text-lg bg-[var(--color-accent)]/10 text-[var(--color-accent)] px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
-                          ))}
-                          {addOns.length > 3 && <span className="text-lg text-black/40 font-bold">+{addOns.length - 3} more</span>}
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-black/10 pt-8">
+                      <div>
+                        <InputField label="Expected Attendance" name="expectedAttendance" value={formData.expectedAttendance} onChange={handleChange} placeholder="~200 people" />
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Step 5: Additional Options */}
+                <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-2 flex items-center gap-3">
+                    <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">5</span>
+                    Production & Extras
+                  </h2>
+                  <p className="text-black/50 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
+                      const isActive = addOns.includes(option.id);
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
+                          className={`w-full text-left p-4  border transition-all cursor-pointer flex items-start gap-3 group
+                        ${isActive
+                              ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
+                              : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
+                            }`}
+                        >
+                          <span className="text-xl mt-0.5">{option.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className={`text-base font-bold block ${isActive ? ' text-[var(--color-accent)]' : 'text-black/80'}`}>{option.label}</span>
+                              {isActive && (
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                              )}
+                            </div>
+                            <span className="text-base text-black/50 block leading-snug">{option.desc}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {addOns.length > 0 && (
+                    <div className="mt-5 pt-4 border-t border-black/10 flex items-center gap-3 flex-wrap">
+                      <span className="text-base font-bold uppercase tracking-widest text-black/50">Selected:</span>
+                      {addOns.map(id => (
+                        <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10  text-[var(--color-accent)] text-base font-bold rounded-full border border-[var(--color-accent)]/20">
+                          {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                          <button type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5  text-[var(--color-accent)]/50 hover: text-[var(--color-accent)] cursor-pointer">×</button>
+                        </span>
+                      ))}
+                    </div>
                   )}
-               </div>
+                </div>
+
+                {/* Step 6: Notes & Questions */}
+                <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-2 flex items-center gap-3">
+                    <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">6</span>
+                    Notes & Questions
+                  </h2>
+                  <p className="text-black/50 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+                  <textarea
+                    name="details"
+                    value={formData.details}
+                    onChange={handleChange}
+                    rows={5}
+                    placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
+                    className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 focus:border-[var(--color-accent)] outline-none transition-all resize-none placeholder:text-black/40"
+                  />
+                  {formData.details && (
+                    <div className="mt-3 flex items-center gap-2 text-base text-emerald-700">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                      <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Honeypot */}
+                <div className="hidden" aria-hidden="true">
+                  <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+                </div>
+
+              </div>
 
 
 
-               {/* Validation Errors */}
-               {validationErrors.length > 0 && (
-                 <div className="bg-red-500/10 border border-red-500/30 p-4 mb-4">
-                   <div className="flex items-center gap-2 mb-2">
-                     <span className="text-red-600 text-sm">⚠</span>
-                     <span className="text-red-600 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
-                   </div>
-                   <ul className="space-y-1">
-                     {validationErrors.map((err, i) => (
-                       <li key={i} className="text-red-600 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500">{err}</li>
-                     ))}
-                   </ul>
-                 </div>
-               )}
+              {/* Right Column: Sticky Summary Sidebar */}
+              <div>
+                <div className="sticky top-32">
+                  <div className="bg-white border border-black/15 rounded-3xl p-6 shadow-xl">
+                    <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-black/70 mb-6 pb-4 border-b border-black/10">Booking Summary</h3>
 
-               <button 
-                type="submit" 
-                disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-all flex items-center justify-center gap-2"
-               >
-                 {submitting ? (
-                   <>
-                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                     Submitting...
-                   </>
-                 ) : (
-                   <>
-                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                     Submit Booking Request
-                   </>
-                 )}
-               </button>
-               <p className="text-base text-black/50 text-center mt-4">
-                 By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-black transition-colors">Terms</a>.
-               </p>
+                    <div className="flex flex-col gap-4 mb-8">
+                      <div className="flex justify-between items-start">
+                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Date</span>
+                        <span className="text-base font-bold text-black text-right">
+                          {bookingSlots.length === 1 ? (
+                            new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })
+                          ) : bookingSlots.length > 1 ? (
+                            `${bookingSlots.length} Shows Scheduled`
+                          ) : (
+                            <span className="text-black/30">—</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-start">
+                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Time</span>
+                        <span className="text-base font-bold text-black text-right">
+                          {bookingSlots.length === 1 ? (
+                            `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
+                          ) : bookingSlots.length > 1 ? (
+                            "Varies by show"
+                          ) : (
+                            <span className="text-black/30">—</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-start">
+                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Format</span>
+                        <span className="text-base font-bold  text-[var(--color-accent)] text-right">
+                          {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className=" text-[var(--color-accent)]/30">—</span>}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-start pt-4 border-t border-black/10">
+                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Venue</span>
+                        <span className="text-base font-bold text-black text-right break-words max-w-[150px]">
+                          {formData.venueName ? formData.venueName : <span className="text-black/30">—</span>}
+                          {formData.venueCity && <span className="block text-base text-black/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
+                        </span>
+                      </div>
+                      {addOns.length > 0 && (
+                        <div className="flex justify-between items-start pt-4 border-t border-black/10">
+                          <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Add-Ons</span>
+                          <div className="text-right">
+                            <span className="text-base font-bold  text-[var(--color-accent)]">{addOns.length} selected</span>
+                            <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
+                              {addOns.slice(0, 3).map(id => (
+                                <span key={id} className="text-lg bg-[var(--color-accent)]/10  text-[var(--color-accent)] px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+                              ))}
+                              {addOns.length > 3 && <span className="text-lg text-black/40 font-bold">+{addOns.length - 3} more</span>}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+
+
+                    {/* Validation Errors */}
+                    {validationErrors.length > 0 && (
+                      <div className="bg-red-500/10 border border-red-500/30 p-4 mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-red-600 text-sm">⚠</span>
+                          <span className="text-red-600 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
+                        </div>
+                        <ul className="space-y-1">
+                          {validationErrors.map((err, i) => (
+                            <li key={i} className="text-red-600 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500">{err}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
+                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-all flex items-center justify-center gap-2"
+                    >
+                      {submitting ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                          Submit Booking Request
+                        </>
+                      )}
+                    </button>
+                    <p className="text-base text-black/50 text-center mt-4">
+                      By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-black transition-colors">Terms</a>.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            </div>
-          </div>
+          </form>
+
+
+
         </div>
-      </form>
-
-
-
-      </div>
       </section>
     </div>
   );

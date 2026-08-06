@@ -42,10 +42,10 @@ interface Show {
 }
 
 const tierColors: Record<string, string> = {
-  Bronze: "border-purple-700/40 text-purple-400",
+  Bronze: "border-purple-700/40  text-[var(--color-accent)]",
   Silver: "border-slate-400/40 text-slate-300",
   Gold: "border-yellow-500/40 text-yellow-400",
-  Platinum: "border-purple-500/40 text-purple-400",
+  Platinum: "border-purple-500/40  text-[var(--color-accent)]",
 };
 const tierGlow: Record<string, string> = {
   Gold: "shadow-[0_0_12px_rgba(234,179,8,0.2)]",
@@ -145,9 +145,11 @@ export default function ShowPageClient({
     ? `https://www.google.com/maps/search/?api=1&query=${show.latitude},${show.longitude}`
     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue_name} ${show.city} ${show.state}`)}`;
 
-  const shareUrl = typeof window !== "undefined"
-    ? window.location.href
-    : `https://7thheavenband.com/shows/${show.id}`;
+  // shareUrl: use a safe default on SSR, update to real URL after hydration
+  const [shareUrl, setShareUrl] = useState(`https://7thheavenband.com/shows/${show.id}`);
+  useEffect(() => {
+    setShareUrl(window.location.href);
+  }, []);
 
   // ── Live feed polling ────────────────────────────────────────────
   const checkLiveFeeds = useCallback(async () => {
@@ -161,7 +163,7 @@ export default function ShowPageClient({
         const res = await fetch("/api/live-rooms");
         const data = await res.json();
         if (data.rooms?.length) data.rooms.forEach((r: { name: string }) => activeLkRooms.add(r.name));
-      } catch {}
+      } catch { }
 
       // Check Supabase live_streams
       try {
@@ -183,7 +185,7 @@ export default function ShowPageClient({
             }
           }
         }
-      } catch {}
+      } catch { }
 
       // Fallback: raw LiveKit rooms not matched in Supabase
       activeLkRooms.forEach((roomName) => {
@@ -195,7 +197,7 @@ export default function ShowPageClient({
       });
 
       setLiveFeeds(feeds);
-    } catch {}
+    } catch { }
   }, [supabase]);
 
   useEffect(() => {
@@ -203,12 +205,12 @@ export default function ShowPageClient({
     const interval = setInterval(() => {
       if (document.visibilityState === 'visible') checkLiveFeeds();
     }, 60000);
-    
+
     const handleVisibility = () => {
       if (document.visibilityState === 'visible') checkLiveFeeds();
     };
     document.addEventListener('visibilitychange', handleVisibility);
-    
+
     return () => {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibility);
@@ -256,13 +258,12 @@ export default function ShowPageClient({
     return (
       <div
         key={a.id}
-        className={`flex items-center gap-4 p-4 border transition-all ${
-          a.status === "there"
-            ? "border-emerald-500/30 bg-emerald-500/[0.03]"
-            : isMe
+        className={`flex items-center gap-4 p-4 border transition-all ${a.status === "there"
+          ? "border-emerald-500/30 bg-emerald-500/[0.03]"
+          : isMe
             ? "border-purple-500/40 bg-purple-500/5"
             : `border-white/[0.06] bg-white/[0.02] hover:border-white/10 ${tierGlow[tier] || ""}`
-        }`}
+          }`}
       >
         {/* Avatar */}
         <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10 text-white/60"} bg-white/[0.04]`}>
@@ -275,14 +276,14 @@ export default function ShowPageClient({
         <div className="flex-1 min-w-0">
           <p className="font-bold text-sm text-white truncate">
             {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
-            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase tracking-widest text-purple-400 font-black">You</span>}
+            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] uppercase tracking-widest  text-[var(--color-accent)] font-black">You</span>}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
             {!isAnon && tier !== "Bronze" && (
               <span className={`text-[var(--font-size-2xs)] font-black uppercase tracking-widest ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}>{tier}</span>
             )}
             {a.status === "there" ? (
-              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-emerald-400">✓ Here Now</span>
+              <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">✓ Here Now</span>
             ) : (
               <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white/25">Going</span>
             )}
@@ -342,7 +343,7 @@ export default function ShowPageClient({
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> Happening Now
                   </span>
                 ) : (
-                  <span className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                  <span className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
                 )}
               </div>
 
@@ -363,7 +364,7 @@ export default function ShowPageClient({
                   </span>
                 )}
                 {show.all_ages !== null && (
-                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-xs font-bold uppercase tracking-widest ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-purple-600/10 border-purple-500/30 text-purple-300"}`}>
+                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border text-xs font-bold uppercase tracking-widest ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]" : "bg-purple-600/10 border-purple-500/30 text-purple-300"}`}>
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
                 )}
@@ -383,11 +384,10 @@ export default function ShowPageClient({
                     onClick={handleRsvp}
                     disabled={rsvpLoading}
                     id="rsvp-btn"
-                    className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer ${
-                      isGoing
-                        ? "bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
-                        : "bg-[var(--color-accent)] text-white hover:brightness-110 shadow-[0_0_30px_rgba(255,10,61,0.4)]"
-                    }`}
+                    className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer ${isGoing
+                      ? "bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
+                      : "bg-[var(--color-accent)] text-white hover:brightness-110 shadow-[0_0_30px_rgba(255,10,61,0.4)]"
+                      }`}
                   >
                     {rsvpLoading ? "…" : isGoing ? "✓ Going (tap to cancel)" : "🎸 I'm Going"}
                   </button>
@@ -397,11 +397,10 @@ export default function ShowPageClient({
                     <button
                       type="button"
                       onClick={() => setWantAnonymous(!wantAnonymous)}
-                      className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-all cursor-pointer ${
-                        wantAnonymous
-                          ? "border-white/20 bg-white/5 text-white/60"
-                          : "border-white/[0.06] text-white/30 hover:text-white/50"
-                      }`}
+                      className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-all cursor-pointer ${wantAnonymous
+                        ? "border-white/20 bg-white/5 text-white/60"
+                        : "border-white/[0.06] text-white/30 hover:text-white/50"
+                        }`}
                     >
                       <span className={`w-7 h-4 rounded-full relative transition-colors shrink-0 ${wantAnonymous ? "bg-white/30" : "bg-white/10"}`}>
                         <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${wantAnonymous ? "left-[14px]" : "left-0.5"}`} />
@@ -433,7 +432,7 @@ export default function ShowPageClient({
               <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-full blur-[40px] pointer-events-none" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[var(--font-size-2xs)] font-black text-purple-400 uppercase tracking-widest mb-4">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[var(--font-size-2xs)] font-black  text-[var(--color-accent)] uppercase tracking-widest mb-4">
                     Missed this show?
                   </span>
                   <h3 className="text-xl font-black text-white uppercase tracking-wide mb-2">Notify Me Next Time</h3>
@@ -443,7 +442,7 @@ export default function ShowPageClient({
                 </div>
                 <div>
                   {notifySuccess ? (
-                    <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-center">
+                    <div className="p-4 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-center">
                       <p className="text-emerald-400 font-bold text-sm">✓ Successfully subscribed!</p>
                       <p className="text-white/40 text-xs mt-1">We will alert you when new dates are announced.</p>
                     </div>
@@ -487,6 +486,7 @@ export default function ShowPageClient({
                     title="7th Heaven Live Performance Video"
                     className="w-full h-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
                     allowFullScreen
                   />
                 </div>
@@ -509,8 +509,8 @@ export default function ShowPageClient({
                 <>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
-                    <p className="text-xs uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
-                    <p className="text-3xl font-extrabold text-emerald-400">{thereCount}</p>
+                    <p className="text-xs uppercase tracking-widest text-[var(--color-accent)]/60 font-bold mb-1">Here Now</p>
+                    <p className="text-3xl font-extrabold text-[var(--color-accent)]">{thereCount}</p>
                   </div>
                 </>
               )}
@@ -520,7 +520,7 @@ export default function ShowPageClient({
             </div>
             <div className="flex items-center gap-3">
               {!isLoggedIn && (
-                <span className="text-xs font-bold uppercase tracking-widest text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">
+                <span className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">
                   Login to RSVP
                 </span>
               )}
@@ -541,9 +541,8 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                        goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
-                      }`}
+                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
+                        }`}
                     >
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
                     </button>

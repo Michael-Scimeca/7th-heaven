@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, Suspense } from "react";
+import Link from "next/link";
 
 function CruiseVerifyContent() {
   const searchParams = useSearchParams();
@@ -530,7 +531,7 @@ function CruiseVerifyContent() {
                 <div className="divider" />
 
                 {/* Back link */}
-                <a href="/cruise" className="back-link">← Back to Cruise Page</a>
+                <Link href="/cruise" className="back-link">← Back to Cruise Page</Link>
 
                 {/* Brand footer */}
                 <div className="cruise-brand" style={{ marginTop: 14 }}>

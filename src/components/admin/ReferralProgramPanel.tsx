@@ -141,7 +141,7 @@ export default function ReferralProgramPanel() {
           </div>
           <div className="flex items-center gap-3">
             {enabled && (
-              <span className="text-xs font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
+              <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 bg-emerald-500/5">
                 Live
               </span>
             )}
@@ -159,14 +159,12 @@ export default function ReferralProgramPanel() {
           <button
             onClick={toggleEnabled}
             disabled={toggling}
-            className={`w-12 h-6 rounded-full relative transition-colors shrink-0 cursor-pointer ${
-              enabled ? "bg-purple-600" : "bg-white/10"
-            } ${toggling ? "opacity-50" : ""}`}
+            className={`w-12 h-6 rounded-full relative transition-colors shrink-0 cursor-pointer ${enabled ? "bg-purple-600" : "bg-white/10"
+              } ${toggling ? "opacity-50" : ""}`}
           >
             <span
-              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${
-                enabled ? "left-6" : "left-0.5"
-              }`}
+              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${enabled ? "left-6" : "left-0.5"
+                }`}
             />
           </button>
         </div>
@@ -178,7 +176,7 @@ export default function ReferralProgramPanel() {
             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Total Referrals</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
-            <p className="text-2xl font-black text-emerald-400">{totalConverted}</p>
+            <p className="text-2xl font-black text-[var(--color-accent)]">{totalConverted}</p>
             <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold mt-1">Converted</p>
           </div>
           <div className="p-4 bg-white/[0.02] border border-white/5 text-center">
@@ -222,7 +220,7 @@ export default function ReferralProgramPanel() {
                   className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 text-xs cursor-pointer"
                   title="Remove"
                 >
-                  
+
                 </button>
               </div>
             ))}
@@ -285,11 +283,10 @@ export default function ReferralProgramPanel() {
           <button
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-all cursor-pointer ${
-              saved
-                ? "bg-emerald-600 text-white"
-                : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
-            }`}
+            className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-all cursor-pointer ${saved
+              ? "bg-emerald-600 text-white"
+              : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
+              }`}
           >
             {saved ? " Milestones Saved" : saving ? "Saving…" : "Save Milestones"}
           </button>
@@ -319,7 +316,7 @@ export default function ReferralProgramPanel() {
         <div>
           <div className="flex items-center justify-between mb-3">
             <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">
-               Top Referrers
+              Top Referrers
             </p>
             <span className="text-[var(--font-size-2xs)] text-white/20 uppercase tracking-widest font-bold">
               {leaderboard.length} referrer{leaderboard.length !== 1 ? "s" : ""}
@@ -358,28 +355,26 @@ export default function ReferralProgramPanel() {
                       className="w-full text-left cursor-pointer"
                     >
                       <div
-                        className={`flex items-center justify-between p-3 border transition-all hover:bg-white/[0.03] ${
-                          i === 0
-                            ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
-                            : i === 1
+                        className={`flex items-center justify-between p-3 border transition-all hover:bg-white/[0.03] ${i === 0
+                          ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
+                          : i === 1
                             ? "border-white/10 bg-white/[0.02]"
                             : i === 2
-                            ? "border-white/10 bg-white/[0.015]"
-                            : "border-white/5 bg-white/[0.01]"
-                        }`}
+                              ? "border-white/10 bg-white/[0.015]"
+                              : "border-white/5 bg-white/[0.01]"
+                          }`}
                       >
                         <div className="flex items-center gap-3">
                           {/* Rank badge */}
                           <div
-                            className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${
-                              i === 0
-                                ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
-                                : i === 1
+                            className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${i === 0
+                              ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
+                              : i === 1
                                 ? "bg-white/10 text-white/60 border border-white/10"
                                 : i === 2
-                                ? "bg-white/5 text-white/40 border border-white/5"
-                                : "text-white/20"
-                            }`}
+                                  ? "bg-white/5 text-white/40 border border-white/5"
+                                  : "text-white/20"
+                              }`}
                           >
                             {i + 1}
                           </div>
@@ -430,7 +425,7 @@ export default function ReferralProgramPanel() {
                             <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
                               Converted
                             </span>
-                            <p className="text-sm font-bold text-emerald-400">
+                            <p className="text-sm font-bold text-[var(--color-accent)]">
                               {entry.signed_up}
                             </p>
                           </div>
@@ -500,7 +495,7 @@ export default function ReferralProgramPanel() {
                               onClick={() => markRewarded(entry.referrer_code)}
                               className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-all cursor-pointer"
                             >
-                               Mark Rewards as Claimed
+                              Mark Rewards as Claimed
                             </button>
                           )}
                       </div>

@@ -20,7 +20,7 @@ function findRaffleByPin(pin: string) {
           ts: data.ts,
         };
       }
-    } catch {}
+    } catch { }
   }
   return null;
 }
@@ -31,6 +31,8 @@ export default function VerifyPage() {
   const [result, setResult] = useState<null | 'checking' | 'valid' | 'invalid'>(null);
   const [winnerData, setWinnerData] = useState<{ winner: string; prize: string; entrants: number } | null>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const verifyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isCrew = member?.role === 'crew' || member?.role === 'admin';
 
@@ -62,7 +64,9 @@ export default function VerifyPage() {
   const verify = () => {
     if (fullPin.length < 6) return;
     setResult('checking');
-    setTimeout(() => {
+    if (verifyTimerRef.current !== null) clearTimeout(verifyTimerRef.current);
+    verifyTimerRef.current = setTimeout(() => {
+      verifyTimerRef.current = null;
       const found = findRaffleByPin(fullPin);
       if (found) {
         setWinnerData(found);
@@ -78,7 +82,11 @@ export default function VerifyPage() {
     setPin(['', '', '', '', '', '']);
     setResult(null);
     setWinnerData(null);
-    setTimeout(() => inputRefs.current[0]?.focus(), 50);
+    if (resetTimerRef.current !== null) clearTimeout(resetTimerRef.current);
+    resetTimerRef.current = setTimeout(() => {
+      resetTimerRef.current = null;
+      inputRefs.current[0]?.focus();
+    }, 50);
   };
 
   useEffect(() => {
@@ -88,6 +96,10 @@ export default function VerifyPage() {
   // Auto-verify when all 6 digits entered
   useEffect(() => {
     if (fullPin.length === 6 && result === null) verify();
+    return () => {
+      if (verifyTimerRef.current !== null) clearTimeout(verifyTimerRef.current);
+      if (resetTimerRef.current !== null) clearTimeout(resetTimerRef.current);
+    };
   }, [fullPin]);
 
   // Disable all document body & page scrolling on verify page
@@ -111,7 +123,7 @@ export default function VerifyPage() {
           touch-action: none !important;
         }
       `}</style>
-      <div 
+      <div
         style={{
           position: "fixed",
           inset: 0,
@@ -122,7 +134,7 @@ export default function VerifyPage() {
           transform: "scale(1.08)",
           zIndex: 0,
           pointerEvents: "none"
-        }} 
+        }}
       />
       <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
     </>
@@ -140,15 +152,15 @@ export default function VerifyPage() {
       <div className="fixed inset-0 h-screen w-screen flex flex-col items-center justify-center p-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
         {renderBackground()}
 
-        <div 
+        <div
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
           style={modalGlassStyle}
         >
           <span className="text-5xl block mb-4">🔐</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
-          <button 
-            onClick={() => openModal()} 
+          <button
+            onClick={() => openModal()}
             className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
           >
             Sign In
@@ -163,7 +175,7 @@ export default function VerifyPage() {
       <div className="fixed inset-0 h-screen w-screen flex flex-col items-center justify-center p-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
         {renderBackground()}
 
-        <div 
+        <div
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
           style={modalGlassStyle}
         >
@@ -181,7 +193,7 @@ export default function VerifyPage() {
 
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-purple-400 mb-1">7th Heaven · Crew</p>
+        <p className="text-xs font-black uppercase tracking-[0.3em]  text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
         <h1 className="text-white font-black text-2xl uppercase tracking-widest">Raffle Verifier</h1>
         <p className="text-white/30 text-xs mt-1">Enter the fan's PIN to verify their win</p>
       </div>
@@ -190,7 +202,7 @@ export default function VerifyPage() {
 
         {/* PIN Input Form */}
         {result !== 'valid' && (
-          <div 
+          <div
             className="rounded-3xl p-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in duration-300"
             style={modalGlassStyle}
           >
@@ -233,7 +245,7 @@ export default function VerifyPage() {
 
         {/* VALID */}
         {result === 'valid' && winnerData && (
-          <div 
+          <div
             className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
             style={modalGlassStyle}
           >
@@ -273,7 +285,7 @@ export default function VerifyPage() {
 
         {/* INVALID */}
         {result === 'invalid' && (
-          <div 
+          <div
             className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
             style={modalGlassStyle}
           >

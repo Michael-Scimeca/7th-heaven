@@ -10,7 +10,11 @@ const supabase = createClient(
 );
 
 function generatePin(): string {
-  return String(Math.floor(100000 + Math.random() * 900000));
+  // Use the Web Crypto API for cryptographically secure randomness.
+  // Math.random() is predictable and MUST NOT be used for auth tokens.
+  const buf = new Uint32Array(1);
+  globalThis.crypto.getRandomValues(buf);
+  return String(100000 + (buf[0] % 900000));
 }
 
 function buildPinEmailHtml({ name, pin, email }: { name: string; pin: string; email: string }) {

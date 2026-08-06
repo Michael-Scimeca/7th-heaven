@@ -72,16 +72,16 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       <div className="absolute top-0 left-0 w-64 h-32 bg-[var(--color-accent)]/10 blur-[60px] pointer-events-none" />
 
       {/* Accordion Toggle Header */}
-      <div 
+      <div
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-all flex items-center justify-between group"
       >
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--color-accent)] mb-0.5">Show Promotions</p>
+          <p className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] mb-0.5">Show Promotions</p>
           <h3 className="text-white font-black text-lg flex items-center gap-2">
-             Invite Challenge
+            Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-emerald-400 border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-[var(--color-accent)] border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
                 Active
               </span>
             )}
@@ -93,7 +93,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             {isCollapsed ? 'Expand' : 'Collapse'}
           </span>
           <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
-            
+
           </div>
         </div>
       </div>
@@ -117,112 +117,111 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             </select>
           </div>
 
-        {selectedShowId && (
-          <div className="space-y-4">
-            {loading ? (
-              <div className="text-white/30 text-xs text-center py-4">Loading challenge config…</div>
-            ) : (
-              <>
-                {/* Enable toggle */}
-                <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.05]">
-                  <div>
-                    <p className="text-sm font-bold text-white">Enable challenge for this show</p>
-                    <p className="text-xs text-white/30 mt-0.5">Fans will see this on the show page</p>
+          {selectedShowId && (
+            <div className="space-y-4">
+              {loading ? (
+                <div className="text-white/30 text-xs text-center py-4">Loading challenge config…</div>
+              ) : (
+                <>
+                  {/* Enable toggle */}
+                  <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.05]">
+                    <div>
+                      <p className="text-sm font-bold text-white">Enable challenge for this show</p>
+                      <p className="text-xs text-white/30 mt-0.5">Fans will see this on the show page</p>
+                    </div>
+                    <button
+                      onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
+                      className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                    >
+                      <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${challenge.enabled ? "left-6" : "left-0.5"}`} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
-                    className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
-                  >
-                    <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${challenge.enabled ? "left-6" : "left-0.5"}`} />
-                  </button>
-                </div>
 
-                {challenge.enabled && (
-                  <>
-                    {/* Threshold */}
-                    <div>
-                      <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
-                        Invite Threshold
-                      </label>
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="number"
-                          min={1}
-                          max={500}
-                          value={challenge.threshold}
-                          onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
-                          className="w-24 bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
-                        />
-                        <span className="text-white/30 text-sm">fans invited to unlock reward</span>
-                      </div>
-                    </div>
-
-                    {/* Reward name */}
-                    <div>
-                      <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
-                        Reward Name
-                      </label>
-                      <input
-                        type="text"
-                        value={challenge.reward_name}
-                        onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
-                        placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
-                        className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
-                      />
-                    </div>
-
-                    {/* Reward description */}
-                    <div>
-                      <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
-                        Claim Instructions
-                      </label>
-                      <textarea
-                        value={challenge.reward_description}
-                        onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
-                        rows={2}
-                        placeholder="e.g. Claim at the merch table, night of show"
-                        className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
-                      />
-                    </div>
-
-                    {/* Preview */}
-                    <div className="p-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04]">
-                      <p className="text-xs uppercase tracking-widest text-[var(--color-accent)] font-bold mb-2">Fan-facing preview</p>
-                      <div className="flex items-start gap-3">
-                        <span className="text-2xl"></span>
-                        <div>
-                          <p className="text-white text-sm font-bold">
-                            Invite {challenge.threshold} fans → get a free{" "}
-                            <span className="text-[var(--color-accent)]">{challenge.reward_name || "merch item"}</span>
-                          </p>
-                          <p className="text-white/40 text-xs mt-0.5">{challenge.reward_description}</p>
-                          <div className="mt-2 h-1.5 bg-white/10 w-48">
-                            <div className="h-full bg-[var(--color-accent)] w-[30%]" />
-                          </div>
-                          <p className="text-[var(--font-size-2xs)] text-white/25 mt-0.5">6 / {challenge.threshold} fans invited</p>
+                  {challenge.enabled && (
+                    <>
+                      {/* Threshold */}
+                      <div>
+                        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                          Invite Threshold
+                        </label>
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="number"
+                            min={1}
+                            max={500}
+                            value={challenge.threshold}
+                            onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
+                            className="w-24 bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
+                          />
+                          <span className="text-white/30 text-sm">fans invited to unlock reward</span>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
 
-                {/* Save */}
-                <button
-                  onClick={save}
-                  disabled={saving || !challenge.reward_name}
-                  className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-all ${
-                    saved
+                      {/* Reward name */}
+                      <div>
+                        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                          Reward Name
+                        </label>
+                        <input
+                          type="text"
+                          value={challenge.reward_name}
+                          onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
+                          placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
+                          className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20"
+                        />
+                      </div>
+
+                      {/* Reward description */}
+                      <div>
+                        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                          Claim Instructions
+                        </label>
+                        <textarea
+                          value={challenge.reward_description}
+                          onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
+                          rows={2}
+                          placeholder="e.g. Claim at the merch table, night of show"
+                          className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder:text-white/20 resize-none"
+                        />
+                      </div>
+
+                      {/* Preview */}
+                      <div className="p-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04]">
+                        <p className="text-xs uppercase tracking-widest  text-[var(--color-accent)] font-bold mb-2">Fan-facing preview</p>
+                        <div className="flex items-start gap-3">
+                          <span className="text-2xl"></span>
+                          <div>
+                            <p className="text-white text-sm font-bold">
+                              Invite {challenge.threshold} fans → get a free{" "}
+                              <span className=" text-[var(--color-accent)]">{challenge.reward_name || "merch item"}</span>
+                            </p>
+                            <p className="text-white/40 text-xs mt-0.5">{challenge.reward_description}</p>
+                            <div className="mt-2 h-1.5 bg-white/10 w-48">
+                              <div className="h-full bg-[var(--color-accent)] w-[30%]" />
+                            </div>
+                            <p className="text-[var(--font-size-2xs)] text-white/25 mt-0.5">6 / {challenge.threshold} fans invited</p>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Save */}
+                  <button
+                    onClick={save}
+                    disabled={saving || !challenge.reward_name}
+                    className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-all ${saved
                       ? "bg-emerald-600 text-white"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
-                  }`}
-                >
-                  {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
-                </button>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+                      }`}
+                  >
+                    {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

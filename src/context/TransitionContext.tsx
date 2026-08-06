@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect, ReactNode } from "react";
 
 // ── Mode ─────────────────────────────────────────────────────────────────────
 // idle       → no transition
@@ -44,19 +44,21 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
   const setMode = useCallback((m: TransitionMode) => setModeState(m), []);
 
+  // Track mode in a ref so requestTransition can read it synchronously
+  // without putting mode in its dependency array or inside a state updater.
+  const modeRef = useRef<TransitionMode>("idle");
+  useEffect(() => { modeRef.current = mode; }, [mode]);
+
   const requestTransition = useCallback(
     (href: string) => {
-      setModeState((prev) => {
-        if (prev !== "idle") return prev; // already animating
-        // Set the global flag SYNCHRONOUSLY so that canvas rAF loops on the
-        // current page see it immediately and skip their expensive draw calls.
-        // This frees up frame budget for Phase 1 before any useEffect fires.
-        if (typeof window !== "undefined") {
-          (window as any).__pageTransitionActive = true;
-        }
-        setPendingHref(href);
-        return "covering";
-      });
+      if (modeRef.current !== "idle") return; // already animating
+      // Set the global flag SYNCHRONOUSLY so that canvas rAF loops on the
+      // current page see it immediately and skip their expensive draw calls.
+      if (typeof window !== "undefined") {
+        (window as any).__pageTransitionActive = true;
+      }
+      setPendingHref(href);
+      setModeState("covering");
     },
     []
   );

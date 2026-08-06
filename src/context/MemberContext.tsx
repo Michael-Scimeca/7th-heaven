@@ -340,7 +340,10 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       if (data.user && data.session) {
         userId = data.user.id;
         // Update role in profiles if trigger didn't set it correctly
-        await supabase.from("profiles").update({ role, username: username || '' }).eq("id", data.user.id);
+        // Only update username client-side. Role is authoritative from the DB trigger
+        // that reads user_metadata.role set during auth.signUp above.
+        // Never write role from the client — even 'fan' — to prevent privilege escalation.
+        await supabase.from("profiles").update({ username: username || '' }).eq("id", data.user.id);
       }
     } catch (e) {
       console.error("Supabase signup error:", e);

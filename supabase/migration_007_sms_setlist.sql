@@ -23,11 +23,6 @@ CREATE TABLE IF NOT EXISTS public.setlist_requests (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
--- RLS
+-- RLS enabled. Server-side actions use service_role which bypasses RLS automatically.
 ALTER TABLE public.sms_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.setlist_requests ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY sms_insert ON public.sms_subscribers FOR INSERT WITH CHECK (true);
-CREATE POLICY sms_service ON public.sms_subscribers FOR ALL USING (true);
-CREATE POLICY setlist_insert ON public.setlist_requests FOR INSERT WITH CHECK (true);
-CREATE POLICY setlist_service ON public.setlist_requests FOR ALL USING (true);

@@ -26,8 +26,11 @@ export async function POST(req: Request) {
       } catch { /* ignore — fall through to normal flow */ }
     }
 
-    // Generate a random 6-digit PIN
-    const pin = Math.floor(100000 + Math.random() * 900000).toString();
+    // Generate a cryptographically random 6-digit PIN using Web Crypto API.
+    // Math.random() is NOT cryptographically secure for authentication tokens.
+    const pinArray = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(pinArray);
+    const pin = String(100000 + (pinArray[0] % 900000));
 
     // Save PIN locally with 10-minute expiration
     savePin(email, pin, 10 * 60 * 1000);

@@ -1,10 +1,16 @@
 import crypto from 'crypto';
 
-// Retrieve the encryption key from environment, or use a secure fallback for development
-const ENCRYPTION_SECRET = process.env.CRUISE_ENCRYPTION_KEY || 'default-7thheaven-secret-key-32-chars-long!';
-
-// Derive a 32-byte (256-bit) key from the secret string to ensure proper AES key length
-const KEY = crypto.createHash('sha256').update(ENCRYPTION_SECRET).digest();
+// CRUISE_ENCRYPTION_KEY must be set in production.
+// In development, a throwaway key is derived at startup so local testing
+// works without env setup.  NEVER commit a real key to source control.
+if (!process.env.CRUISE_ENCRYPTION_KEY && process.env.NODE_ENV === 'production') {
+  throw new Error('CRUISE_ENCRYPTION_KEY environment variable is required in production.');
+}
+// Derive a 32-byte (256-bit) key. In dev, a fixed derivation is used so
+// restarts stay consistent without requiring the env var.
+const KEY: Buffer = process.env.CRUISE_ENCRYPTION_KEY
+  ? crypto.createHash('sha256').update(process.env.CRUISE_ENCRYPTION_KEY).digest()
+  : crypto.createHash('sha256').update('dev-only').digest();
 
 const ALGORITHM = 'aes-256-gcm';
 const IV_LENGTH = 12; // Standard for AES-GCM

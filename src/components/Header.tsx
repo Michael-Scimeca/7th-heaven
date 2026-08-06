@@ -112,13 +112,13 @@ export function Header() {
       html.style.overflow = "hidden";
       body.style.overflow = "hidden";
       if ((window as any).__lenis) {
-        try { (window as any).__lenis.stop(); } catch {}
+        try { (window as any).__lenis.stop(); } catch { }
       }
     } else {
       html.style.overflow = "";
       body.style.overflow = "";
       if ((window as any).__lenis) {
-        try { (window as any).__lenis.start(); } catch {}
+        try { (window as any).__lenis.start(); } catch { }
       }
     }
     return () => {
@@ -182,8 +182,8 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-all duration-300 pointer-events-none pt-2 ${scrolled
-          ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
-          : "bg-transparent text-white"
+        ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
+        : "bg-transparent text-white"
         }`}
       suppressHydrationWarning
     >
@@ -200,9 +200,8 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 ${
-                  effectivePathname === link.href ? "text-[var(--color-accent)] font-extrabold" : "text-black hover:text-[var(--color-accent)]"
-                }`}
+                className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 ${effectivePathname === link.href ? " text-[var(--color-accent)] font-extrabold" : "text-black hover: text-[var(--color-accent)]"
+                  }`}
               >
                 {link.label}
               </Link>
@@ -211,7 +210,7 @@ export function Header() {
             {/* Live Stream link */}
             <Link
               href="/live"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
             >
               {/* Live / Offline badge — absolute above the text */}
               <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full shadow-[0_0_4px_rgba(239,68,68,0.4)] whitespace-nowrap font-sans scale-90">
@@ -247,7 +246,7 @@ export function Header() {
             {/* Cruise link */}
             <Link
               href="/cruise"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
             >
               CRUISE
               <CruiseWaveAnimation />
@@ -256,7 +255,7 @@ export function Header() {
             {/* Book Us link */}
             <Link
               href="/book"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
             >
               BOOK US
             </Link>
@@ -264,7 +263,7 @@ export function Header() {
             {/* Contact link */}
             <Link
               href="/contact"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover:text-[var(--color-accent)] transition-colors py-1"
+              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
             >
               CONTACT
             </Link>
@@ -344,7 +343,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-end -mr-1 relative cursor-pointer text-black hover:text-[var(--color-accent)] transition-colors p-0"
+              className="flex min-[1401px]:hidden w-10 h-10 items-center justify-end -mr-1 relative cursor-pointer text-black hover: text-[var(--color-accent)] transition-colors p-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"

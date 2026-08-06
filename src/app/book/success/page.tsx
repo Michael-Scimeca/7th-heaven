@@ -16,15 +16,18 @@ function SuccessContent() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          window.location.href = isLoggedIn && member?.role === "event_planner" ? "/planner" : "/";
-        }
+        if (prev <= 1) return 0;
         return prev - 1;
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [isLoggedIn, member?.role]);
+  }, []);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      window.location.href = isLoggedIn && member?.role === "event_planner" ? "/planner" : "/";
+    }
+  }, [countdown, isLoggedIn, member?.role]);
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-[var(--color-bg-deep)] px-6 relative overflow-hidden">
@@ -49,7 +52,7 @@ function SuccessContent() {
           {bookingId && (
             <div className="inline-block bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 px-4 py-2 mb-4">
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/40 block">Booking ID</span>
-              <span className="text-lg font-black text-[var(--color-accent)] font-mono">{bookingId}</span>
+              <span className="text-lg font-black  text-[var(--color-accent)] font-mono">{bookingId}</span>
             </div>
           )}
 
@@ -61,7 +64,7 @@ function SuccessContent() {
           </p>
 
           {sessionId && (
-            <div className="flex items-center justify-center gap-2 text-emerald-400/80 text-sm mb-6">
+            <div className="flex items-center justify-center gap-2 text-[var(--color-accent)]/80 text-sm mb-6">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               Confirmation sent to your email
             </div>

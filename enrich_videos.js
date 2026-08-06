@@ -44,21 +44,27 @@ async function main() {
 
   // YouTube API allows up to 50 IDs per request
   const metaMap = {};
+  const batches = [];
   for (let i = 0; i < allIds.length; i += 50) {
-    const batch = allIds.slice(i, i + 50);
-    const ids = batch.join(",");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,statistics&id=${ids}&key=${API_KEY}`;
-
-    const res = await fetch(url, {
-      headers: { "Referer": "http://localhost:3000/" }
-    });
-    if (!res.ok) {
-      console.error(`API error: ${res.status} ${await res.text()}`);
+    batches.push(allIds.slice(i, i + 50));
+  }
+  const batchResults = await Promise.all(
+    batches.map(async (batch) => {
+      const ids = batch.join(",");
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,statistics&id=${ids}&key=${API_KEY}`;
+      const res = await fetch(url, {
+        headers: { "Referer": "http://localhost:3000/" }
+      });
+      if (res.ok) {
+        return res.json();
+      }
+      console.error(`API error: ${res.status} ${res.statusText}`);
       process.exit(1);
-    }
-    const data = await res.json();
+    })
+  );
 
-    for (const item of data.items) {
+  for (const data of batchResults) {
+    for (const item of (data.items || [])) {
       metaMap[item.id] = {
         duration: parseDuration(item.contentDetails.duration),
         description: (item.snippet.description || "").split("\n")[0].slice(0, 120),
@@ -67,8 +73,6 @@ async function main() {
         channelTitle: item.snippet.channelTitle,
       };
     }
-
-    console.log(`  Batch ${Math.floor(i / 50) + 1}: fetched ${data.items.length} videos`);
   }
 
   // Enrich the categories

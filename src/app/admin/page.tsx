@@ -92,7 +92,7 @@ export default function AdminGatewayPage() {
       `}</style>
 
       {/* Blurred Hero Background Overlay */}
-      <div 
+      <div
         style={{
           position: "fixed",
           inset: 0,
@@ -103,22 +103,22 @@ export default function AdminGatewayPage() {
           transform: "scale(1.08)",
           zIndex: 0,
           pointerEvents: "none"
-        }} 
+        }}
       />
       <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
-        <div 
+        <div
           className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
           style={modalGlassStyle}
         >
           <div className="p-8 sm:p-10">
             <div className="text-center mb-8">
-              <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-[0_0_24px_rgba(147,51,234,0.4)]">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <div className="w-14 h-14 mx-auto mb-4 bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  text-[var(--color-accent)] shadow-[0_0_24px_rgba(147,51,234,0.4)]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
               </div>
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white uppercase italic">
-                Admin <span className="text-purple-400 not-italic">Access</span>
+                Admin <span className=" text-[var(--color-accent)] not-italic">Access</span>
               </h1>
               <p className="text-[0.65rem] uppercase tracking-[0.2em] text-white/40 font-black mt-2">
                 Restricted — Authorized personnel only
@@ -128,14 +128,14 @@ export default function AdminGatewayPage() {
             {isWrongRole ? (
               <div className="text-center">
                 <div className="p-5 bg-purple-600/10 border border-purple-500/30 mb-6">
-                  <p className="text-sm font-bold text-purple-400 mb-1">Access Denied</p>
+                  <p className="text-sm font-bold  text-[var(--color-accent)] mb-1">Access Denied</p>
                   <p className="text-[0.7rem] text-white/70 font-semibold">
-                    You&apos;re logged in as <strong className="text-white font-extrabold">{member?.name}</strong> ({member?.role}). 
+                    You&apos;re logged in as <strong className="text-white font-extrabold">{member?.name}</strong> ({member?.role}).
                     Admin privileges are required to access this dashboard.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <Link href="/fans" className="text-[0.65rem] text-purple-400 hover:text-purple-300 uppercase tracking-[0.15em] font-black transition-colors">
+                  <Link href="/fans" className="text-[0.65rem]  text-[var(--color-accent)] hover:text-purple-300 uppercase tracking-[0.15em] font-black transition-colors">
                     ← Back to Fan Dashboard
                   </Link>
                   <button

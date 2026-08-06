@@ -6,36 +6,36 @@ import { usePathname } from "next/navigation";
 // ── Color palette presets ────────────────────────────────────────────────────
 const COLOR_PRESETS: Record<string, string[]> = {
   Purple: [
-    "#a855f7","#9333ea","#8b5cf6","#7e22ce","#701a75",
-    "#6b21a8","#581c87","#4c1d95","#430868","#3b0764",
-    "#350659","#2e054e","#280443","#210338","#1b022d",
-    "#150122","#0e0117","#0c011a","#0a0115","#080010",
-    "#06000c","#030006",
+    "#a855f7", "#9333ea", "#8b5cf6", "#7e22ce", "#701a75",
+    "#6b21a8", "#581c87", "#4c1d95", "#430868", "#3b0764",
+    "#350659", "#2e054e", "#280443", "#210338", "#1b022d",
+    "#150122", "#0e0117", "#0c011a", "#0a0115", "#080010",
+    "#06000c", "#030006",
   ],
   Fire: [
-    "#fff7ed","#fef3c7","#fde68a","#fcd34d","#c084fc",
-    "#9333ea","#7c3aed","#6b21a8","#ef4444","#dc2626",
-    "#b91c1c","#991b1b","#7f1d1d","#6b0000","#4a0000",
+    "#fff7ed", "#fef3c7", "#fde68a", "#fcd34d", "#c084fc",
+    "#9333ea", "#7c3aed", "#6b21a8", "#ef4444", "#dc2626",
+    "#b91c1c", "#991b1b", "#7f1d1d", "#6b0000", "#4a0000",
   ],
   Ice: [
-    "#ecfeff","#cffafe","#a5f3fc","#67e8f9","#22d3ee",
-    "#06b6d4","#0891b2","#0e7490","#155e75","#164e63",
-    "#0f3549","#082a3a","#051e2c","#03121c","#010810",
+    "#ecfeff", "#cffafe", "#a5f3fc", "#67e8f9", "#22d3ee",
+    "#06b6d4", "#0891b2", "#0e7490", "#155e75", "#164e63",
+    "#0f3549", "#082a3a", "#051e2c", "#03121c", "#010810",
   ],
   Neon: [
-    "#f0fdf4","#dcfce7","#bbf7d0","#86efac","#4ade80",
-    "#22c55e","#16a34a","#a3e635","#84cc16","#65a30d",
-    "#3d9900","#facc15","#eab308","#ca8a04","#a16207",
+    "#f0fdf4", "#dcfce7", "#bbf7d0", "#86efac", "#4ade80",
+    "#22c55e", "#16a34a", "#a3e635", "#84cc16", "#65a30d",
+    "#3d9900", "#facc15", "#eab308", "#ca8a04", "#a16207",
   ],
   Rose: [
-    "#fff1f2","#ffe4e6","#fecdd3","#fda4af","#fb7185",
-    "#f43f5e","#e11d48","#be123c","#9f1239","#881337",
-    "#6b0f2b","#4e0a1d","#360513","#1f020b","#0d0104",
+    "#fff1f2", "#ffe4e6", "#fecdd3", "#fda4af", "#fb7185",
+    "#f43f5e", "#e11d48", "#be123c", "#9f1239", "#881337",
+    "#6b0f2b", "#4e0a1d", "#360513", "#1f020b", "#0d0104",
   ],
   Ocean: [
-    "#f0f9ff","#e0f2fe","#bae6fd","#7dd3fc","#38bdf8",
-    "#0ea5e9","#0284c7","#0369a1","#075985","#0c4a6e",
-    "#083450","#051f33","#030f1c","#010709","#000304",
+    "#f0f9ff", "#e0f2fe", "#bae6fd", "#7dd3fc", "#38bdf8",
+    "#0ea5e9", "#0284c7", "#0369a1", "#075985", "#0c4a6e",
+    "#083450", "#051f33", "#030f1c", "#010709", "#000304",
   ],
   White: Array.from({ length: 22 }, (_, i) => {
     const alpha = Math.round(255 * (1 - i / 22)).toString(16).padStart(2, "0");
@@ -91,7 +91,7 @@ function loadSetting<T>(key: string, fallback: T): T {
 }
 
 function saveSetting(key: string, val: unknown) {
-  try { localStorage.setItem(`7h_cursor_${key}`, JSON.stringify(val)); } catch {}
+  try { localStorage.setItem(`7h_cursor_${key}`, JSON.stringify(val)); } catch { }
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -260,7 +260,8 @@ export default function CursorFollower() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media (pointer: fine) {
           *, *::before, *::after { cursor: none !important; }
         }
@@ -329,7 +330,7 @@ export default function CursorFollower() {
       </div>
 
       {/* ── Settings Panel Button ── */}
-      <div className="fixed bottom-6 right-6 flex flex-col items-end gap-2" style={{zIndex: 2147483646}}>
+      <div className="fixed bottom-6 right-6 flex flex-col items-end gap-2" style={{ zIndex: 2147483646 }}>
         {!panelOpen ? (
           <button
             onClick={() => setPanelOpen(true)}
@@ -347,7 +348,7 @@ export default function CursorFollower() {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
               <div>
-                <span className="text-xs font-black uppercase tracking-wider text-purple-400 block">Cursor Settings</span>
+                <span className="text-xs font-black uppercase tracking-wider  text-[var(--color-accent)] block">Cursor Settings</span>
                 <span className="text-[9px] text-white/40 uppercase font-semibold">Customize your cursor trail</span>
               </div>
               <button
@@ -364,9 +365,8 @@ export default function CursorFollower() {
               </div>
               <button
                 onClick={() => set<boolean>(setGooey, "gooey")(!gooey)}
-                className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer ${
-                  gooey ? "bg-purple-600 justify-end" : "bg-white/10 justify-start"
-                }`}
+                className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer ${gooey ? "bg-purple-600 justify-end" : "bg-white/10 justify-start"
+                  }`}
               >
                 <span className="w-4 h-4 rounded-full bg-white shadow-md transform transition-transform" />
               </button>
@@ -394,11 +394,10 @@ export default function CursorFollower() {
                     <button
                       key={name}
                       onClick={() => set<string>(setPalette, "palette")(name)}
-                      className={`px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border transition-all text-left truncate ${
-                        palette === name
-                          ? "border-purple-400 bg-purple-600/30 text-white"
-                          : "border-white/10 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white/70"
-                      }`}
+                      className={`px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border transition-all text-left truncate ${palette === name
+                        ? "border-purple-400 bg-purple-600/30 text-white"
+                        : "border-white/10 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white/70"
+                        }`}
                       style={{ borderLeftColor: mid, borderLeftWidth: 3 }}
                     >
                       {name}
@@ -410,7 +409,7 @@ export default function CursorFollower() {
               {/* ── Per-Circle & Custom Color Builder ── */}
               <div className="space-y-2 border border-white/10 p-3 bg-white/[0.02]">
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-extrabold text-purple-400 uppercase tracking-wider block">
+                  <span className="text-[9px] font-extrabold  text-[var(--color-accent)] uppercase tracking-wider block">
                     Custom & Per-Circle Colors
                   </span>
                   <button
@@ -603,7 +602,7 @@ function SliderRow({
     <div className="space-y-1">
       <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
         <span>{label}</span>
-        <span className="text-purple-400 font-mono font-black">{display}</span>
+        <span className=" text-[var(--color-accent)] font-mono font-black">{display}</span>
       </div>
       <input
         type="range"

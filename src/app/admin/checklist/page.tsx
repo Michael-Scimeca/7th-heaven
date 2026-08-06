@@ -42,7 +42,7 @@ export default function SetupChecklistPage() {
     if (saved) {
       try {
         setCheckedItems(JSON.parse(saved));
-      } catch {}
+      } catch { }
     }
   }, []);
 
@@ -83,7 +83,7 @@ export default function SetupChecklistPage() {
   return (
     <div className="min-h-screen bg-[#f0f2f5] text-black pt-[72px] pb-16">
       <div className="site-container max-w-6xl mx-auto px-4 mt-8">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 pb-6 border-b border-black/5">
           <div>
@@ -94,15 +94,15 @@ export default function SetupChecklistPage() {
               Use this dashboard to track which third-party APIs and environment variables are connected. Ensure all sandbox items are promoted to production configurations before launching the site live.
             </p>
           </div>
-          
+
           <div className="bg-white border border-black/5 px-6 py-4 flex items-center gap-4 shrink-0 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
             <div className="text-right">
               <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-black/30 block mb-1">Production Status</span>
               <span className="text-lg font-black text-black">{activeConnected} / 9 Services Live</span>
             </div>
             <div className="w-12 h-12 rounded-full border-4 border-white/5 flex items-center justify-center relative">
-              <div 
-                className="absolute inset-0 rounded-full border-4 border-t-[var(--color-accent)] border-r-[var(--color-accent)] animate-pulse" 
+              <div
+                className="absolute inset-0 rounded-full border-4 border-t-[var(--color-accent)] border-r-[var(--color-accent)] animate-pulse"
                 style={{ transform: `rotate(${(activeConnected / 9) * 360}deg)` }}
               />
               <span className="text-xs font-black">{Math.round((activeConnected / 9) * 100)}%</span>
@@ -127,7 +127,7 @@ export default function SetupChecklistPage() {
                       🟡 Sandbox
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                       🟢 Live
                     </span>
                   )
@@ -161,7 +161,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 RESEND_API_KEY, RESEND_FROM_EMAIL
               </code>
             </div>
@@ -181,7 +181,7 @@ export default function SetupChecklistPage() {
                       🟡 Test Credentials
                     </span>
                   ) : (
-                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                       🟢 Connected
                     </span>
                   )
@@ -215,7 +215,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
               </code>
             </div>
@@ -230,7 +230,7 @@ export default function SetupChecklistPage() {
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Logs user traffic & engagement metrics</p>
                 </div>
                 {status?.googleAnalytics.connected ? (
-                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                     🟢 Connected
                   </span>
                 ) : (
@@ -257,7 +257,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 NEXT_PUBLIC_GA_ID
               </code>
             </div>
@@ -272,7 +272,7 @@ export default function SetupChecklistPage() {
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Handles ticket booking deposits & checkouts</p>
                 </div>
                 {status?.stripe.connected ? (
-                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                     🟢 Connected
                   </span>
                 ) : (
@@ -305,7 +305,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET
               </code>
             </div>
@@ -320,7 +320,7 @@ export default function SetupChecklistPage() {
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Powers backstage feeds & stream archives</p>
                 </div>
                 {status?.livekit.connected && status?.mux.connected ? (
-                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                     🟢 Live & Connected
                   </span>
                 ) : (
@@ -353,7 +353,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all text-ellipsis overflow-hidden">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all text-ellipsis overflow-hidden">
                 LIVEKIT_API_KEY, MUX_TOKEN_ID
               </code>
             </div>
@@ -368,7 +368,7 @@ export default function SetupChecklistPage() {
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Syncs band merch products & inventory</p>
                 </div>
                 {status?.shopify.connected ? (
-                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                     🟢 Connected
                   </span>
                 ) : (
@@ -401,7 +401,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN, NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
               </code>
             </div>
@@ -416,7 +416,7 @@ export default function SetupChecklistPage() {
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Manages fan accounts, bookings, and notes</p>
                 </div>
                 {status?.supabase.connected ? (
-                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                     🟢 Connected
                   </span>
                 ) : (
@@ -449,7 +449,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
               </code>
             </div>
@@ -464,7 +464,7 @@ export default function SetupChecklistPage() {
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Powers website news, bios, and tour dates</p>
                 </div>
                 {status?.sanity.connected ? (
-                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                     🟢 Connected
                   </span>
                 ) : (
@@ -497,7 +497,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 NEXT_PUBLIC_SANITY_PROJECT_ID, SANITY_API_TOKEN
               </code>
             </div>
@@ -525,25 +525,25 @@ export default function SetupChecklistPage() {
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
                   <input type="checkbox" checked={!!checkedItems.oauth_google_credentials} onChange={() => handleToggle("oauth_google_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_google_credentials ? "line-through text-black/30" : ""}>
-                    Create an OAuth 2.0 Client ID at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]">Google Cloud Console</a> → paste Client ID &amp; Secret into Supabase → Auth → Providers → Google
+                    Create an OAuth 2.0 Client ID at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)]">Google Cloud Console</a> → paste Client ID &amp; Secret into Supabase → Auth → Providers → Google
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
                   <input type="checkbox" checked={!!checkedItems.oauth_facebook_credentials} onChange={() => handleToggle("oauth_facebook_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_facebook_credentials ? "line-through text-black/30" : ""}>
-                    Create an app at <a href="https://developers.facebook.com/" target="_blank" rel="noopener" className="underline text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]">Meta Developers</a> → add Facebook Login product → paste App ID &amp; Secret into Supabase → Auth → Providers → Facebook
+                    Create an app at <a href="https://developers.facebook.com/" target="_blank" rel="noopener" className="underline  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)]">Meta Developers</a> → add Facebook Login product → paste App ID &amp; Secret into Supabase → Auth → Providers → Facebook
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
                   <input type="checkbox" checked={!!checkedItems.oauth_apple_credentials} onChange={() => handleToggle("oauth_apple_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_apple_credentials ? "line-through text-black/30" : ""}>
-                    Create a Services ID at <a href="https://developer.apple.com/" target="_blank" rel="noopener" className="underline text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]">Apple Developer</a> → enable Sign in with Apple → paste Service ID, Team ID, Key ID &amp; private key into Supabase → Auth → Providers → Apple
+                    Create a Services ID at <a href="https://developer.apple.com/" target="_blank" rel="noopener" className="underline  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)]">Apple Developer</a> → enable Sign in with Apple → paste Service ID, Team ID, Key ID &amp; private key into Supabase → Auth → Providers → Apple
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
                   <input type="checkbox" checked={!!checkedItems.oauth_redirect_uri} onChange={() => handleToggle("oauth_redirect_uri")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_redirect_uri ? "line-through text-black/30" : ""}>
-                    Add <code className="font-mono text-[var(--color-accent)]/60">https://YOUR-PROJECT.supabase.co/auth/v1/callback</code> as the authorized redirect URI for all three providers
+                    Add <code className="font-mono  text-[var(--color-accent)]/60">https://YOUR-PROJECT.supabase.co/auth/v1/callback</code> as the authorized redirect URI for all three providers
                   </span>
                 </label>
               </div>
@@ -551,7 +551,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Configured in</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 Supabase Dashboard → Authentication → Providers
               </code>
             </div>
@@ -622,7 +622,7 @@ export default function SetupChecklistPage() {
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
                   <input type="checkbox" checked={!!checkedItems.canspam_email_templates} onChange={() => handleToggle("canspam_email_templates")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_email_templates ? "line-through text-black/30" : ""}>
-                    Audit all email templates in <code className="font-mono text-[var(--color-accent)]/60">/admin/emails</code> to include unsubscribe footer and physical address
+                    Audit all email templates in <code className="font-mono  text-[var(--color-accent)]/60">/admin/emails</code> to include unsubscribe footer and physical address
                   </span>
                 </label>
               </div>
@@ -630,7 +630,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Reference</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 FTC CAN-SPAM Act · 15 U.S.C. §7701
               </code>
             </div>
@@ -695,7 +695,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Reference</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 COPPA · Section 230 Safe Harbor · Community Standards
               </code>
             </div>
@@ -709,7 +709,7 @@ export default function SetupChecklistPage() {
                   <h3 className="text-lg font-bold text-black mb-1">🎥 Live Streaming Legal</h3>
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Music licensing, venue consent &amp; recording</p>
                 </div>
-                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-purple-500/10  text-[var(--color-accent)] border border-purple-500/20">
                   ⚠️ Required
                 </span>
               </div>
@@ -754,7 +754,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Reference</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 DMCA §512 · ASCAP/BMI/SoundExchange · Venue Contracts
               </code>
             </div>
@@ -768,7 +768,7 @@ export default function SetupChecklistPage() {
                   <h3 className="text-lg font-bold text-black mb-1">📋 Legal Pages &amp; Policies</h3>
                   <p className="text-[var(--font-size-2xs)] text-black/30 font-bold uppercase tracking-widest">Privacy, terms, cookies &amp; accessibility</p>
                 </div>
-                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="px-2.5 py-1 text-[var(--font-size-2xs)] font-bold uppercase tracking-wider rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">
                   🔍 Audit Required
                 </span>
               </div>
@@ -831,7 +831,7 @@ export default function SetupChecklistPage() {
 
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Pages to audit</span>
-              <code className="text-xs font-mono text-[var(--color-accent)]/80 block break-all">
+              <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
                 /privacy · /terms · /admin/legal · Cookie Banner
               </code>
             </div>
@@ -847,7 +847,7 @@ export default function SetupChecklistPage() {
             All integrations are managed through environment variables inside your root file: <code className="font-mono text-black">.env.local</code>. Make sure to restart your local development server in the terminal after editing this file to apply changes:
           </p>
           <pre className="bg-[#f0f2f5] p-5 text-xs font-mono border border-black/5 overflow-x-auto text-black/50 leading-relaxed">
-{`# Sample setup format inside your .env.local:
+            {`# Sample setup format inside your .env.local:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsIn...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6...

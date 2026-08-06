@@ -306,9 +306,8 @@ function EditableSwatch({
   return (
     <div className="flex flex-col gap-1.5 group relative">
       <div
-        className={`relative w-full h-20  border flex items-end p-3 cursor-pointer transition-all hover:scale-[1.02] hover: ${
-          isChanged ? 'border-purple-500/60 ring-2 ring-amber-500/30' : 'border-white/10'
-        }`}
+        className={`relative w-full h-20  border flex items-end p-3 cursor-pointer transition-all hover:scale-[1.02] hover: ${isChanged ? 'border-purple-500/60 ring-2 ring-amber-500/30' : 'border-white/10'
+          }`}
         style={{ backgroundColor: displayHex }}
         onClick={() => inputRef.current?.click()}
       >
@@ -503,11 +502,10 @@ export default function StyleGuidePage() {
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={() => setActiveNav(item.id)}
-                className={`px-3 py-1.5 text-[var(--font-size-3xs)] font-bold uppercase tracking-widest rounded-lg transition-all shrink-0 flex items-center gap-1.5 ${
-                  activeNav === item.id
+                className={`px-3 py-1.5 text-[var(--font-size-3xs)] font-bold uppercase tracking-widest rounded-lg transition-all shrink-0 flex items-center gap-1.5 ${activeNav === item.id
                     ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                     : "text-white/50 hover:text-white hover:bg-white/5"
-                }`}
+                  }`}
               >
                 {item.label}
                 {item.count > 0 && (
@@ -546,12 +544,12 @@ export default function StyleGuidePage() {
       {/* ── Hero Banner ── */}
       <div className="py-20 bg-gradient-to-b from-[var(--color-accent)]/10 to-transparent">
         <div className="site-container">
-          <p className="text-eyebrow mb-4 text-[var(--color-accent)] font-bold">Interactive Design System</p>
+          <p className="text-eyebrow mb-4  text-[var(--color-accent)] font-bold">Interactive Design System</p>
           <h1 className="heading-hero text-black mb-4">7th Heaven</h1>
           <p className="text-body max-w-2xl text-black/70">
             Live-edit every color, font, shadow, and spacing token. Click any swatch to open a color picker,
             type new values inline, then export your changes as clean CSS to paste into{" "}
-            <code className="text-[var(--color-accent)] font-mono text-sm">globals.css</code>.
+            <code className=" text-[var(--color-accent)] font-mono text-sm">globals.css</code>.
           </p>
           <div className="flex items-center gap-3 mt-4 flex-wrap">
             <FileBadge path="src/app/globals.css → @theme block" />
@@ -609,12 +607,11 @@ export default function StyleGuidePage() {
             return (
               <div
                 key={f.token}
-                className={`flex items-center gap-4 py-3 border-b group px-4 -mx-4 rounded-lg transition-all ${
-                  isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5 hover:bg-white/[0.02]'
-                }`}
+                className={`flex items-center gap-4 py-3 border-b group px-4 -mx-4 rounded-lg transition-all ${isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5 hover:bg-white/[0.02]'
+                  }`}
               >
                 <div className="w-14 shrink-0">
-                  <span className="text-[var(--font-size-3xs)] font-bold text-[var(--color-accent)] uppercase">
+                  <span className="text-[var(--font-size-3xs)] font-bold  text-[var(--color-accent)] uppercase">
                     {f.label}
                   </span>
                 </div>
@@ -717,8 +714,8 @@ export default function StyleGuidePage() {
         </h3>
         <div className="bg-[var(--color-bg-card)] p-8 border border-white/10 space-y-4 text-body text-black">
           <p>Regular paragraph with <strong className="text-black font-bold">bold text</strong> and <em className="italic text-black/80">italic text</em>.</p>
-          <p>Links look like <a href="#" className="text-[var(--color-accent)] underline underline-offset-2 hover:text-[var(--color-accent-hover)] font-bold">this hyperlink style</a>.</p>
-          <p>Inline <code className="text-[var(--color-accent)] bg-black/5 px-1.5 py-0.5 rounded-md text-sm font-mono font-bold">code</code> for technical references.</p>
+          <p>Links look like <a href="#" className=" text-[var(--color-accent)] underline underline-offset-2 hover:text-[var(--color-accent-hover)] font-bold">this hyperlink style</a>.</p>
+          <p>Inline <code className=" text-[var(--color-accent)] bg-black/5 px-1.5 py-0.5 rounded-md text-sm font-mono font-bold">code</code> for technical references.</p>
           <blockquote className="border-l-2 border-[var(--color-accent)] pl-4 italic text-black/70">
             &ldquo;Pull quote — The music never stops when you&apos;re on the 7th Heaven cruise.&rdquo;
           </blockquote>
@@ -734,9 +731,8 @@ export default function StyleGuidePage() {
             const isChanged = !!spacingOverrides[s.token];
             const currentValue = spacingOverrides[s.token] || s.defaultValue;
             return (
-              <div key={s.token} className={`flex items-center gap-4 py-3 px-4 -mx-4 rounded-lg transition-all border-b ${
-                isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5'
-              }`}>
+              <div key={s.token} className={`flex items-center gap-4 py-3 px-4 -mx-4 rounded-lg transition-all border-b ${isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5'
+                }`}>
                 <div className="w-40 text-[var(--font-size-3xs)] text-white/70 font-bold shrink-0">{s.label}</div>
                 <div className="flex-1 flex items-center gap-3">
                   <input
@@ -801,9 +797,8 @@ export default function StyleGuidePage() {
             const isChanged = !!shadowOverrides[s.token];
             const currentValue = shadowOverrides[s.token] || s.defaultValue;
             return (
-              <div key={s.token} className={` border p-6 transition-all ${
-                isChanged ? 'border-purple-500/40 bg-purple-600/5' : 'border-white/5 bg-[var(--color-bg-surface)]'
-              }`}>
+              <div key={s.token} className={` border p-6 transition-all ${isChanged ? 'border-purple-500/40 bg-purple-600/5' : 'border-white/5 bg-[var(--color-bg-surface)]'
+                }`}>
                 <div
                   className="w-full h-20 bg-[var(--color-bg-card)] mb-4 border border-white/5"
                   style={{ boxShadow: currentValue }}
@@ -847,7 +842,7 @@ export default function StyleGuidePage() {
             >
               <span className="text-[var(--font-size-3xs)] font-bold text-white">{z.label}</span>
               <div className="flex items-center gap-2">
-                <span className="text-[var(--font-size-4xs)] text-[var(--color-accent)] font-mono font-bold">{z.value}</span>
+                <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)] font-mono font-bold">{z.value}</span>
                 <TokenBadge token={z.token} />
               </div>
             </div>
@@ -939,7 +934,7 @@ export default function StyleGuidePage() {
 
         {/* ── 1. GLOBAL LAYOUT & NAVIGATION ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             1. Global Layout & Navigation
           </h2>
         </div>
@@ -951,7 +946,7 @@ export default function StyleGuidePage() {
         </h3>
         <div className="bg-[var(--color-bg-surface)] p-8 border border-white/5 mb-12 flex items-center justify-center">
           <Link href="/">
-            <Logo className="h-16 text-white hover:text-[var(--color-accent)] transition-colors cursor-pointer" />
+            <Logo className="h-16 text-white hover: text-[var(--color-accent)] transition-colors cursor-pointer" />
           </Link>
         </div>
 
@@ -1023,7 +1018,7 @@ export default function StyleGuidePage() {
 
         {/* ── 2. NOTIFICATIONS & BANNERS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             2. Notifications, Banners & Indicators
           </h2>
         </div>
@@ -1098,7 +1093,7 @@ export default function StyleGuidePage() {
 
         {/* ── 3. MUSIC & AUDIO PLAYERS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             3. Music & Audio Players
           </h2>
         </div>
@@ -1138,7 +1133,7 @@ export default function StyleGuidePage() {
 
         {/* ── 4. VIDEO PLAYERS & MEDIA ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             4. Video Players & Media
           </h2>
         </div>
@@ -1183,7 +1178,7 @@ export default function StyleGuidePage() {
 
         {/* ── 5. LIVE STREAMS & FEEDS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             5. Live Streams & Feeds
           </h2>
         </div>
@@ -1223,7 +1218,7 @@ export default function StyleGuidePage() {
 
         {/* ── 6. TOUR, SHOWS & MAPS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             6. Tour, Shows & Maps
           </h2>
         </div>
@@ -1267,7 +1262,7 @@ export default function StyleGuidePage() {
           <FileBadge path="src/components/CalendarPicker.tsx" />
         </h3>
         <div className="bg-[var(--color-bg-surface)] p-6 border border-white/5 mb-12">
-          <CalendarPicker slots={[]} onChangeSlots={() => {}} startTime="7:00 PM" onStartTimeChange={() => {}} endTime="10:00 PM" onEndTimeChange={() => {}} label="Select Dates" />
+          <CalendarPicker slots={[]} onChangeSlots={() => { }} startTime="7:00 PM" onStartTimeChange={() => { }} endTime="10:00 PM" onEndTimeChange={() => { }} label="Select Dates" />
         </div>
 
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center justify-between flex-wrap gap-2">
@@ -1281,7 +1276,7 @@ export default function StyleGuidePage() {
 
         {/* ── 7. STORE & MERCH ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             7. Store & Merch
           </h2>
         </div>
@@ -1297,7 +1292,7 @@ export default function StyleGuidePage() {
 
         {/* ── 8. CRUISE EXPERIENCE ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             8. Cruise Experience
           </h2>
         </div>
@@ -1340,7 +1335,7 @@ export default function StyleGuidePage() {
 
         {/* ── 9. BAND, BIO & NEWS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             9. Band, Bio & News
           </h2>
         </div>
@@ -1389,7 +1384,7 @@ export default function StyleGuidePage() {
 
         {/* ── 10. FAN INTERACTION & AUTH MODALS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             10. Fan Interaction & Auth Modals
           </h2>
         </div>
@@ -1421,7 +1416,7 @@ export default function StyleGuidePage() {
 
         {/* ── 11. MEMBER & CREW DASHBOARDS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             11. Member & Crew Dashboards
           </h2>
         </div>
@@ -1453,7 +1448,7 @@ export default function StyleGuidePage() {
 
         {/* ── 12. ADMIN CONTROL PANELS ── */}
         <div className="border-b border-white/10 pb-4 mb-8">
-          <h2 className="text-xl font-black uppercase tracking-wider text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
+          <h2 className="text-xl font-black uppercase tracking-wider  text-[var(--color-accent)] font-[family-name:var(--font-rockstar)]">
             12. Admin Control Panels
           </h2>
         </div>

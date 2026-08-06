@@ -18,7 +18,7 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   try {
     // Check auth (cron secret or admin)
     const { searchParams } = new URL(request.url);
@@ -176,4 +176,12 @@ export async function GET(request: Request) {
     console.error("Auto-blast error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+}
+
+export async function GET() {
+  return NextResponse.json({
+    status: "active",
+    endpoint: "/api/sms/auto-blast",
+    method: "POST required to trigger blast",
+  });
 }

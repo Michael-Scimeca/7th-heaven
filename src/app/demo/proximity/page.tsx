@@ -66,7 +66,7 @@ export default function ProximityDemoPage() {
 
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-4 py-1.5 mb-6">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] border border-purple-500/30 px-4 py-1.5 mb-6">
             Feature Demo
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight mb-3">
@@ -87,11 +87,10 @@ export default function ProximityDemoPage() {
             <div key={s.id} className="flex items-center flex-1">
               <button
                 onClick={() => setStep(s.id as Step)}
-                className={`flex flex-col items-center gap-1.5 flex-1 py-3 transition-all border-b-2 ${
-                  step === s.id
-                    ? "border-purple-500 text-white"
-                    : "border-white/10 text-white/30 hover:text-white/50"
-                }`}
+                className={`flex flex-col items-center gap-1.5 flex-1 py-3 transition-all border-b-2 ${step === s.id
+                  ? "border-purple-500 text-white"
+                  : "border-white/10 text-white/30 hover:text-white/50"
+                  }`}
               >
                 <span className="text-xl">{s.icon}</span>
                 <span className="text-xs font-black uppercase tracking-widest">{s.label}</span>
@@ -110,7 +109,7 @@ export default function ProximityDemoPage() {
                 <div className="h-1 bg-[var(--color-accent)] mb-8" />
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold">
-                    <span className="text-purple-400">7</span>th <em className="text-purple-400">heaven</em>
+                    <span className=" text-[var(--color-accent)]">7</span>th <em className=" text-[var(--color-accent)]">heaven</em>
                   </h2>
                   <p className="text-xs uppercase tracking-[0.2em] text-white/30 mt-1">Join the Family</p>
                 </div>
@@ -152,10 +151,10 @@ export default function ProximityDemoPage() {
             <div className="p-5 bg-white/[0.02] border border-white/[0.06]">
               <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-2">What happens at signup</p>
               <ul className="space-y-1.5 text-sm text-white/50">
-                <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0">✓</span> Account created in Supabase Auth</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0">✓</span> Zip code geocoded to lat/lng via Zippopotam API</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0">✓</span> Coordinates saved to your profile for proximity matching</li>
-                <li className="flex items-start gap-2"><span className="text-purple-400 shrink-0">✓</span> When a show within 50 miles is added, you get an SMS</li>
+                <li className="flex items-start gap-2"><span className=" text-[var(--color-accent)] shrink-0">✓</span> Account created in Supabase Auth</li>
+                <li className="flex items-start gap-2"><span className=" text-[var(--color-accent)] shrink-0">✓</span> Zip code geocoded to lat/lng via Zippopotam API</li>
+                <li className="flex items-start gap-2"><span className=" text-[var(--color-accent)] shrink-0">✓</span> Coordinates saved to your profile for proximity matching</li>
+                <li className="flex items-start gap-2"><span className=" text-[var(--color-accent)] shrink-0">✓</span> When a show within 50 miles is added, you get an SMS</li>
               </ul>
             </div>
 
@@ -177,8 +176,8 @@ export default function ProximityDemoPage() {
                   <span className="text-white text-xs font-semibold">9:41</span>
                   <div className="w-24 h-5 bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-3" />
                   <div className="flex items-center gap-1">
-                    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1" opacity="0.4"/><rect x="4.5" y="2" width="3" height="10" rx="1" opacity="0.6"/><rect x="9" y="0" width="3" height="12" rx="1" opacity="0.8"/><rect x="13.5" y="0" width="2.5" height="12" rx="1"/></svg>
-                    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 0C3.6 0 0 3.1 0 7s3.6 7 8 7 8-3.1 8-7-3.6-7-8-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5S6.1 3.5 8 3.5s3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" opacity="0.4"/></svg>
+                    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1" opacity="0.4" /><rect x="4.5" y="2" width="3" height="10" rx="1" opacity="0.6" /><rect x="9" y="0" width="3" height="12" rx="1" opacity="0.8" /><rect x="13.5" y="0" width="2.5" height="12" rx="1" /></svg>
+                    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 0C3.6 0 0 3.1 0 7s3.6 7 8 7 8-3.1 8-7-3.6-7-8-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5S6.1 3.5 8 3.5s3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" opacity="0.4" /></svg>
                     <div className="flex items-center gap-0.5">
                       <div className="w-5 h-2.5 border border-white rounded-sm p-0.5"><div className="bg-white h-full w-3/4 rounded-[1px]" /></div>
                     </div>
@@ -199,11 +198,10 @@ export default function ProximityDemoPage() {
 
                     {/* Notification banner — tap to advance */}
                     <div
-                      className={`transition-all duration-700 cursor-pointer ${
-                        notificationVisible && !notificationDismissed
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 -translate-y-4 pointer-events-none"
-                      }`}
+                      className={`transition-all duration-700 cursor-pointer ${notificationVisible && !notificationDismissed
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 -translate-y-4 pointer-events-none"
+                        }`}
                       onClick={() => { setNotificationDismissed(true); setTimeout(() => setStep("show"), 300); }}
                     >
                       <div className="bg-white/20 backdrop-blur-2xl p-4 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.4)] active:scale-[0.98] transition-transform">
@@ -235,7 +233,7 @@ export default function ProximityDemoPage() {
                               </button>
                               <button
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
-                                className="flex-1 py-1 rounded bg-emerald-500/30 border border-emerald-400/30 text-emerald-200 text-xs font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-all"
+                                className="flex-1 py-1 rounded bg-emerald-500/30 border  border-[var(--color-accent)]/30 text-emerald-200 text-xs font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-all"
                               >
                                 ✓ There
                               </button>
@@ -259,7 +257,7 @@ export default function ProximityDemoPage() {
             {/* SMS text body */}
             <div className="p-6 bg-[var(--color-bg-surface)] border border-white/10 space-y-4">
               <p className="text-xs uppercase tracking-widest text-white/30 font-bold">SMS text sent to {phoneNumber}</p>
-              <div className="bg-[#1a2a1a] border border-emerald-500/20 p-5">
+              <div className="bg-[#1a2a1a] border  border-[var(--color-accent)]/30 p-5">
                 <p className="text-sm text-white/80 leading-relaxed">
                   🎸 <strong>7th Heaven is playing near you!</strong><br /><br />
                   <strong>{DEMO_SHOW.venue}</strong><br />
@@ -284,13 +282,13 @@ export default function ProximityDemoPage() {
               <div className="mt-4 pt-4 border-t border-emerald-500/10">
                 <p className="text-xs uppercase tracking-widest text-white/30 font-bold mb-3">Quick RSVP from this message:</p>
                 {rsvpStatus === "going" || rsvpStatus === "there" ? (
-                  <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-emerald-500/20">
+                  <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30">
                     <span className="text-emerald-400 text-lg">{rsvpStatus === "there" ? "✓" : "🎸"}</span>
                     <div>
                       <p className="text-emerald-400 text-sm font-bold">
                         {rsvpStatus === "there" ? "You\'re checked in!" : "You\'re going!"}
                       </p>
-                      <p className="text-white/30 text-xs">You\'re on the list — <Link href={DEMO_SHOW.url} className="text-purple-400 underline">see who else is going</Link></p>
+                      <p className="text-white/30 text-xs">You\'re on the list — <Link href={DEMO_SHOW.url} className=" text-[var(--color-accent)] underline">see who else is going</Link></p>
                     </div>
                   </div>
                 ) : (
@@ -333,7 +331,7 @@ export default function ProximityDemoPage() {
             {/* URL bar */}
             <div className="flex items-center gap-3 px-4 py-2 bg-white/[0.03] border border-white/[0.06]">
               <span className="text-emerald-400 text-xs">🔒</span>
-              <span className="font-mono text-white/40 text-xs">7thheavenband.com/shows/{DEMO_SHOW.id.slice(0,8)}…</span>
+              <span className="font-mono text-white/40 text-xs">7thheavenband.com/shows/{DEMO_SHOW.id.slice(0, 8)}…</span>
             </div>
 
             {/* ── LIVE FEED BANNER ── */}
@@ -359,7 +357,7 @@ export default function ProximityDemoPage() {
                 {/* LEFT — show info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="text-xs uppercase tracking-[0.2em] font-bold text-purple-400 border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
+                    <span className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 bg-purple-500/5">Upcoming Show</span>
                     <span className="text-xs uppercase tracking-[0.2em] font-bold text-white/30">12 fans going</span>
                   </div>
 
@@ -380,11 +378,10 @@ export default function ProximityDemoPage() {
                     <button
                       onClick={() => handleRsvp("going")}
                       disabled={rsvpStatus === "loading"}
-                      className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-all ${
-                        rsvpStatus === "going"
-                          ? "bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.4)]"
-                          : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.4)] hover:brightness-110"
-                      }`}
+                      className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-all ${rsvpStatus === "going"
+                        ? "bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.4)]"
+                        : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.4)] hover:brightness-110"
+                        }`}
                     >
                       {rsvpStatus === "loading" ? "…" : rsvpStatus === "going" ? "✓ You're Going!" : "🎸 I'm Going"}
                     </button>
@@ -438,7 +435,7 @@ export default function ProximityDemoPage() {
                       Invite <span className="text-purple-300">20 fans</span> → get a free{" "}
                       <span className="text-purple-300">Band Tee</span>
                     </p>
-                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-purple-400 border border-purple-500/30 px-2 py-0.5">
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] border border-purple-500/30 px-2 py-0.5">
                       Invite Challenge
                     </span>
                   </div>
@@ -467,7 +464,7 @@ export default function ProximityDemoPage() {
                           href={`sms:?body=${encodeURIComponent(
                             `Come see 7th Heaven at ${DEMO_SHOW.venue} in ${DEMO_SHOW.city} on May 1st! ${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/shows/${DEMO_SHOW.id}`
                           )}`}
-                          className="text-xs font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors"
+                          className="text-xs font-black uppercase tracking-widest  text-[var(--color-accent)] hover:text-purple-300 transition-colors"
                         >
                           💬 Invite a Friend →
                         </a>
@@ -488,8 +485,8 @@ export default function ProximityDemoPage() {
                   </div>
                   <div className="w-px h-10 bg-white/10" />
                   <div className="text-left">
-                    <p className="text-xs uppercase tracking-widest text-emerald-400/60 font-bold mb-1">Here Now</p>
-                    <p className="text-3xl font-extrabold text-emerald-400">1</p>
+                    <p className="text-xs uppercase tracking-widest text-[var(--color-accent)]/60 font-bold mb-1">Here Now</p>
+                    <p className="text-3xl font-extrabold text-[var(--color-accent)]">1</p>
                   </div>
                 </div>
                 <span className="text-white/40 text-xl rotate-180">↓</span>
@@ -510,17 +507,17 @@ export default function ProximityDemoPage() {
                   <div className="flex items-center gap-4 p-4 border border-emerald-500/30 bg-emerald-500/[0.03]">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-yellow-500/40 text-yellow-400 bg-white/[0.04]">AJ</div>
                     <div>
-                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-[var(--font-size-2xs)] uppercase tracking-widest text-purple-400 font-black">You</span></p>
+                      <p className="font-bold text-sm text-white">Alex Johnson <span className="ml-1 text-[var(--font-size-2xs)] uppercase tracking-widest  text-[var(--color-accent)] font-black">You</span></p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <span className="text-[var(--font-size-2xs)] font-black uppercase text-yellow-400">Gold</span>
-                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-emerald-400">✓ Here Now</span>
+                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-[var(--color-accent)]">✓ Here Now</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Regular going fan */}
                   <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02]">
-                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-700/40 text-purple-400 bg-white/[0.04]">SR</div>
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-700/40  text-[var(--color-accent)] bg-white/[0.04]">SR</div>
                     <div>
                       <p className="font-bold text-sm text-white">Sarah R.</p>
                       <span className="text-[var(--font-size-2xs)] font-black uppercase text-white/25">Going</span>
@@ -538,11 +535,11 @@ export default function ProximityDemoPage() {
 
                   {/* Platinum fan */}
                   <div className="flex items-center gap-4 p-4 border border-white/[0.06] bg-white/[0.02] shadow-[0_0_12px_rgba(255,10,61,0.2)]">
-                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-500/40 text-purple-400 bg-white/[0.04]">TK</div>
+                    <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 border-purple-500/40  text-[var(--color-accent)] bg-white/[0.04]">TK</div>
                     <div>
                       <p className="font-bold text-sm text-white">Tyler K.</p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-[var(--font-size-2xs)] font-black uppercase text-purple-400">Platinum</span>
+                        <span className="text-[var(--font-size-2xs)] font-black uppercase  text-[var(--color-accent)]">Platinum</span>
                         <span className="text-[var(--font-size-2xs)] font-black uppercase text-white/25">Going</span>
                       </div>
                     </div>
@@ -559,14 +556,14 @@ export default function ProximityDemoPage() {
                   ) : (
                     <>
                       {[
-                        { initials: "TK", name: "Taylor Kim",    tier: "Silver",  status: "going" },
-                        { initials: "MR", name: "Marcus Rivera", tier: "Bronze",  status: "going" },
-                        { initials: "SP", name: "Sam Patel",     tier: "Gold",    status: "there" },
-                        { initials: "JL", name: "Jamie Lee",     tier: "Silver",  status: "going" },
-                        { initials: "???", name: "Anonymous Fan", tier: null,     status: "going" },
-                        { initials: "CR", name: "Casey Reed",    tier: "Bronze",  status: "going" },
-                        { initials: "???", name: "Anonymous Fan", tier: null,     status: "going" },
-                        { initials: "NK", name: "Nina Khan",     tier: "Silver",  status: "going" },
+                        { initials: "TK", name: "Taylor Kim", tier: "Silver", status: "going" },
+                        { initials: "MR", name: "Marcus Rivera", tier: "Bronze", status: "going" },
+                        { initials: "SP", name: "Sam Patel", tier: "Gold", status: "there" },
+                        { initials: "JL", name: "Jamie Lee", tier: "Silver", status: "going" },
+                        { initials: "???", name: "Anonymous Fan", tier: null, status: "going" },
+                        { initials: "CR", name: "Casey Reed", tier: "Bronze", status: "going" },
+                        { initials: "???", name: "Anonymous Fan", tier: null, status: "going" },
+                        { initials: "NK", name: "Nina Khan", tier: "Silver", status: "going" },
                       ].map((fan, i) => (
                         <div key={i} className={`flex items-center gap-4 p-4 border bg-white/[0.01] ${fan.status === "there" ? "border-emerald-500/30 bg-emerald-500/[0.03]" : "border-white/[0.04]"}`}>
                           <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-black text-xs border border-white/10 text-white/40 bg-white/[0.03]">{fan.initials}</div>
@@ -615,7 +612,7 @@ export default function ProximityDemoPage() {
           >
             ← Back
           </button>
-          <Link href={`/shows/${DEMO_SHOW.id}`} className="text-sm text-purple-400 hover:text-white font-bold uppercase tracking-widest transition-colors">
+          <Link href={`/shows/${DEMO_SHOW.id}`} className="text-sm  text-[var(--color-accent)] hover:text-white font-bold uppercase tracking-widest transition-colors">
             View Live Show Page →
           </Link>
         </div>

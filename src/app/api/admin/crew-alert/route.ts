@@ -285,8 +285,7 @@ async function resolveRecipientsDetails(
 ) {
   let schedules: any[] = [];
   try {
-    const fs = await import('fs/promises');
-    const path = await import('path');
+    const [fs, path] = await Promise.all([import('fs/promises'), import('path')]);
     const schedulesPath = path.join(process.cwd(), 'schedules.json');
     const schedulesData = await fs.readFile(schedulesPath, 'utf-8');
     schedules = JSON.parse(schedulesData);

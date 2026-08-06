@@ -176,7 +176,7 @@ export function PageNav() {
           >
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="text-xs font-black uppercase tracking-[0.15em] text-[var(--color-accent)] pl-2 mt-2 mb-1 border-b border-[var(--border-color)] pb-1">{category.name}</h4>
+                <h4 className="text-xs font-black uppercase tracking-[0.15em]  text-[var(--color-accent)] pl-2 mt-2 mb-1 border-b border-[var(--border-color)] pb-1">{category.name}</h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
@@ -190,11 +190,10 @@ export function PageNav() {
                           localStorage.setItem('7h_dev_bypass', 'true');
                         }
                       }}
-                      className={`px-3 py-2  transition-all flex items-center justify-between group ${
-                        isActive 
-                          ? "bg-[var(--color-accent)] text-white font-black shadow-md" 
-                          : "text-[var(--text-color)] font-extrabold hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]"
-                      }`}
+                      className={`px-3 py-2  transition-all flex items-center justify-between group ${isActive
+                          ? "bg-[var(--color-accent)] text-white font-black shadow-md"
+                          : "text-[var(--text-color)] font-extrabold hover:bg-[var(--color-accent)]/10 hover: text-[var(--color-accent)]"
+                        }`}
                     >
                       <span className="text-sm font-bold tracking-wide">{page.label}</span>
                     </Link>
@@ -208,11 +207,10 @@ export function PageNav() {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-all duration-300 font-bold uppercase tracking-widest text-sm ${
-          isOpen 
-            ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" 
+        className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-all duration-300 font-bold uppercase tracking-widest text-sm ${isOpen
+            ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
             : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
-        }`}
+          }`}
         title="Page Navigator"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300">

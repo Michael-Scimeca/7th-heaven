@@ -24,11 +24,10 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={i}
-          className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 rounded font-black text-xs border ${
-            isAdminTag
-              ? 'bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)] shadow-[0_0_8px_var(--color-purple-glow)]'
-              : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-          }`}
+          className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 rounded font-black text-xs border ${isAdminTag
+            ? 'bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)] shadow-[0_0_8px_var(--color-purple-glow)]'
+            : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
+            }`}
         >
           {part}
         </span>
@@ -61,7 +60,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const CHAT_EMOJIS = ['😂', '❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💀', '👀', '🎵', '🫶', '😭', '💜', '🤯', '🎤', '🎶', '🥹', '😎', '🥳', '🎉', '🥂', '🚢', '🌊'];
-  
+
   const isCrewOrAdmin = member?.role === 'crew' || member?.role === 'admin';
 
   const TAG_SUGGESTIONS = [
@@ -172,7 +171,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       alert('Error deleting message');
     }
   };
-  
+
   const supabase = createClient();
   const room = "cruise_dashboard";
 
@@ -188,7 +187,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         .eq("room", room)
         .order("created_at", { ascending: false })
         .limit(50);
-      
+
       if (!error && data && data.length > 0) {
         setMessages(data.reverse());
       } else {
@@ -206,7 +205,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         ]);
       }
     };
-    
+
     fetchHistory();
 
     const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
@@ -314,7 +313,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
     setIsSending(true);
     setShowTagMenu(false);
-    
+
     try {
       const res = await fetch("/api/chat/send", {
         method: "POST",
@@ -329,7 +328,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       });
 
       const data = await res.json();
-      
+
       if (!res.ok) {
         alert(`Message rejected: ${data.error}`);
       } else {
@@ -371,11 +370,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   };
 
   const getSenderNameColor = (name: string, role: string) => {
-    if (role === 'admin') return '!text-purple-400 font-extrabold';
+    if (role === 'admin') return '! text-[var(--color-accent)] font-extrabold';
     if (role === 'crew') return '!text-emerald-700 font-extrabold';
-    if (role === 'planner') return '!text-[var(--color-accent)] font-extrabold';
+    if (role === 'planner') return '! text-[var(--color-accent)] font-extrabold';
     if (role === 'cruise') return '!text-cyan-700 font-extrabold';
-    const colors = ['!text-[var(--color-accent)]', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '!text-purple-400', '!text-indigo-700'];
+    const colors = ['! text-[var(--color-accent)]', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '! text-[var(--color-accent)]', '!text-indigo-700'];
     let hash = 0;
     const str = name || 'user';
     for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -383,11 +382,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   };
 
   const getRoleColor = (role: string) => {
-    if (role === "admin") return "text-purple-400 bg-purple-600/20 border-purple-500/40 font-extrabold";
+    if (role === "admin") return " text-[var(--color-accent)] bg-purple-600/20 border-purple-500/40 font-extrabold";
     if (role === "crew") return "text-emerald-800 bg-emerald-500/20 border-emerald-500/40 font-extrabold";
-    if (role === "planner") return "text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
+    if (role === "planner") return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
     if (role === "cruise") return "text-cyan-800 bg-cyan-500/20 border-cyan-500/40 font-extrabold";
-    return "text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
+    return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
   };
 
   if (isLoading) {
@@ -481,11 +480,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
             if (isSystem) {
               const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
               const isBan = msg.content.includes('banned');
-              const bgClass = isWarning 
-                ? "bg-purple-600/10 border-purple-500/20 text-purple-100" 
-                : isBan 
-                ? "bg-red-500/10 border-red-500/20 text-red-200" 
-                : "bg-sky-500/10 border-sky-500/20 text-sky-200";
+              const bgClass = isWarning
+                ? "bg-purple-600/10 border-purple-500/20 text-purple-100"
+                : isBan
+                  ? "bg-red-500/10 border-red-500/20 text-red-200"
+                  : "bg-sky-500/10 border-sky-500/20 text-sky-200";
               return (
                 <div key={msg.id} className={`flex items-center gap-2 p-2.5  border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
                   <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
@@ -516,7 +515,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                       {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                     </span>
                     {hasAdminTag && (
-                      <span className="text-[8px] font-black uppercase tracking-widest text-purple-400 bg-purple-600/15 border border-purple-500/30 px-1 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
+                      <span className="text-[8px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-purple-600/15 border border-purple-500/30 px-1 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
                         👑 Question for Admin
                       </span>
                     )}
@@ -524,23 +523,20 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-md transition-all !text-white ${
-                    chatLayout === 3
-                      ? `rounded-[18px] rounded-tl-[4px] ${
-                          isSelf
-                            ? 'bg-blue-600 border-blue-400/50 !text-white font-bold'
-                            : hasAdminTag
-                            ? 'bg-purple-600 border-purple-300 !text-black font-black'
-                            : 'bg-cyan-500 border-cyan-300/50 !text-white font-bold hover:bg-cyan-400'
-                        }`
-                      : ` rounded-tl-xs ${
-                          isSelf 
-                            ? 'bg-sky-600 border-sky-400/50 !text-white shadow-md'
-                            : hasAdminTag
-                            ? 'bg-gradient-to-r from-amber-950/50 via-yellow-950/40 to-black/80 border-purple-500/50 !text-amber-100 shadow-xs'
-                            : 'bg-cyan-600 border-cyan-400/40 !text-white font-bold shadow-sm hover:bg-cyan-500'
-                        }`
-                  }`}>
+                  <div className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-md transition-all !text-white ${chatLayout === 3
+                    ? `rounded-[18px] rounded-tl-[4px] ${isSelf
+                      ? 'bg-blue-600 border-blue-400/50 !text-white font-bold'
+                      : hasAdminTag
+                        ? 'bg-purple-600 border-purple-300 !text-black font-black'
+                        : 'bg-cyan-500 border-cyan-300/50 !text-white font-bold hover:bg-cyan-400'
+                    }`
+                    : ` rounded-tl-xs ${isSelf
+                      ? 'bg-sky-600 border-sky-400/50 !text-white shadow-md'
+                      : hasAdminTag
+                        ? 'bg-gradient-to-r from-amber-950/50 via-yellow-950/40 to-black/80 border-purple-500/50 !text-amber-100 shadow-xs'
+                        : 'bg-cyan-600 border-cyan-400/40 !text-white font-bold shadow-sm hover:bg-cyan-500'
+                    }`
+                    }`}>
                     {formatMessageContent(msg.content)}
                   </div>
                 </div>
@@ -550,7 +546,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                     <button
                       onClick={() => handleWarn(msg.sender_name)}
                       title="Warn User"
-                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15 text-purple-400 hover:scale-105 transition-all cursor-pointer"
+                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15  text-[var(--color-accent)] hover:scale-105 transition-all cursor-pointer"
                     >
                       ⚠️
                     </button>
@@ -673,7 +669,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                     if (showEmojiPicker) setShowEmojiPicker(false);
                   }}
                   title="Tag Admin or Crew"
-                  className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 font-bold text-xs border border-purple-500/30 transition-all cursor-pointer"
+                  className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20  text-[var(--color-accent)] font-bold text-xs border border-purple-500/30 transition-all cursor-pointer"
                 >
                   @
                 </button>

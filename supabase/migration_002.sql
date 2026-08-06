@@ -38,12 +38,6 @@ DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'bookings_select_all') THEN
     CREATE POLICY "bookings_select_all" ON public.bookings FOR SELECT USING (true);
   END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'bookings_insert_all') THEN
-    CREATE POLICY "bookings_insert_all" ON public.bookings FOR INSERT WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'bookings_update_all') THEN
-    CREATE POLICY "bookings_update_all" ON public.bookings FOR UPDATE USING (true);
-  END IF;
 END $$;
 
 -- Create chat_messages table for persistent crew/fan chat
@@ -66,9 +60,6 @@ ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'chat_select_all') THEN
     CREATE POLICY "chat_select_all" ON public.chat_messages FOR SELECT USING (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'chat_insert_all') THEN
-    CREATE POLICY "chat_insert_all" ON public.chat_messages FOR INSERT WITH CHECK (true);
   END IF;
 END $$;
 

@@ -81,7 +81,7 @@ export function Footer() {
         if (data.bookingPhone) setBookingPhone(data.bookingPhone);
         if (data.bookingEmail) setBookingEmail(data.bookingEmail);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Hide footer when the overlay is at full coverage (isCovered=true).
@@ -104,19 +104,19 @@ export function Footer() {
 
         {/* Book The Band — Bold CTA (Planner only) */}
         {isPlanner && (
-        <div className="mb-10">
-          <h2 className="font-[var(--font-heading)] text-[clamp(1.5rem,3vw,2.2rem)] font-black uppercase tracking-tight text-[var(--text-color)] mb-1">
-            Book The Band
-          </h2>
-          <div className="w-20 h-[3px] bg-[var(--color-accent)] mb-8" />
+          <div className="mb-10">
+            <h2 className="font-[var(--font-heading)] text-[clamp(1.5rem,3vw,2.2rem)] font-black uppercase tracking-tight text-[var(--text-color)] mb-1">
+              Book The Band
+            </h2>
+            <div className="w-20 h-[3px] bg-[var(--color-accent)] mb-8" />
 
-          <a href={`tel:${bookingPhone.replace(/-/g, '')}`} className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors leading-[1.1] tracking-tight">
-            {bookingPhone}
-          </a>
-          <a href={`mailto:${bookingEmail}`} className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic text-[var(--color-accent)] hover:text-[var(--text-color)] transition-colors leading-[1.1] tracking-tight">
-            {bookingEmail}
-          </a>
-        </div>
+            <a href={`tel:${bookingPhone.replace(/-/g, '')}`} className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-[var(--text-color)] hover: text-[var(--color-accent)] transition-colors leading-[1.1] tracking-tight">
+              {bookingPhone}
+            </a>
+            <a href={`mailto:${bookingEmail}`} className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic  text-[var(--color-accent)] hover:text-[var(--text-color)] transition-colors leading-[1.1] tracking-tight">
+              {bookingEmail}
+            </a>
+          </div>
         )}
 
       </div>
@@ -252,7 +252,7 @@ export function Footer() {
                   {link.name}
                 </a>
                 {i < socialLinks.length - 1 && (
-                  <span className="text-[var(--color-accent)] mx-1.5 text-[var(--font-size-md)] font-bold">/</span>
+                  <span className=" text-[var(--color-accent)] mx-1.5 text-[var(--font-size-md)] font-bold">/</span>
                 )}
               </span>
             ))}
@@ -266,10 +266,10 @@ export function Footer() {
           <Link href="/privacy" className="hover:text-[var(--text-color)] transition-colors">Privacy</Link>
           <Link href="/terms" className="hover:text-[var(--text-color)] transition-colors">Terms</Link>
           <Link href="/returns" className="hover:text-[var(--text-color)] transition-colors">Returns</Link>
-          <Link href="/sitemap/flowchart" className="hover:text-[var(--color-accent)] transition-colors">Flowchart Sitemap</Link>
-          <Link href="/demo/proximity" className="hover:text-[var(--color-accent)] transition-colors">Dev Demo</Link>
-          <Link href="/admin?login=true" className="hover:text-[var(--color-accent)] transition-colors">Admin</Link>
-          <Link href="/planner?login=true" className="hover:text-[var(--color-accent)] transition-colors">Planner</Link>
+          <Link href="/sitemap/flowchart" className="hover: text-[var(--color-accent)] transition-colors">Flowchart Sitemap</Link>
+          <Link href="/demo/proximity" className="hover: text-[var(--color-accent)] transition-colors">Dev Demo</Link>
+          <Link href="/admin?login=true" className="hover: text-[var(--color-accent)] transition-colors">Admin</Link>
+          <Link href="/planner?login=true" className="hover: text-[var(--color-accent)] transition-colors">Planner</Link>
         </div>
         <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
           Designed & Developed by NTD Records © {new Date().getFullYear()}

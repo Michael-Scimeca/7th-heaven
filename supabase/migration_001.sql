@@ -27,10 +27,6 @@ ALTER TABLE public.feed_reactions ENABLE ROW LEVEL SECURITY;
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'feed_reactions_select_all') THEN
     CREATE POLICY "feed_reactions_select_all" ON public.feed_reactions FOR SELECT USING (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'feed_reactions_insert_all') THEN
-    CREATE POLICY "feed_reactions_insert_all" ON public.feed_reactions FOR INSERT WITH CHECK (true);
-  END IF;
 END $$;
 
 -- 4. Update the handle_new_user trigger to include role + handle missing date_of_birth

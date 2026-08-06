@@ -572,9 +572,11 @@ export async function PATCH(request: Request) {
           } catch {}
         }
 
-        // Import write client and insert
-        const { sanityWriteClient } = await import("@/lib/sanity");
-        const { revalidatePath } = await import("next/cache");
+        // Import write client and insert (parallelized — no dependency between them)
+        const [{ sanityWriteClient }, { revalidatePath }] = await Promise.all([
+          import("@/lib/sanity"),
+          import("next/cache"),
+        ]);
 
         let notes = data.details || "";
         let allAges = true;

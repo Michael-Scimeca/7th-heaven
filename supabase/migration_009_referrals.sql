@@ -22,11 +22,3 @@ ALTER TABLE public.referrals ENABLE ROW LEVEL SECURITY;
 -- Users can see their own referrals
 CREATE POLICY "Users can see own referrals" ON public.referrals
   FOR SELECT USING (referrer_id = auth.uid());
-
--- Anyone can insert (public signup with ref code)
-CREATE POLICY "Anyone can create referral" ON public.referrals
-  FOR INSERT WITH CHECK (true);
-
--- Service role can update (mark as converted)
-CREATE POLICY "Service can update referrals" ON public.referrals
-  FOR UPDATE USING (true);

@@ -105,7 +105,7 @@ export default function MediaPage() {
           {!heroPlaying && (
             <div className="relative z-10 site-container flex items-end pb-24 h-screen pointer-events-none">
               <div className="max-w-lg pointer-events-auto">
-                <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 flex items-center gap-2">
+                <span className="text-xs font-black uppercase tracking-[0.3em]  text-[var(--color-accent)] mb-3 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
                   Featured Media
                 </span>
@@ -149,18 +149,17 @@ export default function MediaPage() {
               <button
                 key={cat.category}
                 onClick={() => handleFilterClick(cat.category)}
-                className={`relative text-sm font-extrabold uppercase tracking-[0.12em] py-2 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                  activeFilter === cat.category ? "text-black font-black" : "text-black/60 hover:text-black"
-                }`}
+                className={`relative text-sm font-extrabold uppercase tracking-[0.12em] py-2 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${activeFilter === cat.category ? "text-black font-black" : "text-black/60 hover:text-black"
+                  }`}
               >
                 {cat.category}
-                <span className="text-xs tabular-nums text-[var(--color-accent)] font-black">{cat.videos.length}</span>
+                <span className="text-xs tabular-nums  text-[var(--color-accent)] font-black">{cat.videos.length}</span>
                 {activeFilter === cat.category && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-accent)] rounded-full" />}
               </button>
             ))}
           </div>
           <div className="relative w-full md:w-56 shrink-0 self-center">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
             <input
               type="text"
               placeholder="SEARCH..."
@@ -195,7 +194,7 @@ export default function MediaPage() {
                   )}
                 </div>
                 <div className="pl-8 pr-4 py-4 bg-[var(--color-bg-surface)] border-b border-r border-black/[0.08]">
-                  <p className="text-base md:text-lg font-black text-black truncate group-hover:text-[var(--color-accent)] transition-colors tracking-tight">{video.title}</p>
+                  <p className="text-base md:text-lg font-black text-black truncate group-hover: text-[var(--color-accent)] transition-colors tracking-tight">{video.title}</p>
                   <div className="flex items-center gap-2 text-xs md:text-sm font-semibold text-black/60 mt-1"><span>{video.year}</span>{video.viewCount && <><span>·</span><span>{video.viewCount} views</span></>}</div>
                 </div>
               </div>

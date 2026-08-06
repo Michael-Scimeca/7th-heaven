@@ -40,7 +40,7 @@ export function EmbarkationCountdown() {
         <span className="text-4xl">🛳️</span>
         <div>
           <h2 className="text-black font-black italic tracking-wide text-lg">Embarkation</h2>
-          <p className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Port of Miami</p>
+          <p className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
 
@@ -62,7 +62,7 @@ export function EmbarkationCountdown() {
 // --- DAILY POLL ---
 export function DailyPoll() {
   const [voted, setVoted] = useState<number | null>(null);
-  
+
   const options = [
     { id: 1, text: "7th Heaven's Greatest Hits", votes: 45 },
     { id: 2, text: "80s Rock Anthems Cover Set", votes: 82 },
@@ -72,12 +72,12 @@ export function DailyPoll() {
   const totalVotes = options.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
 
   return (
-    <div className="bg-[var(--color-bg-surface)] border border-emerald-500/20 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-surface)] border  border-[var(--color-accent)]/30 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🗳️</span>
       </div>
-      
-      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-2">Community Poll</h2>
+
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-2">Community Poll</h2>
       <p className="text-white font-bold text-lg mb-6 relative z-10">What should the theme be for the Lido Deck Sailaway Party?</p>
 
       <div className="space-y-3 relative z-10">
@@ -91,22 +91,21 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`w-full relative overflow-hidden  border text-left transition-all ${
-                voted === opt.id 
-                  ? 'border-emerald-500 bg-emerald-500/10' 
-                  : voted !== null 
-                    ? 'border-white/5 bg-white/5 cursor-default'
-                    : 'border-white/10 bg-black/40 hover:border-emerald-500/40 hover:bg-white/5 cursor-pointer'
-              }`}
+              className={`w-full relative overflow-hidden  border text-left transition-all ${voted === opt.id
+                ? 'border-emerald-500 bg-emerald-500/10'
+                : voted !== null
+                  ? 'border-white/5 bg-white/5 cursor-default'
+                  : 'border-white/10 bg-black/40 hover:border-emerald-500/40 hover:bg-white/5 cursor-pointer'
+                }`}
             >
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
-                <div 
-                  className={`absolute top-0 left-0 bottom-0 transition-all duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : 'bg-white/5'}`} 
+                <div
+                  className={`absolute top-0 left-0 bottom-0 transition-all duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : 'bg-white/5'}`}
                   style={{ width: `${percent}%` }}
                 />
               )}
-              
+
               <div className="relative z-10 flex items-center justify-between p-4">
                 <span className={`text-sm font-medium ${voted === opt.id ? 'text-emerald-400' : 'text-white/80'}`}>
                   {opt.text}
@@ -121,7 +120,7 @@ export function DailyPoll() {
           );
         })}
       </div>
-      
+
       <p className="text-xs text-white/30 uppercase tracking-widest mt-5 font-bold">
         {totalVotes} Total Votes • Poll closes in 24h
       </p>
@@ -138,22 +137,22 @@ export function OriginStats() {
     { location: 'Canada', count: 12 },
     { location: 'Other', count: 185 },
   ];
-  
+
   const maxCount = Math.max(...stats.map(s => s.count));
 
   return (
     <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 relative overflow-hidden group">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
-      
+
       <div className="space-y-4">
         {stats.map((stat, i) => (
           <div key={i}>
             <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-1.5">
               <span className="text-white/70">{stat.location}</span>
-              <span className="text-[var(--color-accent)]">{stat.count} fans</span>
+              <span className=" text-[var(--color-accent)]">{stat.count} fans</span>
             </div>
             <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-white/5">
-              <div 
+              <div
                 className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full opacity-80 group-hover:opacity-100 transition-all duration-1000 delay-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
               />
@@ -190,14 +189,14 @@ export function PhotoWall() {
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {mockPhotos.map((src, i) => (
-          <div 
-            key={i} 
+          <div
+            key={i}
             className="aspect-square bg-white/5 border border-white/10 overflow-hidden group cursor-pointer relative"
           >
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all z-10 flex items-center justify-center backdrop-blur-[2px]">
               <span className="text-white text-2xl">📸</span>
             </div>
-            <div 
+            <div
               className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
               style={{ backgroundImage: `url(${src})` }}
             />
@@ -281,7 +280,7 @@ export function BookingManager({ email }: { email?: string }) {
               cabinImg = '/images/cruise/jy.png';
             }
           }
-          
+
           const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$1,200.00");
           const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$350.00");
 
@@ -362,7 +361,7 @@ export function BookingManager({ email }: { email?: string }) {
             cabinImg = '/images/cruise/jy.png';
           }
         }
-        
+
         const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$0.00");
         const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$1,550.00");
 
@@ -442,7 +441,7 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
       <p className="text-white/60 text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
-      
+
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -487,314 +486,314 @@ export function BookingManager({ email }: { email?: string }) {
 
   return (
     <div className="p-6 bg-white border border-black/10 shadow-md text-black relative overflow-hidden flex flex-col justify-between">
-       <div>
-         <div className="flex justify-between items-center mb-6 relative z-10">
-           <div>
-             <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50">Priority Status</h2>
-             <div className="flex items-center gap-3 mt-1">
-               <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-md" />
-               <span className="text-emerald-700 font-bold tracking-widest uppercase text-xs">Registered</span>
-             </div>
-           </div>
+      <div>
+        <div className="flex justify-between items-center mb-6 relative z-10">
+          <div>
+            <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50">Priority Status</h2>
+            <div className="flex items-center gap-3 mt-1">
+              <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-md" />
+              <span className="text-emerald-700 font-bold tracking-widest uppercase text-xs">Registered</span>
+            </div>
+          </div>
 
-           {!isEditing && (
-             <button onClick={() => setIsEditing(true)} className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-black transition-colors cursor-pointer">
-               Edit Info
-             </button>
-           )}
-         </div>
-       </div>
+          {!isEditing && (
+            <button onClick={() => setIsEditing(true)} className=" text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-black transition-colors cursor-pointer">
+              Edit Info
+            </button>
+          )}
+        </div>
+      </div>
 
-       {isEditing ? (
-         <div className="relative z-10 py-2">
-           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-             {/* Left Column: Cabin Image Preview */}
-             <div className="md:col-span-2 flex flex-col justify-start">
-               <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
-                 <img 
-                   src={booking?.cabin_image || '/images/cruise/d1_ocean_view_balcony.jpg'} 
-                   alt="Selected Cabin" 
-                   className="w-full h-full object-cover" 
-                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
-                     Cabin Room Preview
-                   </span>
-                 </div>
-               </div>
-             </div>
+      {isEditing ? (
+        <div className="relative z-10 py-2">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {/* Left Column: Cabin Image Preview */}
+            <div className="md:col-span-2 flex flex-col justify-start">
+              <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
+                <img
+                  src={booking?.cabin_image || '/images/cruise/d1_ocean_view_balcony.jpg'}
+                  alt="Selected Cabin"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
+                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
+                    Cabin Room Preview
+                  </span>
+                </div>
+              </div>
+            </div>
 
-             {/* Right Column: Edit Form */}
-             <div className="md:col-span-3 space-y-4">
-               <h3 className="text-xs font-bold text-cyan-700 uppercase tracking-widest border-b border-black/10 pb-2">Edit Booking & Guest Info</h3>
-               <div>
-                 <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
-                 <input 
-                   type="number" min="1" max="10"
-                   value={formData.guest_count} 
-                   onChange={e => setFormData({...formData, guest_count: parseInt(e.target.value) || 1})}
-                   className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]" 
-                 />
-               </div>
-               <div>
-                 <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
-                 <input 
-                   type="text" 
-                   value={formData.phone} 
-                   onChange={e => setFormData({...formData, phone: e.target.value})}
-                   className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]" 
-                 />
-               </div>
-               <div className="flex items-center gap-2">
-                 <input 
-                   type="checkbox" 
-                   id="anon-check"
-                   checked={formData.anonymous}
-                   onChange={e => setFormData({...formData, anonymous: e.target.checked})}
-                   className="accent-[var(--color-accent)] cursor-pointer"
-                 />
-                 <label htmlFor="anon-check" className="text-xs font-bold text-black/70 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
-               </div>
-               
-               <div className="pt-2 border-t border-black/10">
-                 <div className="flex justify-between items-center mb-2">
-                   <label className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</label>
-                   <button onClick={() => setFormData({...formData, guests: [...formData.guests, {name: '', type: 'adult'}]})} className="text-xs font-bold text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
-                 </div>
-                 <div className="space-y-2">
-                   {formData.guests.map((g: any, i: number) => (
-                     <div key={i} className="flex gap-2">
-                       <input 
-                         type="text" placeholder="Name" value={g.name || ''} 
-                         onChange={e => {
-                           const newGuests = [...formData.guests];
-                           newGuests[i].name = e.target.value;
-                           setFormData({...formData, guests: newGuests});
-                         }}
-                         className="flex-1 bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)]" 
-                       />
-                       <select 
-                         value={g.type || 'adult'} 
-                         onChange={e => {
-                           const newGuests = [...formData.guests];
-                           newGuests[i].type = e.target.value;
-                           setFormData({...formData, guests: newGuests});
-                         }}
-                         className="bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
-                       >
-                         <option value="adult">Adult</option>
-                         <option value="child">Child</option>
-                       </select>
-                       <button 
-                         onClick={() => {
-                           const newGuests = formData.guests.filter((_, idx) => idx !== i);
-                           setFormData({...formData, guests: newGuests});
-                         }}
-                         className="text-black/40 hover:text-red-600 px-1 cursor-pointer"
-                       >
-                         ✕
-                       </button>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-               <div className="flex gap-2 mt-4 pt-2 border-t border-black/10">
-                 <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all cursor-pointer">
-                   {saveStatus || 'Save'}
-                 </button>
-                 <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
-                   Cancel
-                 </button>
-               </div>
-             </div>
-           </div>
-         </div>
-       ) : (
-           /* STANDARD LAYOUT */
-           <div className="relative z-10 py-2">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-              {/* Left Column: Cabin Image Preview */}
-              {booking.cabin_image && (
-                <div className="md:col-span-2 flex flex-col justify-start">
-                  <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
-                    <img 
-                      src={booking.cabin_image} 
-                      alt="Selected Cabin" 
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
-                        Cabin Room Preview
-                      </span>
+            {/* Right Column: Edit Form */}
+            <div className="md:col-span-3 space-y-4">
+              <h3 className="text-xs font-bold text-cyan-700 uppercase tracking-widest border-b border-black/10 pb-2">Edit Booking & Guest Info</h3>
+              <div>
+                <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
+                <input
+                  type="number" min="1" max="10"
+                  value={formData.guest_count}
+                  onChange={e => setFormData({ ...formData, guest_count: parseInt(e.target.value) || 1 })}
+                  className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
+                <input
+                  type="text"
+                  value={formData.phone}
+                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="anon-check"
+                  checked={formData.anonymous}
+                  onChange={e => setFormData({ ...formData, anonymous: e.target.checked })}
+                  className="accent-[var(--color-accent)] cursor-pointer"
+                />
+                <label htmlFor="anon-check" className="text-xs font-bold text-black/70 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
+              </div>
+
+              <div className="pt-2 border-t border-black/10">
+                <div className="flex justify-between items-center mb-2">
+                  <label className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</label>
+                  <button onClick={() => setFormData({ ...formData, guests: [...formData.guests, { name: '', type: 'adult' }] })} className="text-xs font-bold  text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
+                </div>
+                <div className="space-y-2">
+                  {formData.guests.map((g: any, i: number) => (
+                    <div key={i} className="flex gap-2">
+                      <input
+                        type="text" placeholder="Name" value={g.name || ''}
+                        onChange={e => {
+                          const newGuests = [...formData.guests];
+                          newGuests[i].name = e.target.value;
+                          setFormData({ ...formData, guests: newGuests });
+                        }}
+                        className="flex-1 bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)]"
+                      />
+                      <select
+                        value={g.type || 'adult'}
+                        onChange={e => {
+                          const newGuests = [...formData.guests];
+                          newGuests[i].type = e.target.value;
+                          setFormData({ ...formData, guests: newGuests });
+                        }}
+                        className="bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                      >
+                        <option value="adult">Adult</option>
+                        <option value="child">Child</option>
+                      </select>
+                      <button
+                        onClick={() => {
+                          const newGuests = formData.guests.filter((_, idx) => idx !== i);
+                          setFormData({ ...formData, guests: newGuests });
+                        }}
+                        className="text-black/40 hover:text-red-600 px-1 cursor-pointer"
+                      >
+                        ✕
+                      </button>
                     </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-2 mt-4 pt-2 border-t border-black/10">
+                <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all cursor-pointer">
+                  {saveStatus || 'Save'}
+                </button>
+                <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* STANDARD LAYOUT */
+        <div className="relative z-10 py-2">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {/* Left Column: Cabin Image Preview */}
+            {booking.cabin_image && (
+              <div className="md:col-span-2 flex flex-col justify-start">
+                <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
+                  <img
+                    src={booking.cabin_image}
+                    alt="Selected Cabin"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
+                    <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
+                      Cabin Room Preview
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Right Column: Details List */}
+            <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
+              <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Passenger Name</span>
+                <span className="text-sm font-bold text-black">{booking.name}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Ship & Voyage</span>
+                <span className="text-xs font-bold text-cyan-700">Royal Caribbean · Icon of the Seas</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Sailing Dates</span>
+                <span className="text-xs font-bold text-black">Jan 18 – Jan 25, 2026 (7 Nights)</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Departure Port</span>
+                <span className="text-xs font-medium text-black/80">Port of Miami, FL (Terminal A)</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Party Size</span>
+                <span className="text-sm font-black  text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-black/50 ml-1">Guests</span></span>
+              </div>
+
+              {booking.cabin_preference && (
+                <div className="flex justify-between items-center border-b border-black/10 pb-2">
+                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Selected Cabin</span>
+                  <span className="text-sm font-bold text-cyan-700">{booking.cabin_preference}</span>
+                </div>
+              )}
+
+              {/* Travel Readiness Checklist Badges */}
+              <div className="bg-gray-50 border border-black/10 p-3 my-3">
+                <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+                <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
+                  <div className="flex items-center gap-1.5 text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">
+                    <span>✓</span> Passport Verified
+                  </div>
+                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)] border border-[var(--color-accent)] px-2 py-1 rounded">
+                    <span>🎸</span> Band VIP Pass Included
+                  </div>
+                  <div className="flex items-center gap-1.5 text-cyan-800 font-medium bg-cyan-50 border border-cyan-200 px-2 py-1 rounded">
+                    <span>📅</span> Check-in: 45 Days Prior
+                  </div>
+                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-medium bg-amber-50 border border-amber-200 px-2 py-1 rounded">
+                    <span>🏷️</span> Luggage Tags: Dec 1st
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Breakdown: Total Fare, Paid & Owed */}
+              <div className="bg-gray-50 border border-black/10 p-4 space-y-2.5 my-3 shadow-sm">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-black/60 uppercase tracking-wider">Total Cruise Fare</span>
+                  <span className="font-bold text-black">{booking.total_fare || "$1,550.00"}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
+                  <span className="font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
+                    <span>✓</span> Amount Paid
+                  </span>
+                  <span className="text-emerald-700 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
+                  <span className="font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1">
+                    <span>⏳</span> Balance Owed
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-rose-600 font-black text-sm">{booking.balance_due || "$350.00"}</span>
+                    {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
+                      <button
+                        onClick={() => setIsPayModalOpen(true)}
+                        className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+                      >
+                        💳 Pay Balance
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {booking.guests && booking.guests.length > 0 && (
+                <div className="mt-3 border-t border-white/5 pt-3">
+                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Guest List</h3>
+                  <div className="space-y-1.5">
+                    {booking.guests.map((g: any, i: number) => (
+                      <div key={i} className="flex justify-between items-center text-xs">
+                        <span className="text-white font-medium">{g.name || `Guest ${i + 2}`}</span>
+                        <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
 
-              {/* Right Column: Details List */}
-              <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Passenger Name</span>
-                  <span className="text-sm font-bold text-black">{booking.name}</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Ship & Voyage</span>
-                  <span className="text-xs font-bold text-cyan-700">Royal Caribbean · Icon of the Seas</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Sailing Dates</span>
-                  <span className="text-xs font-bold text-black">Jan 18 – Jan 25, 2026 (7 Nights)</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Departure Port</span>
-                  <span className="text-xs font-medium text-black/80">Port of Miami, FL (Terminal A)</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Party Size</span>
-                  <span className="text-sm font-black text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-black/50 ml-1">Guests</span></span>
-                </div>
-                
-                {booking.cabin_preference && (
-                  <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                    <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Selected Cabin</span>
-                    <span className="text-sm font-bold text-cyan-700">{booking.cabin_preference}</span>
-                  </div>
-                )}
+              {/* Two Clickable Cruise Agent Email Buttons */}
+              <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+                <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Button 1: Cruise Admin Agent */}
+                  <a
+                    href={`mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+                      `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
+                    )}&body=${encodeURIComponent(
+                      `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
+                    )}`}
+                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
+                  >
+                    <div className="flex items-center gap-1.5 font-black">
+                      <span>✉️</span> Cruise Admin
+                    </div>
+                    <span className="text-[var(--font-size-4xs)] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
+                  </a>
 
-                {/* Travel Readiness Checklist Badges */}
-                <div className="bg-gray-50 border border-black/10 p-3 my-3">
-                  <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
-                  <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-                    <div className="flex items-center gap-1.5 text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">
-                      <span>✓</span> Passport Verified
+                  {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
+                  <a
+                    href={`mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+                      `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
+                    )}&body=${encodeURIComponent(
+                      `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
+                    )}`}
+                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer text-center"
+                  >
+                    <div className="flex items-center gap-1.5 font-black">
+                      <span>✉️</span> Support Agent (Mary)
                     </div>
-                    <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-bold bg-[var(--color-accent)] border border-[var(--color-accent)] px-2 py-1 rounded">
-                      <span>🎸</span> Band VIP Pass Included
-                    </div>
-                    <div className="flex items-center gap-1.5 text-cyan-800 font-medium bg-cyan-50 border border-cyan-200 px-2 py-1 rounded">
-                      <span>📅</span> Check-in: 45 Days Prior
-                    </div>
-                    <div className="flex items-center gap-1.5 text-purple-400 font-medium bg-amber-50 border border-amber-200 px-2 py-1 rounded">
-                      <span>🏷️</span> Luggage Tags: Dec 1st
-                    </div>
-                  </div>
-                </div>
-
-                {/* Payment Breakdown: Total Fare, Paid & Owed */}
-                <div className="bg-gray-50 border border-black/10 p-4 space-y-2.5 my-3 shadow-sm">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-black/60 uppercase tracking-wider">Total Cruise Fare</span>
-                    <span className="font-bold text-black">{booking.total_fare || "$1,550.00"}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
-                    <span className="font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
-                      <span>✓</span> Amount Paid
-                    </span>
-                    <span className="text-emerald-700 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
-                    <span className="font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1">
-                      <span>⏳</span> Balance Owed
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-rose-600 font-black text-sm">{booking.balance_due || "$350.00"}</span>
-                      {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
-                        <button 
-                          onClick={() => setIsPayModalOpen(true)}
-                          className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
-                        >
-                          💳 Pay Balance
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                
-                {booking.guests && booking.guests.length > 0 && (
-                  <div className="mt-3 border-t border-white/5 pt-3">
-                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-2">Guest List</h3>
-                    <div className="space-y-1.5">
-                      {booking.guests.map((g: any, i: number) => (
-                        <div key={i} className="flex justify-between items-center text-xs">
-                          <span className="text-white font-medium">{g.name || `Guest ${i+2}`}</span>
-                          <span className="text-white/40">{g.type === 'child' ? `Child ${g.age ? `(Age ${g.age})` : ''}` : 'Adult'}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Two Clickable Cruise Agent Email Buttons */}
-                <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
-                  <span className="text-[var(--font-size-3xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Get in Touch with Cruise Agents</span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {/* Button 1: Cruise Admin Agent */}
-                    <a
-                      href={`mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
-                        `7th Heaven Cruise Inquiry - ${booking.cabin_preference || 'Cabin 9122'} (${booking.name || 'Passenger'})`
-                      )}&body=${encodeURIComponent(
-                        `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
-                      )}`}
-                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
-                    >
-                      <div className="flex items-center gap-1.5 font-black">
-                        <span>✉️</span> Cruise Admin
-                      </div>
-                      <span className="text-[var(--font-size-4xs)] font-mono font-normal text-cyan-200 lowercase tracking-normal">cruise@7thheavenband.com</span>
-                    </a>
-
-                    {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
-                    <a
-                      href={`mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
-                        `7th Heaven Cruise Support - ${booking.name || 'Passenger'} (${booking.cabin_preference || 'Cabin 9122'})`
-                      )}&body=${encodeURIComponent(
-                        `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
-                      )}`}
-                      className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer text-center"
-                    >
-                      <div className="flex items-center gap-1.5 font-black">
-                        <span>✉️</span> Support Agent (Mary)
-                      </div>
-                      <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal">mary@ntdvacations.com</span>
-                    </a>
-                  </div>
+                    <span className="text-[var(--font-size-4xs)] font-mono font-normal text-white/80 lowercase tracking-normal">mary@ntdvacations.com</span>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-       )}
-
-        {/* Cruising Power Travel Agent Portal Hook */}
-        <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white/60 text-left">
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-sm">🚢</span>
-            <span className="font-extrabold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
-          </div>
-          <p>
-            Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white hover:text-cyan-300">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
-          </p>
         </div>
+      )}
 
-        <PaymentModal 
-          isOpen={isPayModalOpen} 
-          onClose={() => setIsPayModalOpen(false)} 
-          balanceDue={booking.balance_due} 
-          email={email} 
-          onSuccess={() => {
-            setBooking((prev: any) => {
-              if (!prev) return prev;
-              const prevPaid = parseFloat(prev.amount_paid?.replace(/[^0-9.]/g, '') || '0') || 0;
-              const prevDue = parseFloat(prev.balance_due?.replace(/[^0-9.]/g, '') || '0') || 0;
-              const total = prevPaid + prevDue;
-              const formattedTotal = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-              return {
-                ...prev,
-                amount_paid: formattedTotal,
-                balance_due: '$0.00'
-              };
-            });
-          }}
-        />
+      {/* Cruising Power Travel Agent Portal Hook */}
+      <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white/60 text-left">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="text-sm">🚢</span>
+          <span className="font-extrabold uppercase tracking-wider text-cyan-400">Cruising Power Integration</span>
+        </div>
+        <p>
+          Are you booking through a travel agent? Agents can log into Royal Caribbean Group&apos;s official <a href="https://www.cruisingpower.com" target="_blank" rel="noopener noreferrer" className="underline font-bold text-white hover:text-cyan-300">Cruising Power Portal</a> to register and link your booking details to the 7th Heaven group code.
+        </p>
+      </div>
+
+      <PaymentModal
+        isOpen={isPayModalOpen}
+        onClose={() => setIsPayModalOpen(false)}
+        balanceDue={booking.balance_due}
+        email={email}
+        onSuccess={() => {
+          setBooking((prev: any) => {
+            if (!prev) return prev;
+            const prevPaid = parseFloat(prev.amount_paid?.replace(/[^0-9.]/g, '') || '0') || 0;
+            const prevDue = parseFloat(prev.balance_due?.replace(/[^0-9.]/g, '') || '0') || 0;
+            const total = prevPaid + prevDue;
+            const formattedTotal = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            return {
+              ...prev,
+              amount_paid: formattedTotal,
+              balance_due: '$0.00'
+            };
+          });
+        }}
+      />
     </div>
   );
 }
@@ -889,22 +888,22 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div 
+      <div
         className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-all"
         onClick={processing || success ? undefined : onClose}
       />
-      
+
       <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               ✓
             </div>
             <h3 className="text-lg font-black uppercase tracking-widest text-white">Payment Successful</h3>
             <p className="text-white/60 text-xs leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
-            <button 
+            <button
               onClick={onClose}
               className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-all cursor-pointer shadow-emerald-500/15"
             >
@@ -935,14 +934,14 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
             ) : (
               <>
                 <div className="flex gap-2 p-1 bg-black/40 border border-white/5">
-                  <button 
+                  <button
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
                     className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
-                  <button 
+                  <button
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
                     className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
@@ -970,7 +969,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                   <div className="space-y-4">
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
-                      <input 
+                      <input
                         type="text"
                         placeholder="John Doe"
                         value={cardName}
@@ -981,7 +980,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
                       <div className="relative">
-                        <input 
+                        <input
                           type="text"
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
@@ -994,7 +993,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
-                        <input 
+                        <input
                           type="text"
                           placeholder="MM/YY"
                           value={cardExpiry}
@@ -1004,7 +1003,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                       </div>
                       <div>
                         <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
-                        <input 
+                        <input
                           type="password"
                           placeholder="123"
                           value={cardCVC}
@@ -1017,15 +1016,15 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                 )}
 
                 <div className="flex gap-3 pt-2">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={onClose}
                     className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest transition-all cursor-pointer shadow-cyan-500/10"
                   >
                     Pay {balanceDue}
@@ -1042,7 +1041,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
 
 // --- IMPORTANT LINKS WIDGET ---
 export function ImportantLinksWidget() {
-  const [links, setLinks] = useState<{title: string, url: string, icon: string}[]>([]);
+  const [links, setLinks] = useState<{ title: string, url: string, icon: string }[]>([]);
 
   useEffect(() => {
     fetch(`/api/cruise/important-links?t=${Date.now()}`, { cache: 'no-store' })
@@ -1052,7 +1051,7 @@ export function ImportantLinksWidget() {
           setLinks(data.links);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   if (links.length === 0) return null;
@@ -1062,10 +1061,10 @@ export function ImportantLinksWidget() {
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
-      
+
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-1">Quick Access</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-1">Quick Access</h2>
           <p className="text-black font-bold text-lg">Important Links</p>
         </div>
       </div>
@@ -1081,11 +1080,11 @@ export function ImportantLinksWidget() {
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
-              <span className="text-sm font-medium text-black group-hover/item:text-[var(--color-accent)] transition-colors">
+              <span className="text-sm font-medium text-black group-hover/item: text-[var(--color-accent)] transition-colors">
                 {link.title}
               </span>
             </div>
-            <span className="text-[var(--color-accent)] opacity-0 group-hover/item:opacity-100 transition-opacity -translate-x-2 group-hover/item:translate-x-0 duration-300">
+            <span className=" text-[var(--color-accent)] opacity-0 group-hover/item:opacity-100 transition-opacity -translate-x-2 group-hover/item:translate-x-0 duration-300">
               →
             </span>
           </a>
@@ -1111,7 +1110,7 @@ export function SongRequestLeaderboard() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-purple-500/20 p-6 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center text-purple-400 text-sm">🎸</div>
+        <div className="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center  text-[var(--color-accent)] text-sm">🎸</div>
         <div>
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-300">Setlist Requests</h2>
           <p className="text-white/40 text-xs uppercase tracking-widest mt-0.5">Top 3 get played on Lido Deck</p>
@@ -1121,14 +1120,14 @@ export function SongRequestLeaderboard() {
       <div className="space-y-4">
         {songs.map((song, i) => (
           <div key={song.id} className="flex items-center gap-4 group">
-            <span className={`text-sm font-black w-4 text-center ${i < 3 ? 'text-purple-400' : 'text-white/20'}`}>
+            <span className={`text-sm font-black w-4 text-center ${i < 3 ? ' text-[var(--color-accent)]' : 'text-white/20'}`}>
               {i + 1}
             </span>
             <div className="flex-1">
               <div className="text-white/90 font-medium text-sm">{song.title}</div>
               <div className="text-white/30 text-xs">{song.votes} votes</div>
             </div>
-            <button 
+            <button
               onClick={() => handleVote(song.id)}
               className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-all text-white/40"
             >
@@ -1150,33 +1149,38 @@ export function CaptainsLog() {
     if (!isPlaying) return;
     const t = setInterval(() => {
       setProgress(p => {
-        if (p >= 100) { setIsPlaying(false); return 0; }
+        if (p >= 100) return 0;
         return p + 2;
       });
     }, 100);
     return () => clearInterval(t);
   }, [isPlaying]);
 
+  // Stop playing when progress resets to 0 after completing
+  useEffect(() => {
+    if (progress === 0 && isPlaying) setIsPlaying(false);
+  }, [progress, isPlaying]);
+
   return (
     <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 shadow-xl relative">
-      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4">Captain's Log</h2>
-      
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-4">Captain's Log</h2>
+
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
-        <button 
+        <button
           onClick={() => setIsPlaying(!isPlaying)}
           className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-all shadow-md"
         >
           {isPlaying ? (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
           ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="ml-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           )}
         </button>
-        
+
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-end mb-2">
             <span className="text-sm font-bold text-white truncate">Rehearsal Update!</span>
-            <span className="text-xs text-[var(--color-accent)]/80 font-mono">0:42</span>
+            <span className="text-xs  text-[var(--color-accent)]/80 font-mono">0:42</span>
           </div>
           <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer">
             <div className="h-full bg-[var(--color-accent)] rounded-full" style={{ width: `${progress}%` }} />
@@ -1202,7 +1206,7 @@ export function ExcursionTeasers() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
-      
+
       <div className="space-y-3">
         {excursions.map((ex, i) => (
           <div key={i} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">

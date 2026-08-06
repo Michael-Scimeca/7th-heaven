@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { sanitizeBannerHtml } from "@/lib/sanitize-html";
 
 interface AnnouncementBannerProps {
   text: string;
@@ -35,7 +36,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
             <span className="text-lg animate-pulse shrink-0">⚠️</span>
             <div 
               className="text-xs sm:text-sm font-black italic text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline" 
-              dangerouslySetInnerHTML={{ __html: text }} 
+              dangerouslySetInnerHTML={{ __html: sanitizeBannerHtml(text) }} 
             />
           </div>
           {link && (
@@ -68,7 +69,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
           <span className="text-lg animate-pulse shrink-0">⚠️</span>
           <div 
             className="text-xs sm:text-sm font-black italic text-white uppercase tracking-widest leading-snug [&_p]:m-0 [&_p]:inline" 
-            dangerouslySetInnerHTML={{ __html: text }} 
+            dangerouslySetInnerHTML={{ __html: sanitizeBannerHtml(text) }} 
           />
         </div>
         {link && (

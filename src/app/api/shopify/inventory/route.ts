@@ -19,55 +19,58 @@ import { NextResponse } from 'next/server';
 
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN?.replace(/"/g, '') || '';
 const adminToken = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN?.replace(/"/g, '') || '';
-const storefrontToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN?.replace(/"/g, '') || '';
+// Prefer server-only SHOPIFY_STOREFRONT_ACCESS_TOKEN; fall back to the
+// NEXT_PUBLIC_ variant for existing deployments.
+const storefrontToken = (
+  process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
+  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
+  ''
+).replace(/"/g, '');
 
 export async function GET() {
   if (adminToken) {
     try {
-      const res = await fetch(`https://${domain}/admin/api/2025-01/graphql.json`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': adminToken,
-        },
-        body: JSON.stringify({
-          query: `{
-            products(first: 20) {
-              edges {
-                node {
-                  id
-                  title
-                  handle
-                  description
-                  tags
-                  totalInventory
-                  images(first: 1) {
-                    edges {
-                      node {
-                        url
-                        altText
-                      }
-                    }
+      const query = `{
+        products(first: 20) {
+          edges {
+            node {
+              id
+              title
+              handle
+              description
+              tags
+              totalInventory
+              images(first: 1) {
+                edges {
+                  node {
+                    url
+                    altText
                   }
-                  variants(first: 5) {
-                    edges {
-                      node {
-                        id
-                        title
-                        price
-                        compareAtPrice
-                        inventoryQuantity
-                        inventoryItem {
-                          id
-                        }
-                      }
+                }
+              }
+              variants(first: 5) {
+                edges {
+                  node {
+                    id
+                    title
+                    price
+                    compareAtPrice
+                    inventoryQuantity
+                    inventoryItem {
+                      id
                     }
                   }
                 }
               }
             }
-          }`
-        }),
+          }
+        }
+      }`;
+      const res = await fetch(`https://${domain}/admin/api/2025-01/graphql.json?query=${encodeURIComponent(query)}`, {
+        method: 'GET',
+        headers: {
+          'X-Shopify-Access-Token': adminToken,
+        },
         cache: 'no-store',
       });
 
@@ -98,48 +101,45 @@ export async function GET() {
 
   // Fallback: Storefront API
   try {
-    const res = await fetch(`https://${domain}/api/2025-01/graphql.json?t=${Date.now()}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': storefrontToken,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-      },
-      body: JSON.stringify({
-        query: `{
-          products(first: 20) {
-            edges {
-              node {
-                id
-                title
-                handle
-                description
-                tags
-                images(first: 1) {
-                  edges {
-                    node {
-                      url
-                      altText
-                    }
-                  }
+    const sfQuery = `{
+      products(first: 20) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            tags
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
                 }
-                variants(first: 5) {
-                  edges {
-                    node {
-                      id
-                      title
-                      price { amount currencyCode }
-                      compareAtPrice { amount currencyCode }
-                      quantityAvailable
-                    }
-                  }
+              }
+            }
+            variants(first: 5) {
+              edges {
+                node {
+                  id
+                  title
+                  price { amount currencyCode }
+                  compareAtPrice { amount currencyCode }
+                  quantityAvailable
                 }
               }
             }
           }
-        }`
-      }),
+        }
+      }
+    }`;
+    const res = await fetch(`https://${domain}/api/2025-01/graphql.json?t=${Date.now()}&query=${encodeURIComponent(sfQuery)}`, {
+      method: 'GET',
+      headers: {
+        'X-Shopify-Storefront-Access-Token': storefrontToken,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+      },
       cache: 'no-store',
     });
 

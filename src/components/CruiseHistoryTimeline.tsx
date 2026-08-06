@@ -139,7 +139,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         const parsed = JSON.parse(savedStr);
         setTuning({ ...DEFAULT_HISTORY_TUNING, ...parsed });
       }
-    } catch {}
+    } catch { }
   }, []);
 
   const handleSaveTuning = () => {
@@ -147,7 +147,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.setItem('7h_history_tuning_v6', JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   const handleResetTuning = () => {
@@ -156,7 +156,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.removeItem('7h_history_tuning');
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
@@ -628,7 +628,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             />
           </svg>
         )}
-        
+
         {/* START POINT HEADER (Top-Left Corner) */}
         <div className="relative pl-2 mb-12">
           <div className="flex items-center gap-3">
@@ -656,12 +656,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* YEAR HEADERS ROW */}
                 <div
                   data-year-header-row
-                  className={`relative flex justify-between items-center px-2 md:px-4 lg:px-6 h-12 z-30 ${
-                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
-                  }`}
+                  className={`relative flex justify-between items-center px-2 md:px-4 lg:px-6 h-12 z-30 ${isEvenRow ? 'flex-row' : 'flex-row-reverse'
+                    }`}
                 >
                   {(() => {
-                    const paddedItems = rowItems.length < chunkSize 
+                    const paddedItems = rowItems.length < chunkSize
                       ? [...rowItems, ...Array(chunkSize - rowItems.length).fill(null)]
                       : rowItems;
 
@@ -683,8 +682,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       const isReached = isFutureNode
                         ? false
                         : is2026
-                        ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
-                        : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
+                          ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
+                          : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80));
 
                       const flexAlignClass = isEvenRow
                         ? (itemIndex === 0 ? 'flex justify-start text-left' : itemIndex === chunkSize - 1 ? 'flex justify-end text-right' : 'flex justify-center text-center')
@@ -698,17 +697,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <div
                             data-year-badge
-                            className={`inline-block  z-40 transition-all duration-300 ${
-                              isReached
-                                ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
-                                : 'bg-[#06060c] border border-white/10'
-                            }`}
+                            className={`inline-block  z-40 transition-all duration-300 ${isReached
+                              ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
+                              : 'bg-[#06060c] border border-white/10'
+                              }`}
                             style={{ padding: 'clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)' }}
                           >
                             <h6
-                              className={`font-black font-mono tracking-tight transition-colors leading-none ${
-                                isReached ? 'text-cyan-300' : 'text-white/40'
-                              }`}
+                              className={`font-black font-mono tracking-tight transition-colors leading-none ${isReached ? 'text-cyan-300' : 'text-white/40'
+                                }`}
                               style={{ fontSize: 'clamp(1.5rem, 3.2vw, 3rem)' }}
                             >
                               {hist.year}
@@ -722,12 +719,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* CARDS ROW */}
                 <div
-                  className={`flex justify-between items-start px-2 md:px-4 lg:px-6 mt-4 ${
-                    isEvenRow ? 'flex-row' : 'flex-row-reverse'
-                  }`}
+                  className={`flex justify-between items-start px-2 md:px-4 lg:px-6 mt-4 ${isEvenRow ? 'flex-row' : 'flex-row-reverse'
+                    }`}
                 >
                   {(() => {
-                    const paddedItems = rowItems.length < chunkSize 
+                    const paddedItems = rowItems.length < chunkSize
                       ? [...rowItems, ...Array(chunkSize - rowItems.length).fill(null)]
                       : rowItems;
 
@@ -750,8 +746,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       const isReached = globalIdx === 0 || (isFutureNode
                         ? false
                         : is2026
-                        ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
-                        : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80)));
+                          ? (currentShipLength > 0 && shipMaxTravelLength > 0 && currentShipLength >= (shipMaxTravelLength - 10))
+                          : (currentShipLength > 0 && currentShipLength >= (badgePathLen - 80)));
 
                       return (
                         <div
@@ -760,20 +756,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: 'clamp(200px, 24vw, 380px)' }}
                         >
                           <div
-                            className={`transition-all duration-300 ${
-                              isReached
-                                ? 'opacity-100'
-                                : 'opacity-70'
-                            }`}
+                            className={`transition-all duration-300 ${isReached
+                              ? 'opacity-100'
+                              : 'opacity-70'
+                              }`}
                             style={{ padding: '0.5rem 0' }}
                           >
                             <div className="flex items-center justify-between gap-2 mb-2">
                               <span
-                                className={`font-black uppercase tracking-widest font-mono rounded transition-colors ${
-                                  isReached
-                                    ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
-                                    : 'text-white/40 bg-white/5 border border-white/10'
-                                }`}
+                                className={`font-black uppercase tracking-widest font-mono rounded transition-colors ${isReached
+                                  ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-500/50'
+                                  : 'text-white/40 bg-white/5 border border-white/10'
+                                  }`}
                                 style={{ fontSize: 'clamp(0.55rem, 0.75vw, 0.65rem)', padding: '0.125rem 0.5rem' }}
                               >
                                 VOYAGE #{voyageNum}
@@ -782,9 +776,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             </div>
 
                             <h4
-                              className={`font-black uppercase leading-snug transition-colors ${
-                                isReached ? 'text-white' : 'text-white/60'
-                              }`}
+                              className={`font-black uppercase leading-snug transition-colors ${isReached ? 'text-white' : 'text-white/60'
+                                }`}
                               style={{ fontSize: 'clamp(0.75rem, 1.1vw, 1rem)' }}
                             >
                               {hist.ship}
@@ -824,24 +817,21 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={idx} className="relative group">
                 {/* Node Circle Box */}
                 <div
-                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-all duration-300 ${
-                    isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
-                  }`}
+                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-all duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
+                    }`}
                 />
 
                 {/* Connecting Line Segment — Aligned at 25px Global Mobile Padding */}
                 {showConnectorLine && (
                   <div
-                    className={`absolute left-[-19px] top-2 bottom-[-32px] w-[4px] transition-colors duration-300 ${
-                      isReached ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-cyan-500/20'
-                    }`}
+                    className={`absolute left-[-19px] top-2 bottom-[-32px] w-[4px] transition-colors duration-300 ${isReached ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'bg-cyan-500/20'
+                      }`}
                   />
                 )}
 
                 <div
-                  className={`py-1 transition-all duration-300 ${
-                    isReached ? 'opacity-100' : 'opacity-70'
-                  }`}
+                  className={`py-1 transition-all duration-300 ${isReached ? 'opacity-100' : 'opacity-70'
+                    }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
                     <span className="text-lg font-black text-cyan-400 font-mono">
@@ -863,7 +853,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
       {showSettings && mounted && createPortal(
         <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-transparent pointer-events-none animate-in fade-in duration-200">
-          <div 
+          <div
             data-settings-panel
             className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/30 border border-cyan-400/40 rounded-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
           >
@@ -937,11 +927,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
-                      className={`py-1.5 px-2  text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer border ${
-                        (tuning.scalingCurve || 'linear') === mode
-                          ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
-                          : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
-                      }`}
+                      className={`py-1.5 px-2  text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
+                        ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
+                        : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                        }`}
                     >
                       {mode === 'linear' ? 'Linear' : mode === 'exponential' ? 'Accel' : 'Stepped'}
                     </button>
@@ -951,8 +940,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   {tuning.scalingCurve === 'stepped'
                     ? 'Steps size discretely as each year milestone is passed.'
                     : tuning.scalingCurve === 'exponential'
-                    ? 'Accelerates size growth faster in recent years.'
-                    : 'Smooth continuous growth from 1998 to 2028.'}
+                      ? 'Accelerates size growth faster in recent years.'
+                      : 'Smooth continuous growth from 1998 to 2028.'}
                 </p>
               </div>
 
@@ -1109,9 +1098,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button
                       key={col}
                       onClick={() => setTuning({ ...tuning, lineColor: col })}
-                      className={`w-7 h-7 rounded-full transition-transform cursor-pointer border-2 ${
-                        tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
-                      }`}
+                      className={`w-7 h-7 rounded-full transition-transform cursor-pointer border-2 ${tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
+                        }`}
                       style={{ backgroundColor: col }}
                     />
                   ))}
@@ -1129,7 +1117,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </button>
               <div className="flex items-center gap-2">
                 {saveToast && (
-                  <span className="text-xs font-bold text-emerald-400 animate-in fade-in duration-300">
+                  <span className="text-xs font-bold text-[var(--color-accent)] animate-in fade-in duration-300">
                     ✓ Saved!
                   </span>
                 )}

@@ -50,7 +50,7 @@ function getRaffleWins(): RaffleWin[] {
           ts: data.ts || 0,
         });
       });
-    } catch {}
+    } catch { }
   }
   return wins;
 }
@@ -128,7 +128,7 @@ function MerchDashboard() {
           let winnerPins = [];
           try {
             winnerPins = typeof raffle.winner_pins === 'string' ? JSON.parse(raffle.winner_pins) : raffle.winner_pins;
-          } catch {}
+          } catch { }
 
           if (Array.isArray(winnerPins)) {
             winnerPins.forEach((item: any) => {
@@ -191,7 +191,7 @@ function MerchDashboard() {
           let winnerPins = [];
           try {
             winnerPins = typeof raffle.winner_pins === 'string' ? JSON.parse(raffle.winner_pins) : raffle.winner_pins;
-          } catch {}
+          } catch { }
 
           if (Array.isArray(winnerPins)) {
             let updated = false;
@@ -341,7 +341,7 @@ function MerchDashboard() {
                   <div className="p-4 bg-purple-500/10 border border-purple-500/30 flex items-center gap-3">
                     <span className="text-2xl">❌</span>
                     <div>
-                      <p className="text-purple-400 font-black text-sm uppercase tracking-wide">Invalid Code</p>
+                      <p className=" text-[var(--color-accent)] font-black text-sm uppercase tracking-wide">Invalid Code</p>
                       <p className="text-white/60 text-xs mt-0.5">This code was not found in the purchase database.</p>
                     </div>
                   </div>
@@ -382,14 +382,12 @@ function MerchDashboard() {
                       {/* PIN displayed as large readable digits */}
                       <div className="flex items-center gap-1.5">
                         {win.pin.split('').map((digit, i) => (
-                          <div key={i} className={`w-10 h-13 min-h-[52px] flex items-center justify-center rounded-lg border-2 ${
-                            awarded
-                              ? 'bg-white/5 border-white/10'
-                              : 'bg-purple-500/5 border-purple-500/40 shadow-[0_0_12px_rgba(147,51,234,0.1)]'
-                          }`}>
-                            <span className={`font-black text-2xl tabular-nums ${
-                              awarded ? 'text-white/20' : 'text-purple-300'
-                            }`}>{digit}</span>
+                          <div key={i} className={`w-10 h-13 min-h-[52px] flex items-center justify-center rounded-lg border-2 ${awarded
+                            ? 'bg-white/5 border-white/10'
+                            : 'bg-purple-500/5 border-purple-500/40 shadow-[0_0_12px_rgba(147,51,234,0.1)]'
+                            }`}>
+                            <span className={`font-black text-2xl tabular-nums ${awarded ? 'text-white/20' : 'text-purple-300'
+                              }`}>{digit}</span>
                           </div>
                         ))}
                       </div>
@@ -397,11 +395,10 @@ function MerchDashboard() {
                     <button
                       onClick={() => awardPrize(win.pin)}
                       disabled={awarded}
-                      className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest  transition-all ${
-                        awarded
-                          ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                          : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:scale-[1.03] active:scale-[0.97]'
-                      }`}
+                      className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest  transition-all ${awarded
+                        ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                        : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:scale-[1.03] active:scale-[0.97]'
+                        }`}
                     >
                       {awarded ? '✓ Done' : 'Award Prize'}
                     </button>

@@ -111,21 +111,21 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 font-[family-name:var(--font-barlow)]">
-      
+
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--muted-text)] mb-3">
-          <Link href="/" className="hover:text-[var(--color-accent)] transition-colors">Home</Link>
+          <Link href="/" className="hover: text-[var(--color-accent)] transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/shows" className="hover:text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
+          <Link href="/shows" className="hover: text-[var(--color-accent)] transition-colors">Upcoming Shows</Link>
           <span>/</span>
-          <span className="text-[var(--color-accent)]">Past Shows Archive</span>
+          <span className=" text-[var(--color-accent)]">Past Shows Archive</span>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-color)]">
           <div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[var(--text-color)] leading-none mb-3">
-              Past Shows <span className="text-[var(--color-accent)]">Archive</span>
+              Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
             </h1>
             <p className="text-base sm:text-lg text-[var(--muted-text)] max-w-2xl font-medium">
               A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985.
@@ -152,26 +152,26 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── STATS BAR ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">{totalShowsCount}+</span>
+          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">{totalShowsCount}+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
         </div>
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">40+</span>
+          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">40+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
         </div>
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">500+</span>
+          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">500+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
         </div>
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">5+</span>
+          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">5+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
         </div>
       </div>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
       <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-3xl shadow-sm mb-8 space-y-6">
-        
+
         {/* Search input */}
         <div className="relative">
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-text)] w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -205,11 +205,10 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-1.5  text-xs font-bold transition-all cursor-pointer ${
-                  selectedCategory === cat.id
-                    ? "bg-[var(--color-accent)] text-white shadow-md scale-105"
-                    : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
-                }`}
+                className={`px-3.5 py-1.5  text-xs font-bold transition-all cursor-pointer ${selectedCategory === cat.id
+                  ? "bg-[var(--color-accent)] text-white shadow-md scale-105"
+                  : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
+                  }`}
               >
                 {cat.label}
               </button>
@@ -225,11 +224,10 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-all cursor-pointer ${
-                selectedYear === "ALL"
-                  ? "bg-[var(--color-accent)] text-white shadow-sm"
-                  : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
-              }`}
+              className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-all cursor-pointer ${selectedYear === "ALL"
+                ? "bg-[var(--color-accent)] text-white shadow-sm"
+                : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
+                }`}
             >
               All Years
             </button>
@@ -240,11 +238,10 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  selectedYear === y.year
-                    ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
-                    : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
-                }`}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${selectedYear === y.year
+                  ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
+                  : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
+                  }`}
               >
                 {y.year}
               </button>
@@ -261,14 +258,14 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           <div className="flex items-center gap-3">
             <button
               onClick={expandAll}
-              className="hover:text-[var(--color-accent)] transition-colors underline"
+              className="hover: text-[var(--color-accent)] transition-colors underline"
             >
               Expand All
             </button>
             <span>•</span>
             <button
               onClick={collapseAll}
-              className="hover:text-[var(--color-accent)] transition-colors underline"
+              className="hover: text-[var(--color-accent)] transition-colors underline"
             >
               Collapse All
             </button>
@@ -321,9 +318,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-text)]">
                     <span>{isOpen ? "Hide" : "Show"}</span>
                     <svg
-                      className={`w-4 h-4 transform transition-transform duration-200 ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-4 h-4 transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                        }`}
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2.5"
@@ -367,12 +363,12 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-purple-600/20 text-purple-400 rounded-md border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-purple-600/20  text-[var(--color-accent)] rounded-md border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-[var(--color-accent)]/20 text-[var(--color-accent)] rounded-md border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-[var(--color-accent)]/20  text-[var(--color-accent)] rounded-md border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}

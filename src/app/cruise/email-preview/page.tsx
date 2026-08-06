@@ -180,6 +180,7 @@ export default function EmailPreviewPage() {
           <iframe
             srcDoc={emailHtml}
             style={{ width: "100%", height: 1100, border: "none", display: "block" }}
+            sandbox="allow-same-origin"
             title="Email Preview"
           />
         </div>

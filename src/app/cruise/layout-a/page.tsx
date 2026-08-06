@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 
 export default function CruiseLayoutA() {
-  const [signupStatus, setSignupStatus] = useState<"idle"|"submitting"|"success">("idle");
+  const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [form, setForm] = useState({ name: "", email: "", guests: "2" });
-  const [openFaq, setOpenFaq] = useState<number|null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const signupCount = 142;
   const totalGuests = 284;
   const GOAL = 400;
@@ -57,7 +57,7 @@ export default function CruiseLayoutA() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 animate-pulse">
           <span className="text-xs uppercase tracking-widest font-bold">Scroll</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
         </div>
       </section>
 
@@ -79,11 +79,11 @@ export default function CruiseLayoutA() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
+                  <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                  <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
+                  <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                  <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
+                  <select value={form.guests} onChange={e => setForm(f => ({ ...f, guests: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors appearance-none cursor-pointer">
                     <option value="1">Just me (1)</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+ guests</option>
                   </select>
@@ -96,7 +96,7 @@ export default function CruiseLayoutA() {
             </div>
             {/* Counter */}
             <div className="flex flex-col justify-center">
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
+              <p className="text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] mb-4">Fan Interest Tracker</p>
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-white/[0.03] border border-white/5 p-4 text-center">
                   <p className="text-3xl font-black text-white">{signupCount}</p>
@@ -119,7 +119,7 @@ export default function CruiseLayoutA() {
                 <div className="space-y-2">
                   {["Sign up free — tell us your group size", "We negotiate the rate with cruise management", "You get first access at the locked-in price"].map((s, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-2xs)] font-black text-[var(--color-accent)] shrink-0">{i+1}</span>
+                      <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-2xs)] font-black  text-[var(--color-accent)] shrink-0">{i + 1}</span>
                       <p className="text-sm text-white/40">{s}</p>
                     </div>
                   ))}
@@ -143,7 +143,7 @@ export default function CruiseLayoutA() {
                 {day.day < 7 && <div className="w-px flex-1 bg-gradient-to-b from-white/10 to-transparent mt-2" />}
               </div>
               <div className="pb-8">
-                <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Day {day.day}</span>
+                <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)]">Day {day.day}</span>
                 <h3 className="text-lg font-bold text-white mt-0.5">{day.port}</h3>
                 <span className="text-xs font-bold uppercase tracking-widest text-white/20">{day.label}</span>
                 <p className="text-base text-white/35 leading-relaxed mt-1">{day.desc}</p>

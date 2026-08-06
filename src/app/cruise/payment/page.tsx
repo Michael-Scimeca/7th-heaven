@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { formatPhoneDisplay } from "@/lib/validation";
+import Link from "next/link";
 
 export default function CruisePaymentPage() {
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ export default function CruisePaymentPage() {
 
       setStatus("success");
       setMessage(data.message);
-      
+
       // Reset form on success
       setFormData({
         bookingNumber: "",
@@ -67,14 +68,14 @@ export default function CruisePaymentPage() {
       <div className="site-container max-w-xl mx-auto px-6">
         {/* Banner Link Back */}
         <div className="mb-8 text-left">
-          <a href="/cruise" className="text-xs font-bold uppercase tracking-wider text-cyan-400 hover:text-white transition-colors flex items-center gap-2">
+          <Link href="/cruise" className="text-xs font-bold uppercase tracking-wider text-cyan-400 hover:text-white transition-colors flex items-center gap-2">
             ← Back to Cruise Page
-          </a>
+          </Link>
         </div>
 
         <div className="bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] rounded-3xl p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)] text-left">
           <div className="mb-6">
-            <span className="inline-block text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-[var(--color-accent)] mb-1">
+            <span className="inline-block text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] mb-1">
               Secure Additional Payment
             </span>
             <h1 className="text-2xl font-black uppercase text-white tracking-wide">
@@ -86,7 +87,7 @@ export default function CruisePaymentPage() {
           </div>
 
           {status === "success" && (
-            <div className="mb-6 p-4 border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold leading-normal">
+            <div className="mb-6 p-4 border  border-[var(--color-accent)]/30 bg-emerald-500/10 text-[var(--color-accent)] text-xs font-bold leading-normal">
               🎉 {message}
             </div>
           )}

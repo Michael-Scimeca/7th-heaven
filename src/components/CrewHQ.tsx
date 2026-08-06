@@ -6,18 +6,18 @@ import { supabase } from "@/lib/supabase-client";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string; role: string }> = {
-  sammy:   { id: "sammy",   name: "Sammy D",        email: "sammy@7thheaven.com",   avatar: "SD", role: "Vocalist" },
+  sammy: { id: "sammy", name: "Sammy D", email: "sammy@7thheaven.com", avatar: "SD", role: "Vocalist" },
   michael: { id: "michael", name: "Michael Scimeca", email: "michael@7thheaven.com", avatar: "MS", role: "Lead Guitar" },
-  ryan:    { id: "ryan",    name: "Ryan K",          email: "ryan@7thheaven.com",    avatar: "RK", role: "Bass" },
-  tony:    { id: "tony",    name: "Tony M",          email: "tony@7thheaven.com",    avatar: "TM", role: "Drums" },
+  ryan: { id: "ryan", name: "Ryan K", email: "ryan@7thheaven.com", avatar: "RK", role: "Bass" },
+  tony: { id: "tony", name: "Tony M", email: "tony@7thheaven.com", avatar: "TM", role: "Drums" },
 };
 
 // All known chat rooms on the platform
 const KNOWN_ROOMS = [
-  { id: "live_michael", label: "Michael Live",  color: "#6366f1", icon: "🎸" },
-  { id: "live_sammy",   label: "Sammy Live",    color: "#ec4899", icon: "🎤" },
-  { id: "live_ryan",    label: "Ryan Live",     color: "#0ea5e9", icon: "🎵" },
-  { id: "live_tony",    label: "Tony Live",     color: "#10b981", icon: "🥁" },
+  { id: "live_michael", label: "Michael Live", color: "#6366f1", icon: "🎸" },
+  { id: "live_sammy", label: "Sammy Live", color: "#ec4899", icon: "🎤" },
+  { id: "live_ryan", label: "Ryan Live", color: "#0ea5e9", icon: "🎵" },
+  { id: "live_tony", label: "Tony Live", color: "#10b981", icon: "🥁" },
   { id: "cruise_dashboard", label: "Cruise Lounge", color: "#9333ea", icon: "🛳️" },
 ];
 
@@ -36,31 +36,31 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   const LS = useCallback((key: string) => `${key}_${slug}`, [slug]);
 
   // ─── Auth ───────────────────────────────────────────────────────────
-  const [isLoading, setIsLoading]   = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState("");
-  const [userId, setUserId]         = useState("");
-  const [email, setEmail]           = useState("");
+  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
 
   // ─── Live status (read-only; Studio writes these) ─────────────────
-  const [isLive, setIsLive]           = useState(false);
+  const [isLive, setIsLive] = useState(false);
   const [viewerCount, setViewerCount] = useState(0);
   const [liveDuration, setLiveDuration] = useState(0);
-  const [chatRate, setChatRate]       = useState(0);
+  const [chatRate, setChatRate] = useState(0);
 
   // ─── Analytics ────────────────────────────────────────────────────
   const [salesRevenue, setSalesRevenue] = useState(0);
-  const [salesCount, setSalesCount]     = useState(0);
+  const [salesCount, setSalesCount] = useState(0);
   const [moderationCount, setModerationCount] = useState(0);
 
   // ─── Site-wide chat feed ───────────────────────────────────────────
-  const [msgs, setMsgs]               = useState<SiteChatMsg[]>([]);
-  const [roomFilter, setRoomFilter]   = useState<string>("all");
-  const [roleFilter, setRoleFilter]   = useState<string>("all");
-  const [search, setSearch]           = useState("");
-  const [flagged, setFlagged]         = useState<Set<string>>(new Set());
-  const [banned, setBanned]           = useState<Set<string>>(new Set());
-  const [warned, setWarned]           = useState<Set<string>>(new Set());
-  const [simActive, setSimActive]     = useState(false);
+  const [msgs, setMsgs] = useState<SiteChatMsg[]>([]);
+  const [roomFilter, setRoomFilter] = useState<string>("all");
+  const [roleFilter, setRoleFilter] = useState<string>("all");
+  const [search, setSearch] = useState("");
+  const [flagged, setFlagged] = useState<Set<string>>(new Set());
+  const [banned, setBanned] = useState<Set<string>>(new Set());
+  const [warned, setWarned] = useState<Set<string>>(new Set());
+  const [simActive, setSimActive] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
 
   // ─── Custom Flagged Keywords State ────────────────────────────────
@@ -76,7 +76,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   const [newCustomWord, setNewCustomWord] = useState('');
 
   // ─── Notes ────────────────────────────────────────────────────────
-  const [crewNotes, setCrewNotes]   = useState("");
+  const [crewNotes, setCrewNotes] = useState("");
   const [notesSaved, setNotesSaved] = useState(false);
 
   // ─── Auth ─────────────────────────────────────────────────────────
@@ -99,7 +99,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           setEmail(session.user.email || "");
           setIsLoading(false); return;
         }
-      } catch {}
+      } catch { }
       const stored = localStorage.getItem("7h_member");
       if (stored) {
         try {
@@ -108,7 +108,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             setUserId(p.id || slug); setDisplayName(p.name || "Crew");
             setEmail(p.email || ""); setIsLoading(false); return;
           }
-        } catch {}
+        } catch { }
       }
       const bypass = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("bypass") === "true";
       if (localStorage.getItem("7h_dev_bypass") === "true" || bypass) {
@@ -150,19 +150,19 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       const n = localStorage.getItem(`7h_crew_notes_${slug}`);
       if (n) setCrewNotes(n);
       setModerationCount(parseInt(localStorage.getItem(`7h_mod_count_${slug}`) || "0"));
-    } catch {}
+    } catch { }
 
     fetch("/api/chat/simulate")
       .then(r => r.json())
       .then(d => setSimActive(d.active))
-      .catch(() => {});
+      .catch(() => { });
 
     fetch("/api/shopify/orders?days=365").then(r => r.json()).then(d => {
       if (d.orders) {
         setSalesRevenue(d.orders.reduce((s: number, o: any) => s + (o.total || 0), 0));
         setSalesCount(d.orders.length);
       }
-    }).catch(() => {});
+    }).catch(() => { });
   }, [userId, slug]);
 
   // ─── Load historical messages from all rooms ───────────────────────
@@ -205,7 +205,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       .on('broadcast', { event: 'custom_words_sync' }, ({ payload }: { payload: any }) => {
         if (payload?.words) {
           setCustomWords(payload.words);
-          try { localStorage.setItem('7h_custom_flagged_words', JSON.stringify(payload.words)); } catch {}
+          try { localStorage.setItem('7h_custom_flagged_words', JSON.stringify(payload.words)); } catch { }
         }
       })
       .subscribe();
@@ -226,7 +226,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   // ─── Moderation actions ───────────────────────────────────────────
   const bumpMod = () => setModerationCount(c => {
     const v = c + 1;
-    localStorage.setItem(`7h_mod_count_${slug}`, v.toString());
+    queueMicrotask(() => localStorage.setItem(`7h_mod_count_${slug}`, v.toString()));
     return v;
   });
 
@@ -245,7 +245,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         event: 'custom_words_sync',
         payload: { words: next }
       });
-    } catch {}
+    } catch { }
   };
 
   const handleRemoveCustomWord = async (word: string) => {
@@ -258,14 +258,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         event: 'custom_words_sync',
         payload: { words: next }
       });
-    } catch {}
+    } catch { }
   };
 
   const handleFlag = (msgId: string) => {
     setFlagged(prev => {
       const next = new Set(prev);
       if (next.has(msgId)) next.delete(msgId); else next.add(msgId);
-      try { localStorage.setItem("7h_flagged_msgs", JSON.stringify([...next])); } catch {}
+      queueMicrotask(() => { try { localStorage.setItem("7h_flagged_msgs", JSON.stringify([...next])); } catch { } });
       return next;
     });
     bumpMod();
@@ -279,7 +279,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setWarned(prev => {
       const next = new Set(prev);
       if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
-      try { localStorage.setItem("7h_warned_users", JSON.stringify([...next])); } catch {}
+      queueMicrotask(() => { try { localStorage.setItem("7h_warned_users", JSON.stringify([...next])); } catch { } });
       return next;
     });
     bumpMod();
@@ -307,7 +307,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setBanned(prev => {
       const next = new Set(prev);
       if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
-      try { localStorage.setItem("7h_banned_users", JSON.stringify([...next])); } catch {}
+      try { localStorage.setItem("7h_banned_users", JSON.stringify([...next])); } catch { }
       return next;
     });
     bumpMod();
@@ -349,7 +349,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       // 1. Delete the message
       await supabase.from("chat_messages").delete().eq("id", msgId);
       setMsgs(prev => prev.filter(m => m.id !== msgId));
-      
+
       // 2. Call the site-wide kick API
       const res = await fetch('/api/moderation/kick', {
         method: 'POST',
@@ -382,7 +382,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         crew_id: userId, crew_name: displayName,
         content: crewNotes, updated_at: new Date().toISOString(),
       }, { onConflict: "crew_id" });
-    } catch {}
+    } catch { }
     setNotesSaved(true);
     setTimeout(() => setNotesSaved(false), 2500);
   };
@@ -398,14 +398,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       if (res.ok) {
         setSimActive(nextState);
       }
-    } catch {}
+    } catch { }
   };
 
   // ─── Helpers ─────────────────────────────────────────────────────
   const fmt = (s: number) => {
     const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
-    if (h > 0) return `${h}:${String(m).padStart(2,"0")}:${String(sc).padStart(2,"0")}`;
-    return `${m}:${String(sc).padStart(2,"0")}`;
+    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
+    return `${m}:${String(sc).padStart(2, "0")}`;
   };
 
   const getRoomMeta = (room: string) =>
@@ -425,7 +425,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     if (roleFilter === "banned" && !banned.has(m.sender_name)) return false;
     if (roleFilter === "warned" && !warned.has(m.sender_name)) return false;
     if (search && !m.content.toLowerCase().includes(search.toLowerCase()) &&
-        !m.sender_name.toLowerCase().includes(search.toLowerCase())) return false;
+      !m.sender_name.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
 
@@ -450,15 +450,15 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-xs font-black border border-emerald-500/30">
-                {member?.avatar || displayName.slice(0,2).toUpperCase()}
+                {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`} />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-black text-sm">{displayName}</span>
-                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded">Crew HQ</span>
-                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"/>LIVE</span>}
+                <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded">Crew HQ</span>
+                {isLive && <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-500/15 border border-red-500/30 text-red-400 text-[var(--font-size-4xs)] font-black uppercase tracking-widest rounded"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />LIVE</span>}
               </div>
               <span className="text-[var(--font-size-3xs)] text-white/25">{email}</span>
             </div>
@@ -498,11 +498,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2  font-black text-xs uppercase tracking-widest transition-all  ${
-                isLive
-                  ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
-                  : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
-              }`}
+              className={`flex items-center gap-2 px-5 py-2  font-black text-xs uppercase tracking-widest transition-all  ${isLive
+                ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
+                : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
+                }`}
             >
               <span>{isLive ? "🔴" : "🎥"}</span>
               {isLive ? "Manage Stream" : "Create Live Feed"}
@@ -520,15 +519,15 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Profile */}
             <div className="flex items-center gap-5">
               <div className="w-20 h-20 bg-emerald-800 flex items-center justify-center text-2xl font-black border border-emerald-500/25">
-                {member?.avatar || displayName.slice(0,2).toUpperCase()}
+                {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div>
                 <p className="text-2xl font-black tracking-tight">{displayName}</p>
-                <p className="text-sm text-emerald-400 font-semibold">{member?.role || "Crew"}</p>
+                <p className="text-sm text-[var(--color-accent)] font-semibold">{member?.role || "Crew"}</p>
                 <p className="text-xs text-white/30 mt-0.5">{email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">7th Heaven</span>
-                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">Active Crew</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">7th Heaven</span>
+                  <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded">Active Crew</span>
                 </div>
               </div>
             </div>
@@ -551,11 +550,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Launch CTA */}
             <Link
               href={studioPath}
-              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-all border ${
-                isLive
-                  ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
-                  : "bg-white/[0.04] border-white/10 text-white/60 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
-              }`}
+              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-all border ${isLive
+                ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
+                : "bg-white/[0.04] border-white/10 text-white/60 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
+                }`}
             >
               <span className="text-3xl">{isLive ? "📡" : "🎥"}</span>
               <span className="leading-tight">{isLive ? "Live\nStudio" : "Create\nLive Feed"}</span>
@@ -572,254 +570,246 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="flex flex-col gap-5 flex-1 min-w-0">
             <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
 
-            {/* Feed header */}
-            <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="font-black text-sm">📡 Site-Wide Chat Monitor</span>
-                  <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live"/>
-                  <button
-                    onClick={toggleSimulator}
-                    className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-all cursor-pointer border ${
-                      simActive
+              {/* Feed header */}
+              <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
+                <div className="flex items-center justify-between gap-3 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-sm">📡 Site-Wide Chat Monitor</span>
+                    <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live" />
+                    <button
+                      onClick={toggleSimulator}
+                      className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-all cursor-pointer border ${simActive
                         ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
                         : "bg-white/5 border border-white/10 text-white/40 hover:text-white/60"
-                    }`}
-                  >
-                    {simActive ? "⚡ Sim Active" : "Start Sim"}
-                  </button>
+                        }`}
+                    >
+                      {simActive ? "⚡ Sim Active" : "Start Sim"}
+                    </button>
+                  </div>
+
+                  {/* Search */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <input
+                      value={search}
+                      onChange={e => setSearch(e.target.value)}
+                      placeholder="Search messages…"
+                      className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/40 w-44"
+                    />
+                    <select
+                      value={roleFilter}
+                      onChange={e => setRoleFilter(e.target.value)}
+                      className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
+                    >
+                      <option value="all">All Roles</option>
+                      <option value="flagged">🚩 Flagged</option>
+                      <option value="warned">⚠️ Warned</option>
+                      <option value="banned">🚫 Banned</option>
+                    </select>
+                  </div>
                 </div>
 
-                {/* Search */}
-                <div className="flex items-center gap-2 flex-wrap">
-                  <input
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    placeholder="Search messages…"
-                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/40 w-44"
-                  />
-                  <select
-                    value={roleFilter}
-                    onChange={e => setRoleFilter(e.target.value)}
-                    className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
-                  >
-                    <option value="all">All Roles</option>
-                    <option value="flagged">🚩 Flagged</option>
-                    <option value="warned">⚠️ Warned</option>
-                    <option value="banned">🚫 Banned</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Room filter pills */}
-              <div className="flex items-center gap-2 mt-3 flex-wrap">
-                <button
-                  onClick={() => setRoomFilter("all")}
-                  className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${
-                    roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
-                  }`}
-                >
-                  All Rooms ({msgs.length})
-                </button>
-                {KNOWN_ROOMS.map(room => (
+                {/* Room filter pills */}
+                <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button
-                    key={room.id}
-                    onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${
-                      roomFilter === room.id
+                    onClick={() => setRoomFilter("all")}
+                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
+                      }`}
+                  >
+                    All Rooms ({msgs.length})
+                  </button>
+                  {KNOWN_ROOMS.map(room => (
+                    <button
+                      key={room.id}
+                      onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
+                      className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${roomFilter === room.id
                         ? "text-white border-opacity-100"
                         : "border-white/[0.08] text-white/30 hover:text-white/60"
-                    }`}
-                    style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}
-                  >
-                    {room.icon} {room.label} {roomCounts[room.id] ? `(${roomCounts[room.id]})` : ""}
-                  </button>
-                ))}
+                        }`}
+                      style={roomFilter === room.id ? { borderColor: room.color, background: room.color + "20", color: room.color } : {}}
+                    >
+                      {room.icon} {room.label} {roomCounts[room.id] ? `(${roomCounts[room.id]})` : ""}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Feed messages */}
+              <div ref={feedRef} className="flex-1 overflow-y-auto">
+                {filteredMsgs.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-full gap-3 text-white/20">
+                    <span className="text-4xl">📭</span>
+                    <p className="text-sm">No messages yet</p>
+                  </div>
+                ) : (
+                  filteredMsgs.map((msg) => {
+                    const room = getRoomMeta(msg.room);
+                    const roleColor = getRoleColor(msg.sender_role);
+                    const isBanned = banned.has(msg.sender_name);
+                    const isFlagged = flagged.has(msg.id);
+                    return (
+                      <div
+                        key={msg.id}
+                        className={`flex items-start gap-3 px-5 py-3 border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors group ${isFlagged ? "bg-yellow-500/[0.04]" : ""
+                          } ${isBanned ? "opacity-30" : ""}`}
+                      >
+                        {/* Avatar */}
+                        <div
+                          className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] font-black shrink-0 mt-0.5"
+                          style={{ background: roleColor + "22", color: roleColor }}
+                        >
+                          {(msg.sender_avatar || msg.sender_name || "??").slice(0, 2).toUpperCase()}
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                            <span className="text-[var(--font-size-2xs)] font-black" style={{ color: roleColor }}>
+                              {msg.sender_name}
+                            </span>
+                            <span
+                              className="text-[var(--font-size-4xs)] font-bold px-1.5 py-0.5 rounded-full"
+                              style={{ background: room.color + "20", color: room.color, border: `1px solid ${room.color}40` }}
+                            >
+                              {room.icon} {room.label}
+                            </span>
+                            <span className="text-[var(--font-size-4xs)] text-white/20 font-mono">
+                              {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                            </span>
+                            {isFlagged && <span className="text-[var(--font-size-4xs)] text-yellow-400 font-bold">🚩 flagged</span>}
+                            {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-purple-300 font-bold">⚠️ warned</span>}
+                            {isBanned && <span className="text-[var(--font-size-4xs)] text-red-400 font-bold">🚫 banned</span>}
+                          </div>
+                          <p className="text-sm text-white/75 break-words">{msg.content}</p>
+                        </div>
+
+                        {/* Action buttons — appear on hover */}
+                        <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5">
+                          <button
+                            onClick={() => handleFlag(msg.id)}
+                            title="Flag message"
+                            className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
+                              }`}
+                          >🚩</button>
+                          <button
+                            onClick={() => handleWarn(msg.sender_name, msg.room)}
+                            title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
+                            className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
+                              }`}
+                          >⚠️</button>
+                          <button
+                            onClick={() => handleBan(msg.sender_name, msg.room)}
+                            title={isBanned ? "Unban user" : "Ban user"}
+                            className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
+                              }`}
+                          >🚫</button>
+                          <button
+                            onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
+                            title="Remove Fan Completely"
+                            className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
+                          >🚪</button>
+                          <button
+                            onClick={() => handleDeleteMsg(msg.id)}
+                            title="Delete message"
+                            className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover:bg-white/5 transition-colors cursor-pointer"
+                          >🗑</button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+
+              {/* Feed footer stats */}
+              <div className="px-5 py-2.5 border-t border-white/[0.05] flex items-center justify-between text-[var(--font-size-3xs)] text-white/25 flex-shrink-0">
+                <span>Showing {filteredMsgs.length} of {msgs.length} messages</span>
+                <span className="flex items-center gap-3">
+                  <span>🚩 {flagged.size} flagged</span>
+                  <span>⚠️ {warned.size} warned</span>
+                  <span>🚫 {banned.size} banned</span>
+                  <span>🛡️ {moderationCount} actions taken</span>
+                </span>
+              </div>
+
+              {/* Chat Moderation Panel */}
+              <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden">
+                <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
+                  <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
+                  <div>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                    <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                  </div>
+                </div>
+
+                <div className="p-4 space-y-4">
+                  <div className="flex flex-col lg:flex-row gap-6 items-start">
+                    <div className="flex-1 min-w-0 w-full space-y-2">
+                      <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
+                      <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
+                        Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
+                      </p>
+
+                      <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
+                        <input
+                          type="text"
+                          value={newCustomWord}
+                          onChange={e => setNewCustomWord(e.target.value)}
+                          placeholder="e.g. ticket-scalper"
+                          className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
+                        />
+                        <button
+                          type="submit"
+                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer"
+                        >
+                          Add Keyword
+                        </button>
+                      </form>
+                    </div>
+
+                    <div className="w-full lg:w-[450px] shrink-0 space-y-2">
+                      <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
+                      {customWords.length === 0 ? (
+                        <div className="text-center py-6 border border-dashed border-white/5 bg-white/[0.01]">
+                          <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
+                        </div>
+                      ) : (
+                        <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
+                          {customWords.map(word => (
+                            <span
+                              key={word}
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 text-xs font-bold text-white/80"
+                            >
+                              <span>{word}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveCustomWord(word)}
+                                className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
+                              >
+                                &times;
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Feed messages */}
-            <div ref={feedRef} className="flex-1 overflow-y-auto">
-              {filteredMsgs.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full gap-3 text-white/20">
-                  <span className="text-4xl">📭</span>
-                  <p className="text-sm">No messages yet</p>
-                </div>
-              ) : (
-                filteredMsgs.map((msg) => {
-                  const room = getRoomMeta(msg.room);
-                  const roleColor = getRoleColor(msg.sender_role);
-                  const isBanned = banned.has(msg.sender_name);
-                  const isFlagged = flagged.has(msg.id);
-                  return (
-                    <div
-                      key={msg.id}
-                      className={`flex items-start gap-3 px-5 py-3 border-b border-white/[0.03] hover:bg-white/[0.015] transition-colors group ${
-                        isFlagged ? "bg-yellow-500/[0.04]" : ""
-                      } ${isBanned ? "opacity-30" : ""}`}
-                    >
-                      {/* Avatar */}
-                      <div
-                        className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--font-size-4xs)] font-black shrink-0 mt-0.5"
-                        style={{ background: roleColor + "22", color: roleColor }}
-                      >
-                        {(msg.sender_avatar || msg.sender_name || "??").slice(0,2).toUpperCase()}
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                          <span className="text-[var(--font-size-2xs)] font-black" style={{ color: roleColor }}>
-                            {msg.sender_name}
-                          </span>
-                          <span
-                            className="text-[var(--font-size-4xs)] font-bold px-1.5 py-0.5 rounded-full"
-                            style={{ background: room.color + "20", color: room.color, border: `1px solid ${room.color}40` }}
-                          >
-                            {room.icon} {room.label}
-                          </span>
-                          <span className="text-[var(--font-size-4xs)] text-white/20 font-mono">
-                            {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                          </span>
-                          {isFlagged && <span className="text-[var(--font-size-4xs)] text-yellow-400 font-bold">🚩 flagged</span>}
-                          {warned.has(msg.sender_name) && <span className="text-[var(--font-size-4xs)] text-purple-300 font-bold">⚠️ warned</span>}
-                          {isBanned && <span className="text-[var(--font-size-4xs)] text-red-400 font-bold">🚫 banned</span>}
-                        </div>
-                        <p className="text-sm text-white/75 break-words">{msg.content}</p>
-                      </div>
-
-                      {/* Action buttons — appear on hover */}
-                      <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5">
-                        <button
-                          onClick={() => handleFlag(msg.id)}
-                          title="Flag message"
-                          className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
-                            isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
-                          }`}
-                        >🚩</button>
-                        <button
-                          onClick={() => handleWarn(msg.sender_name, msg.room)}
-                          title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
-                          className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
-                            warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
-                          }`}
-                        >⚠️</button>
-                        <button
-                          onClick={() => handleBan(msg.sender_name, msg.room)}
-                          title={isBanned ? "Unban user" : "Ban user"}
-                          className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${
-                            isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
-                          }`}
-                        >🚫</button>
-                        <button
-                          onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
-                          title="Remove Fan Completely"
-                          className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
-                        >🚪</button>
-                        <button
-                          onClick={() => handleDeleteMsg(msg.id)}
-                          title="Delete message"
-                          className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover:bg-white/5 transition-colors cursor-pointer"
-                        >🗑</button>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-
-            {/* Feed footer stats */}
-            <div className="px-5 py-2.5 border-t border-white/[0.05] flex items-center justify-between text-[var(--font-size-3xs)] text-white/25 flex-shrink-0">
-              <span>Showing {filteredMsgs.length} of {msgs.length} messages</span>
-              <span className="flex items-center gap-3">
-                <span>🚩 {flagged.size} flagged</span>
-                <span>⚠️ {warned.size} warned</span>
-                <span>🚫 {banned.size} banned</span>
-                <span>🛡️ {moderationCount} actions taken</span>
-              </span>
-            </div>
-
-            {/* Chat Moderation Panel */}
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden">
-               <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
-                  <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
-                   <div>
-                      <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
-                      <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
-                   </div>
-               </div>
-               
-               <div className="p-4 space-y-4">
-                  <div className="flex flex-col lg:flex-row gap-6 items-start">
-                     <div className="flex-1 min-w-0 w-full space-y-2">
-                        <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">🔍 Custom Flagged Keywords</h4>
-                        <p className="text-white/40 text-xs leading-relaxed font-sans font-semibold">
-                           Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
-                        </p>
-
-                        <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
-                           <input
-                             type="text"
-                             value={newCustomWord}
-                             onChange={e => setNewCustomWord(e.target.value)}
-                             placeholder="e.g. ticket-scalper"
-                             className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
-                           />
-                           <button
-                             type="submit"
-                             className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer"
-                           >
-                             Add Keyword
-                           </button>
-                        </form>
-                     </div>
-
-                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                        <p className="text-xs font-black uppercase tracking-widest text-white/40">Active Custom Filters</p>
-                        {customWords.length === 0 ? (
-                           <div className="text-center py-6 border border-dashed border-white/5 bg-white/[0.01]">
-                              <p className="text-white/20 text-xs italic">No custom keywords configured.</p>
-                           </div>
-                        ) : (
-                           <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
-                              {customWords.map(word => (
-                                 <span
-                                   key={word}
-                                   className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 text-xs font-bold text-white/80"
-                                 >
-                                    <span>{word}</span>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleRemoveCustomWord(word)}
-                                      className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
-                                    >
-                                       &times;
-                                    </button>
-                                 </span>
-                              ))}
-                           </div>
-                        )}
-                     </div>
-                  </div>
-               </div>
-            </div>
-          </div>
           </div>
 
           {/* ── RIGHT COLUMN ─────────────────────────────────── */}
           <div className="flex flex-col gap-5">
 
             {/* Live Stream Status Card */}
-            <div className={` border overflow-hidden transition-all ${
-              isLive
-                ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
-                : "border-white/[0.07] bg-[var(--color-bg-deep)]"
-            }`}>
+            <div className={` border overflow-hidden transition-all ${isLive
+              ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
+              : "border-white/[0.07] bg-[var(--color-bg-deep)]"
+              }`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-base font-black">🎥 Broadcast Studio</span>
-                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-full text-[var(--font-size-4xs)] text-red-400 font-black uppercase"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse"/>LIVE</span>}
+                  {isLive && <span className="flex items-center gap-1 px-2 py-0.5 bg-red-500/20 border border-red-500/30 rounded-full text-[var(--font-size-4xs)] text-red-400 font-black uppercase"><span className="w-1 h-1 rounded-full bg-red-500 animate-pulse" />LIVE</span>}
                 </div>
 
                 {isLive ? (
@@ -845,11 +835,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3  font-black text-sm uppercase tracking-widest transition-all ${
-                    isLive
-                      ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
-                      : "bg-white text-black hover:bg-white/90"
-                  }`}
+                  className={`w-full flex items-center justify-center gap-2 py-3  font-black text-sm uppercase tracking-widest transition-all ${isLive
+                    ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
+                    : "bg-white text-black hover:bg-white/90"
+                    }`}
                 >
                   {isLive ? "🔴 Manage Live Stream" : "🎥 Create Live Feed"}
                 </Link>
@@ -893,9 +882,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </div>
                 <button
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-all ${
-                    notesSaved ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/25" : "bg-white/5 text-white/40 border border-white/[0.08] hover:text-white"
-                  }`}
+                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-all ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-white/5 text-white/40 border border-white/[0.08] hover:text-white"
+                    }`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}
                 </button>

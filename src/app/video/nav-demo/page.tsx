@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const layouts = ["A","B","C","D","E","F"] as const;
+const layouts = ["A", "B", "C", "D", "E", "F"] as const;
 type Layout = typeof layouts[number];
 
 interface VideoCategory { category: string; videos: { id: string; title: string; year: number; duration?: string; viewCount?: string }[]; }
@@ -37,7 +37,7 @@ export default function CatNavDemo() {
       {/* Spacer to simulate hero */}
       <div className="h-[30vh] bg-gradient-to-b from-[#1a1a2e] to-[#050508] flex items-end">
         <div className="site-container pb-8">
-          <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2">Category Nav Demo</p>
+          <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.3em]  text-[var(--color-accent)] mb-2">Category Nav Demo</p>
           <h1 className="text-4xl font-black italic uppercase tracking-tighter text-white" style={{ fontFamily: "var(--font-barlow-condensed)" }}>Layout {active}</h1>
         </div>
       </div>
@@ -49,13 +49,13 @@ export default function CatNavDemo() {
             <div className="flex flex-wrap items-center gap-1">
               {cats.map((c, i) => (
                 <span key={c} className="flex items-center gap-1">
-                  <button onClick={() => setActiveCat(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${activeCat === c ? "text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
-                  {i < cats.length - 1 && <span className="text-[var(--color-accent)] text-sm">/</span>}
+                  <button onClick={() => setActiveCat(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${activeCat === c ? " text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
+                  {i < cats.length - 1 && <span className=" text-[var(--color-accent)] text-sm">/</span>}
                 </span>
               ))}
             </div>
             <div className="relative w-full md:w-64 shrink-0">
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
               <input type="text" placeholder="SEARCH VIDEOS..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-10 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] transition-all" />
             </div>
           </div>
@@ -69,15 +69,14 @@ export default function CatNavDemo() {
             <div className="flex flex-wrap gap-2">
               {cats.map(c => (
                 <button key={c} onClick={() => setActiveCat(c)}
-                  className={`text-xs font-bold uppercase tracking-[0.15em] px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap border ${
-                    activeCat === c
+                  className={`text-xs font-bold uppercase tracking-[0.15em] px-4 py-2 rounded-full transition-all cursor-pointer whitespace-nowrap border ${activeCat === c
                       ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       : "bg-white/[0.03] border-white/10 text-white/40 hover:border-white/20 hover:text-white/70"
-                  }`}>{c}</button>
+                    }`}>{c}</button>
               ))}
             </div>
             <div className="relative w-full md:w-64 shrink-0">
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
               <input type="text" placeholder="SEARCH..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 pl-10 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] transition-all" />
             </div>
           </div>
@@ -93,18 +92,17 @@ export default function CatNavDemo() {
                 const vidCount = categories.find(cat => cat.category === c)?.videos.length || 0;
                 return (
                   <button key={c} onClick={() => setActiveCat(c)}
-                    className={`relative text-xs font-bold uppercase tracking-[0.12em] px-4 py-4 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                      activeCat === c ? "text-white" : "text-white/30 hover:text-white/60"
-                    }`}>
+                    className={`relative text-xs font-bold uppercase tracking-[0.12em] px-4 py-4 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-2 ${activeCat === c ? "text-white" : "text-white/30 hover:text-white/60"
+                      }`}>
                     {c}
-                    <span className={`text-[var(--font-size-2xs)] tabular-nums ${activeCat === c ? "text-[var(--color-accent)]" : "text-white/15"}`}>{vidCount}</span>
+                    <span className={`text-[var(--font-size-2xs)] tabular-nums ${activeCat === c ? " text-[var(--color-accent)]" : "text-white/15"}`}>{vidCount}</span>
                     {activeCat === c && <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-[var(--color-accent)] rounded-full" />}
                   </button>
                 );
               })}
             </div>
             <div className="relative w-full md:w-56 shrink-0 pb-3">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
               <input type="text" placeholder="SEARCH..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] transition-all" />
             </div>
           </div>
@@ -120,9 +118,8 @@ export default function CatNavDemo() {
               const vidCount = categories.find(cat => cat.category === c)?.videos.length || 0;
               return (
                 <button key={c} onClick={() => setActiveCat(c)}
-                  className={`text-left text-xs font-bold uppercase tracking-[0.1em] px-3 py-2.5 rounded-lg transition-all cursor-pointer flex items-center justify-between ${
-                    activeCat === c ? "bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "text-white/35 hover:text-white/70 hover:bg-white/[0.03]"
-                  }`}>
+                  className={`text-left text-xs font-bold uppercase tracking-[0.1em] px-3 py-2.5 rounded-lg transition-all cursor-pointer flex items-center justify-between ${activeCat === c ? "bg-[var(--color-accent)]/15  text-[var(--color-accent)]" : "text-white/35 hover:text-white/70 hover:bg-white/[0.03]"
+                    }`}>
                   <span className="truncate">{c}</span>
                   <span className="text-[var(--font-size-2xs)] tabular-nums opacity-50">{vidCount}</span>
                 </button>
@@ -130,7 +127,7 @@ export default function CatNavDemo() {
             })}
             <div className="mt-auto pt-4 border-t border-white/[0.06]">
               <div className="relative">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
                 <input type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-8 pr-3 text-xs tracking-wider text-white placeholder-white/20 focus:outline-none focus:border-[var(--color-accent)] transition-all" />
               </div>
             </div>
@@ -147,9 +144,8 @@ export default function CatNavDemo() {
           <div className="flex items-stretch">
             {cats.map((c, i) => (
               <button key={c} onClick={() => setActiveCat(c)}
-                className={`flex-1 text-center text-xs font-bold uppercase tracking-[0.15em] py-4 transition-all cursor-pointer border-r border-white/[0.04] last:border-r-0 relative ${
-                  activeCat === c ? "bg-[var(--color-accent)]/10 text-[var(--color-accent)]" : "text-white/25 hover:text-white/50 hover:bg-white/[0.02]"
-                }`}>
+                className={`flex-1 text-center text-xs font-bold uppercase tracking-[0.15em] py-4 transition-all cursor-pointer border-r border-white/[0.04] last:border-r-0 relative ${activeCat === c ? "bg-[var(--color-accent)]/10  text-[var(--color-accent)]" : "text-white/25 hover:text-white/50 hover:bg-white/[0.02]"
+                  }`}>
                 {c}
                 {activeCat === c && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-accent)]" />}
               </button>
@@ -158,7 +154,7 @@ export default function CatNavDemo() {
           <div className="site-container py-3 flex justify-between items-center">
             <p className="text-xs text-white/20 font-bold uppercase tracking-widest">{count} videos in {activeCat}</p>
             <div className="relative w-56">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
               <input type="text" placeholder="SEARCH..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/25 focus:outline-none focus:border-[var(--color-accent)] transition-all" />
             </div>
           </div>
@@ -180,7 +176,7 @@ export default function CatNavDemo() {
               <svg className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 w-3.5 h-3.5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
             </div>
             <div className="relative flex-1 max-w-md">
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
               <input type="text" placeholder="Search all videos..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg py-2.5 pl-11 pr-4 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-accent)] focus:bg-white/10 transition-all" />
             </div>
             <p className="text-xs text-white/15 font-bold uppercase tracking-widest ml-auto hidden md:block">{count} results</p>

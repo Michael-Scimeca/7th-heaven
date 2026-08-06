@@ -3,28 +3,28 @@
 import { useState, useEffect, useCallback } from "react";
 
 const PICK_META: Record<string, { name: string; rarity: string; color: string; img: string }> = {
-  purple:      { name: "Classic Purple",  rarity: "Common",    color: "#a855f7", img: "/images/picks/purple.png" },
-  red:         { name: "Crimson Fire",    rarity: "Uncommon",  color: "#ef4444", img: "/images/picks/red.png" },
-  black:       { name: "Stealth Black",   rarity: "Uncommon",  color: "#6b7280", img: "/images/picks/black.png" },
-  silver:      { name: "Chrome Silver",   rarity: "Rare",      color: "#c0c0c0", img: "/images/picks/silver.png" },
-  gold:        { name: "24K Gold",        rarity: "Epic",      color: "#c084fc", img: "/images/picks/gold.png" },
-  holographic: { name: "Holographic",     rarity: "Legendary", color: "#ec4899", img: "/images/picks/holographic.png" },
+  purple: { name: "Classic Purple", rarity: "Common", color: "#a855f7", img: "/images/picks/purple.png" },
+  red: { name: "Crimson Fire", rarity: "Uncommon", color: "#ef4444", img: "/images/picks/red.png" },
+  black: { name: "Stealth Black", rarity: "Uncommon", color: "#6b7280", img: "/images/picks/black.png" },
+  silver: { name: "Chrome Silver", rarity: "Rare", color: "#c0c0c0", img: "/images/picks/silver.png" },
+  gold: { name: "24K Gold", rarity: "Epic", color: "#c084fc", img: "/images/picks/gold.png" },
+  holographic: { name: "Holographic", rarity: "Legendary", color: "#ec4899", img: "/images/picks/holographic.png" },
 };
 
 const RARITY_COLORS: Record<string, string> = {
-  Common:    "text-white/40",
-  Uncommon:  "text-green-400",
-  Rare:      "text-blue-400",
-  Epic:      "text-purple-300",
+  Common: "text-white/40",
+  Uncommon: "text-green-400",
+  Rare: "text-blue-400",
+  Epic: "text-purple-300",
   Legendary: "text-pink-400",
 };
 
 const REASON_LABELS: Record<string, string> = {
   show_attendance: "🎸 Show Attendance",
-  merch_purchase:  "🛍️ Merch Purchase",
-  social_share:    "📱 Social Share",
-  referral:        "🔗 Referral",
-  manual:          "🎁 Gift from Admin",
+  merch_purchase: "🛍️ Merch Purchase",
+  social_share: "📱 Social Share",
+  referral: "🔗 Referral",
+  manual: "🎁 Gift from Admin",
 };
 
 interface PickAwardsSectionProps {
@@ -132,13 +132,12 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <button
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
-                className={`relative p-3 border  text-center transition-all ${
-                  pick.owned > 0
-                    ? selectedPick === pick.id
-                      ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
-                      : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
-                    : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
-                }`}
+                className={`relative p-3 border  text-center transition-all ${pick.owned > 0
+                  ? selectedPick === pick.id
+                    ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
+                    : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
+                  : "border-black/10 bg-gray-100/50 opacity-40 grayscale cursor-default"
+                  }`}
               >
                 <div className="relative mx-auto w-16 h-16 mb-2">
                   <img src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
@@ -195,7 +194,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           <div className="flex items-center gap-6 mb-6 p-3 bg-gray-50 border border-black/10 rounded-lg">
             <div>
               <p className="text-xs uppercase tracking-[0.15em] text-black/40 font-bold">Total Picks</p>
-              <p className="text-xl font-bold text-[var(--color-accent)]">{totalOwned}</p>
+              <p className="text-xl font-bold  text-[var(--color-accent)]">{totalOwned}</p>
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.15em] text-black/40 font-bold">Unique Types</p>
@@ -223,13 +222,12 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 {lotteries.map((lottery: any) => (
                   <div
                     key={lottery.id}
-                    className={`p-4 border rounded-lg transition-all ${
-                      lottery.isEntered
-                        ? "border-emerald-500/30 bg-emerald-500/5"
-                        : lottery.isEligible
-                          ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
-                          : "border-black/10 bg-gray-50"
-                    }`}
+                    className={`p-4 border rounded-lg transition-all ${lottery.isEntered
+                      ? "border-emerald-500/30 bg-emerald-500/5"
+                      : lottery.isEligible
+                        ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
+                        : "border-black/10 bg-gray-50"
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div>
@@ -238,7 +236,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">✓ Entered</span>
+                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30">✓ Entered</span>
                         ) : lottery.isEligible ? (
                           <button
                             onClick={() => handleEnterLottery(lottery.id)}

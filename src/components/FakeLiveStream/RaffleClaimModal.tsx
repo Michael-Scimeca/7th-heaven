@@ -55,7 +55,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
               <span className="text-4xl mb-2 block">🏆</span>
               <h3 className="text-xl font-black text-black uppercase tracking-wider">You Won!</h3>
               {raffleState.prizes?.[winnerIdx]?.name && (
-                <p className="text-sm font-bold text-purple-400 mt-1 uppercase tracking-widest">{raffleState.prizes[winnerIdx].name}</p>
+                <p className="text-sm font-bold  text-[var(--color-accent)] mt-1 uppercase tracking-widest">{raffleState.prizes[winnerIdx].name}</p>
               )}
               <p className="text-xs text-black/40 mt-1">Show your PIN to the crew at the merch table</p>
             </div>
@@ -92,7 +92,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
               </button>
               <button onClick={() => setClaimMethod('merch_table')}
                 className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-all text-left">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-[var(--color-accent)] flex items-center justify-center shrink-0">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
                 </div>
                 <div>
@@ -119,7 +119,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
           </div>
         ) : (
           <div className="text-center py-4">
-            <h3 className="text-lg font-black text-emerald-400 uppercase tracking-wider mb-1">Merch Table Pickup</h3>
+            <h3 className="text-lg font-black text-[var(--color-accent)] uppercase tracking-wider mb-1">Merch Table Pickup</h3>
             <p className="text-xs text-black/40 mb-5 uppercase tracking-widest">Show this PIN or page to the crew</p>
             {pin && (
               <div className="bg-purple-500/5 border border-purple-500/30 p-4 mb-4">
@@ -130,7 +130,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
                     </div>
                   ))}
                 </div>
-                <a href={claimUrl} target="_blank" rel="noreferrer" className="text-purple-400/60 text-xs underline">Open full claim page →</a>
+                <a href={claimUrl} target="_blank" rel="noreferrer" className=" text-[var(--color-accent)]/60 text-xs underline">Open full claim page →</a>
               </div>
             )}
             <button onClick={handleClose} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest transition-colors">Done</button>

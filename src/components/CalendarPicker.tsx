@@ -87,7 +87,7 @@ export function CalendarPicker({
     <div className="bg-[var(--color-bg-surface)] border border-black/10 p-6 w-full">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-black font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-[var(--color-accent)]">*</span>}</h3>
+          <h3 className="text-black font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className=" text-[var(--color-accent)]">*</span>}</h3>
           <p className="text-black/50 text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
@@ -109,7 +109,7 @@ export function CalendarPicker({
               onClick={handlePrevMonth}
               className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-all cursor-pointer shadow-sm"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
               <span>Prev</span>
             </button>
 
@@ -152,7 +152,7 @@ export function CalendarPicker({
               className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-all cursor-pointer shadow-sm"
             >
               <span>Next</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
             </button>
           </div>
 
@@ -173,7 +173,7 @@ export function CalendarPicker({
               today.setHours(0, 0, 0, 0);
               const isPastDate = date < today;
               const isBlocked = blockedSet.has(dateString);
-              
+
               return (
                 <button
                   key={dateString}
@@ -207,8 +207,8 @@ export function CalendarPicker({
                     ${(isPastDate || isBlocked) ? "cursor-not-allowed opacity-25" : "cursor-pointer"}
                     ${isBlocked
                       ? "bg-rose-500/10 border border-rose-500/20 text-rose-500 line-through"
-                      : isSelected 
-                        ? "bg-[var(--color-accent)] text-white shadow-md scale-105" 
+                      : isSelected
+                        ? "bg-[var(--color-accent)] text-white shadow-md scale-105"
                         : "bg-black/[0.04] border border-black/10 hover:border-[var(--color-accent)]/60 hover:bg-black/10 text-black"}
                   `}
                 >
@@ -236,8 +236,8 @@ export function CalendarPicker({
             <div>
               <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show start?</label>
               <div className="relative">
-                <select 
-                  value={startTime} 
+                <select
+                  value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
@@ -256,8 +256,8 @@ export function CalendarPicker({
             <div>
               <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show finish?</label>
               <div className="relative">
-                <select 
-                  value={endTime} 
+                <select
+                  value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
@@ -278,8 +278,8 @@ export function CalendarPicker({
             <div>
               <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band go on?</label>
               <div className="relative">
-                <select 
-                  value={startTime} 
+                <select
+                  value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
@@ -298,8 +298,8 @@ export function CalendarPicker({
             <div>
               <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band finish?</label>
               <div className="relative">
-                <select 
-                  value={endTime} 
+                <select
+                  value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
                 >
@@ -327,38 +327,38 @@ export function CalendarPicker({
               { id: "private", label: "Private Event", icon: "🎉", desc: "Birthdays, corporate events, weddings" },
               { id: "custom", label: "Custom Booking", icon: "✨", desc: "Special requests, festivals, hybrid shows" },
             ].map(type => {
-               const isSelected = selectedType === type.id;
-               return (
-                 <div key={type.id}>
-                   <button
-                     type="button"
-                     onClick={() => onSelectType && onSelectType(type.id)}
-                     className={`w-full text-left p-4  border transition-all cursor-pointer flex gap-4 items-center group
-                       ${isSelected 
-                         ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-sm" 
-                         : "border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]"}
+              const isSelected = selectedType === type.id;
+              return (
+                <div key={type.id}>
+                  <button
+                    type="button"
+                    onClick={() => onSelectType && onSelectType(type.id)}
+                    className={`w-full text-left p-4  border transition-all cursor-pointer flex gap-4 items-center group
+                       ${isSelected
+                        ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-sm"
+                        : "border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]"}
                      `}
-                   >
-                     <span className="text-2xl drop-shadow-md">{type.icon}</span>
-                     <div>
-                       <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-[var(--color-accent)]" : "text-black"}`}>{type.label}</span>
-                       <span className="text-xs text-black/50 block leading-tight">{type.desc}</span>
-                     </div>
-                   </button>
-                   {type.id === "custom" && isSelected && (
-                     <div className="mt-2 animate-[fade-in-up_0.2s_ease-out_both]">
-                       <input
-                         type="text"
-                         placeholder="Describe your custom event (e.g. Street Fair)..."
-                         value={customDetails || ""}
-                         onChange={(e) => onCustomDetailsChange?.(e.target.value)}
-                         autoFocus
-                         className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] transition-all placeholder:text-black/40"
-                       />
-                     </div>
-                   )}
-                 </div>
-               );
+                  >
+                    <span className="text-2xl drop-shadow-md">{type.icon}</span>
+                    <div>
+                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? " text-[var(--color-accent)]" : "text-black"}`}>{type.label}</span>
+                      <span className="text-xs text-black/50 block leading-tight">{type.desc}</span>
+                    </div>
+                  </button>
+                  {type.id === "custom" && isSelected && (
+                    <div className="mt-2 animate-[fade-in-up_0.2s_ease-out_both]">
+                      <input
+                        type="text"
+                        placeholder="Describe your custom event (e.g. Street Fair)..."
+                        value={customDetails || ""}
+                        onChange={(e) => onCustomDetailsChange?.(e.target.value)}
+                        autoFocus
+                        className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] transition-all placeholder:text-black/40"
+                      />
+                    </div>
+                  )}
+                </div>
+              );
             })}
           </div>
         </div>

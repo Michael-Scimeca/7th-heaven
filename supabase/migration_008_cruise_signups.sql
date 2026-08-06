@@ -15,13 +15,5 @@ CREATE TABLE IF NOT EXISTS public.cruise_signups (
 -- Prevent duplicate signups by email
 CREATE UNIQUE INDEX IF NOT EXISTS idx_cruise_signups_email ON public.cruise_signups(email);
 
--- Enable RLS
+-- Enable RLS (server-side actions use service_role which bypasses RLS automatically)
 ALTER TABLE public.cruise_signups ENABLE ROW LEVEL SECURITY;
-
--- Anyone can insert (public signup form)
-CREATE POLICY "Anyone can sign up for cruise" ON public.cruise_signups
-  FOR INSERT WITH CHECK (true);
-
--- Only service role can read (admin dashboard)
-CREATE POLICY "Service role can read cruise signups" ON public.cruise_signups
-  FOR SELECT USING (true);

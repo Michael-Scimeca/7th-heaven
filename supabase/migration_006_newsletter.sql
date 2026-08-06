@@ -14,13 +14,5 @@ CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_newsletter_email_unique ON public.newsletter_subscribers (email);
 
--- RLS
+-- RLS enabled. Server-side signup/admin actions use service_role which bypasses RLS automatically.
 ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
-
--- Allow inserts from anyone (public signup)
-CREATE POLICY newsletter_insert ON public.newsletter_subscribers
-  FOR INSERT WITH CHECK (true);
-
--- Allow service role full access (for admin blast + unsubscribe)
-CREATE POLICY newsletter_service_all ON public.newsletter_subscribers
-  FOR ALL USING (true) WITH CHECK (true);

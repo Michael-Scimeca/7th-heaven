@@ -11,16 +11,15 @@ const nextConfig: NextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   turbopack: {},
-  serverExternalPackages: ["nsfwjs", "@tensorflow/tfjs"],
+  serverExternalPackages: ["@tensorflow/tfjs"],
   webpack: (config, { isServer }) => {
-    config.externals = [...(config.externals || []), "nsfwjs", "@tensorflow/tfjs"];
+    config.externals = [...(config.externals || []), "@tensorflow/tfjs"];
     return config;
   },
   outputFileTracingExcludes: {
     '*': [
       'node_modules/@tensorflow/tfjs/**',
       'node_modules/@tensorflow/**',
-      'node_modules/nsfwjs/**',
       'node_modules/leaflet/**',
       'node_modules/react-leaflet/**',
       'node_modules/swiper/**',

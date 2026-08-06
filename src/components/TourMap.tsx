@@ -8,13 +8,13 @@ import { VENUE_COORDS } from "@/lib/venue-coords";
 export { VENUE_COORDS };
 
 export const typeConfig: Record<string, { color: string; label: string }> = {
-  full:       { color: "#a855f7", label: "Full Band" },
-  unplugged:  { color: "#9333ea", label: "Unplugged" },
-  outdoor:    { color: "#22c55e", label: "Outdoor" },
-  casino:     { color: "#eab308", label: "Casino" },
-  tv:         { color: "#06b6d4", label: "TV" },
+  full: { color: "#a855f7", label: "Full Band" },
+  unplugged: { color: "#9333ea", label: "Unplugged" },
+  outdoor: { color: "#22c55e", label: "Outdoor" },
+  casino: { color: "#eab308", label: "Casino" },
+  tv: { color: "#06b6d4", label: "TV" },
   fundraiser: { color: "#f43f5e", label: "Fundraiser" },
-  special:    { color: "#ec4899", label: "Special" },
+  special: { color: "#ec4899", label: "Special" },
 };
 
 export function getShowType(info: string): string {
@@ -264,11 +264,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       if (container) {
         container.style.pointerEvents = 'auto';
         container.style.cursor = 'pointer';
-        
+
         const closeTooltip = () => {
           mapInstance.closeTooltip(tooltip);
         };
-        
+
         container.addEventListener('click', closeTooltip);
       }
     });
@@ -279,13 +279,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const container = popup.getElement();
       if (container) {
         container.style.cursor = 'pointer';
-        
+
         const handlePopupClick = (event: MouseEvent) => {
           const target = event.target as HTMLElement;
           if (target.closest('a')) return; // Allow clicking links
           mapInstance.closePopup(popup);
         };
-        
+
         container.addEventListener('click', handlePopupClick);
       }
     });
@@ -294,9 +294,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     mapInstanceRef.current = mapInstance;
 
     // Force a resize check to fix broken tiles on initial load
-    setTimeout(() => mapInstance.invalidateSize(), 500);
+    const invalidateSizeTimer = setTimeout(() => mapInstance.invalidateSize(), 500);
 
     return () => {
+      clearTimeout(invalidateSizeTimer);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
@@ -356,13 +357,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             };
           }
           showGroups[key].shows.push({
-             date: s.date,
-             time: s.time || "",
-             playTime: s.playTime || "",
-             info: s.info || "",
-             allAges: s.allAges,
-             mapUrl: s.mapUrl,
-             websiteUrl: s.websiteUrl
+            date: s.date,
+            time: s.time || "",
+            playTime: s.playTime || "",
+            info: s.info || "",
+            allAges: s.allAges,
+            mapUrl: s.mapUrl,
+            websiteUrl: s.websiteUrl
           });
         }
       });
@@ -399,14 +400,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       const isAllAges = firstShow.allAges === true || firstShow.info?.toLowerCase().includes("all age") || firstShow.info?.toLowerCase().includes("all-age");
       const is21Plus = firstShow.allAges === false || firstShow.info?.toLowerCase().includes("21 &") || firstShow.info?.toLowerCase().includes("21+");
-      
-      const ageBadge = isAllAges 
+
+      const ageBadge = isAllAges
         ? `<span style="font-size:10px; font-weight:800; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); padding:2px 6px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:2px; height:18px;">👶 All Ages</span>`
-        : is21Plus 
+        : is21Plus
           ? `<span style="font-size:10px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3); padding:2px 6px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:2px; height:18px;">🔞 21+</span>`
           : '';
 
-      const tooltipShowText = v.shows.length > 1 
+      const tooltipShowText = v.shows.length > 1
         ? `<span style="font-size:12px; font-weight:800; color:${cfg.color};">${firstShow.date} + ${v.shows.length - 1} more show${v.shows.length > 2 ? 's' : ''}</span>`
         : `<span style="font-size:12px; font-weight:800; color:${cfg.color};">${firstShow.date} ${firstShow.time || ""}</span>`;
 
@@ -433,11 +434,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 ${tooltipShowText}
                 ${ageBadge}
               </div>
-              ${isHappening 
-                ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
-                : isNext 
-                  ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>' 
-                  : ""}
+              ${isHappening
+            ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
+            : isNext
+              ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
+              : ""}
               
               <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
                 <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:opacity 0.2s;">
@@ -466,9 +467,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const showsListHtml = v.shows.map((s, idx) => {
         const sIsAllAges = s.allAges === true || s.info?.toLowerCase().includes("all age") || s.info?.toLowerCase().includes("all-age");
         const sIs21Plus = s.allAges === false || s.info?.toLowerCase().includes("21 &") || s.info?.toLowerCase().includes("21+");
-        const sAgeBadge = sIsAllAges 
+        const sAgeBadge = sIsAllAges
           ? `<span style="font-size:9px; font-weight:800; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.2); padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">All Ages</span>`
-          : sIs21Plus 
+          : sIs21Plus
             ? `<span style="font-size:9px; font-weight:800; background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.2); padding:1px 4px; border-radius:3px; text-transform:uppercase; margin-left:6px; display:inline-block; vertical-align:middle; line-height:1;">21+</span>`
             : '';
         const timeText = s.playTime
@@ -522,27 +523,27 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           if (!el) return;
           const tooltip = el.querySelector('.custom-tooltip-card') as HTMLElement;
           if (!tooltip) return;
-          
+
           const mapContainer = map.getContainer();
           const mapRect = mapContainer.getBoundingClientRect();
           const tooltipRect = tooltip.getBoundingClientRect();
-          
+
           const padding = 20;
           let panX = 0;
           let panY = 0;
-          
+
           if (tooltipRect.top < mapRect.top) {
             panY = tooltipRect.top - mapRect.top - padding;
           } else if (tooltipRect.bottom > mapRect.bottom) {
             panY = tooltipRect.bottom - mapRect.bottom + padding;
           }
-          
+
           if (tooltipRect.left < mapRect.left) {
             panX = tooltipRect.left - mapRect.left - padding;
           } else if (tooltipRect.right > mapRect.right) {
             panX = tooltipRect.right - mapRect.right + padding;
           }
-          
+
           if (panX !== 0 || panY !== 0) {
             map.panBy([panX, panY], { animate: true, duration: 0.25 });
           }
@@ -646,12 +647,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full aspect-[3/1] overflow-hidden bg-black pb-px" style={{transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', willChange: 'transform', border: 'none', outline: 'none', minHeight: '350px'}}>
+    <div className="relative w-full aspect-[3/1] overflow-hidden bg-black pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', willChange: 'transform', border: 'none', outline: 'none', minHeight: '350px' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862" />
 
       {/* ── Directional Dark Edge Gradient Overlays ── */}
       {mapGradTop && (
-        <div 
+        <div
           className="absolute top-0 left-0 right-0 z-[2] pointer-events-none"
           style={{
             height: `${mapGradSize}%`,
@@ -660,7 +661,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         />
       )}
       {mapGradBottom && (
-        <div 
+        <div
           className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none"
           style={{
             height: `${mapGradSize}%`,
@@ -669,7 +670,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         />
       )}
       {mapGradLeft && (
-        <div 
+        <div
           className="absolute top-0 bottom-0 left-0 z-[2] pointer-events-none"
           style={{
             width: `${mapGradSize}%`,
@@ -678,7 +679,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         />
       )}
       {mapGradRight && (
-        <div 
+        <div
           className="absolute top-0 bottom-0 right-0 z-[2] pointer-events-none"
           style={{
             width: `${mapGradSize}%`,
@@ -692,7 +693,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         {!isMapGradUiOpen ? (
           <button
             onClick={() => setIsMapGradUiOpen(true)}
-            className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover:text-[var(--color-accent)] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover: text-[var(--color-accent)] transition-all cursor-pointer"
             title="Configure Map Directional Black Gradient"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 animate-pulse" />
@@ -703,7 +704,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-2">
               <div className="flex flex-col">
-                <span className="font-bold text-xs uppercase tracking-wider text-purple-400">
+                <span className="font-bold text-xs uppercase tracking-wider  text-[var(--color-accent)]">
                   Map Gradient Controls
                 </span>
                 <span className="text-[9px] text-white/50 uppercase font-semibold">
@@ -752,11 +753,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   <button
                     key={d.label}
                     onClick={() => d.setter(!d.state)}
-                    className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-all cursor-pointer ${
-                      d.state
-                        ? "bg-purple-600/40 border-purple-400 text-white shadow-[0_0_8px_rgba(168,85,247,0.3)]"
-                        : "bg-white/5 border-white/5 text-white/40 hover:bg-white/10"
-                    }`}
+                    className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-all cursor-pointer ${d.state
+                      ? "bg-purple-600/40 border-purple-400 text-white shadow-[0_0_8px_rgba(168,85,247,0.3)]"
+                      : "bg-white/5 border-white/5 text-white/40 hover:bg-white/10"
+                      }`}
                   >
                     {d.label}
                   </button>
@@ -768,7 +768,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Gradient Depth / Size</span>
-                <span className="text-purple-400 font-mono font-black">{mapGradSize}%</span>
+                <span className=" text-[var(--color-accent)] font-mono font-black">{mapGradSize}%</span>
               </div>
               <input
                 type="range"
@@ -785,7 +785,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Edge Black Opacity</span>
-                <span className="text-purple-400 font-mono font-black">{Math.round(mapGradOpacity * 100)}%</span>
+                <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(mapGradOpacity * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -802,7 +802,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="space-y-1">
               <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Fade Midpoint Stop</span>
-                <span className="text-purple-400 font-mono font-black">{mapGradMidstop}%</span>
+                <span className=" text-[var(--color-accent)] font-mono font-black">{mapGradMidstop}%</span>
               </div>
               <input
                 type="range"
@@ -819,7 +819,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <div className="space-y-1">
               <div className="flex justify-between items-center text-[10px] font-bold text-white/60 uppercase tracking-wider">
                 <span>Gradient Color</span>
-                <span className="text-purple-400 font-mono font-bold text-[9px]">{mapGradColor}</span>
+                <span className=" text-[var(--color-accent)] font-mono font-bold text-[9px]">{mapGradColor}</span>
               </div>
               <div className="flex items-center gap-2">
                 {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
@@ -856,14 +856,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           </div>
         )}
       </div>
-      
+
 
       {/* Legend */}
       <div className="group absolute bottom-4 left-8 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-all duration-300">
         {/* Header - always visible, click to toggle */}
         <button
           onClick={() => setLegendOpen(o => !o)}
-          className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover:text-[var(--color-accent)] transition-colors"
+          className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover: text-[var(--color-accent)] transition-colors"
         >
           <span className="text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
           <svg className={`w-3.5 h-3.5 transition-all duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
@@ -889,9 +889,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         return next;
                       });
                     }}
-                    className={`flex items-center gap-1.5 transition-all duration-200 cursor-pointer text-left ${
-                      isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
-                    }`}
+                    className={`flex items-center gap-1.5 transition-all duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
+                      }`}
                   >
                     <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
                       {showLetter}
@@ -905,9 +904,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/40">Active</span>
               <div className="flex items-center gap-2">
                 {selectedTypes.size > 0 && (
-                  <button onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                  <button onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
                 )}
-                <span className="text-[var(--font-size-4xs)] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
+                <span className="text-[var(--font-size-4xs)] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
               </div>
             </div>
           </div>
@@ -921,7 +920,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           type="button"
           aria-label="Zoom In"
           title="Zoom In"
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
         >
           <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19" />
@@ -933,7 +932,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           type="button"
           aria-label="Zoom Out"
           title="Zoom Out"
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
         >
           <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />

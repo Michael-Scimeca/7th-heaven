@@ -1171,11 +1171,10 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
     <>
       <button
         onClick={() => setExpanded(true)}
-        className={`relative w-full aspect-video  overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${
-          isPurple
-            ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
-            : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-        }`}
+        className={`relative w-full aspect-video  overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${isPurple
+          ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
+          : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+          }`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -1188,11 +1187,10 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
-            isPurple
-              ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
-              : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
-          }`}>
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${isPurple
+            ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
+            : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
+            }`}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -1200,11 +1198,10 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         </div>
         {/* Label */}
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
-          <span className={`text-xs font-black uppercase tracking-[0.15em] px-2.5 py-1 rounded-full border backdrop-blur-sm ${
-            isPurple
-              ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
-              : "bg-black/50 border-white/20 text-white/80"
-          }`}>
+          <span className={`text-xs font-black uppercase tracking-[0.15em] px-2.5 py-1 rounded-full border backdrop-blur-sm ${isPurple
+            ? "bg-[var(--color-accent)]/30 border-[#851DEF]/50 text-white"
+            : "bg-black/50 border-white/20 text-white/80"
+            }`}>
             ▶ Live Preview
           </span>
         </div>
@@ -1384,7 +1381,7 @@ export default function FeaturesPage() {
             </Link>
             <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">Book The Band →</Link>
             <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">Fan Dashboard →</Link>
-            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-emerald-400 font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">View All Pages ↓</a>
+            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">View All Pages ↓</a>
           </div>
         </div>
       </section>
@@ -1550,7 +1547,7 @@ export default function FeaturesPage() {
                   <div className="px-3 pb-3">
                     <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
                       <span className="text-white/20 text-sm flex-1">Say something...</span>
-                      <button className="text-[var(--color-accent)] text-xs font-black uppercase">Send</button>
+                      <button className=" text-[var(--color-accent)] text-xs font-black uppercase">Send</button>
                     </div>
                   </div>
                 </div>
@@ -1690,7 +1687,7 @@ export default function FeaturesPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-lg">🎰</span>
                       <span className="text-white font-black text-sm uppercase tracking-wide">Raffle Engine</span>
-                      <span className="ml-auto text-xs px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 rounded-full font-bold">LIVE</span>
+                      <span className="ml-auto text-xs px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] rounded-full font-bold">LIVE</span>
                     </div>
                     {/* Active raffle */}
                     <div className="bg-black/40 rounded-lg p-3 mb-3">
@@ -1858,7 +1855,7 @@ export default function FeaturesPage() {
                                 <div className="text-white/85 text-xs font-bold">{b.name}</div>
                                 <div className="text-white/30 text-xs">{b.org} · {b.venue}</div>
                               </div>
-                              <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-purple-400 bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
+                              <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full border ${b.type === 'Corporate' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : b.type === 'Wedding' ? 'text-pink-400 bg-pink-500/10 border-pink-500/20' : b.type === 'Festival' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : ' text-[var(--color-accent)] bg-purple-500/10 border-purple-500/20'}`}>{b.type}</span>
                             </div>
                             <div className="flex items-center justify-between mt-2">
                               <div className="flex items-center gap-3 text-white/30 text-xs">
@@ -1867,11 +1864,11 @@ export default function FeaturesPage() {
                               </div>
                               {b.status === 'pending' ? (
                                 <div className="flex gap-1">
-                                  <button className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-xs font-black rounded cursor-pointer hover:bg-emerald-500/25">✓</button>
+                                  <button className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/25 text-[var(--color-accent)] text-xs font-black rounded cursor-pointer hover:bg-emerald-500/25">✓</button>
                                   <button className="px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-black rounded cursor-pointer hover:bg-red-500/20">✕</button>
                                 </div>
                               ) : (
-                                <span className="text-xs text-emerald-400 font-bold">✓ Approved</span>
+                                <span className="text-xs text-[var(--color-accent)] font-bold">✓ Approved</span>
                               )}
                             </div>
                           </div>
@@ -2034,13 +2031,13 @@ export default function FeaturesPage() {
             </h2>
           </div>
           <p className="text-white/35 text-xl mb-14 max-w-3xl">
-            Every registered fan gets a personalized dashboard at <code className="text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded text-sm font-mono">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
+            Every registered fan gets a personalized dashboard at <code className=" text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded text-sm font-mono">/fans/username</code> — their home base for show countdowns, live alerts, photo submissions, referral codes, and more.
           </p>
 
           {/* Screenshot 1: Hero — Profile + Countdown */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-sm font-black uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
+              <span className="px-3 py-1 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-sm font-black uppercase tracking-widest rounded-full">⭐ Profile & Show Countdown</span>
               <span className="text-white/20 text-sm">— personalized identity + next show timer</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(255,10,61,0.12)]">
@@ -2058,7 +2055,7 @@ export default function FeaturesPage() {
           {/* Screenshot 2: Mid — Proximity + Shows */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-5">
-              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-sm font-black uppercase tracking-widest rounded-full">📍 Proximity Alerts & Shows</span>
+              <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-sm font-black uppercase tracking-widest rounded-full">📍 Proximity Alerts & Shows</span>
               <span className="text-white/20 text-sm">— upcoming dates + location-based notifications</span>
             </div>
             <div className="border border-white/10 overflow-hidden shadow-[0_0_80px_rgba(16,185,129,0.08)]">
@@ -2117,7 +2114,7 @@ export default function FeaturesPage() {
           {/* Legend */}
           <div className="flex flex-wrap gap-3 mb-8">
             {[
-              { color: "bg-emerald-500/15 border-emerald-500/30 text-emerald-400", dot: "bg-emerald-500", label: "Public — no login needed" },
+              { color: "bg-emerald-500/15 border-emerald-500/30 text-[var(--color-accent)]", dot: "bg-emerald-500", label: "Public — no login needed" },
               { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: "bg-white/5 border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview" },
@@ -2168,9 +2165,9 @@ export default function FeaturesPage() {
                 { path: "/live", label: "Live Hub", desc: "Real-time gallery of all active crew broadcasts with viewer counts", access: "public" },
                 { path: "/live/[room]", label: "Fan Viewer", desc: "Full-screen WebRTC viewer — chat, emoji reactions, hype meter, raffle, flash drops", access: "public" },
                 { path: "/live/live_michael", label: "Michael's Room", desc: "Direct link to Michael's personal broadcast room", access: "public" },
-                { path: "/live/live_ryan",    label: "Ryan's Room",    desc: "Direct link to Ryan's personal broadcast room", access: "public" },
-                { path: "/live/live_sammy",   label: "Sammy's Room",   desc: "Direct link to Sammy's personal broadcast room", access: "public" },
-                { path: "/live/live_tony",    label: "Tony's Room",    desc: "Direct link to Tony's personal broadcast room", access: "public" },
+                { path: "/live/live_ryan", label: "Ryan's Room", desc: "Direct link to Ryan's personal broadcast room", access: "public" },
+                { path: "/live/live_sammy", label: "Sammy's Room", desc: "Direct link to Sammy's personal broadcast room", access: "public" },
+                { path: "/live/live_tony", label: "Tony's Room", desc: "Direct link to Tony's personal broadcast room", access: "public" },
               ],
             },
             {
@@ -2220,22 +2217,22 @@ export default function FeaturesPage() {
             },
           ].map((group) => {
             const accessStyles: Record<string, string> = {
-              public: "bg-emerald-500/10 border-emerald-500/25 text-emerald-400",
-              login:  "bg-purple-600/10  border-purple-500/25  text-purple-300",
-              admin:  "bg-blue-500/10   border-blue-500/25   text-blue-400",
-              dev:    "bg-white/5       border-white/10      text-white/30",
+              public: "bg-emerald-500/10 border-emerald-500/25 text-[var(--color-accent)]",
+              login: "bg-purple-600/10  border-purple-500/25  text-purple-300",
+              admin: "bg-blue-500/10   border-blue-500/25   text-blue-400",
+              dev: "bg-white/5       border-white/10      text-white/30",
             };
             const accessLabel: Record<string, string> = {
               public: "Public",
-              login:  "Login Required",
-              admin:  "Admin / Crew",
-              dev:    "Dev Page",
+              login: "Login Required",
+              admin: "Admin / Crew",
+              dev: "Dev Page",
             };
             const accessDot: Record<string, string> = {
               public: "bg-emerald-500",
-              login:  "bg-purple-600",
-              admin:  "bg-blue-500",
-              dev:    "bg-white/30",
+              login: "bg-purple-600",
+              admin: "bg-blue-500",
+              dev: "bg-white/30",
             };
 
             return (
@@ -2252,9 +2249,8 @@ export default function FeaturesPage() {
                       key={page.path}
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
-                      className={`flex items-center gap-4 px-5 py-3 transition-all duration-150 group ${
-                        page.access === "dev" ? "bg-white/[0.01] hover:bg-white/[0.03]" : "hover:bg-white/[0.04]"
-                      } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
+                      className={`flex items-center gap-4 px-5 py-3 transition-all duration-150 group ${page.access === "dev" ? "bg-white/[0.01] hover:bg-white/[0.03]" : "hover:bg-white/[0.04]"
+                        } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
                     >
                       <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />
 
@@ -2290,7 +2286,7 @@ export default function FeaturesPage() {
       <section className="py-24 px-6 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-[var(--color-accent)]">✦</span>
+            <span className=" text-[var(--color-accent)]">✦</span>
             <h2 className="text-4xl font-black uppercase tracking-widest text-white" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>Flagship Features</h2>
           </div>
           <p className="text-white/35 mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
@@ -2351,7 +2347,7 @@ export default function FeaturesPage() {
       </section>
 
       {/* directory moved to top */}
-      <section className="py-0" style={{display:'none'}}>
+      <section className="py-0" style={{ display: 'none' }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-emerald-400 text-xl">⊞</span>
@@ -2366,7 +2362,7 @@ export default function FeaturesPage() {
           {/* Legend */}
           <div className="flex flex-wrap gap-3 mb-10">
             {[
-              { color: "bg-emerald-500/15 border-emerald-500/30 text-emerald-400", dot: "bg-emerald-500", label: "Public — no login needed" },
+              { color: "bg-emerald-500/15 border-emerald-500/30 text-[var(--color-accent)]", dot: "bg-emerald-500", label: "Public — no login needed" },
               { color: "bg-purple-600/15 border-purple-500/30 text-purple-300", dot: "bg-purple-600", label: "Login Required" },
               { color: "bg-blue-500/15 border-blue-500/30 text-blue-400", dot: "bg-blue-500", label: "Admin / Crew Only" },
               { color: "bg-white/5 border-white/10 text-white/30", dot: "bg-white/30", label: "Dev / Preview Page" },
@@ -2468,7 +2464,7 @@ export default function FeaturesPage() {
             },
           ].map((group) => {
             const accessStyles: Record<string, string> = {
-              public: "bg-emerald-500/10 border-emerald-500/25 text-emerald-400",
+              public: "bg-emerald-500/10 border-emerald-500/25 text-[var(--color-accent)]",
               login: "bg-purple-600/10 border-purple-500/25 text-purple-300",
               admin: "bg-blue-500/10 border-blue-500/25 text-blue-400",
               dev: "bg-white/5 border-white/10 text-white/30",
@@ -2500,13 +2496,11 @@ export default function FeaturesPage() {
                       key={page.path}
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
-                      className={`flex items-center gap-4 px-5 py-3.5 transition-all group ${
-                        pi !== group.pages.length - 1 ? "border-b border-white/[0.05]" : ""
-                      } ${
-                        page.access === "dev"
+                      className={`flex items-center gap-4 px-5 py-3.5 transition-all group ${pi !== group.pages.length - 1 ? "border-b border-white/[0.05]" : ""
+                        } ${page.access === "dev"
                           ? "bg-black/20 hover:bg-white/[0.02]"
                           : "bg-black/10 hover:bg-white/[0.04]"
-                      }`}
+                        }`}
                     >
                       {/* access dot */}
                       <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />

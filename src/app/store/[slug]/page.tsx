@@ -11,10 +11,10 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 pb-20 font-sans">
       <div className="max-w-6xl mx-auto px-6">
-        
+
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 text-white/40 text-xs uppercase tracking-wider mb-8">
-          <Link href="/store" className="hover:text-[var(--color-accent)] transition-colors">Store</Link>
+          <Link href="/store" className="hover: text-[var(--color-accent)] transition-colors">Store</Link>
           <span>/</span>
           <span className="text-white/80">Apparel</span>
           <span>/</span>
@@ -23,7 +23,7 @@ export default function ProductDetailPage() {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          
+
           {/* Left: Product Image Container */}
           <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl flex items-center justify-center aspect-square relative overflow-hidden">
             <div className="absolute inset-0 bg-radial-gradient from-[var(--color-accent)]/10 to-transparent opacity-40 blur-[80px]" />
@@ -33,7 +33,7 @@ export default function ProductDetailPage() {
           {/* Right: Product Info & Actions */}
           <div className="space-y-6">
             <div>
-              <span className="inline-block text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] mb-2 px-3 py-1 bg-[var(--color-accent)]/10 rounded-full">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] mb-2 px-3 py-1 bg-[var(--color-accent)]/10 rounded-full">
                 Featured Apparel
               </span>
               <h1 className="text-4xl font-black tracking-tight text-white mb-2">
@@ -58,11 +58,10 @@ export default function ProductDetailPage() {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`w-12 h-12 flex items-center justify-center font-bold text-sm border transition-all cursor-pointer ${
-                      selectedSize === size
+                    className={`w-12 h-12 flex items-center justify-center font-bold text-sm border transition-all cursor-pointer ${selectedSize === size
                         ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-white"
                         : "border-white/10 text-white/40 hover:border-white/20 hover:text-white"
-                    }`}
+                      }`}
                   >
                     {size}
                   </button>
@@ -102,7 +101,7 @@ export default function ProductDetailPage() {
               >
                 {added ? "✓ Added to Cart!" : "Add to Cart"}
               </button>
-              
+
               <Link
                 href="/store"
                 className="w-full block text-center py-4 bg-white/5 hover:bg-white/10 text-white/70 font-bold uppercase tracking-widest text-sm transition-all border border-white/5"

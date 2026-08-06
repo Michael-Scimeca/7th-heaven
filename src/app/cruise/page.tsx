@@ -14,8 +14,8 @@ import {
   ITINERARY_2028,
 } from "./cruiseData";
 import dynamic from "next/dynamic";
-const CruiseSnakeItinerary  = dynamic(() => import("@/components/CruiseSnakeItinerary"),  { ssr: false });
-const CruiseVideoGallery    = dynamic(() => import("@/components/CruiseVideoGallery"),    { ssr: false });
+const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
+const CruiseVideoGallery = dynamic(() => import("@/components/CruiseVideoGallery"), { ssr: false });
 const CruiseHistoryTimeline = dynamic(() => import("@/components/CruiseHistoryTimeline"), { ssr: false });
 
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
@@ -42,19 +42,19 @@ const ITINERARY = [
     photo: "/images/cruise/miami.png",
     schedule: [
       { time: "12:00 PM", event: "Boarding begins at Port Canaveral", cat: "ship" },
-      { time: "2:00 PM",  event: "Cabins open — explore the brand new Star of the Seas", cat: "explore" },
-      { time: "4:30 PM",  event: "🎸 Sail-Away Concert — AquaDome / Pool Deck", cat: "band" },
-      { time: "8:00 PM",  event: "Group Dinner - Eat together in Main Dining Room", cat: "food" },
+      { time: "2:00 PM", event: "Cabins open — explore the brand new Star of the Seas", cat: "explore" },
+      { time: "4:30 PM", event: "🎸 Sail-Away Concert — AquaDome / Pool Deck", cat: "band" },
+      { time: "8:00 PM", event: "Group Dinner - Eat together in Main Dining Room", cat: "food" },
     ],
   },
   {
     day: 2, port: "Perfect Day at CocoCay, Bahamas", label: "Private Island", icon: "🏝️", type: "island",
     photo: "/images/cruise/cozumel.png",
     schedule: [
-      { time: "8:00 AM",  event: "Arrive at Royal Caribbean's Private Island", cat: "ship" },
+      { time: "8:00 AM", event: "Arrive at Royal Caribbean's Private Island", cat: "ship" },
       { time: "11:00 AM", event: "Chill Island beach day & waterslides", cat: "explore" },
-      { time: "2:00 PM",  event: "🎸 Poolside Acoustic Set at Coco Beach Club", cat: "band" },
-      { time: "5:00 PM",  event: "All aboard CocoCay pier", cat: "ship" },
+      { time: "2:00 PM", event: "🎸 Poolside Acoustic Set at Coco Beach Club", cat: "band" },
+      { time: "5:00 PM", event: "All aboard CocoCay pier", cat: "ship" },
     ],
   },
   {
@@ -62,29 +62,29 @@ const ITINERARY = [
     photo: "/images/cruise/at-sea.png",
     schedule: [
       { time: "10:00 AM", event: "Free play at Thrill Waterpark on ship", cat: "explore" },
-      { time: "1:00 PM",  event: "🎸 Q&A session with 7th Heaven in Music Hall", cat: "band" },
-      { time: "4:00 PM",  event: "Cocktail hours with other fans", cat: "food" },
-      { time: "8:30 PM",  event: "🎸 Full Electric Concert - Royal Theater", cat: "band" },
+      { time: "1:00 PM", event: "🎸 Q&A session with 7th Heaven in Music Hall", cat: "band" },
+      { time: "4:00 PM", event: "Cocktail hours with other fans", cat: "food" },
+      { time: "8:30 PM", event: "🎸 Full Electric Concert - Royal Theater", cat: "band" },
     ],
   },
   {
     day: 4, port: "Charlotte Amalie, St. Thomas", label: "Port Day", icon: "🏝️", type: "island",
     photo: "/images/cruise/grand-cayman.png",
     schedule: [
-      { time: "8:00 AM",  event: "Dock in beautiful St. Thomas", cat: "ship" },
+      { time: "8:00 AM", event: "Dock in beautiful St. Thomas", cat: "ship" },
       { time: "10:00 AM", event: "Magen's Bay beach excursion", cat: "explore" },
-      { time: "3:00 PM",  event: "Shopping & local sight-seeing in Charlotte Amalie", cat: "explore" },
-      { time: "9:00 PM",  event: "🎸 Under-the-stars deck concert", cat: "band" },
+      { time: "3:00 PM", event: "Shopping & local sight-seeing in Charlotte Amalie", cat: "explore" },
+      { time: "9:00 PM", event: "🎸 Under-the-stars deck concert", cat: "band" },
     ],
   },
   {
     day: 5, port: "Philipsburg, St. Maarten", label: "Port Day", icon: "🏝️", type: "island",
     photo: "/images/cruise/roatan.png",
     schedule: [
-      { time: "8:00 AM",  event: "Dock in St. Maarten", cat: "ship" },
+      { time: "8:00 AM", event: "Dock in St. Maarten", cat: "ship" },
       { time: "10:30 AM", event: "Maho Beach plane spotting excursion", cat: "explore" },
-      { time: "1:00 PM",  event: "French side culinary tour (Marigot)", cat: "food" },
-      { time: "8:00 PM",  event: "🎸 Themed night & group deck party", cat: "band" },
+      { time: "1:00 PM", event: "French side culinary tour (Marigot)", cat: "food" },
+      { time: "8:00 PM", event: "🎸 Themed night & group deck party", cat: "band" },
     ],
   },
   {
@@ -92,8 +92,8 @@ const ITINERARY = [
     photo: "/images/cruise/concert.png",
     schedule: [
       { time: "11:00 AM", event: "Farewell pool deck celebration", cat: "explore" },
-      { time: "3:00 PM",  event: "🎸 Acoustic requests & farewell lounge jam", cat: "band" },
-      { time: "8:00 PM",  event: "🎸 7th Heaven Grand Finale Show", cat: "band" },
+      { time: "3:00 PM", event: "🎸 Acoustic requests & farewell lounge jam", cat: "band" },
+      { time: "8:00 PM", event: "🎸 7th Heaven Grand Finale Show", cat: "band" },
       { time: "10:30 PM", event: "Late night passenger lounge after-party", cat: "band" },
     ],
   },
@@ -101,15 +101,15 @@ const ITINERARY = [
     day: 7, port: "Port Canaveral, FL", label: "Disembarkation", icon: "⚓", type: "depart",
     photo: "/images/cruise/miami.png",
     schedule: [
-      { time: "7:00 AM",  event: "Arrive back in Port Canaveral", cat: "ship" },
-      { time: "9:00 AM",  event: "🎸 Group photo with the band - pool deck", cat: "band" },
+      { time: "7:00 AM", event: "Arrive back in Port Canaveral", cat: "ship" },
+      { time: "9:00 AM", event: "🎸 Group photo with the band - pool deck", cat: "band" },
       { time: "10:00 AM", event: "Disembarkation begins", cat: "ship" },
     ],
   },
 ];
 
 const ITIN_TYPE_ACCENT: Record<string, string> = {
-  island: "text-cyan-400", sea: "text-purple-400", depart: "text-purple-300",
+  island: "text-cyan-400", sea: " text-[var(--color-accent)]", depart: "text-purple-300",
 };
 const ITIN_TYPE_BAR: Record<string, string> = {
   island: "from-cyan-500 to-emerald-400", sea: "from-purple-500 to-[var(--color-accent)]", depart: "from-amber-500 to-orange-400",
@@ -142,8 +142,8 @@ export default function CruisePage() {
   const [transitionDone, setTransitionDone] = useState(true);
 
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [formData, setFormData] = useState({ 
-    name: "", email: "", phone: "", notes: "", anonymous: false, 
+  const [formData, setFormData] = useState({
+    name: "", email: "", phone: "", notes: "", anonymous: false,
     joinCommunity: true, website: "", guestCount: 1, cabinPreference: "",
     dob1: "", crownAnchor1: "", tshirtSize1: "L",
     cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
@@ -160,7 +160,7 @@ export default function CruisePage() {
         const parsed = JSON.parse(saved);
         setFormData(prev => ({ ...prev, ...parsed }));
       }
-    } catch {}
+    } catch { }
   }, []);
 
   // Signal PageTransition that CruisePage has mounted and web fonts are ready
@@ -214,7 +214,7 @@ export default function CruisePage() {
         prepaidGratuities: formData.prepaidGratuities,
         howHeard: formData.howHeard
       }));
-    } catch {}
+    } catch { }
   }, [formData]);
 
   const [activeAnchor, setActiveAnchor] = useState("book-now");
@@ -295,7 +295,7 @@ export default function CruisePage() {
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
   const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
   const [signupCount, setSignupCount] = useState<number>(0);
-  const [joinedFans, setJoinedFans] = useState<{name: string; guest_count: number; anonymous: boolean; created_at: string}[]>([]);
+  const [joinedFans, setJoinedFans] = useState<{ name: string; guest_count: number; anonymous: boolean; created_at: string }[]>([]);
   const [totalGuests, setTotalGuests] = useState<number>(0);
 
   const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6"];
@@ -316,7 +316,7 @@ export default function CruisePage() {
           setTotalGuests(data.totalGuests);
           setJoinedFans(data.joinedFans);
         }
-      } catch {}
+      } catch { }
     };
     loadStats();
   }, []);
@@ -564,10 +564,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         router.push(`/cruise/verify?email=${encodeURIComponent(data.email)}`);
         return;
       }
-      
+
       // Reset form
-      setFormData({ 
-        name: "", email: "", phone: "", notes: "", anonymous: false, 
+      setFormData({
+        name: "", email: "", phone: "", notes: "", anonymous: false,
         joinCommunity: true, website: "", guestCount: 1, cabinPreference: "",
         dob1: "", crownAnchor1: "", tshirtSize1: "L",
         cardName1: "", cardNumber1: "", cardExpiry1: "", cardCvv1: "", cardZip1: "", cardAmount1: "250.00",
@@ -638,8 +638,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {/* ── SECTIONS 2–N: only rendered after wave exits to prevent main-thread block ── */}
       {transitionDone && (<>
 
-      {/* ── SECTION 2: CABINS & PRICING ── */}
-      <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 site-container relative z-20">
+        {/* ── SECTION 2: CABINS & PRICING ── */}
+        <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 site-container relative z-20">
           <div className="text-left max-w-3xl mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
@@ -653,22 +653,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2027)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                  activePriceYear === 2027
-                    ? "bg-cyan-600 text-white font-black shadow-md"
-                    : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
-                }`}
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activePriceYear === 2027
+                  ? "bg-cyan-600 text-white font-black shadow-md"
+                  : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
+                  }`}
               >
                 2027 Star of the Seas (7-Night)
               </button>
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2028)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                  activePriceYear === 2028
-                    ? "bg-purple-700 text-white font-black shadow-md"
-                    : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
-                }`}
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activePriceYear === 2028
+                  ? "bg-purple-700 text-white font-black shadow-md"
+                  : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
+                  }`}
               >
                 2028 Legend of the Seas (8-Night)
               </button>
@@ -683,7 +681,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <span className="text-2xl">⚠️</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Booking Policy & Best Rate Guarantee</h3>
               </div>
-              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black  text-[var(--color-accent)] uppercase tracking-widest mb-4">
                 Book through us to participate & lock in best rates
               </p>
               <p className="text-base text-black/80 leading-relaxed mb-4">
@@ -707,13 +705,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="text-purple-400 font-bold shrink-0">⚠️</span>
+                  <span className=" text-[var(--color-accent)] font-bold shrink-0">⚠️</span>
                   <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites). Non-refundable deposits.</span>
                 </li>
               </ul>
               <div className="pt-3 border-t border-black/10 space-y-2">
                 <p className="text-base text-black/80">
-                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-[var(--color-accent)] hover:text-black underline font-bold transition-all">info@NTDVacations.com</a>
+                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className=" text-[var(--color-accent)] hover:text-black underline font-bold transition-all">info@NTDVacations.com</a>
                 </p>
                 <p className="text-base text-black/80">
                   💳 <strong>Deposit:</strong> $250 per person to secure cabin.
@@ -730,7 +728,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <span className="text-2xl">🛂</span>
                 <h3 className="text-lg font-black uppercase text-black tracking-wide">Passport Requirements</h3>
               </div>
-              <p className="text-sm font-black text-purple-400 uppercase tracking-widest mb-4">
+              <p className="text-sm font-black  text-[var(--color-accent)] uppercase tracking-widest mb-4">
                 Essential travel document guidelines
               </p>
               <div className="space-y-4 text-base text-black/80 leading-relaxed">
@@ -741,7 +739,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
                 </p>
                 <p>
-                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="text-purple-400 font-extrabold underline hover:text-black inline-block">travel.state.gov</a> to ensure compliance.
+                  Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className=" text-[var(--color-accent)] font-extrabold underline hover:text-black inline-block">travel.state.gov</a> to ensure compliance.
                 </p>
               </div>
             </div>
@@ -800,24 +798,24 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {(activePriceYear === 2027
                   ? [
-                      { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", selectValue: "group_n5" },
-                      { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                      { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included", selectValue: "group_if" },
-                      { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d4" },
-                      { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d2" },
-                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included", selectValue: "group_i1" },
-                      { code: "IG", title: "Infinite Grand Suite", price: "Prevailing", status: "soldout", badge: "Sold Out - Prevailing Only", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", selectValue: "prev_jy" },
-                    ]
+                    { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", selectValue: "group_n5" },
+                    { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                    { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included", selectValue: "group_if" },
+                    { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d4" },
+                    { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d2" },
+                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included", selectValue: "group_i1" },
+                    { code: "IG", title: "Infinite Grand Suite", price: "Prevailing", status: "soldout", badge: "Sold Out - Prevailing Only", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", selectValue: "prev_jy" },
+                  ]
                   : [
-                      { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                      { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included", selectValue: "group_if" },
-                      { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                      { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d4" },
-                      { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d2" },
-                      { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included", selectValue: "group_i1" },
-                      { code: "JY", title: "Sky Junior Suite", price: "$8,122.98", status: "warning", badge: "1 Available!", image: "/images/cruise/jy.png", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
-                      { code: "IG", title: "Infinite Grand Suite", price: "$7,195.98", status: "warning", badge: "1 Available!", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
-                    ]
+                    { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", icon: "🚪", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                    { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", icon: "🌳", inclusions: "Gratuities Included", selectValue: "group_if" },
+                    { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", icon: "🌊", inclusions: "Gratuities Included", selectValue: "group_n5" },
+                    { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d4" },
+                    { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", icon: "🌅", inclusions: "Gratuities Included", selectValue: "group_d2" },
+                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", icon: "🚢", inclusions: "Gratuities Included", selectValue: "group_i1" },
+                    { code: "JY", title: "Sky Junior Suite", price: "$8,122.98", status: "warning", badge: "1 Available!", image: "/images/cruise/jy.png", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
+                    { code: "IG", title: "Infinite Grand Suite", price: "$7,195.98", status: "warning", badge: "1 Available!", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
+                  ]
                 ).map((room, idx) => (
                   <div
                     key={idx}
@@ -833,11 +831,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div className="p-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           <span className="text-xl">{room.icon}</span>
-                          <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2 py-0.5 rounded tracking-wider ${
-                            room.status === "soldout" ? "bg-red-500/10 text-red-600 border border-red-500/20" :
-                            room.status === "warning" ? "bg-purple-600/10 text-purple-400 border border-purple-500/20" :
-                            "bg-cyan-500/10 text-cyan-700 border border-cyan-500/20"
-                          }`}>{room.badge}</span>
+                          <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2 py-0.5 rounded tracking-wider ${room.status === "soldout" ? "bg-red-500/10 text-red-600 border border-red-500/20" :
+                            room.status === "warning" ? "bg-purple-600/10  text-[var(--color-accent)] border border-purple-500/20" :
+                              "bg-cyan-500/10 text-cyan-700 border border-cyan-500/20"
+                            }`}>{room.badge}</span>
                         </div>
                         <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
                         <h4 className="text-base font-extrabold text-black uppercase tracking-tight text-left">{room.title}</h4>
@@ -856,7 +853,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {room.inclusions && (
                         <span className="text-[var(--font-size-3xs)] text-cyan-700 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
-                      <button 
+                      <button
                         type="button"
                         className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
                       >
@@ -893,11 +890,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div
                         key={idx}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={` overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative shadow-sm ${
-                          isYo
-                            ? 'bg-purple-100 border-2 border-purple-600 shadow-md'
-                            : 'bg-black/[0.03] border border-black/10 hover:border-black/20'
-                        }`}
+                        className={` overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative shadow-sm ${isYo
+                          ? 'bg-purple-100 border-2 border-purple-600 shadow-md'
+                          : 'bg-black/[0.03] border border-black/10 hover:border-black/20'
+                          }`}
                       >
                         {isYo && (
                           <div className="absolute top-3 right-3 bg-purple-700 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border border-purple-500 z-10">
@@ -914,9 +910,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="p-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               <span className="text-2xl">{room.icon}</span>
-                              <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${
-                                isYo ? 'bg-purple-200 text-purple-900 border border-purple-300' : 'bg-black/5 text-black/70 border border-black/10'
-                              }`}>{room.label}</span>
+                              <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${isYo ? 'bg-purple-200 text-purple-900 border border-purple-300' : 'bg-black/5 text-black/70 border border-black/10'
+                                }`}>{room.label}</span>
                             </div>
                             <span className="text-[var(--font-size-3xs)] font-bold text-black/60 uppercase tracking-widest block">{room.code} Category</span>
                             <h4 className="text-base font-black text-black uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
@@ -929,13 +924,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="text-[var(--font-size-2xs)] text-black/60 font-bold">USD pp</span>
                           </div>
                           <span className="text-[var(--font-size-4xs)] text-black/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
-                          <button 
+                          <button
                             type="button"
-                            className={`mt-4 w-full py-2.5 px-4  font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
-                              isYo
-                                ? 'bg-purple-700 hover:bg-purple-800 text-white border border-purple-600'
-                                : 'bg-purple-600 hover:bg-purple-700 text-white border border-purple-500'
-                            }`}
+                            className={`mt-4 w-full py-2.5 px-4  font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
+                              ? 'bg-purple-700 hover:bg-purple-800 text-white border border-purple-600'
+                              : 'bg-purple-600 hover:bg-purple-700 text-white border border-purple-500'
+                              }`}
                           >
                             <span>Select Prevailing Rate</span>
                             <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -954,7 +948,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Stateroom Suite Class Perks */}
           <div className="pt-16">
             <div className="text-left w-full mb-10">
-              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-3 px-4 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20">
+              <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-3 px-4 py-1 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20">
                 Accommodations Guide
               </span>
               <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
@@ -978,11 +972,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         key={tab.id}
                         type="button"
                         onClick={() => setStateroomTab(tab.id as any)}
-                        className={`w-full p-4  text-left border transition-all cursor-pointer ${
-                          stateroomTab === tab.id
-                            ? "bg-[var(--color-accent)]/10 border-[var(--color-accent)]/50"
-                            : "bg-white border-black/10 hover:border-black/20"
-                        }`}
+                        className={`w-full p-4  text-left border transition-all cursor-pointer ${stateroomTab === tab.id
+                          ? "bg-[var(--color-accent)]/10 border-[var(--color-accent)]/50"
+                          : "bg-white border-black/10 hover:border-black/20"
+                          }`}
                       >
                         <h4 className="text-sm font-extrabold text-black uppercase tracking-wider">{tab.label}</h4>
                         <p className="text-xs text-black/70 mt-1 leading-relaxed">{tab.desc}</p>
@@ -1034,7 +1027,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-black/10">
                     <div>
-                      <span className="text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)]">VIP Experiences</span>
+                      <span className="text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)]">VIP Experiences</span>
                       <h3 className="text-2xl md:text-3xl font-black uppercase text-black mt-1">Suite Class Perks</h3>
                     </div>
                     <div className="flex gap-1.5 bg-black/5 p-1.5 border border-black/10">
@@ -1043,11 +1036,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           key={perk}
                           type="button"
                           onClick={() => setSuiteTab(perk)}
-                          className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                            suiteTab === perk
-                              ? "bg-[var(--color-accent)] text-white shadow-md"
-                              : "bg-transparent text-black/60 hover:text-black"
-                          }`}
+                          className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${suiteTab === perk
+                            ? "bg-[var(--color-accent)] text-white shadow-md"
+                            : "bg-transparent text-black/60 hover:text-black"
+                            }`}
                         >
                           {perk} Class
                         </button>
@@ -1117,7 +1109,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       "In-suite coffee machine"
                     ].map((perk, idx) => (
                       <div key={idx} className="flex items-center gap-2.5">
-                        <span className="text-purple-400 font-black text-base shrink-0">✓</span>
+                        <span className=" text-[var(--color-accent)] font-black text-base shrink-0">✓</span>
                         <span>{perk}</span>
                       </div>
                     ))}
@@ -1153,530 +1145,530 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
-      {/* ── OFFICIAL BOOKING FORM ── */}
-      <section id="book-now" className="py-16 site-container relative z-20">
-        <div id="signup" className="relative z-10">
-          <div>
-            {/* Section Header */}
-            <div className="mb-8 text-left">
-              <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1 text-black" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-                Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
-              </h2>
-              <p className="text-black/60 text-sm font-semibold">
-                Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-cyan-700">Group ID: 3325680</strong>
-              </p>
-            </div>
+        {/* ── OFFICIAL BOOKING FORM ── */}
+        <section id="book-now" className="py-16 site-container relative z-20">
+          <div id="signup" className="relative z-10">
+            <div>
+              {/* Section Header */}
+              <div className="mb-8 text-left">
+                <h2 className="text-2xl font-black uppercase italic tracking-tight mb-1 text-black" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                  Official <span className="accent-gradient-text">Booking Form</span> & Reservation Portal
+                </h2>
+                <p className="text-black/60 text-sm font-semibold">
+                  Secure your cabin reservation directly under the 7th Heaven group rate. <strong className="text-cyan-700">Group ID: 3325680</strong>
+                </p>
+              </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-              <div className="lg:col-span-2 text-left">
-                <form onSubmit={handleSignup} className="space-y-6">
-                  <div className="booking-form-card bg-black/[0.02] border border-black/10 rounded-3xl overflow-hidden shadow-sm">
-                    {/* Header Banner representing the PDF top section */}
-                    <div className="booking-header-banner border-b border-black/10 p-5 text-center bg-black/5">
-                      <h2 className="text-sm font-black uppercase tracking-wider text-black">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                      <p className="text-xs text-cyan-700 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
-                      <p className="text-[var(--font-size-3xs)] text-black/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
-                    </div>
-
-                    {/* GUEST 1 (Primary Booker) */}
-                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
-                      <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center justify-between">
-                        <span className="text-sm font-black uppercase tracking-wider text-black">Guest 1 (Primary Booker)</span>
-                        <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border border-purple-400">Primary</span>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div className="lg:col-span-2 text-left">
+                  <form onSubmit={handleSignup} className="space-y-6">
+                    <div className="booking-form-card bg-black/[0.02] border border-black/10 rounded-3xl overflow-hidden shadow-sm">
+                      {/* Header Banner representing the PDF top section */}
+                      <div className="booking-header-banner border-b border-black/10 p-5 text-center bg-black/5">
+                        <h2 className="text-sm font-black uppercase tracking-wider text-black">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                        <p className="text-xs text-cyan-700 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                        <p className="text-[var(--font-size-3xs)] text-black/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                       </div>
-                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
-                        {/* Name */}
-                        <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
-                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                          <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+
+                      {/* GUEST 1 (Primary Booker) */}
+                      <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                        <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center justify-between">
+                          <span className="text-sm font-black uppercase tracking-wider text-black">Guest 1 (Primary Booker)</span>
+                          <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border border-purple-400">Primary</span>
                         </div>
-                        {/* Phone */}
-                        <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                          <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({...formData, phone: formatPhoneDisplay(e.target.value)})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                          {/* Name */}
+                          <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
+                            <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                            <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          </div>
+                          {/* Phone */}
+                          <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                            <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
+                            <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          </div>
+                          {/* Email */}
+                          <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                            <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address *</label>
+                            <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          </div>
+                          {/* T-Shirt Size */}
+                          <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
+                            <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                            <select value={formData.tshirtSize1} onChange={e => setFormData({ ...formData, tshirtSize1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                              {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
+                            </select>
+                          </div>
+                          {/* Crown & Anchor */}
+                          <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                            <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                            <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                          </div>
                         </div>
-                        {/* Email */}
-                        <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address *</label>
-                          <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+
+                        {/* Customization toggles mirroring the Guest 1 page elements */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
+                          <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-4 flex flex-col justify-between">
+                            <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</label>
+                            <div className="flex gap-3">
+                              {["yes", "no"].map(opt => (
+                                <button key={opt} type="button" onClick={() => setFormData(f => ({ ...f, insurance: opt }))}
+                                  className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
+                                  {opt === "yes" ? "Yes, Protect" : "No, Decline"}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="booking-cell p-4 flex flex-col justify-between">
+                            <label className="booking-label block text-xs font-black text-purple-700 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</label>
+                            <div className="flex gap-3">
+                              {["yes", "no"].map(opt => (
+                                <button key={opt} type="button" onClick={() => setFormData(f => ({ ...f, prepaidGratuities: opt }))}
+                                  className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
+                                  {opt === "yes" ? "Yes, Include" : "No, Exclude"}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
                         </div>
-                        {/* T-Shirt Size */}
-                        <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
-                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                          <select value={formData.tshirtSize1} onChange={e => setFormData({...formData, tshirtSize1: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
-                            {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
+                      </div>
+
+                      {/* ADDITIONAL GUESTS (Guest 2, Guest 3, Guest 4) */}
+                      {guests.map((g, i) => {
+                        const guestNum = i + 2;
+                        return (
+                          <div key={i} className={`booking-section-container border-b border-black/10 transition-all duration-300 ${g.active ? "bg-black/[0.01] opacity-100" : "bg-black/[0.03] opacity-80 print:booking-inactive"}`}>
+                            {/* Section Header with checkbox activator */}
+                            <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center gap-3">
+                              <input
+                                type="checkbox"
+                                id={`guest-active-${guestNum}`}
+                                checked={g.active}
+                                onChange={e => toggleGuestActive(i, e.target.checked)}
+                                className="no-print w-5 h-5 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer"
+                              />
+                              <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-black uppercase tracking-wider text-black cursor-pointer select-none">
+                                Include Guest {guestNum} in Cabin Reservation
+                              </label>
+                            </div>
+
+                            {g.active ? (
+                              <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                                {/* Name */}
+                                <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
+                                  <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                                  <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                </div>
+                                {/* Phone */}
+                                <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                  <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
+                                  <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                </div>
+                                {/* Email */}
+                                <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                  <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
+                                  <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                </div>
+                                {/* T-Shirt Size */}
+                                <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
+                                  <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                                  <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                                    {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
+                                  </select>
+                                </div>
+                                {/* Crown & Anchor */}
+                                <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                  <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                                  <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="py-6 text-center text-black/50 text-xs font-black uppercase tracking-widest no-print select-none">
+                                No Passenger Registered in Slot {guestNum}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+
+                      {/* CABIN CATEGORY SELECTION */}
+                      <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                        <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
+                          <span className="text-xs font-black uppercase tracking-wider text-black">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
+                        </div>
+                        <div className="p-3.5 focus-within:bg-cyan-500/10 transition-all">
+                          <select value={formData.cabinPreference} onChange={e => setFormData(f => ({ ...f, cabinPreference: e.target.value }))} required
+                            className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
+                            <option value="" disabled className="bg-white text-black">-- Select Cabin Category --</option>
+                            <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-white text-black font-black">
+                              <option value="group_n5" className="bg-white text-black font-semibold">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
+                              <option value="group_if" className="bg-white text-black font-semibold">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
+                              <option value="group_d4" className="bg-white text-black font-semibold">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
+                              <option value="group_d2" className="bg-white text-black font-semibold">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
+                              <option value="group_i1" className="bg-white text-black font-semibold">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
+                            </optgroup>
+                            <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-white text-black font-black">
+                              <option value="prev_zi" className="bg-white text-black font-semibold">ZI - Inside GTY ($1,430.77 pp)</option>
+                              <option value="prev_yo" className="bg-purple-100 text-purple-950 font-black">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
+                              <option value="prev_if" className="bg-white text-black font-semibold">IF - Infinite Central Park ($1,907.27 pp)</option>
+                              <option value="prev_xb" className="bg-white text-black font-semibold">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
+                              <option value="prev_i1" className="bg-white text-black font-semibold">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
+                              <option value="prev_jy" className="bg-white text-black font-semibold">JY - Sky Junior Suite ($5,157.77 pp)</option>
+                            </optgroup>
                           </select>
                         </div>
-                        {/* Crown & Anchor */}
-                        <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                          <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({...formData, crownAnchor1: e.target.value})} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                        </div>
                       </div>
 
-                      {/* Customization toggles mirroring the Guest 1 page elements */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
-                        <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-4 flex flex-col justify-between">
-                          <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</label>
-                          <div className="flex gap-3">
-                            {["yes", "no"].map(opt => (
-                              <button key={opt} type="button" onClick={() => setFormData(f => ({...f, insurance: opt}))}
-                                className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
-                                {opt === "yes" ? "Yes, Protect" : "No, Decline"}
-                              </button>
-                            ))}
-                          </div>
+                      {/* PAYMENT DETAILS */}
+                      <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                        <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10 flex items-center justify-between">
+                          <span className="text-xs font-black uppercase tracking-wider text-black">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
+                          <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/20 text-emerald-800 border border-emerald-500/40 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
+                        </div>
+                        <div className="p-4 text-xs text-black/70 font-semibold leading-relaxed border-b border-black/10">
+                          A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
                         </div>
 
-                        <div className="booking-cell p-4 flex flex-col justify-between">
-                          <label className="booking-label block text-xs font-black text-purple-700 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</label>
-                          <div className="flex gap-3">
-                            {["yes", "no"].map(opt => (
-                              <button key={opt} type="button" onClick={() => setFormData(f => ({...f, prepaidGratuities: opt}))}
-                                className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
-                                {opt === "yes" ? "Yes, Include" : "No, Exclude"}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* ADDITIONAL GUESTS (Guest 2, Guest 3, Guest 4) */}
-                    {guests.map((g, i) => {
-                      const guestNum = i + 2;
-                      return (
-                        <div key={i} className={`booking-section-container border-b border-black/10 transition-all duration-300 ${g.active ? "bg-black/[0.01] opacity-100" : "bg-black/[0.03] opacity-80 print:booking-inactive"}`}>
-                          {/* Section Header with checkbox activator */}
-                          <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center gap-3">
-                            <input 
-                              type="checkbox" 
-                              id={`guest-active-${guestNum}`} 
-                              checked={g.active} 
-                              onChange={e => toggleGuestActive(i, e.target.checked)} 
-                              className="no-print w-5 h-5 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" 
-                            />
-                            <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-black uppercase tracking-wider text-black cursor-pointer select-none">
-                              Include Guest {guestNum} in Cabin Reservation
-                            </label>
-                          </div>
-
-                          {g.active ? (
-                            <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
-                              {/* Name */}
-                              <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
-                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                                <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              {/* Phone */}
-                              <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
-                                <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              {/* Email */}
-                              <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
-                                <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              {/* T-Shirt Size */}
-                              <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
-                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                                <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
-                                  {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
-                                </select>
-                              </div>
-                              {/* Crown & Anchor */}
-                              <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                                <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                                <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="py-6 text-center text-black/50 text-xs font-black uppercase tracking-widest no-print select-none">
-                              No Passenger Registered in Slot {guestNum}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-
-                    {/* CABIN CATEGORY SELECTION */}
-                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
-                      <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
-                        <span className="text-xs font-black uppercase tracking-wider text-black">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
-                      </div>
-                      <div className="p-3.5 focus-within:bg-cyan-500/10 transition-all">
-                        <select value={formData.cabinPreference} onChange={e => setFormData(f => ({...f, cabinPreference: e.target.value}))} required
-                          className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
-                          <option value="" disabled className="bg-white text-black">-- Select Cabin Category --</option>
-                          <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-white text-black font-black">
-                            <option value="group_n5" className="bg-white text-black font-semibold">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
-                            <option value="group_if" className="bg-white text-black font-semibold">IF - Infinite Central Park ($2,033.27 pp) - 2 Left</option>
-                            <option value="group_d4" className="bg-white text-black font-semibold">D4 - Ocean View Balcony ($2,433.27 pp) - 10 Left</option>
-                            <option value="group_d2" className="bg-white text-black font-semibold">D2 - Ocean View Balcony ($2,483.27 pp) - 11 Left</option>
-                            <option value="group_i1" className="bg-white text-black font-semibold">I1 - Infinite Ocean View Balcony ($2,583.27 pp) - 5 Left</option>
-                          </optgroup>
-                          <optgroup label="Prevailing Rates (Gratuities NOT Included, Taxes & Fees Included)" className="bg-white text-black font-black">
-                            <option value="prev_zi" className="bg-white text-black font-semibold">ZI - Inside GTY ($1,430.77 pp)</option>
-                            <option value="prev_yo" className="bg-purple-100 text-purple-950 font-black">🟣 YO - Ocean View GTY ($1,691.27 pp) ★ FEATURED</option>
-                            <option value="prev_if" className="bg-white text-black font-semibold">IF - Infinite Central Park ($1,907.27 pp)</option>
-                            <option value="prev_xb" className="bg-white text-black font-semibold">XB - Oceanview Balcony GTY ($1,903.77 pp) - 8 Left</option>
-                            <option value="prev_i1" className="bg-white text-black font-semibold">I1 - Infinite Ocean View Balcony ($2,237.77 pp)</option>
-                            <option value="prev_jy" className="bg-white text-black font-semibold">JY - Sky Junior Suite ($5,157.77 pp)</option>
-                          </optgroup>
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* PAYMENT DETAILS */}
-                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
-                      <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10 flex items-center justify-between">
-                        <span className="text-xs font-black uppercase tracking-wider text-black">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
-                        <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/20 text-emerald-800 border border-emerald-500/40 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
-                      </div>
-                      <div className="p-4 text-xs text-black/70 font-semibold leading-relaxed border-b border-black/10">
-                        A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
-                      </div>
-
-                      {/* Card 1 */}
-                      <div className="p-4 border-b border-black/10">
-                        <span className="text-[var(--font-size-3xs)] font-black text-cyan-700 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
-                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
-                          <div className="booking-cell border border-black/10 p-3 bg-white">
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
-                            <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({...formData, cardName1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                          </div>
-                          <div className="booking-cell border border-black/10 p-3 bg-white">
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
-                            <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({...formData, cardNumber1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                          </div>
-                          <div className="booking-cell border border-black/10 p-3 bg-white">
-                            <div className="grid grid-cols-3 gap-2">
-                              <div>
-                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
-                                <input type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({...formData, cardExpiry1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              <div>
-                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
-                                <input type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({...formData, cardCvv1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              <div>
-                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
-                                <input type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({...formData, cardZip1: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="booking-cell p-3 flex flex-col justify-end">
-                            <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
-                              <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
-                              <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({...formData, cardAmount1: e.target.value})} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Card 2 Split Option */}
-                      {guests.filter(g => g.active).length > 0 && (
-                        <div className="p-4 border-b border-black/10 no-print">
-                          <label className="flex items-center gap-3 cursor-pointer group">
-                            <input 
-                              type="checkbox" 
-                              checked={formData.splitPayment} 
-                              onChange={e => setFormData({...formData, splitPayment: e.target.checked})} 
-                              className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" 
-                            />
-                            <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-cyan-700 group-hover:text-cyan-800">Split deposit payment between Card 1 and Card 2</span>
-                          </label>
-                        </div>
-                      )}
-
-                      {/* Card 2 Details */}
-                      {formData.splitPayment && guests.filter(g => g.active).length > 0 && (
-                        <div className="p-4 bg-black/[0.01]">
-                          <span className="text-[var(--font-size-3xs)] font-black text-purple-700 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+                        {/* Card 1 */}
+                        <div className="p-4 border-b border-black/10">
+                          <span className="text-[var(--font-size-3xs)] font-black text-cyan-700 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
                           <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div className="booking-cell border border-black/10 p-3 bg-white">
                               <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
-                              <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({...formData, cardName2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                              <input type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                             </div>
                             <div className="booking-cell border border-black/10 p-3 bg-white">
                               <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
-                              <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({...formData, cardNumber2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                              <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                             </div>
                             <div className="booking-cell border border-black/10 p-3 bg-white">
                               <div className="grid grid-cols-3 gap-2">
                                 <div>
                                   <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
-                                  <input type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({...formData, cardExpiry2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 <div>
                                   <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
-                                  <input type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({...formData, cardCvv2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 <div>
                                   <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
-                                  <input type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({...formData, cardZip2: e.target.value})} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                               </div>
                             </div>
                             <div className="booking-cell p-3 flex flex-col justify-end">
                               <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
                                 <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
-                                <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({...formData, cardAmount2: e.target.value})} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
+                                <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
                               </div>
                             </div>
                           </div>
                         </div>
-                      )}
-                    </div>
 
-                    {/* NOTES & CONSENT */}
-                    <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
-                      <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
-                        <span className="text-xs font-black uppercase tracking-wider text-black">ADDITIONAL NOTES & DIGITIAL SIGNATURE</span>
-                      </div>
-                      
-                      <div className="p-4 border-b border-black/10">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
-                            <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({...f, howHeard: e.target.value}))} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
+                        {/* Card 2 Split Option */}
+                        {guests.filter(g => g.active).length > 0 && (
+                          <div className="p-4 border-b border-black/10 no-print">
+                            <label className="flex items-center gap-3 cursor-pointer group">
+                              <input
+                                type="checkbox"
+                                checked={formData.splitPayment}
+                                onChange={e => setFormData({ ...formData, splitPayment: e.target.checked })}
+                                className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer"
+                              />
+                              <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-cyan-700 group-hover:text-cyan-800">Split deposit payment between Card 1 and Card 2</span>
+                            </label>
                           </div>
-                          <div>
-                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
-                            <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({...f, notes: e.target.value}))} rows={2} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
+                        )}
+
+                        {/* Card 2 Details */}
+                        {formData.splitPayment && guests.filter(g => g.active).length > 0 && (
+                          <div className="p-4 bg-black/[0.01]">
+                            <span className="text-[var(--font-size-3xs)] font-black text-purple-700 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+                            <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className="booking-cell border border-black/10 p-3 bg-white">
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+                                <input type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                              </div>
+                              <div className="booking-cell border border-black/10 p-3 bg-white">
+                                <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
+                                <input type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                              </div>
+                              <div className="booking-cell border border-black/10 p-3 bg-white">
+                                <div className="grid grid-cols-3 gap-2">
+                                  <div>
+                                    <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
+                                    <input type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  </div>
+                                  <div>
+                                    <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
+                                    <input type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  </div>
+                                  <div>
+                                    <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
+                                    <input type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="booking-cell p-3 flex flex-col justify-end">
+                                <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
+                                  <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
+                                  <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* NOTES & CONSENT */}
+                      <div className="booking-section-container border-b border-black/10 bg-black/[0.01]">
+                        <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
+                          <span className="text-xs font-black uppercase tracking-wider text-black">ADDITIONAL NOTES & DIGITIAL SIGNATURE</span>
+                        </div>
+
+                        <div className="p-4 border-b border-black/10">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
+                              <input type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
+                            </div>
+                            <div>
+                              <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
+                              <textarea placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* SIGNATURE FIELDS */}
+                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
+                          {/* E-Signature */}
+                          <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-3.5 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
+                            <input
+                              type="text"
+                              required
+                              placeholder="Type legal name to sign"
+                              value={signature}
+                              onChange={e => setSignature(e.target.value)}
+                              className="booking-signature-input signature-font w-full bg-white border border-black/15 rounded-lg px-3 text-lg font-black text-cyan-700 placeholder:text-black/30 focus:outline-none py-1"
+                            />
+                          </div>
+                          {/* Signature Date */}
+                          <div className="booking-cell p-3.5 bg-black/[0.02]">
+                            <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date Signed</label>
+                            <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/5 border border-black/10 rounded-lg px-3 text-sm font-bold text-black/80 focus:outline-none cursor-not-allowed py-1" />
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      {/* SIGNATURE FIELDS */}
-                      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
-                        {/* E-Signature */}
-                        <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-3.5 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
-                          <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
-                          <input 
-                            type="text" 
-                            required 
-                            placeholder="Type legal name to sign" 
-                            value={signature} 
-                            onChange={e => setSignature(e.target.value)} 
-                            className="booking-signature-input signature-font w-full bg-white border border-black/15 rounded-lg px-3 text-lg font-black text-cyan-700 placeholder:text-black/30 focus:outline-none py-1" 
-                          />
+                    {/* Submit & Print buttons */}
+                    <div className="space-y-4 no-print mt-4">
+                      <label className="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({ ...f, anonymous: e.target.checked }))}
+                          className="w-4 h-4 rounded border-black/20 bg-white accent-[var(--color-accent)] cursor-pointer" />
+                        <span className="text-xs text-black/70 font-semibold group-hover:text-black transition-colors">Keep my name anonymous on the public roster list</span>
+                      </label>
+
+                      <label className="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({ ...f, joinCommunity: e.target.checked }))}
+                          className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" />
+                        <div className="flex-1">
+                          <p className="text-xs text-black font-extrabold transition-colors">Join the 7th Heaven Cruise Community</p>
+                          <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
                         </div>
-                        {/* Signature Date */}
-                        <div className="booking-cell p-3.5 bg-black/[0.02]">
-                          <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date Signed</label>
-                          <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/5 border border-black/10 rounded-lg px-3 text-sm font-bold text-black/80 focus:outline-none cursor-not-allowed py-1" />
-                        </div>
+                      </label>
+
+                      {/* Honeypot */}
+                      <div className="hidden" aria-hidden="true">
+                        <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Submit & Print buttons */}
-                  <div className="space-y-4 no-print mt-4">
-                    <label className="flex items-center gap-3 cursor-pointer group">
-                      <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({...f, anonymous: e.target.checked}))}
-                        className="w-4 h-4 rounded border-black/20 bg-white accent-[var(--color-accent)] cursor-pointer" />
-                      <span className="text-xs text-black/70 font-semibold group-hover:text-black transition-colors">Keep my name anonymous on the public roster list</span>
-                    </label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                        <button type="submit" disabled={signupStatus === "submitting"}
+                          className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md disabled:opacity-70 cursor-pointer">
+                          {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
+                        </button>
 
-                    <label className="flex items-center gap-3 cursor-pointer group">
-                      <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({...f, joinCommunity: e.target.checked}))}
-                        className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" />
-                      <div className="flex-1">
-                        <p className="text-xs text-black font-extrabold transition-colors">Join the 7th Heaven Cruise Community</p>
-                        <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold">Get early access to deck plans, song request polls, and pre-cruise passenger chat rooms.</p>
+                        <button type="button" onClick={() => window.print()}
+                          className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md cursor-pointer text-center">
+                          🖨️ Print / Save Booking Form
+                        </button>
                       </div>
-                    </label>
 
-                    {/* Honeypot */}
-                    <div className="hidden" aria-hidden="true">
-                      <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+                      <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold text-center leading-relaxed">
+                        By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-black font-bold underline hover:text-black/80 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-black font-bold underline hover:text-black/80 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
+                      </p>
+                      {signupStatus === "error" && <p className="text-rose-600 text-xs font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
                     </div>
+                  </form>
+                </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                      <button type="submit" disabled={signupStatus === "submitting"}
-                        className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md disabled:opacity-70 cursor-pointer">
-                        {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
-                      </button>
-                      
-                      <button type="button" onClick={() => window.print()}
-                        className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md cursor-pointer text-center">
-                        🖨️ Print / Save Booking Form
-                      </button>
-                    </div>
-
-                    <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold text-center leading-relaxed">
-                      By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-black font-bold underline hover:text-black/80 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-black font-bold underline hover:text-black/80 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
+                {/* Sidebar Column: NTD Vacations Contacts & Payment Portal */}
+                <div className="lg:col-span-1 text-left space-y-8 w-full">
+                  {/* Online Payment Portal Link */}
+                  <div className="p-0 border-0 bg-transparent text-left relative w-full">
+                    <span className="text-3xl block mb-2">💳</span>
+                    <h4 className="text-sm font-black text-black uppercase tracking-wider">Already Booked?</h4>
+                    <p className="text-[var(--font-size-2xs)] text-black/70 font-semibold mt-1 leading-normal">
+                      Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
                     </p>
-                    {signupStatus === "error" && <p className="text-rose-600 text-xs font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
+                    <a
+                      href="https://www.chicagomusiccruise.com/payment.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-all shadow-md cursor-pointer"
+                    >
+                      Go to Payment Portal
+                    </a>
                   </div>
-                </form>
-              </div>
 
-            {/* Sidebar Column: NTD Vacations Contacts & Payment Portal */}
-            <div className="lg:col-span-1 text-left space-y-8 w-full">
-              {/* Online Payment Portal Link */}
-              <div className="p-0 border-0 bg-transparent text-left relative w-full">
-                <span className="text-3xl block mb-2">💳</span>
-                <h4 className="text-sm font-black text-black uppercase tracking-wider">Already Booked?</h4>
-                <p className="text-[var(--font-size-2xs)] text-black/70 font-semibold mt-1 leading-normal">
-                  Submit additional payments, modify balances, or authorize custom charges directly with the Royal Caribbean processor.
-                </p>
-                <a 
-                  href="https://www.chicagomusiccruise.com/payment.html" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-all shadow-md cursor-pointer"
-                >
-                  Go to Payment Portal
-                </a>
-              </div>
-
-              {/* Travel coordinators list */}
-              <div className="p-0 border-0 bg-transparent space-y-6 w-full">
-                <h3 className="text-sm font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Travel Coordinators</h3>
-                <div className="space-y-6">
-                  {[
-                    { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
-                    { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
-                    { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
-                  ].map((coord, idx) => (
-                    <div key={idx} className="leading-normal pb-4 border-b border-black/10 last:border-0 last:pb-0">
-                      <h4 className="text-lg font-black text-black">{coord.name}</h4>
-                      <p className="text-xs text-black/60 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
-                      <p className="text-sm text-black/80 font-mono mt-1 font-bold">{coord.phone}</p>
-                      <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-cyan-700 font-black hover:underline block mt-1 tracking-wide">{coord.email}</a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Voyage Interest Tracker */}
-              <div className="p-0 border-0 bg-transparent space-y-4 w-full">
-                <h3 className="text-xs font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Voyage Tracker</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-2 text-left">
-                    <p className="text-3xl font-black text-black">{signupCount}</p>
-                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black/50 mt-1">Cabins</p>
-                  </div>
-                  <div className="p-2 text-left">
-                    <p className="text-3xl font-black text-black">{totalGuests}</p>
-                    <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black/50 mt-1">Passengers</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Who's Booked */}
-              {joinedFans.length > 0 && (
-                <div className="p-0 border-0 bg-transparent space-y-4 w-full">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Who&apos;s Booked</h3>
-                  <div className="flex items-center mb-4">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {joinedFans.slice(0, 8).map((fan, i) => (
-                        <div
-                          key={i}
-                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-xs transition-transform hover:scale-110"
-                          style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length] }}
-                          title={fan.anonymous ? 'Anonymous Fan' : fan.name}
-                        >
-                          {fan.anonymous ? '?' : fan.name.charAt(0).toUpperCase()}
+                  {/* Travel coordinators list */}
+                  <div className="p-0 border-0 bg-transparent space-y-6 w-full">
+                    <h3 className="text-sm font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Travel Coordinators</h3>
+                    <div className="space-y-6">
+                      {[
+                        { name: "Richard Hofherr", role: "CEO / Booking & Media", phone: "(877) 683-9753 ext 5", email: "info@NTDVacations.com" },
+                        { name: "Mary Grivas", role: "Excursions / Hotels & Air", phone: "(877) 683-9753 ext 5", email: "Mary@NTDVacations.com" },
+                        { name: "Alan McRae", role: "Schedules & Logistics", phone: "(877) 683-9753 ext 5", email: "alan@NTDVacations.com" },
+                      ].map((coord, idx) => (
+                        <div key={idx} className="leading-normal pb-4 border-b border-black/10 last:border-0 last:pb-0">
+                          <h4 className="text-lg font-black text-black">{coord.name}</h4>
+                          <p className="text-xs text-black/60 font-bold uppercase tracking-wider mt-0.5">{coord.role}</p>
+                          <p className="text-sm text-black/80 font-mono mt-1 font-bold">{coord.phone}</p>
+                          <a href={`mailto:${coord.email}`} className="text-base md:text-lg text-cyan-700 font-black hover:underline block mt-1 tracking-wide">{coord.email}</a>
                         </div>
                       ))}
-                      {joinedFans.length > 8 && (
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black/70 bg-black/10 shrink-0">
-                          +{joinedFans.length - 8}
-                        </div>
-                      )}
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-x-1 gap-y-0.5">
-                    {joinedFans.map((fan, i) => (
-                      <span key={i} className="text-[var(--font-size-2xs)] text-black/60 font-semibold">
-                        {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
-                        {fan.guest_count > 1 && <span className="text-black/40"> +{fan.guest_count - 1}</span>}
-                        {i < joinedFans.length - 1 && <span className="text-black/20 mx-0.5">·</span>}
-                      </span>
-                    ))}
+
+                  {/* Voyage Interest Tracker */}
+                  <div className="p-0 border-0 bg-transparent space-y-4 w-full">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Voyage Tracker</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-2 text-left">
+                        <p className="text-3xl font-black text-black">{signupCount}</p>
+                        <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black/50 mt-1">Cabins</p>
+                      </div>
+                      <div className="p-2 text-left">
+                        <p className="text-3xl font-black text-black">{totalGuests}</p>
+                        <p className="text-[var(--font-size-3xs)] font-bold uppercase tracking-[0.2em] text-black/50 mt-1">Passengers</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-
-
-      {/* ── FEATURED HEADLINE ARTISTS ── */}
-      <section id="artists" className="pt-16 pb-12 site-container">
-        <div className="text-left w-full mb-10">
-          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-700">Headline Musical Acts</span>
-          <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-            Featured <span className="accent-gradient-text">Artists</span>
-          </h2>
-          <p className="text-black/60 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
-            Meet the headlining bands performing live concert sets, acoustic pool jams, and theater shows throughout the voyage.
-          </p>
-        </div>
-
-        {/* Bands/Artists Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-          {BANDS_DATA.map((band, idx) => (
-            <div key={idx} className="relative rounded-3xl overflow-hidden group border border-black/10 aspect-[4/5] bg-black">
-              {band.photo ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img 
-                  src={band.photo} 
-                  alt={band.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90" 
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-black flex items-center justify-center text-5xl">
-                  {band.logo}
-                </div>
-              )}
-              
-              {/* Bottom Gradient Overlay matching user screenshot */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-6 flex flex-col justify-end text-left">
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-none">
-                  {band.name}
-                </h3>
-                {band.role && (
-                  <p className="text-[var(--color-accent)] font-bold text-lg md:text-xl lg:text-2xl tracking-wide mt-1.5">
-                    {band.role}
-                  </p>
-                )}
-                <p className="text-white/70 text-xs mt-2 line-clamp-2 leading-relaxed font-medium">
-                  {band.desc}
-                </p>
-
-                <div className="mt-4 pt-3 border-t border-white/15 flex items-center justify-between">
-                  <a 
-                    href={band.website} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline"
-                  >
-                    Visit Site →
-                  </a>
-                  <a 
-                    href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request" 
-                    className="text-[var(--font-size-3xs)] text-white/50 uppercase tracking-widest hover:text-white transition-all font-bold"
-                  >
-                    Inquiries
-                  </a>
+                  {/* Who's Booked */}
+                  {joinedFans.length > 0 && (
+                    <div className="p-0 border-0 bg-transparent space-y-4 w-full">
+                      <h3 className="text-xs font-black uppercase tracking-widest text-black border-b border-black/10 pb-3">Who&apos;s Booked</h3>
+                      <div className="flex items-center mb-4">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {joinedFans.slice(0, 8).map((fan, i) => (
+                            <div
+                              key={i}
+                              className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-xs transition-transform hover:scale-110"
+                              style={{ backgroundColor: fan.anonymous ? '#374151' : AVATAR_COLORS[i % AVATAR_COLORS.length] }}
+                              title={fan.anonymous ? 'Anonymous Fan' : fan.name}
+                            >
+                              {fan.anonymous ? '?' : fan.name.charAt(0).toUpperCase()}
+                            </div>
+                          ))}
+                          {joinedFans.length > 8 && (
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-black/70 bg-black/10 shrink-0">
+                              +{joinedFans.length - 8}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-x-1 gap-y-0.5">
+                        {joinedFans.map((fan, i) => (
+                          <span key={i} className="text-[var(--font-size-2xs)] text-black/60 font-semibold">
+                            {fan.anonymous ? 'Anonymous' : fan.name.split(' ')[0]}
+                            {fan.guest_count > 1 && <span className="text-black/40"> +{fan.guest_count - 1}</span>}
+                            {i < joinedFans.length - 1 && <span className="text-black/20 mx-0.5">·</span>}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* ── SECTION 1: ITINERARIES & DATES ── */}
-      {/* ── SECTION: ITINERARY TIMELINE ── */}
-      <section id="itinerary" className="py-20 w-full max-w-full px-4 md:px-12 overflow-x-clip">
+
+
+        {/* ── FEATURED HEADLINE ARTISTS ── */}
+        <section id="artists" className="pt-16 pb-12 site-container">
+          <div className="text-left w-full mb-10">
+            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-700">Headline Musical Acts</span>
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              Featured <span className="accent-gradient-text">Artists</span>
+            </h2>
+            <p className="text-black/60 mt-3 text-xs md:text-sm leading-relaxed font-semibold max-w-2xl">
+              Meet the headlining bands performing live concert sets, acoustic pool jams, and theater shows throughout the voyage.
+            </p>
+          </div>
+
+          {/* Bands/Artists Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {BANDS_DATA.map((band, idx) => (
+              <div key={idx} className="relative rounded-3xl overflow-hidden group border border-black/10 aspect-[4/5] bg-black">
+                {band.photo ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={band.photo}
+                    alt={band.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-800 to-black flex items-center justify-center text-5xl">
+                    {band.logo}
+                  </div>
+                )}
+
+                {/* Bottom Gradient Overlay matching user screenshot */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-6 flex flex-col justify-end text-left">
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-none">
+                    {band.name}
+                  </h3>
+                  {band.role && (
+                    <p className=" text-[var(--color-accent)] font-bold text-lg md:text-xl lg:text-2xl tracking-wide mt-1.5">
+                      {band.role}
+                    </p>
+                  )}
+                  <p className="text-white/70 text-xs mt-2 line-clamp-2 leading-relaxed font-medium">
+                    {band.desc}
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-white/15 flex items-center justify-between">
+                    <a
+                      href={band.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-cyan-400 font-bold uppercase tracking-wider hover:text-white transition-colors underline"
+                    >
+                      Visit Site →
+                    </a>
+                    <a
+                      href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request"
+                      className="text-[var(--font-size-3xs)] text-white/50 uppercase tracking-widest hover:text-white transition-all font-bold"
+                    >
+                      Inquiries
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── SECTION 1: ITINERARIES & DATES ── */}
+        {/* ── SECTION: ITINERARY TIMELINE ── */}
+        <section id="itinerary" className="py-20 w-full max-w-full px-4 md:px-12 overflow-x-clip">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
@@ -1690,22 +1682,20 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                  activeItinYear === 2027
-                    ? "bg-cyan-600 text-white font-black shadow-md"
-                    : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
-                }`}
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activeItinYear === 2027
+                  ? "bg-cyan-600 text-white font-black shadow-md"
+                  : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
+                  }`}
               >
                 2027 Star of the Seas (7-Night)
               </button>
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                  activeItinYear === 2028
-                    ? "bg-purple-700 text-white font-black shadow-md"
-                    : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
-                }`}
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activeItinYear === 2028
+                  ? "bg-purple-700 text-white font-black shadow-md"
+                  : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
+                  }`}
               >
                 2028 Legend of the Seas (8-Night)
               </button>
@@ -1719,8 +1709,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </React.Suspense>
         </section>
 
-      {/* ── SECTION 2: PORTS OF CALL ── */}
-      <section id="ports" className="pt-10 pb-20 site-container">
+        {/* ── SECTION 2: PORTS OF CALL ── */}
+        <section id="ports" className="pt-10 pb-20 site-container">
           {/* Ports of Call Section */}
           <div>
             <div className="text-center md:text-left mb-10">
@@ -1773,8 +1763,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {PORTS_DATA[activeSpotlightPort].desc}
                     </p>
                     <div className="flex flex-wrap gap-4 items-center">
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
                         className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all cursor-pointer border-none"
                       >
@@ -1792,11 +1782,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       key={idx}
                       type="button"
                       onClick={() => setActiveSpotlightPort(idx)}
-                      className={`w-full p-4  border-none text-left transition-all cursor-pointer flex items-center gap-4 ${
-                        activeSpotlightPort === idx
-                          ? "bg-cyan-500/10 shadow-md"
-                          : "bg-[var(--color-bg-deep)] hover:bg-white/5"
-                      }`}
+                      className={`w-full p-4  border-none text-left transition-all cursor-pointer flex items-center gap-4 ${activeSpotlightPort === idx
+                        ? "bg-cyan-500/10 shadow-md"
+                        : "bg-[var(--color-bg-deep)] hover:bg-white/5"
+                        }`}
                     >
                       <div className="w-12 h-12 overflow-hidden shrink-0 bg-black">
                         {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover" />}
@@ -1838,14 +1827,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </button>
                 </div>
 
-                <div 
+                <div
                   ref={portCarouselRef}
                   className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4"
                   style={{ scrollbarWidth: "none" }}
                 >
                   {PORTS_DATA.map((port, idx) => (
-                    <div 
-                      key={idx} 
+                    <div
+                      key={idx}
                       className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
                     >
                       <div className="h-52 w-full relative overflow-hidden bg-black/60">
@@ -1898,8 +1887,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
 
-      {/* ── SECTION 4: SHIP EXPLORER ── */}
-      <section id="ship-explorer" className="py-[32px] md:py-20 site-container">
+        {/* ── SECTION 4: SHIP EXPLORER ── */}
+        <section id="ship-explorer" className="py-[32px] md:py-20 site-container">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
@@ -1936,18 +1925,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
-                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
-                    foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
+                    }`}
                 >
                   Included (Free)
                 </button>
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("paid")}
-                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${
-                    foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
+                    }`}
                 >
                   Specialty (With Fee)
                 </button>
@@ -1958,44 +1945,44 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-white/80">
               {(foodTypeTab === "included"
                 ? [
-                    { name: "Windjammer Buffet", img: "/images/venues/dining_buffet.png", tag: "Buffet" },
-                    { name: "Main Dining Room", img: "/images/venues/dining_steakhouse.png", tag: "Main Dining" },
-                    { name: "Park Cafe", img: "/images/venues/trellis.png", tag: "Deli & Bites" },
-                    { name: "Pearl Cafe", img: "/images/venues/trellis.png", tag: "24/7 Snacks" },
-                    { name: "Sorrento's Pizza", img: "/images/venues/lime_coconut.png", tag: "Fresh Pizza" },
-                    { name: "Basecamp", img: "/images/venues/hideaway.png", tag: "Casual Eats" },
-                    { name: "Surfside Bites", img: "/images/venues/surf.png", tag: "Quick Service" },
-                    { name: "Surfside Eatery", img: "/images/venues/dining_buffet.png", tag: "Family Buffet" },
-                    { name: "El Loco Fresh", img: "/images/venues/lime_coconut.png", tag: "Mexican" },
-                    { name: "Creme De La Crepe", img: "/images/venues/trellis.png", tag: "Creperie" },
-                    { name: "Pig Out BBQ", img: "/images/venues/lime_coconut.png", tag: "BBQ Grill" },
-                    { name: "Toast & Garden", img: "/images/venues/trellis.png", tag: "Breakfast" },
-                    { name: "Mai Thai", img: "/images/venues/hideaway.png", tag: "Asian Fusion" },
-                    { name: "Feta Mediterranean", img: "/images/venues/trellis.png", tag: "Greek & Med" },
-                    { name: "La Cocinita", img: "/images/venues/lime_coconut.png", tag: "Street Food" },
-                    { name: "Sprinkles Ice Cream", img: "/images/venues/surf.png", tag: "Soft Serve" },
-                    { name: "Coastal Kitchen (Suites)", img: "/images/venues/dining_steakhouse.png", tag: "Suite Dining" },
-                    { name: "The Grove (Suites)", img: "/images/venues/hideaway.png", tag: "Suite Buffet" },
-                    { name: "Vitality Cafe", img: "/images/venues/trellis.png", tag: "Healthy Eats" },
-                    { name: "Room Service (Breakfast)", img: "/images/venues/dining_buffet.png", tag: "In-Stateroom" },
-                  ]
+                  { name: "Windjammer Buffet", img: "/images/venues/dining_buffet.png", tag: "Buffet" },
+                  { name: "Main Dining Room", img: "/images/venues/dining_steakhouse.png", tag: "Main Dining" },
+                  { name: "Park Cafe", img: "/images/venues/trellis.png", tag: "Deli & Bites" },
+                  { name: "Pearl Cafe", img: "/images/venues/trellis.png", tag: "24/7 Snacks" },
+                  { name: "Sorrento's Pizza", img: "/images/venues/lime_coconut.png", tag: "Fresh Pizza" },
+                  { name: "Basecamp", img: "/images/venues/hideaway.png", tag: "Casual Eats" },
+                  { name: "Surfside Bites", img: "/images/venues/surf.png", tag: "Quick Service" },
+                  { name: "Surfside Eatery", img: "/images/venues/dining_buffet.png", tag: "Family Buffet" },
+                  { name: "El Loco Fresh", img: "/images/venues/lime_coconut.png", tag: "Mexican" },
+                  { name: "Creme De La Crepe", img: "/images/venues/trellis.png", tag: "Creperie" },
+                  { name: "Pig Out BBQ", img: "/images/venues/lime_coconut.png", tag: "BBQ Grill" },
+                  { name: "Toast & Garden", img: "/images/venues/trellis.png", tag: "Breakfast" },
+                  { name: "Mai Thai", img: "/images/venues/hideaway.png", tag: "Asian Fusion" },
+                  { name: "Feta Mediterranean", img: "/images/venues/trellis.png", tag: "Greek & Med" },
+                  { name: "La Cocinita", img: "/images/venues/lime_coconut.png", tag: "Street Food" },
+                  { name: "Sprinkles Ice Cream", img: "/images/venues/surf.png", tag: "Soft Serve" },
+                  { name: "Coastal Kitchen (Suites)", img: "/images/venues/dining_steakhouse.png", tag: "Suite Dining" },
+                  { name: "The Grove (Suites)", img: "/images/venues/hideaway.png", tag: "Suite Buffet" },
+                  { name: "Vitality Cafe", img: "/images/venues/trellis.png", tag: "Healthy Eats" },
+                  { name: "Room Service (Breakfast)", img: "/images/venues/dining_buffet.png", tag: "In-Stateroom" },
+                ]
                 : [
-                    { name: "Chops Grille", img: "/images/venues/dining_steakhouse.png", tag: "Steakhouse" },
-                    { name: "Izumi Hibachi", img: "/images/venues/dining_steakhouse.png", tag: "Teppanyaki" },
-                    { name: "Izumi Sushi", img: "/images/venues/hideaway.png", tag: "Sushi Bar" },
-                    { name: "Izumi in the Park", img: "/images/venues/trellis.png", tag: "Walk-Up Asian" },
-                    { name: "Hooked Seafood", img: "/images/venues/dining_buffet.png", tag: "Seafood" },
-                    { name: "Giovanni's Italian Kitchen", img: "/images/venues/trellis.png", tag: "Trattoria" },
-                    { name: "Playmakers Sports Bar", img: "/images/venues/lime_coconut.png", tag: "Pub & Arcade" },
-                    { name: "Lincoln Park Supper Club", img: "/images/venues/dining_steakhouse.png", tag: "Fine Dining" },
-                    { name: "Desserted Milkshake Bar", img: "/images/venues/surf.png", tag: "Over-the-Top Shakes" },
-                    { name: "Pier 7", img: "/images/venues/lime_coconut.png", tag: "Beach Club" },
-                    { name: "Celebration Table", img: "/images/venues/dining_steakhouse.png", tag: "VIP Dining" },
-                    { name: "Starbucks Coffee", img: "/images/venues/trellis.png", tag: "Espresso Bar" },
-                    { name: "Sugar Beach", img: "/images/venues/surf.png", tag: "Candy & Treats" },
-                    { name: "Room Service (Lunch/Dinner)", img: "/images/venues/dining_steakhouse.png", tag: "24/7 In-Room" },
-                    { name: "Trellis Bar Dining", img: "/images/venues/trellis.png", tag: "Outdoor Dining" },
-                  ]
+                  { name: "Chops Grille", img: "/images/venues/dining_steakhouse.png", tag: "Steakhouse" },
+                  { name: "Izumi Hibachi", img: "/images/venues/dining_steakhouse.png", tag: "Teppanyaki" },
+                  { name: "Izumi Sushi", img: "/images/venues/hideaway.png", tag: "Sushi Bar" },
+                  { name: "Izumi in the Park", img: "/images/venues/trellis.png", tag: "Walk-Up Asian" },
+                  { name: "Hooked Seafood", img: "/images/venues/dining_buffet.png", tag: "Seafood" },
+                  { name: "Giovanni's Italian Kitchen", img: "/images/venues/trellis.png", tag: "Trattoria" },
+                  { name: "Playmakers Sports Bar", img: "/images/venues/lime_coconut.png", tag: "Pub & Arcade" },
+                  { name: "Lincoln Park Supper Club", img: "/images/venues/dining_steakhouse.png", tag: "Fine Dining" },
+                  { name: "Desserted Milkshake Bar", img: "/images/venues/surf.png", tag: "Over-the-Top Shakes" },
+                  { name: "Pier 7", img: "/images/venues/lime_coconut.png", tag: "Beach Club" },
+                  { name: "Celebration Table", img: "/images/venues/dining_steakhouse.png", tag: "VIP Dining" },
+                  { name: "Starbucks Coffee", img: "/images/venues/trellis.png", tag: "Espresso Bar" },
+                  { name: "Sugar Beach", img: "/images/venues/surf.png", tag: "Candy & Treats" },
+                  { name: "Room Service (Lunch/Dinner)", img: "/images/venues/dining_steakhouse.png", tag: "24/7 In-Room" },
+                  { name: "Trellis Bar Dining", img: "/images/venues/trellis.png", tag: "Outdoor Dining" },
+                ]
               ).map((food, idx) => {
                 return (
                   <div key={idx} className="relative overflow-hidden group border border-black/10 h-48 md:h-56">
@@ -2026,9 +2013,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setBarTab("bars")}
-                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
-                    barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
-                  }`}
+                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
+                    }`}
                 >
                   <span>🍸 Bars & Clubs</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "bars" ? "bg-white/20 text-white" : "bg-black/10 text-cyan-700"}`}>20</span>
@@ -2036,9 +2022,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setBarTab("entertainment")}
-                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${
-                    barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
-                  }`}
+                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
+                    }`}
                 >
                   <span>🎭 Entertainment</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "entertainment" ? "bg-white/20 text-white" : "bg-black/10 text-purple-700"}`}>20</span>
@@ -2050,49 +2035,49 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs text-white/80">
               {(barTab === "bars"
                 ? [
-                    { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
-                    { name: "Rye & Beam", img: "/images/venues/lime_coconut.png", tag: "Bourbon" },
-                    { name: "Lemon Post Bar", img: "/images/venues/lime_coconut.png", tag: "Outdoor" },
-                    { name: "Swim & Tonic Pool Bar", img: "/images/venues/lime_coconut.png", tag: "Swim-Up" },
-                    { name: "The Hideaway Lounge", img: "/images/venues/hideaway.png", tag: "Adults Only" },
-                    { name: "Vue Bar", img: "/images/venues/hideaway.png", tag: "Ocean View" },
-                    { name: "Overlook Bar & Pods", img: "/images/venues/hideaway.png", tag: "AquaDome" },
-                    { name: "Basecamp Bar", img: "/images/venues/hideaway.png", tag: "Thrill Zone" },
-                    { name: "Trellis Bar", img: "/images/venues/trellis.png", tag: "Central Park" },
-                    { name: "Boleros Latin Bar", img: "/images/venues/trellis.png", tag: "Latin Dance" },
-                    { name: "Cantina Fresca", img: "/images/venues/trellis.png", tag: "Mexican" },
-                    { name: "Bubbles Champagne Bar", img: "/images/venues/trellis.png", tag: "Champagne" },
-                    { name: "Point & Feather Pub", img: "/images/venues/lime_coconut.png", tag: "English Pub" },
-                    { name: "Schooner Bar", img: "/images/venues/hideaway.png", tag: "Piano Lounge" },
-                    { name: "1400 Lobby Bar", img: "/images/venues/trellis.png", tag: "Atrium" },
-                    { name: "Dueling Pianos Lounge", img: "/images/venues/lime_coconut.png", tag: "Live Music" },
-                    { name: "Lou's Jazz & Blues", img: "/images/venues/hideaway.png", tag: "Jazz Club" },
-                    { name: "Music Hall Lounge", img: "/images/venues/trellis.png", tag: "Rock Venue" },
-                    { name: "Playmakers Lounge", img: "/images/venues/lime_coconut.png", tag: "Sports & Arcade" },
-                    { name: "Casino Royale Bar", img: "/images/venues/hideaway.png", tag: "Casino Lounge" },
-                  ]
+                  { name: "Lime & Coconut Bar", img: "/images/venues/lime_coconut.png", tag: "Poolside" },
+                  { name: "Rye & Beam", img: "/images/venues/lime_coconut.png", tag: "Bourbon" },
+                  { name: "Lemon Post Bar", img: "/images/venues/lime_coconut.png", tag: "Outdoor" },
+                  { name: "Swim & Tonic Pool Bar", img: "/images/venues/lime_coconut.png", tag: "Swim-Up" },
+                  { name: "The Hideaway Lounge", img: "/images/venues/hideaway.png", tag: "Adults Only" },
+                  { name: "Vue Bar", img: "/images/venues/hideaway.png", tag: "Ocean View" },
+                  { name: "Overlook Bar & Pods", img: "/images/venues/hideaway.png", tag: "AquaDome" },
+                  { name: "Basecamp Bar", img: "/images/venues/hideaway.png", tag: "Thrill Zone" },
+                  { name: "Trellis Bar", img: "/images/venues/trellis.png", tag: "Central Park" },
+                  { name: "Boleros Latin Bar", img: "/images/venues/trellis.png", tag: "Latin Dance" },
+                  { name: "Cantina Fresca", img: "/images/venues/trellis.png", tag: "Mexican" },
+                  { name: "Bubbles Champagne Bar", img: "/images/venues/trellis.png", tag: "Champagne" },
+                  { name: "Point & Feather Pub", img: "/images/venues/lime_coconut.png", tag: "English Pub" },
+                  { name: "Schooner Bar", img: "/images/venues/hideaway.png", tag: "Piano Lounge" },
+                  { name: "1400 Lobby Bar", img: "/images/venues/trellis.png", tag: "Atrium" },
+                  { name: "Dueling Pianos Lounge", img: "/images/venues/lime_coconut.png", tag: "Live Music" },
+                  { name: "Lou's Jazz & Blues", img: "/images/venues/hideaway.png", tag: "Jazz Club" },
+                  { name: "Music Hall Lounge", img: "/images/venues/trellis.png", tag: "Rock Venue" },
+                  { name: "Playmakers Lounge", img: "/images/venues/lime_coconut.png", tag: "Sports & Arcade" },
+                  { name: "Casino Royale Bar", img: "/images/venues/hideaway.png", tag: "Casino Lounge" },
+                ]
                 : [
-                    { name: "Back to the Future Musical", img: "/images/venues/broadway.png", tag: "Broadway Show" },
-                    { name: "Flowrider Surf Simulator", img: "/images/venues/surf.png", tag: "Surf Simulator" },
-                    { name: "Absolute Zero Ice Rink", img: "/images/venues/hideaway.png", tag: "Ice Arena" },
-                    { name: "Torque Racing Arena", img: "/images/venues/lime_coconut.png", tag: "E-Karting" },
-                    { name: "SOL Pool Zone", img: "/images/venues/lime_coconut.png", tag: "Top Deck Pool" },
-                    { name: "Create! Art Studio", img: "/images/venues/trellis.png", tag: "Craft Studio" },
-                    { name: "The Price is Right Game", img: "/images/venues/broadway.png", tag: "Game Show" },
-                    { name: "The Quest Adult Game", img: "/images/venues/broadway.png", tag: "Adult Show" },
-                    { name: "Comedy Live Theater", img: "/images/venues/broadway.png", tag: "Standup Comedy" },
-                    { name: "Headliner Concert Stage", img: "/images/venues/broadway.png", tag: "Live Concerts" },
-                    { name: "Spotlight Karaoke Box", img: "/images/venues/lime_coconut.png", tag: "Karaoke" },
-                    { name: "Music Hall Nightclub", img: "/images/venues/trellis.png", tag: "Nightclub" },
-                    { name: "Ultimate Family Townhouse", img: "/images/venues/hideaway.png", tag: "3-Story Suite" },
-                    { name: "Splashaway Bay", img: "/images/venues/lime_coconut.png", tag: "Water Park" },
-                    { name: "Adrenaline Peak Climb", img: "/images/venues/surf.png", tag: "Rock Climbing" },
-                    { name: "Adventure Ocean Kids Club", img: "/images/venues/trellis.png", tag: "Youth Program" },
-                    { name: "Central Park Gardens", img: "/images/venues/trellis.png", tag: "Nature Park" },
-                    { name: "Lost Dunes Mini Golf", img: "/images/venues/surf.png", tag: "Mini Golf" },
-                    { name: "Surfside Carousel", img: "/images/venues/lime_coconut.png", tag: "Carousel" },
-                    { name: "Royal Theater Mainstage", img: "/images/venues/broadway.png", tag: "Main Theater" },
-                  ]
+                  { name: "Back to the Future Musical", img: "/images/venues/broadway.png", tag: "Broadway Show" },
+                  { name: "Flowrider Surf Simulator", img: "/images/venues/surf.png", tag: "Surf Simulator" },
+                  { name: "Absolute Zero Ice Rink", img: "/images/venues/hideaway.png", tag: "Ice Arena" },
+                  { name: "Torque Racing Arena", img: "/images/venues/lime_coconut.png", tag: "E-Karting" },
+                  { name: "SOL Pool Zone", img: "/images/venues/lime_coconut.png", tag: "Top Deck Pool" },
+                  { name: "Create! Art Studio", img: "/images/venues/trellis.png", tag: "Craft Studio" },
+                  { name: "The Price is Right Game", img: "/images/venues/broadway.png", tag: "Game Show" },
+                  { name: "The Quest Adult Game", img: "/images/venues/broadway.png", tag: "Adult Show" },
+                  { name: "Comedy Live Theater", img: "/images/venues/broadway.png", tag: "Standup Comedy" },
+                  { name: "Headliner Concert Stage", img: "/images/venues/broadway.png", tag: "Live Concerts" },
+                  { name: "Spotlight Karaoke Box", img: "/images/venues/lime_coconut.png", tag: "Karaoke" },
+                  { name: "Music Hall Nightclub", img: "/images/venues/trellis.png", tag: "Nightclub" },
+                  { name: "Ultimate Family Townhouse", img: "/images/venues/hideaway.png", tag: "3-Story Suite" },
+                  { name: "Splashaway Bay", img: "/images/venues/lime_coconut.png", tag: "Water Park" },
+                  { name: "Adrenaline Peak Climb", img: "/images/venues/surf.png", tag: "Rock Climbing" },
+                  { name: "Adventure Ocean Kids Club", img: "/images/venues/trellis.png", tag: "Youth Program" },
+                  { name: "Central Park Gardens", img: "/images/venues/trellis.png", tag: "Nature Park" },
+                  { name: "Lost Dunes Mini Golf", img: "/images/venues/surf.png", tag: "Mini Golf" },
+                  { name: "Surfside Carousel", img: "/images/venues/lime_coconut.png", tag: "Carousel" },
+                  { name: "Royal Theater Mainstage", img: "/images/venues/broadway.png", tag: "Main Theater" },
+                ]
               ).map((item, idx) => {
                 const isCyan = barTab === "bars";
                 return (
@@ -2100,9 +2085,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                      <span className={`text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-0.5 rounded-full font-bold self-start mb-1.5 ${
-                        isCyan ? 'text-cyan-300 bg-cyan-500/30' : 'text-purple-300 bg-purple-500/30'
-                      }`}>{item.tag}</span>
+                      <span className={`text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-0.5 rounded-full font-bold self-start mb-1.5 ${isCyan ? 'text-cyan-300 bg-cyan-500/30' : 'text-purple-300 bg-purple-500/30'
+                        }`}>{item.tag}</span>
                       <p className="font-extrabold text-white text-base md:text-lg leading-snug">{item.name}</p>
                     </div>
                   </div>
@@ -2115,8 +2099,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
         </section>
 
-      {/* ── SECTION 5: FAQS & HISTORY ── */}
-      <section id="faqs" className="pt-20 pb-10 site-container">
+        {/* ── SECTION 5: FAQS & HISTORY ── */}
+        <section id="faqs" className="pt-20 pb-10 site-container">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-black leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Frequently Asked <span className="accent-gradient-text">Questions</span>
@@ -2130,7 +2114,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <div className="space-y-2 mb-0 text-left max-w-4xl">
             {FAQS_EXTENDED.map((faq, i) => (
               <div key={i} className="border border-black/10 bg-black/[0.03] overflow-hidden shadow-xs">
-                <button 
+                <button
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-black/5 transition-colors cursor-pointer border-none bg-transparent"
@@ -2156,5 +2140,5 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         )}
       </>)}
     </div>
-    );
+  );
 }

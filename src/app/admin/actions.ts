@@ -3,6 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { RoomServiceClient } from 'livekit-server-sdk';
+import { requireAdminSession, requireCrewSession } from "@/lib/supabase/server";
 
 // Create a Supabase admin client that bypasses RLS
 const supabaseAdmin = createClient(
@@ -17,6 +18,7 @@ const roomService = new RoomServiceClient(
 );
 
 export async function adminKillStream(streamId: string) {
+  await requireAdminSession();
   console.log(`[Admin] Aggressively terminating stream ${streamId}`);
   
   // 1. Get the stream details to find the room name
@@ -51,6 +53,7 @@ export async function adminKillStream(streamId: string) {
 }
 
 export async function adminBanUser(userId: string) {
+  await requireAdminSession();
   console.log(`[Admin] Removing user ${userId}`);
   
   // SECURE GUARD: Prevent deletion of Admin accounts
@@ -80,6 +83,7 @@ export async function adminBanUser(userId: string) {
 
 // Crew-level action: can only remove fans
 export async function crewBanUser(userId: string) {
+  await requireCrewSession();
   console.log(`[Crew] Attempting to remove user ${userId}`);
   
   const { data: profile } = await supabaseAdmin.from("profiles").select("role").eq("id", userId).single();
@@ -105,6 +109,7 @@ export async function crewBanUser(userId: string) {
 }
 
 export async function seedMockData() {
+  await requireAdminSession();
   console.log("[Admin] Seeding mock users for testing...");
   
   const postfix = Math.floor(Math.random() * 100000);
@@ -142,6 +147,7 @@ export async function seedMockData() {
 }
 
 export async function adminCreateCrewMember({ name, email, password: providedPassword, phone, username }: { name: string; email: string; password?: string; phone?: string; username?: string }) {
+  await requireAdminSession();
   if (!phone || phone.replace(/\D/g, '').length !== 10) {
     return { success: false, error: 'A valid 10-digit phone number is required to create a crew account.' };
   }
@@ -180,8 +186,10 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
 
   // ── Send emails ──
   try {
-    const { welcomeCrew, newAccountAdminAlert } = await import('@/lib/email-templates');
-    const { sendEmail } = await import('@/lib/email');
+    const [{ welcomeCrew, newAccountAdminAlert }, { sendEmail }] = await Promise.all([
+      import('@/lib/email-templates'),
+      import('@/lib/email'),
+    ]);
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.RESEND_FROM_EMAIL || '';
 
     // 1. Welcome email to the new crew member
@@ -218,6 +226,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
 }
 
 export async function adminCreateAdmin({ name, email, username }: { name: string; email: string; username: string }) {
+  await requireAdminSession();
   console.log(`[Admin] Creating admin account for ${email} with username ${username}`);
   // Generate a secure temporary password
   const password = Math.random().toString(36).slice(-10) + '!A7';
@@ -287,6 +296,7 @@ export async function adminCreateAdmin({ name, email, username }: { name: string
 }
 
 export async function adminResetPassword(userId: string, email: string) {
+  await requireAdminSession();
   console.log(`[Admin] Resetting password for ${email}`);
   const newPassword = Math.random().toString(36).slice(-10) + "!A1";
   
@@ -303,6 +313,7 @@ export async function adminResetPassword(userId: string, email: string) {
 }
 
 export async function seed20CrewMembers() {
+  await requireAdminSession();
   console.log("[Admin] Seeding 20 mock crew members...");
   
   const mockNames = [

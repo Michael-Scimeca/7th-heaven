@@ -13,8 +13,8 @@ export default function ClaimPage() {
   const [status, setStatus] = useState<'loading' | 'valid' | 'wrong_user' | 'not_logged_in' | 'invalid'>('loading');
   const [winnerName, setWinnerName] = useState('');
   const [prizeName, setPrizeName] = useState('');
-  const [prizesList, setPrizesList] = useState<{name: string, qty: number, productId?: string, variantId?: string}[]>([]);
-  const [shopifyProductsMap, setShopifyProductsMap] = useState<Record<string, {title: string, imageUrl: string}>>({});
+  const [prizesList, setPrizesList] = useState<{ name: string, qty: number, productId?: string, variantId?: string }[]>([]);
+  const [shopifyProductsMap, setShopifyProductsMap] = useState<Record<string, { title: string, imageUrl: string }>>({});
   const [hasClaimed, setHasClaimed] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function ClaimPage() {
 
   const handleClaimConfirm = () => {
     if (hasClaimed || !pin) return;
-    
+
     // Save to claimed map
     const claimedMap = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '{}');
     claimedMap[pin] = true;
@@ -120,7 +120,7 @@ export default function ClaimPage() {
         const res = await fetch('/api/shopify/inventory');
         const data = await res.json();
         const productList = data.products || data || [];
-        const map: Record<string, {title: string, imageUrl: string}> = {};
+        const map: Record<string, { title: string, imageUrl: string }> = {};
         for (const p of productList) {
           map[p.id] = {
             title: p.title,
@@ -255,7 +255,7 @@ export default function ClaimPage() {
 
               {/* Winner name */}
               <div className="bg-purple-500/10 border border-purple-500/30 px-6 py-4 mb-4">
-                <p className="text-purple-400/60 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-1 font-sans">Account Name</p>
+                <p className=" text-[var(--color-accent)]/60 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-1 font-sans">Account Name</p>
                 <p className="text-purple-300 font-black text-2xl leading-tight font-sans">{winnerName}</p>
               </div>
 
@@ -266,7 +266,7 @@ export default function ClaimPage() {
                   const shopifyDetails = item.productId ? shopifyProductsMap[item.productId] : null;
                   const displayTitle = shopifyDetails?.title || item.name;
                   const displayImage = shopifyDetails?.imageUrl || '/images/mockups/merch-hoodie.png';
-                  
+
                   return (
                     <div key={idx} className="bg-white/[0.03] border border-white/10 p-3 flex gap-3 items-center text-left">
                       <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center p-1 relative shrink-0">
@@ -296,7 +296,7 @@ export default function ClaimPage() {
               {/* Claim Confirm Button */}
               <div className="mt-6 mb-4">
                 {hasClaimed ? (
-                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
+                  <div className="py-3 px-4 bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] text-xs font-black uppercase tracking-widest font-sans flex items-center justify-center gap-1.5 animate-pulse">
                     <span>✓ Claim Confirmed & Admin Notified</span>
                   </div>
                 ) : (

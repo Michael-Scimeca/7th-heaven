@@ -31,7 +31,7 @@ export default function PlannerClient() {
   const [name, setName] = useState('');
   const [loginErr, setLoginErr] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
-  const [mode, setMode] = useState<'login'|'signup'>('login');
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -109,7 +109,7 @@ export default function PlannerClient() {
             <div className="h-1 bg-[var(--color-accent)]" />
             <div className="p-8 md:p-10">
               <div className="text-center mb-6">
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Planner <span className="text-[var(--color-accent)]">Portal</span></h2>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Planner <span className=" text-[var(--color-accent)]">Portal</span></h2>
                 <p className="text-sm text-black/60 mt-1.5 font-medium">Sign in to manage your event bookings, contracts, and show logistics</p>
               </div>
 
@@ -118,22 +118,20 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => { setMode('login'); setLoginErr(''); }}
-                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                    mode === 'login'
-                      ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
-                      : "text-black/60 hover:text-black hover:bg-gray-100"
-                  }`}
+                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${mode === 'login'
+                    ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
+                    : "text-black/60 hover:text-black hover:bg-gray-100"
+                    }`}
                 >
                   🔑 LOGIN
                 </button>
                 <button
                   type="button"
                   onClick={() => { setMode('signup'); setLoginErr(''); }}
-                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                    mode === 'signup'
-                      ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
-                      : "text-black/60 hover:text-black hover:bg-gray-100"
-                  }`}
+                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${mode === 'signup'
+                    ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
+                    : "text-black/60 hover:text-black hover:bg-gray-100"
+                    }`}
                 >
                   ✨ CREATE ACCOUNT
                 </button>
@@ -177,9 +175,9 @@ export default function PlannerClient() {
                 </div>
 
                 {loginErr === 'CONFIRMATION_REQUIRED' ? (
-                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 text-center">
+                  <div className="bg-emerald-500/10 border  border-[var(--color-accent)]/30 p-4 text-center">
                     <span className="text-xl block mb-2">📧</span>
-                    <p className="text-sm font-bold text-emerald-400 uppercase tracking-widest mb-1">Check Your Email</p>
+                    <p className="text-sm font-bold text-[var(--color-accent)] uppercase tracking-widest mb-1">Check Your Email</p>
                     <p className="text-xs text-black/50 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-black">{email}</strong>. Please confirm to access your dashboard.</p>
                   </div>
                 ) : (
@@ -203,12 +201,12 @@ export default function PlannerClient() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="relative">
               <div className="w-20 h-20 mx-auto mb-6 bg-purple-600/10 border border-purple-600/20 flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
               </div>
-              <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className="text-[var(--color-accent)]">7th Heaven</span></h2>
+              <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className=" text-[var(--color-accent)]">7th Heaven</span></h2>
               <p className="text-black/50 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we&apos;ll get back to you within 24 hours.</p>
               <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-all shadow-md">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                 Book Now
               </Link>
             </div>
@@ -222,7 +220,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
               <div key={i} className="bg-white border border-black/10 p-5 text-center">
-                <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
+                <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black  text-[var(--color-accent)]">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
                 <p className="text-xs text-black/40 leading-relaxed">{item.desc}</p>
               </div>
@@ -235,13 +233,13 @@ export default function PlannerClient() {
   }
 
   if (!booking) {
-    const initials = member?.name ? member.name.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() : '📋';
+    const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : '📋';
     return (
       <div className="min-h-screen bg-[#f0f2f5] text-black pt-24 pb-16">
         <div className="site-container max-w-2xl mx-auto">
           {/* Planner Identity */}
           <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black text-purple-400">{initials}</div>
+            <div className="w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black  text-[var(--color-accent)]">{initials}</div>
             <div>
               <h1 className="text-xl font-black tracking-tight">{member?.name || 'Event Planner'}</h1>
               <p className="text-xs text-black/40">{member?.email || 'Planner Portal'}</p>
@@ -253,12 +251,12 @@ export default function PlannerClient() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
             <div className="relative">
               <div className="w-20 h-20 mx-auto mb-6 bg-purple-600/10 border border-purple-600/20 flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
               </div>
-              <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className="text-[var(--color-accent)]">7th Heaven</span></h2>
+              <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className=" text-[var(--color-accent)]">7th Heaven</span></h2>
               <p className="text-black/50 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we'll get back to you within 24 hours.</p>
               <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-all shadow-md">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                 Book Now
               </Link>
             </div>
@@ -272,7 +270,7 @@ export default function PlannerClient() {
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
               <div key={i} className="bg-white border border-black/10 p-5 text-center">
-                <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black text-purple-400">{item.step}</div>
+                <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black  text-[var(--color-accent)]">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
                 <p className="text-xs text-black/40 leading-relaxed">{item.desc}</p>
               </div>
@@ -301,12 +299,12 @@ export default function PlannerClient() {
   const pct = Math.round((done / checklist.length) * 100);
   const pastBookings = allBookings.filter(b => b.id !== booking.id);
   const statusLabel = st === 'pending' ? '⏳ Pending Review' : st === 'confirmed' ? '✅ Confirmed' : '❌ Cancelled';
-  const statusColor = st === 'pending' ? 'text-purple-300 bg-purple-600/10 border-purple-500/20' : st === 'confirmed' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-rose-400 bg-rose-500/10 border-rose-500/20';
-  const initials = member?.name ? member.name.split(' ').map((n:string)=>n[0]).join('').substring(0,2).toUpperCase() : 'PL';
+  const statusColor = st === 'pending' ? 'text-purple-300 bg-purple-600/10 border-purple-500/20' : st === 'confirmed' ? 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' : 'text-rose-400 bg-rose-500/10 border-rose-500/20';
+  const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'PL';
 
   return (
     <div className="min-h-screen bg-[#f0f2f5] text-black pt-24 pb-16">
-        <div className="site-container max-w-[1400px] mx-auto">
+      <div className="site-container max-w-[1400px] mx-auto">
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}
           <div className="w-[220px] shrink-0 hidden lg:block">
@@ -327,7 +325,7 @@ export default function PlannerClient() {
               </div>
               <div className="mt-10 pt-6 border-t border-black/10">
                 <p className="text-xs uppercase tracking-widest text-black/30 font-bold mb-2">Booking ID</p>
-                <p className="text-sm font-mono text-purple-400">{booking.id}</p>
+                <p className="text-sm font-mono  text-[var(--color-accent)]">{booking.id}</p>
               </div>
               <div className="mt-6">
                 <p className="text-xs uppercase tracking-widest text-black/30 font-bold mb-2">Planner</p>
@@ -355,7 +353,7 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-3 mb-1">
                   <h1 className="text-3xl font-black tracking-tight">{booking.eventName}</h1>
                 </div>
-                <p className="text-purple-400 text-sm font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
+                <p className=" text-[var(--color-accent)] text-sm font-semibold mb-1">{typeLabels[booking.eventType] || booking.eventType}</p>
                 <p className="text-black/40 text-xs mb-6">Booked by <span className="text-black/60 font-semibold">{member?.name}</span></p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
@@ -379,12 +377,12 @@ export default function PlannerClient() {
               <div className="bg-white border border-black/10 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold">Event Notes</h3></div>
-                  {notesSaved && <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">✓ Saved</span>}
+                  {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-full border  border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
-                <textarea value={notes} onChange={e=>{setNotes(e.target.value);setNotesSaved(false);}} placeholder="Parking info, green room needs, AV contact..." rows={5}
+                <textarea value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
                   className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-xs text-black placeholder:text-black/30 outline-none focus:border-purple-500/50 resize-none transition-colors" />
-                <button onClick={async()=>{setNotesSaving(true);try{await fetch('/api/booking',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({bookingId:booking.id,notes})});setNotesSaved(true);setTimeout(()=>setNotesSaved(false),3000);}catch{}setNotesSaving(false);}} disabled={notesSaving}
-                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50">
+                <button onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
+                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
@@ -393,10 +391,10 @@ export default function PlannerClient() {
               <div className="bg-white border border-black/10 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2"><span className="text-base">✅</span><h3 className="text-sm font-bold">Readiness</h3></div>
-                  <span className={`text-xs font-bold ${pct===100?'text-emerald-400':'text-black/50'}`}>{done}/{checklist.length}</span>
+                  <span className={`text-xs font-bold ${pct === 100 ? 'text-emerald-400' : 'text-black/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
-                  <div className={`h-full rounded-full transition-all ${pct===100?'bg-emerald-500':pct>=50?'bg-purple-600':'bg-rose-500'}`} style={{width:`${pct}%`}} />
+                  <div className={`h-full rounded-full transition-all ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
                   {checklist.map((item, i) => {
@@ -408,34 +406,34 @@ export default function PlannerClient() {
                     const fieldKey = fieldMap[item.label] || '';
                     const isEditing = editField === i;
                     return (
-                    <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done?'bg-emerald-500/5 border-emerald-500/10':'bg-gray-50 border-black/10'}`}>
-                      <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
-                      <div className="flex-1 min-w-0">
-                        <span className={`text-xs font-semibold ${item.done?'text-black/70':'text-black/40'}`}>{item.label}</span>
-                        {isEditing ? (
-                          <div className="flex gap-1.5 mt-1">
-                            <input
-                              type="text"
-                              defaultValue={item.val || ''}
-                              autoFocus
-                              onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({...booking, [fieldKey]: v} as Booking); setEditField(null); } }}}
-                              className="flex-1 bg-[#f0f2f5] border border-black/10 px-2 py-1 rounded text-sm text-black focus:border-purple-500 outline-none"
-                            />
-                            <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({...booking, [fieldKey]: input.value} as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
-                            <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
-                          </div>
-                        ) : (
-                          item.done && item.val && <p className="text-xs text-emerald-400/60 truncate">{item.val}</p>
+                      <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-gray-50 border-black/10'}`}>
+                        <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
+                        <div className="flex-1 min-w-0">
+                          <span className={`text-xs font-semibold ${item.done ? 'text-black/70' : 'text-black/40'}`}>{item.label}</span>
+                          {isEditing ? (
+                            <div className="flex gap-1.5 mt-1">
+                              <input
+                                type="text"
+                                defaultValue={item.val || ''}
+                                autoFocus
+                                onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
+                                className="flex-1 bg-[#f0f2f5] border border-black/10 px-2 py-1 rounded text-sm text-black focus:border-purple-500 outline-none"
+                              />
+                              <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
+                              <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
+                            </div>
+                          ) : (
+                            item.done && item.val && <p className="text-xs text-[var(--color-accent)]/60 truncate">{item.val}</p>
+                          )}
+                        </div>
+                        {!isEditing && (
+                          item.done ? (
+                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-black/30 hover: text-[var(--color-accent)] uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
+                          ) : (
+                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-all">NEEDED</button>
+                          )
                         )}
                       </div>
-                      {!isEditing && (
-                        item.done ? (
-                          <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-black/30 hover:text-purple-400 uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
-                        ) : (
-                          <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-all">NEEDED</button>
-                        )
-                      )}
-                    </div>
                     );
                   })}
                   {done < checklist.length && (
@@ -452,7 +450,7 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-purple-600/10 border-purple-600/20 text-purple-400 hover:bg-purple-600 hover:text-white">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-purple-600/10 border-purple-600/20  text-[var(--color-accent)] hover:bg-purple-600 hover:text-white">
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&startTime=${encodeURIComponent(booking.startTime)}&endTime=${encodeURIComponent(booking.endTime)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
@@ -463,7 +461,7 @@ export default function PlannerClient() {
                     className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
-                  <button onClick={()=>{if(confirm('Cancel this booking?')){fetch('/api/booking',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({bookingId:booking.id,status:'cancelled'})}).then(()=>{setBooking(prev=>prev?{...prev,status:'cancelled'}:prev);});}}}
+                  <button onClick={() => { if (confirm('Cancel this booking?')) { fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, status: 'cancelled' }) }).then(() => { setBooking(prev => prev ? { ...prev, status: 'cancelled' } : prev); }); } }}
                     className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white">
                     <span>✕</span> Cancel Request
                   </button>
@@ -482,10 +480,10 @@ export default function PlannerClient() {
                 <div className="flex flex-col gap-3">
                   {pastBookings.map((pb, i) => {
                     const sc = pb.status === 'cancelled'
-                      ? { dot:'bg-rose-500', text:'text-rose-400', bg:'bg-rose-500/5', border:'border-rose-500/15' }
+                      ? { dot: 'bg-rose-500', text: 'text-rose-400', bg: 'bg-rose-500/5', border: 'border-rose-500/15' }
                       : pb.status === 'confirmed'
-                      ? { dot:'bg-emerald-500', text:'text-emerald-400', bg:'bg-emerald-500/5', border:'border-emerald-500/15' }
-                      : { dot:'bg-purple-500', text:'text-purple-400', bg:'bg-purple-500/5', border:'border-purple-500/15' };
+                        ? { dot: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/5', border: 'border-emerald-500/15' }
+                        : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
                       <div key={i} className="bg-white border border-black/10 hover:border-black/10 p-4 flex items-center gap-4 transition-all group">
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
@@ -497,7 +495,7 @@ export default function PlannerClient() {
                         </div>
                         <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
-                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent text-purple-400 hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer shrink-0">
+                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer shrink-0">
                           Rebook →
                         </Link>
                       </div>

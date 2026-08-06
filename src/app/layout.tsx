@@ -174,7 +174,14 @@ export default async function RootLayout({
         <Script
           id="band-jsonld"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(bandLd) }}
+          dangerouslySetInnerHTML={{
+            // Escape <, > and & so that </script> sequences in data values
+            // cannot break out of the script tag (OWASP JSON-LD injection defense).
+            __html: JSON.stringify(bandLd)
+              .replace(/</g, '\\u003c')
+              .replace(/>/g, '\\u003e')
+              .replace(/&/g, '\\u0026'),
+          }}
         />
 
         <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `

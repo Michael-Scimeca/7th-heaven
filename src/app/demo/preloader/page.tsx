@@ -107,7 +107,7 @@ export default function PreloaderDemo() {
       <div className="max-w-[1000px] mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-4 py-1.5 mb-5 bg-purple-950/20">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] border border-purple-500/30 px-4 py-1.5 mb-5 bg-purple-950/20">
             Design Sandbox
           </span>
           <h1 className="text-4xl font-extrabold tracking-tight mb-3 font-[family-name:var(--font-rockstar)] italic uppercase">
@@ -124,9 +124,9 @@ export default function PreloaderDemo() {
           <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 relative overflow-hidden flex flex-col justify-between">
             {/* Glowing effect */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
-            
+
             <div>
-              <h2 className="text-lg font-black uppercase tracking-wider text-[var(--color-accent)] mb-2">
+              <h2 className="text-lg font-black uppercase tracking-wider  text-[var(--color-accent)] mb-2">
                 Live Simulator
               </h2>
               <p className="text-white/50 text-sm mb-6 leading-relaxed">
@@ -166,7 +166,7 @@ export default function PreloaderDemo() {
 
               {/* Toast Feedback */}
               {sessionCleared && (
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold rounded-lg text-center animate-pulse">
+                <div className="p-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold rounded-lg text-center animate-pulse">
                   ✓ Session key cleared! Next full page load will show the preloader naturally.
                 </div>
               )}
@@ -176,7 +176,7 @@ export default function PreloaderDemo() {
           {/* Section: Manual Scrubbing / Slider */}
           <div className="p-8 bg-[var(--color-bg-surface)]/90 border border-white/10 flex flex-col justify-between">
             <div>
-              <h2 className="text-lg font-black uppercase tracking-wider text-[var(--color-accent)] mb-2">
+              <h2 className="text-lg font-black uppercase tracking-wider  text-[var(--color-accent)] mb-2">
                 Manual Frame Scrubbing
               </h2>
               <p className="text-white/50 text-sm mb-6 leading-relaxed">
@@ -190,7 +190,7 @@ export default function PreloaderDemo() {
                 className="relative w-[180px] h-[180px] rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.2)]"
               >
                 <div className="absolute w-[220px] h-[220px] rounded-full bg-gradient-to-tr from-[#d946ef]/10 to-[#7c00ff]/10 blur-xl animate-pulse" />
-                
+
                 {/* Images Container */}
                 {selectedFrames.map((idx) => (
                   <div
@@ -215,7 +215,7 @@ export default function PreloaderDemo() {
               <div className="w-full space-y-3">
                 <div className="flex justify-between items-center px-1">
                   <span className="text-xs uppercase tracking-widest text-white/30 font-bold">Progress</span>
-                  <span className="text-sm font-[family-name:var(--font-rockstar)] font-black text-purple-400 italic">
+                  <span className="text-sm font-[family-name:var(--font-rockstar)] font-black  text-[var(--color-accent)] italic">
                     {manualPercent}% (Frame {manualFrameIndex}/6)
                   </span>
                 </div>
@@ -256,13 +256,12 @@ export default function PreloaderDemo() {
               return (
                 <div
                   key={f.idx}
-                  className={`p-3 bg-white/[0.02] border transition-all rounded-lg flex flex-col items-center text-center ${
-                    manualFrameIndex === f.idx
-                      ? "border-purple-500/50 bg-purple-950/10 shadow-[0_0_15px_rgba(255,10,61,0.1)]"
-                      : isShuffled
+                  className={`p-3 bg-white/[0.02] border transition-all rounded-lg flex flex-col items-center text-center ${manualFrameIndex === f.idx
+                    ? "border-purple-500/50 bg-purple-950/10 shadow-[0_0_15px_rgba(255,10,61,0.1)]"
+                    : isShuffled
                       ? "border-purple-500/20 bg-purple-950/5"
                       : "border-white/5 hover:border-white/10"
-                  }`}
+                    }`}
                 >
                   <div className="relative w-full aspect-square bg-black mb-3 border border-white/5">
                     <Image
@@ -284,13 +283,13 @@ export default function PreloaderDemo() {
                       </div>
                     )}
                   </div>
-                <span className="text-xs font-bold text-white/90">Frame {f.idx}</span>
-                <span className="text-[var(--font-size-3xs)] text-purple-400 font-bold mt-1 font-mono">{getFrameRangeStr(f.idx)}</span>
-                <span className="text-[var(--font-size-4xs)] text-white/30 uppercase mt-0.5 tracking-wider">{f.desc}</span>
-              </div>
-            );
-          })}
-        </div>
+                  <span className="text-xs font-bold text-white/90">Frame {f.idx}</span>
+                  <span className="text-[var(--font-size-3xs)]  text-[var(--color-accent)] font-bold mt-1 font-mono">{getFrameRangeStr(f.idx)}</span>
+                  <span className="text-[var(--font-size-4xs)] text-white/30 uppercase mt-0.5 tracking-wider">{f.desc}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Technical Design Spec */}
@@ -298,7 +297,7 @@ export default function PreloaderDemo() {
           <h2 className="text-xl font-black uppercase tracking-wider text-white mb-6">
             Loading Pipeline Architecture
           </h2>
-          
+
           <div className="space-y-6">
             {[
               {
@@ -323,12 +322,12 @@ export default function PreloaderDemo() {
               },
             ].map((p, idx) => (
               <div key={idx} className="flex gap-4 items-start pb-6 last:pb-0 border-b last:border-0 border-white/5">
-                <div className="w-8 h-8 rounded-full bg-purple-950/50 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 font-bold font-mono text-sm">
+                <div className="w-8 h-8 rounded-full bg-purple-950/50 border border-purple-500/20  text-[var(--color-accent)] flex items-center justify-center shrink-0 font-bold font-mono text-sm">
                   {idx + 1}
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white tracking-wide">{p.phase}</h3>
-                  <div className="text-[var(--font-size-3xs)] uppercase font-bold text-purple-400/80 tracking-wider mt-0.5">
+                  <div className="text-[var(--font-size-3xs)] uppercase font-bold  text-[var(--color-accent)]/80 tracking-wider mt-0.5">
                     Interval: {p.speed}
                   </div>
                   <p className="text-white/40 text-xs mt-2 leading-relaxed">{p.desc}</p>
@@ -346,10 +345,10 @@ export default function PreloaderDemo() {
           >
             ← Back to Demos
           </Link>
-          
+
           <Link
             href="/"
-            className="text-xs uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors font-bold"
+            className="text-xs uppercase tracking-widest  text-[var(--color-accent)] hover:text-purple-300 transition-colors font-bold"
           >
             Go to Landing Page →
           </Link>

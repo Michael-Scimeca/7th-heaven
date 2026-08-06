@@ -64,9 +64,8 @@ export default function EmailPreviewPage() {
           <div className="px-4 pt-4 flex gap-1.5 flex-wrap">
             {categories.map(c => (
               <button key={c} onClick={() => setActiveCategory(c)}
-                className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full transition-all cursor-pointer ${
-                  activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover:text-white/60'
-                }`}
+                className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full transition-all cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover:text-white/60'
+                  }`}
               >{c}</button>
             ))}
           </div>
@@ -75,26 +74,24 @@ export default function EmailPreviewPage() {
           <CustomScrollbar className="p-4 space-y-1.5">
             {filtered.map(t => (
               <button key={t.id} onClick={() => setActiveId(t.id)}
-                className={`w-full text-left p-4  transition-all cursor-pointer group ${
-                  activeId === t.id
-                    ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30'
-                    : 'hover:bg-white/[0.03] border border-transparent'
-                }`}
+                className={`w-full text-left p-4  transition-all cursor-pointer group ${activeId === t.id
+                  ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30'
+                  : 'hover:bg-white/[0.03] border border-transparent'
+                  }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <span className={`text-sm font-bold ${activeId === t.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
                     {t.name}
                   </span>
-                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
-                    t.status === 'live'
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
-                  }`}>
+                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${t.status === 'live'
+                    ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30'
+                    : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
+                    }`}>
                     {t.status}
                   </span>
                 </div>
                 <p className="text-sm text-white/30 leading-relaxed">{t.description}</p>
-                <span className="text-xs text-[var(--color-accent)]/60 font-bold uppercase tracking-widest mt-2 block">{t.category}</span>
+                <span className="text-xs  text-[var(--color-accent)]/60 font-bold uppercase tracking-widest mt-2 block">{t.category}</span>
               </button>
             ))}
           </CustomScrollbar>
@@ -106,11 +103,10 @@ export default function EmailPreviewPage() {
           <div className="h-14 border-b border-white/5 bg-[#08080c] flex items-center justify-between px-6 shrink-0">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-bold text-white">{active.name}</h2>
-              <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
-                active.status === 'live'
-                  ? 'bg-emerald-500/10 text-emerald-400'
-                  : 'bg-purple-600/10 text-purple-300'
-              }`}>{active.status}</span>
+              <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${active.status === 'live'
+                ? 'bg-emerald-500/10 text-[var(--color-accent)]'
+                : 'bg-purple-600/10 text-purple-300'
+                }`}>{active.status}</span>
             </div>
 
             <div className="flex items-center gap-4">
@@ -136,14 +132,12 @@ export default function EmailPreviewPage() {
 
               <div className="flex items-center gap-2">
                 <button onClick={() => setViewMode("preview")}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all cursor-pointer ${
-                    viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
-                  }`}
+                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
+                    }`}
                 >Preview</button>
                 <button onClick={() => setViewMode("code")}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all cursor-pointer ${
-                    viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
-                  }`}
+                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
+                    }`}
                 >HTML</button>
               </div>
             </div>
@@ -151,9 +145,8 @@ export default function EmailPreviewPage() {
 
           {/* Feedback Toast */}
           {sendResult && (
-            <div className={`px-6 py-2 text-xs font-bold uppercase tracking-widest text-center animate-[fade-in_0.3s_ease-out] ${
-              sendResult.success ? 'bg-emerald-500/10 text-emerald-400 border-b border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-b border-red-500/20'
-            }`}>
+            <div className={`px-6 py-2 text-xs font-bold uppercase tracking-widest text-center animate-[fade-in_0.3s_ease-out] ${sendResult.success ? 'bg-emerald-500/10 text-[var(--color-accent)] border-b  border-[var(--color-accent)]/30' : 'bg-red-500/10 text-red-400 border-b border-red-500/20'
+              }`}>
               {sendResult.message}
             </div>
           )}
@@ -167,6 +160,7 @@ export default function EmailPreviewPage() {
                     srcDoc={html}
                     className="w-full border-0"
                     style={{ height: 900 }}
+                    sandbox="allow-same-origin"
                     title={`Preview: ${active.name}`}
                   />
                 </div>

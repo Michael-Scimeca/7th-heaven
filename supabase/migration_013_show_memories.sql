@@ -28,7 +28,3 @@ create policy "auth_update_own" on public.show_memories
 
 create policy "auth_delete_own" on public.show_memories
   for delete using (auth.uid() = user_id);
-
--- Service role (admin) full access
-create policy "service_role_all" on public.show_memories
-  for all using (true) with check (true);

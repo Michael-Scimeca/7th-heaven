@@ -43,14 +43,14 @@ export default function HomeMerch() {
           setProducts(specials.slice(0, 5));
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
   const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com';
 
   const handleBuy = (product: ShopifyProduct) => {
-    window.open(`https://${domain}/products/${product.handle}`, '_blank');
+    window.open(`https://${domain}/products/${product.handle}`, '_blank', 'noopener,noreferrer');
   };
 
   if (loading) {
@@ -59,7 +59,7 @@ export default function HomeMerch() {
         <div className="site-container">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
+              <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
               <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
             </div>
             <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-all">
@@ -140,7 +140,7 @@ export default function HomeMerch() {
         {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
+            <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
             <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
           </div>
           <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-all">
@@ -176,10 +176,10 @@ export default function HomeMerch() {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="text-sm font-bold text-white truncate mb-1 group-hover:text-[var(--color-accent)] transition-colors">{product.title}</h3>
+                  <h3 className="text-sm font-bold text-white truncate mb-1 group-hover: text-[var(--color-accent)] transition-colors">{product.title}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-[var(--color-accent)] font-bold text-sm">{price}</span>
+                      <span className=" text-[var(--color-accent)] font-bold text-sm">{price}</span>
                       {compareAt && (
                         <span className="text-white/25 text-xs line-through">{compareAt}</span>
                       )}

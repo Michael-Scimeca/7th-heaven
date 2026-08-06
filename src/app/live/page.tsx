@@ -511,7 +511,7 @@ export default function LiveHubPage() {
 
         {/* ── SMS ALERTS BANNER (FRAMELESS) ── */}
         {liveAlertsEnabled && (
-          <div className="w-full px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
+          <div className="px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 mb-4">
                 <span className="text-xs">📲</span>

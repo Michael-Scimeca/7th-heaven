@@ -65,7 +65,7 @@ const SECTIONS: ComplianceSection[] = [
     id: "music",
     title: "Music Rights & Streaming",
     subtitle: "Webcasting rights and cover song sync licensing",
-    color: "text-purple-400",
+    color: " text-[var(--color-accent)]",
     bgColor: "bg-purple-500/5",
     borderColor: "border-purple-500/20",
     icon: (
@@ -103,7 +103,7 @@ const SECTIONS: ComplianceSection[] = [
     subtitle: "Payment processing and tax nexus rules",
     color: "text-emerald-400",
     bgColor: "bg-emerald-500/5",
-    borderColor: "border-emerald-500/20",
+    borderColor: " border-[var(--color-accent)]/30",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -239,10 +239,10 @@ export default function AdminLegalPage() {
   return (
     <div className="min-h-screen pt-[72px] bg-[#f0f2f5] text-black">
       <div className="site-container py-16">
-        
+
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-accent)] mb-4 px-5 py-1.5 border border-[rgba(255,10,61,0.3)] bg-[var(--color-accent)]/10 rounded-md">
+          <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-4 px-5 py-1.5 border border-[rgba(255,10,61,0.3)] bg-[var(--color-accent)]/10 rounded-md">
             🔒 Legal Compliance & Audit Panel
           </span>
           <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight uppercase italic font-[var(--font-heading)] text-black">
@@ -255,7 +255,7 @@ export default function AdminLegalPage() {
 
         {/* Sidebar & Detail Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8 font-sans">
-          
+
           {/* Left Menu */}
           <div className="space-y-2.5">
             {SECTIONS.map((sec) => {
@@ -264,11 +264,10 @@ export default function AdminLegalPage() {
                 <button
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
-                  className={`w-full flex items-center gap-4 p-4 border  text-left transition-all duration-200 cursor-pointer ${
-                    isSelected
-                      ? `border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_4px_20px_rgba(255,10,61,0.1)]`
-                      : `border-black/10 bg-white hover:border-black/20 hover:bg-white/80`
-                  }`}
+                  className={`w-full flex items-center gap-4 p-4 border  text-left transition-all duration-200 cursor-pointer ${isSelected
+                    ? `border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_4px_20px_rgba(255,10,61,0.1)]`
+                    : `border-black/10 bg-white hover:border-black/20 hover:bg-white/80`
+                    }`}
                 >
                   <div className={`p-2 rounded-lg bg-black/5 ${sec.color}`}>
                     {sec.icon}
@@ -280,7 +279,7 @@ export default function AdminLegalPage() {
                 </button>
               );
             })}
-            
+
             {/* Disclaimer notice */}
             <div className="mt-8 p-4 bg-white border border-black/5">
               <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/30 block mb-1">Legal Disclaimer</span>
@@ -292,7 +291,7 @@ export default function AdminLegalPage() {
 
           {/* Right Detailed Panel */}
           <div className={`border  p-8 lg:p-10 transition-all duration-300 bg-white ${active.borderColor}`}>
-            
+
             {/* Header info */}
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-black/10">
               <div className={`p-3.5  bg-black/5 ${active.color}`}>
@@ -314,11 +313,11 @@ export default function AdminLegalPage() {
 
             {/* Requirement Cards */}
             <div className="space-y-4">
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-[var(--color-accent)] mb-3">Requirements & Action Checklist</h3>
-              
+              <h3 className="text-xs font-extrabold uppercase tracking-widest  text-[var(--color-accent)] mb-3">Requirements & Action Checklist</h3>
+
               {active.requirements.map((req, index) => (
                 <div key={index} className="bg-[#f8f9fa] border border-black/5 p-5 relative overflow-hidden">
-                  
+
                   {/* Critical Warning Indicator */}
                   {req.isCritical && (
                     <span className="absolute top-0 right-0 text-[var(--font-size-4xs)] font-black uppercase tracking-widest bg-rose-500/15 text-rose-500 px-3 py-1 border-b border-l border-rose-500/20 rounded-bl-lg">
@@ -328,7 +327,7 @@ export default function AdminLegalPage() {
 
                   <h4 className="text-sm font-bold text-black pr-16">{req.title}</h4>
                   <p className="text-xs text-black/50 mt-1.5 leading-relaxed">{req.description}</p>
-                  
+
                   {/* Action Item details */}
                   <div className="mt-4 pt-3.5 border-t border-black/5 flex items-start gap-2.5">
                     <span className="text-xs text-emerald-600 font-bold shrink-0">🛠️ DEV ACTION:</span>

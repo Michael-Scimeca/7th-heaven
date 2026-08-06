@@ -1,43 +1,43 @@
 {
   "url": "http://localhost:3000",
-  "date": "2026-08-05T04:22:34.553Z",
+  "date": "2026-08-05T17:18:55.168Z",
   "score": {
-    "overall": 55,
-    "grade": "D",
-    "label": "Poor",
-    "color": "#f97316",
+    "overall": 81,
+    "grade": "B",
+    "label": "Good",
+    "color": "#84cc16",
     "modules": [
       {
         "name": "Typography",
-        "score": 13,
+        "score": 75,
         "weight": 15,
-        "pass": 0,
-        "warn": 1,
-        "error": 3
+        "pass": 2,
+        "warn": 2,
+        "error": 0
       },
       {
         "name": "Vertical Rhythm & Spacing",
-        "score": 60,
+        "score": 80,
         "weight": 15,
-        "pass": 2,
+        "pass": 3,
+        "warn": 2,
+        "error": 0
+      },
+      {
+        "name": "Colors",
+        "score": 71,
+        "weight": 20,
+        "pass": 4,
         "warn": 2,
         "error": 1
       },
       {
-        "name": "Colors",
-        "score": 50,
-        "weight": 20,
-        "pass": 3,
-        "warn": 1,
-        "error": 3
-      },
-      {
         "name": "Components",
-        "score": 50,
+        "score": 79,
         "weight": 15,
-        "pass": 2,
+        "pass": 4,
         "warn": 3,
-        "error": 2
+        "error": 0
       },
       {
         "name": "Reading Width",
@@ -49,11 +49,11 @@
       },
       {
         "name": "Images",
-        "score": 50,
+        "score": 83,
         "weight": 10,
-        "pass": 1,
+        "pass": 2,
         "warn": 1,
-        "error": 1
+        "error": 0
       },
       {
         "name": "Links",
@@ -73,34 +73,33 @@
       },
       {
         "name": "Headings",
-        "score": 67,
+        "score": 100,
         "weight": 5,
-        "pass": 2,
+        "pass": 3,
         "warn": 0,
-        "error": 1
+        "error": 0
       }
     ]
   },
   "summary": {
-    "pass": 16,
-    "warn": 10,
-    "error": 11
+    "pass": 24,
+    "warn": 12,
+    "error": 1
   },
   "modules": [
     {
       "name": "Typography",
       "violations": [
         {
-          "id": "too-many-font-families",
-          "severity": "error",
-          "message": "5 custom fonts found — recommendation: max 3",
-          "hint": "Fonts: \"Barlow\", \"Helvetica Neue\", \"Barlow Condensed\", \"rockstar\", \"__nextjs-Geist\""
+          "id": "font-families-ok",
+          "severity": "pass",
+          "message": "Font families: 2 — OK"
         },
         {
-          "id": "too-many-font-sizes",
-          "severity": "error",
-          "message": "27 unique font sizes — recommendation: max 8–10",
-          "hint": "Sizes: 7px, 7.5px, 8px, 8.5px, 9px, 9.6px, 10px, 10.4px, 11px, 11.2px, 12px, 12.8px, 13px, 13.6px, 14px, 14.08px, 15px, 16px, 19.84px, 27.84px, 35.84px, 40px, 43.2px, 48px, 53.44px, 67.2px, 72px"
+          "id": "many-font-sizes",
+          "severity": "warn",
+          "message": "8 unique font sizes — rec. 6–8",
+          "hint": "Sizes: 12px, 14px, 16px, 20px, 24px, 32px, 48px, 72px"
         },
         {
           "id": "no-modular-scale",
@@ -109,10 +108,9 @@
           "hint": "Try Major Third (1.25) or Perfect Fourth (1.333): 12 → 15 → 19 → 24 → 30..."
         },
         {
-          "id": "too-many-line-heights",
-          "severity": "error",
-          "message": "41 unique line-heights — recommendation: max 4–6",
-          "hint": "Too many different line spacings — no vertical rhythm system"
+          "id": "line-heights-ok",
+          "severity": "pass",
+          "message": "Line-heights: 3 — OK"
         }
       ]
     },
@@ -125,26 +123,25 @@
           "message": "Rhythm unit = 24px (16px × 1.50) — multiple of 4px ✓"
         },
         {
-          "id": "line-heights-rhythm-error",
-          "severity": "error",
-          "message": "Line-heights: only 13% match rhythm unit — no rhythm",
-          "hint": "Outliers: 9px, 14px, 15px, 16px, 17px, 19px, 20px, 21px"
+          "id": "line-heights-rhythm-ok",
+          "severity": "pass",
+          "message": "Line-heights: 100% match rhythm unit (24px)"
         },
         {
           "id": "detected-grid",
           "severity": "pass",
-          "message": "Detected grid: 4px (margin/padding: 52% divisible by 8px, 79% by 4px)"
+          "message": "Detected grid: 4px (margin/padding: 50% divisible by 8px, 78% by 4px)"
         },
         {
           "id": "spacing-grid-warn",
           "severity": "warn",
-          "message": "52% of spacing divisible by 8px — consider switching to an 8px grid",
+          "message": "50% of spacing divisible by 8px — consider switching to an 8px grid",
           "hint": "Not divisible by 4px: 2px, 6px, 10px, 14px"
         },
         {
           "id": "many-margins",
           "severity": "warn",
-          "message": "14 unique margin values — rec. 6–8"
+          "message": "13 unique margin values — rec. 6–8"
         }
       ]
     },
@@ -154,35 +151,34 @@
         {
           "id": "too-many-colors",
           "severity": "error",
-          "message": "62 unique colors found — recommendation: max 15–20",
+          "message": "37 unique colors found — recommendation: max 15–20",
           "hint": "Too large a palette makes maintenance harder and hurts brand consistency"
         },
         {
-          "id": "similar-colors",
-          "severity": "error",
-          "message": "55 similar color pairs — palette could be reduced",
-          "hint": "Examples: #000000≈#030006 (ΔE=2.6), #000000≈#0b0b0f (ΔE=3.7), #000000≈#08080f (ΔE=3.9), #22c55e≈#34c759 (ΔE=3.7)"
+          "id": "no-similar-colors",
+          "severity": "pass",
+          "message": "No similar colors found — palette is clean"
         },
         {
           "id": "primary-detected",
           "severity": "pass",
-          "message": "Primary: #9333ea (483 uses)"
+          "message": "Primary: #9333ea (487 uses)"
         },
         {
           "id": "secondary-detected",
           "severity": "pass",
-          "message": "Secondary: #22c55e (131 uses)"
+          "message": "Secondary: #15803d (108 uses)"
         },
         {
           "id": "color-balance-ok",
           "severity": "pass",
-          "message": "Color balance: 55% / 26% / 9% — close to 60/30/10"
+          "message": "Color balance: 66% / 20% / 4% — close to 60/30/10"
         },
         {
-          "id": "contrast-fail",
-          "severity": "error",
-          "message": "13 color pairs fail WCAG AA",
-          "hint": "Examples: #22c55e on #22c55e (1:1), #ef4444 on #ef4444 (1:1), #ffffff on #dddddd (1.36:1)"
+          "id": "contrast-warn",
+          "severity": "warn",
+          "message": "5 pairs fail WCAG AA",
+          "hint": "#ffffff on #10b981 (2.54:1 — needs 4.5:1), #ffffff on #ec4899 (3.53:1 — needs 4.5:1), #ffffff on #3b82f6 (3.68:1 — needs 4.5:1), #ffffff on #a855f7 (3.96:1 — needs 4.5:1), #ffffff on #8b5cf6 (4.23:1 — needs 4.5:1)"
         },
         {
           "id": "css-vars-low",
@@ -196,10 +192,9 @@
       "name": "Components",
       "violations": [
         {
-          "id": "touch-targets",
-          "severity": "error",
-          "message": "157/226 buttons smaller than 44px (69%)",
-          "hint": "Examples: \"Cursor Settings\" 139×33px, \"☀️🌙\" 56×28px, \"SIGN IN\" 74×29px"
+          "id": "touch-targets-ok",
+          "severity": "pass",
+          "message": "Touch targets: all 226 buttons ≥ 44px"
         },
         {
           "id": "button-padding",
@@ -208,10 +203,9 @@
           "hint": "Different paddings often indicate missing button size variants (sm/md/lg)"
         },
         {
-          "id": "button-cursor",
-          "severity": "warn",
-          "message": "226 buttons without cursor: pointer",
-          "hint": "\"Cursor Settings\", \"☀️🌙\", \"SIGN IN\""
+          "id": "button-cursor-ok",
+          "severity": "pass",
+          "message": "Cursor pointer: all buttons have pointer"
         },
         {
           "id": "interactive-states-ok",
@@ -219,10 +213,10 @@
           "message": "Interactive states: :hover and :focus are present"
         },
         {
-          "id": "too-many-radii",
-          "severity": "error",
-          "message": "10 unique border-radius values — rec. ≤ 5",
-          "hint": "Outliers (not in scale): 44.8px, 38.4px, 1px, 19.2px 19.2px 19.2px 4px"
+          "id": "many-radii",
+          "severity": "warn",
+          "message": "6 unique border-radius values — rec. 3–4",
+          "hint": "Values: 12px, 4px, 8px, 16px, 24px, 6px"
         },
         {
           "id": "shadows-ok",
@@ -243,7 +237,7 @@
         {
           "id": "reading-width-ok",
           "severity": "pass",
-          "message": "Average line width: ~68 chars — within optimal range (45–75)"
+          "message": "Average line width: ~69 chars — within optimal range (45–75)"
         }
       ]
     },
@@ -251,10 +245,9 @@
       "name": "Images",
       "violations": [
         {
-          "id": "images-missing-alt",
-          "severity": "error",
-          "message": "21/40 images missing alt text (53%)",
-          "hint": "Alt text is required for screen readers and SEO (WCAG 1.1.1)"
+          "id": "images-alt-ok",
+          "severity": "pass",
+          "message": "Alt texts: all 40 images have alt — OK"
         },
         {
           "id": "images-ratios-ok",
@@ -280,7 +273,7 @@
         {
           "id": "links-inconsistent-colors",
           "severity": "warn",
-          "message": "5 different link colors — rec. 1–2",
+          "message": "4 different link colors — rec. 1–2",
           "hint": "Different link colors on the same page break visual language"
         },
         {
@@ -302,12 +295,12 @@
           "id": "breakpoints-system",
           "severity": "pass",
           "message": "Detected breakpoint system: Tailwind CSS",
-          "hint": "Values: 768, 1023, 1401px"
+          "hint": "Values: 640, 768, 1023, 1024, 1280, 1401px"
         },
         {
           "id": "breakpoints-count-ok",
           "severity": "pass",
-          "message": "Breakpoints: 3 — OK (768, 1023, 1401px)"
+          "message": "Breakpoints: 6 — OK (640, 768, 1023, 1024, 1280, 1401px)"
         },
         {
           "id": "breakpoints-mixed-strategy",
@@ -326,16 +319,15 @@
           "message": "H1: one on the page — \"7th Heaven — Official Band Website\""
         },
         {
-          "id": "skipped-heading-levels",
-          "severity": "error",
-          "message": "1 skipped level(s) in heading hierarchy",
-          "hint": "H1 → H3 (\"St. Charles CITP\")"
+          "id": "heading-hierarchy-ok",
+          "severity": "pass",
+          "message": "Heading hierarchy has no skipped levels"
         },
         {
           "id": "heading-sizes-ok",
           "severity": "pass",
           "message": "Visual size hierarchy is correct",
-          "hint": "H1: 67px > H2: 63px > H3: 34px > H4: 20px"
+          "hint": "H1: 72px > H2: 48px > H3: 32px > H4: 24px"
         }
       ]
     }

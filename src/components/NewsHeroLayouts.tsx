@@ -40,11 +40,10 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               key={opt.id}
               type="button"
               onClick={() => setActiveLayout(opt.id)}
-              className={`px-3 py-1.5 text-xs font-black uppercase transition-all cursor-pointer border ${
-                activeLayout === opt.id
+              className={`px-3 py-1.5 text-xs font-black uppercase transition-all cursor-pointer border ${activeLayout === opt.id
                   ? "bg-cyan-500 text-black border-cyan-400 font-extrabold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                   : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
-              }`}
+                }`}
             >
               {opt.name}
             </button>
@@ -57,7 +56,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[var(--color-bg-deep)]">
           <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: "url('/images/hero-band-bg.png')" }} />
           <div className="absolute inset-0 bg-gradient-to-r from-[#090314] via-[#090314]/90 to-transparent" />
-          
+
           <div className="site-container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 text-left">
               <span className="text-xs font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-3 py-1 border border-cyan-500/20">
@@ -70,10 +69,10 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 Direct updates from the band — tour announcements, new releases, and live event updates.
               </p>
             </div>
-            
+
             <div className="lg:col-span-7 bg-[#110b20]/90 border border-white/10 p-8 text-left relative">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">Featured Article</span>
+                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)]">Featured Article</span>
                 <span className="text-xs font-mono text-white/50">{featured.date}</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">{featured.title}</h2>
@@ -168,7 +167,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-7 p-8 md:p-12 bg-black flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xs font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
-                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20 text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase">Featured</span>
+                <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20  text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase">Featured</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-4">{featured.title}</h2>
               <p className="text-white/70 text-sm md:text-base leading-relaxed">{featured.content}</p>

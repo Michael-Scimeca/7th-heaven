@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
 
 function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<string> {
@@ -47,12 +47,11 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
   const [showInput, setShowInput] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("7h_profile_avatar") || member?.avatar || null;
-    }
-    return member?.avatar || null;
-  });
+  const [previewUrl, setPreviewUrl] = useState<string | null>(member?.avatar || null);
+  useEffect(() => {
+    const stored = localStorage.getItem('7h_profile_avatar');
+    if (stored) setPreviewUrl(stored);
+  }, []);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const activeAvatar = previewUrl || member?.avatar;
@@ -75,7 +74,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         setPreviewUrl(dataUrl);
         try {
           localStorage.setItem("7h_profile_avatar", dataUrl);
-        } catch {}
+        } catch { }
         await updateAvatar(dataUrl);
         setMessage({ text: "Profile & scheduling photo updated!", type: "success" });
       }
@@ -94,7 +93,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
     setPreviewUrl(trimmed);
     try {
       localStorage.setItem("7h_profile_avatar", trimmed);
-    } catch {}
+    } catch { }
     await updateAvatar(trimmed);
     setMessage({ text: "Photo URL updated!", type: "success" });
     setUrlInput("");
@@ -109,7 +108,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           {isAvatarUrl ? (
             <img src={activeAvatar} alt="Profile" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-[var(--color-accent)] font-black text-sm">{initials}</span>
+            <span className=" text-[var(--color-accent)] font-black text-sm">{initials}</span>
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -142,7 +141,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
     <div className="bg-white border border-black/15 p-6 shadow-sm relative overflow-hidden text-black font-sans">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">
+          <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  text-[var(--color-accent)] font-bold">
             📷
           </div>
           <div>
@@ -169,8 +168,8 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (
             <div className="text-center p-1">
-              <span className="text-xs font-black text-[var(--color-accent)] tracking-wider block">{initials}</span>
-              <p className="text-[9px] font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
+              <span className="text-xs font-black  text-[var(--color-accent)] tracking-wider block">{initials}</span>
+              <p className="text-[9px] font-bold  text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
           <button
@@ -197,7 +196,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
               disabled={isUploading}
               className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-all shadow-sm cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               {isUploading ? "Uploading..." : "Upload Photo File"}
             </button>
 
@@ -235,9 +234,8 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
       </div>
 
       {message && (
-        <div className={`mt-3 px-4 py-2 rounded-lg text-xs font-bold flex items-center justify-between ${
-          message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
-        }`}>
+        <div className={`mt-3 px-4 py-2 rounded-lg text-xs font-bold flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
+          }`}>
           <span>{message.text}</span>
           <button onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-black">×</button>
         </div>

@@ -157,13 +157,13 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             onClick={() => setActiveSection(tab.id)}
             className={`flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-1.5
               ${activeSection === tab.id
-                ? 'text-[var(--color-accent)] bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
+                ? ' text-[var(--color-accent)] bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
                 : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
               }`}
           >
             <span>{tab.icon}</span>
             {tab.label}
-            <span className={`ml-1 px-1.5 py-0.5 rounded text-[var(--font-size-2xs)] font-bold ${activeSection === tab.id ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)]' : 'bg-white/5 text-white/30'}`}>{tab.count}</span>
+            <span className={`ml-1 px-1.5 py-0.5 rounded text-[var(--font-size-2xs)] font-bold ${activeSection === tab.id ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)]' : 'bg-white/5 text-white/30'}`}>{tab.count}</span>
           </button>
         ))}
       </div>
@@ -177,7 +177,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
                 <p className="text-white/20 text-sm mb-3">No crew assigned yet</p>
-                <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] hover:text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
               <>
@@ -190,7 +190,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                       <div className="flex-1 min-w-0">
                         <span className={`text-sm font-bold ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] font-bold uppercase tracking-wider shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
+                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] font-bold uppercase tracking-wider shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10  text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
                       <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 text-xs cursor-pointer transition-colors shrink-0">✕</button>
                     </div>
                   ))}
@@ -212,7 +212,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                     <button onClick={() => setAddingCrew(false)} className="text-xs text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2">✕</button>
                   </div>
                 ) : (
-                  <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]/60 hover:text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
+                  <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
                 )}
               </>
             )}
@@ -266,11 +266,11 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               {addingGear ? (
                 <div className="flex gap-2">
                   <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
-                  <button onClick={addGearItem} className="text-xs text-emerald-400 font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
+                  <button onClick={addGearItem} className="text-xs text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
                   <button onClick={() => setAddingGear(false)} className="text-xs text-white/30 cursor-pointer px-1">✕</button>
                 </div>
               ) : (
-                <button onClick={() => setAddingGear(true)} className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]/60 hover:text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
+                <button onClick={() => setAddingGear(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
               )}
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <div key={i} className="px-3 py-2.5 bg-white/[0.02] border border-white/5 rounded-lg">
                     <p className="text-sm text-white/70 leading-relaxed">{note.text}</p>
                     <div className="flex items-center gap-2 mt-1.5">
-                      <span className="text-[var(--font-size-2xs)] font-bold text-[var(--color-accent)]/50">{note.author}</span>
+                      <span className="text-[var(--font-size-2xs)] font-bold  text-[var(--color-accent)]/50">{note.author}</span>
                       <span className="text-[var(--font-size-2xs)] text-white/15">·</span>
                       <span className="text-[var(--font-size-2xs)] text-white/20">{note.time}</span>
                     </div>

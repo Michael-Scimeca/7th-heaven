@@ -15,7 +15,4 @@ CREATE TABLE IF NOT EXISTS public.cruise_pending_signups (
 
 -- Prevent RLS lockouts on this temporary staging table
 ALTER TABLE public.cruise_pending_signups ENABLE ROW LEVEL SECURITY;
-
 DROP POLICY IF EXISTS "Anyone can manage pending signups" ON public.cruise_pending_signups;
-CREATE POLICY "Anyone can manage pending signups" ON public.cruise_pending_signups
-  FOR ALL USING (true) WITH CHECK (true);

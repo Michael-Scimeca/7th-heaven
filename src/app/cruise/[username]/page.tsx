@@ -26,11 +26,11 @@ function PassengersWidget() {
           <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50 mb-1">Community</h2>
           <div className="flex items-center gap-2">
             <span className="text-black font-black text-2xl italic tracking-wide">{totalFans}</span>
-            <span className="text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Cruise Members Onboard</span>
+            <span className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Cruise Members Onboard</span>
           </div>
         </div>
       </div>
-      
+
       <div className="flex items-center relative z-10">
         <div className="flex -space-x-3">
           {avatars.map((initials, i) => {
@@ -41,7 +41,7 @@ function PassengersWidget() {
               </div>
             );
           })}
-          <div className="w-10 h-10 rounded-full border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md text-[var(--color-accent)] font-bold text-xs relative z-0">
+          <div className="w-10 h-10 rounded-full border-2 border-white bg-[var(--color-accent)]/20 flex items-center justify-center shadow-md  text-[var(--color-accent)] font-bold text-xs relative z-0">
             +{totalFans - avatars.length}
           </div>
         </div>
@@ -593,7 +593,7 @@ export default function CruiseDashboard() {
               <span className="text-3xl md:text-4xl leading-none">🚢</span>
               <div>
                 <h1 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-black leading-none">Cruise Hub</h1>
-                <p className="text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Passenger Area</p>
+                <p className=" text-[var(--color-accent)] font-bold text-xs md:text-sm tracking-widest uppercase mt-1.5">Passenger Area</p>
               </div>
             </div>
             <p className="text-black/60 text-base md:text-lg max-w-xl">Welcome aboard, <strong className="text-black">{effectiveMember?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>

@@ -11,11 +11,22 @@ const getFilePath = () => {
   return filePath;
 };
 
+// Module-level cache — avoids re-reading the file on every request.
+let notifiesCache: any[] | null = null;
+let notifiesCacheTs = 0;
+const CACHE_TTL = 60_000;
+
 const readNotifies = (filePath: string): any[] => {
+  const now = Date.now();
+  if (notifiesCache !== null && now - notifiesCacheTs < CACHE_TTL) {
+    return notifiesCache;
+  }
   if (!fs.existsSync(filePath)) return [];
   try {
     const raw = fs.readFileSync(filePath, "utf-8");
-    return JSON.parse(raw);
+    notifiesCache = JSON.parse(raw);
+    notifiesCacheTs = now;
+    return notifiesCache!;
   } catch (err) {
     console.error("Failed to parse new_date_notifies.json:", err);
     return [];
@@ -24,6 +35,9 @@ const readNotifies = (filePath: string): any[] => {
 
 const writeNotifies = (filePath: string, notifies: any[]) => {
   fs.writeFileSync(filePath, JSON.stringify(notifies, null, 2));
+  // Invalidate cache immediately after write
+  notifiesCache = notifies;
+  notifiesCacheTs = Date.now();
 };
 
 // ── GET: Fetch subscriptions for a user email ───────────────────

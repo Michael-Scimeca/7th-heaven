@@ -30,12 +30,21 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const crew = CREW_CONFIG[memberId] ?? CREW_CONFIG.mike;
 
   // ── Crew live status: check localStorage on mount to know if crew is actually streaming ──
-  const [crewIsLive, setCrewIsLive] = useState(() => {
-    if (typeof window === 'undefined') return false;
+  const [crewIsLive, setCrewIsLive] = useState(false);
+  useEffect(() => {
     const membSlug = memberId === 'mike' ? 'michael' : memberId;
-    return localStorage.getItem(`is_live_${membSlug}`) === 'true';
-  });
+    setCrewIsLive(localStorage.getItem(`is_live_${membSlug}`) === 'true');
+  }, [memberId]);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [liveFeedStatuses, setLiveFeedStatuses] = useState<Record<string, string>>({});
+  useEffect(() => {
+    const slugs = { mike: 'michael', sammy: 'sammy', ryan: 'ryan', tony: 'tony' };
+    const statuses: Record<string, string> = {};
+    for (const slug of Object.values(slugs)) {
+      statuses[slug] = localStorage.getItem(`is_live_${slug}`) || 'false';
+    }
+    setLiveFeedStatuses(statuses);
+  }, []);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [userMessage, setUserMessage] = useState('');
   const [hype, setHype] = useState(20);
@@ -143,6 +152,20 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   ]);
   const [activeSidebarTab, setActiveSidebarTab] = useState<'chat' | 'setlist'>('chat');
   const [setlistSort, setSetlistSort] = useState<'order' | 'likes'>('order');
+  const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    // Populate liked songs from localStorage on mount
+    const liked = new Set<string>();
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k?.startsWith(`liked_song_${memberId}_`) && localStorage.getItem(k) === 'true') {
+          liked.add(k.slice(`liked_song_${memberId}_`.length));
+        }
+      }
+    } catch { }
+    setLikedSongs(liked);
+  }, [memberId]);
 
   // ── Merch drop (admin-controlled) ──
   const [merchTimerActive, setMerchTimerActive] = useState(false);
@@ -193,13 +216,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       const feedSlug = activeFeedId === 'mike' ? 'michael' : activeFeedId;
       const nowLive = localStorage.getItem(`is_live_${feedSlug}`) === 'true';
       setCrewIsLive(prev => {
-        if (nowLive && !prev) {
-          if (activeFeedId === normalizedId) {
-            setShowOverlay(true);
-          }
-          return true;
+        const next = nowLive || prev;
+        if (nowLive && !prev && activeFeedId === normalizedId) {
+          // Trigger overlay outside the updater to keep it pure
+          setTimeout(() => setShowOverlay(true), 0);
         }
-        return nowLive;
+        return next;
       });
     };
     checkLive();
@@ -443,6 +465,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     const userLikedKey = `liked_song_${memberId}_${songId}`;
     if (localStorage.getItem(userLikedKey) === 'true') return; // already liked
     localStorage.setItem(userLikedKey, 'true');
+    setLikedSongs(prev => new Set(prev).add(songId));
 
     // Update local setlist count
     setSetlist(prev => prev.map(s => s.id === songId ? { ...s, likes: s.likes + 1 } : s));
@@ -689,7 +712,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         createdAt: Date.now(),
       }));
       setFloating(prev => [...prev, ...burstEmojis]);
-      setTimeout(() => { setHype(0); setHypeBurst(false); }, 3000);
+      const t = setTimeout(() => { setHype(0); setHypeBurst(false); }, 3000);
+      return () => clearTimeout(t);
     }
   }, [hype, hypeBurst]);
 
@@ -1272,7 +1296,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           {(['mike', 'sammy', 'ryan', 'tony'] as const).map(key => {
             const cfg = CREW_CONFIG[key];
             const feedSlug = key === 'mike' ? 'michael' : key;
-            const isFeedLive = typeof window !== 'undefined' && localStorage.getItem(`is_live_${feedSlug}`) === 'true';
+            const isFeedLive = liveFeedStatuses[feedSlug] === 'true';
             return (
               <button
                 key={key}
@@ -1414,9 +1438,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       }}
                     >
                       <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-ping shrink-0" />
-                      <span className="text-[var(--color-accent)] shrink-0">Now Playing:</span>
+                      <span className=" text-[var(--color-accent)] shrink-0">Now Playing:</span>
                       <span className="text-black truncate font-bold">{activeSong.title}</span>
-                      <span className="text-[var(--color-accent)] shrink-0">🎵</span>
+                      <span className=" text-[var(--color-accent)] shrink-0">🎵</span>
                     </div>
                   </div>
                 );
@@ -1448,7 +1472,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <div className="mb-4">
                             <div className="flex items-center justify-between mb-1.5">
                               <span className="text-xs font-bold text-black/40 uppercase tracking-widest">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
-                              <span className="text-xs font-bold text-purple-400/70 uppercase tracking-widest">{raffleState.minEntrants ?? 10} needed</span>
+                              <span className="text-xs font-bold  text-[var(--color-accent)]/70 uppercase tracking-widest">{raffleState.minEntrants ?? 10} needed</span>
                             </div>
                             <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                               <div className="h-full bg-yellow-400 rounded-full transition-all duration-500"
@@ -1458,13 +1482,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                           {raffleState.prizes[0]?.name && (
                             <div className="mb-4 px-3 py-2.5 bg-purple-500/10 border border-purple-500/20">
-                              <p className="text-[var(--font-size-2xs)] font-bold text-purple-400/60 uppercase tracking-[0.15em] mb-1">You could win</p>
+                              <p className="text-[var(--font-size-2xs)] font-bold  text-[var(--color-accent)]/60 uppercase tracking-[0.15em] mb-1">You could win</p>
                               <p className="text-yellow-300 font-black text-base leading-tight">
                                 {raffleState.prizes[0].qty > 1 ? <span className="text-black bg-yellow-500/30 px-1.5 py-0.5 rounded text-xs mr-2">{raffleState.prizes[0].qty}x</span> : null}
                                 {raffleState.prizes[0].name}
                               </p>
                               {raffleState.prizes.filter((p: any) => p.name).length > 1 && (
-                                <p className="text-purple-400/70 text-xs mt-1">+ {raffleState.prizes.filter((p: any) => p.name).length - 1} more prizes</p>
+                                <p className=" text-[var(--color-accent)]/70 text-xs mt-1">+ {raffleState.prizes.filter((p: any) => p.name).length - 1} more prizes</p>
                               )}
                             </div>
                           )}
@@ -2413,7 +2437,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </button>
                       <button
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-black/30 hover:text-black/60 border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-all ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-black/30 hover:text-black/60 border border-transparent'
                           }`}
                       >
                         Most Liked
@@ -2432,25 +2456,25 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       });
 
                       return sorted.map((song) => {
-                        const hasLiked = localStorage.getItem(`liked_song_${memberId}_${song.id}`) === 'true';
+                        const hasLiked = likedSongs.has(song.id);
                         return (
                           <div
                             key={song.id}
                             className={`flex items-center justify-between p-3  border transition-all ${song.isPlaying
-                                ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.15)] animate-in fade-in duration-300'
-                                : 'bg-white/[0.02] border-black/10'
+                              ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.15)] animate-in fade-in duration-300'
+                              : 'bg-white/[0.02] border-black/10'
                               }`}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
-                              <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse text-[var(--color-accent)]' : 'text-black/25'}`}>
+                              <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse  text-[var(--color-accent)]' : 'text-black/25'}`}>
                                 {song.isPlaying ? '🔊' : '🎵'}
                               </span>
                               <div className="min-w-0">
-                                <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-black/90'}`}>
+                                <p className={`text-xs font-bold truncate ${song.isPlaying ? ' text-[var(--color-accent)]' : 'text-black/90'}`}>
                                   {song.title}
                                 </p>
                                 {song.isPlaying && (
-                                  <span className="inline-block text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-[var(--color-accent)] mt-0.5 animate-pulse">
+                                  <span className="inline-block text-[var(--font-size-4xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] mt-0.5 animate-pulse">
                                     Now Playing
                                   </span>
                                 )}
@@ -2465,8 +2489,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
                                 className={`w-7 h-7 flex items-center justify-center rounded-lg transition-all ${hasLiked
-                                    ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
-                                    : 'bg-gray-50 border border-black/10 hover:border-black/15 text-black/50 hover:text-black hover:scale-105 active:scale-95'
+                                  ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
+                                  : 'bg-gray-50 border border-black/10 hover:border-black/15 text-black/50 hover:text-black hover:scale-105 active:scale-95'
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >
@@ -2576,7 +2600,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             key={msg.id}
                             className="msg-new flex items-start gap-2.5 py-1 px-1 mb-1.5 group"
                           >
-                             {/* Avatar */}
+                            {/* Avatar */}
                             <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-cyan-600 text-white shadow-xs">
                               {initials}
                             </div>
@@ -2598,7 +2622,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   </span>
                                 )}
                                 {showAdminPanel && isFlagged && !isBanned && (
-                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-purple-400 bg-purple-600/20 border-purple-500/35">
+                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none  text-[var(--color-accent)] bg-purple-600/20 border-purple-500/35">
                                     ⚩ FLAGGED
                                   </span>
                                 )}
@@ -2610,11 +2634,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                               {/* Message bubble */}
                               <div
-                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm !text-white font-bold  rounded-tl-xs ${
-                                  isCrew
-                                    ? 'bg-emerald-600 border-emerald-400/50'
-                                    : 'bg-cyan-500 border-cyan-400/50'
-                                }`}
+                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm !text-white font-bold  rounded-tl-xs ${isCrew
+                                  ? 'bg-emerald-600 border-emerald-400/50'
+                                  : 'bg-cyan-500 border-cyan-400/50'
+                                  }`}
                               >
                                 {msg.text}
                               </div>
@@ -2690,7 +2713,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         </button>
                         <button
                           type="button"
-                          className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 font-bold text-xs border border-purple-500/30 transition-all cursor-pointer"
+                          className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20  text-[var(--color-accent)] font-bold text-xs border border-purple-500/30 transition-all cursor-pointer"
                         >
                           @
                         </button>
@@ -2825,8 +2848,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 .then(res => res.json())
                 .then(data => {
                   const productList = data.products || data || [];
-                  const matchedProduct = productList.find((p: any) => 
-                    p.title.toLowerCase().includes(activeMerchDrop.product.name.toLowerCase()) || 
+                  const matchedProduct = productList.find((p: any) =>
+                    p.title.toLowerCase().includes(activeMerchDrop.product.name.toLowerCase()) ||
                     activeMerchDrop.product.name.toLowerCase().includes(p.title.toLowerCase())
                   );
                   const matchedVariant = matchedProduct?.variants?.edges?.find((edge: any) => {
@@ -2954,9 +2977,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                     <div className="text-center mb-2 flex flex-col items-center">
                       <div className="w-20 h-20 border border-black/10 bg-gray-50 overflow-hidden mb-2.5 shrink-0">
-                        <img 
-                          src={activeMerchDrop.product.image || '/images/merch/vinyl.png'} 
-                          alt={activeMerchDrop.product.name} 
+                        <img
+                          src={activeMerchDrop.product.image || '/images/merch/vinyl.png'}
+                          alt={activeMerchDrop.product.name}
                           onError={(e) => {
                             const name = activeMerchDrop.product.name.toLowerCase();
                             if (name.includes('shirt') || name.includes('tee')) {
@@ -2967,7 +2990,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               e.currentTarget.src = '/images/merch/vinyl.png';
                             }
                           }}
-                          className="w-full h-full object-cover" 
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <span className="text-[var(--font-size-3xs)] font-black px-2 py-0.5 rounded-full uppercase tracking-wider"
@@ -2995,11 +3018,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
-                              checkoutDeliveryMethod === 'merch_table'
-                                ? 'bg-white text-black border-white'
-                                : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
-                            }`}
+                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table'
+                              ? 'bg-white text-black border-white'
+                              : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
+                              }`}
                           >
                             <span>🛍️ Pickup</span>
                             <span className="text-[var(--font-size-4xs)] opacity-60 normal-case font-normal font-sans">Merch Table</span>
@@ -3007,11 +3029,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('shipping')}
-                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
-                              checkoutDeliveryMethod === 'shipping'
-                                ? 'bg-white text-black border-white'
-                                : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
-                            }`}
+                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping'
+                              ? 'bg-white text-black border-white'
+                              : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
+                              }`}
                           >
                             <span>📦 Ship Home</span>
                             <span className="text-[var(--font-size-4xs)] opacity-60 normal-case font-normal font-sans">Standard Delivery</span>
@@ -3024,8 +3045,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         const name = activeMerchDrop.product.name.toLowerCase();
                         const isClothing = name.includes('shirt') || name.includes('tee') || name.includes('hood') || name.includes('sweat') || name.includes('jersey') || name.includes('jacket') || name.includes('tank');
                         const hasVariants = (activeMerchDrop.product as any).variants && (activeMerchDrop.product as any).variants.length > 0;
-                        const sizeOptions = hasVariants 
-                          ? (activeMerchDrop.product as any).variants.map((v: any) => v.title) 
+                        const sizeOptions = hasVariants
+                          ? (activeMerchDrop.product as any).variants.map((v: any) => v.title)
                           : (isClothing ? ['S', 'M', 'L', 'XL', 'XXL'] : null);
                         if (!sizeOptions) return null;
                         return (
@@ -3037,11 +3058,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   key={size}
                                   type="button"
                                   onClick={() => setCheckoutSelectedSize(size)}
-                                  className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                                    checkoutSelectedSize === size
-                                      ? 'bg-white text-black border-white'
-                                      : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
-                                  }`}
+                                  className={`px-3 py-1.5 rounded-lg border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${checkoutSelectedSize === size
+                                    ? 'bg-white text-black border-white'
+                                    : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
+                                    }`}
                                 >
                                   {size}
                                 </button>
@@ -3073,11 +3093,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   key={c.name}
                                   type="button"
                                   onClick={() => setCheckoutSelectedColor(c.name)}
-                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                                    checkoutSelectedColor === c.name
-                                      ? 'bg-gray-100 text-black border-white'
-                                      : 'bg-transparent text-black/50 border-black/10 hover:border-black/15'
-                                  }`}
+                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[var(--font-size-3xs)] font-bold uppercase tracking-wider transition-all cursor-pointer ${checkoutSelectedColor === c.name
+                                    ? 'bg-gray-100 text-black border-white'
+                                    : 'bg-transparent text-black/50 border-black/10 hover:border-black/15'
+                                    }`}
                                 >
                                   <span
                                     className="w-3.5 h-3.5 rounded-full shrink-0 border"
@@ -3113,7 +3132,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           className="w-full bg-gray-50 border border-black/10 p-2.5 text-xs text-black placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none font-sans"
                         />
                       </div>
-                      
+
                       {checkoutDeliveryMethod === 'shipping' && (
                         <>
                           <div>
@@ -3193,89 +3212,89 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   const successProdName = activeMerchDrop.product.name.toLowerCase();
                   const successIsClothing = successProdName.includes('shirt') || successProdName.includes('tee') || successProdName.includes('hood') || successProdName.includes('sweat') || successProdName.includes('jersey') || successProdName.includes('jacket') || successProdName.includes('tank') || successProdName.includes('hat') || successProdName.includes('cap');
                   return (
-                  <div className="text-center py-4 space-y-4">
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto"
-                      style={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}>
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-black text-black uppercase tracking-wider font-sans">Purchase Successful!</h3>
-                      <p className="text-xs text-black/50 mt-1 max-w-[240px] mx-auto font-sans">
-                        {checkoutDeliveryMethod === 'merch_table' ? (
-                          <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed. Please check your email for your single-use QR code to claim your item.</span>
-                        ) : (
-                          <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed.</span>
-                        )}
-                      </p>
-                    </div>
-                    
-                    <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
-                      {/* Product Image - large and prominent */}
-                      <div className="flex justify-center">
-                        <img 
-                          src={activeMerchDrop.product.image || '/images/merch/vinyl.png'} 
-                          alt={activeMerchDrop.product.name} 
-                          onError={(e) => {
-                            const name = activeMerchDrop.product.name.toLowerCase();
-                            if (name.includes('shirt') || name.includes('tee')) {
-                              e.currentTarget.src = '/images/merch/logo-tee.png';
-                            } else if (name.includes('hood') || name.includes('sweat')) {
-                              e.currentTarget.src = '/images/merch/hoodie.png';
-                            } else {
-                              e.currentTarget.src = '/images/merch/vinyl.png';
-                            }
-                          }}
-                          className="w-28 h-28 object-cover border border-black/10" 
-                        />
+                    <div className="text-center py-4 space-y-4">
+                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-[var(--color-accent)] flex items-center justify-center mx-auto"
+                        style={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-black text-black uppercase tracking-wider font-sans">Purchase Successful!</h3>
+                        <p className="text-xs text-black/50 mt-1 max-w-[240px] mx-auto font-sans">
+                          {checkoutDeliveryMethod === 'merch_table' ? (
+                            <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed. Please check your email for your single-use QR code to claim your item.</span>
+                          ) : (
+                            <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed.</span>
+                          )}
+                        </p>
                       </div>
 
-                      {/* Product Description */}
-                      {activeMerchDrop.product.description && (
-                        <p className="text-[var(--font-size-2xs)] text-black/50 text-center leading-relaxed font-sans px-2">
-                          {activeMerchDrop.product.description}
+                      <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
+                        {/* Product Image - large and prominent */}
+                        <div className="flex justify-center">
+                          <img
+                            src={activeMerchDrop.product.image || '/images/merch/vinyl.png'}
+                            alt={activeMerchDrop.product.name}
+                            onError={(e) => {
+                              const name = activeMerchDrop.product.name.toLowerCase();
+                              if (name.includes('shirt') || name.includes('tee')) {
+                                e.currentTarget.src = '/images/merch/logo-tee.png';
+                              } else if (name.includes('hood') || name.includes('sweat')) {
+                                e.currentTarget.src = '/images/merch/hoodie.png';
+                              } else {
+                                e.currentTarget.src = '/images/merch/vinyl.png';
+                              }
+                            }}
+                            className="w-28 h-28 object-cover border border-black/10"
+                          />
+                        </div>
+
+                        {/* Product Description */}
+                        {activeMerchDrop.product.description && (
+                          <p className="text-[var(--font-size-2xs)] text-black/50 text-center leading-relaxed font-sans px-2">
+                            {activeMerchDrop.product.description}
+                          </p>
+                        )}
+
+                        {/* Order Details */}
+                        <div className="space-y-1.5 pt-2 border-t border-black/10">
+                          <p className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-widest font-sans mb-1.5">Order Details</p>
+                          <p className="text-xs font-bold text-black/90 font-sans">Recipient: <span className="font-normal text-black/60">{shippingDetails.name}</span></p>
+                          <p className="text-xs font-bold text-black/90 font-sans truncate">Product: <span className="font-normal text-black/60">{activeMerchDrop.product.name}</span></p>
+                          {successIsClothing && checkoutSelectedSize && (
+                            <p className="text-xs font-bold text-black/90 font-sans">Size: <span className="font-normal text-black/60">{checkoutSelectedSize}</span></p>
+                          )}
+                          {successIsClothing && checkoutSelectedColor && (
+                            <p className="text-xs font-bold text-black/90 font-sans">Color: <span className="font-normal text-black/60 inline-flex items-center gap-1.5">
+                              <span className="inline-block w-2.5 h-2.5 rounded-full border border-black/15" style={{ background: checkoutSelectedColor === 'Black' ? '#1a1a1a' : checkoutSelectedColor === 'White' ? '#f5f5f5' : checkoutSelectedColor === 'Heather Grey' ? '#9ca3af' : checkoutSelectedColor === 'Navy' ? '#1e3a5f' : checkoutSelectedColor === 'Red' ? '#dc2626' : checkoutSelectedColor === 'Forest Green' ? '#166534' : '#888' }} />
+                              {checkoutSelectedColor}
+                            </span></p>
+                          )}
+                          <p className="text-xs font-bold text-black/90 font-sans">Method: <span className="font-normal text-black/60">{checkoutDeliveryMethod === 'merch_table' ? 'Merch Table Pickup' : 'Shipped to Home'}</span></p>
+                          {checkoutDeliveryMethod === 'shipping' && (
+                            <p className="text-xs font-bold text-black/90 font-sans truncate">Ship To: <span className="font-normal text-black/60">{shippingDetails.address}, {shippingDetails.city}</span></p>
+                          )}
+                          <p className="text-xs font-bold text-black/90 font-sans">Price Paid: <span className="font-normal text-black/60">{activeMerchDrop.product.price}</span></p>
+                        </div>
+                      </div>
+
+                      {/* Email confirmation notice */}
+                      {shippingDetails.email && (
+                        <p className="text-xs text-[var(--color-accent)]/80 font-sans flex items-center justify-center gap-1.5">
+                          <span>📧</span>
+                          <span>Confirmation email sent to <span className="underline underline-offset-2">{shippingDetails.email}</span></span>
                         </p>
                       )}
 
-                      {/* Order Details */}
-                      <div className="space-y-1.5 pt-2 border-t border-black/10">
-                        <p className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-widest font-sans mb-1.5">Order Details</p>
-                        <p className="text-xs font-bold text-black/90 font-sans">Recipient: <span className="font-normal text-black/60">{shippingDetails.name}</span></p>
-                        <p className="text-xs font-bold text-black/90 font-sans truncate">Product: <span className="font-normal text-black/60">{activeMerchDrop.product.name}</span></p>
-                        {successIsClothing && checkoutSelectedSize && (
-                          <p className="text-xs font-bold text-black/90 font-sans">Size: <span className="font-normal text-black/60">{checkoutSelectedSize}</span></p>
-                        )}
-                        {successIsClothing && checkoutSelectedColor && (
-                          <p className="text-xs font-bold text-black/90 font-sans">Color: <span className="font-normal text-black/60 inline-flex items-center gap-1.5">
-                            <span className="inline-block w-2.5 h-2.5 rounded-full border border-black/15" style={{ background: checkoutSelectedColor === 'Black' ? '#1a1a1a' : checkoutSelectedColor === 'White' ? '#f5f5f5' : checkoutSelectedColor === 'Heather Grey' ? '#9ca3af' : checkoutSelectedColor === 'Navy' ? '#1e3a5f' : checkoutSelectedColor === 'Red' ? '#dc2626' : checkoutSelectedColor === 'Forest Green' ? '#166534' : '#888' }} />
-                            {checkoutSelectedColor}
-                          </span></p>
-                        )}
-                        <p className="text-xs font-bold text-black/90 font-sans">Method: <span className="font-normal text-black/60">{checkoutDeliveryMethod === 'merch_table' ? 'Merch Table Pickup' : 'Shipped to Home'}</span></p>
-                        {checkoutDeliveryMethod === 'shipping' && (
-                          <p className="text-xs font-bold text-black/90 font-sans truncate">Ship To: <span className="font-normal text-black/60">{shippingDetails.address}, {shippingDetails.city}</span></p>
-                        )}
-                        <p className="text-xs font-bold text-black/90 font-sans">Price Paid: <span className="font-normal text-black/60">{activeMerchDrop.product.price}</span></p>
-                      </div>
+                      <button
+                        onClick={() => setShowCheckoutModal(false)}
+                        style={{
+                          background: activeMerchDrop.product.color
+                        }}
+                        className="w-full py-3 text-black font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none font-sans"
+                      >
+                        Return to Stream
+                      </button>
                     </div>
-
-                    {/* Email confirmation notice */}
-                    {shippingDetails.email && (
-                      <p className="text-xs text-emerald-400/80 font-sans flex items-center justify-center gap-1.5">
-                        <span>📧</span>
-                        <span>Confirmation email sent to <span className="underline underline-offset-2">{shippingDetails.email}</span></span>
-                      </p>
-                    )}
-
-                    <button
-                      onClick={() => setShowCheckoutModal(false)}
-                      style={{
-                        background: activeMerchDrop.product.color
-                      }}
-                      className="w-full py-3 text-black font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border-none font-sans"
-                    >
-                      Return to Stream
-                    </button>
-                  </div>
                   );
                 })()}
               </div>

@@ -134,7 +134,7 @@ export default function CursorTestingPage() {
   }, []);
 
   // Bigger sizes = gooey blob is thick and rubbery; tail fades
-  const pickSizes  = [23, 19, 15, 11, 7];
+  const pickSizes = [23, 19, 15, 11, 7];
   const pickColors = ["#9C27B0", "#A92EAD", "#B83AAA", "#C845A8", "#D852A4"];
   const pickOpacity = [1, 0.95, 0.88, 0.78, 0.6];
 
@@ -249,18 +249,17 @@ export default function CursorTestingPage() {
         {/* Preset Switcher */}
         <div className="bg-[#0d0d18] border border-white/10 p-2 flex flex-wrap gap-2 mb-12">
           {([
-            ["pick",      "🎸 Guitar Pick Gooey"],
-            ["neon",      "✨ Neon Glow"],
+            ["pick", "🎸 Guitar Pick Gooey"],
+            ["neon", "✨ Neon Glow"],
             ["particles", "🎨 Particle Trail"],
           ] as [CursorPreset, string][]).map(([p, label]) => (
             <button
               key={p}
               onClick={() => setPreset(p)}
-              className={`flex-1 min-w-[140px] py-3 px-4  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
-                preset === p
-                  ? "bg-[#9C27B0] text-white shadow-[0_0_20px_#9C27B080]"
-                  : "text-white/50 hover:text-white hover:bg-white/5"
-              }`}
+              className={`flex-1 min-w-[140px] py-3 px-4  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${preset === p
+                ? "bg-[#9C27B0] text-white shadow-[0_0_20px_#9C27B080]"
+                : "text-white/50 hover:text-white hover:bg-white/5"
+                }`}
             >
               {label}
             </button>
@@ -274,8 +273,8 @@ export default function CursorTestingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {[
-            { title: "Slow & Slow",   desc: "Move slowly — the cascade collapses into one fat pick blob.", color: "hover:border-[#9C27B0]/60", badge: "text-[#9C27B0]" },
-            { title: "Fast Whip",     desc: "Whip fast — the pick nodes stretch into a long gooey liquid tail.", color: "hover:border-[#C245AA]/60", badge: "text-[#C245AA]" },
+            { title: "Slow & Slow", desc: "Move slowly — the cascade collapses into one fat pick blob.", color: "hover:border-[#9C27B0]/60", badge: "text-[#9C27B0]" },
+            { title: "Fast Whip", desc: "Whip fast — the pick nodes stretch into a long gooey liquid tail.", color: "hover:border-[#C245AA]/60", badge: "text-[#C245AA]" },
             { title: "Tight Circles", desc: "Draw tight circles — watch the pick blob swirl and merge.", color: "hover:border-[#E35FA4]/60", badge: "text-[#E35FA4]" },
           ].map((t, i) => (
             <div
@@ -299,7 +298,7 @@ export default function CursorTestingPage() {
             <h3 className="text-xl font-black uppercase italic text-white" style={{ fontFamily: "var(--font-heading, sans-serif)" }}>
               Technique Breakdown
             </h3>
-            <span className="text-xs text-emerald-400 font-bold">✓ Always-on pick shape</span>
+            <span className="text-xs text-[var(--color-accent)] font-bold">✓ Always-on pick shape</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
             <div className="bg-black/60 p-4 border border-white/10">

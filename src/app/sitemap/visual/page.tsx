@@ -112,7 +112,7 @@ const categoryStyles: Record<string, { border: string; activeBorder: string; glo
   dashboard: { border: "border-violet-500/20", activeBorder: "border-violet-400", glow: "shadow-[0_0_30px_rgba(255,10,61,0.25)]", bg: "bg-violet-500/5", text: "text-violet-400", badge: "bg-violet-500/20 text-violet-300" },
   admin: { border: "border-rose-500/20", activeBorder: "border-rose-400", glow: "shadow-[0_0_30px_rgba(244,63,94,0.25)]", bg: "bg-rose-500/5", text: "text-rose-400", badge: "bg-rose-500/20 text-rose-300" },
   email: { border: "border-purple-500/20", activeBorder: "border-purple-400", glow: "shadow-[0_0_30px_rgba(147, 51, 234,0.25)]", bg: "bg-purple-600/5", text: "text-purple-300", badge: "bg-purple-600/20 text-purple-200" },
-  module: { border: "border-emerald-500/20", activeBorder: "border-emerald-400", glow: "shadow-[0_0_30px_rgba(16,185,129,0.25)]", bg: "bg-emerald-500/5", text: "text-emerald-400", badge: "bg-emerald-500/20 text-emerald-300" },
+  module: { border: " border-[var(--color-accent)]/30", activeBorder: "border-emerald-400", glow: "shadow-[0_0_30px_rgba(16,185,129,0.25)]", bg: "bg-emerald-500/5", text: "text-emerald-400", badge: "bg-emerald-500/20 text-emerald-300" },
 };
 
 const connectionColors: Record<string, { stroke: string; activeStroke: string }> = {
@@ -193,7 +193,8 @@ export default function VisualSitemapPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rose-600 opacity-[0.015] blur-[200px] rounded-full pointer-events-none" />
 
       {/* Animated dash keyframes */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes dashFlow {
           to { stroke-dashoffset: -24; }
         }
@@ -206,7 +207,7 @@ export default function VisualSitemapPage() {
         {/* Header */}
         <header className="mb-12 text-center">
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-3">
-            <span className="text-[var(--color-accent)]">Visual</span> Connection Map
+            <span className=" text-[var(--color-accent)]">Visual</span> Connection Map
           </h1>
           <p className="text-white/35 uppercase tracking-[0.2em] text-xs md:text-sm max-w-3xl mx-auto mb-6">
             Every page, dashboard, module, and email template — and how they all connect.
@@ -310,11 +311,10 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
-                      isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
-                      `${style.border} hover:${style.activeBorder}`
-                    } ${style.bg}`}
+                        `${style.border} hover:${style.activeBorder}`
+                      } ${style.bg}`}
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
@@ -353,11 +353,10 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
-                      isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
-                      `${style.border} hover:${style.activeBorder}`
-                    } ${style.bg}`}
+                        `${style.border} hover:${style.activeBorder}`
+                      } ${style.bg}`}
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
@@ -385,7 +384,7 @@ export default function VisualSitemapPage() {
 
             {/* Column 2: Authenticated Dashboards */}
             <div className="space-y-3">
-              <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 pb-2 border-b border-white/10">📊 Dashboards</h2>
+              <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-4 pb-2 border-b border-white/10">📊 Dashboards</h2>
               {pages.filter(p => p.col === 2).map(page => {
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
@@ -394,11 +393,10 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
-                      isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
-                      `${style.border} hover:${style.activeBorder}`
-                    } ${style.bg}`}
+                        `${style.border} hover:${style.activeBorder}`
+                      } ${style.bg}`}
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
@@ -435,11 +433,10 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${
-                      isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
-                      `${style.border} hover:${style.activeBorder}`
-                    } ${style.bg}`}
+                        `${style.border} hover:${style.activeBorder}`
+                      } ${style.bg}`}
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >

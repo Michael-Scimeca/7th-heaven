@@ -34,7 +34,7 @@ const siteStructure = [
         name: "Home Page",
         sections: ["Cinematic Hero Hub", "Proximity Notifications", "Next Show Banner", "Upcoming Shows Grid", "Cruise Promo Banner", "Tour Map", "Latest Release", "Music Player", "Merch Quick Shop", "Photo Gallery", "Video Section", "Behind the Scenes"],
         features: ["Dynamic Header Intersection", "Local Storage Opt-in tracking", "Live Stream Detection", "Supabase Real-Time Feed", "E2E Verified ⭐"],
-        color: "text-purple-400",
+        color: " text-[var(--color-accent)]",
         border: "border-purple-500/30",
         bg: "bg-purple-500/5",
       },
@@ -179,7 +179,7 @@ const siteStructure = [
         name: "Show Page",
         sections: ["Show Hero", "RSVP Controls", "Attendee List", "Invite Challenge", "QR Share Code", "Fan Who's Going", "Venue Directions", "Live Feed Banner (if active)"],
         features: ["Auto-RSVP via SMS Deep Link (?rsvp=going)", "Live Attendance Count in SMS Blast", "Twilio Webhook Reply Handling", "Supabase show_attendance", "Dynamic QR Generation", "Anonymous RSVP Toggle", "Share via Text/Copy Link"],
-        color: "text-purple-400",
+        color: " text-[var(--color-accent)]",
         border: "border-purple-500/30",
         bg: "bg-purple-500/5",
       },
@@ -503,7 +503,7 @@ export default function SitemapPage() {
         text: 'text-purple-300', border: 'border-purple-500/20', activeBorder: 'border-purple-500', bg: 'bg-purple-600/5', activeBg: 'bg-purple-600/10', glow: 'shadow-[0_0_15px_rgba(147, 51, 234,0.15)]', icon: '📧'
       };
       case 'db': return {
-        text: 'text-emerald-400', border: 'border-emerald-500/20', activeBorder: 'border-emerald-500', bg: 'bg-emerald-500/5', activeBg: 'bg-emerald-500/10', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.15)]', icon: '💾'
+        text: 'text-emerald-400', border: ' border-[var(--color-accent)]/30', activeBorder: 'border-emerald-500', bg: 'bg-emerald-500/5', activeBg: 'bg-emerald-500/10', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.15)]', icon: '💾'
       };
       default: return {
         text: 'text-white', border: 'border-white/10', activeBorder: 'border-white', bg: 'bg-white/5', activeBg: 'bg-white/10', glow: 'shadow-[0_0_15px_rgba(255,255,255,0.1)]', icon: '📄'
@@ -520,7 +520,7 @@ export default function SitemapPage() {
       <div className="max-w-7xl mx-auto relative z-10">
         <header className="mb-16 text-center">
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-4">
-            <span className="text-[var(--color-accent)]">Site</span> Map
+            <span className=" text-[var(--color-accent)]">Site</span> Map
           </h1>
           <p className="text-white/40 uppercase tracking-[0.2em] text-xs md:text-sm max-w-2xl mx-auto">
             A complete architectural overview of the 7th Heaven digital ecosystem.
@@ -532,7 +532,7 @@ export default function SitemapPage() {
             >
               <span>📊</span> Open Interactive Flowchart Sitemap ↗
             </Link>
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <span>⭐</span> E2E Testing Verified: All Sign-up Flows
             </span>
           </div>
@@ -542,21 +542,19 @@ export default function SitemapPage() {
         <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-20">
           <button
             onClick={() => setActiveView('flow')}
-            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${
-              activeView === 'flow'
-                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
-                : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
-            }`}
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${activeView === 'flow'
+              ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10  text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
+              : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
+              }`}
           >
             🗺️ Ecosystem Flow Map
           </button>
           <button
             onClick={() => setActiveView('directory')}
-            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${
-              activeView === 'directory'
-                ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
-                : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
-            }`}
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${activeView === 'directory'
+              ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10  text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
+              : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
+              }`}
           >
             📦 Directory Listing
           </button>
@@ -577,7 +575,8 @@ export default function SitemapPage() {
 
         {activeView === 'flow' ? (
           <div className="relative z-10 w-full overflow-x-auto pb-6">
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+              __html: `
               @keyframes linePulse {
                 to {
                   stroke-dashoffset: -20;
@@ -587,7 +586,7 @@ export default function SitemapPage() {
                 animation: linePulse 1.2s linear infinite;
               }
             `}} />
-            
+
             <div className="min-w-[1240px] relative">
               {/* Column Headings */}
               <div className="grid grid-cols-5 gap-10 px-10 mb-8 select-none">
@@ -672,13 +671,12 @@ export default function SitemapPage() {
                         width: colWidth,
                         height: 48,
                       }}
-                      className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all duration-300 flex flex-col justify-center select-none ${
-                        isHovered
-                          ? `scale-[1.05] z-30 ${style.activeBorder} ${style.activeBg} ${style.glow}`
-                          : isDimmed
-                            ? 'opacity-20 grayscale pointer-events-none'
-                            : `z-20 ${style.border} ${style.bg} hover:border-white/20`
-                      }`}
+                      className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all duration-300 flex flex-col justify-center select-none ${isHovered
+                        ? `scale-[1.05] z-30 ${style.activeBorder} ${style.activeBg} ${style.glow}`
+                        : isDimmed
+                          ? 'opacity-20 grayscale pointer-events-none'
+                          : `z-20 ${style.border} ${style.bg} hover:border-white/20`
+                        }`}
                       onMouseEnter={() => setHoveredNodeId(node.id)}
                       onMouseLeave={() => setHoveredNodeId(null)}
                     >
@@ -718,74 +716,74 @@ export default function SitemapPage() {
           </div>
         ) : (
           <div className="space-y-16">
-          {siteStructure.map((category, idx) => (
-            <section key={idx} className="relative">
-              <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-8 border-b border-white/10 pb-4">
-                {category.title}
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {category.routes.map((route, rIdx) => (
-                  <Link
-                    key={rIdx}
-                    href={route.path.includes('[') ? '#' : (route.path !== "#" ? route.path : "/")}
-                    className={`group relative flex flex-col p-6  border ${route.border} ${route.bg} backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden`}
-                  >
-                    {/* Hover Glow Effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+            {siteStructure.map((category, idx) => (
+              <section key={idx} className="relative">
+                <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-8 border-b border-white/10 pb-4">
+                  {category.title}
+                </h2>
 
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className={`text-lg font-black tracking-wide uppercase ${route.color}`}>
-                        {route.name}
-                      </h3>
-                      <div className="text-xs py-1 px-2 rounded bg-white/5 text-white/50 font-mono">
-                        {route.path}
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {category.routes.map((route, rIdx) => (
+                    <Link
+                      key={rIdx}
+                      href={route.path.includes('[') ? '#' : (route.path !== "#" ? route.path : "/")}
+                      className={`group relative flex flex-col p-6  border ${route.border} ${route.bg} backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden`}
+                    >
+                      {/* Hover Glow Effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
 
-                    <div className="flex-1 mt-2 space-y-6">
-                      {/* Sections Block */}
-                      <div>
-                        <p className="text-xs uppercase tracking-widest text-white/30 mb-3 font-semibold">
-                          Core Sections
-                        </p>
-                        <ul className="space-y-3">
-                          {route.sections.map((section, sIdx) => (
-                            <li key={sIdx} className="flex items-start gap-3">
-                              <span className="mt-1 w-1.5 h-1.5 rounded-full bg-white/20 shrink-0" />
-                              <span className="text-sm text-white/70 leading-snug font-medium">
-                                {section}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className={`text-lg font-black tracking-wide uppercase ${route.color}`}>
+                          {route.name}
+                        </h3>
+                        <div className="text-xs py-1 px-2 rounded bg-white/5 text-white/50 font-mono">
+                          {route.path}
+                        </div>
                       </div>
 
-                      {/* Features Block */}
-                      {route.features && route.features.length > 0 && (
-                        <div className="pt-4 border-t border-white/10">
-                          <p className="text-xs uppercase tracking-widest text-white/40 mb-3 font-semibold">
-                            Technical Features
+                      <div className="flex-1 mt-2 space-y-6">
+                        {/* Sections Block */}
+                        <div>
+                          <p className="text-xs uppercase tracking-widest text-white/30 mb-3 font-semibold">
+                            Core Sections
                           </p>
-                          <ul className="space-y-2">
-                            {route.features.map((feature, fIdx) => (
-                              <li key={fIdx} className="flex items-start gap-2">
-                                <span className={`mt-[4px] w-2 h-2 shrink-0 border border-current ${route.color} rotate-45`}></span>
-                                <span className="text-xs text-white/50 font-mono leading-tight">
-                                  {feature}
+                          <ul className="space-y-3">
+                            {route.sections.map((section, sIdx) => (
+                              <li key={sIdx} className="flex items-start gap-3">
+                                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-white/20 shrink-0" />
+                                <span className="text-sm text-white/70 leading-snug font-medium">
+                                  {section}
                                 </span>
                               </li>
                             ))}
                           </ul>
                         </div>
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+
+                        {/* Features Block */}
+                        {route.features && route.features.length > 0 && (
+                          <div className="pt-4 border-t border-white/10">
+                            <p className="text-xs uppercase tracking-widest text-white/40 mb-3 font-semibold">
+                              Technical Features
+                            </p>
+                            <ul className="space-y-2">
+                              {route.features.map((feature, fIdx) => (
+                                <li key={fIdx} className="flex items-start gap-2">
+                                  <span className={`mt-[4px] w-2 h-2 shrink-0 border border-current ${route.color} rotate-45`}></span>
+                                  <span className="text-xs text-white/50 font-mono leading-tight">
+                                    {feature}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
         )}
 
         {/* Tech Stack Section */}
@@ -864,7 +862,7 @@ export default function SitemapPage() {
                 message: `🎸 7th Heaven is playing in your area!\n\n📍 [Venue] — [City, State]\n📅 [Date]\n🚪 Doors: [Doors Time] | Show: [Show Time]\n✅ All Ages\n🎟️ Cover: $5\n🔥 23 fans already going!\n\nRSVP & see who's going:\nhttps://7thheavenband.com/shows/[id]\n\nReply 1=GOING 2=DIRECTIONS\n\nReply STOP to unsubscribe.`,
                 detail: "Manually triggered by admin from the SMS Blast panel. Includes a direct link to the show RSVP page, live attendance count from show_attendance, and reply-based RSVP options. Twilio webhook at /api/sms/webhook handles fan replies.",
                 audience: "Nearby subscribers (geo-filtered)",
-                color: "text-purple-400",
+                color: " text-[var(--color-accent)]",
                 border: "border-purple-500/30",
                 icon: "📡",
               },
@@ -914,7 +912,7 @@ export default function SitemapPage() {
                 message: `🔥 You're going to [Venue]! See who else is going & RSVP:\nhttps://7thheavenband.com/shows/[id]?rsvp=going`,
                 detail: "Auto-reply when a fan texts 1 or GOING. Looks up the next upcoming show from Supabase and sends back the show page link with ?rsvp=going parameter for automatic RSVP on page load.",
                 audience: "Replying fan (auto)",
-                color: "text-purple-400",
+                color: " text-[var(--color-accent)]",
                 border: "border-purple-500/30",
                 icon: "🔄",
               },
@@ -937,8 +935,8 @@ export default function SitemapPage() {
                       <h3 className={`text-sm font-black uppercase tracking-wide ${sms.color}`}>{sms.trigger}</h3>
                       <span className="text-xs text-white/20 font-mono">{sms.route}</span>
                     </div>
-                </div>
-                  <span className="shrink-0 text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Live</span>
+                  </div>
+                  <span className="shrink-0 text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30">Live</span>
                 </div>
                 <div className="bg-black/30 border border-white/5 rounded-lg p-4">
                   <p className="text-sm text-white/70 font-mono leading-relaxed whitespace-pre-line">{sms.message}</p>
@@ -966,7 +964,7 @@ export default function SitemapPage() {
           <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-3 border-b border-white/10 pb-4">
             📧 Email Templates
           </h2>
-          <p className="text-white/30 text-xs mb-8">All transactional emails sent via Resend — 18 templates total. <a href="/admin/emails" className="text-[var(--color-accent)] hover:text-white transition-colors">Preview all →</a></p>
+          <p className="text-white/30 text-xs mb-8">All transactional emails sent via Resend — 18 templates total. <Link href="/admin/emails" className=" text-[var(--color-accent)] hover:text-white transition-colors">Preview all →</Link></p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { name: "Booking Confirmation", desc: "Sent to the event planner after submitting a booking request.", category: "Booking", status: "live", icon: "📋" },
@@ -994,14 +992,13 @@ export default function SitemapPage() {
                     <span className="text-lg">{email.icon}</span>
                     <h3 className="text-sm font-bold text-white">{email.name}</h3>
                   </div>
-                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
-                    email.status === 'live'
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
-                  }`}>{email.status}</span>
+                  <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${email.status === 'live'
+                    ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30'
+                    : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
+                    }`}>{email.status}</span>
                 </div>
                 <p className="text-sm text-white/40 leading-relaxed mb-2">{email.desc}</p>
-                <span className="text-xs text-[var(--color-accent)]/60 font-bold uppercase tracking-widest">{email.category}</span>
+                <span className="text-xs  text-[var(--color-accent)]/60 font-bold uppercase tracking-widest">{email.category}</span>
               </div>
             ))}
           </div>
@@ -1056,7 +1053,7 @@ export default function SitemapPage() {
                 title: "Hook Up Google Analytics",
                 desc: "Create a Google Analytics property and add the tracking ID to your production .env as NEXT_PUBLIC_GA_ID to start tracking traffic.",
                 icon: "📊",
-                color: "text-purple-400",
+                color: " text-[var(--color-accent)]",
                 border: "border-purple-500/30",
               },
               {
@@ -1091,8 +1088,8 @@ export default function SitemapPage() {
           <p className="text-white/30 text-xs mb-8">All server-side API endpoints — 40+ routes across 15 domains.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {[
-              { route: "/api/announcement", method: "GET / POST", desc: "Global alert banner read/write with auto-expire", color: "text-purple-400" },
-              { route: "/api/settings", method: "GET", desc: "Sanity site settings (hero, bio, stats)", color: "text-purple-400" },
+              { route: "/api/announcement", method: "GET / POST", desc: "Global alert banner read/write with auto-expire", color: " text-[var(--color-accent)]" },
+              { route: "/api/settings", method: "GET", desc: "Sanity site settings (hero, bio, stats)", color: " text-[var(--color-accent)]" },
               { route: "/api/booking", method: "POST", desc: "Submit booking request + email notifications", color: "text-fuchsia-400" },
               { route: "/api/admin/fans", method: "GET", desc: "Fan analytics — signups, tiers, trends", color: "text-red-400" },
               { route: "/api/admin/newsletter", method: "POST", desc: "Blast branded email to all fans", color: "text-red-400" },
@@ -1192,11 +1189,10 @@ export default function SitemapPage() {
             ].map((m, i) => (
               <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <span className="text-xs font-mono font-bold text-white/20 w-4 text-right">{i + 1}</span>
-                <span className="text-sm font-mono font-bold text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
+                <span className="text-sm font-mono font-bold  text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
                 <span className="text-xs text-white/50 flex-1">{m.desc}</span>
-                <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
-                  m.status === 'applied' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
-                }`}>{m.status}</span>
+                <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${m.status === 'applied' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-purple-600/10 text-purple-300 border border-purple-500/20'
+                  }`}>{m.status}</span>
               </div>
             ))}
           </div>
@@ -1241,12 +1237,12 @@ export default function SitemapPage() {
               {/* Cruise */}
               <TreeNode path="/cruise" label="Caribbean Cruise" color="text-cyan-400">
                 <TreeNode path="/cruise#signup" label="Cruise Interest Signup" color="text-cyan-400/60" />
-                <TreeNode path="/cruise/dashboard" label="Cruise Dashboard" color="text-[var(--color-accent)]">
+                <TreeNode path="/cruise/dashboard" label="Cruise Dashboard" color=" text-[var(--color-accent)]">
                   <TreeNode path="/cruise/dashboard#account" label="Account Setup (via invite)" color="text-emerald-400/60" />
                 </TreeNode>
                 <TreeNode path="/cruise/cancel" label="Cruise Cancellation" color="text-cyan-400/60" />
               </TreeNode>
-              <TreeNode path="/shows/[id]" label="Show Page" color="text-purple-400" />
+              <TreeNode path="/shows/[id]" label="Show Page" color=" text-[var(--color-accent)]" />
               <TreeNode path="/demo" label="Feature Demos" color="text-indigo-400">
                 <TreeNode path="/demo/proximity" label="Proximity Demo" color="text-indigo-400/60" />
               </TreeNode>
@@ -1270,14 +1266,14 @@ export default function SitemapPage() {
               <div className="text-white/50 text-xs uppercase tracking-widest mb-2">⚙️ Admin</div>
               <div className="ml-6 border-l border-white/10 pl-4 space-y-0.5">
                 <TreeNode path="/admin" label="Admin Dashboard" color="text-red-400">
-                  <TreeNode path="/admin?tab=band" label="🎸 Band & Site Tab" color="text-purple-400/60" />
+                  <TreeNode path="/admin?tab=band" label="🎸 Band & Site Tab" color=" text-[var(--color-accent)]/60" />
                   <TreeNode path="/admin?tab=cruise" label="🚢 Cruise Tab" color="text-cyan-400/60" />
                   <TreeNode path="/admin/emails" label="Email Template Previews" color="text-red-400/60" />
                   <TreeNode path="/admin/features" label="Feature Flags" color="text-red-400/60" />
                   <TreeNode path="/admin/feed" label="Feed Moderation" color="text-red-400/60" />
                 </TreeNode>
                 <TreeNode path="/studio" label="Sanity Studio (CMS)" color="text-red-400" />
-                <TreeNode path="/sitemap" label="Site Map (This Page)" color="text-purple-400" />
+                <TreeNode path="/sitemap" label="Site Map (This Page)" color=" text-[var(--color-accent)]" />
               </div>
             </div>
 
@@ -1333,7 +1329,7 @@ export default function SitemapPage() {
         {/* ── VISUAL PAGE TREE ── */}
         <section className="mt-16 pt-14 border-t border-white/[0.06]">
           <div className="mb-10">
-            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-400 border border-purple-500/30 px-3 py-1 mb-4">Visual Hierarchy</span>
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)] border border-purple-500/30 px-3 py-1 mb-4">Visual Hierarchy</span>
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">Page Tree</h2>
             <p className="text-white/30 text-sm">How every page connects — scroll horizontally to see the full tree.</p>
           </div>
@@ -1359,12 +1355,12 @@ export default function SitemapPage() {
 
               {/* Level 1 */}
               <div className="grid grid-cols-6 gap-3">
-                <SiteNode href="/#tour"   label="TOUR"    sub="/#tour"    color="white" desc="Interactive map, search, upcoming dates" />
-                <SiteNode href="/bio"    label="BIO"     sub="/bio"     color="white" desc="Band history, member profiles" />
-                <SiteNode href="/video"  label="VIDEO"   sub="/video"   color="white" desc="YouTube gallery, inline player" />
-                <SiteNode href="/cruise" label="CRUISE"  sub="/cruise"  color="white" desc="Interest signup, itinerary, FAQ" />
-                <SiteNode href="/fans"   label="FAN HUB" sub="/fans"    color="purple" desc="Full dashboard, SMS, prizes, referrals" />
-                <SiteNode href="/live"   label="LIVE"    sub="/live"    color="white" desc="Active broadcast gallery, WebRTC" />
+                <SiteNode href="/#tour" label="TOUR" sub="/#tour" color="white" desc="Interactive map, search, upcoming dates" />
+                <SiteNode href="/bio" label="BIO" sub="/bio" color="white" desc="Band history, member profiles" />
+                <SiteNode href="/video" label="VIDEO" sub="/video" color="white" desc="YouTube gallery, inline player" />
+                <SiteNode href="/cruise" label="CRUISE" sub="/cruise" color="white" desc="Interest signup, itinerary, FAQ" />
+                <SiteNode href="/fans" label="FAN HUB" sub="/fans" color="purple" desc="Full dashboard, SMS, prizes, referrals" />
+                <SiteNode href="/live" label="LIVE" sub="/live" color="white" desc="Active broadcast gallery, WebRTC" />
               </div>
 
               {/* Level 2 */}
@@ -1497,7 +1493,7 @@ export default function SitemapPage() {
 
           <div className="overflow-x-auto pb-4">
             <div className="min-w-[920px]">
-              
+
               {/* Root Trigger */}
               <div className="flex justify-center">
                 <SiteNode href="#" label="USER & ADMIN ACTIONS" sub="System Triggers" color="white" wide />
@@ -1582,7 +1578,7 @@ export default function SitemapPage() {
                 title: "Unified Toggle UI",
                 icon: "🔀",
                 desc: "Cruisers see a pill-shaped toggle on /fans: [ Fan Dashboard ] | [ 🚢 Cruise Hub ]. Clicking toggles between the full fan experience and the embedded cruise dashboard.",
-                color: "text-purple-400",
+                color: " text-[var(--color-accent)]",
                 border: "border-purple-500/30",
                 bg: "bg-purple-500/5",
               },
@@ -1606,7 +1602,7 @@ export default function SitemapPage() {
                 title: "Cruise → Fan Promo",
                 icon: "🎸",
                 desc: "Cruisers on /cruise/dashboard see a purple promo banner: 'Unlock Your Fan Dashboard' linking to /fans for show alerts, raffles, picks, and referrals.",
-                color: "text-purple-400",
+                color: " text-[var(--color-accent)]",
                 border: "border-purple-500/30",
                 bg: "bg-purple-500/5",
               },
@@ -1633,7 +1629,7 @@ export default function SitemapPage() {
         {/* ── COMPONENT REGISTRY ── */}
         <section className="mt-16 pt-14 border-t border-white/[0.06]">
           <div className="mb-10">
-            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-emerald-400 border border-emerald-500/30 px-3 py-1 mb-4">Shared Code</span>
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 mb-4">Shared Code</span>
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">Component Registry</h2>
             <p className="text-white/30 text-sm">Reusable React components shared across multiple pages.</p>
           </div>
@@ -1642,7 +1638,7 @@ export default function SitemapPage() {
             {[
               { name: "Header", file: "Header.tsx", used: "All Pages", desc: "Global nav bar with auth state, live detection, mobile menu", color: "text-white" },
               { name: "Footer", file: "Footer.tsx", used: "All Pages", desc: "Site-wide footer with links, social, legal", color: "text-white" },
-              { name: "LoginModal", file: "LoginModal.tsx", used: "Auth", desc: "Magic link + social OAuth modal with role routing", color: "text-purple-400" },
+              { name: "LoginModal", file: "LoginModal.tsx", used: "Auth", desc: "Magic link + social OAuth modal with role routing", color: " text-[var(--color-accent)]" },
               { name: "CruiseChat", file: "CruiseChat.tsx", used: "/cruise/dashboard, /fans", desc: "Real-time passenger lounge with Supabase subscriptions", color: "text-cyan-400" },
               { name: "CruiseWidgets", file: "CruiseWidgets.tsx", used: "/cruise/dashboard, /fans", desc: "EmbarkationCountdown, ImportantLinksWidget, BookingManager", color: "text-cyan-400" },
               { name: "ProximityPanel", file: "ProximityPanel.tsx", used: "/fans", desc: "Proximity show alerts with GPS opt-in and RSVP tracking", color: "text-indigo-400" },
@@ -1659,7 +1655,7 @@ export default function SitemapPage() {
               { name: "GoogleAnalytics", file: "GoogleAnalytics.tsx", used: "All Pages", desc: "GA4 script injection with consent gating", color: "text-gray-400" },
               { name: "VideoSection", file: "VideoSection.tsx", used: "/, /video", desc: "YouTube video grid with custom inline player", color: "text-pink-400" },
               { name: "SMSSignup", file: "SMSSignup.tsx", used: "/fans", desc: "SMS opt-in form for show proximity alerts", color: "text-purple-300" },
-              { name: "RoleBadge", file: "RoleBadge.tsx", used: "Multiple", desc: "Color-coded role indicator (Fan, Crew, Admin, Planner)", color: "text-purple-400" },
+              { name: "RoleBadge", file: "RoleBadge.tsx", used: "Multiple", desc: "Color-coded role indicator (Fan, Crew, Admin, Planner)", color: " text-[var(--color-accent)]" },
             ].map((comp, i) => (
               <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
@@ -1706,9 +1702,8 @@ export default function SitemapPage() {
               { key: "MUX_TOKEN_SECRET", service: "Mux", desc: "Mux video API secret", required: false },
             ].map((env, i) => (
               <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-                <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${
-                  env.required ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-white/5 text-white/30 border border-white/10'
-                }`}>{env.required ? 'Required' : 'Optional'}</span>
+                <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${env.required ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-white/5 text-white/30 border border-white/10'
+                  }`}>{env.required ? 'Required' : 'Optional'}</span>
                 <div className="flex-1 min-w-0">
                   <span className="text-xs font-mono font-bold text-purple-300 block truncate">{env.key}</span>
                   <span className="text-xs text-white/40">{env.desc}</span>
@@ -1722,7 +1717,7 @@ export default function SitemapPage() {
         {/* ── MONTHLY RUNNING COSTS ── */}
         <section className="mt-16 pt-14 border-t border-white/[0.06]">
           <div className="mb-10">
-            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-emerald-400 border border-emerald-500/30 px-3 py-1 mb-4">💰 Operations</span>
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-[var(--color-accent)] border border-emerald-500/30 px-3 py-1 mb-4">💰 Operations</span>
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">Monthly Running Costs</h2>
             <p className="text-white/30 text-sm">Estimated monthly costs to keep the 7th Heaven platform live. Prices are as of May 2026.</p>
           </div>
@@ -1750,7 +1745,7 @@ export default function SitemapPage() {
                 link: "https://supabase.com/pricing",
                 icon: "⚡",
                 color: "text-emerald-400",
-                border: "border-emerald-500/20",
+                border: " border-[var(--color-accent)]/30",
                 required: true,
               },
               {
@@ -1876,10 +1871,10 @@ export default function SitemapPage() {
           </div>
 
           {/* Total Estimate */}
-          <div className="mt-8 p-6 border border-emerald-500/20 bg-emerald-500/5">
+          <div className="mt-8 p-6 border  border-[var(--color-accent)]/30 bg-emerald-500/5">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h3 className="text-lg font-black uppercase tracking-wide text-emerald-400 mb-1">Estimated Monthly Total</h3>
+                <h3 className="text-lg font-black uppercase tracking-wide text-[var(--color-accent)] mb-1">Estimated Monthly Total</h3>
                 <p className="text-sm text-white/40">Minimum cost to keep the full platform running with all features active.</p>
               </div>
               <div className="text-right">
@@ -1899,7 +1894,7 @@ export default function SitemapPage() {
                 <p className="text-white/25 mt-1">Add Supabase Pro ($25), Resend emails, and ~1,000 SMS texts/mo ($9).</p>
               </div>
               <div>
-                <span className="text-purple-400 font-bold">Full Scale:</span>
+                <span className=" text-[var(--color-accent)] font-bold">Full Scale:</span>
                 <span className="text-white/50 ml-2">~$157/mo</span>
                 <p className="text-white/25 mt-1">All Pro tiers active including LiveKit Starter for frequent live streams.</p>
               </div>
@@ -1941,13 +1936,13 @@ function SiteNode({
   wide?: boolean; small?: boolean;
 }) {
   const colorMap: Record<string, string> = {
-    white:  "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
+    white: "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
     purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
-    red:    "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
-    amber:  "border-purple-500/30 bg-purple-600/5 hover:border-purple-400/50 hover:bg-purple-600/10",
-    cyan:   "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
-    teal:   "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
-    blue:   "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
+    red: "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
+    amber: "border-purple-500/30 bg-purple-600/5 hover:border-purple-400/50 hover:bg-purple-600/10",
+    cyan: "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
+    teal: "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
+    blue: "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
   };
   const dotMap: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-purple-600", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
   const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-purple-200", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };

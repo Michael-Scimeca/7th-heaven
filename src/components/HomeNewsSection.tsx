@@ -41,11 +41,11 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
       <div className="site-container">
         {/* Section Header */}
         <div className="mb-12 text-left">
-          <span className="text-xs font-mono font-extrabold uppercase tracking-[0.2em] text-[var(--color-accent)] block mb-2">
+          <span className="text-xs font-mono font-extrabold uppercase tracking-[0.2em]  text-[var(--color-accent)] block mb-2">
             Official Bulletins & Updates
           </span>
           <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-[var(--text-color)] font-[family-name:var(--font-rockstar)]">
-            Latest Band <span className="text-[var(--color-accent)]">News</span>
+            Latest Band <span className=" text-[var(--color-accent)]">News</span>
           </h2>
         </div>
 
@@ -55,14 +55,14 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           {featured && (
             <div className="lg:col-span-7 bg-[var(--bg-color)] border border-[var(--border-color)] p-8 md:p-10 relative overflow-hidden group hover:border-[var(--color-accent)] transition-all">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-                <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-md">
+                <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-md">
                   ⭐ Featured Announcement
                 </span>
                 <span className="text-xs font-mono text-[var(--muted-text)] font-bold">
                   {featured.date}
                 </span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-color)] leading-tight mb-4 group-hover:text-[var(--color-accent)] transition-colors">
+              <h3 className="text-2xl md:text-3xl font-bold text-[var(--text-color)] leading-tight mb-4 group-hover: text-[var(--color-accent)] transition-colors">
                 {featured.title}
               </h3>
               <p className="text-[var(--muted-text)] text-sm md:text-base leading-relaxed font-normal">
@@ -80,14 +80,14 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                 className="bg-[var(--bg-color)] border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md group"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-accent)]">
+                  <span className="text-[10px] font-bold uppercase tracking-widest  text-[var(--color-accent)]">
                     {item.date}
                   </span>
-                  <span className="text-[10px] font-bold text-[var(--muted-text)] group-hover:text-[var(--color-accent)] transition-colors">
+                  <span className="text-[10px] font-bold text-[var(--muted-text)] group-hover: text-[var(--color-accent)] transition-colors">
                     Read →
                   </span>
                 </div>
-                <h4 className="font-bold text-base text-[var(--text-color)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-1">
+                <h4 className="font-bold text-base text-[var(--text-color)] group-hover: text-[var(--color-accent)] transition-colors line-clamp-1">
                   {item.title}
                 </h4>
                 <p className="text-[var(--muted-text)] text-xs leading-relaxed line-clamp-2 mt-1">
@@ -110,7 +110,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <span className="text-xs font-mono font-bold text-[var(--color-accent)] uppercase tracking-wider">
+              <span className="text-xs font-mono font-bold  text-[var(--color-accent)] uppercase tracking-wider">
                 {selectedArticle.date}
               </span>
               <button

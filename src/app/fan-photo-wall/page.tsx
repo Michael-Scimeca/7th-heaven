@@ -31,20 +31,18 @@ export default function FansPage() {
   const [photos, setPhotos] = useState<FanPhoto[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<FanPhoto | null>(null);
   const [flaggingId, setFlaggingId] = useState<string | null>(null);
-  const [showUpload, setShowUpload] = useState(() => {
-    if (typeof window !== "undefined") {
-      const search = window.location.search;
-      return search.includes("mockUpload=true") || search.includes("mockScanning=true") || search.includes("mockSuccess=true");
-    }
-    return false;
-  });
+  const [showUpload, setShowUpload] = useState(false);
+  const [mockMode, setMockMode] = useState(false);
   const [moderatingId, setModeratingId] = useState<string | null>(null);
 
-  const effectivelyLoggedIn = isLoggedIn || (typeof window !== "undefined" && (
-    window.location.search.includes("mockUpload=true") ||
-    window.location.search.includes("mockScanning=true") ||
-    window.location.search.includes("mockSuccess=true")
-  ));
+  useEffect(() => {
+    const search = window.location.search;
+    const isMock = search.includes('mockUpload=true') || search.includes('mockScanning=true') || search.includes('mockSuccess=true');
+    setShowUpload(isMock);
+    setMockMode(isMock);
+  }, []);
+
+  const effectivelyLoggedIn = isLoggedIn || mockMode;
 
   const isModerator = isLoggedIn && (member?.role === "admin" || member?.role === "crew");
 
@@ -182,7 +180,7 @@ export default function FansPage() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6">
             <div>
-              <div className="inline-flex items-center gap-2 text-purple-400 text-xs font-black uppercase tracking-[0.25em] mb-6">
+              <div className="inline-flex items-center gap-2  text-[var(--color-accent)] text-xs font-black uppercase tracking-[0.25em] mb-6">
                 <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
                 COMMUNITY GALLERY & FAN MOMENTS
               </div>
@@ -266,7 +264,7 @@ export default function FansPage() {
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-[var(--color-accent)] text-xs px-3 py-1 font-mono rounded-full font-black">
+              <span className="ml-auto bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-xs px-3 py-1 font-mono rounded-full font-black">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -305,7 +303,7 @@ export default function FansPage() {
                     </div>
                     <div className="p-4 flex flex-col gap-1.5 text-black">
                       <div className="flex items-center gap-2 text-sm font-bold truncate text-black">
-                        <span className="text-[var(--color-accent)]">@</span>
+                        <span className=" text-[var(--color-accent)]">@</span>
                         {photo.name}
                       </div>
                       {photo.venue && (
@@ -350,8 +348,8 @@ export default function FansPage() {
               onClick={() => setSelectedPhoto(approvedPhotos[0])}
             >
               {approvedPhotos[0].type === "video" ||
-              approvedPhotos[0].src.endsWith(".mp4") ||
-              approvedPhotos[0].src.endsWith(".mov") ? (
+                approvedPhotos[0].src.endsWith(".mp4") ||
+                approvedPhotos[0].src.endsWith(".mov") ? (
                 <video
                   src={approvedPhotos[0].src}
                   className="w-full h-full object-cover"
@@ -369,7 +367,7 @@ export default function FansPage() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
-                <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 block">
+                <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-2 block">
                   Featured Moment
                 </span>
                 <p className="text-2xl md:text-3xl font-black text-white">
@@ -407,15 +405,15 @@ export default function FansPage() {
                 >
                   <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-black/5 bg-black/[0.02]">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center font-bold text-xs text-[var(--color-accent)] tracking-widest">
+                      <div className="w-8 h-8 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center font-bold text-xs  text-[var(--color-accent)] tracking-widest">
                         {photo.name
                           ? photo.name
-                              .split(" ")
-                              .filter(Boolean)
-                              .map((n) => n[0])
-                              .join("")
-                              .substring(0, 2)
-                              .toUpperCase()
+                            .split(" ")
+                            .filter(Boolean)
+                            .map((n) => n[0])
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase()
                           : "FP"}
                       </div>
                       <div>
@@ -423,7 +421,7 @@ export default function FansPage() {
                           {photo.name}
                         </p>
                         {(photo.venue || photo.city) && (
-                          <p className="text-[var(--color-accent)] text-[var(--font-size-2xs)] uppercase tracking-widest font-extrabold mt-0.5">
+                          <p className=" text-[var(--color-accent)] text-[var(--font-size-2xs)] uppercase tracking-widest font-extrabold mt-0.5">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -523,8 +521,8 @@ export default function FansPage() {
                 ✕
               </button>
               {selectedPhoto.type === "video" ||
-              selectedPhoto.src.endsWith(".mp4") ||
-              selectedPhoto.src.endsWith(".mov") ? (
+                selectedPhoto.src.endsWith(".mp4") ||
+                selectedPhoto.src.endsWith(".mov") ? (
                 <video
                   src={selectedPhoto.src}
                   className="w-full max-h-[70vh] object-contain"

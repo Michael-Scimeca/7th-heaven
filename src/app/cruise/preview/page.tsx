@@ -20,11 +20,10 @@ function VersionA() {
       <div className="flex gap-2">
         {guests.map((guest, i) => (
           <button key={i} type="button" onClick={() => setActiveTab(i)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              activeTab === i
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${activeTab === i
                 ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                 : "bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/60"
-            }`}>
+              }`}>
             <span className="w-5 h-5 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
               {i === 0 ? "Y" : guest.name ? guest.name[0].toUpperCase() : (i + 1)}
             </span>
@@ -56,11 +55,10 @@ function VersionB() {
         {labels.map((label, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setStep(i)}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]" 
-                : step > i ? "bg-[var(--color-accent)]/30 text-white" 
-                : "bg-white/5 border border-white/10 text-white/30"
-              }`}>{step > i ? "✓" : i + 1}</div>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
+                  : step > i ? "bg-[var(--color-accent)]/30 text-white"
+                    : "bg-white/5 border border-white/10 text-white/30"
+                }`}>{step > i ? "✓" : i + 1}</div>
               <span className={`text-[var(--font-size-2xs)] uppercase tracking-widest font-bold ${step === i ? "text-white" : "text-white/20"}`}>{label}</span>
             </div>
             {i < labels.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
@@ -132,7 +130,7 @@ function VersionD() {
           <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
         </div>
       ))}
-      <button type="button" className="w-full py-2.5 text-xs font-bold uppercase tracking-widest text-[var(--color-accent)]/60 hover:text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
+      <button type="button" className="w-full py-2.5 text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
     </div>
   );
 }
@@ -149,9 +147,8 @@ function VersionE() {
       {guests.map((g, i) => (
         <div key={i} className="overflow-hidden border border-white/5">
           <button type="button" onClick={() => setOpen(open === i ? -1 : i)}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all ${
-              i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
-            }`}>
+            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
+              }`}>
             <span className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: COLORS[i] }}>
               {g.name ? g.name[0].toUpperCase() : (i + 1)}
             </span>
@@ -159,7 +156,7 @@ function VersionE() {
               <p className="text-xs font-bold uppercase tracking-widest text-white/30">{labels[i]}</p>
               <p className="text-sm font-bold text-white">{g.name || "—"}</p>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${open === i ? "rotate-180" : ""}`}><polyline points="6 9 12 15 18 9"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${open === i ? "rotate-180" : ""}`}><polyline points="6 9 12 15 18 9" /></svg>
           </button>
           {open === i && (
             <div className="px-4 pb-4 pt-2 space-y-2.5 bg-white/[0.01]">
@@ -170,7 +167,7 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button type="button" className="w-full py-3 border border-dashed border-white/10 text-xs font-bold uppercase tracking-widest text-white/20 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button type="button" className="w-full py-3 border border-dashed border-white/10 text-xs font-bold uppercase tracking-widest text-white/20 hover: text-[var(--color-accent)] hover:border-[var(--color-accent)]/30 transition-colors cursor-pointer">+ Add a Guest</button>
     </div>
   );
 }
@@ -197,7 +194,7 @@ function VersionF() {
         </div>
       ))}
       <button type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
-        className="text-sm font-bold text-[var(--color-accent)]/60 hover:text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
+        className="text-sm font-bold  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] transition-colors cursor-pointer">+ Add another guest</button>
     </div>
   );
 }

@@ -12,7 +12,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-// GET — one-click unsubscribe from email link
+// GET — renders unsubscribe confirmation form (safe from prefetch / CSRF)
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -27,25 +27,7 @@ export async function GET(request: Request) {
 
     const decodedEmail = decodeURIComponent(email).toLowerCase().trim();
 
-    // 1. Upsert unsubscribed status in newsletter_subscribers so preference is persisted globally
-    await supabase
-      .from('newsletter_subscribers')
-      .upsert(
-        { email: decodedEmail, subscribed: false, unsubscribed_at: new Date().toISOString() },
-        { onConflict: 'email' }
-      );
-
-    // 2. Mark unsubscribed in cruise_signups if applicable
-    try {
-      await supabase
-        .from('cruise_signups')
-        .update({ unsubscribed: true })
-        .eq('email', decodedEmail);
-    } catch (_e) {
-      // Ignore if table/column does not exist
-    }
-
-    return new Response(unsubscribePage(decodedEmail, true), {
+    return new Response(unsubscribeFormPage(decodedEmail), {
       status: 200,
       headers: { 'Content-Type': 'text/html' },
     });
@@ -58,13 +40,28 @@ export async function GET(request: Request) {
   }
 }
 
-// POST — programmatic unsubscribe
+// POST — unsubscribe action (performs server side-effects)
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    let email: string | null = null;
+    const contentType = request.headers.get('content-type') || '';
+
+    if (contentType.includes('application/json')) {
+      const body = await request.json();
+      email = body.email;
+    } else if (contentType.includes('application/x-www-form-urlencoded') || contentType.includes('multipart/form-data')) {
+      const formData = await request.formData();
+      email = formData.get('email') as string;
+    }
 
     if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+      if (contentType.includes('application/json')) {
+        return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+      }
+      return new Response(unsubscribePage('Email is required.', false), {
+        status: 400,
+        headers: { 'Content-Type': 'text/html' },
+      });
     }
 
     const cleanEmail = email.toLowerCase().trim();
@@ -85,11 +82,55 @@ export async function POST(request: Request) {
       // Ignore
     }
 
-    return NextResponse.json({ success: true });
+    if (contentType.includes('application/json')) {
+      return NextResponse.json({ success: true });
+    }
+
+    return new Response(unsubscribePage(cleanEmail, true), {
+      status: 200,
+      headers: { 'Content-Type': 'text/html' },
+    });
   } catch (err: any) {
     console.error('Unsubscribe error:', err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    if (request.headers.get('content-type')?.includes('application/json')) {
+      return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+    return new Response(unsubscribePage('Server error. Please try again later.', false), {
+      status: 500,
+      headers: { 'Content-Type': 'text/html' },
+    });
   }
+}
+
+function unsubscribeFormPage(email: string): string {
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Unsubscribe — 7th Heaven</title>
+</head>
+<body style="margin:0;padding:0;background:#050508;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+  <div style="max-width:480px;margin:40px auto;padding:48px 32px;text-align:center;">
+    <p style="font-size:48px;margin:0 0 20px;">✉️</p>
+    <h1 style="margin:0 0 12px;color:#fff;font-size:24px;font-weight:900;">
+      Unsubscribe Confirmation
+    </h1>
+    <p style="margin:0 0 32px;color:rgba(255,255,255,0.5);font-size:15px;line-height:1.6;">
+      Are you sure you want to unsubscribe <strong style="color:#fff;">${email}</strong> from 7th Heaven newsletters?
+    </p>
+    <form action="/api/newsletter/unsubscribe" method="POST">
+      <input type="hidden" name="email" value="${email}">
+      <button type="submit" style="display:inline-block;background:#7c3aed;color:#fff;font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;padding:14px 36px;border-radius:10px;">
+        Confirm Unsubscribe
+      </button>
+    </form>
+    <p style="margin:32px 0 0;color:rgba(255,255,255,0.15);font-size:11px;">
+      © ${new Date().getFullYear()} 7th Heaven · Chicago, IL
+    </p>
+  </div>
+</body>
+</html>`;
 }
 
 // Branded unsubscribe confirmation page

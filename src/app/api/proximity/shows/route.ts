@@ -60,8 +60,6 @@ export async function GET(req: NextRequest) {
       if (coords) {
         userLat = coords.lat;
         userLng = coords.lng;
-        // Cache it back on the profile
-        await supabase.from("profiles").update({ latitude: userLat, longitude: userLng }).eq("id", userId);
       }
     }
 

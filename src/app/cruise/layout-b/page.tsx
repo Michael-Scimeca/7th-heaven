@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 export default function CruiseLayoutB() {
-  const [signupStatus, setSignupStatus] = useState<"idle"|"submitting"|"success">("idle");
+  const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [form, setForm] = useState({ name: "", email: "", guests: "2" });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,7 +38,7 @@ export default function CruiseLayoutB() {
               Free Signup — No Commitment
             </div>
             <h1 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              Set Sail<br/>With <span className="accent-gradient-text">7th Heaven</span>
+              Set Sail<br />With <span className="accent-gradient-text">7th Heaven</span>
             </h1>
             <p className="text-white/40 text-base mt-5 max-w-md leading-relaxed">
               7-night Caribbean cruise with live shows, island hopping, meet & greets, and the ultimate fan experience. The more people who sign up, the better the deal.
@@ -52,13 +52,13 @@ export default function CruiseLayoutB() {
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-3 max-w-md">
                 <div className="grid grid-cols-2 gap-3">
-                  <input type="text" required placeholder="Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
+                  <input type="text" required placeholder="Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
-                  <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
+                  <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
                 </div>
                 <div className="flex gap-3">
-                  <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
+                  <select value={form.guests} onChange={e => setForm(f => ({ ...f, guests: e.target.value }))}
                     className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm appearance-none cursor-pointer flex-1">
                     <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option>
                   </select>
@@ -133,7 +133,7 @@ export default function CruiseLayoutB() {
             <div key={step.n} className="relative text-center p-6 bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all group">
               {i < 3 && <div className="hidden md:block absolute top-1/2 -right-3 w-6 text-white/10 text-xl">→</div>}
               <span className="text-3xl block mb-3">{step.icon}</span>
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">Step {step.n}</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)]">Step {step.n}</span>
               <h3 className="text-lg font-bold text-white mt-1 mb-2">{step.title}</h3>
               <p className="text-sm text-white/35 leading-relaxed">{step.desc}</p>
             </div>

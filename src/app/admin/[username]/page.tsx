@@ -21,6 +21,7 @@ const AdminMap = dynamic(() => import('@/components/AdminMap'), {
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 import 'react-quill-new/dist/quill.snow.css';
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
@@ -176,13 +177,12 @@ const SidebarDateButton = React.memo(({
     <button
       type="button"
       onClick={() => show.date && onClick(show.date)}
-      className={`w-full text-left px-2 py-1.5 border-b border-[var(--border-color)] flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${
-        isSelected
-          ? 'bg-purple-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent' 
-          : isActiveWeek
-            ? 'bg-white/[0.04]'
-            : 'bg-transparent hover:bg-white/[0.03]'
-      }`}
+      className={`w-full text-left px-2 py-1.5 border-b border-[var(--border-color)] flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${isSelected
+        ? 'bg-purple-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent'
+        : isActiveWeek
+          ? 'bg-white/[0.04]'
+          : 'bg-transparent hover:bg-white/[0.03]'
+        }`}
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
         <span className="text-[7.5px] font-extrabold text-white/40 uppercase tracking-tight">{show.dayLabel}</span>
@@ -198,7 +198,7 @@ const SidebarDateButton = React.memo(({
       </div>
       {shiftCount > 0 && (
         <div className="relative group/badge shrink-0">
-          <span className="text-[8px] font-black bg-emerald-500/15 text-emerald-400/80 px-1.5 py-0.5 rounded cursor-help">
+          <span className="text-[8px] font-black bg-emerald-500/15 text-[var(--color-accent)]/80 px-1.5 py-0.5 rounded cursor-help">
             {shiftCount}
           </span>
           {/* Tooltip */}
@@ -436,7 +436,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         setSimulatedOrders(prev => {
           if (prev.find(o => o.id === payload.id)) return prev;
           const updated = [payload, ...prev];
-          localStorage.setItem('admin_orders_list', JSON.stringify(updated));
+          queueMicrotask(() => localStorage.setItem('admin_orders_list', JSON.stringify(updated)));
           return updated;
         });
 
@@ -445,7 +445,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav");
           audio.volume = 0.4;
           audio.play();
-        } catch {}
+        } catch { }
 
         // Show toast
         setActiveToast({
@@ -471,7 +471,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         return o;
       });
-      localStorage.setItem('admin_orders_list', JSON.stringify(updated));
+      queueMicrotask(() => localStorage.setItem('admin_orders_list', JSON.stringify(updated)));
       return updated;
     });
 
@@ -511,7 +511,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const toggleJumpNav = () => {
     setShowJumpNav(prev => {
       const next = !prev;
-      localStorage.setItem('7h_show_jump_nav', String(next));
+      queueMicrotask(() => localStorage.setItem('7h_show_jump_nav', String(next)));
       return next;
     });
   };
@@ -554,7 +554,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     setCustomRoles(prev => {
       if (prev.includes(trimmed)) return prev;
       const next = [...prev, trimmed];
-      localStorage.setItem('7h_custom_roles', JSON.stringify(next));
+      queueMicrotask(() => localStorage.setItem('7h_custom_roles', JSON.stringify(next)));
       return next;
     });
   };
@@ -562,7 +562,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const deleteCustomRole = (role: string) => {
     setCustomRoles(prev => {
       const next = prev.filter(r => r !== role);
-      localStorage.setItem('7h_custom_roles', JSON.stringify(next));
+      queueMicrotask(() => localStorage.setItem('7h_custom_roles', JSON.stringify(next)));
       return next;
     });
   };
@@ -598,14 +598,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const syncTourDatesToCalendar = (tourList: any[], currentSchedules: any[]) => {
     if (!tourList || tourList.length === 0) return;
-    
+
     let updated = [...currentSchedules];
     let changed = false;
-    
+
     tourList.forEach((show: any) => {
       const showDate = show.date;
       if (!showDate) return;
-      
+
       const hasShifts = updated.some(s => s.date === showDate);
       if (!hasShifts) {
         const defaultRoles = [
@@ -614,11 +614,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           { role: 'CAMERA', startHour: 18.0, endHour: 23.0, time: '6:00 PM - 11:00 PM' },
           { role: 'AUDIO MIX', startHour: 17.0, endHour: 23.0, time: '5:00 PM - 11:00 PM' }
         ];
-        
+
         const venueName = show.venue || show.venue_name || 'Show Venue';
         const cityStr = show.city ? `${show.city}, ${show.state || 'IL'}` : '';
         const loc = cityStr ? `${venueName} at ${cityStr}` : venueName;
-        
+
         defaultRoles.forEach((def, index) => {
           const newId = `show_shift_${showDate}_${index}_${Date.now()}`;
           const isRookiesTest = showDate === '2026-07-22';
@@ -641,12 +641,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         changed = true;
       }
     });
-    
+
     if (changed) {
       setSchedules(updated);
       localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
       window.dispatchEvent(new Event('storage'));
-      
+
       fetch("/api/crew/calendar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -662,7 +662,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     try {
       const parts = timeStr.split('-');
       if (parts.length !== 2) return defaultVal;
-      
+
       const parsePart = (part: string) => {
         const clean = part.trim().toUpperCase();
         const isPM = clean.includes('PM');
@@ -670,13 +670,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const numbers = clean.replace(/[A-Z\\s]/g, '').trim().split(':');
         let hour = parseInt(numbers[0], 10);
         let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
-        
+
         if (isPM && hour !== 12) hour += 12;
         if (isAM && hour === 12) hour = 0;
-        
+
         return hour + minute / 60;
       };
-      
+
       return {
         startHour: parsePart(parts[0]),
         endHour: parsePart(parts[1])
@@ -751,7 +751,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const showAlert = (message: string, title: string = 'Notice', type: 'warning' | 'info' | 'error' | 'success' = 'warning') => {
     setAlertModal({ isOpen: true, title, message, type });
   };
-  
+
   // Schedule Co-Editor Presence & Mix-Up Prevention State
   const [coEditors, setCoEditors] = useState<{ id: string; name: string; avatar: string; role: string; color: string; isEditing: boolean; lockedShiftId: string | null; lastAction: string; timeAgo: string }[]>([
     { id: 'ed_1', name: 'Marcus Vance', avatar: 'MV', role: 'Stage Manager', color: '#ec4899', isEditing: false, lockedShiftId: null, lastAction: 'Viewing Schedule Roster', timeAgo: 'Active now' },
@@ -791,7 +791,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   }, [selectedTourDate]);
   const [rosterExpanded, setRosterExpanded] = useState(false);
   const [collapsedCrewIds, setCollapsedCrewIds] = useState<string[]>([]);
-  
+
   // Drag and drop local tracking states
   const [draggedShiftId, setDraggedShiftId] = useState<string | null>(null);
   const draggedShiftIdRef = useRef<string | null>(null);
@@ -859,10 +859,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const toggleSection = (key: string) => {
     setCollapsedSections(prev => {
       const next = { ...prev, [key]: !prev[key] };
-      try { 
-        localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
-        saveLayoutToSupabase(sectionOrder, next);
-      } catch {}
+      queueMicrotask(() => {
+        try {
+          localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
+          saveLayoutToSupabase(sectionOrder, next);
+        } catch { }
+      });
       return next;
     });
   };
@@ -1011,14 +1013,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const { createClient: createSupabaseClient } = await import("@/lib/supabase/client");
         const client = createSupabaseClient();
         const { data: { user } } = await client.auth.getUser();
-        
+
         if (user?.user_metadata) {
           // Check for first-login password reset
           if (user.user_metadata.needs_password_reset === true) {
             setFirstLoginEmail(user.email || '');
             setShowSetPassword(true);
           }
-          
+
           const migrated = localStorage.getItem('7h_admin_order_migrated_v7');
           if (!migrated) {
             // Force save the new order to Supabase user metadata
@@ -1034,14 +1036,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           } else {
             const savedOrder = user.user_metadata.admin_section_order;
             const savedCollapsed = user.user_metadata.admin_collapsed_sections;
-            
+
             if (savedOrder && Array.isArray(savedOrder)) {
               const uniqueList = Array.from(new Set([...savedOrder, ...DEFAULT_SECTION_ORDER]));
               const filtered = uniqueList.filter(item => DEFAULT_SECTION_ORDER.includes(item));
               setSectionOrder(filtered);
               localStorage.setItem('7h_admin_section_order', JSON.stringify(filtered));
             }
-            
+
             if (savedCollapsed) {
               setCollapsedSections(savedCollapsed);
               localStorage.setItem('7h_admin_collapsed', JSON.stringify(savedCollapsed));
@@ -1095,7 +1097,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     try {
       localStorage.setItem('7h_admin_section_order', JSON.stringify(sectionOrder));
       saveLayoutToSupabase(sectionOrder, collapsedSections);
-    } catch {}
+    } catch { }
   };
 
   //  Tour Dates Sync State & Handlers 
@@ -1137,7 +1139,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const upcomingTourDatesWithLabels = useMemo(() => {
     const todayStr = new Date().toISOString().split('T')[0];
     const upcoming = tourDates.filter(show => !show.date || show.date >= todayStr);
-    
+
     // Deduplicate shows by date and venue name
     const seen = new Set<string>();
     const uniqueUpcoming = upcoming.filter(show => {
@@ -1199,7 +1201,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const next7Days = useMemo(() => {
     const days = [];
     const weekdayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-    
+
     if (scheduleStartDate) {
       const start = new Date(scheduleStartDate + 'T12:00:00');
       let end = scheduleEndDate ? new Date(scheduleEndDate + 'T12:00:00') : null;
@@ -1207,11 +1209,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         end = new Date(start);
         end.setDate(start.getDate() + 6);
       }
-      
+
       const diffTime = Math.abs(end.getTime() - start.getTime());
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
       if (diffDays > 62) diffDays = 62; // Safe upper bound
-      
+
       for (let i = 0; i < diffDays; i++) {
         const d = new Date(start);
         d.setDate(start.getDate() + i);
@@ -1219,9 +1221,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
         const dateStr = `${yyyy}-${mm}-${dd}`;
-        
+
         const dayOfWeekIndex = (d.getDay() + 6) % 7;
-        
+
         days.push({
           dateStr,
           dayName: weekdayNames[dayOfWeekIndex],
@@ -1235,7 +1237,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
     let numDays = 7;
     let start = new Date(currentWeekStart);
-    
+
     if (calendarRange === '4weeks') {
       numDays = 28;
     } else if (calendarRange === 'month') {
@@ -1253,9 +1255,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const mm = String(d.getMonth() + 1).padStart(2, '0');
       const dd = String(d.getDate()).padStart(2, '0');
       const dateStr = `${yyyy}-${mm}-${dd}`;
-      
+
       const dayOfWeekIndex = (d.getDay() + 6) % 7;
-      
+
       days.push({
         dateStr,
         dayName: weekdayNames[dayOfWeekIndex],
@@ -1268,7 +1270,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   }, [currentWeekStart, calendarRange, scheduleStartDate, scheduleEndDate]);
 
   const filteredDays = useMemo(() => {
-    let days = showTourDatesOnly 
+    let days = showTourDatesOnly
       ? next7Days.filter(day => tourDates.some(s => s.date === day.dateStr))
       : next7Days;
 
@@ -1316,15 +1318,15 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const filteredCrewMembers = useMemo(() => {
     let list = crewMembers;
-    
+
     if (scheduleCrewFilter) {
       list = list.filter(m => m.id === scheduleCrewFilter);
     }
-    
+
     if (schedulePersonSearch.trim()) {
       const term = schedulePersonSearch.toLowerCase().trim();
-      list = list.filter(m => 
-        m.name.toLowerCase().includes(term) || 
+      list = list.filter(m =>
+        m.name.toLowerCase().includes(term) ||
         (m.role && m.role.toLowerCase().includes(term))
       );
     }
@@ -1359,7 +1361,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       // 4. Alphabetical by name fallback
       return a.name.localeCompare(b.name);
     });
-    
+
     return list.filter(m => m.id !== 'openshifts');
   }, [crewMembers, scheduleCrewFilter, schedulePersonSearch, schedules, scheduleSortByDate, selectedTourDate, next7Days]);
 
@@ -1391,10 +1393,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const leaderboardRankings = useMemo(() => {
     const today = new Date();
     const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    
+
     const getHoursForPeriod = (crewId: string) => {
       let relevantShifts = schedules.filter(s => s.crewId === crewId && !s.isTimeOff);
-      
+
       if (leaderboardPeriod === 'day') {
         const activeDay = next7Days[0]?.dateStr || todayStr;
         relevantShifts = relevantShifts.filter(s => s.date === activeDay);
@@ -1410,13 +1412,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const year = String(currentWeekStart.getFullYear());
         relevantShifts = relevantShifts.filter(s => s.date.startsWith(year));
       }
-      
+
       return relevantShifts.reduce((sum, s) => {
         const dur = s.endHour - s.startHour;
         return sum + (isNaN(dur) ? 0 : dur);
       }, 0);
     };
-    
+
     return crewMembers
       .filter(m => m.id !== 'openshifts')
       .map(m => ({ ...m, hours: getHoursForPeriod(m.id) }))
@@ -1436,7 +1438,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const day = chosen.getDay();
     const diff = chosen.getDate() - day + (day === 0 ? -6 : 1);
     const targetWeekStart = new Date(chosen.getFullYear(), chosen.getMonth(), diff);
-    
+
     setCurrentWeekStart(current => {
       if (current.getTime() !== targetWeekStart.getTime()) {
         return targetWeekStart;
@@ -1466,7 +1468,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           const upcoming = freshTourDates
             .filter((show: any) => show.date && show.date >= todayStr)
             .sort((a: any, b: any) => a.date.localeCompare(b.date));
-            
+
           if (upcoming.length > 0) {
             const firstShowDate = upcoming[0].date;
             const chosen = new Date(firstShowDate + 'T12:00:00');
@@ -1630,11 +1632,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [blastResult, setBlastResult] = useState<any>(null);
 
   // Audit log
-  interface AuditEntry { 
-    id: string; 
-    text: string; 
-    time: string; 
-    color: string; 
+  interface AuditEntry {
+    id: string;
+    text: string;
+    time: string;
+    color: string;
     details?: {
       type: 'sms' | 'email' | 'broadcast' | 'signin';
       smsText?: string;
@@ -1646,10 +1648,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   }
   const [auditLog, setAuditLog] = useState<AuditEntry[]>([
     { id: 'boot', text: 'System boot online. Realtime bindings initialized.', time: 'Just now', color: 'bg-emerald-500' },
-    { 
-      id: 'session', 
-      text: 'Administrator session granted.', 
-      time: '1 min ago', 
+    {
+      id: 'session',
+      text: 'Administrator session granted.',
+      time: '1 min ago',
       color: 'bg-[var(--color-accent)]',
       details: {
         type: 'signin',
@@ -1734,13 +1736,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     setBroadcastResult(null);
     try {
       const { assignedCrew, smsMessage, emailSubject, emailBody, sendSms, sendEmail, showName } = broadcastModal;
-      
+
       const phones = assignedCrew.map(c => c.phone).filter(p => p && p.length > 0);
       const emails = assignedCrew.map(c => c.email).filter(e => e && e.length > 0);
-      
+
       let smsStatus = '';
       let emailStatus = '';
-      
+
       if (sendSms && phones.length > 0) {
         const smsRes = await fetch('/api/admin/crew-alert', {
           method: 'POST',
@@ -1755,7 +1757,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         smsStatus = `SMS sent to ${phones.length} crew. `;
       }
-      
+
       if (sendEmail && emails.length > 0) {
         for (const email of emails) {
           const emailRes = await fetch('/api/email', {
@@ -1773,7 +1775,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         emailStatus = `Emails sent to ${emails.length} crew. `;
       }
-      
+
       setBroadcastResult(`Success! ${smsStatus}${emailStatus}`);
       setAuditLog(prev => [{
         id: crypto.randomUUID(),
@@ -1787,7 +1789,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           emailHtml: sendEmail ? emailBody : undefined
         }
       }, ...prev]);
-      
+
       setTimeout(() => {
         setBroadcastModal(prev => ({ ...prev, isOpen: false }));
         setBroadcastResult(null);
@@ -1827,7 +1829,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const dayShifts = schedules.filter(s => s.date === dateStr && s.crewId !== 'openshifts' && !s.isTimeOff);
     const assignedCrewIds = Array.from(new Set(dayShifts.map(s => s.crewId)));
     const recipientsList = crewAlertStats?.recipients || [];
-    
+
     const assignedCrew = assignedCrewIds
       .map(crewId => {
         const matched = recipientsList.find(r => r.id === crewId);
@@ -1835,7 +1837,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const roles = Array.from(new Set(crewShifts.map(s => s.role))).join(', ');
         const times = Array.from(new Set(crewShifts.map(s => s.time || formatTimeFrame(s.startHour, s.endHour)))).filter(Boolean).join(', ');
         const matchedStatic = staticCrew.find(sc => sc.id === crewId);
-        
+
         return {
           id: matched?.id || crewId,
           name: matched?.name || matchedStatic?.name || findCrewName(crewId),
@@ -1844,18 +1846,18 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           timeFrame: times
         };
       });
-    
+
     const phones = assignedCrew.map(c => normalizePhoneNumber(c.phone)).filter(Boolean);
     setSelectedCrewPhones(phones);
-    
+
     const show = tourDates.find((s: any) => s.date === dateStr);
     const showName = show ? (show.venue || show.venue_name) : 'Show';
-    
+
     // Format date nicely
     const d = new Date(dateStr + 'T00:00:00');
     const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     const formattedDate = `${daysOfWeek[d.getDay()]} ${d.getDate()}`;
-    
+
     let rolesListStr = '';
     assignedCrew.forEach(c => {
       const timeInfo = c.timeFrame ? ` (${c.timeFrame})` : '';
@@ -1863,7 +1865,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       rolesListStr += `\n- ${c.name}${roleInfo}${timeInfo}`;
     });
     const message = `Hey team, regarding our show at ${showName} on ${formattedDate}:${rolesListStr}`;
-    
+
     setCrewAlertMsg(message);
     setSmsEmailSubject(` Crew Alert: ${showName} - ${formattedDate}`);
     setSendEmailAlert(true);
@@ -1913,7 +1915,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     }
     const show = tourDates.find((s: any) => s.date === dateStr);
     const showName = show ? (show.venue || show.venue_name) : 'Show';
-    
+
     // Format date nicely
     const d = new Date(dateStr + 'T00:00:00');
     const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -1923,7 +1925,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const combined = getBandRecipientsCombined();
     const phones = combined.map(b => normalizePhoneNumber(b.phone)).filter(Boolean);
     setSelectedBandPhones(phones);
-    
+
     // Set SMS draft
     setBandAlertMsg(`Hey band, reminder for our upcoming show at ${showName} on ${formattedDate}. Load-in is 2 hours before.`);
     setBandEmailSubject(`Upcoming Show Alert: 7th Heaven at ${showName} (${formattedDate})`);
@@ -2021,7 +2023,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const adminChatContainerRef = useRef<HTMLDivElement>(null);
 
   // Cruise Important Links
-  const [importantLinks, setImportantLinks] = useState<{title: string, url: string, icon: string}[]>([]);
+  const [importantLinks, setImportantLinks] = useState<{ title: string, url: string, icon: string }[]>([]);
   const [linksUpdating, setLinksUpdating] = useState(false);
   const [linksSaveStatus, setLinksSaveStatus] = useState<'saved' | 'error' | null>(null);
 
@@ -2125,8 +2127,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         setBannerLink(data.link || '');
         setBannerExpiresAt(data.expiresAt || null);
       })
-      .catch(() => {});
-      
+      .catch(() => { });
+
     // Load Cruise Announcement
     fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' })
       .then(res => res.json())
@@ -2134,13 +2136,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         let actualData = data;
         let attempts = 0;
         while (typeof actualData === 'string' && attempts < 3) {
-          try { actualData = JSON.parse(actualData); } catch(e) { break; }
+          try { actualData = JSON.parse(actualData); } catch (e) { break; }
           attempts++;
         }
         if (actualData?.message) setCruiseMessage(actualData.message);
         if (actualData?.subject) setCruiseBlastSubject(actualData.subject);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load Cruise Guidelines
     fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' })
@@ -2150,7 +2152,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         if (data?.subtitle) setAdminGuidelinesSubtitle(data.subtitle);
         if (data?.content) setAdminGuidelinesContent(data.content);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load Cruise Chat Pin + enabled state
     fetch(`/api/cruise/chat-pin`)
@@ -2159,7 +2161,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         if (data?.pin) setCruiseChatPin(data.pin);
         if (data?.chatEnabled !== undefined) setCruiseChatEnabled(data.chatEnabled);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load Cruise Chat History for admin view
     supabase
@@ -2202,7 +2204,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           setImportantLinks(data.links);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load Cruise Stats
     fetch(`/api/admin/cruise-stats?t=${Date.now()}`)
@@ -2210,7 +2212,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       .then(data => {
         if (data && !data.error) setCruiseStats(data);
       })
-      .catch(() => {});
+      .catch(() => { });
 
     // Load Cruise Itinerary
     fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
@@ -2219,7 +2221,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         let actualData = data;
         let attempts = 0;
         while (typeof actualData === 'string' && attempts < 3) {
-          try { actualData = JSON.parse(actualData); } catch(e) { break; }
+          try { actualData = JSON.parse(actualData); } catch (e) { break; }
           attempts++;
         }
         if (Array.isArray(actualData) && actualData.length > 0) {
@@ -2227,21 +2229,23 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         } else {
           // Default empty state or fallback template
           setItinerary([
-            { id: 'day1', dayLabel: 'Day 1', location: 'Miami, FL', theme: 'Embarkation', colorTheme: 'var(--color-accent)', events: [
-              { id: 'e1', time: '15:00', title: 'Welcome Aboard Party', subtitle: 'Lido Deck Poolside' },
-              { id: 'e2', time: '20:00', title: 'Main Stage Kickoff', subtitle: 'Starlight Theater' }
-            ] }
+            {
+              id: 'day1', dayLabel: 'Day 1', location: 'Miami, FL', theme: 'Embarkation', colorTheme: 'var(--color-accent)', events: [
+                { id: 'e1', time: '15:00', title: 'Welcome Aboard Party', subtitle: 'Lido Deck Poolside' },
+                { id: 'e2', time: '20:00', title: 'Main Stage Kickoff', subtitle: 'Starlight Theater' }
+              ]
+            }
           ]);
         }
       })
-      .catch(() => {});
-    
+      .catch(() => { });
+
     async function loadAdminData() {
       const { data: streamsData } = await supabase
         .from('live_streams')
         .select('*')
         .eq('status', 'live');
-        
+
       const realFeeds = (streamsData || []).map((st: any) => ({
         id: st.id,
         name: st.title || 'Untitled Stream',
@@ -2270,7 +2274,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         uids.forEach(uid => {
           // Unify with Crew/Fan naming: key_id
           const isLive = localStorage.getItem(`is_live_${uid}`) === 'true' || localStorage.getItem(`7h_crew_is_live_${uid}`) === 'true';
-          
+
           if (isLive) {
             const startStr = localStorage.getItem(`live_stream_start_${uid}`) || localStorage.getItem(`7h_live_stream_start_${uid}`);
             const uptime = startStr ? Math.max(1, Math.floor((Date.now() - parseInt(startStr)) / 60000)) + 'm' : 'Just now';
@@ -2294,7 +2298,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         });
         setFeeds(prev => {
           const dbFeeds = prev.filter(p => !p.isSimulated);
-          return [...activeLocal, ...dbFeeds].sort((a,b) => b.viewers - a.viewers);
+          return [...activeLocal, ...dbFeeds].sort((a, b) => b.viewers - a.viewers);
         });
       }, 2000);
 
@@ -2302,25 +2306,25 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         .from('profiles').select('*').order('created_at', { ascending: false });
       if (profilesData) {
         setUsers(profilesData.map((p: any) => ({
-          id: p.id, 
+          id: p.id,
           name: p.full_name || 'Anonymous',
           email: p.email || '',
           phone: p.phone || '',
-          role: p.role, 
+          role: p.role,
           duty: p.crew_duty || null,
-          status: 'active', 
+          status: 'active',
           strikes: 0,
           avatar: p.avatar_url || p.profile_photo_url || null
         })));
       }
 
-      
+
       try {
         const tourRes = await fetch('/api/tour');
         if (tourRes.ok) {
           const freshTourDates = await tourRes.json();
           setTourDates(freshTourDates);
-          
+
           let currentSchedules = [];
           const resetDone = localStorage.getItem('7h_fresh_start_reset_v5');
           const defaultShifts = [
@@ -2377,7 +2381,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           const upcoming = freshTourDates
             .filter((show: any) => show.date && show.date >= todayStr)
             .sort((a: any, b: any) => a.date.localeCompare(b.date));
-            
+
           if (upcoming.length > 0) {
             const firstShowDate = upcoming[0].date;
             const chosen = new Date(firstShowDate + 'T12:00:00');
@@ -2386,7 +2390,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             setCurrentWeekStart(new Date(chosen.getFullYear(), chosen.getMonth(), diff));
           }
         }
-      } catch (err) {}
+      } catch (err) { }
 
       try {
         const memRes = await fetch('/api/fans/memories?all=true');
@@ -2394,19 +2398,19 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           const allMems = await memRes.json();
           setMemoryQueue(allMems.filter((m: any) => !m.approved));
         }
-      } catch (err) {}
-try {
+      } catch (err) { }
+      try {
         const photoRes = await fetch('/api/fans?all=true');
         if (photoRes.ok) {
           const allPhotos = await photoRes.json();
           setModerationQueue(allPhotos.filter((p: any) => !p.approved));
         }
-      } catch (err) {}
+      } catch (err) { }
 
       try {
         const bookingRes = await fetch('/api/booking');
         if (bookingRes.ok) setBookings(await bookingRes.json());
-      } catch (err) {}
+      } catch (err) { }
 
       // Load Shopify Sales Data
       try {
@@ -2427,19 +2431,19 @@ try {
       try {
         const fanRes = await fetch('/api/admin/fans');
         if (fanRes.ok) setFanData(await fanRes.json());
-      } catch {}
+      } catch { }
 
       // Load Crew Alert Stats
       try {
         const crewRes = await fetch('/api/admin/crew-alert');
         if (crewRes.ok) setCrewAlertStats(await crewRes.json());
-      } catch {}
+      } catch { }
 
       // Load upcoming shows for SMS blast picker
       try {
         const showsRes = await fetch('/api/admin/shows');
         if (showsRes.ok) setSmsShows(await showsRes.json());
-      } catch {}
+      } catch { }
 
       // Load auto-blast settings
       try {
@@ -2456,7 +2460,7 @@ try {
           if (crewReminders) setCrewAutoReminders(crewReminders.value !== 'off');
           if (crewRemindersHours) setCrewAutoRemindersHours(parseInt(crewRemindersHours.value, 10) || 24);
         }
-      } catch {}
+      } catch { }
 
       // Load Active Featured Track
       try {
@@ -2475,14 +2479,14 @@ try {
 
       setIsLoading(false);
     }
-    
+
     loadAdminData();
 
     const bookingPoll = setInterval(async () => {
       try {
         const res = await fetch('/api/booking');
         if (res.ok) setBookings(await res.json());
-      } catch {}
+      } catch { }
     }, 10000);
 
     return () => {
@@ -2505,8 +2509,8 @@ try {
   const [chatRate, setChatRate] = useState(0);
   useEffect(() => {
     const t = setInterval(() => {
-       const chatLog = JSON.parse(localStorage.getItem('7h_global_chat_history') || '[]');
-       setChatRate(chatLog.length);
+      const chatLog = JSON.parse(localStorage.getItem('7h_global_chat_history') || '[]');
+      setChatRate(chatLog.length);
     }, 2000);
     return () => clearInterval(t);
   }, []);
@@ -2543,7 +2547,7 @@ try {
           // Split any legacy combined comma-separated roles into individual roles
           loaded = Array.from(new Set(parsed.flatMap(r => typeof r === 'string' ? r.split(',').map(s => s.trim().toUpperCase()) : []))).filter(Boolean);
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     if (loaded.length === 0) {
       loaded = DEFAULT_PRESET_ROLES;
@@ -2697,8 +2701,8 @@ try {
         setDropSongs([{ title: '', file: null }]);
         try {
           (e.target as HTMLFormElement).reset();
-        } catch {}
-        
+        } catch { }
+
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
           text: ` Uploaded featured track: "${data.track.title}"`,
@@ -2842,7 +2846,7 @@ try {
 
   const METRICS = [
     { label: "Total Registered Users", value: users.length.toString(), trend: "Live", color: "text-emerald-400" },
-    { label: "Active Live Streams", value: feeds.length.toString(), trend: "Live", color: "text-[var(--color-accent)]" },
+    { label: "Active Live Streams", value: feeds.length.toString(), trend: "Live", color: " text-[var(--color-accent)]" },
     { label: "Booking Requests", value: pendingBookings.length.toString(), trend: pendingBookings.length > 0 ? "Action Needed" : "Clear", color: pendingBookings.length > 0 ? "text-purple-300" : "text-emerald-400" },
     { label: "Server Status", value: "Online", trend: "Stable", color: "text-emerald-400" },
   ];
@@ -2869,7 +2873,7 @@ try {
             <div className="p-10">
               <div className="text-center mb-10">
                 <div className="w-14 h-14 mx-auto mb-5 bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 </div>
                 <h1 className="text-2xl font-black tracking-tight text-black">
                   Admin <span className="text-red-600">Access</span>
@@ -2884,7 +2888,7 @@ try {
                   <div className="p-5 bg-red-500/10 border border-red-500/20 mb-6">
                     <p className="text-sm font-bold text-red-600 mb-1">Access Denied</p>
                     <p className="text-[0.7rem] text-black/70 font-semibold">
-                      You&apos;re logged in as <strong className="text-black font-extrabold">{member?.name}</strong> ({member?.role}). 
+                      You&apos;re logged in as <strong className="text-black font-extrabold">{member?.name}</strong> ({member?.role}).
                       Admin privileges are required to access this dashboard.
                     </p>
                   </div>
@@ -2960,7 +2964,7 @@ try {
     );
   }
 
-  
+
   //  Section Helper Render Functions for Movable Layout 
   const renderInfoToggle = (sectionId: string) => {
     const isOpen = openInfoSection === sectionId;
@@ -2999,10 +3003,10 @@ try {
         <div onClick={() => toggleSection('emergencybroadcast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-rose-500/10 cursor-pointer select-none hover:bg-rose-500/15 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
             </div>
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-               Emergency Show & Fan Alert Dispatcher
+              Emergency Show & Fan Alert Dispatcher
               {renderInfoToggle('emergencybroadcast')}
             </h3>
           </div>
@@ -3024,10 +3028,10 @@ try {
         <div onClick={() => toggleSection('emaildirectory')} className="p-6 border-b border-white/10 flex items-center justify-between bg-purple-500/10 cursor-pointer select-none hover:bg-purple-500/15 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
             </div>
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-               Role-Based Email Lists & Subscriber Directory
+              Role-Based Email Lists & Subscriber Directory
               {renderInfoToggle('emaildirectory')}
             </h3>
           </div>
@@ -3044,160 +3048,157 @@ try {
         </div>
       </section>
       <section id="admin-sec-announcements" className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-      <div onClick={() => toggleSection('announcements')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+        <div onClick={() => toggleSection('announcements')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+          <div className="flex items-center gap-2">
+            <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+            </div>
+            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              Band Announcements
+              {renderInfoToggle('announcements')}
+            </h3>
           </div>
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-             Band Announcements
-            {renderInfoToggle('announcements')}
-          </h3>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          <div className="flex items-center gap-3">
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
           </div>
         </div>
-      </div>
-      {renderInfoBanner('announcements', 'Band Announcements', 'Post band updates, news, and urgent alerts across the entire public site banner.')}
-      <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
-        <div className="p-6">
-          {/* Global Announcement Banner Control */}
-          <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(255,10,61,0.15)]' : 'border-white/5 hover:border-white/10'}  p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
-            <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 `} />
-            
-            <div className="relative z-10 flex flex-col">
-              {/* Header row */}
-              <div className="flex items-start justify-between gap-4 cursor-pointer select-none" onClick={() => toggleSection('globalalert')}>
-                <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 shrink-0  ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}></div>
-                  <div>
-                    <h3 className="text-lg font-black italic tracking-wide text-white flex items-center gap-2">
-                      Global Alert Banner
-                      <div className={"w-5 h-5 rounded-md bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
-                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                      </div>
-                    </h3>
-                    <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Pin a band announcement or urgent notice sitewide</p>
-                  </div>
-                </div>
-                {/* Main toggle — auto-saves */}
-                <div onClick={(e) => e.stopPropagation()}>
-                  <button 
-                    onClick={async () => {
-                      const newActive = !bannerActive;
-                      setBannerActive(newActive);
-                      await updateGlobalBanner({ isActive: newActive });
-                    }} 
-                    disabled={bannerUpdating}
-                    className={`relative px-6 py-2.5  text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive 
-                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.5)] hover:shadow-[0_0_30px_rgba(255,10,61,0.8)] hover:scale-[1.02]' 
-                      : 'bg-[var(--color-bg-elevated)] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover:text-[var(--color-accent)] hover:bg-[#252530]'
-                    } disabled:opacity-50 disabled:hover:scale-100`}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
-                      {bannerActive ? 'LIVE ON SITE' : 'OFF'}
-                    </span>
-                    {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
-                  </button>
-                </div>
-              </div>
-              
-              {/* Collapsible Content */}
-              <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
-                {/* Save status toast */}
-                {bannerSaveStatus && (
-                  <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${
-                    bannerSaveStatus === 'saved' 
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                  }`}>
-                    {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
-                  </div>
-                )}
+        {renderInfoBanner('announcements', 'Band Announcements', 'Post band updates, news, and urgent alerts across the entire public site banner.')}
+        <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
+          <div className="p-6">
+            {/* Global Announcement Banner Control */}
+            <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(255,10,61,0.15)]' : 'border-white/5 hover:border-white/10'}  p-6 md:p-8 transition-all duration-500 flex flex-col group`}>
+              <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-all duration-500 `} />
 
-                {/* Message input */}
-                <div className="flex flex-col gap-3 mt-auto">
-                  <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
-                    <ReactQuill 
-                      theme="snow" 
-                      value={bannerText} 
-                      onChange={setBannerText} 
-                      placeholder="Alert message (e.g. Weather delay tonight)" 
-                      className="bg-[#22222e] overflow-hidden"
-                    />
-                  </div>
-
-                  {/* Controls row */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 border border-white/5">
-                    <button 
-                      onClick={() => updateGlobalBanner()}
-                      disabled={bannerUpdating}
-                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      {bannerUpdating ? 'Saving...' : 'Dispatch'}
-                    </button>
-
-                    {/* Auto-expire buttons */}
-                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-                      <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
-                      {[
-                        { label: '1h', hours: 1 },
-                        { label: '3h', hours: 3 },
-                        { label: '12h', hours: 12 },
-                        { label: '24h', hours: 24 },
-                      ].map(({ label, hours }) => {
-                        const expiry = new Date(Date.now() + hours * 3600000).toISOString();
-                        const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
-                        return (
-                          <button 
-                            key={label} 
-                            type="button" 
-                            onClick={async () => {
-                              setBannerExpiresAt(expiry);
-                              await updateGlobalBanner({ expiresAt: expiry });
-                            }}
-                            className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                              isSelected
-                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
-                                : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
-                            }`}
-                          >{label}</button>
-                        );
-                      })}
-                      <button 
-                        type="button" 
-                        onClick={async () => {
-                          setBannerExpiresAt(null);
-                          await updateGlobalBanner({ expiresAt: null });
-                        }}
-                        className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                          !bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
-                        }`}
-                      >Off</button>
+              <div className="relative z-10 flex flex-col">
+                {/* Header row */}
+                <div className="flex items-start justify-between gap-4 cursor-pointer select-none" onClick={() => toggleSection('globalalert')}>
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 shrink-0  ${bannerActive ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.3)]' : 'bg-white/5 border-white/10 group-hover:bg-white/10'} border flex items-center justify-center text-2xl transition-all duration-500`}></div>
+                    <div>
+                      <h3 className="text-lg font-black italic tracking-wide text-white flex items-center gap-2">
+                        Global Alert Banner
+                        <div className={"w-5 h-5 rounded-md bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
+                          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                        </div>
+                      </h3>
+                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Pin a band announcement or urgent notice sitewide</p>
                     </div>
                   </div>
-                  
-                  {/* Expiry info */}
-                  {bannerExpiresAt && (
-                    <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
-                      <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
-                      <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
-                      {new Date(bannerExpiresAt) < new Date() && (
-                        <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
-                      )}
+                  {/* Main toggle — auto-saves */}
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={async () => {
+                        const newActive = !bannerActive;
+                        setBannerActive(newActive);
+                        await updateGlobalBanner({ isActive: newActive });
+                      }}
+                      disabled={bannerUpdating}
+                      className={`relative px-6 py-2.5  text-[0.6rem] font-black uppercase tracking-widest transition-all duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive
+                        ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.5)] hover:shadow-[0_0_30px_rgba(255,10,61,0.8)] hover:scale-[1.02]'
+                        : 'bg-[var(--color-bg-elevated)] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover: text-[var(--color-accent)] hover:bg-[#252530]'
+                        } disabled:opacity-50 disabled:hover:scale-100`}
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
+                        {bannerActive ? 'LIVE ON SITE' : 'OFF'}
+                      </span>
+                      {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Collapsible Content */}
+                <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
+                  {/* Save status toast */}
+                  {bannerSaveStatus && (
+                    <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${bannerSaveStatus === 'saved'
+                      ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                      }`}>
+                      {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
                     </div>
                   )}
+
+                  {/* Message input */}
+                  <div className="flex flex-col gap-3 mt-auto">
+                    <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
+                      <ReactQuill
+                        theme="snow"
+                        value={bannerText}
+                        onChange={setBannerText}
+                        placeholder="Alert message (e.g. Weather delay tonight)"
+                        className="bg-[#22222e] overflow-hidden"
+                      />
+                    </div>
+
+                    {/* Controls row */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 bg-black/20 p-2 border border-white/5">
+                      <button
+                        onClick={() => updateGlobalBanner()}
+                        disabled={bannerUpdating}
+                        className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                      >
+                        {bannerUpdating ? 'Saving...' : 'Dispatch'}
+                      </button>
+
+                      {/* Auto-expire buttons */}
+                      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
+                        <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
+                        {[
+                          { label: '1h', hours: 1 },
+                          { label: '3h', hours: 3 },
+                          { label: '12h', hours: 12 },
+                          { label: '24h', hours: 24 },
+                        ].map(({ label, hours }) => {
+                          const expiry = new Date(Date.now() + hours * 3600000).toISOString();
+                          const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
+                          return (
+                            <button
+                              key={label}
+                              type="button"
+                              onClick={async () => {
+                                setBannerExpiresAt(expiry);
+                                await updateGlobalBanner({ expiresAt: expiry });
+                              }}
+                              className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${isSelected
+                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
+                                : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                                }`}
+                            >{label}</button>
+                          );
+                        })}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            setBannerExpiresAt(null);
+                            await updateGlobalBanner({ expiresAt: null });
+                          }}
+                          className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-all cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                            }`}
+                        >Off</button>
+                      </div>
+                    </div>
+
+                    {/* Expiry info */}
+                    {bannerExpiresAt && (
+                      <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
+                        <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
+                        <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
+                        {new Date(bannerExpiresAt) < new Date() && (
+                          <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
+      </section>
+    </div>
   );
 
   const renderAnalytics = () => (
@@ -3205,10 +3206,10 @@ try {
       <div onClick={() => toggleSection('analytics')} className="p-6 border-b border-black/10 flex items-center justify-between bg-white text-black cursor-pointer select-none hover:bg-slate-50 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-black/5 rounded text-black/40 hover:text-black transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
           </div>
           <h3 className="text-lg font-bold tracking-tight text-black flex items-center gap-2 cursor-pointer">
-             Google Analytics GA4 Suite
+            Google Analytics GA4 Suite
             {renderInfoToggle('analytics')}
           </h3>
         </div>
@@ -3248,14 +3249,14 @@ try {
 
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Conversion Rate</span>
-              <span className="text-2xl font-black text-emerald-400 block">{gaData.conversionRate}</span>
-              <span className="text-[0.55rem] font-bold text-emerald-400 uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
+              <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.conversionRate}</span>
+              <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
             </div>
 
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Rev / Session</span>
-              <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
-              <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Avg Fan Value</span>
+              <span className="text-2xl font-black  text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
+              <span className="text-[0.55rem] font-bold  text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Avg Fan Value</span>
             </div>
 
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
@@ -3267,14 +3268,14 @@ try {
 
           {/* 2. Traffic Acquisition Channels & Device Ratio */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            
+
             {/* Acquisition Channels */}
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
               <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                 <span> Traffic Acquisition Channels</span>
                 <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Attribution</span>
               </h4>
-              
+
               <div className="space-y-3.5">
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold mb-1">
@@ -3399,25 +3400,25 @@ try {
                 </thead>
                 <tbody className="divide-y divide-[var(--border-color)] font-semibold text-[var(--text-color)]">
                   <tr className="hover:bg-white/[0.03]">
-                    <td className="p-3 font-mono font-bold text-purple-400">/shows (Tour Schedule)</td>
+                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/shows (Tour Schedule)</td>
                     <td className="p-3 font-mono">3,840</td>
                     <td className="p-3 font-mono">2,910</td>
                     <td className="p-3 font-mono">1m 42s</td>
-                    <td className="p-3 font-mono text-emerald-400">24%</td>
+                    <td className="p-3 font-mono text-[var(--color-accent)]">24%</td>
                     <td className="p-3 text-right font-mono font-bold text-cyan-400">842 Ticket Clicks</td>
                   </tr>
 
                   <tr className="hover:bg-white/[0.03]">
-                    <td className="p-3 font-mono font-bold text-purple-400">/cruise (7th Heaven Cruise)</td>
+                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
                     <td className="p-3 font-mono">2,120</td>
                     <td className="p-3 font-mono">1,640</td>
                     <td className="p-3 font-mono">2m 15s</td>
-                    <td className="p-3 font-mono text-emerald-400">19%</td>
+                    <td className="p-3 font-mono text-[var(--color-accent)]">19%</td>
                     <td className="p-3 text-right font-mono font-bold text-cyan-400">148 Pre-Bookings</td>
                   </tr>
 
                   <tr className="hover:bg-white/[0.03]">
-                    <td className="p-3 font-mono font-bold text-purple-400">/ (Homepage)</td>
+                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/ (Homepage)</td>
                     <td className="p-3 font-mono">1,650</td>
                     <td className="p-3 font-mono">1,410</td>
                     <td className="p-3 font-mono">1m 05s</td>
@@ -3426,16 +3427,16 @@ try {
                   </tr>
 
                   <tr className="hover:bg-white/[0.03]">
-                    <td className="p-3 font-mono font-bold text-purple-400">/merch (Shopify Store)</td>
+                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/merch (Shopify Store)</td>
                     <td className="p-3 font-mono">640</td>
                     <td className="p-3 font-mono">510</td>
                     <td className="p-3 font-mono">3m 10s</td>
-                    <td className="p-3 font-mono text-emerald-400">15%</td>
-                    <td className="p-3 text-right font-mono font-bold text-emerald-400">94 Orders Placed</td>
+                    <td className="p-3 font-mono text-[var(--color-accent)]">15%</td>
+                    <td className="p-3 text-right font-mono font-bold text-[var(--color-accent)]">94 Orders Placed</td>
                   </tr>
 
                   <tr className="hover:bg-white/[0.03]">
-                    <td className="p-3 font-mono font-bold text-purple-400">/bio & media (Band Roster)</td>
+                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/bio & media (Band Roster)</td>
                     <td className="p-3 font-mono">180</td>
                     <td className="p-3 font-mono">145</td>
                     <td className="p-3 font-mono">0m 52s</td>
@@ -3492,7 +3493,7 @@ try {
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3 w-full sm:w-auto">
               <div className="flex items-start gap-2">
                 <span className="text-purple-300 text-sm"></span>
@@ -3513,899 +3514,893 @@ try {
 
   const renderShopify = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('shopify')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-                  </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#96bf48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                  Shopify
-                  {renderInfoToggle('shopify')}
-                </h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  {/* Shopify vs Simulated Toggle */}
-                  <div className="flex bg-white/15 p-1 border border-white/20" onClick={(e) => e.stopPropagation()}>
-                    <button
-                      onClick={() => setShopifyTab('shopify')}
-                      className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'shopify' ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
-                    >
-                      Shopify API
-                    </button>
-                    <button
-                      onClick={() => setShopifyTab('simulated')}
-                      className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'simulated' ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
-                    >
-                      Simulated Checkouts
-                    </button>
-                  </div>
-                  {shopifyTab === 'shopify' && (
-                    <div className="flex items-center gap-3 animate-in fade-in duration-300">
-                      <div className="flex bg-white/15 p-1 border border-white/20">
-                        {[7, 30, 90].map(d => (
-                          <button
-                            key={d}
-                            onClick={async () => {
-                              setShopifyPeriod(d);
-                              setShopifyLoading(true);
-                              try {
-                                const res = await fetch(`/api/shopify/orders?days=${d}`);
-                                if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
-                              } catch {}
-                              setShopifyLoading(false);
-                            }}
-                            className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyPeriod === d ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
-                          >
-                            {d}d
-                          </button>
-                        ))}
-                      </div>
-                      <button
-                        onClick={async () => {
-                          setShopifyLoading(true);
-                          try {
-                            const res = await fetch(`/api/shopify/orders?days=${shopifyPeriod}`);
-                            if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
-                          } catch {}
-                          setShopifyLoading(false);
-                        }}
-                        className="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-[0.6rem] font-bold uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                      >
-                        ↻ Refresh
-                      </button>
-                    </div>
-                  )}
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('shopify') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
+      <div onClick={() => toggleSection('shopify')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#96bf48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
+            Shopify
+            {renderInfoToggle('shopify')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Shopify vs Simulated Toggle */}
+          <div className="flex bg-white/15 p-1 border border-white/20" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShopifyTab('shopify')}
+              className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'shopify' ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+            >
+              Shopify API
+            </button>
+            <button
+              onClick={() => setShopifyTab('simulated')}
+              className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyTab === 'simulated' ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+            >
+              Simulated Checkouts
+            </button>
+          </div>
+          {shopifyTab === 'shopify' && (
+            <div className="flex items-center gap-3 animate-in fade-in duration-300">
+              <div className="flex bg-white/15 p-1 border border-white/20">
+                {[7, 30, 90].map(d => (
+                  <button
+                    key={d}
+                    onClick={async () => {
+                      setShopifyPeriod(d);
+                      setShopifyLoading(true);
+                      try {
+                        const res = await fetch(`/api/shopify/orders?days=${d}`);
+                        if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
+                      } catch { }
+                      setShopifyLoading(false);
+                    }}
+                    className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer ${shopifyPeriod === d ? 'bg-[#96bf48] text-black shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                  >
+                    {d}d
+                  </button>
+                ))}
               </div>
-              {renderInfoBanner('shopify', 'Shopify Sales', 'Track real-time Shopify store order statistics, sales charts, and recent drop activity over custom date ranges.')}
-              <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
-                {shopifyTab === 'shopify' ? (
-                  shopifyLoading ? (
-                    <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
-                  ) : shopifyError ? (
-                <div className="p-16 text-center">
-                  <span className="text-4xl opacity-20 block mb-4"></span>
-                  <p className="text-white/40 text-sm">{shopifyError}</p>
-                  <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
-                </div>
-              ) : shopifyData?.mode === 'inventory' ? (
-                <div className="p-6">
-                  {shopifyData.needsOrderScope && (
-                    <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
-                      <span className="text-purple-300 text-lg"></span>
-                      <div>
-                        <p className="text-sm font-bold text-purple-300">Orders Access Not Enabled</p>
-                        <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
-                      </div>
-                    </div>
-                  )}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
-                      <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.inventoryValue.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Retail value on hand</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Products</p>
-                      <p className="text-2xl font-black text-white">{shopifyData.summary.totalProducts}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Total Units</p>
-                      <p className="text-2xl font-black text-white">{shopifyData.summary.totalInventory}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">In stock</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Price</p>
-                      <p className="text-2xl font-black text-white">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per unit</p>
-                    </div>
-                  </div>
-                  <div className="bg-black/20 border border-white/5 overflow-hidden">
-                    <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4></div>
-                    <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                      <table className="w-full text-left">
-                        <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
-                          <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
-                        </tr></thead>
-                        <tbody>
-                          {shopifyData.products.map((p: any, i: number) => (
-                            <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                              <td className="px-4 py-3">
-                                <div className="flex items-center gap-3">
-                                  {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
-                                  <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
-                                </div>
-                              </td>
-                              <td className="px-4 py-3 text-center">
-                                <button
-                                  type="button"
-                                  onClick={() => openQrModal(p)}
-                                  className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
-                                  title="View & Print QR Code"
-                                >
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                                </button>
-                              </td>
-                              <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
-                              <td className="px-4 py-3 text-right">
-                                <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
-                              </td>
-                              <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              ) : shopifyData ? (
-                <div className="p-6">
-                  {/* Revenue Metrics Row */}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-black/30 border border-[#96bf48]/20 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
-                      <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Orders</p>
-                      <p className="text-2xl font-black text-white">{shopifyData.summary.totalOrders}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">
-                        {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
-                      </p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Order Value</p>
-                      <p className="text-2xl font-black text-white">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per transaction</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Net Revenue</p>
-                      <p className="text-2xl font-black text-emerald-400">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
-                      {shopifyData.summary.totalRefunded > 0 && (
-                        <p className="text-[0.55rem] text-rose-400 mt-1 uppercase tracking-widest">
-                          -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Two Column: Top Products + Revenue Chart */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Top Products */}
-                    <div className="bg-black/20 border border-white/5 overflow-hidden">
-                      <div className="p-4 border-b border-white/5">
-                        <h4 className="text-sm font-bold flex items-center gap-2">
-                           Top Products
-                        </h4>
-                      </div>
-                      <div className="p-0">
-                        {shopifyData.topProducts.length === 0 ? (
-                          <div className="p-8 text-center text-white/30 text-xs">No product data</div>
-                        ) : (
-                          <table className="w-full text-left">
-                            <thead>
-                              <tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
-                                <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
-                                <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Qty</th>
-                                <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Revenue</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {shopifyData.topProducts.map((p: any, i: number) => (
-                                <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                                  <td className="px-4 py-3">
-                                    <div className="flex items-center gap-3">
-                                      <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${
-                                        i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 
-                                        i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
-                                        i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
-                                        'bg-white/5 text-white/30 border border-white/10'
-                                      }`}>{i + 1}</span>
-                                      <span className="text-sm font-bold truncate max-w-[180px]">{p.title}</span>
-                                    </div>
-                                  </td>
-                                  <td className="px-4 py-3 text-right font-mono text-sm text-white/60">{p.qty}</td>
-                                  <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${p.revenue.toFixed(2)}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Daily Revenue Mini-Chart */}
-                    <div className="bg-black/20 border border-white/5 overflow-hidden">
-                      <div className="p-4 border-b border-white/5">
-                        <h4 className="text-sm font-bold flex items-center gap-2">
-                           Daily Revenue
-                        </h4>
-                      </div>
-                      <div className="p-4">
-                        {Object.keys(shopifyData.dailyRevenue).length === 0 ? (
-                          <div className="p-8 text-center text-white/30 text-xs">No data in this period</div>
-                        ) : (
-                          <div className="space-y-2">
-                            {Object.entries(shopifyData.dailyRevenue)
-                              .sort(([a], [b]) => a.localeCompare(b))
-                              .slice(-14)
-                              .map(([date, amount]: [string, any], idx: number) => {
-                                const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
-                                const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
-                                return (
-                                  <div key={`daily-rev-${date}-${idx}`} className="flex items-center gap-3">
-                                    <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
-                                      {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                    </span>
-                                    <div className="flex-1 h-5 bg-white/5 rounded-full overflow-hidden">
-                                      <div
-                                        className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-all duration-500"
-                                        style={{ width: `${Math.max(pct, 2)}%` }}
-                                      />
-                                    </div>
-                                    <span className="text-[0.65rem] font-mono font-bold text-white/60 w-16 text-right">${Number(amount).toFixed(0)}</span>
-                                  </div>
-                                );
-                              })}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Recent Orders */}
-                  <div className="bg-black/20 border border-white/5 overflow-hidden">
-                    <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                      <h4 className="text-sm font-bold flex items-center gap-2">
-                         Recent Orders
-                      </h4>
-                      <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{shopifyData.orders.length} orders</span>
-                    </div>
-                    <div className="max-h-[350px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                      {shopifyData.orders.length === 0 ? (
-                        <div className="p-8 text-center text-white/30 text-xs">No orders in this period</div>
-                      ) : (
-                        <table className="w-full text-left">
-                          <thead className="sticky top-0 z-10">
-                            <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25">
-                              <th className="px-4 py-3 font-bold border-b border-white/5">Order</th>
-                              <th className="px-4 py-3 font-bold border-b border-white/5">Customer</th>
-                              <th className="px-4 py-3 font-bold border-b border-white/5">Items</th>
-                              <th className="px-4 py-3 font-bold border-b border-white/5">Status</th>
-                              <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {shopifyData.orders.map((order: any) => (
-                              <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                                <td className="px-4 py-3">
-                                  <div className="font-mono text-sm font-bold text-[#96bf48]">{order.name}</div>
-                                  <div className="text-[0.55rem] text-white/30">
-                                    {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                                  </div>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="text-sm font-bold truncate max-w-[120px]">{order.customer.name}</div>
-                                  {order.customer.ordersCount > 1 && (
-                                    <span className="text-[0.5rem] text-[var(--color-accent)] font-bold uppercase tracking-widest">Repeat ({order.customer.ordersCount}×)</span>
-                                  )}
-                                </td>
-                                <td className="px-4 py-3">
-                                  <span className="text-sm text-white/60">{order.itemCount} item{order.itemCount !== 1 ? 's' : ''}</span>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="flex flex-col gap-1">
-                                    <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
-                                      order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                      : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                                      : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                    }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
-                                    {order.fulfillmentStatus && (
-                                      <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
-                                        order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                                        : 'bg-white/5 text-white/30 border border-white/10'
-                                      }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-4 py-3 text-right">
-                                  <span className="font-mono text-sm font-bold">${order.total.toFixed(2)}</span>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Product Inventory (always shown in orders mode too) */}
-                  {shopifyData.products && shopifyData.products.length > 0 && (
-                    <div className="bg-black/20 border border-white/5 overflow-hidden mt-8">
-                      <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                        <h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4>
-                        {shopifyData.inventory && (
-                          <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">
-                            {shopifyData.inventory.totalInventory} units · ${shopifyData.inventory.inventoryValue?.toLocaleString()} value
-                          </span>
-                        )}
-                      </div>
-                      <table className="w-full text-left">
-                        <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
-                          <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
-                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
-                        </tr></thead>
-                        <tbody>
-                          {shopifyData.products.map((p: any, i: number) => (
-                            <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                              <td className="px-4 py-3">
-                                <div className="flex items-center gap-3">
-                                  {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
-                                  <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
-                                </div>
-                              </td>
-                              <td className="px-4 py-3 text-center">
-                                <button
-                                  type="button"
-                                  onClick={() => openQrModal(p)}
-                                  className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
-                                  title="View & Print QR Code"
-                                >
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                                </button>
-                              </td>
-                              <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
-                              <td className="px-4 py-3 text-right">
-                                <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
-                              </td>
-                              <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              ) : null) : (
-                <div className="p-6 animate-in fade-in duration-300">
-                  {/* Simulated Metrics Grid */}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-all">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-purple-400 mb-2">Simulated Revenue</p>
-                      <p className="text-2xl font-black text-white font-mono">
-                        ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
-                      </p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
-                      <p className="text-2xl font-black text-white font-mono">
-                        {simulatedOrders.filter(o => o.source === 'Store').length}
-                      </p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
-                      <p className="text-2xl font-black text-white font-mono">
-                        {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
-                      </p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
-                    </div>
-                    <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
-                      <p className="text-2xl font-black text-white font-mono">
-                        {simulatedOrders.filter(o => o.source === 'Raffle').length}
-                      </p>
-                      <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
-                    </div>
-                  </div>
-
-                  {/* Fulfillment & Pack Tracking Table */}
-                  <div className="bg-black/20 border border-white/5 overflow-hidden">
-                    <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
-                      <h4 className="text-sm font-bold flex items-center gap-2">
-                         Simulated Order Fulfillment & Package Tracking Queue
-                      </h4>
-                      <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{simulatedOrders.length} total orders</span>
-                    </div>
-                    <div className="max-h-[500px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                      {simulatedOrders.length === 0 ? (
-                        <div className="p-8 text-center text-white/30 text-xs">No simulated orders yet. Go to store page and purchase items!</div>
-                      ) : (
-                        <table className="w-full text-left">
-                          <thead>
-                            <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
-                              <th className="px-4 py-3 font-bold">Order ID</th>
-                              <th className="px-4 py-3 font-bold">Customer</th>
-                              <th className="px-4 py-3 font-bold">Item Details</th>
-                              <th className="px-4 py-3 font-bold">Source</th>
-                              <th className="px-4 py-3 font-bold">Fulfillment Status</th>
-                              <th className="px-4 py-3 font-bold">Actions</th>
-                              <th className="px-4 py-3 font-bold text-right">Price</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {simulatedOrders.map((order) => (
-                              <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                                <td className="px-4 py-3">
-                                  <div className="font-mono text-xs font-bold text-purple-400">#SIM-{order.id.toString().slice(-6)}</div>
-                                  <div className="text-[0.55rem] text-white/30 mt-0.5">
-                                    {new Date(order.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                                  </div>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="text-sm font-bold text-white/90">{order.customer}</div>
-                                  <div className="text-[0.6rem] text-white/40">{order.email || 'No email provided'}</div>
-                                  {order.address && (
-                                    <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
-                                       {order.address}, {order.city}
-                                    </div>
-                                  )}
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="text-sm text-white/80 font-bold">{order.item}</div>
-                                  {(order.size || order.color) && (
-                                    <div className="text-[0.6rem] text-white/40 mt-0.5">
-                                      {order.size && <span>Size: {order.size}</span>}
-                                      {order.size && order.color && <span> · </span>}
-                                      {order.color && <span>Color: {order.color}</span>}
-                                    </div>
-                                  )}
-                                  {order.method && (
-                                    <div className="text-[0.55rem] text-purple-400/80 font-semibold uppercase tracking-wider mt-0.5">
-                                      {order.method === 'merch_table' ? 'Merch Table Pickup' : 'Shipping'}
-                                    </div>
-                                  )}
-                                </td>
-                                <td className="px-4 py-3">
-                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${
-                                    order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
-                                    : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                    : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                                  }`}>{order.source}</span>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="flex flex-col gap-1">
-                                    <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${
-                                      order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                      : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                      : 'bg-white/5 text-white/40 border border-white/10'
-                                    }`}>{order.status}</span>
-                                    {order.trackingNumber && (
-                                      <div className="text-[0.55rem] font-mono text-emerald-400/80 mt-0.5">
-                                         {order.trackingNumber}
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-4 py-3">
-                                  {order.status === 'Pending' && order.method === 'shipping' && (
-                                    <button
-                                      onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
-                                      className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:scale-105 active:scale-95"
-                                    >
-                                       Ship Package
-                                    </button>
-                                  )}
-                                  {order.status === 'Ready for Pickup' && (
-                                    <button
-                                      onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
-                                      className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] hover:scale-105 active:scale-95"
-                                    >
-                                       Claim Merch
-                                    </button>
-                                  )}
-                                  {(order.status === 'Shipped' || order.status === 'Claimed') && (
-                                    <span className="text-[0.55rem] text-emerald-400/60 font-bold uppercase tracking-wider">
-                                       Complete
-                                    </span>
-                                  )}
-                                </td>
-                                <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">
-                                  {order.price || '$0.00'}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
+              <button
+                onClick={async () => {
+                  setShopifyLoading(true);
+                  try {
+                    const res = await fetch(`/api/shopify/orders?days=${shopifyPeriod}`);
+                    if (res.ok) { setShopifyData(await res.json()); setShopifyError(''); }
+                  } catch { }
+                  setShopifyLoading(false);
+                }}
+                className="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-[0.6rem] font-bold uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all"
+              >
+                ↻ Refresh
+              </button>
+            </div>
+          )}
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('shopify') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('shopify', 'Shopify Sales', 'Track real-time Shopify store order statistics, sales charts, and recent drop activity over custom date ranges.')}
+      <div style={{ display: isSectionOpen('shopify') ? undefined : 'none' }}>
+        {shopifyTab === 'shopify' ? (
+          shopifyLoading ? (
+            <div className="p-16 text-center text-white/30 font-mono text-xs animate-pulse">Pulling Shopify analytics...</div>
+          ) : shopifyError ? (
+            <div className="p-16 text-center">
+              <span className="text-4xl opacity-20 block mb-4"></span>
+              <p className="text-white/40 text-sm">{shopifyError}</p>
+              <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
+            </div>
+          ) : shopifyData?.mode === 'inventory' ? (
+            <div className="p-6">
+              {shopifyData.needsOrderScope && (
+                <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
+                  <span className="text-purple-300 text-lg"></span>
+                  <div>
+                    <p className="text-sm font-bold text-purple-300">Orders Access Not Enabled</p>
+                    <p className="text-[0.7rem] text-white/40 mt-1">To see sales data, enable <code className="text-purple-300">read_orders</code> in Shopify Admin → Settings → Apps → Your app → Admin API scopes. Showing inventory data instead.</p>
                   </div>
                 </div>
               )}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-black/30 border border-[#96bf48]/20 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Inventory Value</p>
+                  <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.inventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Retail value on hand</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Products</p>
+                  <p className="text-2xl font-black text-white">{shopifyData.summary.totalProducts}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">{shopifyData.summary.totalVariants} variants</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Total Units</p>
+                  <p className="text-2xl font-black text-white">{shopifyData.summary.totalInventory}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">In stock</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Price</p>
+                  <p className="text-2xl font-black text-white">${shopifyData.summary.totalInventory > 0 ? (shopifyData.summary.inventoryValue / shopifyData.summary.totalInventory).toFixed(2) : '0.00'}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per unit</p>
+                </div>
               </div>
-            </section>
-  );
+              <div className="bg-black/20 border border-white/5 overflow-hidden">
+                <div className="p-4 border-b border-white/5"><h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4></div>
+                <div className="max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                  <table className="w-full text-left">
+                    <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
+                      <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
+                    </tr></thead>
+                    <tbody>
+                      {shopifyData.products.map((p: any, i: number) => (
+                        <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
+                              <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <button
+                              type="button"
+                              onClick={() => openQrModal(p)}
+                              className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                              title="View & Print QR Code"
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                            </button>
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
+                          <td className="px-4 py-3 text-right">
+                            <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          ) : shopifyData ? (
+            <div className="p-6">
+              {/* Revenue Metrics Row */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="bg-black/30 border border-[#96bf48]/20 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-[#96bf48]/60 mb-2">Total Revenue</p>
+                  <p className="text-2xl font-black text-[#96bf48]">${shopifyData.summary.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Last {shopifyData.period}</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Orders</p>
+                  <p className="text-2xl font-black text-white">{shopifyData.summary.totalOrders}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">
+                    {shopifyData.statusBreakdown.fulfilled} fulfilled · {shopifyData.statusBreakdown.unfulfilled} pending
+                  </p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Avg Order Value</p>
+                  <p className="text-2xl font-black text-white">${shopifyData.summary.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                  <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest">Per transaction</p>
+                </div>
+                <div className="bg-black/30 border border-white/10 p-5">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Net Revenue</p>
+                  <p className="text-2xl font-black text-[var(--color-accent)]">${shopifyData.summary.netRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                  {shopifyData.summary.totalRefunded > 0 && (
+                    <p className="text-[0.55rem] text-rose-400 mt-1 uppercase tracking-widest">
+                      -${shopifyData.summary.totalRefunded.toFixed(2)} refunded
+                    </p>
+                  )}
+                </div>
+              </div>
 
-  const renderBookings = () => (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('bookings')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+              {/* Two Column: Top Products + Revenue Chart */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {/* Top Products */}
+                <div className="bg-black/20 border border-white/5 overflow-hidden">
+                  <div className="p-4 border-b border-white/5">
+                    <h4 className="text-sm font-bold flex items-center gap-2">
+                      Top Products
+                    </h4>
                   </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  Booking Requests
-                  {renderInfoToggle('bookings')}
-                </h3>
+                  <div className="p-0">
+                    {shopifyData.topProducts.length === 0 ? (
+                      <div className="p-8 text-center text-white/30 text-xs">No product data</div>
+                    ) : (
+                      <table className="w-full text-left">
+                        <thead>
+                          <tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
+                            <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                            <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Qty</th>
+                            <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Revenue</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {shopifyData.topProducts.map((p: any, i: number) => (
+                            <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                              <td className="px-4 py-3">
+                                <div className="flex items-center gap-3">
+                                  <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
+                                    i === 1 ? 'bg-gray-400/20 text-gray-300 border border-gray-400/30' :
+                                      i === 2 ? 'bg-orange-700/20 text-orange-400 border border-orange-700/30' :
+                                        'bg-white/5 text-white/30 border border-white/10'
+                                    }`}>{i + 1}</span>
+                                  <span className="text-sm font-bold truncate max-w-[180px]">{p.title}</span>
+                                </div>
+                              </td>
+                              <td className="px-4 py-3 text-right font-mono text-sm text-white/60">{p.qty}</td>
+                              <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${p.revenue.toFixed(2)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bookings') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+
+                {/* Daily Revenue Mini-Chart */}
+                <div className="bg-black/20 border border-white/5 overflow-hidden">
+                  <div className="p-4 border-b border-white/5">
+                    <h4 className="text-sm font-bold flex items-center gap-2">
+                      Daily Revenue
+                    </h4>
+                  </div>
+                  <div className="p-4">
+                    {Object.keys(shopifyData.dailyRevenue).length === 0 ? (
+                      <div className="p-8 text-center text-white/30 text-xs">No data in this period</div>
+                    ) : (
+                      <div className="space-y-2">
+                        {Object.entries(shopifyData.dailyRevenue)
+                          .sort(([a], [b]) => a.localeCompare(b))
+                          .slice(-14)
+                          .map(([date, amount]: [string, any], idx: number) => {
+                            const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
+                            const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
+                            return (
+                              <div key={`daily-rev-${date}-${idx}`} className="flex items-center gap-3">
+                                <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
+                                  {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                </span>
+                                <div className="flex-1 h-5 bg-white/5 rounded-full overflow-hidden">
+                                  <div
+                                    className="h-full bg-gradient-to-r from-[#96bf48]/60 to-[#96bf48] rounded-full transition-all duration-500"
+                                    style={{ width: `${Math.max(pct, 2)}%` }}
+                                  />
+                                </div>
+                                <span className="text-[0.65rem] font-mono font-bold text-white/60 w-16 text-right">${Number(amount).toFixed(0)}</span>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-              {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
-              <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
-                <div className="p-0">
-                {bookings.length === 0 ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
-                ) : (
-                  <div className="w-full overflow-x-auto">
-                    <table className="w-full text-left border-collapse min-w-full">
-                      <thead>
-                        <tr className="bg-black/20 text-[var(--muted-text)] font-black text-[0.65rem] uppercase tracking-widest border-b border-[var(--border-color)]">
-                          <th className="p-4 font-black border-b border-[var(--border-color)]">ID</th>
-                          <th className="p-4 font-black border-b border-[var(--border-color)]">Client</th>
-                          <th className="p-4 font-black border-b border-[var(--border-color)]">Event Type</th>
-                          <th className="p-4 font-black border-b border-[var(--border-color)]">Date</th>
-                          <th className="p-4 font-black border-b border-[var(--border-color)]">Venue</th>
-                          <th className="p-4 font-black border-b border-[var(--border-color)]">Status</th>
+
+              {/* Recent Orders */}
+              <div className="bg-black/20 border border-white/5 overflow-hidden">
+                <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                  <h4 className="text-sm font-bold flex items-center gap-2">
+                    Recent Orders
+                  </h4>
+                  <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{shopifyData.orders.length} orders</span>
+                </div>
+                <div className="max-h-[350px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                  {shopifyData.orders.length === 0 ? (
+                    <div className="p-8 text-center text-white/30 text-xs">No orders in this period</div>
+                  ) : (
+                    <table className="w-full text-left">
+                      <thead className="sticky top-0 z-10">
+                        <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25">
+                          <th className="px-4 py-3 font-bold border-b border-white/5">Order</th>
+                          <th className="px-4 py-3 font-bold border-b border-white/5">Customer</th>
+                          <th className="px-4 py-3 font-bold border-b border-white/5">Items</th>
+                          <th className="px-4 py-3 font-bold border-b border-white/5">Status</th>
+                          <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Total</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {bookings.slice().reverse().map((b: any) => (
-                          <React.Fragment key={b.bookingId}>
-                          <tr className="border-b border-[var(--border-color)] hover:bg-white/[0.03] transition-colors">
-                            <td className="p-4 border-b border-[var(--border-color)] font-mono text-[0.75rem] text-cyan-400 font-black cursor-pointer hover:underline" onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}>
-                              {expandedBooking === b.bookingId ? '' : ''} {b.bookingId}
+                        {shopifyData.orders.map((order: any) => (
+                          <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td className="px-4 py-3">
+                              <div className="font-mono text-sm font-bold text-[#96bf48]">{order.name}</div>
+                              <div className="text-[0.55rem] text-white/30">
+                                {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                              </div>
                             </td>
-                            <td className="p-4 border-b border-[var(--border-color)]">
-                              <div className="font-bold text-sm text-[var(--text-color)]">{b.name}</div>
-                              <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+                            <td className="px-4 py-3">
+                              <div className="text-sm font-bold truncate max-w-[120px]">{order.customer.name}</div>
+                              {order.customer.ordersCount > 1 && (
+                                <span className="text-[0.5rem]  text-[var(--color-accent)] font-bold uppercase tracking-widest">Repeat ({order.customer.ordersCount}×)</span>
+                              )}
                             </td>
-                            <td className="p-4 border-b border-[var(--border-color)] text-sm text-[var(--text-color)] font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
-                            <td className="p-4 border-b border-[var(--border-color)] text-sm text-[var(--text-color)] font-mono font-medium">{b.eventDate}</td>
-                            <td className="p-4 border-b border-[var(--border-color)]">
-                              <div className="text-sm text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
-                              <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
+                            <td className="px-4 py-3">
+                              <span className="text-sm text-white/60">{order.itemCount} item{order.itemCount !== 1 ? 's' : ''}</span>
                             </td>
-                            <td className="p-4 border-b border-[var(--border-color)]">
-                              <div className="flex items-center gap-2">
-                                <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${
-                                  b.status === 'pending' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                                  : b.status === 'confirmed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                                  : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                                }`}>{b.status}</span>
-                                {b.status === 'pending' && (
-                                  <div className="flex gap-1 ml-1">
-                                    <button
-                                      onClick={async () => {
-                                        if (!confirm(`Approve booking ${b.bookingId}?`)) return;
-                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
-                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
-                                      }}
-                                      className="px-2 py-0.5 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-black border border-emerald-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
-                                    ></button>
-                                    <button
-                                      onClick={async () => {
-                                        if (!confirm(`Reject booking ${b.bookingId}?`)) return;
-                                        const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
-                                        if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
-                                      }}
-                                      className="px-2 py-0.5 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-black border border-rose-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
-                                    ></button>
-                                  </div>
+                            <td className="px-4 py-3">
+                              <div className="flex flex-col gap-1">
+                                <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.financialStatus === 'PAID' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                  : order.financialStatus === 'REFUNDED' || order.financialStatus === 'PARTIALLY_REFUNDED' ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                                    : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                  }`}>{order.financialStatus?.toLowerCase().replace('_', ' ')}</span>
+                                {order.fulfillmentStatus && (
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.fulfillmentStatus === 'FULFILLED' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                                    : 'bg-white/5 text-white/30 border border-white/10'
+                                    }`}>{order.fulfillmentStatus?.toLowerCase()}</span>
                                 )}
                               </div>
                             </td>
-                          </tr>
-                        {expandedBooking === b.bookingId && (
-                          <tr>
-                            <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
-                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
-                                <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
-                                  <p className="text-sm font-semibold text-black dark:text-white">
-                                    {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
-                                  </p>
-                                </div>
-                                <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
-                                  <p className="text-sm font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
-                                </div>
-                                <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
-                                  <p className="text-sm font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
-                                </div>
-                                <div>
-                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
-                                  {b.ticketLink ? (
-                                    <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
-                                      {b.ticketLink}
-                                    </a>
-                                  ) : (
-                                    <p className="text-sm text-black/30 dark:text-white/20">—</p>
-                                  )}
-                                </div>
-                                {b.details && (
-                                  <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
-                                    <p className="text-xs text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
-                                  </div>
-                                )}
-                                {b.plannerNotes && (
-                                  <div className="col-span-2 sm:col-span-4 mt-2">
-                                    <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
-                                    <p className="text-xs text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
-                                  </div>
-                                )}
-                              </div>
+                            <td className="px-4 py-3 text-right">
+                              <span className="font-mono text-sm font-bold">${order.total.toFixed(2)}</span>
                             </td>
                           </tr>
-                        )}
-                        </React.Fragment>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+
+              {/* Product Inventory (always shown in orders mode too) */}
+              {shopifyData.products && shopifyData.products.length > 0 && (
+                <div className="bg-black/20 border border-white/5 overflow-hidden mt-8">
+                  <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                    <h4 className="text-sm font-bold flex items-center gap-2"> Product Inventory</h4>
+                    {shopifyData.inventory && (
+                      <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">
+                        {shopifyData.inventory.totalInventory} units · ${shopifyData.inventory.inventoryValue?.toLocaleString()} value
+                      </span>
+                    )}
+                  </div>
+                  <table className="w-full text-left">
+                    <thead><tr className="text-[0.55rem] uppercase tracking-widest text-white/25">
+                      <th className="px-4 py-3 font-bold border-b border-white/5">Product</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-center">QR Code</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Price</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Stock</th>
+                      <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
+                    </tr></thead>
+                    <tbody>
+                      {shopifyData.products.map((p: any, i: number) => (
+                        <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
+                              <span className="text-sm font-bold truncate max-w-[200px]">{p.title}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <button
+                              type="button"
+                              onClick={() => openQrModal(p)}
+                              className="inline-flex items-center justify-center p-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-lg transition-colors group cursor-pointer"
+                              title="View & Print QR Code"
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/60 group-hover:text-white"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                            </button>
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-sm text-white/60">${p.minPrice.toFixed(2)}{p.maxPrice !== p.minPrice ? ` – $${p.maxPrice.toFixed(2)}` : ''}</td>
+                          <td className="px-4 py-3 text-right">
+                            <span className={`font-mono text-sm font-bold ${p.inventory <= 0 ? 'text-rose-400' : p.inventory < 5 ? 'text-purple-300' : 'text-emerald-400'}`}>{p.inventory}</span>
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">${(p.minPrice * p.inventory).toFixed(2)}</td>
+                        </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               )}
             </div>
+          ) : null) : (
+          <div className="p-6 animate-in fade-in duration-300">
+            {/* Simulated Metrics Grid */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-all">
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)] mb-2">Simulated Revenue</p>
+                <p className="text-2xl font-black text-white font-mono">
+                  ${simulatedOrders.reduce((sum, o) => sum + parseFloat(o.price?.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                </p>
+                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Store + Flash Drop</p>
+              </div>
+              <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Store Purchases</p>
+                <p className="text-2xl font-black text-white font-mono">
+                  {simulatedOrders.filter(o => o.source === 'Store').length}
+                </p>
+                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Normal store checkout</p>
+              </div>
+              <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Flash Drops</p>
+                <p className="text-2xl font-black text-white font-mono">
+                  {simulatedOrders.filter(o => o.source === 'Flash Drop').length}
+                </p>
+                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Live drop purchases</p>
+              </div>
+              <div className="bg-black/30 border border-white/10 p-5 hover:border-white/20 transition-all">
+                <p className="text-[0.6rem] font-bold uppercase tracking-[0.15em] text-white/40 mb-2">Raffle Claims</p>
+                <p className="text-2xl font-black text-white font-mono">
+                  {simulatedOrders.filter(o => o.source === 'Raffle').length}
+                </p>
+                <p className="text-[0.55rem] text-white/30 mt-1 uppercase tracking-widest font-bold">Claims via winning PIN</p>
+              </div>
+            </div>
+
+            {/* Fulfillment & Pack Tracking Table */}
+            <div className="bg-black/20 border border-white/5 overflow-hidden">
+              <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+                <h4 className="text-sm font-bold flex items-center gap-2">
+                  Simulated Order Fulfillment & Package Tracking Queue
+                </h4>
+                <span className="text-[0.55rem] text-white/30 uppercase tracking-widest">{simulatedOrders.length} total orders</span>
+              </div>
+              <div className="max-h-[500px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+                {simulatedOrders.length === 0 ? (
+                  <div className="p-8 text-center text-white/30 text-xs">No simulated orders yet. Go to store page and purchase items!</div>
+                ) : (
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="bg-[var(--color-bg-surface)] text-[0.55rem] uppercase tracking-widest text-white/25 border-b border-white/5">
+                        <th className="px-4 py-3 font-bold">Order ID</th>
+                        <th className="px-4 py-3 font-bold">Customer</th>
+                        <th className="px-4 py-3 font-bold">Item Details</th>
+                        <th className="px-4 py-3 font-bold">Source</th>
+                        <th className="px-4 py-3 font-bold">Fulfillment Status</th>
+                        <th className="px-4 py-3 font-bold">Actions</th>
+                        <th className="px-4 py-3 font-bold text-right">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {simulatedOrders.map((order) => (
+                        <tr key={order.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <td className="px-4 py-3">
+                            <div className="font-mono text-xs font-bold  text-[var(--color-accent)]">#SIM-{order.id.toString().slice(-6)}</div>
+                            <div className="text-[0.55rem] text-white/30 mt-0.5">
+                              {new Date(order.ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="text-sm font-bold text-white/90">{order.customer}</div>
+                            <div className="text-[0.6rem] text-white/40">{order.email || 'No email provided'}</div>
+                            {order.address && (
+                              <div className="text-[0.55rem] text-white/30 mt-0.5 truncate max-w-[150px]" title={`${order.address}, ${order.city}, ${order.zip}`}>
+                                {order.address}, {order.city}
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="text-sm text-white/80 font-bold">{order.item}</div>
+                            {(order.size || order.color) && (
+                              <div className="text-[0.6rem] text-white/40 mt-0.5">
+                                {order.size && <span>Size: {order.size}</span>}
+                                {order.size && order.color && <span> · </span>}
+                                {order.color && <span>Color: {order.color}</span>}
+                              </div>
+                            )}
+                            {order.method && (
+                              <div className="text-[0.55rem]  text-[var(--color-accent)]/80 font-semibold uppercase tracking-wider mt-0.5">
+                                {order.method === 'merch_table' ? 'Merch Table Pickup' : 'Shipping'}
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest ${order.source === 'Flash Drop' ? 'bg-pink-500/15 text-pink-400 border border-pink-500/30'
+                              : order.source === 'Raffle' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
+                              }`}>{order.source}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex flex-col gap-1">
+                              <span className={`inline-block px-2 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-widest w-fit ${order.status === 'Shipped' || order.status === 'Claimed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                : order.status === 'Ready for Pickup' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                  : 'bg-white/5 text-white/40 border border-white/10'
+                                }`}>{order.status}</span>
+                              {order.trackingNumber && (
+                                <div className="text-[0.55rem] font-mono text-[var(--color-accent)]/80 mt-0.5">
+                                  {order.trackingNumber}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            {order.status === 'Pending' && order.method === 'shipping' && (
+                              <button
+                                onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Shipped')}
+                                className="px-2.5 py-1 bg-purple-500 hover:bg-purple-400 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:scale-105 active:scale-95"
+                              >
+                                Ship Package
+                              </button>
+                            )}
+                            {order.status === 'Ready for Pickup' && (
+                              <button
+                                onClick={() => handleUpdateSimulatedOrderStatus(order.id, 'Claimed')}
+                                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[0.55rem] font-black uppercase tracking-wider rounded transition-all cursor-pointer shadow-[0_0_10px_rgba(147, 51, 234,0.3)] hover:scale-105 active:scale-95"
+                              >
+                                Claim Merch
+                              </button>
+                            )}
+                            {(order.status === 'Shipped' || order.status === 'Claimed') && (
+                              <span className="text-[0.55rem] text-[var(--color-accent)]/60 font-bold uppercase tracking-wider">
+                                Complete
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-sm font-bold text-[#96bf48]">
+                            {order.price || '$0.00'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
           </div>
-        </section>
+        )}
+      </div>
+    </section>
+  );
+
+  const renderBookings = () => (
+    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
+      <div onClick={() => toggleSection('bookings')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+            Booking Requests
+            {renderInfoToggle('bookings')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('bookings') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
+      <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
+        <div className="p-0">
+          {bookings.length === 0 ? (
+            <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
+          ) : (
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-left border-collapse min-w-full">
+                <thead>
+                  <tr className="bg-black/20 text-[var(--muted-text)] font-black text-[0.65rem] uppercase tracking-widest border-b border-[var(--border-color)]">
+                    <th className="p-4 font-black border-b border-[var(--border-color)]">ID</th>
+                    <th className="p-4 font-black border-b border-[var(--border-color)]">Client</th>
+                    <th className="p-4 font-black border-b border-[var(--border-color)]">Event Type</th>
+                    <th className="p-4 font-black border-b border-[var(--border-color)]">Date</th>
+                    <th className="p-4 font-black border-b border-[var(--border-color)]">Venue</th>
+                    <th className="p-4 font-black border-b border-[var(--border-color)]">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookings.slice().reverse().map((b: any) => (
+                    <React.Fragment key={b.bookingId}>
+                      <tr className="border-b border-[var(--border-color)] hover:bg-white/[0.03] transition-colors">
+                        <td className="p-4 border-b border-[var(--border-color)] font-mono text-[0.75rem] text-cyan-400 font-black cursor-pointer hover:underline" onClick={() => setExpandedBooking(prev => prev === b.bookingId ? null : b.bookingId)}>
+                          {expandedBooking === b.bookingId ? '' : ''} {b.bookingId}
+                        </td>
+                        <td className="p-4 border-b border-[var(--border-color)]">
+                          <div className="font-bold text-sm text-[var(--text-color)]">{b.name}</div>
+                          <div className="text-[0.65rem] text-[var(--muted-text)] font-mono">{b.email}</div>
+                        </td>
+                        <td className="p-4 border-b border-[var(--border-color)] text-sm text-[var(--text-color)] font-medium capitalize">{b.eventType?.replace('_', ' ')}</td>
+                        <td className="p-4 border-b border-[var(--border-color)] text-sm text-[var(--text-color)] font-mono font-medium">{b.eventDate}</td>
+                        <td className="p-4 border-b border-[var(--border-color)]">
+                          <div className="text-sm text-[var(--text-color)] font-medium truncate max-w-[180px]">{b.venueName || '–'}</div>
+                          <div className="text-[0.6rem] text-[var(--muted-text)]">{b.venueCity}, {b.venueState}</div>
+                        </td>
+                        <td className="p-4 border-b border-[var(--border-color)]">
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${b.status === 'pending' ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                              : b.status === 'confirmed' ? 'bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/30'
+                                : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                              }`}>{b.status}</span>
+                            {b.status === 'pending' && (
+                              <div className="flex gap-1 ml-1">
+                                <button
+                                  onClick={async () => {
+                                    if (!confirm(`Approve booking ${b.bookingId}?`)) return;
+                                    const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'confirmed' }) });
+                                    if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'confirmed' } : bk)); }
+                                  }}
+                                  className="px-2 py-0.5 bg-emerald-500/10 hover:bg-emerald-500 text-[var(--color-accent)] hover:text-black border  border-[var(--color-accent)]/30 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
+                                ></button>
+                                <button
+                                  onClick={async () => {
+                                    if (!confirm(`Reject booking ${b.bookingId}?`)) return;
+                                    const res = await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: b.bookingId, status: 'cancelled' }) });
+                                    if (res.ok) { setBookings((prev: any[]) => prev.map((bk: any) => bk.bookingId === b.bookingId ? { ...bk, status: 'cancelled' } : bk)); }
+                                  }}
+                                  className="px-2 py-0.5 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-black border border-rose-500/20 text-[0.5rem] font-bold uppercase tracking-widest rounded transition-all"
+                                ></button>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                      {expandedBooking === b.bookingId && (
+                        <tr>
+                          <td colSpan={6} className="p-6 bg-black/5 dark:bg-[#060609] border-t border-b border-black/20 dark:border-white/10">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-left">
+                              <div>
+                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Age Limit</p>
+                                <p className="text-sm font-semibold text-black dark:text-white">
+                                  {b.ageRestriction === "21_plus" ? " 21 & Over" : b.ageRestriction === "18_plus" ? " 18 & Over" : " All Ages"}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Doors Time</p>
+                                <p className="text-sm font-semibold text-black dark:text-white">{b.doorsTime || b.startTime || 'TBD'}</p>
+                              </div>
+                              <div>
+                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Cover / Price</p>
+                                <p className="text-sm font-semibold text-black dark:text-white">{b.cover || 'Free / No Cover'}</p>
+                              </div>
+                              <div>
+                                <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Ticket Link</p>
+                                {b.ticketLink ? (
+                                  <a href={b.ticketLink} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-cyan-600 hover:underline truncate block max-w-[200px]" title={b.ticketLink}>
+                                    {b.ticketLink}
+                                  </a>
+                                ) : (
+                                  <p className="text-sm text-black/30 dark:text-white/20">—</p>
+                                )}
+                              </div>
+                              {b.details && (
+                                <div className="col-span-2 sm:col-span-4 mt-2">
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Public Notes (displayed to fans)</p>
+                                  <p className="text-xs text-black/80 dark:text-white/70 italic bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">"{b.details}"</p>
+                                </div>
+                              )}
+                              {b.plannerNotes && (
+                                <div className="col-span-2 sm:col-span-4 mt-2">
+                                  <p className="text-[0.6rem] uppercase tracking-widest text-black/50 dark:text-white/40 font-bold mb-1">Planner's Internal Notes</p>
+                                  <p className="text-xs text-black/80 dark:text-white/70 bg-black/5 dark:bg-white/[0.02] p-3 rounded-lg border border-black/10 dark:border-white/5">{b.plannerNotes}</p>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 
   const renderPlanners = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('planners')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+      <div onClick={() => toggleSection('planners')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Event Planners Directory
+            {renderInfoToggle('planners')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
+            {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).length} Planners
+          </span>
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
+      <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
+        <div className="p-0" data-lenis-prevent="true">
+          {bookings.length === 0 ? (
+            <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
+          ) : (
+            <div className="space-y-3 p-4 md:p-6">
+              {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).map((planner: any) => (
+                <div key={planner.email} className="bg-black/20 border border-white/5 p-4 hover:border-[var(--color-accent)]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4 min-w-[240px]">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-sm font-black  text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
+                      {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
+                    </div>
+                    <div className="overflow-hidden">
+                      <h4 className="font-bold text-white text-sm truncate">{planner.name || 'Unknown Planner'}</h4>
+                      <p className="text-[0.65rem] text-white/40 truncate uppercase tracking-widest">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
+                    </div>
                   </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  Event Planners Directory
-                  {renderInfoToggle('planners')}
-                </h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
-                  {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).length} Planners
-                </span>
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
-              </div>
-              {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
-              <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
-                <div className="p-0" data-lenis-prevent="true">
-                {bookings.length === 0 ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
-                ) : (
-                  <div className="space-y-3 p-4 md:p-6">
-                    {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).map((planner: any) => (
-                      <div key={planner.email} className="bg-black/20 border border-white/5 p-4 hover:border-[var(--color-accent)]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div className="flex items-center gap-4 min-w-[240px]">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-sm font-black text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
-                            {planner.name?.substring(0, 2).toUpperCase() || 'EP'}
-                          </div>
-                          <div className="overflow-hidden">
-                            <h4 className="font-bold text-white text-sm truncate">{planner.name || 'Unknown Planner'}</h4>
-                            <p className="text-[0.65rem] text-white/40 truncate uppercase tracking-widest">{planner.venueName || planner.eventType?.replace('_', ' ') || 'Event Planner'}</p>
-                          </div>
-                        </div>
 
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-white/70">
-                          {planner.email && (
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-[var(--color-accent)]"></span>
-                              <span className="truncate">{planner.email}</span>
-                            </div>
-                          )}
-                          {planner.phone ? (
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-[var(--color-accent)]"></span>
-                              <span>{planner.phone}</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-1.5 text-white/30 italic">
-                              <span className="text-white/20"></span>
-                              <span>No phone</span>
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="flex items-center gap-2 shrink-0 md:ml-auto">
-                          <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-all">
-                            Email
-                          </a>
-                          {planner.phone ? (
-                            <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all">
-                              Text
-                            </a>
-                          ) : (
-                            <button disabled className="px-4 py-2 text-center bg-white/5 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
-                              No Phone
-                            </button>
-                          )}
-                        </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-white/70">
+                    {planner.email && (
+                      <div className="flex items-center gap-1.5">
+                        <span className=" text-[var(--color-accent)]"></span>
+                        <span className="truncate">{planner.email}</span>
                       </div>
-                    ))}
+                    )}
+                    {planner.phone ? (
+                      <div className="flex items-center gap-1.5">
+                        <span className=" text-[var(--color-accent)]"></span>
+                        <span>{planner.phone}</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 text-white/30 italic">
+                        <span className="text-white/20"></span>
+                        <span>No phone</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              </div>
-            </section>
+
+                  <div className="flex items-center gap-2 shrink-0 md:ml-auto">
+                    <a href={`mailto:${planner.email}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated email to planner ${planner.name}`, time: 'Just now', color: 'bg-emerald-500' }, ...prev])} className="px-4 py-2 text-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/60 hover:text-white transition-all">
+                      Email
+                    </a>
+                    {planner.phone ? (
+                      <a href={`sms:${planner.phone.replace(/[^0-9]/g, '')}`} onClick={() => setAuditLog(prev => [{ id: crypto.randomUUID(), text: `Admin initiated SMS to planner ${planner.name}`, time: 'Just now', color: 'bg-blue-500' }, ...prev])} className="px-4 py-2 text-center bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-all">
+                        Text
+                      </a>
+                    ) : (
+                      <button disabled className="px-4 py-2 text-center bg-white/5 border border-white/10 rounded-lg text-[0.6rem] font-bold uppercase tracking-widest text-white/20 cursor-not-allowed">
+                        No Phone
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 
   const renderPhotoMod = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('photomod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+      <div onClick={() => toggleSection('photomod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+            Fan Photo Moderation Queue
+            {renderInfoToggle('photomod')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
+      <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
+        <div className="p-0">
+          {moderationQueue.length === 0 ? (
+            <div className="p-16 text-center text-white/30 text-sm">
+              <span className="text-4xl opacity-20 block mb-4"></span>
+              Queue is entirely empty. All fan content is categorized.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+              {moderationQueue.map((photo) => (
+                <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
+                  <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
+                    <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
+                      {new Date(photo.submittedAt).toLocaleDateString()}
+                    </div>
                   </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                  Fan Photo Moderation Queue
-                  {renderInfoToggle('photomod')}
-                </h3>
+                  <div className="p-4 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-2 text-sm font-bold truncate">
+                      <span className=" text-[var(--color-accent)]">@</span>
+                      {photo.name}
+                    </div>
+                    {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate"> {photo.venue}</p>}
+                    {photo.caption && <p className="text-sm text-white/70 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">"{photo.caption}"</p>}
+                  </div>
+                  <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
+                    <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors">
+                      Reject & Delete
+                    </button>
+                    <button onClick={() => moderatePhoto(photo.id, 'approve')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                      Safe & Approve
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
-              </div>
-              {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
-              <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
-                <div className="p-0">
-                {moderationQueue.length === 0 ? (
-                  <div className="p-16 text-center text-white/30 text-sm">
-                     <span className="text-4xl opacity-20 block mb-4"></span>
-                     Queue is entirely empty. All fan content is categorized.
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                    {moderationQueue.map((photo) => (
-                      <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
-                        <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
-                          <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                          <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
-                            {new Date(photo.submittedAt).toLocaleDateString()}
-                          </div>
-                        </div>
-                        <div className="p-4 flex flex-col gap-1.5">
-                          <div className="flex items-center gap-2 text-sm font-bold truncate">
-                            <span className="text-[var(--color-accent)]">@</span>
-                            {photo.name}
-                          </div>
-                          {photo.venue && <p className="text-[0.65rem] font-bold tracking-widest uppercase text-white/40 truncate"> {photo.venue}</p>}
-                          {photo.caption && <p className="text-sm text-white/70 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">"{photo.caption}"</p>}
-                        </div>
-                        <div className="grid grid-cols-2 border-t border-white/10 divide-x divide-white/10">
-                          <button onClick={() => moderatePhoto(photo.id, 'reject')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors">
-                            Reject & Delete
-                          </button>
-                          <button onClick={() => moderatePhoto(photo.id, 'approve')} className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-colors shadow-[0_0_15px_rgba(52,211,153,0.3)]">
-                            Safe & Approve
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              </div>
-            </section>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 
   const renderMemoryMod = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('memorymod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+      <div onClick={() => toggleSection('memorymod')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" /><path d="M12 8v4l3 3" /></svg>
+            Memory Moderation Queue
+            {renderInfoToggle('memorymod')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="px-3 py-1 bg-purple-500/20  text-[var(--color-accent)] border border-purple-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
+            {memoryQueue.length} Pending
+          </span>
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('memorymod') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
+      <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="p-6">
+        {memoryQueue.length === 0 ? (
+          <div className="p-10 text-center text-white/30 text-sm">
+            <span className="text-4xl opacity-20 block mb-4"></span>
+            Queue is entirely empty. All fan content is categorized.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {memoryQueue.map((mem) => (
+              <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-black/20 border border-white/5">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
+                    <span className="text-[0.6rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
                   </div>
-                  <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/><path d="M12 8v4l3 3"/></svg>
-                    Memory Moderation Queue
-                    {renderInfoToggle('memorymod')}
-                  </h3>
+                  <p className="text-sm text-white/70 italic mt-1">"{mem.text || mem.caption}"</p>
+                  {mem.show_id && (
+                    <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
+                  )}
+                  {mem.photo_url && (
+                    <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
+                      <img src={mem.photo_url} alt="7th Heaven Media" className="w-full h-full object-cover" />
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-400 border border-purple-500/30 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
-                    {memoryQueue.length} Pending
-                  </span>
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('memorymod') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
+                <div className="flex gap-2 shrink-0">
+                  <button
+                    onClick={() => moderateMemory(mem.id, 'reject')}
+                    className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white/40 border border-white/10 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all rounded-lg"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    onClick={() => moderateMemory(mem.id, 'approve')}
+                    className="px-4 py-2 text-xs font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-all rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                  >
+                    Approve
+                  </button>
                 </div>
               </div>
-              {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
-              <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="p-6">
-                {memoryQueue.length === 0 ? (
-                  <div className="p-10 text-center text-white/30 text-sm">
-                    <span className="text-4xl opacity-20 block mb-4"></span>
-                    Queue is entirely empty. All fan content is categorized.
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {memoryQueue.map((mem) => (
-                      <div key={mem.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-black/20 border border-white/5">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-white/80">{mem.fan_name || 'Anonymous Fan'}</span>
-                            <span className="text-[0.6rem] text-white/30">{new Date(mem.created_at || mem.submittedAt).toLocaleDateString()}</span>
-                          </div>
-                          <p className="text-sm text-white/70 italic mt-1">"{mem.text || mem.caption}"</p>
-                          {mem.show_id && (
-                            <p className="text-xs text-white/30 mt-2 font-bold uppercase tracking-widest">Show ID: {mem.show_id}</p>
-                          )}
-                          {mem.photo_url && (
-                            <div className="mt-2 w-20 h-20 rounded-lg overflow-hidden border border-white/10">
-                              <img src={mem.photo_url} alt="7th Heaven Media" className="w-full h-full object-cover" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex gap-2 shrink-0">
-                          <button
-                            onClick={() => moderateMemory(mem.id, 'reject')}
-                            className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white/40 border border-white/10 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all rounded-lg"
-                          >
-                            Reject
-                          </button>
-                          <button
-                            onClick={() => moderateMemory(mem.id, 'approve')}
-                            className="px-4 py-2 text-xs font-black uppercase tracking-widest text-[#050505] bg-emerald-400 hover:bg-emerald-300 transition-all rounded-lg shadow-[0_0_15px_rgba(52,211,153,0.3)]"
-                          >
-                            Approve
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </section>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 
 
@@ -4413,552 +4408,552 @@ try {
 
   const renderLiveAlerts = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('livealerts')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-                  </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                  Active Live Streams
-                  {renderInfoToggle('livealerts')}
-                </h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('livealerts') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
-              </div>
-              {renderInfoBanner('livealerts', 'Active Live Streams', 'Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls.')}
-              <div style={{ display: isSectionOpen('livealerts') ? undefined : 'none' }}>
-                <div className="p-0">
-                {isLoading ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
-                ) : feeds.length === 0 ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs">No active streams detected across infrastructure.</div>
-                ) : (
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-white/[0.02] text-white/30 text-[0.6rem] uppercase tracking-widest">
-                        <th className="p-4 font-bold border-b border-white/5 w-1/3">Stream Name</th>
-                        <th className="p-4 font-bold border-b border-white/5">Host</th>
-                        <th className="p-4 font-bold border-b border-white/5">Viewers</th>
-                        <th className="p-4 font-bold border-b border-white/5">Merch Sales</th>
-                        <th className="p-4 font-bold border-b border-white/5 text-right w-1/6">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {feeds.map((feed) => (
-                        <tr key={feed.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="p-4">
-                            <div className="font-bold flex items-center gap-2 text-sm">
-                              <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
-                              {feed.isSimulated && feed.route ? (
-                                <Link href={feed.route} className="truncate block hover:text-[var(--color-accent)] transition-colors">{feed.name}</Link>
-                              ) : (
-                                <span className="truncate block">{feed.name}</span>
-                              )}
-                              {feed.isSimulated && (
-                                <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] font-bold uppercase tracking-wider text-emerald-400 shrink-0">Demo</span>
-                              )}
-                            </div>
-                            <div className="text-white/40 text-[0.6rem] uppercase tracking-wider mt-1">Uptime: {feed.uptime}</div>
-                          </td>
-                          <td className="p-4 text-sm text-white/70">{feed.host}</td>
-                          <td className="p-4 font-mono text-sm">{feed.viewers.toLocaleString()}</td>
-                          <td className="p-4 font-mono text-sm font-bold text-emerald-400">
-                             {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
-                          </td>
-                          <td className="p-4 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <Link 
-                                href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
-                                className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all inline-block"
-                              >
-                                View
-                              </Link>
-                              <button 
-                                onClick={() => killStream(feed)}
-                                className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
-                              >
-                                Shut Down
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-              </div>
-            </section>
+      <div onClick={() => toggleSection('livealerts')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            Active Live Streams
+            {renderInfoToggle('livealerts')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('livealerts') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('livealerts', 'Active Live Streams', 'Monitor active video feeds and broadcast room channels in real time, view subscriber notifications, and manage stream controls.')}
+      <div style={{ display: isSectionOpen('livealerts') ? undefined : 'none' }}>
+        <div className="p-0">
+          {isLoading ? (
+            <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Scanning network...</div>
+          ) : feeds.length === 0 ? (
+            <div className="p-12 text-center text-white/30 font-mono text-xs">No active streams detected across infrastructure.</div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-white/[0.02] text-white/30 text-[0.6rem] uppercase tracking-widest">
+                  <th className="p-4 font-bold border-b border-white/5 w-1/3">Stream Name</th>
+                  <th className="p-4 font-bold border-b border-white/5">Host</th>
+                  <th className="p-4 font-bold border-b border-white/5">Viewers</th>
+                  <th className="p-4 font-bold border-b border-white/5">Merch Sales</th>
+                  <th className="p-4 font-bold border-b border-white/5 text-right w-1/6">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feeds.map((feed) => (
+                  <tr key={feed.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                    <td className="p-4">
+                      <div className="font-bold flex items-center gap-2 text-sm">
+                        <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shrink-0" />
+                        {feed.isSimulated && feed.route ? (
+                          <Link href={feed.route} className="truncate block hover: text-[var(--color-accent)] transition-colors">{feed.name}</Link>
+                        ) : (
+                          <span className="truncate block">{feed.name}</span>
+                        )}
+                        {feed.isSimulated && (
+                          <span className="px-1.5 py-0.5 bg-emerald-500/15 border border-emerald-500/30 rounded text-[0.5rem] font-bold uppercase tracking-wider text-[var(--color-accent)] shrink-0">Demo</span>
+                        )}
+                      </div>
+                      <div className="text-white/40 text-[0.6rem] uppercase tracking-wider mt-1">Uptime: {feed.uptime}</div>
+                    </td>
+                    <td className="p-4 text-sm text-white/70">{feed.host}</td>
+                    <td className="p-4 font-mono text-sm">{feed.viewers.toLocaleString()}</td>
+                    <td className="p-4 font-mono text-sm font-bold text-[var(--color-accent)]">
+                      {feed.revenue !== undefined ? `$${feed.revenue.toLocaleString()}` : '$0'}
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
+                          className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all inline-block"
+                        >
+                          View
+                        </Link>
+                        <button
+                          onClick={() => killStream(feed)}
+                          className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
+                        >
+                          Shut Down
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </section>
   );
 
   const renderSmsBlast = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('smsblast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-                  </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                    SMS Proximity Blast
-                    {renderInfoToggle('smsblast')}
-                  </h3>
-                </div>
+      <div onClick={() => toggleSection('smsblast')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            SMS Proximity Blast
+            {renderInfoToggle('smsblast')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            {/* Auto-blast toggle */}
+            <div className="flex items-center gap-2">
+              <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30">Auto-Blast</span>
+              <button
+                onClick={async () => {
+                  const newVal = !smsAutoBlast;
+                  setSmsAutoBlast(newVal);
+                  try {
+                    await fetch('/api/admin/settings', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ key: 'sms_auto_blast', value: newVal ? 'on' : 'off' }),
+                    });
+                  } catch { }
+                }}
+                className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${smsAutoBlast ? 'bg-emerald-500' : 'bg-white/10'}`}
+              >
+                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${smsAutoBlast ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              </button>
+            </div>
+            <span className="text-[0.6rem] text-rose-400/60 uppercase tracking-widest font-bold">
+              {smsShows.length} upcoming show{smsShows.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('smsblast') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('smsblast', 'SMS Proximity Blast', 'Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.')}
+      <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
+        {/* Auto-blast info bar */}
+        <div className={`px-6 py-3 border-b border-white/5 flex items-center justify-between ${smsAutoBlast ? 'bg-emerald-500/5' : 'bg-white/[0.01]'}`}>
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-emerald-500 animate-pulse' : 'bg-white/10'}`} />
+            <span className="text-[0.65rem] text-white/40">
+              {smsAutoBlast
+                ? `Auto-sending ${smsAutoBlastDays} day${smsAutoBlastDays !== 1 ? 's' : ''} before each public show`
+                : 'Auto-blast disabled — manual sends only'}
+            </span>
+          </div>
+          {smsAutoBlast && (
+            <div className="flex items-center gap-2">
+              <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/25">Days before:</span>
+              <select
+                value={smsAutoBlastDays}
+                onChange={async (e) => {
+                  const v = parseInt(e.target.value, 10);
+                  setSmsAutoBlastDays(v);
+                  try {
+                    await fetch('/api/admin/settings', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(v) }),
+                    });
+                  } catch { }
+                }}
+                className="bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded px-2 py-1 text-[0.7rem] outline-none cursor-pointer"
+              >
+                {[1, 2, 3, 5, 7].map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+          )}
+        </div>
+
+        <div className="p-6">
+          <p className="text-[0.7rem] text-white/40 mb-5">
+            {smsAutoBlast
+              ? 'Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded.'
+              : 'Pick an upcoming show and we\u0027ll auto-compose a text with all the details. Only fans subscribed within proximity of the venue will receive it.'}
+          </p>
+
+          {/* Show Picker */}
+          <div className="space-y-4">
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
+              <select
+                value={smsSelectedShow}
+                onChange={e => {
+                  setSmsSelectedShow(e.target.value);
+                  setSmsResult(null);
+                  const show = smsShows.find((s: any) => s._id === e.target.value);
+                  if (show) {
+                    const location = show.state ? `${show.city}, ${show.state}` : show.city;
+                    const dateStr = (() => {
+                      try {
+                        const d = new Date(show.date + 'T12:00:00');
+                        return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                      } catch { return show.date; }
+                    })();
+                    const lines: string[] = [
+                      ` 7th Heaven is playing in your area!`,
+                      ``,
+                      ` ${show.venue} — ${location}`,
+                    ];
+                    if (dateStr) lines.push(` ${dateStr}`);
+                    let timeLine = "";
+                    if (show.doorsTime) timeLine += ` Doors: ${show.doorsTime}`;
+                    if (show.time) timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
+                    if (show.playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
+                    if (timeLine) lines.push(timeLine);
+                    if (show.allAges === true) lines.push(` All Ages`);
+                    else if (show.allAges === false) lines.push(` 21+`);
+                    if (show.cover) {
+                      const lc = show.cover.toLowerCase();
+                      if (lc === 'free' || lc === 'no cover' || lc === '$0') lines.push(` FREE — No Cover`);
+                      else lines.push(` Cover: ${show.cover}`);
+                    }
+                    lines.push(``);
+                    lines.push(`Reply STOP to unsubscribe.`);
+                    setSmsPreview(lines.join('\n'));
+                  } else {
+                    setSmsPreview('');
+                  }
+                }}
+                className="w-full bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-rose-500/50 transition-colors appearance-none cursor-pointer"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff40' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
+              >
+                <option value="">— Select an upcoming show —</option>
+                {smsShows.map((show: any, idx: number) => {
+                  const dateStr = (() => {
+                    try {
+                      const d = new Date(show.date + 'T12:00:00');
+                      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    } catch { return show.date; }
+                  })();
+                  const loc = show.state ? `${show.city}, ${show.state}` : show.city;
+                  return (
+                    <option key={show._id || `sms-show-${show.date}-${idx}`} value={show._id || show.date}>
+                      {dateStr} — {show.venue} ({loc}) {show.time ? `@ ${show.time}` : ''}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
+            {/*  Twilio Gateway & Cost Summary Bar */}
+            <div className="bg-gradient-to-r from-[#14151e] via-[#1a1b26] to-[#14151e] border border-rose-500/20 p-4 shadow-xl space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-4">
-                  {/* Auto-blast toggle */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30">Auto-Blast</span>
-                    <button
-                      onClick={async () => {
-                        const newVal = !smsAutoBlast;
-                        setSmsAutoBlast(newVal);
-                        try {
-                          await fetch('/api/admin/settings', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ key: 'sms_auto_blast', value: newVal ? 'on' : 'off' }),
-                          });
-                        } catch {}
-                      }}
-                      className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${smsAutoBlast ? 'bg-emerald-500' : 'bg-white/10'}`}
-                    >
-                      <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${smsAutoBlast ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                    </button>
-                  </div>
-                  <span className="text-[0.6rem] text-rose-400/60 uppercase tracking-widest font-bold">
-                    {smsShows.length} upcoming show{smsShows.length !== 1 ? 's' : ''}
-                  </span>
-                </div>
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('smsblast') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
-              </div>
-              {renderInfoBanner('smsblast', 'SMS Proximity Blast', 'Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.')}
-              <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
-                {/* Auto-blast info bar */}
-              <div className={`px-6 py-3 border-b border-white/5 flex items-center justify-between ${smsAutoBlast ? 'bg-emerald-500/5' : 'bg-white/[0.01]'}`}>
-                <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-emerald-500 animate-pulse' : 'bg-white/10'}`} />
-                  <span className="text-[0.65rem] text-white/40">
-                    {smsAutoBlast
-                      ? `Auto-sending ${smsAutoBlastDays} day${smsAutoBlastDays !== 1 ? 's' : ''} before each public show`
-                      : 'Auto-blast disabled — manual sends only'}
-                  </span>
-                </div>
-                {smsAutoBlast && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/25">Days before:</span>
-                    <select
-                      value={smsAutoBlastDays}
-                      onChange={async (e) => {
-                        const v = parseInt(e.target.value, 10);
-                        setSmsAutoBlastDays(v);
-                        try {
-                          await fetch('/api/admin/settings', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(v) }),
-                          });
-                        } catch {}
-                      }}
-                      className="bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded px-2 py-1 text-[0.7rem] outline-none cursor-pointer"
-                    >
-                      {[1,2,3,5,7].map(d => <option key={d} value={d}>{d}</option>)}
-                    </select>
-                  </div>
-                )}
-              </div>
+                  <div className="w-9 h-9 bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 font-extrabold text-sm shrink-0">
 
-              <div className="p-6">
-                <p className="text-[0.7rem] text-white/40 mb-5">
-                  {smsAutoBlast
-                    ? 'Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded.'
-                    : 'Pick an upcoming show and we\u0027ll auto-compose a text with all the details. Only fans subscribed within proximity of the venue will receive it.'}
-                </p>
-
-                {/* Show Picker */}
-                <div className="space-y-4">
+                  </div>
                   <div>
-                    <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
-                    <select
-                      value={smsSelectedShow}
-                      onChange={e => {
-                        setSmsSelectedShow(e.target.value);
-                        setSmsResult(null);
-                        const show = smsShows.find((s: any) => s._id === e.target.value);
-                        if (show) {
-                          const location = show.state ? `${show.city}, ${show.state}` : show.city;
-                          const dateStr = (() => {
-                            try {
-                              const d = new Date(show.date + 'T12:00:00');
-                              return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                            } catch { return show.date; }
-                          })();
-                          const lines: string[] = [
-                            ` 7th Heaven is playing in your area!`,
-                            ``,
-                            ` ${show.venue} — ${location}`,
-                          ];
-                          if (dateStr) lines.push(` ${dateStr}`);
-                           let timeLine = "";
-                           if (show.doorsTime) timeLine += ` Doors: ${show.doorsTime}`;
-                           if (show.time) timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
-                           if (show.playTime) timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
-                           if (timeLine) lines.push(timeLine);
-                          if (show.allAges === true) lines.push(` All Ages`);
-                          else if (show.allAges === false) lines.push(` 21+`);
-                          if (show.cover) {
-                            const lc = show.cover.toLowerCase();
-                            if (lc === 'free' || lc === 'no cover' || lc === '$0') lines.push(` FREE — No Cover`);
-                            else lines.push(` Cover: ${show.cover}`);
-                          }
-                          lines.push(``);
-                          lines.push(`Reply STOP to unsubscribe.`);
-                          setSmsPreview(lines.join('\n'));
-                        } else {
-                          setSmsPreview('');
-                        }
-                      }}
-                      className="w-full bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-rose-500/50 transition-colors appearance-none cursor-pointer"
-                      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff40' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
-                    >
-                      <option value="">— Select an upcoming show —</option>
-                      {smsShows.map((show: any, idx: number) => {
-                        const dateStr = (() => {
-                          try {
-                            const d = new Date(show.date + 'T12:00:00');
-                            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                          } catch { return show.date; }
-                        })();
-                        const loc = show.state ? `${show.city}, ${show.state}` : show.city;
-                        return (
-                          <option key={show._id || `sms-show-${show.date}-${idx}`} value={show._id || show.date}>
-                            {dateStr} — {show.venue} ({loc}) {show.time ? `@ ${show.time}` : ''}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-extrabold text-white">Twilio A2P 10DLC Gateway</span>
+                      <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-[var(--color-accent)] text-[10px] font-black uppercase rounded-full flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-white/50">
+                      Sender Number: <strong className="text-white/80">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
+                    </span>
                   </div>
-
-                  {/*  Twilio Gateway & Cost Summary Bar */}
-                  <div className="bg-gradient-to-r from-[#14151e] via-[#1a1b26] to-[#14151e] border border-rose-500/20 p-4 shadow-xl space-y-4">
-                    <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 font-extrabold text-sm shrink-0">
-                          
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-extrabold text-white">Twilio A2P 10DLC Gateway</span>
-                            <span className="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 text-[10px] font-black uppercase rounded-full flex items-center gap-1">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Connected
-                            </span>
-                          </div>
-                          <span className="text-[11px] text-white/50">
-                            Sender Number: <strong className="text-white/80">+1 (888) 7H-ROCKS</strong> (Toll-Free Verified) • SID: <code className="text-rose-300/80">AC89f2a...98e4</code>
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 text-xs">
-                        <div className="text-right">
-                          <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Twilio Credit Balance</div>
-                          <div className="text-emerald-400 font-black text-sm">${smsTwilioBalance.toFixed(2)}</div>
-                        </div>
-                        <div className="text-right pl-4 border-l border-white/10">
-                          <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Total Spent So Far</div>
-                          <div className="text-rose-400 font-black text-sm">${smsTotalSpentAllTime.toFixed(2)}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Quick Metric Cards */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
-                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
-                        <div className="text-base font-extrabold text-white">480 fans</div>
-                        <div className="text-[9px] text-emerald-400">Within 25mi radius</div>
-                      </div>
-                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
-                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
-                        <div className="text-base font-extrabold text-purple-300">${smsCostPerSegment}/SMS</div>
-                        <div className="text-[9px] text-white/40">US Standard Rate</div>
-                      </div>
-                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
-                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
-                        <div className="text-base font-black text-rose-400">
-                          ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
-                        </div>
-                        <div className="text-[9px] text-white/40">
-                          {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
-                        </div>
-                      </div>
-                      <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
-                        <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
-                        <div className="text-base font-extrabold text-white">{smsTotalSentAllTime.toLocaleString()}</div>
-                        <div className="text-[9px] text-purple-300">Across 4 blasts</div>
-                      </div>
-                    </div>
+                </div>
+                <div className="flex items-center gap-4 text-xs">
+                  <div className="text-right">
+                    <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Twilio Credit Balance</div>
+                    <div className="text-emerald-400 font-black text-sm">${smsTwilioBalance.toFixed(2)}</div>
                   </div>
-
-                  {/*  Interactive Smartphone Text Message Preview */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
-                    <div className="lg:col-span-6 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
-                          <span></span> Live Twilio SMS Smartphone Preview
-                        </label>
-                        <span className="text-[10px] text-white/40 italic">Renders exact recipient view</span>
-                      </div>
-
-                      {/* iPhone Frame */}
-                      <div className="mx-auto max-w-[320px] bg-[#111116] border-[6px] border-[#2d2d38] rounded-[36px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative select-none">
-                        {/* Notch / Speaker */}
-                        <div className="bg-[#2d2d38] h-5 w-32 mx-auto rounded-b-xl flex items-center justify-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-black/60" />
-                          <div className="w-8 h-1 rounded-full bg-black/40" />
-                        </div>
-
-                        {/* Status bar */}
-                        <div className="px-5 py-1.5 flex items-center justify-between text-[10px] font-semibold text-white/70">
-                          <span>9:41</span>
-                          <div className="flex items-center gap-1">
-                            <span>5G</span>
-                            <div className="w-4 h-2 rounded border border-white/60 p-0.5 flex items-center">
-                              <div className="w-2.5 h-full bg-emerald-400 rounded-sm" />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Messages App Header */}
-                        <div className="bg-[#1c1c24] px-4 py-2 border-b border-white/10 flex items-center gap-3">
-                          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-[10px] font-black text-white">
-                            7H
-                          </div>
-                          <div>
-                            <div className="text-[11px] font-bold text-white leading-none">7th Heaven Band</div>
-                            <div className="text-[9px] text-emerald-400 mt-0.5">Verified Twilio SMS</div>
-                          </div>
-                        </div>
-
-                        {/* Message Body Screen */}
-                        <div className="p-4 min-h-[260px] max-h-[340px] overflow-y-auto bg-[#0a0a0e] space-y-3 font-sans text-xs">
-                          <div className="text-center text-[9px] text-white/30 font-medium">Today 9:41 AM</div>
-                          
-                          {/* SMS Bubble */}
-                          <div className="bg-[#262533] text-white/90 p-3 rounded-tl-sm border border-white/10 shadow-md text-[11px] leading-relaxed whitespace-pre-wrap">
-                            {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
-                              <span className="text-white/40 italic">Select an upcoming show above or type a custom message to preview the SMS...</span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Footer Reply Bar Mock */}
-                        <div className="bg-[#1c1c24] px-3 py-2 border-t border-white/10 flex items-center justify-between text-[10px] text-white/40">
-                          <span>iMessage / SMS</span>
-                          <span className="text-rose-400 font-bold">Reply STOP to unsubscribe</span>
-                        </div>
-                      </div>
-
-                      {/* Character & Segment Stats */}
-                      <div className="bg-black/30 border border-white/10 p-3 text-xs flex items-center justify-between">
-                        <div>
-                          <span className="text-white/40">Character Count: </span>
-                          <strong className="text-white">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
-                        </div>
-                        <div>
-                          <span className="text-white/40">Twilio Segments: </span>
-                          <strong className="text-purple-300">
-                            {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment ({Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) * 160} max)
-                          </strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="lg:col-span-6 space-y-4">
-                      {/* Custom message override */}
-                      <div>
-                        <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
-                          Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
-                        </label>
-                        <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
-                          <ReactQuill
-                            theme="snow"
-                            value={smsCustomMsg}
-                            onChange={setSmsCustomMsg}
-                            placeholder="Leave empty to use the auto-generated message above"
-                            className="bg-white overflow-hidden text-xs"
-                          />
-                        </div>
-                      </div>
-
-                      {/*  Cost Breakdown Calculator */}
-                      <div className="bg-black/40 border border-white/10 p-4 space-y-3">
-                        <div className="flex items-center justify-between text-xs font-bold border-b border-white/10 pb-2">
-                          <span className="text-white flex items-center gap-1.5"> Blast Cost Breakdown</span>
-                          <span className="text-emerald-400">Twilio Pay-As-You-Go</span>
-                        </div>
-                        <div className="space-y-1.5 text-xs text-white/70">
-                          <div className="flex items-center justify-between">
-                            <span>Recipients (25mi Radius):</span>
-                            <span className="font-bold text-white">480 subscribers</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span>Segments per Message:</span>
-                            <span className="font-bold text-purple-300">
-                              {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span>Twilio Carrier Fee:</span>
-                            <span className="font-bold text-white">$0.0079 / SMS</span>
-                          </div>
-                          <div className="border-t border-white/10 pt-2 flex items-center justify-between text-sm font-extrabold text-white">
-                            <span>Total Estimated Cost:</span>
-                            <span className="text-rose-400">
-                              ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Send controls */}
-                      <div className="flex items-center justify-between pt-2">
-                        <div>
-                          {smsResult && (
-                            <div className={`text-sm font-bold ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                              {smsResult.success ? (
-                                <>
-                                   {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
-                                  {smsResult.note && <span className="text-purple-300 ml-2 text-xs">({smsResult.note})</span>}
-                                </>
-                              ) : (
-                                <> {smsResult.error}</>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                        <button
-                          disabled={smsSending || !smsSelectedShow}
-                          onClick={async () => {
-                            const show = smsShows.find((s: any) => s._id === smsSelectedShow);
-                            if (!show) return;
-                            const recipientDesc = `480 fans near ${show.venue}`;
-                            const calcCost = ((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2);
-                            if (!confirm(`Send Twilio proximity SMS to ${recipientDesc}? (Estimated cost: $${calcCost})`)) return;
-                            setSmsSending(true);
-                            setSmsResult(null);
-                            try {
-                              const body: any = {
-                                venue: show.venue,
-                                city: show.city,
-                                state: show.state || '',
-                                lat: show.lat,
-                                lng: show.lng,
-                              };
-                              if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
-                                body.message = smsCustomMsg;
-                              } else {
-                                const d = new Date(show.date + 'T12:00:00');
-                                body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                                body.time = show.time || '';
-                                body.doorsTime = show.doorsTime || '';
-                                body.playTime = show.playTime || '';
-                                if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
-                                if (show.cover) body.cover = show.cover;
-                              }
-                              const res = await fetch('/api/sms/send', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(body),
-                              });
-                              const data = await res.json();
-                              setSmsResult(data);
-                              if (data.success) {
-                                const costNum = parseFloat(calcCost);
-                                setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
-                                setSmsTotalSpentAllTime(prev => prev + costNum);
-                                setSmsTotalSentAllTime(prev => prev + 480);
-                                setSmsHistoryLogs(prev => [
-                                  { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
-                                  ...prev
-                                ]);
-                              }
-                            } catch (err: any) {
-                              setSmsResult({ error: err.message });
-                            }
-                            setSmsSending(false);
-                          }}
-                          className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer"
-                        >
-                          {smsSending ? (
-                            <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending Twilio Blast...</>
-                          ) : (
-                            <> Send Proximity Blast</>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/*  Cumulative Twilio Spending & History Log Table */}
-                  <div className="border-t border-white/10 pt-5 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-2">
-                        <span></span> Twilio Blast History & Spending Logs
-                      </h4>
-                      <span className="text-[11px] text-white/40">Total Spent: <strong className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</strong></span>
-                    </div>
-
-                    <div className="overflow-x-auto border border-white/10 bg-black/40">
-                      <table className="w-full text-left text-xs text-white/80">
-                        <thead className="bg-white/5 text-[10px] font-black uppercase tracking-wider text-white/40 border-b border-white/10">
-                          <tr>
-                            <th className="py-2.5 px-4">Date</th>
-                            <th className="py-2.5 px-4">Venue / Location</th>
-                            <th className="py-2.5 px-4">Recipients</th>
-                            <th className="py-2.5 px-4">Segments</th>
-                            <th className="py-2.5 px-4">Total Cost</th>
-                            <th className="py-2.5 px-4">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/5">
-                          {smsHistoryLogs.map(log => (
-                            <tr key={log.id} className="hover:bg-white/[0.02]">
-                              <td className="py-2.5 px-4 font-bold text-white">{log.date}</td>
-                              <td className="py-2.5 px-4">{log.venue} <span className="text-white/40">({log.city})</span></td>
-                              <td className="py-2.5 px-4 font-mono">{log.recipients} fans</td>
-                              <td className="py-2.5 px-4 font-mono">{log.segments} SMS</td>
-                              <td className="py-2.5 px-4 font-extrabold text-rose-400">${log.cost.toFixed(2)}</td>
-                              <td className="py-2.5 px-4">
-                                <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold rounded">
-                                  {log.status}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                  <div className="text-right pl-4 border-l border-white/10">
+                    <div className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Total Spent So Far</div>
+                    <div className="text-rose-400 font-black text-sm">${smsTotalSpentAllTime.toFixed(2)}</div>
                   </div>
                 </div>
               </div>
+
+              {/* Quick Metric Cards */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
+                  <div className="text-base font-extrabold text-white">480 fans</div>
+                  <div className="text-[9px] text-[var(--color-accent)]">Within 25mi radius</div>
+                </div>
+                <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
+                  <div className="text-base font-extrabold text-purple-300">${smsCostPerSegment}/SMS</div>
+                  <div className="text-[9px] text-white/40">US Standard Rate</div>
+                </div>
+                <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
+                  <div className="text-base font-black text-rose-400">
+                    ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
+                  </div>
+                  <div className="text-[9px] text-white/40">
+                    {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
+                  </div>
+                </div>
+                <div className="bg-black/40 border border-white/5 rounded-lg p-2.5 text-center">
+                  <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
+                  <div className="text-base font-extrabold text-white">{smsTotalSentAllTime.toLocaleString()}</div>
+                  <div className="text-[9px] text-purple-300">Across 4 blasts</div>
+                </div>
               </div>
-            </section>
+            </div>
+
+            {/*  Interactive Smartphone Text Message Preview */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
+              <div className="lg:col-span-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
+                    <span></span> Live Twilio SMS Smartphone Preview
+                  </label>
+                  <span className="text-[10px] text-white/40 italic">Renders exact recipient view</span>
+                </div>
+
+                {/* iPhone Frame */}
+                <div className="mx-auto max-w-[320px] bg-[#111116] border-[6px] border-[#2d2d38] rounded-[36px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative select-none">
+                  {/* Notch / Speaker */}
+                  <div className="bg-[#2d2d38] h-5 w-32 mx-auto rounded-b-xl flex items-center justify-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-black/60" />
+                    <div className="w-8 h-1 rounded-full bg-black/40" />
+                  </div>
+
+                  {/* Status bar */}
+                  <div className="px-5 py-1.5 flex items-center justify-between text-[10px] font-semibold text-white/70">
+                    <span>9:41</span>
+                    <div className="flex items-center gap-1">
+                      <span>5G</span>
+                      <div className="w-4 h-2 rounded border border-white/60 p-0.5 flex items-center">
+                        <div className="w-2.5 h-full bg-emerald-400 rounded-sm" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Messages App Header */}
+                  <div className="bg-[#1c1c24] px-4 py-2 border-b border-white/10 flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-[10px] font-black text-white">
+                      7H
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-white leading-none">7th Heaven Band</div>
+                      <div className="text-[9px] text-[var(--color-accent)] mt-0.5">Verified Twilio SMS</div>
+                    </div>
+                  </div>
+
+                  {/* Message Body Screen */}
+                  <div className="p-4 min-h-[260px] max-h-[340px] overflow-y-auto bg-[#0a0a0e] space-y-3 font-sans text-xs">
+                    <div className="text-center text-[9px] text-white/30 font-medium">Today 9:41 AM</div>
+
+                    {/* SMS Bubble */}
+                    <div className="bg-[#262533] text-white/90 p-3 rounded-tl-sm border border-white/10 shadow-md text-[11px] leading-relaxed whitespace-pre-wrap">
+                      {smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview || (
+                        <span className="text-white/40 italic">Select an upcoming show above or type a custom message to preview the SMS...</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Footer Reply Bar Mock */}
+                  <div className="bg-[#1c1c24] px-3 py-2 border-t border-white/10 flex items-center justify-between text-[10px] text-white/40">
+                    <span>iMessage / SMS</span>
+                    <span className="text-rose-400 font-bold">Reply STOP to unsubscribe</span>
+                  </div>
+                </div>
+
+                {/* Character & Segment Stats */}
+                <div className="bg-black/30 border border-white/10 p-3 text-xs flex items-center justify-between">
+                  <div>
+                    <span className="text-white/40">Character Count: </span>
+                    <strong className="text-white">{(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length} chars</strong>
+                  </div>
+                  <div>
+                    <span className="text-white/40">Twilio Segments: </span>
+                    <strong className="text-purple-300">
+                      {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment ({Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) * 160} max)
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 space-y-4">
+                {/* Custom message override */}
+                <div>
+                  <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
+                    Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
+                  </label>
+                  <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
+                    <ReactQuill
+                      theme="snow"
+                      value={smsCustomMsg}
+                      onChange={setSmsCustomMsg}
+                      placeholder="Leave empty to use the auto-generated message above"
+                      className="bg-white overflow-hidden text-xs"
+                    />
+                  </div>
+                </div>
+
+                {/*  Cost Breakdown Calculator */}
+                <div className="bg-black/40 border border-white/10 p-4 space-y-3">
+                  <div className="flex items-center justify-between text-xs font-bold border-b border-white/10 pb-2">
+                    <span className="text-white flex items-center gap-1.5"> Blast Cost Breakdown</span>
+                    <span className="text-emerald-400">Twilio Pay-As-You-Go</span>
+                  </div>
+                  <div className="space-y-1.5 text-xs text-white/70">
+                    <div className="flex items-center justify-between">
+                      <span>Recipients (25mi Radius):</span>
+                      <span className="font-bold text-white">480 subscribers</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Segments per Message:</span>
+                      <span className="font-bold text-purple-300">
+                        {Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160)} Segment
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Twilio Carrier Fee:</span>
+                      <span className="font-bold text-white">$0.0079 / SMS</span>
+                    </div>
+                    <div className="border-t border-white/10 pt-2 flex items-center justify-between text-sm font-extrabold text-white">
+                      <span>Total Estimated Cost:</span>
+                      <span className="text-rose-400">
+                        ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Send controls */}
+                <div className="flex items-center justify-between pt-2">
+                  <div>
+                    {smsResult && (
+                      <div className={`text-sm font-bold ${smsResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {smsResult.success ? (
+                          <>
+                            {smsResult.sent !== undefined ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? 's' : ''}` : smsResult.message}
+                            {smsResult.note && <span className="text-purple-300 ml-2 text-xs">({smsResult.note})</span>}
+                          </>
+                        ) : (
+                          <> {smsResult.error}</>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    disabled={smsSending || !smsSelectedShow}
+                    onClick={async () => {
+                      const show = smsShows.find((s: any) => s._id === smsSelectedShow);
+                      if (!show) return;
+                      const recipientDesc = `480 fans near ${show.venue}`;
+                      const calcCost = ((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2);
+                      if (!confirm(`Send Twilio proximity SMS to ${recipientDesc}? (Estimated cost: $${calcCost})`)) return;
+                      setSmsSending(true);
+                      setSmsResult(null);
+                      try {
+                        const body: any = {
+                          venue: show.venue,
+                          city: show.city,
+                          state: show.state || '',
+                          lat: show.lat,
+                          lng: show.lng,
+                        };
+                        if (smsCustomMsg.replace(/<[^>]*>/g, '').trim()) {
+                          body.message = smsCustomMsg;
+                        } else {
+                          const d = new Date(show.date + 'T12:00:00');
+                          body.date = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                          body.time = show.time || '';
+                          body.doorsTime = show.doorsTime || '';
+                          body.playTime = show.playTime || '';
+                          if (show.allAges !== undefined && show.allAges !== null) body.allAges = show.allAges;
+                          if (show.cover) body.cover = show.cover;
+                        }
+                        const res = await fetch('/api/sms/send', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(body),
+                        });
+                        const data = await res.json();
+                        setSmsResult(data);
+                        if (data.success) {
+                          const costNum = parseFloat(calcCost);
+                          setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
+                          setSmsTotalSpentAllTime(prev => prev + costNum);
+                          setSmsTotalSentAllTime(prev => prev + 480);
+                          setSmsHistoryLogs(prev => [
+                            { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
+                            ...prev
+                          ]);
+                        }
+                      } catch (err: any) {
+                        setSmsResult({ error: err.message });
+                      }
+                      setSmsSending(false);
+                    }}
+                    className="px-6 py-3 bg-rose-500 hover:bg-rose-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(244,63,94,0.3)] cursor-pointer"
+                  >
+                    {smsSending ? (
+                      <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending Twilio Blast...</>
+                    ) : (
+                      <> Send Proximity Blast</>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/*  Cumulative Twilio Spending & History Log Table */}
+            <div className="border-t border-white/10 pt-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-extrabold uppercase tracking-wider text-white flex items-center gap-2">
+                  <span></span> Twilio Blast History & Spending Logs
+                </h4>
+                <span className="text-[11px] text-white/40">Total Spent: <strong className="text-rose-400">${smsTotalSpentAllTime.toFixed(2)}</strong></span>
+              </div>
+
+              <div className="overflow-x-auto border border-white/10 bg-black/40">
+                <table className="w-full text-left text-xs text-white/80">
+                  <thead className="bg-white/5 text-[10px] font-black uppercase tracking-wider text-white/40 border-b border-white/10">
+                    <tr>
+                      <th className="py-2.5 px-4">Date</th>
+                      <th className="py-2.5 px-4">Venue / Location</th>
+                      <th className="py-2.5 px-4">Recipients</th>
+                      <th className="py-2.5 px-4">Segments</th>
+                      <th className="py-2.5 px-4">Total Cost</th>
+                      <th className="py-2.5 px-4">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {smsHistoryLogs.map(log => (
+                      <tr key={log.id} className="hover:bg-white/[0.02]">
+                        <td className="py-2.5 px-4 font-bold text-white">{log.date}</td>
+                        <td className="py-2.5 px-4">{log.venue} <span className="text-white/40">({log.city})</span></td>
+                        <td className="py-2.5 px-4 font-mono">{log.recipients} fans</td>
+                        <td className="py-2.5 px-4 font-mono">{log.segments} SMS</td>
+                        <td className="py-2.5 px-4 font-extrabold text-rose-400">${log.cost.toFixed(2)}</td>
+                        <td className="py-2.5 px-4">
+                          <span className="px-2 py-0.5 bg-emerald-500/10 text-[var(--color-accent)] border border-emerald-500/30 text-[10px] font-bold rounded">
+                            {log.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 
   const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
     const lower = (name || '').toLowerCase();
-    
+
     if (lower.includes('adam') && lower.includes('heisler')) return '/images/band-memebers/Adam.png';
     if (lower.includes('adam')) return '/images/members/adam.png';
-    
+
     if (lower.includes('nick') && lower.includes('cox')) return '/images/band-memebers/Nick.png';
     if (lower.includes('nick')) return '/images/members/nick.png';
 
@@ -4966,7 +4961,7 @@ try {
     if (lower.includes('mark')) return '/images/members/mark.png';
 
     if (lower.includes('frankie') || lower.includes('harchut')) return '/images/band-memebers/Frankie.png';
-    
+
     if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/band-memebers/Dicky.png';
 
     if (lower.includes('michael') || lower.includes('scimeca')) return '/images/crew/al.png';
@@ -5061,9 +5056,9 @@ try {
       const group = crewGroups.find(g => g.name === groupName);
       if (group) {
         const memberIds = allCrewCombined
-          .filter(r => 
-            group.memberIds.some(mId => 
-              mId === r.id || 
+          .filter(r =>
+            group.memberIds.some(mId =>
+              mId === r.id ||
               mId.toLowerCase() === (r.name || '').toLowerCase()
             )
           )
@@ -5078,29 +5073,29 @@ try {
         setNewSmsGroupError('Please enter a group name.');
         return;
       }
-      
+
       const memberIds = allCrewCombined
         .filter(r => {
           const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
           return selectedCrewPhones.includes(r.id) || (norm ? selectedCrewPhones.includes(norm) : false);
         })
         .map(r => r.id);
-        
+
       if (memberIds.length === 0) {
         setNewSmsGroupError('Please select at least one crew member.');
         return;
       }
-      
+
       setNewSmsGroupError('');
       const newGroup = {
         name: trimmed,
         memberIds: memberIds
       };
-      
+
       const updatedGroups = [...crewGroups, newGroup];
       setCrewGroups(updatedGroups);
       localStorage.setItem('7h_crew_groups', JSON.stringify(updatedGroups));
-      
+
       setSelectedGroup(trimmed);
       setNewSmsGroupName('');
       setShowSaveSmsGroup(false);
@@ -5194,11 +5189,11 @@ try {
         <div onClick={() => toggleSection('crewsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
             </div>
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-               Crew SMS Alert & Group Setup
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+              Crew SMS Alert & Group Setup
             </h3>
           </div>
           <div className="flex items-center gap-3">
@@ -5221,7 +5216,7 @@ try {
                       onClick={() => setIsManageRolesModalOpen(true)}
                       className="px-2 py-1 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-black/70 dark:text-white/60 hover:text-black dark:hover:text-white transition-all cursor-pointer flex items-center gap-1 border-solid"
                     >
-                       Manage Preset Roles
+                      Manage Preset Roles
                     </button>
                   </div>
                   <span className="text-[0.6rem] text-black/40 dark:text-white/30 font-mono">
@@ -5242,208 +5237,205 @@ try {
                         return a.name.localeCompare(b.name);
                       })
                       .map((r) => {
-                      const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-                      const isChecked = selectedCrewPhones.includes(r.id) || (norm ? selectedCrewPhones.includes(norm) : false);
-                      const editKey = `main:${r.id}`;
-                      const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
-                      return (
-                        <div
-                          key={r.id}
-                          className={`flex items-center justify-between gap-2.5 px-2.5 py-2 border-b border-black/20 dark:border-white/15 transition-all duration-200 relative min-h-[38px] ${
-                            isChecked
+                        const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
+                        const isChecked = selectedCrewPhones.includes(r.id) || (norm ? selectedCrewPhones.includes(norm) : false);
+                        const editKey = `main:${r.id}`;
+                        const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
+                        return (
+                          <div
+                            key={r.id}
+                            className={`flex items-center justify-between gap-2.5 px-2.5 py-2 border-b border-black/20 dark:border-white/15 transition-all duration-200 relative min-h-[38px] ${isChecked
                               ? 'bg-purple-500/10 text-black dark:text-white'
                               : 'hover:bg-black/5 dark:hover:bg-white/[0.04]'
-                          }`}
-                          title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
-                        >
-                          <div 
-                            onClick={() => handleToggleMember(r)}
-                            className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer"
+                              }`}
+                            title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                           >
-                            {/* High-Visibility Amber Checkbox */}
-                            <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 select-none ${
-                              isChecked 
-                                ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_10px_rgba(147, 51, 234,0.5)] scale-105' 
-                                : 'bg-black/60 border-white/30 hover:border-white/60'
-                            }`}>
-                              {isChecked && (
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                              )}
-                            </div>
-
-                            {/* Avatar */}
-                            {(() => {
-                              const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                              return avatarSrc ? (
-                                <img
-                                  src={avatarSrc}
-                                  alt={r.name}
-                                  className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
-                                  onError={(e) => {
-                                    const fallback = resolveMemberAvatar(r.name, '');
-                                    if (fallback && !e.currentTarget.src.endsWith(fallback)) {
-                                      e.currentTarget.src = fallback;
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
-                                  {r.name.slice(0, 2)}
-                                </div>
-                              );
-                            })()}
-
-                            {/* Name */}
-                            <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
-                          </div>
-
-                          {/* Role & Edit actions */}
-                          <div className="flex items-center gap-1.5 shrink-0 relative">
-                            {r.duty ? (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                  setEditingDutyValue(r.duty || '');
-                                }}
-                                className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight text-purple-400 dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-all hover:scale-105"
-                                title={`Click to change or edit role(s): ${r.duty}`}
-                              >
-                                <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
-                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"/></svg>
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                  setEditingDutyValue(r.duty || '');
-                                }}
-                                className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-all flex items-center gap-1"
-                                title="Click to assign role(s)"
-                              >
-                                <span>+ Assign Role</span>
-                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"/></svg>
-                              </button>
-                            )}
-
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                setEditingDutyValue(r.duty || '');
-                              }}
-                              className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-all cursor-pointer flex items-center justify-center"
-                              title="Edit Role"
+                            <div
+                              onClick={() => handleToggleMember(r)}
+                              className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer"
                             >
-                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"/></svg>
-                            </button>
+                              {/* High-Visibility Amber Checkbox */}
+                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 select-none ${isChecked
+                                ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_10px_rgba(147, 51, 234,0.5)] scale-105'
+                                : 'bg-black/60 border-white/30 hover:border-white/60'
+                                }`}>
+                                {isChecked && (
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                )}
+                              </div>
 
-                            {isEditingThis && (
-                              <div 
-                                className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                                  <div className="truncate pr-2">
-                                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block truncate">Edit Roles</span>
-                                    <span className="text-[9px] font-bold text-slate-500 block truncate">{r.name}</span>
-                                  </div>
-                                  <div className="flex items-center gap-1 shrink-0">
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleSaveDuty(r.id);
-                                      }}
-                                      disabled={savingDuty}
-                                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
-                                    >
-                                       Save
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingDutyMemberId(null);
-                                      }}
-                                      className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
-                                    >
-                                      
-                                    </button>
-                                  </div>
-                                </div>
-
-                                {/* Quick-Select Chips (All Roles) */}
-                                <div>
-                                  <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">Quick Toggle Presets:</span>
-                                  <div className="flex flex-wrap gap-1 max-h-[180px] overflow-y-auto custom-scrollbar p-1.5 bg-slate-50 border border-slate-200 rounded-lg">
-                                    {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
-                                      const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
-                                      const isSelected = currentList.includes(chip.toUpperCase());
-                                      return (
-                                        <button
-                                          key={chip}
-                                          type="button"
-                                          onClick={() => {
-                                            let updated: string[];
-                                            if (isSelected) {
-                                              updated = currentList.filter(c => c !== chip.toUpperCase());
-                                            } else {
-                                              updated = [...currentList, chip.toUpperCase()];
-                                            }
-                                            setEditingDutyValue(updated.join(', '));
-                                          }}
-                                          className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
-                                            isSelected
-                                              ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
-                                              : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
-                                          }`}
-                                        >
-                                          {isSelected ? ` ${chip}` : `+ ${chip}`}
-                                        </button>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
-
-                                {/* Custom role input */}
-                                <div className="pt-1.5 border-t border-slate-200 space-y-1">
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Custom / Edit Text:</span>
-                                    {editingDutyValue && (
-                                      <button
-                                        type="button"
-                                        onClick={() => setEditingDutyValue('')}
-                                        className="text-[9px] font-bold text-rose-600 hover:text-rose-800 border-none bg-transparent cursor-pointer"
-                                      >
-                                        Clear Roles
-                                      </button>
-                                    )}
-                                  </div>
-                                  <input
-                                    type="text"
-                                    value={editingDutyValue}
-                                    onChange={(e) => setEditingDutyValue(e.target.value)}
-                                    placeholder="e.g. STAGE HAND, MERCH..."
-                                    style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                                    className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
-                                    onKeyDown={(e) => {
-                                      if (e.key === 'Enter') {
-                                        handleSaveDuty(r.id);
+                              {/* Avatar */}
+                              {(() => {
+                                const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                return avatarSrc ? (
+                                  <img
+                                    src={avatarSrc}
+                                    alt={r.name}
+                                    className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
+                                    onError={(e) => {
+                                      const fallback = resolveMemberAvatar(r.name, '');
+                                      if (fallback && !e.currentTarget.src.endsWith(fallback)) {
+                                        e.currentTarget.src = fallback;
                                       }
                                     }}
                                   />
+                                ) : (
+                                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
+                                    {r.name.slice(0, 2)}
+                                  </div>
+                                );
+                              })()}
+
+                              {/* Name */}
+                              <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
+                            </div>
+
+                            {/* Role & Edit actions */}
+                            <div className="flex items-center gap-1.5 shrink-0 relative">
+                              {r.duty ? (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                    setEditingDutyValue(r.duty || '');
+                                  }}
+                                  className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-all hover:scale-105"
+                                  title={`Click to change or edit role(s): ${r.duty}`}
+                                >
+                                  <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
+                                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                    setEditingDutyValue(r.duty || '');
+                                  }}
+                                  className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-all flex items-center gap-1"
+                                  title="Click to assign role(s)"
+                                >
+                                  <span>+ Assign Role</span>
+                                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                </button>
+                              )}
+
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                  setEditingDutyValue(r.duty || '');
+                                }}
+                                className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-all cursor-pointer flex items-center justify-center"
+                                title="Edit Role"
+                              >
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                              </button>
+
+                              {isEditingThis && (
+                                <div
+                                  className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                                    <div className="truncate pr-2">
+                                      <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block truncate">Edit Roles</span>
+                                      <span className="text-[9px] font-bold text-slate-500 block truncate">{r.name}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1 shrink-0">
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleSaveDuty(r.id);
+                                        }}
+                                        disabled={savingDuty}
+                                        className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
+                                      >
+                                        Save
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setEditingDutyMemberId(null);
+                                        }}
+                                        className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
+                                      >
+
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  {/* Quick-Select Chips (All Roles) */}
+                                  <div>
+                                    <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">Quick Toggle Presets:</span>
+                                    <div className="flex flex-wrap gap-1 max-h-[180px] overflow-y-auto custom-scrollbar p-1.5 bg-slate-50 border border-slate-200 rounded-lg">
+                                      {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
+                                        const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
+                                        const isSelected = currentList.includes(chip.toUpperCase());
+                                        return (
+                                          <button
+                                            key={chip}
+                                            type="button"
+                                            onClick={() => {
+                                              let updated: string[];
+                                              if (isSelected) {
+                                                updated = currentList.filter(c => c !== chip.toUpperCase());
+                                              } else {
+                                                updated = [...currentList, chip.toUpperCase()];
+                                              }
+                                              setEditingDutyValue(updated.join(', '));
+                                            }}
+                                            className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer border ${isSelected
+                                              ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
+                                              : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
+                                              }`}
+                                          >
+                                            {isSelected ? ` ${chip}` : `+ ${chip}`}
+                                          </button>
+                                        );
+                                      })}
+                                    </div>
+                                  </div>
+
+                                  {/* Custom role input */}
+                                  <div className="pt-1.5 border-t border-slate-200 space-y-1">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Custom / Edit Text:</span>
+                                      {editingDutyValue && (
+                                        <button
+                                          type="button"
+                                          onClick={() => setEditingDutyValue('')}
+                                          className="text-[9px] font-bold text-rose-600 hover:text-rose-800 border-none bg-transparent cursor-pointer"
+                                        >
+                                          Clear Roles
+                                        </button>
+                                      )}
+                                    </div>
+                                    <input
+                                      type="text"
+                                      value={editingDutyValue}
+                                      onChange={(e) => setEditingDutyValue(e.target.value)}
+                                      placeholder="e.g. STAGE HAND, MERCH..."
+                                      style={{ backgroundColor: '#ffffff', color: '#000000' }}
+                                      className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
+                                      onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                          handleSaveDuty(r.id);
+                                        }
+                                      }}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -5463,7 +5455,7 @@ try {
                         }}
                         className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded text-[10px] transition-all cursor-pointer border-none flex items-center gap-1 shadow-sm uppercase tracking-wider"
                       >
-                         Create Group
+                        Create Group
                       </button>
                     </div>
                     <div className="relative">
@@ -5507,7 +5499,7 @@ try {
                           .sort((a: any, b: any) => a.date.localeCompare(b.date))
                           .map((show: any, idx: number) => (
                             <option key={show._id || `show-opt-${show.date}-${idx}`} value={show.date} className="bg-white text-black">
-                               {show.venue || show.venue_name} ({show.date})
+                              {show.venue || show.venue_name} ({show.date})
                             </option>
                           ))}
                       </select>
@@ -5534,7 +5526,7 @@ try {
                           className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-sm font-bold"
                           title="Clear targeted show"
                         >
-                          
+
                         </button>
                       </div>
                     );
@@ -5605,22 +5597,21 @@ try {
                               const isEditingThis = editingDutyMemberId === editKey;
                               const displayRole = r.duty || r.role || 'CREW';
                               return (
-                                <div 
-                                  key={r.id} 
+                                <div
+                                  key={r.id}
                                   className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-1 px-1.5 rounded hover:bg-white/10 relative"
                                 >
-                                  <div 
+                                  <div
                                     className="flex items-center gap-2 cursor-pointer flex-1"
                                     onClick={() => {
                                       if (newSmsGroupError) setNewSmsGroupError('');
                                       handleToggleMember(r);
                                     }}
                                   >
-                                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0 select-none ${
-                                      isChecked 
-                                        ? 'bg-purple-600 border-purple-400 text-white shadow-sm' 
-                                        : 'bg-black/60 border-white/30'
-                                    }`}>
+                                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0 select-none ${isChecked
+                                      ? 'bg-purple-600 border-purple-400 text-white shadow-sm'
+                                      : 'bg-black/60 border-white/30'
+                                      }`}>
                                       {isChecked && (
                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                                       )}
@@ -5644,7 +5635,7 @@ try {
                                     </button>
 
                                     {isEditingThis && (
-                                      <div 
+                                      <div
                                         className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
                                         onClick={(e) => e.stopPropagation()}
                                       >
@@ -5663,7 +5654,7 @@ try {
                                               disabled={savingDuty}
                                               className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
                                             >
-                                               Save
+                                              Save
                                             </button>
                                             <button
                                               type="button"
@@ -5673,7 +5664,7 @@ try {
                                               }}
                                               className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
                                             >
-                                              
+
                                             </button>
                                           </div>
                                         </div>
@@ -5698,11 +5689,10 @@ try {
                                                     }
                                                     setEditingDutyValue(updated.join(', '));
                                                   }}
-                                                  className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer border ${
-                                                    isSelected
-                                                      ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
-                                                      : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
-                                                  }`}
+                                                  className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer border ${isSelected
+                                                    ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
+                                                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
+                                                    }`}
                                                 >
                                                   {isSelected ? ` ${chip}` : `+ ${chip}`}
                                                 </button>
@@ -5750,7 +5740,7 @@ try {
 
                         {newSmsGroupError && (
                           <span className="text-[var(--font-size-4xs)] font-bold text-red-400 block leading-tight">
-                             {newSmsGroupError}
+                            {newSmsGroupError}
                           </span>
                         )}
 
@@ -5783,7 +5773,7 @@ try {
                         }}
                         className="w-full px-3 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow-md transition-all cursor-pointer border-none flex items-center justify-center gap-1.5"
                       >
-                         CREATE NEW GROUP FROM SELECTION
+                        CREATE NEW GROUP FROM SELECTION
                       </button>
                     )}
                   </div>
@@ -5806,7 +5796,7 @@ try {
                     onClick={async () => {
                       const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
                       const isAll = selectedCrewPhones.length === 0;
-                      if (!confirm(isAll 
+                      if (!confirm(isAll
                         ? `No recipients selected. Send this broadcast to ALL ${sendCount} crew members?`
                         : `Send this broadcast to the ${sendCount} selected recipients?`
                       )) return;
@@ -5883,16 +5873,14 @@ try {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div
                   onClick={() => setSendSmsAlert(prev => !prev)}
-                  className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
-                    sendSmsAlert
-                      ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
-                  }`}
+                  className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${sendSmsAlert
+                    ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                    : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
+                    }`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                      sendSmsAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
-                    }`}>
+                    <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${sendSmsAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
+                      }`}>
                       {sendSmsAlert && (
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                       )}
@@ -5904,16 +5892,14 @@ try {
 
                 <div
                   onClick={() => setSendEmailAlert(prev => !prev)}
-                  className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
-                    sendEmailAlert
-                      ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
-                  }`}
+                  className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${sendEmailAlert
+                    ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                    : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
+                    }`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                      sendEmailAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
-                    }`}>
+                    <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${sendEmailAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
+                      }`}>
                       {sendEmailAlert && (
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                       )}
@@ -5926,16 +5912,14 @@ try {
                 {sendSmsAlert && (
                   <div
                     onClick={() => setCrewSendAsGroup(prev => !prev)}
-                    className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
-                      crewSendAsGroup
-                        ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                        : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
-                    }`}
+                    className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${crewSendAsGroup
+                      ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                      : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
+                      }`}
                   >
                     <div className="flex items-center gap-2">
-                      <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                        crewSendAsGroup ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
-                      }`}>
+                      <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${crewSendAsGroup ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
+                        }`}>
                         {crewSendAsGroup && (
                           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                         )}
@@ -5947,90 +5931,90 @@ try {
                 )}
               </div>
 
-                  {/* Confirm / Send Button */}
-                  <div className="space-y-3 pt-2">
-                    {crewAlertResult && (
-                      <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {crewAlertResult.success
-                          ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
-                          : ` ${crewAlertResult.error}`}
-                        {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
-                      </p>
-                    )}
-                    <button
-                      disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
-                      onClick={async () => {
-                        const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
-                        const isAll = selectedCrewPhones.length === 0;
-                        if (!confirm(isAll 
-                          ? `No recipients selected. Send this broadcast to ALL ${sendCount} crew members?`
-                          : `Send this broadcast to the ${sendCount} selected recipients?`
-                        )) return;
+              {/* Confirm / Send Button */}
+              <div className="space-y-3 pt-2">
+                {crewAlertResult && (
+                  <p className={`text-xs font-bold ${crewAlertResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {crewAlertResult.success
+                      ? ` Sent to ${crewAlertResult.sent} crew member${crewAlertResult.sent !== 1 ? 's' : ''}${crewAlertResult.dev ? ' (dev mode)' : ''}`
+                      : ` ${crewAlertResult.error}`}
+                    {crewAlertResult.failed > 0 && <span className="text-rose-400 ml-2">({crewAlertResult.failed} failed)</span>}
+                  </p>
+                )}
+                <button
+                  disabled={crewAlertSending || (sendSmsAlert && !crewAlertMsg.trim()) || (sendEmailAlert && !smsEmailSubject.trim()) || (!sendSmsAlert && !sendEmailAlert)}
+                  onClick={async () => {
+                    const sendCount = selectedCrewPhones.length > 0 ? selectedCrewPhones.length : recipients.length;
+                    const isAll = selectedCrewPhones.length === 0;
+                    if (!confirm(isAll
+                      ? `No recipients selected. Send this broadcast to ALL ${sendCount} crew members?`
+                      : `Send this broadcast to the ${sendCount} selected recipients?`
+                    )) return;
 
-                        setCrewAlertSending(true);
-                        setCrewAlertResult(null);
-                        try {
-                          const show = smsSelectedShowDate ? tourDates.find((s: any) => s.date === smsSelectedShowDate) : null;
-                          const showVenue = show ? (show.venue || show.venue_name) : undefined;
-                          const showTime = show ? (show.time || '8:00pm') : undefined;
+                    setCrewAlertSending(true);
+                    setCrewAlertResult(null);
+                    try {
+                      const show = smsSelectedShowDate ? tourDates.find((s: any) => s.date === smsSelectedShowDate) : null;
+                      const showVenue = show ? (show.venue || show.venue_name) : undefined;
+                      const showTime = show ? (show.time || '8:00pm') : undefined;
 
-                          const res = await fetch('/api/admin/crew-alert', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                              message: crewAlertMsg,
-                              selectedPhones: isAll ? undefined : selectedCrewPhones,
-                              sendSms: sendSmsAlert,
-                              sendEmail: sendEmailAlert,
-                              emailSubject: smsEmailSubject || undefined,
-                              showDate: smsSelectedShowDate || undefined,
-                              showVenue: showVenue || undefined,
-                              showTime: showTime || undefined,
-                              sendAsGroup: crewSendAsGroup
-                            }),
-                          });
-                          const data = await res.json();
-                          setCrewAlertResult(data);
-                          if (data.success) {
-                            setCrewAlertMsg('');
-                            setSelectedCrewPhones([]);
-                            setSmsSelectedShowDate('');
-                            setSmsEmailSubject('');
-                            setSendEmailAlert(false);
-                            setAuditLog(prev => [{
-                              id: crypto.randomUUID(),
-                              text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
-                              time: 'Just now',
-                              color: 'bg-purple-600',
-                              details: {
-                                type: 'broadcast',
-                                smsText: crewAlertMsg,
-                                emailSubject: smsEmailSubject || undefined
-                              }
-                            }, ...prev]);
-                          } else {
-                            setAuditLog(prev => [{
-                              id: crypto.randomUUID(),
-                              text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
-                              time: 'Just now',
-                              color: 'bg-red-500'
-                            }, ...prev]);
+                      const res = await fetch('/api/admin/crew-alert', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          message: crewAlertMsg,
+                          selectedPhones: isAll ? undefined : selectedCrewPhones,
+                          sendSms: sendSmsAlert,
+                          sendEmail: sendEmailAlert,
+                          emailSubject: smsEmailSubject || undefined,
+                          showDate: smsSelectedShowDate || undefined,
+                          showVenue: showVenue || undefined,
+                          showTime: showTime || undefined,
+                          sendAsGroup: crewSendAsGroup
+                        }),
+                      });
+                      const data = await res.json();
+                      setCrewAlertResult(data);
+                      if (data.success) {
+                        setCrewAlertMsg('');
+                        setSelectedCrewPhones([]);
+                        setSmsSelectedShowDate('');
+                        setSmsEmailSubject('');
+                        setSendEmailAlert(false);
+                        setAuditLog(prev => [{
+                          id: crypto.randomUUID(),
+                          text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
+                          time: 'Just now',
+                          color: 'bg-purple-600',
+                          details: {
+                            type: 'broadcast',
+                            smsText: crewAlertMsg,
+                            emailSubject: smsEmailSubject || undefined
                           }
-                        } catch (err: any) {
-                          setCrewAlertResult({ error: err.message });
-                        }
-                        setCrewAlertSending(false);
-                      }}
-                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
-                    >
-                      {crewAlertSending ? (
-                        <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
-                      ) : (
-                        <> Send Broadcast</>
-                      )}
-                    </button>
-                  </div>
-                </div>
+                        }, ...prev]);
+                      } else {
+                        setAuditLog(prev => [{
+                          id: crypto.randomUUID(),
+                          text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
+                          time: 'Just now',
+                          color: 'bg-red-500'
+                        }, ...prev]);
+                      }
+                    } catch (err: any) {
+                      setCrewAlertResult({ error: err.message });
+                    }
+                    setCrewAlertSending(false);
+                  }}
+                  className="w-full py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-20 disabled:bg-purple-900/30 disabled:text-white/30 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] cursor-pointer border-none"
+                >
+                  {crewAlertSending ? (
+                    <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending Broadcast...</>
+                  ) : (
+                    <> Send Broadcast</>
+                  )}
+                </button>
+              </div>
+            </div>
 
             {/* 2-Column Live Dispatch Preview (SMS Text Message + Email Template) */}
             {(sendSmsAlert || sendEmailAlert) && (
@@ -6049,7 +6033,7 @@ try {
                   </div>
 
                   <div className="text-xs text-white/50 font-mono text-center pt-1">
-                     Recipient phones will receive raw text alert instantly
+                    Recipient phones will receive raw text alert instantly
                   </div>
                 </div>
 
@@ -6079,20 +6063,20 @@ try {
             {/* Preset Roles Manager Modal */}
             {isManageRolesModalOpen && (
               <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
-                <div 
+                <div
                   className="bg-[#0c0c0e] border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out]"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
                     <h3 className="text-sm font-black uppercase tracking-widest text-white flex items-center gap-2">
-                       Manage Preset Roles
+                      Manage Preset Roles
                     </h3>
                     <button
                       type="button"
                       onClick={() => setIsManageRolesModalOpen(false)}
                       className="text-white/40 hover:text-white transition-colors border-none bg-transparent cursor-pointer text-xs"
                     >
-                       Close
+                      Close
                     </button>
                   </div>
 
@@ -6142,7 +6126,7 @@ try {
                               className="p-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 transition-colors cursor-pointer border-none flex items-center justify-center"
                               title="Delete Preset"
                             >
-                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
                             </button>
                           </div>
                         ))
@@ -6187,11 +6171,11 @@ try {
         <div onClick={() => toggleSection('bandsms')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
             </div>
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-               Band Member SMS Text
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+              Band Member SMS Text
             </h3>
           </div>
           <div className="flex items-center gap-3">
@@ -6219,7 +6203,7 @@ try {
                       }}
                       className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
                     >
-                       Select All ({allBandCombined.length})
+                      Select All ({allBandCombined.length})
                     </button>
                     {selectedBandPhones.length > 0 && (
                       <button
@@ -6227,7 +6211,7 @@ try {
                         onClick={() => setSelectedBandPhones([])}
                         className="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
                       >
-                         Clear All
+                        Clear All
                       </button>
                     )}
                     <span className="text-[0.6rem] text-white/30 font-mono">
@@ -6268,20 +6252,18 @@ try {
                           <div
                             key={r.id}
                             onClick={toggleSelection}
-                            className={`flex items-center justify-between gap-2.5 px-3 py-2.5  border transition-all duration-200 cursor-pointer select-none min-h-[44px] ${
-                              isChecked
-                                ? 'bg-purple-500/15 border-purple-500/40 text-white shadow-[0_0_12px_rgba(147, 51, 234,0.15)]'
-                                : 'bg-black/20 border-white/5 hover:bg-white/[0.05] text-white/80'
-                            }`}
+                            className={`flex items-center justify-between gap-2.5 px-3 py-2.5  border transition-all duration-200 cursor-pointer select-none min-h-[44px] ${isChecked
+                              ? 'bg-purple-500/15 border-purple-500/40 text-white shadow-[0_0_12px_rgba(147, 51, 234,0.15)]'
+                              : 'bg-black/20 border-white/5 hover:bg-white/[0.05] text-white/80'
+                              }`}
                             title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                           >
                             <div className="flex items-center gap-3 flex-1 min-w-0">
                               {/* Custom Styled Checkbox */}
-                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 ${
-                                isChecked 
-                                  ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-105' 
-                                  : 'bg-black/40 border-white/30 group-hover:border-white/60'
-                              }`}>
+                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 ${isChecked
+                                ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-105'
+                                : 'bg-black/40 border-white/30 group-hover:border-white/60'
+                                }`}>
                                 {isChecked && (
                                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                                 )}
@@ -6345,7 +6327,7 @@ try {
                         ))}
                       </select>
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
                       </div>
                     </div>
                   </div>
@@ -6359,9 +6341,9 @@ try {
                       <button
                         type="button"
                         onClick={() => selectShowForBandSms('')}
-                        className="text-purple-400 hover:text-purple-300 font-bold border-none bg-transparent cursor-pointer text-xs"
+                        className=" text-[var(--color-accent)] hover:text-purple-300 font-bold border-none bg-transparent cursor-pointer text-xs"
                       >
-                        
+
                       </button>
                     </div>
                   )}
@@ -6370,16 +6352,14 @@ try {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div
                       onClick={() => setSendBandSmsAlert(prev => !prev)}
-                      className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
-                        sendBandSmsAlert
-                          ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                          : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
-                      }`}
+                      className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${sendBandSmsAlert
+                        ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                        : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
+                        }`}
                     >
                       <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                          sendBandSmsAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
-                        }`}>
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${sendBandSmsAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
+                          }`}>
                           {sendBandSmsAlert && (
                             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                           )}
@@ -6391,16 +6371,14 @@ try {
 
                     <div
                       onClick={() => setSendBandEmailAlert(prev => !prev)}
-                      className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${
-                        sendBandEmailAlert
-                          ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
-                          : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
-                      }`}
+                      className={`p-4  border transition-all cursor-pointer select-none flex flex-col gap-1.5 ${sendBandEmailAlert
+                        ? 'bg-purple-600/10 border-purple-500/30 text-white shadow-[0_0_15px_rgba(147,51,234,0.1)]'
+                        : 'bg-white/[0.01] border-white/5 text-white/40 hover:border-white/10'
+                        }`}
                     >
                       <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                          sendBandEmailAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
-                        }`}>
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${sendBandEmailAlert ? 'bg-purple-600 border-purple-500 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'border-white/20'
+                          }`}>
                           {sendBandEmailAlert && (
                             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
                           )}
@@ -6441,17 +6419,16 @@ try {
 
                   {/* Feedback Logs */}
                   {bandAlertResult && (
-                    <div className={`p-3 border  text-xs flex flex-col gap-1 ${
-                      bandAlertResult.success 
-                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
-                        : 'bg-red-500/10 border-red-500/20 text-red-400'
-                    }`}>
+                    <div className={`p-3 border  text-xs flex flex-col gap-1 ${bandAlertResult.success
+                      ? 'bg-emerald-500/10  border-[var(--color-accent)]/30 text-[var(--color-accent)]'
+                      : 'bg-red-500/10 border-red-500/20 text-red-400'
+                      }`}>
                       <span className="font-bold flex items-center gap-1">
                         {bandAlertResult.success ? ' Dispatch Successful' : ' Dispatch Failed'}
                       </span>
                       <span>
-                        {bandAlertResult.success 
-                          ? `Alert successfully broadcasted to ${bandAlertResult.count} recipient(s).` 
+                        {bandAlertResult.success
+                          ? `Alert successfully broadcasted to ${bandAlertResult.count} recipient(s).`
                           : bandAlertResult.error}
                       </span>
                     </div>
@@ -6499,13 +6476,13 @@ try {
                                   {r.avatar ? (
                                     <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
                                   ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-[var(--color-accent)] shrink-0">
+                                    <div className="w-6.5 h-6.5 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase  text-[var(--color-accent)] shrink-0">
                                       {r.name.slice(0, 2)}
                                     </div>
                                   )}
                                   <div className="truncate">
                                     <span className="font-bold text-white block leading-none">{r.name}</span>
-                                    <span className="text-[var(--font-size-4xs)] text-purple-400/80 font-semibold uppercase tracking-wider font-mono block mt-1">{r.role || 'BAND MEMBER'}</span>
+                                    <span className="text-[var(--font-size-4xs)]  text-[var(--color-accent)]/80 font-semibold uppercase tracking-wider font-mono block mt-1">{r.role || 'BAND MEMBER'}</span>
                                   </div>
                                 </div>
                                 <button
@@ -6513,7 +6490,7 @@ try {
                                   onClick={() => setSelectedBandPhones(prev => prev.filter(p => p !== normalizePhoneNumber(r.phone)))}
                                   className="text-white/30 hover:text-rose-400 transition-colors border-none bg-transparent cursor-pointer p-1 text-[var(--font-size-2xs)] font-bold shrink-0"
                                 >
-                                  
+
                                 </button>
                               </div>
 
@@ -6559,7 +6536,7 @@ try {
                 </div>
 
                 <div className="text-xs text-white/50 font-mono text-center pt-1">
-                   Recipient phone will receive raw text alert instantly
+                  Recipient phone will receive raw text alert instantly
                 </div>
               </div>
 
@@ -6590,90 +6567,90 @@ try {
 
   const renderNewsletter = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('newsletter')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-                  </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  Newsletter Blast
-                  {renderInfoToggle('newsletter')}
-                </h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('newsletter') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
+      <div onClick={() => toggleSection('newsletter')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+            Newsletter Blast
+            {renderInfoToggle('newsletter')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('newsletter') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
+      <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
+        <div className="p-6">
+          <div className="space-y-4">
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
+              <input
+                type="text"
+                value={blastSubject}
+                onChange={e => setBlastSubject(e.target.value)}
+                placeholder="e.g.  New Show Announced — Chicago June 15th!"
+                className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
+              <textarea
+                value={blastBody}
+                onChange={e => setBlastBody(e.target.value)}
+                placeholder="Write your announcement here..."
+                rows={6}
+                className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <div>
+                {blastResult && (
+                  <p className={`text-sm font-bold ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
+                    {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
+                  </p>
+                )}
               </div>
-              {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
-              <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
-                <div className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
-                    <input
-                      type="text"
-                      value={blastSubject}
-                      onChange={e => setBlastSubject(e.target.value)}
-                      placeholder="e.g.  New Show Announced — Chicago June 15th!"
-                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
-                    <textarea
-                      value={blastBody}
-                      onChange={e => setBlastBody(e.target.value)}
-                      placeholder="Write your announcement here..."
-                      rows={6}
-                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      {blastResult && (
-                        <p className={`text-sm font-bold ${blastResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                          {blastResult.success ? ` Sent to ${blastResult.sent} fans` : ` ${blastResult.error}`}
-                          {blastResult.failed > 0 && <span className="text-rose-400 ml-2">({blastResult.failed} failed)</span>}
-                        </p>
-                      )}
-                    </div>
-                    <button
-                      disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
-                      onClick={async () => {
-                        if (!confirm(`Send this email to ALL ${fanData?.total || 0} fans?`)) return;
-                        setBlastSending(true);
-                        setBlastResult(null);
-                        try {
-                          const res = await fetch('/api/admin/newsletter', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ subject: blastSubject, body: blastBody }),
-                          });
-                          const data = await res.json();
-                          setBlastResult(data);
-                          if (data.success) { setBlastSubject(''); setBlastBody(''); }
-                        } catch (err: any) {
-                          setBlastResult({ error: err.message });
-                        }
-                        setBlastSending(false);
-                      }}
-                      className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
-                    >
-                      {blastSending ? (
-                        <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending...</>
-                      ) : (
-                        <> Send Blast</>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </section>
+              <button
+                disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
+                onClick={async () => {
+                  if (!confirm(`Send this email to ALL ${fanData?.total || 0} fans?`)) return;
+                  setBlastSending(true);
+                  setBlastResult(null);
+                  try {
+                    const res = await fetch('/api/admin/newsletter', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ subject: blastSubject, body: blastBody }),
+                    });
+                    const data = await res.json();
+                    setBlastResult(data);
+                    if (data.success) { setBlastSubject(''); setBlastBody(''); }
+                  } catch (err: any) {
+                    setBlastResult({ error: err.message });
+                  }
+                  setBlastSending(false);
+                }}
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-30 disabled:cursor-not-allowed text-black font-bold text-sm uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+              >
+                {blastSending ? (
+                  <><span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Sending...</>
+                ) : (
+                  <> Send Blast</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 
   const renderEmailFlow = () => (
@@ -6681,7 +6658,7 @@ try {
       <div onClick={() => toggleSection('emailflow')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
           </div>
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
@@ -6699,14 +6676,14 @@ try {
         </div>
       </div>
       {renderInfoBanner('emailflow', 'Email Template Flows', 'Interactive catalog of the 25 email templates dispatched by actions taken on the Admin Dashboard.')}
-      
+
       <div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Booking Flows */}
             <div className="bg-black/30 border border-emerald-500/10 p-4 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 text-emerald-400 font-black text-xs uppercase tracking-wider mb-3">
+                <div className="flex items-center gap-2 text-[var(--color-accent)] font-black text-xs uppercase tracking-wider mb-3">
                   <span></span> Booking System
                 </div>
                 <div className="space-y-3">
@@ -6798,7 +6775,7 @@ try {
             {/* Newsletter & Other */}
             <div className="bg-black/30 border border-purple-500/10 p-4 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 text-purple-400 font-black text-xs uppercase tracking-wider mb-3">
+                <div className="flex items-center gap-2  text-[var(--color-accent)] font-black text-xs uppercase tracking-wider mb-3">
                   <span></span> Newsletter & Account
                 </div>
                 <div className="space-y-3">
@@ -6827,298 +6804,297 @@ try {
 
   const renderRegistry = () => (
     <section className="bg-[var(--color-bg-surface)] border border-black/10 dark:border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('registry')} className="p-6 border-b border-black/10 dark:border-white/10 flex items-center justify-between bg-black/5 dark:bg-black/20 cursor-pointer select-none hover:bg-black/10 dark:hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-                  </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  Community Registry
-                  {renderInfoToggle('registry')}
-                </h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex bg-white/15 p-1 border border-white/20 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
-                    {['All', 'fan', 'crew', 'admin'].map(role => (
-                      <button
-                        key={role}
-                        onClick={() => setFilterRole(role as any)}
-                        className={`px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-widest rounded-lg transition-all whitespace-nowrap cursor-pointer ${filterRole === role ? 'bg-white text-black shadow-sm font-black' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
-                      >
-                        {role}
-                      </button>
-                    ))}
-                  </div>
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
-              </div>
-              {renderInfoBanner('registry', 'Community Registry', 'Search and manage all user accounts registered in the database, view roles, and configure site settings.')}
-              <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
-                <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
-                {isLoading ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
-                ) : filteredUsers.length === 0 ? (
-                  <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
-                ) : (
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10">
-                        <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">User</th>
-                        <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Role</th>
-                        <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Status</th>
-                        <th className="p-4 font-bold border-b border-black/10 dark:border-white/10 text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredUsers.map((user) => {
-                        const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
-                        const acct = Object.values(accounts).find((a: any) => 
-                          (a.id && a.id === user.id) || 
-                          (a.email && user.email && a.email.toLowerCase() === user.email.toLowerCase()) ||
-                          (a.name && a.name.toLowerCase() === user.name.toLowerCase())
-                        ) as any;
-                        return (
-                        <React.Fragment key={user.id}>
-                        <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
-                          <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
-                          <td className="p-4 text-sm">
-                            <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-white/5 text-white/60 border border-white/10'}`}>
-                              {user.role}
-                            </span>
-                          </td>
-                          <td className="p-4">
-                            <div className="flex items-center gap-1.5">
-                              <span className={`w-2 h-2 rounded-full ${
-                                user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
-                                : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
+      <div onClick={() => toggleSection('registry')} className="p-6 border-b border-black/10 dark:border-white/10 flex items-center justify-between bg-black/5 dark:bg-black/20 cursor-pointer select-none hover:bg-black/10 dark:hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Community Registry
+            {renderInfoToggle('registry')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex bg-white/15 p-1 border border-white/20 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
+            {['All', 'fan', 'crew', 'admin'].map(role => (
+              <button
+                key={role}
+                onClick={() => setFilterRole(role as any)}
+                className={`px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-widest rounded-lg transition-all whitespace-nowrap cursor-pointer ${filterRole === role ? 'bg-white text-black shadow-sm font-black' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+              >
+                {role}
+              </button>
+            ))}
+          </div>
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('registry') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('registry', 'Community Registry', 'Search and manage all user accounts registered in the database, view roles, and configure site settings.')}
+      <div style={{ display: isSectionOpen('registry') ? undefined : 'none' }}>
+        <div className="p-0 max-h-[400px] overflow-y-auto custom-scrollbar" data-lenis-prevent="true">
+          {isLoading ? (
+            <div className="p-12 text-center text-white/30 font-mono text-xs animate-pulse">Pulling registry data...</div>
+          ) : filteredUsers.length === 0 ? (
+            <div className="p-12 text-center text-white/30 font-mono text-xs">No users found matching this filter.</div>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-black/5 dark:bg-white/[0.02] text-slate-500 dark:text-white/30 text-[0.6rem] uppercase tracking-widest border-b border-black/10 dark:border-white/10">
+                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">User</th>
+                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Role</th>
+                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10">Status</th>
+                  <th className="p-4 font-bold border-b border-black/10 dark:border-white/10 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredUsers.map((user) => {
+                  const accounts = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('7h_accounts') || '{}') : {};
+                  const acct = Object.values(accounts).find((a: any) =>
+                    (a.id && a.id === user.id) ||
+                    (a.email && user.email && a.email.toLowerCase() === user.email.toLowerCase()) ||
+                    (a.name && a.name.toLowerCase() === user.name.toLowerCase())
+                  ) as any;
+                  return (
+                    <React.Fragment key={user.id}>
+                      <tr className="border-b border-black/10 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors">
+                        <td className="p-4 font-bold text-sm truncate max-w-[150px]">{user.name}</td>
+                        <td className="p-4 text-sm">
+                          <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold uppercase tracking-widest ${user.role === 'crew' || user.role === 'admin' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-white/5 text-white/60 border border-white/10'}`}>
+                            {user.role}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-2 h-2 rounded-full ${user.status === 'streaming' ? 'bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]'
+                              : user.status === 'watching' ? 'bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]'
                                 : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
                               }`} />
-                              <span className="text-[0.6rem] uppercase tracking-wider text-white/50">{user.status}</span>
+                            <span className="text-[0.6rem] uppercase tracking-wider text-white/50">{user.status}</span>
+                          </div>
+                        </td>
+                        <td className="p-4 text-right">
+                          {user.role !== 'admin' ? (
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
+                                className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-white/5 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
+                              >
+                                {viewingUser === user.id ? 'Hide' : 'View'}
+                              </button>
+                              <button
+                                onClick={() => banUser(user.id, user.name)}
+                                className="px-3 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
+                              >
+                                Remove
+                              </button>
                             </div>
-                          </td>
-                          <td className="p-4 text-right">
-                            {user.role !== 'admin' ? (
-                              <div className="flex items-center justify-end gap-2">
-                                <button 
-                                  onClick={() => setViewingUser(viewingUser === user.id ? null : user.id)}
-                                  className="px-3 py-2 bg-transparent border border-white/10 text-white/40 hover:bg-white/5 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
-                                >
-                                  {viewingUser === user.id ? 'Hide' : 'View'}
-                                </button>
-                                <button 
-                                  onClick={() => banUser(user.id, user.name)}
-                                  className="px-3 py-2 bg-transparent border border-red-500/30 text-red-500 hover:bg-red-500 hover:border-red-500 hover:text-white text-[0.6rem] font-bold uppercase tracking-widest rounded transition-all"
-                                >
-                                  Remove
-                                </button>
+                          ) : (
+                            <span className="px-4 py-2 inline-block text-[0.55rem] uppercase font-bold tracking-widest text-white/20">
+                              Protected
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                      {viewingUser === user.id && (
+                        <tr className="bg-white/[0.02]">
+                          <td colSpan={4} className="px-6 py-3">
+                            <div className="flex items-center gap-8 text-[0.7rem]">
+                              <div>
+                                <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
+                                <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
                               </div>
-                            ) : (
-                              <span className="px-4 py-2 inline-block text-[0.55rem] uppercase font-bold tracking-widest text-white/20">
-                                Protected
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                        {viewingUser === user.id && (
-                          <tr className="bg-white/[0.02]">
-                            <td colSpan={4} className="px-6 py-3">
-                              <div className="flex items-center gap-8 text-[0.7rem]">
-                                <div>
-                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Email: </span>
-                                  <span className="text-white font-mono">{acct?.email || user.email || 'N/A'}</span>
-                                </div>
-                                <div>
-                                  <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
-                                  <span className="text-purple-300 font-mono">
-                                    {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
-                                  </span>
-                                  {user.role === 'crew' && (
-                                    <button 
-                                      onClick={async () => {
-                                        const res = await adminResetPassword(user.id, user.email);
-                                        if (res.success) {
-                                          const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
-                                          accounts[user.email.toLowerCase()] = {
-                                            ...accounts[user.email.toLowerCase()],
-                                            id: user.id,
-                                            name: user.name,
-                                            email: user.email.toLowerCase(),
-                                            password: res.password,
-                                            role: 'crew'
-                                          };
-                                          localStorage.setItem('7h_accounts', JSON.stringify(accounts));
-                                          alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
-                                          window.location.reload();
-                                        }
-                                      }}
-                                      className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600 text-purple-400 hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-all"
-                                    >
-                                      Reset & Show
-                                    </button>
-                                  )}
-                                </div>
-                                {user.role === 'crew' && !acct?.password && (
-                                  <p className="text-[0.6rem] text-purple-400/60 font-bold italic">
-                                    * Credentials lost (Check browser history or re-create account)
-                                  </p>
+                              <div>
+                                <span className="text-white/30 uppercase tracking-widest text-[0.55rem] font-bold">Password: </span>
+                                <span className="text-purple-300 font-mono">
+                                  {acct?.password || (user.role === 'crew' ? '********' : 'N/A')}
+                                </span>
+                                {user.role === 'crew' && (
+                                  <button
+                                    onClick={async () => {
+                                      const res = await adminResetPassword(user.id, user.email);
+                                      if (res.success) {
+                                        const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+                                        accounts[user.email.toLowerCase()] = {
+                                          ...accounts[user.email.toLowerCase()],
+                                          id: user.id,
+                                          name: user.name,
+                                          email: user.email.toLowerCase(),
+                                          password: res.password,
+                                          role: 'crew'
+                                        };
+                                        localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+                                        alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
+                                        window.location.reload();
+                                      }
+                                    }}
+                                    className="ml-4 px-2 py-1 bg-purple-500/10 hover:bg-purple-600  text-[var(--color-accent)] hover:text-black border border-purple-500/20 text-[0.55rem] font-bold uppercase tracking-widest rounded transition-all"
+                                  >
+                                    Reset & Show
+                                  </button>
                                 )}
                               </div>
-                            </td>
-                          </tr>
-                        )}
-                        </React.Fragment>
-                        );
-                      })}
+                              {user.role === 'crew' && !acct?.password && (
+                                <p className="text-[0.6rem]  text-[var(--color-accent)]/60 font-bold italic">
+                                  * Credentials lost (Check browser history or re-create account)
+                                </p>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
 
-                    </tbody>
-                  </table>
-                )}
-              </div>
-              </div>
-            </section>
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </section>
   );
 
   const renderCrewCreation = () => (
     <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-              <div onClick={() => toggleSection('crewcreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-                <div className="flex items-center gap-2">
-                  <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
-                  </div>
-                  <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                    Create Crew Account
-                    {renderInfoToggle('crewcreation')}
-                  </h3>
-                </div>
-                <div className="flex items-center gap-3">
-                  
-                  <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewcreation') ? 'rotate-0' : '-rotate-90')}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                  </div>
-                </div>
-              </div>
-              {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
-              <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
-                <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-                  <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Alex Rivera"
-                      value={newCrewName}
-                      onChange={e => setNewCrewName(e.target.value)}
-                      className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. alex_7h"
-                      value={newCrewUsername}
-                      onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
-                      maxLength={24}
-                      className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
-                    <input
-                      type="email"
-                      placeholder="crew@7thheaven.com"
-                      value={newCrewEmail}
-                      onChange={e => setNewCrewEmail(e.target.value)}
-                      className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
-                    <input
-                      type="password"
-                      placeholder="Min 6 characters"
-                      value={newCrewPassword}
-                      onChange={e => setNewCrewPassword(e.target.value)}
-                      className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
-                    <input
-                      type="tel"
-                      placeholder="(555) 123-4567"
-                      value={newCrewPhone}
-                      onChange={e => {
-                        const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
-                        if (digits.length <= 3) setNewCrewPhone(digits);
-                        else if (digits.length <= 6) setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3)}`);
-                        else setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`);
-                      }}
-                      className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
-                    />
-                  </div>
-                  <button
-                    onClick={createCrew}
-                    disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
-                    className="px-6 py-3 bg-emerald-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-emerald-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] flex items-center gap-2 whitespace-nowrap"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-                    Create Account
-                  </button>
-                </div>
-                <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
-                  <span className="text-purple-300 text-sm mt-0.5"></span>
-                  <p className="text-[0.65rem] text-white/40 leading-relaxed">
-                    A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
-                  </p>
-                </div>
+      <div onClick={() => toggleSection('crewcreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+        <div className="flex items-center gap-2">
+          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+          </div>
+          <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Create Crew Account
+            {renderInfoToggle('crewcreation')}
+          </h3>
+        </div>
+        <div className="flex items-center gap-3">
 
-                {/* Success card */}
-                {createdCrew && (
-                  <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 animate-[fadeIn_0.3s_ease]">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
-                        <div>
-                          <h4 className="text-sm font-bold text-emerald-400">Crew Account Created</h4>
-                          <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
-                          {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5"> {createdCrew.phone}</p>}
-                          <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
-                            <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
-                            <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdCrew.password}</code>
-                            <button
-                              onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
-                              className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
-                            >Copy</button>
-                          </div>
-                        </div>
-                      </div>
-                      <button onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0"></button>
+          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('crewcreation') ? 'rotate-0' : '-rotate-90')}>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+          </div>
+        </div>
+      </div>
+      {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
+      <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+              <input
+                type="text"
+                placeholder="e.g. Alex Rivera"
+                value={newCrewName}
+                onChange={e => setNewCrewName(e.target.value)}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
+              <input
+                type="text"
+                placeholder="e.g. alex_7h"
+                value={newCrewUsername}
+                onChange={e => setNewCrewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+                maxLength={24}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
+              <input
+                type="email"
+                placeholder="crew@7thheaven.com"
+                value={newCrewEmail}
+                onChange={e => setNewCrewEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
+              <input
+                type="password"
+                placeholder="Min 6 characters"
+                value={newCrewPassword}
+                onChange={e => setNewCrewPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <div>
+              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
+              <input
+                type="tel"
+                placeholder="(555) 123-4567"
+                value={newCrewPhone}
+                onChange={e => {
+                  const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  if (digits.length <= 3) setNewCrewPhone(digits);
+                  else if (digits.length <= 6) setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3)}`);
+                  else setNewCrewPhone(`(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`);
+                }}
+                className="w-full px-4 py-3 bg-black/40 border border-white/10 text-sm text-white placeholder-white/20 outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all rounded-lg"
+              />
+            </div>
+            <button
+              onClick={createCrew}
+              disabled={!newCrewName.trim() || !newCrewEmail.trim() || !newCrewPassword.trim()}
+              className="px-6 py-3 bg-emerald-500 text-black font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-emerald-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] flex items-center gap-2 whitespace-nowrap"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
+              Create Account
+            </button>
+          </div>
+          <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-lg flex items-start gap-3">
+            <span className="text-purple-300 text-sm mt-0.5"></span>
+            <p className="text-[0.65rem] text-white/40 leading-relaxed">
+              A crew account will be created with the credentials above. Share the login details securely with the crew member. Only admins can create crew accounts.
+            </p>
+          </div>
+
+          {/* Success card */}
+          {createdCrew && (
+            <div className="mt-4 p-5 bg-emerald-500/[0.08] border border-emerald-500/30 animate-[fadeIn_0.3s_ease]">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-lg shrink-0"></div>
+                  <div>
+                    <h4 className="text-sm font-bold text-[var(--color-accent)]">Crew Account Created</h4>
+                    <p className="text-[0.7rem] text-white/60 mt-1"><strong className="text-white">{createdCrew.name}</strong> · {createdCrew.email}</p>
+                    {createdCrew.phone && <p className="text-[0.65rem] text-white/40 mt-0.5"> {createdCrew.phone}</p>}
+                    <div className="mt-3 flex items-center gap-3 p-3 bg-black/40 border border-white/10 rounded-lg">
+                      <span className="text-[0.55rem] uppercase tracking-[0.15em] text-white/30 font-bold shrink-0">Temp Password</span>
+                      <code className="text-sm font-mono font-bold text-purple-300 tracking-wider select-all">{createdCrew.password}</code>
+                      <button
+                        onClick={() => { navigator.clipboard.writeText(createdCrew.password); }}
+                        className="ml-auto text-[0.55rem] uppercase tracking-[0.15em] text-white/30 hover:text-white font-bold transition-colors px-2 py-1 border border-white/10 hover:border-white/30 rounded"
+                      >Copy</button>
                     </div>
-                    <button
-                      onClick={scrollToRegistry}
-                      className="mt-4 w-full py-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[0.65rem] uppercase tracking-[0.15em] font-bold hover:bg-emerald-500/20 transition-all rounded-lg flex items-center justify-center gap-2"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                      View in Registry ↓
-                    </button>
                   </div>
-                )}
+                </div>
+                <button onClick={() => setCreatedCrew(null)} className="text-white/20 hover:text-white text-lg transition-colors shrink-0"></button>
+              </div>
+              <button
+                onClick={scrollToRegistry}
+                className="mt-4 w-full py-2.5 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] text-[0.65rem] uppercase tracking-[0.15em] font-bold hover:bg-emerald-500/20 transition-all rounded-lg flex items-center justify-center gap-2"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                View in Registry ↓
+              </button>
+            </div>
+          )}
 
-                {/* Error */}
-                {crewError && (
-                  <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
-                    <span className="text-rose-400"></span>
-                    <p className="text-[0.7rem] text-rose-400 font-bold">{crewError}</p>
-                    <button onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white"></button>
-                  </div>
-                )}
-              </div>
-              </div>
-            </section>
+          {/* Error */}
+          {crewError && (
+            <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-lg flex items-center gap-3">
+              <span className="text-rose-400"></span>
+              <p className="text-[0.7rem] text-rose-400 font-bold">{crewError}</p>
+              <button onClick={() => setCrewError('')} className="ml-auto text-white/30 hover:text-white"></button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 
   const createAdmin = async () => {
@@ -7145,7 +7121,7 @@ try {
       <div onClick={() => toggleSection('admincreation')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
           </div>
           <h3 onClick={() => toggleSection('admincreation')} className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
             Create Admin Account
@@ -7197,7 +7173,7 @@ try {
               disabled={!newAdminName.trim() || !newAdminEmail.trim() || !newAdminUsername.trim() || adminCreateLoading}
               className="px-6 py-3 bg-purple-600 text-white font-bold text-[0.7rem] uppercase tracking-[0.15em] rounded-lg hover:bg-purple-500 transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(147, 51, 234,0.2)] hover:shadow-[0_0_30px_rgba(147, 51, 234,0.4)] flex items-center gap-2 whitespace-nowrap"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></svg>
               {adminCreateLoading ? 'Creating…' : 'Create Admin'}
             </button>
           </div>
@@ -7247,9 +7223,9 @@ try {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                   Sub-Admin Role Permissions
+                  Sub-Admin Role Permissions
                   {savePermStatus === 'saving' && <span className="text-[0.65rem] text-purple-300 font-mono animate-pulse">Saving changes...</span>}
-                  {savePermStatus === 'saved' && <span className="text-[0.65rem] text-emerald-400 font-mono"> Saved to database</span>}
+                  {savePermStatus === 'saved' && <span className="text-[0.65rem] text-[var(--color-accent)] font-mono"> Saved to database</span>}
                 </h4>
                 <p className="text-[0.65rem] text-white/40 mt-0.5">Control feature access for specific sub-admin accounts.</p>
               </div>
@@ -7287,11 +7263,10 @@ try {
                             };
                             savePermissionsToBackend(updated);
                           }}
-                          className={`flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-medium transition-all cursor-pointer ${
-                            enabled
-                              ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
-                              : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
-                          }`}
+                          className={`flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-medium transition-all cursor-pointer ${enabled
+                            ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
+                            : 'bg-black/40 border-white/5 text-white/40 hover:border-white/20'
+                            }`}
                         >
                           <span>{label}</span>
                           <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[var(--font-size-3xs)] font-bold ${enabled ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/30'}`}>
@@ -7317,10 +7292,10 @@ try {
       <div onClick={() => toggleSection('bulkinvites')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
         <div className="flex items-center gap-2">
           <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
           </div>
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-             Bulk Invites
+            Bulk Invites
             {renderInfoToggle('bulkinvites')}
           </h3>
         </div>
@@ -7367,7 +7342,7 @@ try {
         const res = await fetch(`/api/admin/cruise-stats?t=${Date.now()}`);
         const data = await res.json();
         if (data && !data.error) setCruiseStats(data);
-      } catch {}
+      } catch { }
     };
     const deleteSignup = async (id: string, name: string) => {
       if (!confirm(`Remove ${name} from the cruise roster?`)) return;
@@ -7380,7 +7355,7 @@ try {
         const res = await fetch(`/api/admin/cruise-stats?t=${Date.now()}`);
         const data = await res.json();
         if (data && !data.error) setCruiseStats(data);
-      } catch {}
+      } catch { }
     };
 
     const sendCruiseEmail = async () => {
@@ -7405,209 +7380,209 @@ try {
     };
 
     return (
-    <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
-      <div onClick={() => toggleSection('cruisesignups')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+      <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden">
+        <div onClick={() => toggleSection('cruisesignups')} className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors">
+          <div className="flex items-center gap-2">
+            <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
+            </div>
+            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              Cruise Signups
+              {renderInfoToggle('cruisesignups')}
+            </h3>
           </div>
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-             Cruise Signups
-            {renderInfoToggle('cruisesignups')}
-          </h3>
+          <div className="flex items-center gap-3">
+            <span className="text-[0.6rem] text-cyan-400/60 uppercase tracking-widest font-bold">
+              {signups.length} registered
+            </span>
+            <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('cruisesignups') ? 'rotate-0' : '-rotate-90')}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[0.6rem] text-cyan-400/60 uppercase tracking-widest font-bold">
-            {signups.length} registered
-          </span>
-          <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('cruisesignups') ? 'rotate-0' : '-rotate-90')}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-          </div>
-        </div>
-      </div>
-      {renderInfoBanner('cruisesignups', 'Cruise Signups', 'View and manage all cruise registrations. Toggle deposit/payment status, check passengers off, select recipients and send emails.')}
-      <div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
-        <div className="p-6">
-          {/* Summary stats bar */}
-          <div className="grid grid-cols-4 gap-3 mb-6">
-            <div className="bg-black/30 p-3 border border-white/5 text-center">
-              <p className="text-xl font-black text-cyan-400">{signups.length}</p>
-              <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
-            </div>
-            <div className="bg-black/30 p-3 border border-white/5 text-center">
-              <p className="text-xl font-black text-white">{cruiseStats.total}</p>
-              <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
-            </div>
-            <div className="bg-black/30 p-3 border border-white/5 text-center">
-              <p className="text-xl font-black text-emerald-400">{signups.filter((s: any) => s.depositPaid).length}</p>
-              <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Deposits</p>
-            </div>
-            <div className="bg-black/30 p-3 border border-white/5 text-center">
-              <p className="text-xl font-black text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
-              <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Paid Full</p>
-            </div>
-          </div>
-
-          {/* Email action bar */}
-          {signups.length > 0 && (
-            <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 border border-white/5">
-              <div className="flex items-center gap-3">
-                <button onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/15 text-white/10 hover:border-white/25'}`}>
-                  {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                </button>
-                <span className="text-[0.6rem] text-white/40 font-bold uppercase tracking-widest">
-                  {cruiseSelectedEmails.length > 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
-                </span>
+        {renderInfoBanner('cruisesignups', 'Cruise Signups', 'View and manage all cruise registrations. Toggle deposit/payment status, check passengers off, select recipients and send emails.')}
+        <div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
+          <div className="p-6">
+            {/* Summary stats bar */}
+            <div className="grid grid-cols-4 gap-3 mb-6">
+              <div className="bg-black/30 p-3 border border-white/5 text-center">
+                <p className="text-xl font-black text-cyan-400">{signups.length}</p>
+                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
               </div>
-              <button
-                onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
-                disabled={cruiseSelectedEmails.length === 0}
-                className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
-              </button>
-            </div>
-          )}
-
-          {/* Email compose panel */}
-          {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
-            <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
-              <div className="flex items-center justify-between">
-                <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
-                <button onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm"></button>
+              <div className="bg-black/30 p-3 border border-white/5 text-center">
+                <p className="text-xl font-black text-white">{cruiseStats.total}</p>
+                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
               </div>
-              {/* Selected recipients preview */}
-              <div className="flex flex-wrap gap-1.5 max-h-[60px] overflow-y-auto scrollbar-hide">
-                {cruiseSelectedEmails.map(email => (
-                  <span key={email} className="inline-flex items-center gap-1 bg-black/30 border border-white/5 rounded-full px-2.5 py-1 text-[0.55rem] text-white/50">
-                    {email}
-                    <button onClick={() => toggleEmail(email)} className="text-white/20 hover:text-rose-400 transition-colors cursor-pointer">×</button>
+              <div className="bg-black/30 p-3 border border-white/5 text-center">
+                <p className="text-xl font-black text-[var(--color-accent)]">{signups.filter((s: any) => s.depositPaid).length}</p>
+                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Deposits</p>
+              </div>
+              <div className="bg-black/30 p-3 border border-white/5 text-center">
+                <p className="text-xl font-black text-purple-300">{signups.filter((s: any) => s.fullPaid).length}</p>
+                <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Paid Full</p>
+              </div>
+            </div>
+
+            {/* Email action bar */}
+            {signups.length > 0 && (
+              <div className="flex items-center justify-between mb-4 bg-black/20 px-4 py-3 border border-white/5">
+                <div className="flex items-center gap-3">
+                  <button onClick={toggleAllEmails} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${allSelected ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/15 text-white/10 hover:border-white/25'}`}>
+                    {allSelected && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                  </button>
+                  <span className="text-[0.6rem] text-white/40 font-bold uppercase tracking-widest">
+                    {cruiseSelectedEmails.length > 0 ? `${cruiseSelectedEmails.length} selected` : 'Select passengers'}
                   </span>
-                ))}
-              </div>
-              <div>
-                <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
-                <input
-                  type="text"
-                  value={cruiseEmailSubject}
-                  onChange={e => setCruiseEmailSubject(e.target.value)}
-                  placeholder="e.g. Important Cruise Update — Departure Details"
-                  className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
-                <textarea
-                  value={cruiseEmailBody}
-                  onChange={e => setCruiseEmailBody(e.target.value)}
-                  placeholder="Write your message to cruise passengers..."
-                  rows={5}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  {cruiseEmailResult && (
-                    <p className={`text-sm font-bold ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
-                      {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
-                    </p>
-                  )}
                 </div>
                 <button
-                  disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
-                  onClick={sendCruiseEmail}
-                  className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-[0.65rem] uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer"
+                  onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
+                  disabled={cruiseSelectedEmails.length === 0}
+                  className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
                 >
-                  {cruiseEmailSending ? (
-                    <><span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
-                  ) : (
-                    <> Send Email</>
-                  )}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+                  Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
                 </button>
               </div>
-            </div>
-          )}
+            )}
 
-          {signups.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-white/20 text-sm">No cruise signups yet.</p>
-            </div>
-          ) : (
-            <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
-              {/* Table header */}
-              <div className="grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 px-3 py-2 text-[0.5rem] font-bold text-white/25 uppercase tracking-widest border-b border-white/5">
-                <span></span>
-                <span>#</span>
-                <span>Name / Email</span>
-                <span>Phone</span>
-                <span>Party</span>
-                <span className="text-center">Checked</span>
-                <span className="text-center">Deposit</span>
-                <span className="text-center">Full</span>
-                <span></span>
-              </div>
-              {signups.map((s: any, i: number) => (
-                <div key={s.id || i} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-all group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
-                  {/* Email checkbox */}
-                  <div className="flex justify-center">
-                    <button onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${cruiseSelectedEmails.includes(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                      {cruiseSelectedEmails.includes(s.email) && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                    </button>
-                  </div>
-                  {/* Row number */}
-                  <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
-                  {/* Name + Email */}
-                  <div className="min-w-0">
-                    <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                    <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
-                  </div>
-                  {/* Phone */}
-                  <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
-                  {/* Party size + date */}
+            {/* Email compose panel */}
+            {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
+              <div className="mb-5 bg-cyan-500/5 border border-cyan-500/20 p-5 space-y-4 animate-[slideIn_0.3s_ease-out]">
+                <div className="flex items-center justify-between">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-widest text-cyan-400/60">Compose Cruise Email</p>
+                  <button onClick={() => setCruiseEmailOpen(false)} className="text-white/20 hover:text-white/50 transition-colors cursor-pointer text-sm"></button>
+                </div>
+                {/* Selected recipients preview */}
+                <div className="flex flex-wrap gap-1.5 max-h-[60px] overflow-y-auto scrollbar-hide">
+                  {cruiseSelectedEmails.map(email => (
+                    <span key={email} className="inline-flex items-center gap-1 bg-black/30 border border-white/5 rounded-full px-2.5 py-1 text-[0.55rem] text-white/50">
+                      {email}
+                      <button onClick={() => toggleEmail(email)} className="text-white/20 hover:text-rose-400 transition-colors cursor-pointer">×</button>
+                    </span>
+                  ))}
+                </div>
+                <div>
+                  <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
+                  <input
+                    type="text"
+                    value={cruiseEmailSubject}
+                    onChange={e => setCruiseEmailSubject(e.target.value)}
+                    placeholder="e.g. Important Cruise Update — Departure Details"
+                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
+                  <textarea
+                    value={cruiseEmailBody}
+                    onChange={e => setCruiseEmailBody(e.target.value)}
+                    placeholder="Write your message to cruise passengers..."
+                    rows={5}
+                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+                  />
+                </div>
+                <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                    <p className="text-[0.5rem] text-white/20">{s.date}</p>
+                    {cruiseEmailResult && (
+                      <p className={`text-sm font-bold ${cruiseEmailResult.success ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {cruiseEmailResult.success ? ` Sent to ${cruiseEmailResult.sent} passenger${cruiseEmailResult.sent !== 1 ? 's' : ''}` : ` ${cruiseEmailResult.error}`}
+                        {cruiseEmailResult.failed > 0 && <span className="text-rose-400 ml-2">({cruiseEmailResult.failed} failed)</span>}
+                      </p>
+                    )}
                   </div>
-                  {/* Checked off */}
-                  <div className="flex justify-center">
-                    <button onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                      {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                    </button>
-                  </div>
-                  {/* Deposit paid */}
-                  <div className="flex justify-center">
-                    <button onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                      {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                    </button>
-                  </div>
-                  {/* Full paid */}
-                  <div className="flex justify-center">
-                    <button onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                      {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                    </button>
-                  </div>
-                  {/* Delete */}
-                  <button onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6 rounded-md border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-all opacity-0 group-hover/row:opacity-100 cursor-pointer">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                  <button
+                    disabled={cruiseEmailSending || !cruiseEmailSubject.trim() || !cruiseEmailBody.trim()}
+                    onClick={sendCruiseEmail}
+                    className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-[0.65rem] uppercase tracking-widest rounded-lg transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.2)] cursor-pointer"
+                  >
+                    {cruiseEmailSending ? (
+                      <><span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
+                    ) : (
+                      <> Send Email</>
+                    )}
                   </button>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            )}
 
-          {/* Bottom actions */}
-          <div className="flex gap-3 mt-4">
-            <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-              Export CSV
-            </button>
+            {signups.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-white/20 text-sm">No cruise signups yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
+                {/* Table header */}
+                <div className="grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 px-3 py-2 text-[0.5rem] font-bold text-white/25 uppercase tracking-widest border-b border-white/5">
+                  <span></span>
+                  <span>#</span>
+                  <span>Name / Email</span>
+                  <span>Phone</span>
+                  <span>Party</span>
+                  <span className="text-center">Checked</span>
+                  <span className="text-center">Deposit</span>
+                  <span className="text-center">Full</span>
+                  <span></span>
+                </div>
+                {signups.map((s: any, i: number) => (
+                  <div key={s.id || i} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-all group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
+                    {/* Email checkbox */}
+                    <div className="flex justify-center">
+                      <button onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${cruiseSelectedEmails.includes(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        {cruiseSelectedEmails.includes(s.email) && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                      </button>
+                    </div>
+                    {/* Row number */}
+                    <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
+                    {/* Name + Email */}
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-white truncate">{s.name}</p>
+                      <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                    </div>
+                    {/* Phone */}
+                    <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
+                    {/* Party size + date */}
+                    <div>
+                      <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                      <p className="text-[0.5rem] text-white/20">{s.date}</p>
+                    </div>
+                    {/* Checked off */}
+                    <div className="flex justify-center">
+                      <button onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                      </button>
+                    </div>
+                    {/* Deposit paid */}
+                    <div className="flex justify-center">
+                      <button onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                      </button>
+                    </div>
+                    {/* Full paid */}
+                    <div className="flex justify-center">
+                      <button onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                      </button>
+                    </div>
+                    {/* Delete */}
+                    <button onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6 rounded-md border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-all opacity-0 group-hover/row:opacity-100 cursor-pointer">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Bottom actions */}
+            <div className="flex gap-3 mt-4">
+              <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
+                Export CSV
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
   };
 
   const addScheduleItem = () => {
@@ -7629,10 +7604,10 @@ try {
     // Internal overlap validation
     if (activeAssignments.length > 0) {
       for (const [crewId, details] of activeAssignments) {
-        const tfs = (crewId === draggedCrewMemberId || !details.customized) 
-          ? dropTimeFrames 
+        const tfs = (crewId === draggedCrewMemberId || !details.customized)
+          ? dropTimeFrames
           : (details.timeFrames || dropTimeFrames);
-        
+
         if (hasInternalOverlap(tfs)) {
           const name = findCrewName(crewId);
           showAlert(`Cannot save schedule for ${name}: Time frames overlap with each other.`, "Schedule Overlap", "warning");
@@ -7672,8 +7647,8 @@ try {
 
       if (activeAssignments.length > 0) {
         activeAssignments.forEach(([crewId, details], idx) => {
-          const tfs = (crewId === draggedCrewMemberId || !details.customized) 
-            ? dropTimeFrames 
+          const tfs = (crewId === draggedCrewMemberId || !details.customized)
+            ? dropTimeFrames
             : (details.timeFrames || dropTimeFrames);
 
           tfs.forEach((tf, tfIdx) => {
@@ -7701,8 +7676,8 @@ try {
             updated = updated.filter(item => item.id !== editingShiftId);
           }
           dropTimeFrames.forEach((tf, idx) => {
-            const newId = editingShiftId && idx === 0 
-              ? editingShiftId 
+            const newId = editingShiftId && idx === 0
+              ? editingShiftId
               : 'shift_' + Date.now() + '_openshifts_' + idx + '_' + Math.random().toString(36).substr(2, 5);
             const newItem = {
               id: newId,
@@ -7743,13 +7718,13 @@ try {
 
       localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
       window.dispatchEvent(new Event('storage'));
-      
+
       fetch("/api/crew/calendar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updated)
       }).catch(err => console.error("Failed to sync schedules:", err));
-      
+
       return updated;
     });
 
@@ -7764,26 +7739,26 @@ try {
   const deleteScheduleItem = (id: string) => {
     setSchedules(current => {
       const updated = current.filter(item => item.id !== id);
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-      window.dispatchEvent(new Event('storage'));
-      
-      fetch("/api/crew/calendar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated)
-      }).catch(err => console.error("Failed to sync schedules:", err));
-      
+      queueMicrotask(() => {
+        localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+        window.dispatchEvent(new Event('storage'));
+        fetch("/api/crew/calendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updated)
+        }).catch(err => console.error("Failed to sync schedules:", err));
+      });
       return updated;
     });
   };
 
   const getOverlappingShifts = (crewId: string, date: string, startHour: number, endHour: number, excludeShiftId?: string) => {
     if (crewId === 'openshifts') return [];
-    return schedules.filter(s => 
-      s.crewId === crewId && 
-      s.date === date && 
+    return schedules.filter(s =>
+      s.crewId === crewId &&
+      s.date === date &&
       s.id !== excludeShiftId &&
-      s.startHour < endHour && 
+      s.startHour < endHour &&
       s.endHour > startHour
     );
   };
@@ -7810,7 +7785,7 @@ try {
       { id: 'ryan', name: 'Ryan K' },
       { id: 'tony', name: 'Tony M' }
     ];
-    
+
     // Look for static crew
     const staticCrew = [
       { id: 'abbie', name: 'Abbie Janssen', role: 'STAGE MANAGER', maxHours: 40, avatar: '/images/crew/abbie.png' },
@@ -7861,7 +7836,7 @@ try {
 
     const handleQuickAutoSendSms = async (dateStr: string) => {
       selectShowForSms(dateStr);
-      
+
       const smsSection = document.getElementById('section-crewsms');
       if (smsSection) {
         smsSection.scrollIntoView({ behavior: 'smooth' });
@@ -7890,7 +7865,7 @@ try {
 
         const settings = group.memberSettings?.[memberId] || { startHour: 17.0, endHour: 22.0, role: mObj.role || 'SERVER' };
         const tfs = (settings as any).timeFrames || [{ startHour: settings.startHour, endHour: settings.endHour, role: settings.role }];
-        
+
         tfs.forEach((tf: any, tfIdx: number) => {
           newShiftsToAdd.push({
             id: `group_shift_${Date.now()}_${memberId}_${tfIdx}_${Math.random().toString(36).substr(2, 5)}`,
@@ -7910,7 +7885,7 @@ try {
       setSchedules(prev => {
         const filtered = prev.filter(s => !(s.date === dateStr && group.memberIds.includes(s.crewId)));
         const next = [...filtered, ...newShiftsToAdd];
-        localStorage.setItem('7h_crew_schedules', JSON.stringify(next));
+        queueMicrotask(() => localStorage.setItem('7h_crew_schedules', JSON.stringify(next)));
         return next;
       });
     };
@@ -7923,11 +7898,11 @@ try {
       const start = new Date(weekStart);
       const end = new Date(weekStart);
       end.setDate(weekStart.getDate() + 6);
-      
+
       const startMonth = start.toLocaleString('en-US', { month: 'short' });
       const endMonth = end.toLocaleString('en-US', { month: 'short' });
       const startYear = start.getFullYear();
-      
+
       if (startMonth === endMonth) {
         return `${startMonth} ${start.getDate()} – ${end.getDate()}`;
       } else {
@@ -7981,10 +7956,10 @@ try {
         erin: 40,
         francesca: 40
       };
-      
+
       const maxHours = maxHoursMap[crewId] || 40;
       const over = scheduledHours - maxHours;
-      
+
       return {
         maxHours,
         over,
@@ -8019,7 +7994,7 @@ try {
       if (mode === 'role') {
         return defaultRoleStyle;
       }
-      
+
       const show = shift.date ? getDayShow(shift.date) : null;
       if (!show) {
         return { bg: '#64748b', tagBg: '#475569', label: defaultRoleStyle.label };
@@ -8031,17 +8006,17 @@ try {
         const isCorporate = show.tags?.includes('corporate');
         const isCruise = show.tags?.includes('cruise') || (show.venue && show.venue.toLowerCase().includes('cruise'));
 
-        if (isFestival) return { bg: '#ec4899', tagBg: '#be185d', label: ' Festival' }; 
-        if (isPrivate) return { bg: '#8b5cf6', tagBg: '#6d28d9', label: ' Private' }; 
-        if (isCorporate) return { bg: '#10b981', tagBg: '#047857', label: ' Corporate' }; 
-        if (isCruise) return { bg: '#3b82f6', tagBg: '#1d4ed8', label: ' Cruise' }; 
+        if (isFestival) return { bg: '#ec4899', tagBg: '#be185d', label: ' Festival' };
+        if (isPrivate) return { bg: '#8b5cf6', tagBg: '#6d28d9', label: ' Private' };
+        if (isCorporate) return { bg: '#10b981', tagBg: '#047857', label: ' Corporate' };
+        if (isCruise) return { bg: '#3b82f6', tagBg: '#1d4ed8', label: ' Cruise' };
         return { bg: '#9333ea', tagBg: '#6b21a8', label: ' Club / Bar' };
       }
 
       if (mode === 'band') {
         const notesLower = (show.notes || '').toLowerCase();
         const venueLower = (show.venue || '').toLowerCase();
-        
+
         if (notesLower.includes('unplugged') || notesLower.includes('f.a.n. show')) {
           return { bg: '#f97316', tagBg: '#c2410c', label: ' F.A.N. Unplugged' };
         }
@@ -8120,14 +8095,14 @@ try {
     const handleDropOnCell = (e: React.DragEvent, dateStr: string, crewId: string) => {
       e.preventDefault();
       e.stopPropagation();
-      
+
       setDraggedShiftId(null);
       draggedShiftIdRef.current = null;
-      
+
       const dragData = e.dataTransfer.getData("text/plain");
       if (dragData.startsWith("shift:")) {
         const shiftId = dragData.split(":")[1];
-        
+
         // Overlap validation
         const draggedShift = schedules.find(s => s.id === shiftId);
         if (draggedShift && crewId !== 'openshifts') {
@@ -8155,13 +8130,13 @@ try {
           });
           localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
           window.dispatchEvent(new Event('storage'));
-          
+
           fetch("/api/crew/calendar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updated)
           }).catch(err => console.error("Failed to sync schedules:", err));
-          
+
           return updated;
         });
       }
@@ -8171,7 +8146,7 @@ try {
       setDrawerCrewSearch('');
       setActiveDropDay(dateStr);
       setDraggedCrewMemberId(crewId);
-      
+
       // Auto-fill location from tour date if a show exists on this day
       const dayShow = tourDates.find(s => s.date === dateStr);
       if (dayShow) {
@@ -8181,7 +8156,7 @@ try {
       } else {
         setDropLocation('');
       }
-      
+
       setDropNotes('');
       setEditingShiftId(null);
 
@@ -8229,10 +8204,10 @@ try {
         const monday = new Date(shiftDate.setDate(diff));
         setCurrentWeekStart(monday);
       }
-      
+
       // Reset onlyShowFitRole filter to true when opening a coverage request
       setOnlyShowFitRole(true);
-      
+
       // 2. Open the shift modal/sidebar
       handleEditShiftClick(shift);
 
@@ -8344,13 +8319,10 @@ try {
             backgroundColor: roleStyle.bg,
             opacity: isBeingDragged ? 0.3 : 1
           }}
-          className={`wiw-card group relative select-none cursor-grab active:cursor-grabbing rounded-md p-1.5 flex flex-col justify-between shadow-sm text-white ${
-            showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
-          } ${
-            shift.isDraft ? 'wiw-striped' : ''
-          } ${
-            activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
-          }`}
+          className={`wiw-card group relative select-none cursor-grab active:cursor-grabbing rounded-md p-1.5 flex flex-col justify-between shadow-sm text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
+            } ${shift.isDraft ? 'wiw-striped' : ''
+            } ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
+            }`}
           title={shift.crewId !== 'openshifts' ? (() => {
             const member = crewMembers.find(c => c.id === shift.crewId);
             const name = member?.name || shift.crewName || shift.crewId || '?';
@@ -8360,7 +8332,7 @@ try {
           {activeLockingEditor && (
             <div className="absolute inset-x-0 -top-2 z-20 flex justify-center pointer-events-none">
               <span className="bg-pink-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-pink-400 flex items-center gap-1 animate-pulse">
-                 {activeLockingEditor.name.split(' ')[0]} editing
+                {activeLockingEditor.name.split(' ')[0]} editing
               </span>
             </div>
           )}
@@ -8377,8 +8349,8 @@ try {
               title="Edit shift"
             >
               <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
             </button>
             <button
@@ -8391,8 +8363,8 @@ try {
               title="Delete shift"
             >
               <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="3 6 5 6 21 6"/>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
               </svg>
             </button>
           </div>
@@ -8408,7 +8380,7 @@ try {
               <div className="flex flex-wrap gap-0.5 mt-0.5">
                 {shift.role ? (
                   shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
-                    <span 
+                    <span
                       key={rIdx}
                       className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
@@ -8417,7 +8389,7 @@ try {
                   ))
                 ) : null}
                 {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
-                  <span 
+                  <span
                     key={idx}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
@@ -8443,7 +8415,7 @@ try {
               <div className="mt-1 flex items-center justify-start gap-0.5 flex-wrap">
                 {shift.role ? (
                   shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
-                    <span 
+                    <span
                       key={rIdx}
                       className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
@@ -8452,7 +8424,7 @@ try {
                   ))
                 ) : null}
                 {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
-                  <span 
+                  <span
                     key={idx}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
@@ -8485,7 +8457,7 @@ try {
               {(() => {
                 if (shift.crewId === 'openshifts') {
                   return (
-                    <div className="w-full h-full flex items-center justify-center text-emerald-400 bg-[#102a1e] rounded-full overflow-hidden">
+                    <div className="w-full h-full flex items-center justify-center text-[var(--color-accent)] bg-[#102a1e] rounded-full overflow-hidden">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                         <circle cx="12" cy="12" r="10" />
                         <circle cx="12" cy="12" r="4" />
@@ -8547,10 +8519,10 @@ try {
             <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-white/10 w-full">
               {shift.crewId === 'openshifts' ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 text-[var(--font-size-5xs)]">
-                    
+                  <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 text-[var(--font-size-5xs)]">
+
                   </div>
-                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-emerald-400 truncate">
+                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-[var(--color-accent)] truncate">
                     OpenShifts
                   </span>
                 </>
@@ -8582,7 +8554,7 @@ try {
                       </div>
                     );
                   })()}
-                  
+
                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-white/85 truncate">
                     {shift.crewName || (() => {
                       const member = crewMembers.find(c => c.id === shift.crewId);
@@ -8621,7 +8593,7 @@ try {
             colorClass = "text-sky-400 bg-sky-500/10 border-sky-500/25";
           }
           return (
-            <span 
+            <span
               key={idx}
               className={`inline-block px-1.5 py-0.5 text-[8.5px] font-black uppercase tracking-tight rounded border leading-none shrink-0 ${colorClass}`}
             >
@@ -8650,21 +8622,20 @@ try {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
                   return (
-                    <th 
-                      key={day.dateStr} 
+                    <th
+                      key={day.dateStr}
                       id={`col-header-${day.dateStr}`}
                       onClick={() => {
                         const nextDate = (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr) ? null : day.dateStr;
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`p-2 w-36 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-all duration-200 cursor-pointer ${
-                        (selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
-                          ? 'bg-purple-500/20 text-purple-300 font-black shadow-[inset_0_-3px_0_#9333ea]' 
-                          : isNextShow
-                            ? 'bg-purple-500/10 text-purple-300 font-black border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
-                            : 'text-[var(--text-color)] hover:bg-[var(--bg-color)]'
-                      }`}
+                      className={`p-2 w-36 border-r border-[var(--border-color)] border-b border-[var(--border-color)] relative group wiw-sticky-header transition-all duration-200 cursor-pointer ${(selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr)
+                        ? 'bg-purple-500/20 text-purple-300 font-black shadow-[inset_0_-3px_0_#9333ea]'
+                        : isNextShow
+                          ? 'bg-purple-500/10 text-purple-300 font-black border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
+                          : 'text-[var(--text-color)] hover:bg-[var(--bg-color)]'
+                        }`}
                       title="Click to select date & stack working crew at top"
                     >
                       <div className="flex flex-col gap-1 w-full">
@@ -8678,17 +8649,17 @@ try {
                             )}
                           </div>
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button 
+                            <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="p-0.5 hover:bg-purple-500/10 rounded text-purple-400 hover:text-purple-300 border-none bg-transparent cursor-pointer"
+                              className="p-0.5 hover:bg-purple-500/10 rounded  text-[var(--color-accent)] hover:text-purple-300 border-none bg-transparent cursor-pointer"
                               title="Alert assigned crew for this show"
                             >
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                               </svg>
                             </button>
                             <button
@@ -8697,14 +8668,13 @@ try {
                                 e.stopPropagation();
                                 setScheduleSortByDate(prev => prev === day.dateStr ? null : day.dateStr);
                               }}
-                              className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${
-                                scheduleSortByDate === day.dateStr 
-                                  ? 'bg-purple-500/20 text-purple-300 font-extrabold' 
-                                  : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]'
-                              }`}
+                              className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr
+                                ? 'bg-purple-500/20 text-purple-300 font-extrabold'
+                                : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]'
+                                }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
-                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5"/><polyline points="5 12 12 5 19 12"/></svg>
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5" /><polyline points="5 12 12 5 19 12" /></svg>
                             </button>
                           </div>
                         </div>
@@ -8718,7 +8688,7 @@ try {
                             className="mt-1 w-full text-[9px] font-bold uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 px-1.5 py-0.5 rounded truncate select-none transition-all cursor-pointer flex items-center justify-center gap-1"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
-                             {dayShow.venue || dayShow.venue_name}
+                            {dayShow.venue || dayShow.venue_name}
                           </button>
                         )}
                       </div>
@@ -8733,8 +8703,8 @@ try {
                 <tr className="border-b border-[var(--border-color)] bg-[var(--card-bg)] hover:bg-[var(--bg-color)] transition-colors">
                   <td className="p-1 border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-[var(--card-bg)]">
                     <div className="flex items-center gap-2 pl-1">
-                      <div className="w-6 h-6 rounded-full border border-emerald-600 bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold shrink-0 shadow-xs">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                      <div className="w-6 h-6 rounded-full border border-emerald-600 bg-emerald-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 shadow-xs">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
                       </div>
                       <div>
                         <span className="text-xs font-black text-[var(--text-color)] block leading-tight">OpenShifts</span>
@@ -8748,13 +8718,12 @@ try {
                     return (
                       <td
                         key={day.dateStr}
-                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer ${
-                          isSelectedDay 
-                            ? 'bg-purple-500/10 border-x border-purple-500/30' 
-                            : isNextShow
-                              ? 'bg-purple-500/10 border-x border-purple-500/20'
-                              : 'bg-[var(--card-bg)]'
-                        }`}
+                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer ${isSelectedDay
+                          ? 'bg-purple-500/10 border-x border-purple-500/30'
+                          : isNextShow
+                            ? 'bg-purple-500/10 border-x border-purple-500/20'
+                            : 'bg-[var(--card-bg)]'
+                          }`}
                         onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
@@ -8770,8 +8739,8 @@ try {
                             }}
                             className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                           >
-                            <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
-                            <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5">
+                            <span className="text-[10px] text-[var(--color-accent)] font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                            <span className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] group-hover:text-emerald-300 transition-colors mt-0.5">
                               Add Crew Member
                             </span>
                           </div>
@@ -8786,8 +8755,8 @@ try {
                               }}
                               className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                             >
-                              <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[10px] text-[var(--color-accent)] font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
                                 Add Crew Group
                               </span>
                             </div>
@@ -8812,16 +8781,16 @@ try {
                               }}
                               className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-[var(--card-bg)] hover:bg-emerald-500/10 transition-all cursor-pointer group shadow-2xs"
                             >
-                              <span className="text-[10px] text-emerald-400 font-bold group-hover:text-emerald-300 transition-colors">+</span>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[10px] text-[var(--color-accent)] font-bold group-hover:text-emerald-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
                                 Create Group
                               </span>
                             </div>
 
                             {/* Saved groups list popover when Add Crew Group is clicked */}
                             {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
-                              <div 
-                                data-group-popover-cell 
+                              <div
+                                data-group-popover-cell
                                 className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--card-bg)] border border-[var(--border-color)] shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
                                 onClick={(e) => e.stopPropagation()}
                               >
@@ -8840,10 +8809,10 @@ try {
                                         handleAddGroupToDay(day.dateStr, g);
                                         setCellGroupPopover(null);
                                       }}
-                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-emerald-400 font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
+                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-[var(--color-accent)] font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
                                       title={`Apply Group: ${g.name}`}
                                     >
-                                      <span className="text-[10px] font-mono text-emerald-400">+</span>
+                                      <span className="text-[10px] font-mono text-[var(--color-accent)]">+</span>
                                       <span>{g.name}</span>
                                     </button>
                                   ))
@@ -8869,115 +8838,115 @@ try {
                   const activeSortDate = scheduleSortByDate || selectedTourDate;
                   const isWorkingOnActiveDate = activeSortDate ? schedules.some(s => s.date === activeSortDate && s.crewId === member.id && !s.isTimeOff && s.crewId !== 'openshifts') : false;
 
-                return (
-                  <tr key={member.id} className={`border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-[var(--bg-color)]'}`}>
-                    <td className={`p-2 border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-[var(--card-bg)]'}`}>
-                      <div className="flex items-center gap-2.5">
-                        {hasExclamation && (
-                          <div className="absolute left-1 top-1/2 -translate-y-1/2 text-purple-400" title="Warning: Schedule issues">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                          </div>
-                        )}
-                        <CrewAvatar member={member} />
-                        <div className="min-w-0 wiw-tooltip-container flex-1">
-                          <div className="flex items-center justify-between gap-1">
-                            <p className="text-[11px] font-black text-[var(--text-color)] truncate leading-tight">{member.name}</p>
-                            {isWorkingOnActiveDate && (
-                              <span className="text-[7.5px] font-black uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shrink-0 shadow-2xs">
-                                Working
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-1 mt-0.5 flex-wrap">
-                            {hoursStatus.status !== 'ok' ? (
-                              <span className="text-[9px] text-rose-500 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
-                                 <span className="font-mono">{totalHours}h</span>
-                              </span>
-                            ) : (
-                              <span className="text-[9px] text-[var(--muted-text)] font-bold font-mono leading-none">
-                                {totalHours}h
-                              </span>
-                            )}
-                            {renderRoleBadges(member.role)}
-                          </div>
-                          
-                          <div className="mt-1 text-[8px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
-                            {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}> {member.phone}</div>}
-                            {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}> {member.email}</div>}
-                          </div>
+                  return (
+                    <tr key={member.id} className={`border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-[var(--bg-color)]'}`}>
+                      <td className={`p-2 border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-[var(--card-bg)]'}`}>
+                        <div className="flex items-center gap-2.5">
+                          {hasExclamation && (
+                            <div className="absolute left-1 top-1/2 -translate-y-1/2  text-[var(--color-accent)]" title="Warning: Schedule issues">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>
+                            </div>
+                          )}
+                          <CrewAvatar member={member} />
+                          <div className="min-w-0 wiw-tooltip-container flex-1">
+                            <div className="flex items-center justify-between gap-1">
+                              <p className="text-[11px] font-black text-[var(--text-color)] truncate leading-tight">{member.name}</p>
+                              {isWorkingOnActiveDate && (
+                                <span className="text-[7.5px] font-black uppercase tracking-wider px-1 py-0.5 rounded bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/30 shrink-0 shadow-2xs">
+                                  Working
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 mt-0.5 flex-wrap">
+                              {hoursStatus.status !== 'ok' ? (
+                                <span className="text-[9px] text-rose-500 font-extrabold flex items-center gap-1 leading-none cursor-help" title={`Scheduled: ${totalHours}h (Max: ${hoursStatus.maxHours}h) — ${hoursStatus.over}h over max!`}>
+                                  <span className="font-mono">{totalHours}h</span>
+                                </span>
+                              ) : (
+                                <span className="text-[9px] text-[var(--muted-text)] font-bold font-mono leading-none">
+                                  {totalHours}h
+                                </span>
+                              )}
+                              {renderRoleBadges(member.role)}
+                            </div>
 
-                          <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg shadow-xl text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
-                            <div className="font-bold text-[var(--text-color)] text-xs mb-0.5">{member.name}</div>
-                            <div className="text-purple-400 font-extrabold text-[9px] uppercase tracking-wider mb-2">
-                              Role: {member.role || 'Crew Member'}
+                            <div className="mt-1 text-[8px] text-[var(--muted-text)] font-mono space-y-0.5 leading-tight font-medium">
+                              {member.phone && <div className="truncate text-[var(--muted-text)]" title={member.phone}> {member.phone}</div>}
+                              {member.email && <div className="truncate text-[var(--muted-text)]" title={member.email}> {member.email}</div>}
                             </div>
-                            <div className="text-[var(--muted-text)] text-[9px] space-y-1 border-t border-[var(--border-color)] pt-1.5 font-mono">
-                              <div className="flex items-center gap-1.5">
-                                <span></span>
-                                <span className="truncate">{member.email || 'N/A'}</span>
+
+                            <div className="wiw-tooltip bg-[var(--card-bg)] text-[var(--text-color)] p-3 rounded-lg shadow-xl text-left border border-[var(--border-color)] w-52 leading-relaxed font-sans text-xs">
+                              <div className="font-bold text-[var(--text-color)] text-xs mb-0.5">{member.name}</div>
+                              <div className=" text-[var(--color-accent)] font-extrabold text-[9px] uppercase tracking-wider mb-2">
+                                Role: {member.role || 'Crew Member'}
                               </div>
-                              <div className="flex items-center gap-1.5">
-                                <span></span>
-                                <span>{member.phone || 'N/A'}</span>
-                              </div>
-                            </div>
-                            {hoursStatus.status !== 'ok' && (
-                              <div className="mt-2.5 pt-2 border-t border-[var(--border-color)] text-[9px] text-[var(--muted-text)]">
-                                <div className="font-bold text-[var(--text-color)]">Hours Alert:</div>
-                                <div>Scheduled: {totalHours}h (Max: {hoursStatus.maxHours}h)</div>
-                                <div className="text-rose-500 font-bold mt-0.5 flex items-center gap-1">
-                                  <span></span> {hoursStatus.over} hours over max
+                              <div className="text-[var(--muted-text)] text-[9px] space-y-1 border-t border-[var(--border-color)] pt-1.5 font-mono">
+                                <div className="flex items-center gap-1.5">
+                                  <span></span>
+                                  <span className="truncate">{member.email || 'N/A'}</span>
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                  <span></span>
+                                  <span>{member.phone || 'N/A'}</span>
                                 </div>
                               </div>
-                            )}
+                              {hoursStatus.status !== 'ok' && (
+                                <div className="mt-2.5 pt-2 border-t border-[var(--border-color)] text-[9px] text-[var(--muted-text)]">
+                                  <div className="font-bold text-[var(--text-color)]">Hours Alert:</div>
+                                  <div>Scheduled: {totalHours}h (Max: {hoursStatus.maxHours}h)</div>
+                                  <div className="text-rose-500 font-bold mt-0.5 flex items-center gap-1">
+                                    <span></span> {hoursStatus.over} hours over max
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    {filteredDays.map(day => {
-                      const dayShifts = schedulesByDateAndCrew[day.dateStr]?.[member.id] || [];
-                      const isSelectedDay = selectedTourDate === day.dateStr;
-                      const isNextShow = day.dateStr === nextShowDate;
-                      return (
-                        <td
-                          key={day.dateStr}
-                          className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer group ${
-                            isSelectedDay 
-                              ? 'bg-purple-500/10 border-x border-purple-500/30' 
+                      {filteredDays.map(day => {
+                        const dayShifts = schedulesByDateAndCrew[day.dateStr]?.[member.id] || [];
+                        const isSelectedDay = selectedTourDate === day.dateStr;
+                        const isNextShow = day.dateStr === nextShowDate;
+                        return (
+                          <td
+                            key={day.dateStr}
+                            className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer group ${isSelectedDay
+                              ? 'bg-purple-500/10 border-x border-purple-500/30'
                               : isNextShow
                                 ? 'bg-purple-500/10 border-x border-purple-500/20'
                                 : 'bg-[var(--card-bg)]'
-                          }`}
-                          onDragOver={(e) => {
-                            e.preventDefault();
-                            if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
-                          }}
-                          onDrop={(e) => handleDropOnCell(e, day.dateStr, member.id)}
-                          onClick={() => handleCellClick(day.dateStr, member.id, member.role || 'SERVER')}
-                        >
-                          <div className="flex flex-col gap-1.5 min-h-[48px] w-full">
-                            {dayShifts.map(shift => renderShiftCard(shift))}
-                          </div>
-                          {dayShifts.length > 0 && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
-                              }}
-                              className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[8px] font-bold text-slate-600 hover:text-black bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-all cursor-pointer"
-                            >
-                              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                              + ADD
-                            </button>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })})()}
+                              }`}
+                            onDragOver={(e) => {
+                              e.preventDefault();
+                              if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+                            }}
+                            onDrop={(e) => handleDropOnCell(e, day.dateStr, member.id)}
+                            onClick={() => handleCellClick(day.dateStr, member.id, member.role || 'SERVER')}
+                          >
+                            <div className="flex flex-col gap-1.5 min-h-[48px] w-full">
+                              {dayShifts.map(shift => renderShiftCard(shift))}
+                            </div>
+                            {dayShifts.length > 0 && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
+                                }}
+                                className="opacity-0 group-hover:opacity-100 mt-1 w-full py-0.5 flex items-center justify-center gap-1 text-[8px] font-bold text-slate-600 hover:text-black bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-all cursor-pointer"
+                              >
+                                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                + ADD
+                              </button>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })
+              })()}
 
               {/* Collapse/Expand All toggle */}
               {filteredCrewMembers.length > 3 && (
@@ -9013,13 +8982,12 @@ try {
             const dayShifts = scheduleCrewFilter ? shiftsForDay.filter(s => s.crewId === scheduleCrewFilter || s.crewId === 'openshifts') : shiftsForDay;
             const sortedShifts = [...dayShifts].sort((a, b) => a.startHour - b.startHour);
             const isHovered = activeDropDay === day.dateStr && draggedCrewMemberId;
-            
+
             return (
-              <div 
+              <div
                 key={day.dateStr}
-                className={` border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-all shadow-sm ${
-                  isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
-                }`}
+                className={` border p-2.5 bg-black/40 flex flex-col min-h-[350px] transition-all shadow-sm ${isHovered ? 'bg-purple-500/10 border-purple-500/30' : 'border-white/5'
+                  }`}
                 onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
@@ -9035,14 +9003,14 @@ try {
                 onDrop={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  
+
                   setDraggedShiftId(null);
                   draggedShiftIdRef.current = null;
-                  
+
                   const dragData = e.dataTransfer.getData("text/plain");
                   if (dragData.startsWith("shift:")) {
                     const shiftId = dragData.split(":")[1];
-                    
+
                     // Overlap validation
                     const draggedShift = schedules.find(s => s.id === shiftId);
                     if (draggedShift && draggedShift.crewId !== 'openshifts') {
@@ -9062,13 +9030,15 @@ try {
                         }
                         return s;
                       });
-                      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                      window.dispatchEvent(new Event('storage'));
-                      fetch("/api/crew/calendar", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(updated)
-                      }).catch(err => console.error("Failed to sync schedules:", err));
+                      queueMicrotask(() => {
+                        localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                        window.dispatchEvent(new Event('storage'));
+                        fetch("/api/crew/calendar", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(updated)
+                        }).catch(err => console.error("Failed to sync schedules:", err));
+                      });
                       return updated;
                     });
                   }
@@ -9081,7 +9051,7 @@ try {
                     const dayShow = getDayShow(day.dateStr);
                     if (!dayShow) return null;
                     return (
-                      <button 
+                      <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -9090,7 +9060,7 @@ try {
                         className="mt-1 w-full text-[8.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 hover:border-purple-500/40 px-1.5 py-0.5 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1"
                         title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                       >
-                         {dayShow.venue || dayShow.venue_name}
+                        {dayShow.venue || dayShow.venue_name}
                       </button>
                     );
                   })()}
@@ -9129,7 +9099,7 @@ try {
                       const dayShow = getDayShow(day.dateStr);
                       if (!dayShow) return null;
                       return (
-                        <button 
+                        <button
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -9138,7 +9108,7 @@ try {
                           className="mt-1 w-full text-[7.5px] font-black uppercase text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/30 border border-purple-500/20 hover:border-purple-500/40 px-1 py-0.2 rounded truncate max-w-full cursor-pointer transition-all flex items-center justify-center gap-1 text-center"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
-                           {dayShow.venue || dayShow.venue_name}
+                          {dayShow.venue || dayShow.venue_name}
                         </button>
                       );
                     })()}
@@ -9160,13 +9130,12 @@ try {
             <div className="flex-1 h-[480px] relative grid grid-cols-7 gap-2 bg-[var(--card-bg)] border border-[var(--border-color)] overflow-hidden p-0">
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                 {Array.from({ length: 17 }).map((_, idx) => (
-                  <div 
-                    key={idx} 
-                    className={`w-full h-0 border-b ${
-                      idx % 2 === 0 
-                        ? 'border-white/10 border-solid' 
-                        : 'border-white/5 border-dashed'
-                    }`} 
+                  <div
+                    key={idx}
+                    className={`w-full h-0 border-b ${idx % 2 === 0
+                      ? 'border-white/10 border-solid'
+                      : 'border-white/5 border-dashed'
+                      }`}
                   />
                 ))}
               </div>
@@ -9183,7 +9152,7 @@ try {
                       const dragData = e.dataTransfer.getData("text/plain");
                       if (dragData.startsWith("shift:")) {
                         const shiftId = dragData.split(":")[1];
-                        
+
                         // Overlap validation
                         const draggedShift = schedules.find(s => s.id === shiftId);
                         if (draggedShift && draggedShift.crewId !== 'openshifts') {
@@ -9203,8 +9172,10 @@ try {
                             }
                             return s;
                           });
-                          localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                          window.dispatchEvent(new Event('storage'));
+                          queueMicrotask(() => {
+                            localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                            window.dispatchEvent(new Event('storage'));
+                          });
                           return updated;
                         });
                       }
@@ -9230,9 +9201,8 @@ try {
                             left: '4px',
                             right: '4px',
                           }}
-                          className={`wiw-card text-white p-1 rounded-md text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer shadow-sm ${
-                            shift.isDraft ? 'wiw-striped' : ''
-                          }`}
+                          className={`wiw-card text-white p-1 rounded-md text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer shadow-sm ${shift.isDraft ? 'wiw-striped' : ''
+                            }`}
                         >
                           <div className="truncate">{shift.crewName}</div>
                           <div className="text-purple-300 font-extrabold text-[var(--font-size-5xs)] uppercase truncate">{shift.role || 'Crew'}</div>
@@ -9368,7 +9338,7 @@ try {
         <div onClick={() => toggleSection('calendar')} className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20 cursor-pointer select-none hover:bg-black/30 transition-colors text-white">
           <div className="flex items-center gap-2">
             <div className="drag-handle cursor-grab active:cursor-grabbing p-1.5 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-all shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
             </div>
             <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
               <span></span> Crew Work Schedule Calendar
@@ -9386,9 +9356,9 @@ try {
 
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
           {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
-          <div className="bg-gradient-to-r from-emerald-950/40 via-purple-950/30 to-black/60 border-b border-emerald-500/20 px-6 py-2.5 flex items-center justify-between gap-4 select-none">
+          <div className="bg-gradient-to-r from-emerald-950/40 via-purple-950/30 to-black/60 border-b  border-[var(--color-accent)]/30 px-6 py-2.5 flex items-center justify-between gap-4 select-none">
             <div className="flex items-center gap-3 flex-wrap text-xs">
-              <span className="flex items-center gap-2 font-bold text-emerald-400">
+              <span className="flex items-center gap-2 font-bold text-[var(--color-accent)]">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -9421,14 +9391,14 @@ try {
                 className="px-2.5 py-1 bg-purple-500/15 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
                 title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
               >
-                 Simulate Mix-Up Conflict
+                Simulate Mix-Up Conflict
               </button>
               <button
                 type="button"
                 onClick={() => setShowCoEditorModal(true)}
                 className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white text-[11px] font-bold rounded transition-colors cursor-pointer flex items-center gap-1"
               >
-                 Co-Editor Settings
+                Co-Editor Settings
               </button>
             </div>
           </div>
@@ -9439,7 +9409,7 @@ try {
               <div className="bg-[#1e1e26] border-2 border-purple-500/50 p-6 max-w-lg w-full shadow-[0_0_50px_rgba(147, 51, 234,0.3)] space-y-4">
                 <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                   <div className="w-10 h-10 bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
-                    
+
                   </div>
                   <div>
                     <h3 className="text-base font-extrabold text-white tracking-tight">Schedule Mix-Up Prevented!</h3>
@@ -9453,7 +9423,7 @@ try {
                     <span className="text-[10px] text-white/40">{coEditorConflictAlert.timestamp}</span>
                   </div>
                   <div className="text-sm font-bold text-pink-300">
-                     Shift: {coEditorConflictAlert.shiftTitle}
+                    Shift: {coEditorConflictAlert.shiftTitle}
                   </div>
                   <p className="text-white/80 leading-relaxed bg-white/5 p-2.5 rounded border border-white/5">
                     {coEditorConflictAlert.changeDesc}
@@ -9470,7 +9440,7 @@ try {
                     onClick={() => setCoEditorConflictAlert(null)}
                     className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                   >
-                     Accept Remote Sync
+                    Accept Remote Sync
                   </button>
                 </div>
               </div>
@@ -9503,14 +9473,14 @@ try {
                           <div className="text-[10px] text-white/50">{ed.lastAction}</div>
                         </div>
                       </div>
-                      <span className={`px-2 py-0.5 text-[9px] font-black rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'}`}>
+                      <span className={`px-2 py-0.5 text-[9px] font-black rounded uppercase ${ed.isEditing ? 'bg-pink-500/20 text-pink-400 border border-pink-500/40' : 'bg-emerald-500/20 text-[var(--color-accent)] border border-emerald-500/40'}`}>
                         {ed.isEditing ? ' Shift Locked' : '🟢 Viewing'}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 space-y-1">
+                <div className="p-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30 text-xs text-emerald-300 space-y-1">
                   <div className="font-bold flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     Conflict Prevention Active
@@ -9533,7 +9503,7 @@ try {
           )}
 
           <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container min-h-[1400px] h-[1400px] flex flex-col min-h-0">
-            
+
             {/* Header controls (Date range, prev/next, today, action icons) */}
             <div className="bg-black/40 border-b border-white/5 p-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0">
               {/* Left: Date Range & Nav */}
@@ -9558,7 +9528,7 @@ try {
                     className="p-2 hover:bg-white/5 transition-colors border-r border-white/5 text-white/40 hover:text-white cursor-pointer border-none bg-transparent"
                     title="Choose Date"
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                   </button>
                   <input
                     type="date"
@@ -9594,73 +9564,72 @@ try {
                 <button
                   type="button"
                   onClick={handleGoToMonth}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid ${
-                    calendarRange === 'month'
-                      ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
-                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
-                  }`}
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid ${calendarRange === 'month'
+                    ? 'bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
+                    : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    }`}
                 >
                   MONTH
                 </button>
 
                 <div className="relative">
                   <select
-                     value={(() => {
-                       if (calendarRange === '4weeks') return '4weeks';
-                       if (calendarRange === 'month') return 'month';
-                       
-                       const time = currentWeekStart.getTime();
-                       const today = new Date();
-                       const day = today.getDay();
-                       const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-                       const thisMonday = new Date(today.getFullYear(), today.getMonth(), diff);
-                       
-                       if (time === thisMonday.getTime()) return 'current';
-                       if (time === thisMonday.getTime() + 7 * 86400000) return 'next';
-                       if (time === thisMonday.getTime() + 14 * 86400000) return 'next2';
-                       if (time === thisMonday.getTime() + 21 * 86400000) return 'next3';
-                       if (time === thisMonday.getTime() + 28 * 86400000) return 'next4';
-                       return 'custom';
-                     })()}
-                     onChange={(e) => {
-                       const val = e.target.value;
-                       const today = new Date();
-                       const day = today.getDay();
-                       const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-                       const thisMonday = new Date(today.getFullYear(), today.getMonth(), diff);
+                    value={(() => {
+                      if (calendarRange === '4weeks') return '4weeks';
+                      if (calendarRange === 'month') return 'month';
 
-                       if (val === '4weeks') {
-                         setCalendarRange('4weeks');
-                         setCurrentWeekStart(thisMonday);
-                       } else if (val === 'month') {
-                         setCalendarRange('month');
-                         setCurrentWeekStart(new Date(today.getFullYear(), today.getMonth(), 1));
-                       } else {
-                         setCalendarRange('week');
-                         if (val === 'current') {
-                           setCurrentWeekStart(thisMonday);
-                         } else if (val === 'next') {
-                           setCurrentWeekStart(new Date(thisMonday.getTime() + 7 * 86400000));
-                         } else if (val === 'next2') {
-                           setCurrentWeekStart(new Date(thisMonday.getTime() + 14 * 86400000));
-                         } else if (val === 'next3') {
-                           setCurrentWeekStart(new Date(thisMonday.getTime() + 21 * 86400000));
-                         } else if (val === 'next4') {
-                           setCurrentWeekStart(new Date(thisMonday.getTime() + 28 * 86400000));
-                         }
-                       }
-                     }}
-                     className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[95px]"
-                   >
-                     <option value="current">Current Week</option>
-                     <option value="next">Next Week</option>
-                     <option value="next2">In 2 Weeks</option>
-                     <option value="next3">In 3 Weeks</option>
-                     <option value="next4">In 4 Weeks</option>
-                     <option value="4weeks">Next 4 Weeks</option>
-                     <option value="month">Full Month</option>
-                     <option value="custom" disabled hidden>Custom</option>
-                   </select>
+                      const time = currentWeekStart.getTime();
+                      const today = new Date();
+                      const day = today.getDay();
+                      const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+                      const thisMonday = new Date(today.getFullYear(), today.getMonth(), diff);
+
+                      if (time === thisMonday.getTime()) return 'current';
+                      if (time === thisMonday.getTime() + 7 * 86400000) return 'next';
+                      if (time === thisMonday.getTime() + 14 * 86400000) return 'next2';
+                      if (time === thisMonday.getTime() + 21 * 86400000) return 'next3';
+                      if (time === thisMonday.getTime() + 28 * 86400000) return 'next4';
+                      return 'custom';
+                    })()}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      const today = new Date();
+                      const day = today.getDay();
+                      const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+                      const thisMonday = new Date(today.getFullYear(), today.getMonth(), diff);
+
+                      if (val === '4weeks') {
+                        setCalendarRange('4weeks');
+                        setCurrentWeekStart(thisMonday);
+                      } else if (val === 'month') {
+                        setCalendarRange('month');
+                        setCurrentWeekStart(new Date(today.getFullYear(), today.getMonth(), 1));
+                      } else {
+                        setCalendarRange('week');
+                        if (val === 'current') {
+                          setCurrentWeekStart(thisMonday);
+                        } else if (val === 'next') {
+                          setCurrentWeekStart(new Date(thisMonday.getTime() + 7 * 86400000));
+                        } else if (val === 'next2') {
+                          setCurrentWeekStart(new Date(thisMonday.getTime() + 14 * 86400000));
+                        } else if (val === 'next3') {
+                          setCurrentWeekStart(new Date(thisMonday.getTime() + 21 * 86400000));
+                        } else if (val === 'next4') {
+                          setCurrentWeekStart(new Date(thisMonday.getTime() + 28 * 86400000));
+                        }
+                      }
+                    }}
+                    className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[95px]"
+                  >
+                    <option value="current">Current Week</option>
+                    <option value="next">Next Week</option>
+                    <option value="next2">In 2 Weeks</option>
+                    <option value="next3">In 3 Weeks</option>
+                    <option value="next4">In 4 Weeks</option>
+                    <option value="4weeks">Next 4 Weeks</option>
+                    <option value="month">Full Month</option>
+                    <option value="custom" disabled hidden>Custom</option>
+                  </select>
                   <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
                   </div>
@@ -9671,13 +9640,12 @@ try {
                   <button
                     type="button"
                     onClick={() => setShowTourDropdown(prev => !prev)}
-                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${
-                      showTourDropdown 
-                        ? 'border-purple-500/40 bg-purple-500/10 text-purple-300' 
-                        : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
-                    }`}
+                    className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDropdown
+                      ? 'border-purple-500/40 bg-purple-500/10 text-purple-300'
+                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                      }`}
                   >
-                     SHOWS
+                    SHOWS
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`transition-transform ${showTourDropdown ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
                   </button>
                   {showTourDropdown && (
@@ -9725,11 +9693,10 @@ try {
                 <button
                   type="button"
                   onClick={() => setShowTourDatesOnly(prev => !prev)}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${
-                    showTourDatesOnly 
-                      ? 'border-purple-500/40 bg-purple-500/15 text-purple-300' 
-                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
-                  }`}
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer border-solid flex items-center gap-1.5 ${showTourDatesOnly
+                    ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
+                    : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    }`}
                   title="Show only days with tour shows"
                 >
                   {showTourDatesOnly ? ' SHOWS ONLY' : 'ALL DAYS'}
@@ -9756,11 +9723,10 @@ try {
                 <button
                   type="button"
                   onClick={() => setIsFiltersPanelExpanded(!isFiltersPanelExpanded)}
-                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-all cursor-pointer border-solid flex items-center gap-1.5 select-none ${
-                    isFiltersPanelExpanded || activeFiltersCount > 0
-                      ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]' 
-                      : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
-                  }`}
+                  className={`px-3 py-1.5 border text-xs font-bold rounded-lg shadow-sm transition-all cursor-pointer border-solid flex items-center gap-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0
+                    ? 'border-purple-500/40 bg-purple-500/15 text-purple-300 font-extrabold shadow-[0_0_8px_rgba(147, 51, 234,0.1)]'
+                    : 'border-white/10 bg-black/40 hover:bg-white/5 text-white/70 hover:text-white'
+                    }`}
                   title="Search & advanced filters by person, venue, date range, and event type"
                 >
                   <span></span> {isFiltersPanelExpanded ? 'HIDE FILTERS' : 'FILTERS'}
@@ -9804,7 +9770,7 @@ try {
                     className="px-3 py-1.5 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-400 hover:text-rose-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
                     title="Reset all search filters"
                   >
-                    Clear All 
+                    Clear All
                   </button>
                 )}
 
@@ -9823,7 +9789,7 @@ try {
                     className="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-400 hover:text-red-300 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
                     title="Clear all scheduled shift timeframes and start fresh"
                   >
-                     Clear All Shifts
+                    Clear All Shifts
                   </button>
                 )}
 
@@ -9834,7 +9800,7 @@ try {
                   className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none"
                   title="Generate realistic test schedule data for 2-4 weeks with edge cases"
                 >
-                   Generate Test Data
+                  Generate Test Data
                 </button>
 
                 {/*  Purge Test Data Action */}
@@ -9845,7 +9811,7 @@ try {
                     className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 text-xs font-bold rounded-lg transition-colors cursor-pointer border-solid flex items-center gap-1.5 select-none animate-pulse"
                     title="Purge all test schedule data ([TEST] shifts)"
                   >
-                     Purge Test Data
+                    Purge Test Data
                   </button>
                 )}
 
@@ -9911,7 +9877,7 @@ try {
                           onClick={() => setSchedulePersonSearch('')}
                           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold"
                         >
-                          
+
                         </button>
                       )}
                     </div>
@@ -9934,7 +9900,7 @@ try {
                           onClick={() => setScheduleVenueSearch('')}
                           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold"
                         >
-                          
+
                         </button>
                       )}
                     </div>
@@ -9989,7 +9955,7 @@ try {
                           className="text-white/40 hover:text-white bg-white/5 hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-all cursor-pointer border-none"
                           title="Reset Date Range"
                         >
-                          
+
                         </button>
                       )}
                     </div>
@@ -10000,10 +9966,10 @@ try {
                 <div className="flex items-center justify-between text-[var(--font-size-2xs)] text-white/40 border-t border-white/5 pt-2">
                   <div className="flex items-center gap-4">
                     <span>
-                       Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
+                      Displaying <strong className="text-purple-300 font-extrabold">{filteredDays.length}</strong> date columns
                     </span>
                     <span>
-                       Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
+                      Showing <strong className="text-purple-300 font-extrabold">{filteredCrewMembers.length}</strong> crew rows
                     </span>
                   </div>
                   {activeFiltersCount > 0 && (
@@ -10023,7 +9989,7 @@ try {
                         }}
                         className="text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 px-2 py-0.5 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
                       >
-                        Reset All Filters 
+                        Reset All Filters
                       </button>
                     </div>
                   )}
@@ -10042,7 +10008,7 @@ try {
 
               {/* Right Sidebar: Tour Dates & Crew */}
               <div className="w-[280px] shrink-0 border-l border-white/15 bg-black/30 overflow-y-auto h-full hidden xl:block z-20">
-                
+
                 {/* Tour Dates Section */}
                 <div className="border-b border-white/5">
                   <div className="px-3 py-2.5 flex items-center justify-between">
@@ -10057,7 +10023,7 @@ try {
                           onClick={() => setSelectedTourDate(null)}
                           className="text-[var(--font-size-4xs)] font-bold text-purple-300/70 hover:text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded cursor-pointer border-none transition-colors"
                         >
-                          SHOW ALL 
+                          SHOW ALL
                         </button>
                       )}
                       <span className="text-[var(--font-size-4xs)] font-bold text-white/20 bg-white/5 px-1.5 py-0.5 rounded">
@@ -10075,7 +10041,7 @@ try {
                         const isSelected = selectedTourDate === show.date;
                         const isActiveWeek = show.date ? activeWeekDateSet.has(show.date) : false;
                         const shiftCount = show.date ? shiftCountsByDate[show.date] || 0 : 0;
-                        
+
                         return (
                           <SidebarDateButton
                             key={idx}
@@ -10106,7 +10072,7 @@ try {
                 </div>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`text-white/30 transition-transform ${showLeaderboard ? '' : '-rotate-90'}`}><polyline points="6 9 12 15 18 9" /></svg>
               </button>
-              
+
               {showLeaderboard && (
                 <div className="px-4 pb-4">
                   {/* Period Tabs */}
@@ -10116,11 +10082,10 @@ try {
                         key={period}
                         type="button"
                         onClick={() => setLeaderboardPeriod(period)}
-                        className={`px-3 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-all ${
-                          leaderboardPeriod === period
-                            ? 'bg-purple-500/15 text-purple-300'
-                            : 'bg-transparent text-white/30 hover:text-white/60 hover:bg-white/5'
-                        }`}
+                        className={`px-3 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-all ${leaderboardPeriod === period
+                          ? 'bg-purple-500/15 text-purple-300'
+                          : 'bg-transparent text-white/30 hover:text-white/60 hover:bg-white/5'
+                          }`}
                       >
                         {period}
                       </button>
@@ -10130,27 +10095,27 @@ try {
                   {/* Leaderboard Bars */}
                   {(() => {
                     const maxHours = leaderboardRankings.length > 0 ? leaderboardRankings[0].hours : 1;
-                    
+
                     if (leaderboardRankings.length === 0) {
                       return (
                         <div className="text-center py-3 text-[var(--font-size-2xs)] text-white/20 italic">No hours logged for this period</div>
                       );
                     }
-                    
+
                     return (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                         {leaderboardRankings.slice(0, 9).map((member, idx) => {
                           const pct = Math.round((member.hours / maxHours) * 100);
                           const medalEmoji = idx === 0 ? '' : idx === 1 ? '' : idx === 2 ? '' : '';
                           const barColor = idx === 0 ? 'bg-purple-500/30' : idx === 1 ? 'bg-slate-400/20' : idx === 2 ? 'bg-orange-700/20' : 'bg-white/5';
-                          
+
                           return (
                             <div key={member.id} className="flex items-center gap-2.5 bg-black/30 rounded-lg px-3 py-2 border border-white/5 hover:border-white/10 transition-colors">
                               {/* Rank */}
                               <span className="text-[var(--font-size-3xs)] font-black text-white/20 w-4 shrink-0 text-right">
                                 {medalEmoji || `${idx + 1}`}
                               </span>
-                              
+
                               {/* Avatar */}
                               {(() => {
                                 const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
@@ -10161,7 +10126,7 @@ try {
                                   </div>
                                 );
                               })()}
-                              
+
                               {/* Name + Bar */}
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between mb-0.5">
@@ -10188,647 +10153,643 @@ try {
               const showFormDetails = !!editingShiftId || Object.values(selectedCrewAssignments).some(a => a.active);
               return (
                 <div className="fixed inset-0 bg-transparent z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
-                {/* Backdrop Click Overlay */}
-                <div 
-                  className="absolute inset-0 cursor-default" 
-                  onClick={() => {
-                    setActiveDropDay(null);
-                    setDraggedCrewMemberId(null);
-                    setEditingShiftId(null);
-                  }}
-                />
+                  {/* Backdrop Click Overlay */}
+                  <div
+                    className="absolute inset-0 cursor-default"
+                    onClick={() => {
+                      setActiveDropDay(null);
+                      setDraggedCrewMemberId(null);
+                      setEditingShiftId(null);
+                    }}
+                  />
 
-                <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
-                  
-                  {/* Modal Header */}
-                  <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
-                    <div>
-                      <h3 className="text-sm font-black italic tracking-wide text-white">
-                        {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
-                      </h3>
-                      <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
-                        Assigning {(() => {
-                          const found = crewMembers.find(c => c.id === draggedCrewMemberId);
-                          return found ? found.name : draggedCrewMemberId;
-                        })()} for {activeDropDay}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => {
-                        setActiveDropDay(null);
-                        setDraggedCrewMemberId(null);
-                        setEditingShiftId(null);
-                      }}
-                      className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
-                    >
-                      
-                    </button>
-                  </div>
+                  <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
 
-                  {/* Modal Form */}
-                  <div className="p-5 flex-1 overflow-y-auto space-y-4 pr-1">
-                    
-                    {/* Coverage Request Alert / Control */}
-                    {(() => {
-                      const editingShift = schedules.find(s => s.id === editingShiftId);
-                      if (!editingShift) return null;
-                      
-                      if (!editingShift.isCoverageRequested) {
-                        return (
-                          <div className="shrink-0">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSchedules(current => {
-                                  const updated = current.map(s => {
-                                    if (s.id === editingShiftId) {
-                                      return { ...s, isCoverageRequested: true };
-                                    }
-                                    return s;
-                                  });
-                                  localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                                  window.dispatchEvent(new Event('storage'));
-                                  fetch("/api/crew/calendar", {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify(updated)
-                                  }).catch(err => console.error("Failed to sync schedules:", err));
-                                  return updated;
-                                });
-                              }}
-                              className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
-                            >
-                              <span></span> Request Coverage
-                            </button>
-                          </div>
-                        );
-                      }
-                      
-                      // If coverage is requested:
-                      return (
-                        <div className="shrink-0 bg-red-500/10 border border-red-500/30 p-4 space-y-3">
-                          <div className="flex items-center justify-between gap-3 text-red-400">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm"></span>
-                              <div>
-                                <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
-                                <p className="text-[var(--font-size-3xs)] text-white/60 mt-0.5">
-                                  <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
-                                </p>
-                              </div>
-                            </div>
-                            <button 
-                              type="button"
-                              onClick={() => {
-                                setSchedules(current => {
-                                  const updated = current.map(s => {
-                                    if (s.id === editingShiftId) {
-                                      return { ...s, isCoverageRequested: false };
-                                    }
-                                    return s;
-                                  });
-                                  localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                                  window.dispatchEvent(new Event('storage'));
-                                  fetch("/api/crew/calendar", {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify(updated)
-                                  }).catch(err => console.error("Failed to sync schedules:", err));
-                                  return updated;
-                                });
-                              }}
-                              className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
-                            >
-                              Clear
-                            </button>
-                          </div>
-
-                          <div className="border-t border-white/5 pt-3 space-y-2.5">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
-                              
-                              {/* Tab/Toggle for Fit Role vs Override */}
-                              <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
-                                <button
-                                  type="button"
-                                  onClick={() => setOnlyShowFitRole(true)}
-                                  className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
-                                    onlyShowFitRole 
-                                      ? 'bg-purple-600 text-white font-black' 
-                                      : 'text-white/60 hover:text-white'
-                                  }`}
-                                >
-                                   Fit Role ({editingShift.role})
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => setOnlyShowFitRole(false)}
-                                  className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${
-                                    !onlyShowFitRole 
-                                      ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-black' 
-                                      : 'text-white/60 hover:text-white'
-                                  }`}
-                                >
-                                   Override (All)
-                                </button>
-                              </div>
-                            </div>
-
-                            {/* List of candidates */}
-                            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-                              {(() => {
-                                const candidates = crewMembers
-                                  .filter(m => m.id !== 'openshifts' && m.id !== editingShift.crewId)
-                                  .filter(m => {
-                                    if (onlyShowFitRole) {
-                                      return (m.role || '').toUpperCase() === (editingShift.role || '').toUpperCase();
-                                    }
-                                    return true;
-                                  });
-
-                                if (candidates.length === 0) {
-                                  return (
-                                    <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
-                                      {onlyShowFitRole 
-                                        ? `No other crew members have the role '${editingShift.role}'` 
-                                        : 'No other crew members available'}
-                                    </p>
-                                  );
-                                }
-
-                                return candidates.map(member => {
-                                  const overlaps = getOverlappingShifts(
-                                    member.id,
-                                    editingShift.date,
-                                    editingShift.startHour,
-                                    editingShift.endHour,
-                                    editingShift.id
-                                  );
-                                  const isOverlapping = overlaps.length > 0;
-
-                                  return (
-                                    <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
-                                      <div className="flex items-center gap-2">
-                                        <div 
-                                          className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
-                                          style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
-                                        >
-                                          {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                        </div>
-                                        <div>
-                                          <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
-                                          <div className="flex items-center gap-1.5 mt-0.5">
-                                            <span className="text-[var(--font-size-4xs)] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
-                                            {isOverlapping && (
-                                              <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
-                                                 Overlaps {overlaps[0].time}
-                                              </span>
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <button
-                                        type="button"
-                                        disabled={isOverlapping}
-                                        onClick={() => {
-                                          // Reassign shift to this member
-                                          setSchedules(current => {
-                                            const updated = current.map(s => {
-                                              if (s.id === editingShiftId) {
-                                                return { 
-                                                  ...s, 
-                                                  crewId: member.id, 
-                                                  crewName: member.name,
-                                                  isCoverageRequested: false 
-                                                };
-                                              }
-                                              return s;
-                                            });
-                                            localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                                            window.dispatchEvent(new Event('storage'));
-                                            fetch("/api/crew/calendar", {
-                                              method: "POST",
-                                              headers: { "Content-Type": "application/json" },
-                                              body: JSON.stringify(updated)
-                                            }).catch(err => console.error("Failed to sync schedules:", err));
-                                            
-                                            // Close sidebar after successful reassign
-                                            setActiveDropDay(null);
-                                            setDraggedCrewMemberId(null);
-                                            setEditingShiftId(null);
-                                            return updated;
-                                          });
-                                        }}
-                                        className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${
-                                          isOverlapping
-                                            ? 'bg-white/5 text-white/20 cursor-not-allowed'
-                                            : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
-                                        }`}
-                                      >
-                                        Assign
-                                      </button>
-                                    </div>
-                                  );
-                                });
-                              })()}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                    
-                    {/* Tour Date Show Card Info */}
-                    {(() => {
-                      const activeShow = activeDropDay ? getDayShow(activeDropDay) : null;
-                      if (!activeShow) return null;
-
-                      const dateObj = activeDropDay ? new Date(activeDropDay + 'T12:00:00') : null;
-                      const formattedDate = dateObj ? dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : activeDropDay;
-                      const festStart = activeShow.festStart || activeShow.festStartTime || '5:00 PM';
-                      const bandTime = activeShow.time || activeShow.bandTime || activeShow.showTime || '8:00 PM';
-
-                      return (
-                        <div className="shrink-0 bg-purple-500/10 border border-purple-500/20 rounded-lg px-3 py-2 space-y-1.5 font-sans">
-                          <div className="flex items-center justify-between gap-2 min-w-0">
-                            <div className="flex items-center gap-1.5 min-w-0 truncate">
-                              <span className="text-[14px] font-extrabold text-white truncate">{activeShow.venue}</span>
-                              <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
-                            </div>
-                            <span className="text-[12px] font-extrabold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
-                               {formattedDate}
-                            </span>
-                          </div>
-                          
-                          <div className="flex items-center gap-2 text-[11px] font-semibold text-white/80 border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
-                            <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
-                               Fest: {festStart}
-                            </span>
-                            <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
-                               Band: {bandTime}
-                            </span>
-                            {activeShow.notes && (
-                              <span className="text-white/40 italic truncate text-[11px] shrink-0" title={activeShow.notes}>
-                                • {activeShow.notes}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })()}
-
-
-
-                    {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
-                    {!(editingShift && editingShift.isCoverageRequested) && (
-                      <div className="flex flex-col shrink-0">
-                      <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</label>
-                      
-                      {/* Search and Grouping Controls */}
-                      <div className="shrink-0 mb-3 space-y-2">
-                        <input
-                          type="text"
-                          value={drawerCrewSearch}
-                          onChange={e => setDrawerCrewSearch(e.target.value)}
-                          placeholder=" Search crew members..."
-                          className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold font-sans"
-                        />
-                        
+                    {/* Modal Header */}
+                    <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
+                      <div>
+                        <h3 className="text-sm font-black italic tracking-wide text-white">
+                          {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
+                        </h3>
+                        <p className="text-[0.65rem] text-white/40 uppercase tracking-widest font-bold mt-1">
+                          Assigning {(() => {
+                            const found = crewMembers.find(c => c.id === draggedCrewMemberId);
+                            return found ? found.name : draggedCrewMemberId;
+                          })()} for {activeDropDay}
+                        </p>
                       </div>
-
-                      <div className="space-y-2.5 pr-1 overflow-y-auto max-h-60 border border-white/5 bg-black/10 p-2.5">
-                        {(() => {
-                          const seenKeys = new Set<string>();
-                          const uniqueCrew = crewMembers.filter(m => {
-                            const normKey = m.name.toLowerCase().trim();
-                            if (m.id === 'openshifts' || seenKeys.has(m.id) || seenKeys.has(normKey)) return false;
-                            seenKeys.add(m.id);
-                            seenKeys.add(normKey);
-                            return true;
-                          });
-                          return uniqueCrew
-                          .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
-                          .sort((a, b) => {
-                            const aActive = !!selectedCrewAssignments[a.id]?.active;
-                            const bActive = !!selectedCrewAssignments[b.id]?.active;
-                            if (aActive && !bActive) return -1;
-                            if (!aActive && bActive) return 1;
-                            return a.name.localeCompare(b.name);
-                          })
-                          .map((member) => {
-                            const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
-                            
-                            const overlaps = getOverlappingShifts(
-                              member.id,
-                              activeDropDay || '',
-                              assignment.startHour,
-                              assignment.endHour,
-                              editingShiftId || undefined
-                            );
-                            const isOverlapping = overlaps.length > 0;
-
-                            return (
-                              <div
-                                key={member.id}
-                                className={`p-3  border transition-all ${
-                                  assignment.active
-                                    ? 'bg-purple-500/10 border-purple-500/30'
-                                    : 'bg-black/20 border-white/5 hover:border-white/10'
-                                }`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <label className="flex items-center gap-3 select-none">
-                                    <input
-                                      type="checkbox"
-                                      checked={assignment.active}
-                                      onChange={(e) => {
-                                        const checked = e.target.checked;
-                                        setSelectedCrewAssignments(prev => ({
-                                          ...prev,
-                                          [member.id]: {
-                                            active: checked,
-                                            customized: false, // Collapse customization by default on check/uncheck
-                                            role: assignment.role || dropRole || member.role || 'STAGE HAND',
-                                            startHour: assignment.startHour || dropStartHour || 12,
-                                            endHour: assignment.endHour || dropEndHour || 17,
-                                            timeFrames: JSON.parse(JSON.stringify(dropTimeFrames))
-                                          }
-                                        }));
-                                      }}
-                                      className="rounded border-white/10 bg-black/40 text-purple-400 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
-                                    />
-                                    <div className="flex items-center gap-2">
-                                      <div 
-                                        className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
-                                        style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
-                                      >
-                                        {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
-                                      </div>
-                                      <div>
-                                        <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
-                                        <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
-                                           {member.phone || 'No phone'} |  {member.email || 'No email'}
-                                        </span>
-                                        {(() => {
-                                          const memberShifts = schedules.filter(s => s.date === activeDropDay && s.crewId === member.id && s.id !== editingShiftId && !s.isTimeOff);
-                                          if (memberShifts.length === 0) return null;
-                                          return (
-                                            <div className="mt-1.5 flex flex-wrap gap-1">
-                                              {memberShifts.map((s, idx) => (
-                                                <span 
-                                                  key={idx} 
-                                                  className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
-                                                >
-                                                   {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
-                                                </span>
-                                              ))}
-                                            </div>
-                                          );
-                                        })()}
-                                        {isOverlapping && (
-                                          <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
-                                             Overlaps: {overlaps[0].time}
-                                          </span>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                            );
-                          });
-                        })()}
-                      </div>
-                    </div>
-                    )}
-
-                    {/* Form Fields block */}
-                    <div className="space-y-4 shrink-0 mt-2 pr-1">
-                      {showFormDetails && (
-                        <div className="space-y-4 font-sans">
-                          {dropTimeFrames.map((tf, index) => (
-                            <div key={index} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
-                                {dropTimeFrames.length > 1 && (
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
-                                    }}
-                                    className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
-                                    style={{ fontSize: '10px' }}
-                                  >
-                                    Remove
-                                  </button>
-                                )}
-                              </div>
-
-                              <div className="grid grid-cols-2 gap-3">
-                                <div>
-                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
-                                  <select
-                                    value={tf.startHour}
-                                    onChange={(e) => {
-                                      const val = parseFloat(e.target.value);
-                                      setDropTimeFrames(prev => prev.map((item, i) => {
-                                        if (i === index) {
-                                          const newEnd = tf.endHour <= val ? Math.min(24, val + 1) : tf.endHour;
-                                          return { ...item, startHour: val, endHour: newEnd };
-                                        }
-                                        return item;
-                                      }));
-                                    }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
-                                  >
-                                    {generateTimeOptions().slice(0, -1).map(opt => (
-                                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                    ))}
-                                  </select>
-                                </div>
-
-                                <div>
-                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
-                                  <select
-                                    value={tf.endHour}
-                                    onChange={(e) => {
-                                      const val = parseFloat(e.target.value);
-                                      setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
-                                    }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
-                                  >
-                                    {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
-                                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                    ))}
-                                  </select>
-                                </div>
-                              </div>
-
-                              <div className="space-y-1">
-                                <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
-                                <input
-                                  type="text"
-                                  value={tf.role}
-                                  onChange={e => {
-                                    const val = e.target.value;
-                                    setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
-                                  }}
-                                  placeholder="e.g. Audio Mix"
-                                  className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
-                                />
-                                <div className="flex flex-wrap gap-1 mt-1.5">
-                                  {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                    const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                    const isSelected = currentRoles.includes(preset.toUpperCase());
-                                    return (
-                                      <button
-                                        key={preset}
-                                        type="button"
-                                        onClick={() => {
-                                          const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                          const upperPreset = preset.toUpperCase();
-                                          const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                          let newRoles: string[];
-                                          if (exists) {
-                                            newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                          } else {
-                                            newRoles = [...rawRoles, preset];
-                                          }
-                                          const newRoleStr = newRoles.join(', ');
-                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
-                                        }}
-                                        className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer font-sans ${
-                                          isSelected 
-                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black' 
-                                            : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                        }`}
-                                      >
-                                        {isSelected ? ` ${preset}` : preset}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-
-                              <div className="space-y-1">
-                                <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
-                                <div className="relative">
-                                  <select
-                                    value=""
-                                    onChange={(e) => {
-                                      const val = e.target.value;
-                                      if (!val) return;
-                                      setDropTimeFrames(prev => prev.map((item, i) => {
-                                        if (i === index) {
-                                          const currentTags = item.tags || [];
-                                          const newTags = currentTags.includes(val)
-                                            ? currentTags.filter(t => t !== val)
-                                            : [...currentTags, val];
-                                          return { ...item, tags: newTags };
-                                        }
-                                        return item;
-                                      }));
-                                    }}
-                                    className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
-                                  >
-                                    <option value="">Select tags...</option>
-                                    <option value="Overtime">⏰ Overtime</option>
-                                    <option value="Double Shift"> Double Shift</option>
-                                    <option value="Split Shift"> Split Shift</option>
-                                    <option value="Standby"> Standby</option>
-                                    <option value="Backup"> Backup</option>
-                                    <option value="Training"> Training</option>
-                                  </select>
-                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
-                                  </div>
-                                </div>
-                                {tf.tags && tf.tags.length > 0 && (
-                                  <div className="flex flex-wrap gap-1 mt-1.5">
-                                    {tf.tags.map(tag => (
-                                      <span 
-                                        key={tag}
-                                        className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
-                                      >
-                                        {tag}
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setDropTimeFrames(prev => prev.map((item, i) => {
-                                              if (i === index) {
-                                                return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
-                                              }
-                                              return item;
-                                            }));
-                                          }}
-                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
-                                        >
-                                          
-                                        </button>
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-
-                          {dropTimeFrames.length < 3 && (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
-                              }}
-                              className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
-                              style={{ fontSize: '11px' }}
-                            >
-                               Add Time Frame ({dropTimeFrames.length}/3)
-                            </button>
-                          )}
-                        </div>
-                      )}
-
-
-
-
-                    </div>
-                  </div>
-
-                  {/* Drawer Footer */}
-                  <div className="p-3.5 border-t border-white/5 bg-[var(--color-bg-elevated)] space-y-1.5 shrink-0">
-                    <button
-                      onClick={addScheduleItem}
-                      className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider rounded-md shadow-sm transition-all cursor-pointer border-none"
-                    >
-                      {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
-                    </button>
-                    
-                    {editingShiftId && (
                       <button
                         onClick={() => {
-                          deleteScheduleItem(editingShiftId);
                           setActiveDropDay(null);
                           setDraggedCrewMemberId(null);
                           setEditingShiftId(null);
                         }}
-                        className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider rounded-md transition-all cursor-pointer"
+                        className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                       >
-                        Delete Shift
-                      </button>
-                    )}
-                  </div>
 
+                      </button>
+                    </div>
+
+                    {/* Modal Form */}
+                    <div className="p-5 flex-1 overflow-y-auto space-y-4 pr-1">
+
+                      {/* Coverage Request Alert / Control */}
+                      {(() => {
+                        const editingShift = schedules.find(s => s.id === editingShiftId);
+                        if (!editingShift) return null;
+
+                        if (!editingShift.isCoverageRequested) {
+                          return (
+                            <div className="shrink-0">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSchedules(current => {
+                                    const updated = current.map(s => {
+                                      if (s.id === editingShiftId) {
+                                        return { ...s, isCoverageRequested: true };
+                                      }
+                                      return s;
+                                    });
+                                    localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                                    window.dispatchEvent(new Event('storage'));
+                                    fetch("/api/crew/calendar", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json" },
+                                      body: JSON.stringify(updated)
+                                    }).catch(err => console.error("Failed to sync schedules:", err));
+                                    return updated;
+                                  });
+                                }}
+                                className="w-full py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 hover:text-red-300 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                              >
+                                <span></span> Request Coverage
+                              </button>
+                            </div>
+                          );
+                        }
+
+                        // If coverage is requested:
+                        return (
+                          <div className="shrink-0 bg-red-500/10 border border-red-500/30 p-4 space-y-3">
+                            <div className="flex items-center justify-between gap-3 text-red-400">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm"></span>
+                                <div>
+                                  <p className="text-xs font-black uppercase tracking-wider">Coverage Requested</p>
+                                  <p className="text-[var(--font-size-3xs)] text-white/60 mt-0.5">
+                                    <strong>{editingShift.crewName}</strong> has requested coverage for this shift.
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSchedules(current => {
+                                    const updated = current.map(s => {
+                                      if (s.id === editingShiftId) {
+                                        return { ...s, isCoverageRequested: false };
+                                      }
+                                      return s;
+                                    });
+                                    localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                                    window.dispatchEvent(new Event('storage'));
+                                    fetch("/api/crew/calendar", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json" },
+                                      body: JSON.stringify(updated)
+                                    }).catch(err => console.error("Failed to sync schedules:", err));
+                                    return updated;
+                                  });
+                                }}
+                                className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
+                              >
+                                Clear
+                              </button>
+                            </div>
+
+                            <div className="border-t border-white/5 pt-3 space-y-2.5">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50">Assign Coverage:</span>
+
+                                {/* Tab/Toggle for Fit Role vs Override */}
+                                <div className="flex bg-black/40 p-0.5 rounded-lg border border-white/15">
+                                  <button
+                                    type="button"
+                                    onClick={() => setOnlyShowFitRole(true)}
+                                    className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${onlyShowFitRole
+                                      ? 'bg-purple-600 text-white font-black'
+                                      : 'text-white/60 hover:text-white'
+                                      }`}
+                                  >
+                                    Fit Role ({editingShift.role})
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => setOnlyShowFitRole(false)}
+                                    className={`px-2 py-0.5 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer ${!onlyShowFitRole
+                                      ? 'bg-red-500/20 text-red-300 border border-red-500/30 font-black'
+                                      : 'text-white/60 hover:text-white'
+                                      }`}
+                                  >
+                                    Override (All)
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* List of candidates */}
+                              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                                {(() => {
+                                  const candidates = crewMembers
+                                    .filter(m => m.id !== 'openshifts' && m.id !== editingShift.crewId)
+                                    .filter(m => {
+                                      if (onlyShowFitRole) {
+                                        return (m.role || '').toUpperCase() === (editingShift.role || '').toUpperCase();
+                                      }
+                                      return true;
+                                    });
+
+                                  if (candidates.length === 0) {
+                                    return (
+                                      <p className="text-[var(--font-size-3xs)] text-white/40 italic py-1">
+                                        {onlyShowFitRole
+                                          ? `No other crew members have the role '${editingShift.role}'`
+                                          : 'No other crew members available'}
+                                      </p>
+                                    );
+                                  }
+
+                                  return candidates.map(member => {
+                                    const overlaps = getOverlappingShifts(
+                                      member.id,
+                                      editingShift.date,
+                                      editingShift.startHour,
+                                      editingShift.endHour,
+                                      editingShift.id
+                                    );
+                                    const isOverlapping = overlaps.length > 0;
+
+                                    return (
+                                      <div key={member.id} className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-black/30 hover:bg-black/40 transition-colors border border-white/5">
+                                        <div className="flex items-center gap-2">
+                                          <div
+                                            className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                            style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
+                                          >
+                                            {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                                          </div>
+                                          <div>
+                                            <span className="text-xs font-bold text-white block leading-tight">{member.name}</span>
+                                            <div className="flex items-center gap-1.5 mt-0.5">
+                                              <span className="text-[var(--font-size-4xs)] text-white/40 uppercase tracking-wider font-bold block">{member.role || 'Crew'}</span>
+                                              {isOverlapping && (
+                                                <span className="px-1 py-0.2 rounded text-[var(--font-size-5xs)] font-black uppercase tracking-wider bg-red-500/20 border border-red-500/35 text-red-400">
+                                                  Overlaps {overlaps[0].time}
+                                                </span>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <button
+                                          type="button"
+                                          disabled={isOverlapping}
+                                          onClick={() => {
+                                            // Reassign shift to this member
+                                            setSchedules(current => {
+                                              const updated = current.map(s => {
+                                                if (s.id === editingShiftId) {
+                                                  return {
+                                                    ...s,
+                                                    crewId: member.id,
+                                                    crewName: member.name,
+                                                    isCoverageRequested: false
+                                                  };
+                                                }
+                                                return s;
+                                              });
+                                              queueMicrotask(() => {
+                                                localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+                                                window.dispatchEvent(new Event('storage'));
+                                                fetch("/api/crew/calendar", {
+                                                  method: "POST",
+                                                  headers: { "Content-Type": "application/json" },
+                                                  body: JSON.stringify(updated)
+                                                }).catch(err => console.error("Failed to sync schedules:", err));
+                                                // Close sidebar after successful reassign
+                                                setActiveDropDay(null);
+                                                setDraggedCrewMemberId(null);
+                                                setEditingShiftId(null);
+                                              });
+                                              return updated;
+                                            });
+                                          }}
+                                          className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${isOverlapping
+                                            ? 'bg-white/5 text-white/20 cursor-not-allowed'
+                                            : 'bg-purple-600 hover:bg-purple-500 text-white cursor-pointer'
+                                            }`}
+                                        >
+                                          Assign
+                                        </button>
+                                      </div>
+                                    );
+                                  });
+                                })()}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Tour Date Show Card Info */}
+                      {(() => {
+                        const activeShow = activeDropDay ? getDayShow(activeDropDay) : null;
+                        if (!activeShow) return null;
+
+                        const dateObj = activeDropDay ? new Date(activeDropDay + 'T12:00:00') : null;
+                        const formattedDate = dateObj ? dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : activeDropDay;
+                        const festStart = activeShow.festStart || activeShow.festStartTime || '5:00 PM';
+                        const bandTime = activeShow.time || activeShow.bandTime || activeShow.showTime || '8:00 PM';
+
+                        return (
+                          <div className="shrink-0 bg-purple-500/10 border border-purple-500/20 rounded-lg px-3 py-2 space-y-1.5 font-sans">
+                            <div className="flex items-center justify-between gap-2 min-w-0">
+                              <div className="flex items-center gap-1.5 min-w-0 truncate">
+                                <span className="text-[14px] font-extrabold text-white truncate">{activeShow.venue}</span>
+                                <span className="text-[13px] text-white/40 truncate shrink-0">({activeShow.city}{activeShow.state ? `, ${activeShow.state}` : ''})</span>
+                              </div>
+                              <span className="text-[12px] font-extrabold text-purple-300 shrink-0 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                                {formattedDate}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2 text-[11px] font-semibold text-white/80 border-t border-white/10 pt-1.5 overflow-x-auto no-scrollbar">
+                              <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
+                                Fest: {festStart}
+                              </span>
+                              <span className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 px-2 py-0.5 rounded text-[11px] whitespace-nowrap shrink-0">
+                                Band: {bandTime}
+                              </span>
+                              {activeShow.notes && (
+                                <span className="text-white/40 italic truncate text-[11px] shrink-0" title={activeShow.notes}>
+                                  • {activeShow.notes}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+
+
+                      {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
+                      {!(editingShift && editingShift.isCoverageRequested) && (
+                        <div className="flex flex-col shrink-0">
+                          <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</label>
+
+                          {/* Search and Grouping Controls */}
+                          <div className="shrink-0 mb-3 space-y-2">
+                            <input
+                              type="text"
+                              value={drawerCrewSearch}
+                              onChange={e => setDrawerCrewSearch(e.target.value)}
+                              placeholder=" Search crew members..."
+                              className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold font-sans"
+                            />
+
+                          </div>
+
+                          <div className="space-y-2.5 pr-1 overflow-y-auto max-h-60 border border-white/5 bg-black/10 p-2.5">
+                            {(() => {
+                              const seenKeys = new Set<string>();
+                              const uniqueCrew = crewMembers.filter(m => {
+                                const normKey = m.name.toLowerCase().trim();
+                                if (m.id === 'openshifts' || seenKeys.has(m.id) || seenKeys.has(normKey)) return false;
+                                seenKeys.add(m.id);
+                                seenKeys.add(normKey);
+                                return true;
+                              });
+                              return uniqueCrew
+                                .filter(m => m.name.toLowerCase().includes(drawerCrewSearch.toLowerCase()))
+                                .sort((a, b) => {
+                                  const aActive = !!selectedCrewAssignments[a.id]?.active;
+                                  const bActive = !!selectedCrewAssignments[b.id]?.active;
+                                  if (aActive && !bActive) return -1;
+                                  if (!aActive && bActive) return 1;
+                                  return a.name.localeCompare(b.name);
+                                })
+                                .map((member) => {
+                                  const assignment = selectedCrewAssignments[member.id] || { active: false, customized: false, role: dropRole || 'STAGE HAND', startHour: dropStartHour, endHour: dropEndHour };
+
+                                  const overlaps = getOverlappingShifts(
+                                    member.id,
+                                    activeDropDay || '',
+                                    assignment.startHour,
+                                    assignment.endHour,
+                                    editingShiftId || undefined
+                                  );
+                                  const isOverlapping = overlaps.length > 0;
+
+                                  return (
+                                    <div
+                                      key={member.id}
+                                      className={`p-3  border transition-all ${assignment.active
+                                        ? 'bg-purple-500/10 border-purple-500/30'
+                                        : 'bg-black/20 border-white/5 hover:border-white/10'
+                                        }`}
+                                    >
+                                      <div className="flex items-center justify-between">
+                                        <label className="flex items-center gap-3 select-none">
+                                          <input
+                                            type="checkbox"
+                                            checked={assignment.active}
+                                            onChange={(e) => {
+                                              const checked = e.target.checked;
+                                              setSelectedCrewAssignments(prev => ({
+                                                ...prev,
+                                                [member.id]: {
+                                                  active: checked,
+                                                  customized: false, // Collapse customization by default on check/uncheck
+                                                  role: assignment.role || dropRole || member.role || 'STAGE HAND',
+                                                  startHour: assignment.startHour || dropStartHour || 12,
+                                                  endHour: assignment.endHour || dropEndHour || 17,
+                                                  timeFrames: JSON.parse(JSON.stringify(dropTimeFrames))
+                                                }
+                                              }));
+                                            }}
+                                            className="rounded border-white/10 bg-black/40  text-[var(--color-accent)] focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
+                                          />
+                                          <div className="flex items-center gap-2">
+                                            <div
+                                              className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                              style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
+                                            >
+                                              {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                                            </div>
+                                            <div>
+                                              <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                              <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
+                                                {member.phone || 'No phone'} |  {member.email || 'No email'}
+                                              </span>
+                                              {(() => {
+                                                const memberShifts = schedules.filter(s => s.date === activeDropDay && s.crewId === member.id && s.id !== editingShiftId && !s.isTimeOff);
+                                                if (memberShifts.length === 0) return null;
+                                                return (
+                                                  <div className="mt-1.5 flex flex-wrap gap-1">
+                                                    {memberShifts.map((s, idx) => (
+                                                      <span
+                                                        key={idx}
+                                                        className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-1.5 py-0.5 rounded select-none"
+                                                      >
+                                                        {s.role || 'SHIFT'}: {s.time || formatTimeFrame(s.startHour, s.endHour)}
+                                                      </span>
+                                                    ))}
+                                                  </div>
+                                                );
+                                              })()}
+                                              {isOverlapping && (
+                                                <span className="text-[7.5px] text-red-400 font-bold block leading-tight mt-0.5">
+                                                  Overlaps: {overlaps[0].time}
+                                                </span>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  );
+                                });
+                            })()}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Form Fields block */}
+                      <div className="space-y-4 shrink-0 mt-2 pr-1">
+                        {showFormDetails && (
+                          <div className="space-y-4 font-sans">
+                            {dropTimeFrames.map((tf, index) => (
+                              <div key={index} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                  {dropTimeFrames.length > 1 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
+                                      }}
+                                      className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
+                                      style={{ fontSize: '10px' }}
+                                    >
+                                      Remove
+                                    </button>
+                                  )}
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                  <div>
+                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
+                                    <select
+                                      value={tf.startHour}
+                                      onChange={(e) => {
+                                        const val = parseFloat(e.target.value);
+                                        setDropTimeFrames(prev => prev.map((item, i) => {
+                                          if (i === index) {
+                                            const newEnd = tf.endHour <= val ? Math.min(24, val + 1) : tf.endHour;
+                                            return { ...item, startHour: val, endHour: newEnd };
+                                          }
+                                          return item;
+                                        }));
+                                      }}
+                                      className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
+                                    >
+                                      {generateTimeOptions().slice(0, -1).map(opt => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+
+                                  <div>
+                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
+                                    <select
+                                      value={tf.endHour}
+                                      onChange={(e) => {
+                                        const val = parseFloat(e.target.value);
+                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
+                                      }}
+                                      className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
+                                    >
+                                      {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-1">
+                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
+                                  <input
+                                    type="text"
+                                    value={tf.role}
+                                    onChange={e => {
+                                      const val = e.target.value;
+                                      setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
+                                    }}
+                                    placeholder="e.g. Audio Mix"
+                                    className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
+                                  />
+                                  <div className="flex flex-wrap gap-1 mt-1.5">
+                                    {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                      const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                      const isSelected = currentRoles.includes(preset.toUpperCase());
+                                      return (
+                                        <button
+                                          key={preset}
+                                          type="button"
+                                          onClick={() => {
+                                            const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                            const upperPreset = preset.toUpperCase();
+                                            const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                            let newRoles: string[];
+                                            if (exists) {
+                                              newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                            } else {
+                                              newRoles = [...rawRoles, preset];
+                                            }
+                                            const newRoleStr = newRoles.join(', ');
+                                            setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
+                                          }}
+                                          className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-all cursor-pointer font-sans ${isSelected
+                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black'
+                                            : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                            }`}
+                                        >
+                                          {isSelected ? ` ${preset}` : preset}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+
+                                <div className="space-y-1">
+                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
+                                  <div className="relative">
+                                    <select
+                                      value=""
+                                      onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (!val) return;
+                                        setDropTimeFrames(prev => prev.map((item, i) => {
+                                          if (i === index) {
+                                            const currentTags = item.tags || [];
+                                            const newTags = currentTags.includes(val)
+                                              ? currentTags.filter(t => t !== val)
+                                              : [...currentTags, val];
+                                            return { ...item, tags: newTags };
+                                          }
+                                          return item;
+                                        }));
+                                      }}
+                                      className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
+                                    >
+                                      <option value="">Select tags...</option>
+                                      <option value="Overtime">⏰ Overtime</option>
+                                      <option value="Double Shift"> Double Shift</option>
+                                      <option value="Split Shift"> Split Shift</option>
+                                      <option value="Standby"> Standby</option>
+                                      <option value="Backup"> Backup</option>
+                                      <option value="Training"> Training</option>
+                                    </select>
+                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
+                                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
+                                    </div>
+                                  </div>
+                                  {tf.tags && tf.tags.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mt-1.5">
+                                      {tf.tags.map(tag => (
+                                        <span
+                                          key={tag}
+                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
+                                        >
+                                          {tag}
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              setDropTimeFrames(prev => prev.map((item, i) => {
+                                                if (i === index) {
+                                                  return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
+                                                }
+                                                return item;
+                                              }));
+                                            }}
+                                            className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                          >
+
+                                          </button>
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+
+                            {dropTimeFrames.length < 3 && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
+                                }}
+                                className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                                style={{ fontSize: '11px' }}
+                              >
+                                Add Time Frame ({dropTimeFrames.length}/3)
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+
+
+
+                      </div>
+                    </div>
+
+                    {/* Drawer Footer */}
+                    <div className="p-3.5 border-t border-white/5 bg-[var(--color-bg-elevated)] space-y-1.5 shrink-0">
+                      <button
+                        onClick={addScheduleItem}
+                        className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider rounded-md shadow-sm transition-all cursor-pointer border-none"
+                      >
+                        {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
+                      </button>
+
+                      {editingShiftId && (
+                        <button
+                          onClick={() => {
+                            deleteScheduleItem(editingShiftId);
+                            setActiveDropDay(null);
+                            setDraggedCrewMemberId(null);
+                            setEditingShiftId(null);
+                          }}
+                          className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider rounded-md transition-all cursor-pointer"
+                        >
+                          Delete Shift
+                        </button>
+                      )}
+                    </div>
+
+                  </div>
                 </div>
-              </div>
               );
             })()}
 
             {/*  Custom Alert / Notification Modal */}
             {alertModal.isOpen && (
-              <div 
+              <div
                 className="fixed inset-0 bg-black/75 z-[120] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]"
                 onClick={() => setAlertModal({ ...alertModal, isOpen: false })}
               >
-                <div 
+                <div
                   className="bg-[#181920] border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none"
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -10852,7 +10813,7 @@ try {
             {/*  Create Group Modal Pop-up */}
             {isCreateGroupModalOpen && (
               <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
-                <div 
+                <div
                   className="bg-[var(--color-bg-card)] border border-white/10 w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -10869,13 +10830,13 @@ try {
                       }}
                       className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                     >
-                      
+
                     </button>
                   </div>
 
                   {/* Modal Form Content */}
                   <div className="p-5 flex-1 overflow-y-auto space-y-5 custom-scrollbar min-h-0">
-                    
+
                     {/* Group Name input */}
                     <div className="space-y-1.5">
                       <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
@@ -10891,11 +10852,11 @@ try {
                     {/* Member Pick list */}
                     <div className="space-y-2">
                       <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</label>
-                      
+
                       <div className="border border-white/5 bg-black/20 divide-y divide-white/5 overflow-hidden">
                         {crewMembers.filter(m => m.id !== 'openshifts').map((m) => {
                           const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
-                          
+
                           return (
                             <div key={m.id} className="p-3 transition-colors hover:bg-white/[0.01]">
                               <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-white/5 transition-colors group">
@@ -10918,7 +10879,7 @@ try {
                                     }}
                                     className="accent-emerald-500 w-4 h-4 cursor-pointer"
                                   />
-                                  <div 
+                                  <div
                                     className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
                                     style={{ backgroundColor: m.color || getAvatarColor(m.name) }}
                                   >
@@ -10931,155 +10892,154 @@ try {
                                 </div>
                               </label>
 
-                                {/* Multiple time frames and role pill selector when active */}
-                                {setting.active && (
-                                  <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
-                                    {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
-                                      <div key={tfIdx} className="p-2.5 bg-black/40 border border-white/10 space-y-2 relative">
-                                        <div className="flex items-center justify-between">
-                                          <span className="uppercase tracking-wider text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
-                                            Time Frame {tfIdx + 1}
-                                          </span>
-                                          {(setting.timeFrames || []).length > 1 && (
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                const currentTfs = setting.timeFrames || [];
-                                                const nextTfs = currentTfs.filter((_, i) => i !== tfIdx);
-                                                setNewGroupMemberSettings(prev => ({
-                                                  ...prev,
-                                                  [m.id]: {
-                                                    ...prev[m.id],
-                                                    timeFrames: nextTfs
-                                                  }
-                                                }));
-                                              }}
-                                              className="text-red-400 hover:text-red-300 font-bold uppercase tracking-wider cursor-pointer border-none bg-transparent"
-                                              style={{ fontSize: '8px' }}
-                                            >
-                                               Remove
-                                            </button>
-                                          )}
-                                        </div>
+                              {/* Multiple time frames and role pill selector when active */}
+                              {setting.active && (
+                                <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
+                                  {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
+                                    <div key={tfIdx} className="p-2.5 bg-black/40 border border-white/10 space-y-2 relative">
+                                      <div className="flex items-center justify-between">
+                                        <span className="uppercase tracking-wider text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
+                                          Time Frame {tfIdx + 1}
+                                        </span>
+                                        {(setting.timeFrames || []).length > 1 && (
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              const currentTfs = setting.timeFrames || [];
+                                              const nextTfs = currentTfs.filter((_, i) => i !== tfIdx);
+                                              setNewGroupMemberSettings(prev => ({
+                                                ...prev,
+                                                [m.id]: {
+                                                  ...prev[m.id],
+                                                  timeFrames: nextTfs
+                                                }
+                                              }));
+                                            }}
+                                            className="text-red-400 hover:text-red-300 font-bold uppercase tracking-wider cursor-pointer border-none bg-transparent"
+                                            style={{ fontSize: '8px' }}
+                                          >
+                                            Remove
+                                          </button>
+                                        )}
+                                      </div>
 
-                                        {/* Start / End selects */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                          <div>
-                                            <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
-                                            <select
-                                              value={tf.startHour}
-                                              onChange={(e) => {
-                                                const h = parseFloat(e.target.value);
-                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                                const newEnd = tf.endHour <= h ? Math.min(24, h + 1) : tf.endHour;
-                                                currentTfs[tfIdx] = { ...tf, startHour: h, endHour: newEnd };
-                                                setNewGroupMemberSettings(prev => ({
-                                                  ...prev,
-                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                                }));
-                                              }}
-                                              className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
-                                              style={{ fontSize: '9.5px' }}
-                                            >
-                                              {generateTimeOptions().slice(0, -1).map(opt => (
-                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                              ))}
-                                            </select>
-                                          </div>
-
-                                          <div>
-                                            <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
-                                            <select
-                                              value={tf.endHour}
-                                              onChange={(e) => {
-                                                const h = parseFloat(e.target.value);
-                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                                currentTfs[tfIdx] = { ...tf, endHour: h };
-                                                setNewGroupMemberSettings(prev => ({
-                                                  ...prev,
-                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                                }));
-                                              }}
-                                              className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
-                                              style={{ fontSize: '9.5px' }}
-                                            >
-                                              {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
-                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                              ))}
-                                            </select>
-                                          </div>
-                                        </div>
-
-                                        {/* Role pills */}
+                                      {/* Start / End selects */}
+                                      <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                          <label className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</label>
-                                          <div className="flex flex-wrap gap-1">
-                                            {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                              const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                              const isSelected = currentRoles.includes(preset.toUpperCase());
-                                              return (
-                                                <button
-                                                  key={preset}
-                                                  type="button"
-                                                  onClick={() => {
-                                                    const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                                    const upperPreset = preset.toUpperCase();
-                                                    const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                                    let newRoles: string[];
-                                                    if (exists) {
-                                                      newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                                    } else {
-                                                      newRoles = [...rawRoles, preset];
-                                                    }
-                                                    const newRoleStr = newRoles.join(', ');
-                                                    const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                                    currentTfs[tfIdx] = { ...tf, role: newRoleStr };
-                                                    setNewGroupMemberSettings(prev => ({
-                                                      ...prev,
-                                                      [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                                    }));
-                                                  }}
-                                                  className={`px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider border transition-all cursor-pointer ${
-                                                    isSelected 
-                                                      ? 'bg-purple-600 text-white border-purple-500 shadow-xs' 
-                                                      : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                                  }`}
-                                                  style={{ fontSize: '7.5px' }}
-                                                >
-                                                  {isSelected ? ` ${preset}` : preset}
-                                                </button>
-                                              );
-                                            })}
-                                          </div>
+                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
+                                          <select
+                                            value={tf.startHour}
+                                            onChange={(e) => {
+                                              const h = parseFloat(e.target.value);
+                                              const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                              const newEnd = tf.endHour <= h ? Math.min(24, h + 1) : tf.endHour;
+                                              currentTfs[tfIdx] = { ...tf, startHour: h, endHour: newEnd };
+                                              setNewGroupMemberSettings(prev => ({
+                                                ...prev,
+                                                [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                              }));
+                                            }}
+                                            className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
+                                            style={{ fontSize: '9.5px' }}
+                                          >
+                                            {generateTimeOptions().slice(0, -1).map(opt => (
+                                              <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                            ))}
+                                          </select>
+                                        </div>
+
+                                        <div>
+                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
+                                          <select
+                                            value={tf.endHour}
+                                            onChange={(e) => {
+                                              const h = parseFloat(e.target.value);
+                                              const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                              currentTfs[tfIdx] = { ...tf, endHour: h };
+                                              setNewGroupMemberSettings(prev => ({
+                                                ...prev,
+                                                [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                              }));
+                                            }}
+                                            className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
+                                            style={{ fontSize: '9.5px' }}
+                                          >
+                                            {generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => (
+                                              <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                            ))}
+                                          </select>
                                         </div>
                                       </div>
-                                    ))}
 
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const currentTfs = setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }];
-                                        const lastEnd = currentTfs[currentTfs.length - 1]?.endHour || 17;
-                                        const newStart = Math.min(23, lastEnd);
-                                        const newEnd = Math.min(24, newStart + 2);
-                                        const nextTfs = [...currentTfs, { startHour: newStart, endHour: newEnd, role: 'STAGE HAND' }];
-                                        setNewGroupMemberSettings(prev => ({
-                                          ...prev,
-                                          [m.id]: {
-                                            ...prev[m.id],
-                                            timeFrames: nextTfs
-                                          }
-                                        }));
-                                      }}
-                                      className="w-full py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 font-extrabold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center"
-                                      style={{ fontSize: '8.5px' }}
-                                    >
-                                      + Add Time Frame
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            );
+                                      {/* Role pills */}
+                                      <div>
+                                        <label className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</label>
+                                        <div className="flex flex-wrap gap-1">
+                                          {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                            const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                            const isSelected = currentRoles.includes(preset.toUpperCase());
+                                            return (
+                                              <button
+                                                key={preset}
+                                                type="button"
+                                                onClick={() => {
+                                                  const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                  const upperPreset = preset.toUpperCase();
+                                                  const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                  let newRoles: string[];
+                                                  if (exists) {
+                                                    newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                  } else {
+                                                    newRoles = [...rawRoles, preset];
+                                                  }
+                                                  const newRoleStr = newRoles.join(', ');
+                                                  const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                  currentTfs[tfIdx] = { ...tf, role: newRoleStr };
+                                                  setNewGroupMemberSettings(prev => ({
+                                                    ...prev,
+                                                    [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                  }));
+                                                }}
+                                                className={`px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider border transition-all cursor-pointer ${isSelected
+                                                  ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
+                                                  : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                  }`}
+                                                style={{ fontSize: '7.5px' }}
+                                              >
+                                                {isSelected ? ` ${preset}` : preset}
+                                              </button>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const currentTfs = setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }];
+                                      const lastEnd = currentTfs[currentTfs.length - 1]?.endHour || 17;
+                                      const newStart = Math.min(23, lastEnd);
+                                      const newEnd = Math.min(24, newStart + 2);
+                                      const nextTfs = [...currentTfs, { startHour: newStart, endHour: newEnd, role: 'STAGE HAND' }];
+                                      setNewGroupMemberSettings(prev => ({
+                                        ...prev,
+                                        [m.id]: {
+                                          ...prev[m.id],
+                                          timeFrames: nextTfs
+                                        }
+                                      }));
+                                    }}
+                                    className="w-full py-1.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 font-extrabold uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center"
+                                    style={{ fontSize: '8.5px' }}
+                                  >
+                                    + Add Time Frame
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          );
                         })}
                       </div>
                     </div>
@@ -11097,7 +11057,7 @@ try {
                     >
                       Cancel
                     </button>
-                    
+
                     <button
                       type="button"
                       disabled={!newGroupNameInput.trim() || !Object.values(newGroupMemberSettings).some(s => s.active)}
@@ -11114,16 +11074,16 @@ try {
                             timeFrames: tfs
                           };
                         });
-                        
+
                         const newGroup = {
                           name: newGroupNameInput.trim(),
                           memberIds,
                           memberSettings
                         };
-                        
+
                         setCrewGroups(current => {
                           const updated = [...current, newGroup];
-                          localStorage.setItem('7h_crew_groups', JSON.stringify(updated));
+                          queueMicrotask(() => localStorage.setItem('7h_crew_groups', JSON.stringify(updated)));
                           return updated;
                         });
 
@@ -11146,21 +11106,21 @@ try {
             {selectedShowCrewDate && (() => {
               const show = getDayShow(selectedShowCrewDate);
               if (!show) return null;
-              
+
               const dayShifts = schedules.filter(s => s.date === selectedShowCrewDate);
               const filledShifts = dayShifts.filter(s => s.crewId !== 'openshifts');
               const openShifts = dayShifts.filter(s => s.crewId === 'openshifts');
-              
+
               return (
                 <div className="fixed inset-0 bg-transparent z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
                   {/* Backdrop Click Overlay */}
-                  <div 
-                    className="absolute inset-0 cursor-default" 
+                  <div
+                    className="absolute inset-0 cursor-default"
                     onClick={() => setSelectedShowCrewDate(null)}
                   />
 
                   <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
-                    
+
                     {/* Header */}
                     <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
                       <div>
@@ -11175,7 +11135,7 @@ try {
                         onClick={() => setSelectedShowCrewDate(null)}
                         className="text-white/45 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                       >
-                        
+
                       </button>
                     </div>
 
@@ -11189,7 +11149,7 @@ try {
                         </div>
                         <div>
                           <span className="text-[var(--font-size-3xs)] text-white/40 block">Staff Scheduled</span>
-                          <span className="text-sm font-black text-emerald-400">{filledShifts.length}</span>
+                          <span className="text-sm font-black text-[var(--color-accent)]">{filledShifts.length}</span>
                         </div>
                         <div>
                           <span className="text-[var(--font-size-3xs)] text-white/40 block">Open Position(s)</span>
@@ -11210,7 +11170,7 @@ try {
                               const member = crewMembers.find(c => c.id === shift.crewId);
                               const initials = member?.initials || shift.crewName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
                               const color = member?.color || getAvatarColor(shift.crewName);
-                              
+
                               return (
                                 <div key={shift.id} className="bg-black/20 border border-white/5 p-3 flex items-center justify-between gap-3 hover:border-white/10 transition-colors">
                                   <div className="flex items-center gap-2.5 min-w-0">
@@ -11228,7 +11188,7 @@ try {
                                       </span>
                                     </div>
                                   </div>
-                                  
+
                                   <div className="text-right shrink-0">
                                     <span className="text-[var(--font-size-3xs)] font-extrabold text-white/85 block">{shift.time}</span>
                                     <button
@@ -11559,12 +11519,12 @@ try {
           color: rgba(0, 0, 0, 0.4) !important;
         }
       `}</style>
-      
+
 
 
       <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
       <div className="site-container relative z-10 px-4 md:px-6">
-        
+
         {/* === EXECUTIVE ADMIN HERO HEADER === */}
         <div className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
           {/* Admin Identity & Badges */}
@@ -11583,8 +11543,8 @@ try {
                   const dataUrl = await compressImage(file);
                   if (dataUrl) {
                     setAdminAvatarOverride(dataUrl);
-                    try { localStorage.setItem("7h_profile_avatar", dataUrl); } catch {}
-                    try { if (updateAvatar) await updateAvatar(dataUrl); } catch {}
+                    try { localStorage.setItem("7h_profile_avatar", dataUrl); } catch { }
+                    try { if (updateAvatar) await updateAvatar(dataUrl); } catch { }
                   }
                 } catch (err) {
                   console.error("Avatar upload error:", err);
@@ -11596,7 +11556,7 @@ try {
             <div
               onClick={() => adminPhotoInputRef.current?.click()}
               title="Click to upload crew photo"
-              className="relative w-16 h-16 bg-purple-500/10 flex items-center justify-center text-xl font-black text-purple-400 shrink-0 shadow-xs overflow-hidden cursor-pointer group transition-all"
+              className="relative w-16 h-16 bg-purple-500/10 flex items-center justify-center text-xl font-black  text-[var(--color-accent)] shrink-0 shadow-xs overflow-hidden cursor-pointer group transition-all"
             >
               {isAvatarUrl ? (
                 <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
@@ -11612,11 +11572,10 @@ try {
             <div>
               <div className="flex items-center flex-wrap gap-2.5 mb-1">
                 <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[var(--text-color)]">{effectiveAdmin.name}</h1>
-                <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-wider ${
-                  (member?.role || effectiveAdmin.role) === 'crew'
-                    ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 dark:text-emerald-300'
-                    : 'bg-purple-500/15 border border-purple-500/30 text-purple-300 dark:text-purple-300'
-                }`}>
+                <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-wider ${(member?.role || effectiveAdmin.role) === 'crew'
+                  ? 'bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] dark:text-emerald-300'
+                  : 'bg-purple-500/15 border border-purple-500/30 text-purple-300 dark:text-purple-300'
+                  }`}>
                   {(member?.role || effectiveAdmin.role) === 'crew' ? ' Crew' : ' Admin'}
                 </span>
                 <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
@@ -11639,20 +11598,18 @@ try {
             <div className="relative flex items-center bg-[var(--card-bg)] p-1 border border-[var(--border-color)] rounded-full w-full sm:w-auto justify-center select-none shadow-sm">
               {/* Sliding background pill */}
               <div
-                className={`absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md ${
-                  adminTab === 'band'
-                    ? 'left-1 bg-purple-600'
-                    : 'left-[calc(50%+2px)] bg-cyan-600'
-                }`}
+                className={`absolute top-1 bottom-1 rounded-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md ${adminTab === 'band'
+                  ? 'left-1 bg-purple-600'
+                  : 'left-[calc(50%+2px)] bg-cyan-600'
+                  }`}
                 style={{ width: 'calc(50% - 4px)' }}
               />
 
               <button
                 type="button"
                 onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${
-                  adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
-                }`}
+                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
+                  }`}
               >
                 <span></span>
                 <span>Band & Site</span>
@@ -11661,9 +11618,8 @@ try {
               <button
                 type="button"
                 onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${
-                  adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
-                }`}
+                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
+                  }`}
               >
                 <span></span>
                 <span>Cruise</span>
@@ -11707,122 +11663,122 @@ try {
             <div className="flex flex-col gap-4 w-full mt-4">
 
 
-            {sectionOrder.map((key, index) => {
-              const dragProps = {
-                draggable: true,
-                onDragStart: (e: any) => {
-                  if (!e.target.closest('.drag-handle')) {
-                    e.preventDefault();
-                    return;
-                  }
-                  handleDragStart(index);
-                },
-                onDragOver: (e: any) => handleDragOver(e, index),
-                onDragEnd: handleDragEnd,
-                className: "transition-all duration-300 " + (draggedIndex === index ? 'opacity-40 scale-[0.98]' : '')
-              };
+              {sectionOrder.map((key, index) => {
+                const dragProps = {
+                  draggable: true,
+                  onDragStart: (e: any) => {
+                    if (!e.target.closest('.drag-handle')) {
+                      e.preventDefault();
+                      return;
+                    }
+                    handleDragStart(index);
+                  },
+                  onDragOver: (e: any) => handleDragOver(e, index),
+                  onDragEnd: handleDragEnd,
+                  className: "transition-all duration-300 " + (draggedIndex === index ? 'opacity-40 scale-[0.98]' : '')
+                };
 
-              let component = null;
-              switch (key) {
-                case 'announcements': component = renderAnnouncements(); break;
-                case 'calendar': component = renderCrewSchedule(); break;
-                case 'analytics': component = renderAnalytics(); break;
-                case 'shopify': component = renderShopify(); break;
+                let component = null;
+                switch (key) {
+                  case 'announcements': component = renderAnnouncements(); break;
+                  case 'calendar': component = renderCrewSchedule(); break;
+                  case 'analytics': component = renderAnalytics(); break;
+                  case 'shopify': component = renderShopify(); break;
 
-                case 'bookings': component = renderBookings(); break;
-                case 'planners': component = renderPlanners(); break;
+                  case 'bookings': component = renderBookings(); break;
+                  case 'planners': component = renderPlanners(); break;
 
-                case 'photomod': component = renderPhotoMod(); break;
-                case 'cruisesignups': component = renderCruiseSignups(); break;
+                  case 'photomod': component = renderPhotoMod(); break;
+                  case 'cruisesignups': component = renderCruiseSignups(); break;
 
-                case 'livealerts': component = renderLiveAlerts(); break;
-                case 'smsblast': component = renderSmsBlast(); break;
-                case 'crewsms': component = renderCrewSms(); break;
-                case 'bandsms': component = renderBandSms(); break;
-                case 'newsletter': component = renderNewsletter(); break;
-                case 'registry': component = renderRegistry(); break;
-                case 'crewcreation': component = renderCrewCreation(); break;
-                case 'admincreation': component = renderAdminCreation(); break;
+                  case 'livealerts': component = renderLiveAlerts(); break;
+                  case 'smsblast': component = renderSmsBlast(); break;
+                  case 'crewsms': component = renderCrewSms(); break;
+                  case 'bandsms': component = renderBandSms(); break;
+                  case 'newsletter': component = renderNewsletter(); break;
+                  case 'registry': component = renderRegistry(); break;
+                  case 'crewcreation': component = renderCrewCreation(); break;
+                  case 'admincreation': component = renderAdminCreation(); break;
 
-                case 'bulkinvites': component = renderBulkInvites(); break;
-              }
+                  case 'bulkinvites': component = renderBulkInvites(); break;
+                }
 
-              return (
-                <div key={key} id={"admin-sec-" + key} {...dragProps}>
-                  {component}
+                return (
+                  <div key={key} id={"admin-sec-" + key} {...dragProps}>
+                    {component}
+                  </div>
+                );
+              })}
+
+            </div>
+
+            <div className="flex flex-col gap-4 w-full mt-4">
+              <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden h-full flex flex-col">
+                <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 shrink-0">
+                  <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
+                    Audit Log
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  </h3>
+                  <span className="text-[0.6rem] text-white/30 uppercase tracking-widest">{auditLog.length} Events</span>
                 </div>
-              );
-            })}
+                <div className="p-6 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px] custom-scrollbar">
+                  {auditLog.map((entry, i) => (
+                    <div key={entry.id} className="flex gap-4 relative" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
+                      {i < auditLog.length - 1 && (
+                        <div className="absolute top-6 bottom-[-20px] left-[7px] w-[2px] bg-white/5" />
+                      )}
+                      <div className="shrink-0 mt-1">
+                        <div className={`w-4 h-4 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-white/80 leading-relaxed mb-1">{entry.text}</p>
 
-          </div>
+                        {entry.details && (
+                          <div className="mt-1 mb-2">
+                            <button
+                              type="button"
+                              onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
+                              className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-all cursor-pointer"
+                            >
+                              {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
+                            </button>
 
-          <div className="flex flex-col gap-4 w-full mt-4">
-            <section className="bg-[var(--color-bg-surface)] border border-white/5 overflow-hidden h-full flex flex-col">
-              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20 shrink-0">
-                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
-                  Audit Log
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                </h3>
-                <span className="text-[0.6rem] text-white/30 uppercase tracking-widest">{auditLog.length} Events</span>
-              </div>
-              <div className="p-6 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px] custom-scrollbar">
-                {auditLog.map((entry, i) => (
-                  <div key={entry.id} className="flex gap-4 relative" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
-                    {i < auditLog.length - 1 && (
-                      <div className="absolute top-6 bottom-[-20px] left-[7px] w-[2px] bg-white/5" />
-                    )}
-                    <div className="shrink-0 mt-1">
-                      <div className={`w-4 h-4 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white/80 leading-relaxed mb-1">{entry.text}</p>
-                      
-                      {entry.details && (
-                        <div className="mt-1 mb-2">
-                          <button
-                            type="button"
-                            onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-all cursor-pointer"
-                          >
-                            {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
-                          </button>
-
-                          {expandedAuditId === entry.id && (
-                            <div className="mt-2 p-3 bg-black/40 border border-white/10 space-y-3 text-xs text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
-                              {entry.details.type === 'signin' && (
-                                <div className="space-y-1.5 font-sans">
-                                  <div className="flex justify-between border-b border-white/5 pb-1">
-                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">User</span>
-                                    <span className="font-mono text-emerald-400 font-bold">{entry.details.username}</span>
+                            {expandedAuditId === entry.id && (
+                              <div className="mt-2 p-3 bg-black/40 border border-white/10 space-y-3 text-xs text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
+                                {entry.details.type === 'signin' && (
+                                  <div className="space-y-1.5 font-sans">
+                                    <div className="flex justify-between border-b border-white/5 pb-1">
+                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">User</span>
+                                      <span className="font-mono text-[var(--color-accent)] font-bold">{entry.details.username}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">IP Address</span>
+                                      <span className="font-mono text-white/70">{entry.details.ipAddress}</span>
+                                    </div>
                                   </div>
-                                  <div className="flex justify-between">
-                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">IP Address</span>
-                                    <span className="font-mono text-white/70">{entry.details.ipAddress}</span>
-                                  </div>
-                                </div>
-                              )}
+                                )}
 
-                              {entry.details.smsText && (
-                                <div className="space-y-1.5">
-                                  <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block"> SMS Message Body</span>
-                                  <div className="bg-black/60 border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-purple-300">
-                                    {entry.details.smsText}
-                                  </div>
-                                </div>
-                              )}
-
-                              {entry.details.emailHtml && (
-                                <div className="space-y-2">
-                                  <div className="border-b border-white/5 pb-1">
-                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1"> Email Template</span>
-                                    <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
-                                  </div>
-                                  
+                                {entry.details.smsText && (
                                   <div className="space-y-1.5">
-                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">Visual Template Render</span>
-                                    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-lg overflow-hidden p-0.5">
-                                      <iframe
-                                        srcDoc={`
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block"> SMS Message Body</span>
+                                    <div className="bg-black/60 border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-purple-300">
+                                      {entry.details.smsText}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {entry.details.emailHtml && (
+                                  <div className="space-y-2">
+                                    <div className="border-b border-white/5 pb-1">
+                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1"> Email Template</span>
+                                      <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">Visual Template Render</span>
+                                      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-lg overflow-hidden p-0.5">
+                                        <iframe
+                                          srcDoc={`
                                           <!DOCTYPE html>
                                           <html>
                                             <head>
@@ -11844,444 +11800,443 @@ try {
                                             </body>
                                           </html>
                                         `}
-                                        className="w-full h-[180px] border-none bg-[var(--color-bg-surface)]"
-                                        title="Email Preview"
-                                      />
+                                          className="w-full h-[180px] border-none bg-[var(--color-bg-surface)]"
+                                          title="Email Preview"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
 
-                      <p className="text-[0.65rem] uppercase tracking-widest text-white/30">{entry.time}</p>
+                        <p className="text-[0.65rem] uppercase tracking-widest text-white/30">{entry.time}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
+                  ))}
+                </div>
+              </section>
+            </div>
 
-        </>
+          </>
         )}
 
         {adminTab === 'cruise' && (
           <>
 
-        {/* === CRUISE BROADCAST CENTER === */}
-        <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
-              <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
-                <span className="text-lg"></span>
-              </div>
-            </div>
-            <div>
-              <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Command Center</h2>
-              <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
-            </div>
-          </div>
-
-          {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
-            {/* Column 1: Cruise Information & Guidelines Editor */}
-            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
-                  <div>
-                    <h3 className="text-base md:text-lg font-black italic tracking-wide text-white">Cruise Information & Guidelines</h3>
-                    <p className="text-[0.65rem] text-cyan-400 font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
+            {/* === CRUISE BROADCAST CENTER === */}
+            <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
+                  <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
+                    <span className="text-lg"></span>
                   </div>
                 </div>
-                {adminGuidelinesSaveStatus === 'saved' && (
-                  <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full animate-pulse">
-                     Guidelines Saved!
-                  </span>
-                )}
-                {adminGuidelinesSaveStatus === 'error' && (
-                  <span className="text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full">
-                     Error Saving
-                  </span>
-                )}
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Section Title</label>
-                    <input
-                      type="text"
-                      value={adminGuidelinesTitle}
-                      onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
-                      placeholder="Cruise Information & Guidelines"
-                      className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-black outline-none focus:border-cyan-600 transition-all font-bold"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Subtitle Badge</label>
-                    <input
-                      type="text"
-                      value={adminGuidelinesSubtitle}
-                      onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
-                      placeholder="Cruiser Welcome Pack"
-                      className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-cyan-700 outline-none focus:border-cyan-600 transition-all font-bold"
-                    />
-                  </div>
-                </div>
-
                 <div>
-                  <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</label>
-                  <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
-                    <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
-                  </div>
-                </div>
-
-                <div className="flex justify-end pt-2 border-t border-white/5">
-                  <button
-                    onClick={async () => {
-                      setAdminGuidelinesUpdating(true);
-                      setAdminGuidelinesSaveStatus(null);
-                      try {
-                        const res = await fetch('/api/cruise/guidelines', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            title: adminGuidelinesTitle,
-                            subtitle: adminGuidelinesSubtitle,
-                            content: adminGuidelinesContent
-                          })
-                        });
-                        if (res.ok) {
-                          setAdminGuidelinesSaveStatus('saved');
-                        } else {
-                          setAdminGuidelinesSaveStatus('error');
-                        }
-                      } catch (err) {
-                        setAdminGuidelinesSaveStatus('error');
-                      } finally {
-                        setAdminGuidelinesUpdating(false);
-                      }
-                    }}
-                    disabled={adminGuidelinesUpdating}
-                    className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
-                  >
-                    <span>{adminGuidelinesUpdating ? 'Saving...' : ' Save Guidelines'}</span>
-                  </button>
+                  <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Command Center</h2>
+                  <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
                 </div>
               </div>
-            </div>
 
-            {/* Column 2: Admin Passenger Lounge Live Chat */}
-            <CruiseChat memberOverride={member || effectiveAdmin} />
-          </div>
-
-          {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
-          <div className="grid grid-cols-1 gap-6 relative items-start mb-6">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
-
-            <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20  p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
-              <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-cyan-500/10 transition-all duration-700 pointer-events-none" />
-              <div className="relative z-10 flex flex-col gap-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 shrink-0 bg-cyan-500/10 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-all duration-500"></div>
-                    <div>
-                      <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
-                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
+              {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
+                {/* Column 1: Cruise Information & Guidelines Editor */}
+                <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
+                  <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
+                      <div>
+                        <h3 className="text-base md:text-lg font-black italic tracking-wide text-white">Cruise Information & Guidelines</h3>
+                        <p className="text-[0.65rem] text-cyan-400 font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
+                      </div>
                     </div>
+                    {adminGuidelinesSaveStatus === 'saved' && (
+                      <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full animate-pulse">
+                        Guidelines Saved!
+                      </span>
+                    )}
+                    {adminGuidelinesSaveStatus === 'error' && (
+                      <span className="text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full">
+                        Error Saving
+                      </span>
+                    )}
                   </div>
-                  <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
-                    <span className="text-[0.5rem] font-bold text-cyan-400 uppercase tracking-widest">Unified Dispatch</span>
-                  </div>
-                </div>
 
-                {cruiseSaveStatus && (
-                  <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
-                    {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
-                  </div>
-                )}
-
-                {/* 2 Columns Container: Left Form | Right Live Preview */}
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-                  {/* Left Column: Form Inputs & Target Controls */}
-                  <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
-                    <div>
-                      <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
-                      <input
-                        type="text"
-                        value={cruiseBlastSubject}
-                        onChange={(e) => setCruiseBlastSubject(e.target.value)}
-                        placeholder="e.g. TEST, CAPTAIN'S LOG, or  Cruise Update..."
-                        className="w-full bg-black/40 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-cyan-500/60 transition-all placeholder:text-white/20 mb-2 font-sans"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</label>
-                      <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                        <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Section Title</label>
+                        <input
+                          type="text"
+                          value={adminGuidelinesTitle}
+                          onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
+                          placeholder="Cruise Information & Guidelines"
+                          className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-black outline-none focus:border-cyan-600 transition-all font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Subtitle Badge</label>
+                        <input
+                          type="text"
+                          value={adminGuidelinesSubtitle}
+                          onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
+                          placeholder="Cruiser Welcome Pack"
+                          className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-cyan-700 outline-none focus:border-cyan-600 transition-all font-bold"
+                        />
                       </div>
                     </div>
 
-                    {/* Target checkboxes */}
-                    <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-white/5">
-                      <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
-                        <input
-                          type="checkbox"
-                          checked={postNoticeToDashboard}
-                          onChange={(e) => setPostNoticeToDashboard(e.target.checked)}
-                          className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
-                        />
-                        <span> Live Banner on Dashboard</span>
-                      </label>
-                      <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
-                        <input
-                          type="checkbox"
-                          checked={sendEmailToPassengers}
-                          onChange={(e) => setSendEmailToPassengers(e.target.checked)}
-                          className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
-                        />
-                        <span> Email Passenger Signups</span>
-                      </label>
+                    <div>
+                      <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</label>
+                      <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
+                        <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
+                      </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
+                    <div className="flex justify-end pt-2 border-t border-white/5">
                       <button
                         onClick={async () => {
-                          if (!cruiseMessage.trim() || cruiseUpdating) return;
-                          if (sendEmailToPassengers && !confirm("Dispatch live notice & send email blast to all registered cruise passengers?")) return;
-                          setCruiseUpdating(true);
-                          setCruiseSaveStatus(null);
+                          setAdminGuidelinesUpdating(true);
+                          setAdminGuidelinesSaveStatus(null);
                           try {
-                            const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage);
-                            if (postNoticeToDashboard) {
-                              await updateCruiseMessage(cleanedNoticeMsg);
+                            const res = await fetch('/api/cruise/guidelines', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                title: adminGuidelinesTitle,
+                                subtitle: adminGuidelinesSubtitle,
+                                content: adminGuidelinesContent
+                              })
+                            });
+                            if (res.ok) {
+                              setAdminGuidelinesSaveStatus('saved');
+                            } else {
+                              setAdminGuidelinesSaveStatus('error');
                             }
-                            if (sendEmailToPassengers) {
-                              const emailSubject = cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice";
-                              await fetch('/api/cruise/blast', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ subject: emailSubject, body: cleanedNoticeMsg }),
-                              });
-                            }
-                            setCruiseSaveStatus('saved');
                           } catch (err) {
-                            setCruiseSaveStatus('error');
+                            setAdminGuidelinesSaveStatus('error');
                           } finally {
-                            setCruiseUpdating(false);
+                            setAdminGuidelinesUpdating(false);
                           }
                         }}
-                        disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
-                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
+                        disabled={adminGuidelinesUpdating}
+                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
                       >
-                        <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : ' Dispatch Notice & Email'}</span>
-                      </button>
-                      <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 group/trash">
-                        <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+                        <span>{adminGuidelinesUpdating ? 'Saving...' : ' Save Guidelines'}</span>
                       </button>
                     </div>
                   </div>
+                </div>
 
-                  {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
-                  <div className="p-4 md:p-5 bg-black/40 border border-white/10 shadow-xl font-sans h-full flex flex-col">
-                    <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base"></span>
-                        <h4 className="text-xs font-black uppercase tracking-widest text-cyan-400">Live Dispatch Preview</h4>
+                {/* Column 2: Admin Passenger Lounge Live Chat */}
+                <CruiseChat memberOverride={member || effectiveAdmin} />
+              </div>
+
+              {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
+              <div className="grid grid-cols-1 gap-6 relative items-start mb-6">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
+
+                <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20  p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden`}>
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-cyan-500/10 transition-all duration-700 pointer-events-none" />
+                  <div className="relative z-10 flex flex-col gap-6">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 shrink-0 bg-cyan-500/10 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-all duration-500"></div>
+                        <div>
+                          <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
+                          <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
+                        </div>
                       </div>
-                      {/* Live Preview Tab Switcher */}
-                      <div className="flex items-center gap-1.5 bg-black/50 p-1 border border-white/10">
-                        <button
-                          type="button"
-                          onClick={() => setLivePreviewTab('dashboard')}
-                          className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
-                            livePreviewTab === 'dashboard'
-                              ? 'bg-cyan-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-white/5'
-                          }`}
-                        >
-                           Cruise Dashboard Banner
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setLivePreviewTab('email')}
-                          className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
-                            livePreviewTab === 'email'
-                              ? 'bg-cyan-500 text-black shadow-md'
-                              : 'text-white/60 hover:text-white hover:bg-white/5'
-                          }`}
-                        >
-                           Email Broadcast
-                        </button>
+                      <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
+                        <span className="text-[0.5rem] font-bold text-cyan-400 uppercase tracking-widest">Unified Dispatch</span>
                       </div>
                     </div>
 
-                    {livePreviewTab === 'dashboard' ? (
-                      /*  Cruise Dashboard Banner Live Preview (Exact match of /cruise/michael) */
-                      <div className="bg-[#f0f2f5] p-4 border border-white/10 text-black shadow-inner flex-1">
-                        <div className="flex items-center justify-between mb-3 px-1">
-                          <span className="text-[9px] font-black uppercase tracking-widest text-black/50">
-                            LIVE PASSENGER DASHBOARD VIEW (/cruise/michael)
-                          </span>
-                          <span className="text-[8px] font-bold text-cyan-700 bg-cyan-100 px-2 py-0.5 rounded border border-cyan-200 uppercase tracking-widest">
-                            Live Render
-                          </span>
+                    {cruiseSaveStatus && (
+                      <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                        {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
+                      </div>
+                    )}
+
+                    {/* 2 Columns Container: Left Form | Right Live Preview */}
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                      {/* Left Column: Form Inputs & Target Controls */}
+                      <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
+                        <div>
+                          <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
+                          <input
+                            type="text"
+                            value={cruiseBlastSubject}
+                            onChange={(e) => setCruiseBlastSubject(e.target.value)}
+                            placeholder="e.g. TEST, CAPTAIN'S LOG, or  Cruise Update..."
+                            className="w-full bg-black/40 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-cyan-500/60 transition-all placeholder:text-white/20 mb-2 font-sans"
+                          />
                         </div>
 
-                        <div className="relative overflow-hidden p-4 bg-white border border-black/10 shadow-md">
-                          <div className="relative z-10">
-                            <div className="flex items-start gap-3 mb-4">
-                              <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm shrink-0 mt-0.5">
-                                <span className="animate-pulse"></span>
-                              </div>
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-[9px] font-black tracking-[0.15em] uppercase text-cyan-700 bg-cyan-50 px-1.5 py-0.5 rounded border border-cyan-200 font-sans">
-                                    Priority Update
-                                  </span>
+                        <div>
+                          <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</label>
+                          <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
+                            <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
+                          </div>
+                        </div>
+
+                        {/* Target checkboxes */}
+                        <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-white/5">
+                          <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
+                            <input
+                              type="checkbox"
+                              checked={postNoticeToDashboard}
+                              onChange={(e) => setPostNoticeToDashboard(e.target.checked)}
+                              className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
+                            />
+                            <span> Live Banner on Dashboard</span>
+                          </label>
+                          <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
+                            <input
+                              type="checkbox"
+                              checked={sendEmailToPassengers}
+                              onChange={(e) => setSendEmailToPassengers(e.target.checked)}
+                              className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
+                            />
+                            <span> Email Passenger Signups</span>
+                          </label>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
+                          <button
+                            onClick={async () => {
+                              if (!cruiseMessage.trim() || cruiseUpdating) return;
+                              if (sendEmailToPassengers && !confirm("Dispatch live notice & send email blast to all registered cruise passengers?")) return;
+                              setCruiseUpdating(true);
+                              setCruiseSaveStatus(null);
+                              try {
+                                const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage);
+                                if (postNoticeToDashboard) {
+                                  await updateCruiseMessage(cleanedNoticeMsg);
+                                }
+                                if (sendEmailToPassengers) {
+                                  const emailSubject = cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice";
+                                  await fetch('/api/cruise/blast', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ subject: emailSubject, body: cleanedNoticeMsg }),
+                                  });
+                                }
+                                setCruiseSaveStatus('saved');
+                              } catch (err) {
+                                setCruiseSaveStatus('error');
+                              } finally {
+                                setCruiseUpdating(false);
+                              }
+                            }}
+                            disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
+                            className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
+                          >
+                            <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : ' Dispatch Notice & Email'}</span>
+                          </button>
+                          <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 group/trash">
+                            <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" /></svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
+                      <div className="p-4 md:p-5 bg-black/40 border border-white/10 shadow-xl font-sans h-full flex flex-col">
+                        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-base"></span>
+                            <h4 className="text-xs font-black uppercase tracking-widest text-cyan-400">Live Dispatch Preview</h4>
+                          </div>
+                          {/* Live Preview Tab Switcher */}
+                          <div className="flex items-center gap-1.5 bg-black/50 p-1 border border-white/10">
+                            <button
+                              type="button"
+                              onClick={() => setLivePreviewTab('dashboard')}
+                              className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${livePreviewTab === 'dashboard'
+                                ? 'bg-cyan-500 text-black shadow-md'
+                                : 'text-white/60 hover:text-white hover:bg-white/5'
+                                }`}
+                            >
+                              Cruise Dashboard Banner
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setLivePreviewTab('email')}
+                              className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${livePreviewTab === 'email'
+                                ? 'bg-cyan-500 text-black shadow-md'
+                                : 'text-white/60 hover:text-white hover:bg-white/5'
+                                }`}
+                            >
+                              Email Broadcast
+                            </button>
+                          </div>
+                        </div>
+
+                        {livePreviewTab === 'dashboard' ? (
+                          /*  Cruise Dashboard Banner Live Preview (Exact match of /cruise/michael) */
+                          <div className="bg-[#f0f2f5] p-4 border border-white/10 text-black shadow-inner flex-1">
+                            <div className="flex items-center justify-between mb-3 px-1">
+                              <span className="text-[9px] font-black uppercase tracking-widest text-black/50">
+                                LIVE PASSENGER DASHBOARD VIEW (/cruise/michael)
+                              </span>
+                              <span className="text-[8px] font-bold text-cyan-700 bg-cyan-100 px-2 py-0.5 rounded border border-cyan-200 uppercase tracking-widest">
+                                Live Render
+                              </span>
+                            </div>
+
+                            <div className="relative overflow-hidden p-4 bg-white border border-black/10 shadow-md">
+                              <div className="relative z-10">
+                                <div className="flex items-start gap-3 mb-4">
+                                  <div className="w-8 h-8 rounded-full bg-cyan-100 text-cyan-700 flex items-center justify-center text-sm shrink-0 mt-0.5">
+                                    <span className="animate-pulse"></span>
+                                  </div>
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <span className="text-[9px] font-black tracking-[0.15em] uppercase text-cyan-700 bg-cyan-50 px-1.5 py-0.5 rounded border border-cyan-200 font-sans">
+                                        Priority Update
+                                      </span>
+                                    </div>
+                                    <h3 className="text-lg font-black tracking-wide text-black uppercase font-sans">
+                                      {cruiseBlastSubject.trim() || "Cruise Notice"}
+                                    </h3>
+                                  </div>
                                 </div>
-                                <h3 className="text-lg font-black tracking-wide text-black uppercase font-sans">
-                                  {cruiseBlastSubject.trim() || "Cruise Notice"}
-                                </h3>
+
+                                <div
+                                  className="text-black/80 text-sm leading-relaxed space-y-3 [&_a]:text-cyan-600 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-black [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-black"
+                                  dangerouslySetInnerHTML={{
+                                    __html: sanitizeHtml(cleanWysiwygHtml(cruiseMessage)) || "<p class='text-black/40 italic'>Notice content will appear here in real-time...</p>"
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          /*  Email Broadcast Preview */
+                          <div className="flex-1 flex flex-col">
+                            {/* Email Client Header Bar */}
+                            <div className="bg-[#0f0e1d] rounded-t-xl border border-white/10 p-3 space-y-1 text-xs">
+                              <div className="flex items-center gap-2 text-white/60">
+                                <span className="font-bold text-white/40 w-16 shrink-0">Subject:</span>
+                                <span className="font-bold text-cyan-300 truncate">{cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice"}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-white/60">
+                                <span className="font-bold text-white/40 w-16 shrink-0">From:</span>
+                                <span className="truncate">7th Heaven Cruise Team &lt;cruise@7thheavenband.com&gt;</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-white/60">
+                                <span className="font-bold text-white/40 w-16 shrink-0">To:</span>
+                                <span className="truncate">All Registered Cruise Passengers</span>
                               </div>
                             </div>
 
-                            <div 
-                              className="text-black/80 text-sm leading-relaxed space-y-3 [&_a]:text-cyan-600 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-black [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-black"
-                              dangerouslySetInnerHTML={{ 
-                                __html: cleanWysiwygHtml(cruiseMessage) || "<p className='text-black/40 italic'>Notice content will appear here in real-time...</p>" 
-                              }}
-                            />
+                            {/* Email Preview Frame */}
+                            <div className="rounded-b-xl overflow-hidden border border-t-0 border-white/10 bg-white max-h-[380px] overflow-y-auto flex-1">
+                              <div
+                                className="email-blast-preview-content bg-white text-slate-900"
+                                dangerouslySetInnerHTML={{
+                                  __html: cruiseCommunityBlast({
+                                    subject: cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice",
+                                    body: sanitizeHtml(cleanWysiwygHtml(cruiseMessage)) || "<p>Message content will appear here in real-time...</p>"
+                                  })
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
-                    ) : (
-                      /*  Email Broadcast Preview */
-                      <div className="flex-1 flex flex-col">
-                        {/* Email Client Header Bar */}
-                        <div className="bg-[#0f0e1d] rounded-t-xl border border-white/10 p-3 space-y-1 text-xs">
-                          <div className="flex items-center gap-2 text-white/60">
-                            <span className="font-bold text-white/40 w-16 shrink-0">Subject:</span>
-                            <span className="font-bold text-cyan-300 truncate">{cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice"}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-white/60">
-                            <span className="font-bold text-white/40 w-16 shrink-0">From:</span>
-                            <span className="truncate">7th Heaven Cruise Team &lt;cruise@7thheavenband.com&gt;</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-white/60">
-                            <span className="font-bold text-white/40 w-16 shrink-0">To:</span>
-                            <span className="truncate">All Registered Cruise Passengers</span>
-                          </div>
-                        </div>
-
-                        {/* Email Preview Frame */}
-                        <div className="rounded-b-xl overflow-hidden border border-t-0 border-white/10 bg-white max-h-[380px] overflow-y-auto flex-1">
-                          <div 
-                            className="email-blast-preview-content bg-white text-slate-900"
-                            dangerouslySetInnerHTML={{ 
-                              __html: cruiseCommunityBlast({ 
-                                subject: cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice", 
-                                body: cleanWysiwygHtml(cruiseMessage) || "<p>Message content will appear here in real-time...</p>" 
-                              }) 
-                            }} 
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-          {/* Full Interactive Cruise Signups Table & Registrants Manager */}
-          <div className="mt-6">
-            {renderCruiseSignups()}
-          </div>
-
-          {/* Cruise Roster & Signup Stats */}
-          <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
-            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-emerald-500/20 p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-all duration-700 pointer-events-none" />
-              <div className="relative z-10 flex flex-col gap-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-all duration-500"></div>
-                  <div>
-                    <h3 className="text-lg font-black italic tracking-wide text-white">Cruise Roster</h3>
-                    <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
-                  </div>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-2xl font-black text-emerald-400">{cruiseStats.signups || 0}</p>
-                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
-                  </div>
-                  <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-2xl font-black text-white">{cruiseStats.total}</p>
-                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
-                  </div>
-                  <div className="bg-black/30 p-3 border border-white/5 text-center">
-                    <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
-                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
-                  </div>
-                </div>
-
-                {/* Recent Signups */}
-                {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
-                  <div>
-                    <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
-                    <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
-                      {(cruiseStats.recentSignups || []).map((s, i) => (
-                        <div key={i} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover:border-emerald-500/20 transition-all group/row">
-                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[0.5rem] font-black text-emerald-400 shrink-0">
-                            {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                            <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
-                          </div>
-                          <div className="text-right shrink-0">
-                            <p className="text-[0.55rem] text-white/20 font-mono">{s.phone || '—'}</p>
-                            <p className="text-[0.5rem] text-white/15">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   </div>
-                )}
-
-                {/* Download CSV */}
-                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border border-emerald-400/30 flex items-center justify-center gap-2 mt-auto">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                  Download Full CSV
-                </button>
-                <p className="text-[0.5rem] text-white/20 text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
+                </div>
               </div>
             </div>
-          </div>
+
+            {/* Full Interactive Cruise Signups Table & Registrants Manager */}
+            <div className="mt-6">
+              {renderCruiseSignups()}
+            </div>
+
+            {/* Cruise Roster & Signup Stats */}
+            <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
+              <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover: border-[var(--color-accent)]/30 p-6 md:p-8 transition-all duration-500 flex flex-col group overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-all duration-700 pointer-events-none" />
+                <div className="relative z-10 flex flex-col gap-5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-all duration-500"></div>
+                    <div>
+                      <h3 className="text-lg font-black italic tracking-wide text-white">Cruise Roster</h3>
+                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
+                    </div>
+                  </div>
+
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="bg-black/30 p-3 border border-white/5 text-center">
+                      <p className="text-2xl font-black text-[var(--color-accent)]">{cruiseStats.signups || 0}</p>
+                      <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
+                    </div>
+                    <div className="bg-black/30 p-3 border border-white/5 text-center">
+                      <p className="text-2xl font-black text-white">{cruiseStats.total}</p>
+                      <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
+                    </div>
+                    <div className="bg-black/30 p-3 border border-white/5 text-center">
+                      <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
+                      <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
+                    </div>
+                  </div>
+
+                  {/* Recent Signups */}
+                  {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
+                    <div>
+                      <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
+                      <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
+                        {(cruiseStats.recentSignups || []).map((s, i) => (
+                          <div key={i} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-all group/row">
+                            <div className="w-7 h-7 rounded-full bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center text-[0.5rem] font-black text-[var(--color-accent)] shrink-0">
+                              {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-bold text-white truncate">{s.name}</p>
+                              <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <p className="text-[0.55rem] text-white/20 font-mono">{s.phone || '—'}</p>
+                              <p className="text-[0.5rem] text-white/15">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Download CSV */}
+                  <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border  border-[var(--color-accent)]/30 flex items-center justify-center gap-2 mt-auto">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
+                    Download Full CSV
+                  </button>
+                  <p className="text-[0.5rem] text-white/20 text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
+                </div>
+              </div>
+            </div>
           </>
         )}
 
 
 
-      {showSetPassword && (
-        <CrewSetPasswordModal
-          email={firstLoginEmail}
-          onComplete={() => setShowSetPassword(false)}
-        />
-      )}
+        {showSetPassword && (
+          <CrewSetPasswordModal
+            email={firstLoginEmail}
+            onComplete={() => setShowSetPassword(false)}
+          />
+        )}
 
-      {selectedQrProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-          <style dangerouslySetInnerHTML={{ __html: `
+        {selectedQrProduct && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
+            <style dangerouslySetInnerHTML={{
+              __html: `
             @media print {
               html, body, main, #__next, div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
                 background: white !important;
@@ -12324,332 +12279,330 @@ try {
             }
           `}} />
 
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
-            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
-              <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                  Print Merchandise QR Code
-                </h3>
-                <p className="text-xs text-white/40 mt-1">Generate printable retail labels for the merch table</p>
-              </div>
-              <button 
-                onClick={() => setSelectedQrProduct(null)} 
-                className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              >
-                
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
-              <div className="space-y-6">
+            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
+              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</label>
-                      <div className="grid grid-cols-2 gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setQrLinkType('product')}
-                          className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-all cursor-pointer ${
-                            qrLinkType === 'product'
-                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
-                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
-                          }`}
-                        >
-                          Product Detail Page
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setQrLinkType('checkout')}
-                          disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
-                          className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-all cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${
-                            qrLinkType === 'checkout'
-                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)] text-[var(--color-accent)]'
-                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
-                          }`}
-                        >
-                          Direct Add to Cart
-                        </button>
-                      </div>
-                    </div>
-
-                    {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
-                      <div>
-                        <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
-                          {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
-                        </label>
-                        <select
-                          value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
-                          onChange={(e) => {
-                            const val = parseInt(e.target.value);
-                            setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
-                          }}
-                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
-                        >
-                          {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
-                          {selectedQrProduct.variants.map((v: any, index: number) => (
-                            <option key={index} value={index}>
-                              {v.title} — ${v.price.toFixed(2)}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-                  </div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                    Print Merchandise QR Code
+                  </h3>
+                  <p className="text-xs text-white/40 mt-1">Generate printable retail labels for the merch table</p>
                 </div>
+                <button
+                  onClick={() => setSelectedQrProduct(null)}
+                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                >
 
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
-                      <input
-                        type="text"
-                        value={qrSubtitle}
-                        onChange={(e) => setQrSubtitle(e.target.value)}
-                        placeholder="Official Merchandise"
-                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
-                      />
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5">
-                      <div>
-                        <p className="text-xs font-bold text-white">Show Price Tag</p>
-                        <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setQrIncludePrice(!qrIncludePrice)}
-                        className={`w-10 h-6 rounded-full p-1 transition-colors cursor-pointer ${qrIncludePrice ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}
-                      >
-                        <div className={`w-4 h-4 bg-white rounded-full transition-transform ${qrIncludePrice ? 'translate-x-4' : 'translate-x-0'}`} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed text-white/60">
-                  <span className="text-purple-300 font-bold block mb-1"> Pro-Tip for Merch Tables</span>
-                  Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
-                </div>
+                </button>
               </div>
 
-              <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 p-6 md:p-8">
-                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
-                
-                <div className="print-tag-container">
-                  <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
-                    <div className="text-center">
-                      <div className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-black/60 mb-0.5">7th Heaven</div>
-                      <div className="text-[0.5rem] font-bold uppercase tracking-wider text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
-                    </div>
+              <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setQrLinkType('product')}
+                            className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-all cursor-pointer ${qrLinkType === 'product'
+                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
+                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                              }`}
+                          >
+                            Product Detail Page
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setQrLinkType('checkout')}
+                            disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
+                            className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-all cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
+                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
+                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                              }`}
+                          >
+                            Direct Add to Cart
+                          </button>
+                        </div>
+                      </div>
 
-                    <div className="text-center my-2">
-                      <div className="text-sm font-black uppercase tracking-wide leading-tight max-w-[200px] truncate">{selectedQrProduct.title}</div>
-                      {selectedQrVariant && (
-                        <div className="text-[0.55rem] font-bold text-black/50 uppercase mt-0.5">Size / Type: {selectedQrVariant.title}</div>
-                      )}
-                    </div>
-
-                    <div className="p-3 bg-white border border-black/10 flex items-center justify-center">
-                      <QRCode
-                        value={
-                          qrLinkType === 'checkout' && selectedQrVariant
-                            ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
-                            : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
-                        }
-                        size={150}
-                        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                        viewBox="0 0 150 150"
-                      />
-                    </div>
-
-                    <div className="text-center w-full">
-                      <p className="text-[0.55rem] font-black uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
-                      {qrIncludePrice && (
-                        <div className="text-lg font-black border-t border-black/10 pt-2 text-black">
-                          ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
+                      {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
+                        <div>
+                          <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
+                            {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
+                          </label>
+                          <select
+                            value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value);
+                              setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
+                            }}
+                            className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
+                          >
+                            {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
+                            {selectedQrProduct.variants.map((v: any, index: number) => (
+                              <option key={index} value={index}>
+                                {v.title} — ${v.price.toFixed(2)}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       )}
                     </div>
                   </div>
+
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
+                        <input
+                          type="text"
+                          value={qrSubtitle}
+                          onChange={(e) => setQrSubtitle(e.target.value)}
+                          placeholder="Official Merchandise"
+                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5">
+                        <div>
+                          <p className="text-xs font-bold text-white">Show Price Tag</p>
+                          <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setQrIncludePrice(!qrIncludePrice)}
+                          className={`w-10 h-6 rounded-full p-1 transition-colors cursor-pointer ${qrIncludePrice ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}
+                        >
+                          <div className={`w-4 h-4 bg-white rounded-full transition-transform ${qrIncludePrice ? 'translate-x-4' : 'translate-x-0'}`} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed text-white/60">
+                    <span className="text-purple-300 font-bold block mb-1"> Pro-Tip for Merch Tables</span>
+                    Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 p-6 md:p-8">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
+
+                  <div className="print-tag-container">
+                    <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
+                      <div className="text-center">
+                        <div className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-black/60 mb-0.5">7th Heaven</div>
+                        <div className="text-[0.5rem] font-bold uppercase tracking-wider text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
+                      </div>
+
+                      <div className="text-center my-2">
+                        <div className="text-sm font-black uppercase tracking-wide leading-tight max-w-[200px] truncate">{selectedQrProduct.title}</div>
+                        {selectedQrVariant && (
+                          <div className="text-[0.55rem] font-bold text-black/50 uppercase mt-0.5">Size / Type: {selectedQrVariant.title}</div>
+                        )}
+                      </div>
+
+                      <div className="p-3 bg-white border border-black/10 flex items-center justify-center">
+                        <QRCode
+                          value={
+                            qrLinkType === 'checkout' && selectedQrVariant
+                              ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
+                              : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
+                          }
+                          size={150}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                          viewBox="0 0 150 150"
+                        />
+                      </div>
+
+                      <div className="text-center w-full">
+                        <p className="text-[0.55rem] font-black uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
+                        {qrIncludePrice && (
+                          <div className="text-lg font-black border-t border-black/10 pt-2 text-black">
+                            ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="p-6 border-t border-white/5 bg-black/20 flex items-center justify-end gap-3">
-              <button
-                onClick={() => setSelectedQrProduct(null)}
-                className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => window.print()}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                Print Label
-              </button>
+              <div className="p-6 border-t border-white/5 bg-black/20 flex items-center justify-end gap-3">
+                <button
+                  onClick={() => setSelectedQrProduct(null)}
+                  className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => window.print()}
+                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" /></svg>
+                  Print Label
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      {activeToast && (
-        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
-          <div className="text-xl"></div>
-          <div>
-            <p className="text-xs font-black text-emerald-400 uppercase tracking-widest">{activeToast.title}</p>
-            <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
+        )}
+        {activeToast && (
+          <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
+            <div className="text-xl"></div>
+            <div>
+              <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-widest">{activeToast.title}</p>
+              <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
-      {showJumpNav && (
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3 backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
-          <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
-            <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
-            <button
-              onClick={toggleJumpNav}
-              title="Hide Navigation"
-              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
-            >
-              
-            </button>
-          </div>
-          {adminTab === 'band' && (
-            <div className="flex bg-white/5 rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
+        {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
+        {showJumpNav && (
+          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3 backdrop-blur-md max-h-[400px] w-44 font-sans transition-all duration-300 animate-[fadeIn_0.15s_ease]">
+            <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
+              <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
               <button
-                type="button"
-                onClick={() => setSidebarMode('jump')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                onClick={toggleJumpNav}
+                title="Hide Navigation"
+                className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
               >
-                Navigate
-              </button>
-              <button
-                type="button"
-                onClick={() => setSidebarMode('organize')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
-              >
-                Arrange
+
               </button>
             </div>
-          )}
-          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
-            <div className="flex flex-col gap-1 text-xs pr-1">
-              {adminTab === 'band' ? (
-                sidebarMode === 'jump' ? (
-                  <>
-                    {sectionOrder.map((key) => {
-                      const labelMap: Record<string, { label: string; icon: string }> = {
-                        announcements: { label: 'Band Announcements', icon: '' },
-                        calendar: { label: 'Crew Schedule', icon: '' },
-                        analytics: { label: 'Google Analytics', icon: '' },
-                        shopify: { label: 'Shopify Store', icon: '' },
-                        bookings: { label: 'Booking Requests', icon: '' },
-                        planners: { label: 'Planners Directory', icon: '' },
-                        cruisesignups: { label: 'Cruise Signups', icon: '' },
-                        livealerts: { label: 'Live Alerts', icon: '' },
-                        smsblast: { label: 'SMS Blast', icon: '' },
-                        crewsms: { label: 'Crew SMS', icon: '' },
-                        bandsms: { label: 'Band Member SMS Text', icon: '' },
-                        newsletter: { label: 'Newsletter', icon: '' },
-                        emailflow: { label: 'Email Template Flows', icon: '' },
-                        registry: { label: 'Fan Registry', icon: '' },
-                        crewcreation: { label: 'Crew Management', icon: '' },
-                        admincreation: { label: 'Admin Management', icon: '' },
-                        bulkinvites: { label: 'Bulk Invites', icon: '' },
-                        awardpicks: { label: 'Award Picks', icon: '' }
-                      };
-                      const section = labelMap[key] || { label: key, icon: '' };
-                      return (
-                        <button
-                          key={key}
-                          onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                          className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                        >
-                          <span>{section.icon}</span> {section.label}
-                        </button>
-                      );
-                    })}
-                  </>
+            {adminTab === 'band' && (
+              <div className="flex bg-white/5 rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
+                <button
+                  type="button"
+                  onClick={() => setSidebarMode('jump')}
+                  className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                >
+                  Navigate
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSidebarMode('organize')}
+                  className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-all border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                >
+                  Arrange
+                </button>
+              </div>
+            )}
+            <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
+              <div className="flex flex-col gap-1 text-xs pr-1">
+                {adminTab === 'band' ? (
+                  sidebarMode === 'jump' ? (
+                    <>
+                      {sectionOrder.map((key) => {
+                        const labelMap: Record<string, { label: string; icon: string }> = {
+                          announcements: { label: 'Band Announcements', icon: '' },
+                          calendar: { label: 'Crew Schedule', icon: '' },
+                          analytics: { label: 'Google Analytics', icon: '' },
+                          shopify: { label: 'Shopify Store', icon: '' },
+                          bookings: { label: 'Booking Requests', icon: '' },
+                          planners: { label: 'Planners Directory', icon: '' },
+                          cruisesignups: { label: 'Cruise Signups', icon: '' },
+                          livealerts: { label: 'Live Alerts', icon: '' },
+                          smsblast: { label: 'SMS Blast', icon: '' },
+                          crewsms: { label: 'Crew SMS', icon: '' },
+                          bandsms: { label: 'Band Member SMS Text', icon: '' },
+                          newsletter: { label: 'Newsletter', icon: '' },
+                          emailflow: { label: 'Email Template Flows', icon: '' },
+                          registry: { label: 'Fan Registry', icon: '' },
+                          crewcreation: { label: 'Crew Management', icon: '' },
+                          admincreation: { label: 'Admin Management', icon: '' },
+                          bulkinvites: { label: 'Bulk Invites', icon: '' },
+                          awardpicks: { label: 'Award Picks', icon: '' }
+                        };
+                        const section = labelMap[key] || { label: key, icon: '' };
+                        return (
+                          <button
+                            key={key}
+                            onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                            className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                          >
+                            <span>{section.icon}</span> {section.label}
+                          </button>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-[var(--font-size-3xs)] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
+                        Drag sections below to reorder layout:
+                      </div>
+                      {sectionOrder.map((key, index) => {
+                        const labelMap: Record<string, { label: string; icon: string }> = {
+                          announcements: { label: 'Band Announcements', icon: '' },
+                          calendar: { label: 'Crew Schedule', icon: '' },
+                          analytics: { label: 'Google Analytics', icon: '' },
+                          shopify: { label: 'Shopify Store', icon: '' },
+                          bookings: { label: 'Booking Requests', icon: '' },
+                          planners: { label: 'Planners Directory', icon: '' },
+                          cruisesignups: { label: 'Cruise Signups', icon: '' },
+                          livealerts: { label: 'Live Alerts', icon: '' },
+                          smsblast: { label: 'SMS Blast', icon: '' },
+                          crewsms: { label: 'Crew SMS', icon: '' },
+                          bandsms: { label: 'Band Member SMS Text', icon: '' },
+                          newsletter: { label: 'Newsletter', icon: '' },
+                          emailflow: { label: 'Email Template Flows', icon: '' },
+                          registry: { label: 'Fan Registry', icon: '' },
+                          crewcreation: { label: 'Crew Management', icon: '' },
+                          admincreation: { label: 'Admin Management', icon: '' },
+                          bulkinvites: { label: 'Bulk Invites', icon: '' },
+                          awardpicks: { label: 'Award Picks', icon: '' }
+                        };
+                        const section = labelMap[key] || { label: key, icon: '' };
+                        return (
+                          <div
+                            key={key}
+                            draggable={true}
+                            onDragStart={(e) => {
+                              e.dataTransfer.effectAllowed = 'move';
+                              e.dataTransfer.setData('text/plain', key);
+                              handleDragStart(index);
+                            }}
+                            onDragOver={(e) => handleDragOver(e, index)}
+                            onDragEnd={handleDragEnd}
+                            className={`py-1.5 px-2 hover:bg-white/5 text-white/70 hover:text-white transition-all rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-white/5 shadow-inner' : ''}`}
+                          >
+                            <span className="text-white/20 select-none"></span>
+                            <span>{section.icon}</span>
+                            <span className="truncate">{section.label}</span>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )
                 ) : (
                   <>
-                    <div className="text-[var(--font-size-3xs)] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
-                      Drag sections below to reorder layout:
-                    </div>
-                    {sectionOrder.map((key, index) => {
-                      const labelMap: Record<string, { label: string; icon: string }> = {
-                        announcements: { label: 'Band Announcements', icon: '' },
-                        calendar: { label: 'Crew Schedule', icon: '' },
-                        analytics: { label: 'Google Analytics', icon: '' },
-                        shopify: { label: 'Shopify Store', icon: '' },
-                        bookings: { label: 'Booking Requests', icon: '' },
-                        planners: { label: 'Planners Directory', icon: '' },
-                        cruisesignups: { label: 'Cruise Signups', icon: '' },
-                        livealerts: { label: 'Live Alerts', icon: '' },
-                        smsblast: { label: 'SMS Blast', icon: '' },
-                        crewsms: { label: 'Crew SMS', icon: '' },
-                        bandsms: { label: 'Band Member SMS Text', icon: '' },
-                        newsletter: { label: 'Newsletter', icon: '' },
-                        emailflow: { label: 'Email Template Flows', icon: '' },
-                        registry: { label: 'Fan Registry', icon: '' },
-                        crewcreation: { label: 'Crew Management', icon: '' },
-                        admincreation: { label: 'Admin Management', icon: '' },
-                        bulkinvites: { label: 'Bulk Invites', icon: '' },
-                        awardpicks: { label: 'Award Picks', icon: '' }
-                      };
-                      const section = labelMap[key] || { label: key, icon: '' };
-                      return (
-                        <div
-                          key={key}
-                          draggable={true}
-                          onDragStart={(e) => {
-                            e.dataTransfer.effectAllowed = 'move';
-                            e.dataTransfer.setData('text/plain', key);
-                            handleDragStart(index);
-                          }}
-                          onDragOver={(e) => handleDragOver(e, index)}
-                          onDragEnd={handleDragEnd}
-                          className={`py-1.5 px-2 hover:bg-white/5 text-white/70 hover:text-white transition-all rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-white/5 shadow-inner' : ''}`}
-                        >
-                          <span className="text-white/20 select-none"></span>
-                          <span>{section.icon}</span> 
-                          <span className="truncate">{section.label}</span>
-                        </div>
-                      );
-                    })}
+                    <button
+                      onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    >
+                      <span></span> Command Center
+                    </button>
+                    <button
+                      onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    >
+                      <span></span> Cruise Roster & Links
+                    </button>
+                    <button
+                      onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                    >
+                      <span></span> Cruise Blast
+                    </button>
                   </>
-                )
-              ) : (
-                <>
-                  <button
-                    onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                  >
-                    <span></span> Command Center
-                  </button>
-                  <button
-                    onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                  >
-                    <span></span> Cruise Roster & Links
-                  </button>
-                  <button
-                    onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-all rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                  >
-                    <span></span> Cruise Blast
-                  </button>
-                </>
-              )}
-            </div>
-          </CustomScrollbar>
-        </div>
-      )}
+                )}
+              </div>
+            </CustomScrollbar>
+          </div>
+        )}
       </div>
     </div>
   );

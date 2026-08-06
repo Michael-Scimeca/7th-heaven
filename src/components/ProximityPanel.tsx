@@ -30,10 +30,10 @@ interface Attendee {
 
 const RADIUS_OPTIONS = [10, 25, 50, 100, 200];
 const tierColors: Record<string, string> = {
-  Bronze: "text-purple-400",
+  Bronze: " text-[var(--color-accent)]",
   Silver: "text-slate-300",
   Gold: "text-yellow-400",
-  Platinum: "text-[var(--color-accent)]",
+  Platinum: " text-[var(--color-accent)]",
 };
 
 export default function ProximityPanel() {
@@ -79,7 +79,7 @@ export default function ProximityPanel() {
       const res = await fetch(`/api/proximity/shows?userId=${member.id}`);
       const data = await res.json();
       setNearbyShows(data.shows || []);
-    } catch {}
+    } catch { }
     setLoadingShows(false);
   }, [member?.id, notificationsEnabled]);
 
@@ -122,7 +122,7 @@ export default function ProximityPanel() {
       setAttendees(data.attendees || []);
       const mine = (data.attendees || []).find((a: Attendee) => a.profiles?.id === member?.id);
       setMyStatus(mine?.status || null);
-    } catch {}
+    } catch { }
     setAttendeeLoading(false);
   };
 
@@ -148,7 +148,7 @@ export default function ProximityPanel() {
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
+          <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] bg-[var(--color-accent)]/15 px-3 py-1 rounded-full border border-[var(--color-accent)]/30">
             Show Proximity Alerts
           </span>
         </div>
@@ -211,7 +211,7 @@ export default function ProximityPanel() {
       {notificationsEnabled && (
         <div className="pt-2 text-white">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">
+            <span className="text-xs font-black uppercase tracking-widest  text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
             <button
@@ -259,11 +259,10 @@ export default function ProximityPanel() {
                     </div>
                     <button
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-all border ${
-                        myStatus && selectedShow?.id === show.id
-                          ? "bg-blue-600 text-white border-blue-600"
-                          : "bg-white/10 text-white border-white/15 hover:bg-blue-500 hover:text-black hover:border-blue-500"
-                      }`}
+                      className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-all border ${myStatus && selectedShow?.id === show.id
+                        ? "bg-blue-600 text-white border-blue-600"
+                        : "bg-white/10 text-white border-white/15 hover:bg-blue-500 hover:text-black hover:border-blue-500"
+                        }`}
                     >
                       {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}
                     </button>
@@ -300,7 +299,7 @@ export default function ProximityPanel() {
                         <div className="flex flex-wrap gap-2">
                           {attendees.slice(0, 12).map(a => (
                             <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10 rounded-full">
-                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)] font-black text-[var(--color-accent)]">
+                              <div className="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)] font-black  text-[var(--color-accent)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-xs text-black/70 font-medium">{a.profiles?.full_name?.split(" ")[0]}</span>

@@ -31,15 +31,6 @@ DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'raffles_select_all') THEN
     CREATE POLICY "raffles_select_all" ON public.raffles FOR SELECT USING (true);
   END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'raffles_insert_all') THEN
-    CREATE POLICY "raffles_insert_all" ON public.raffles FOR INSERT WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'raffles_update_all') THEN
-    CREATE POLICY "raffles_update_all" ON public.raffles FOR UPDATE USING (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'raffles_delete_all') THEN
-    CREATE POLICY "raffles_delete_all" ON public.raffles FOR DELETE USING (true);
-  END IF;
 END $$;
 
 -- ── NOTIFICATIONS (VIP Inbox) ──
@@ -64,12 +55,6 @@ ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'notifications_select_all') THEN
     CREATE POLICY "notifications_select_all" ON public.notifications FOR SELECT USING (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'notifications_insert_all') THEN
-    CREATE POLICY "notifications_insert_all" ON public.notifications FOR INSERT WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'notifications_update_all') THEN
-    CREATE POLICY "notifications_update_all" ON public.notifications FOR UPDATE USING (true);
   END IF;
 END $$;
 
@@ -96,12 +81,6 @@ ALTER TABLE public.merch_pickups ENABLE ROW LEVEL SECURITY;
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'merch_pickups_select_all') THEN
     CREATE POLICY "merch_pickups_select_all" ON public.merch_pickups FOR SELECT USING (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'merch_pickups_insert_all') THEN
-    CREATE POLICY "merch_pickups_insert_all" ON public.merch_pickups FOR INSERT WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'merch_pickups_update_all') THEN
-    CREATE POLICY "merch_pickups_update_all" ON public.merch_pickups FOR UPDATE USING (true);
   END IF;
 END $$;
 

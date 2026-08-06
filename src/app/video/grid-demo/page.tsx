@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const layouts = ["A","B","C","D","E","F"] as const;
+const layouts = ["A", "B", "C", "D", "E", "F"] as const;
 type Layout = typeof layouts[number];
 
 interface Video { id: string; title: string; year: number; duration?: string; description?: string; viewCount?: string; }
@@ -28,8 +28,8 @@ function CatTabs({ cats, active, set }: { cats: string[]; active: string; set: (
     <div className="flex flex-wrap gap-1 items-center">
       {cats.map((c, i) => (
         <span key={c} className="flex items-center gap-1">
-          <button onClick={() => set(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${active === c ? "text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
-          {i < cats.length - 1 && <span className="text-[var(--color-accent)] text-sm">/</span>}
+          <button onClick={() => set(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${active === c ? " text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
+          {i < cats.length - 1 && <span className=" text-[var(--color-accent)] text-sm">/</span>}
         </span>
       ))}
     </div>
@@ -112,7 +112,7 @@ export default function GridLayoutDemo() {
                 {v.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[var(--font-size-2xs)] font-bold px-1.5 py-0.5 rounded">{v.duration}</span>}
               </div>
               <div className="px-3 py-3 bg-[var(--color-bg-surface)] border-b border-r border-white/[0.04]">
-                <p className="text-sm font-bold text-white truncate group-hover:text-[var(--color-accent)] transition-colors">{v.title}</p>
+                <p className="text-sm font-bold text-white truncate group-hover: text-[var(--color-accent)] transition-colors">{v.title}</p>
                 <div className="flex items-center gap-2 text-[var(--font-size-2xs)] text-white/25 mt-0.5"><span>{v.year}</span>{v.viewCount && <><span>·</span><span>{v.viewCount} views</span></>}</div>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function GridLayoutDemo() {
                   <p className="text-sm font-bold text-white truncate">{v.title}</p>
                   <div className="flex items-center justify-between mt-1">
                     <span className="text-xs text-white/30">{v.year} · {v.duration}</span>
-                    <span className="text-xs text-[var(--color-accent)]">{v.viewCount} views</span>
+                    <span className="text-xs  text-[var(--color-accent)]">{v.viewCount} views</span>
                   </div>
                 </div>
               </div>

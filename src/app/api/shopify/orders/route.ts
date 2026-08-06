@@ -20,10 +20,9 @@ async function shopifyREST(endpoint: string) {
 }
 
 async function shopifyGQL(query: string) {
-  const res = await fetch(`https://${domain}/admin/api/2025-01/graphql.json`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': adminToken },
-    body: JSON.stringify({ query }),
+  const res = await fetch(`https://${domain}/admin/api/2025-01/graphql.json?query=${encodeURIComponent(query)}`, {
+    method: 'GET',
+    headers: { 'X-Shopify-Access-Token': adminToken },
     cache: 'no-store',
   });
   return res.json();

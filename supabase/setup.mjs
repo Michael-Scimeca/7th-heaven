@@ -57,16 +57,10 @@ ALTER TABLE public.live_feed ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.feed_reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.live_streams ENABLE ROW LEVEL SECURITY;
 
--- Open policies (dev mode - everyone can read/write)
+-- Public read policies
 DO $$ BEGIN CREATE POLICY "live_feed_select" ON public.live_feed FOR SELECT USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-DO $$ BEGIN CREATE POLICY "live_feed_insert" ON public.live_feed FOR INSERT WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-DO $$ BEGIN CREATE POLICY "live_feed_delete" ON public.live_feed FOR DELETE USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-DO $$ BEGIN CREATE POLICY "live_feed_update" ON public.live_feed FOR UPDATE USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN CREATE POLICY "reactions_select" ON public.feed_reactions FOR SELECT USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-DO $$ BEGIN CREATE POLICY "reactions_insert" ON public.feed_reactions FOR INSERT WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN CREATE POLICY "streams_select" ON public.live_streams FOR SELECT USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-DO $$ BEGIN CREATE POLICY "streams_insert" ON public.live_streams FOR INSERT WITH CHECK (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-DO $$ BEGIN CREATE POLICY "streams_update" ON public.live_streams FOR UPDATE USING (true); EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 -- Enable realtime
 DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.live_feed; EXCEPTION WHEN duplicate_object THEN NULL; END $$;

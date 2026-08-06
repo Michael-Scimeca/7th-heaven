@@ -180,7 +180,7 @@ export default function AdminFeaturesPage() {
       <div className="site-container py-16">
         {/* Header */}
         <div className="mb-12">
-          <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(255,10,61,0.3)]">
+          <span className="inline-block text-sm font-semibold tracking-[0.15em] uppercase  text-[var(--color-accent)] mb-4 px-6 py-1 border border-[rgba(255,10,61,0.3)]">
             Admin
           </span>
           <h1 className="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-tight">
@@ -206,7 +206,7 @@ export default function AdminFeaturesPage() {
               <p className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-1">
                 {stat.label}
               </p>
-              <p className={`text-2xl font-black ${stat.accent ? "text-[var(--color-accent)]" : "text-white"}`}>
+              <p className={`text-2xl font-black ${stat.accent ? " text-[var(--color-accent)]" : "text-white"}`}>
                 {stat.value}
               </p>
             </div>
@@ -226,11 +226,10 @@ export default function AdminFeaturesPage() {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`text-xs font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-all cursor-pointer ${
-                filter === tab.key
-                  ? "border-[var(--color-accent)] text-[var(--color-accent)] bg-[var(--color-accent)]/10"
+              className={`text-xs font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-all cursor-pointer ${filter === tab.key
+                  ? "border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/10"
                   : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -291,10 +290,10 @@ export default function AdminFeaturesPage() {
             🔑 Environment Setup
           </h2>
           <p className="text-sm text-white/50 mb-4">
-            Create a <code className="text-[var(--color-accent)]">.env.local</code> file in the project root with:
+            Create a <code className=" text-[var(--color-accent)]">.env.local</code> file in the project root with:
           </p>
           <pre className="bg-white/5 border border-white/10 p-4 text-sm text-white/70 overflow-x-auto">
-{`# YouTube
+            {`# YouTube
 YOUTUBE_API_KEY=your_youtube_api_key
 
 # Twilio SMS
