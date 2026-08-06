@@ -224,11 +224,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     return () => { link.remove(); }; // safe no-op if already detached
   }, []);
 
-  // Load Leaflet library once on mount
   useEffect(() => {
+    let active = true;
     import("leaflet").then((module) => {
-      setL(module);
+      if (active) setL(module);
     });
+    return () => { active = false; };
   }, []);
 
   // Initialize Leaflet Map once L is loaded

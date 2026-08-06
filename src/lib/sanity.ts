@@ -20,7 +20,7 @@ export const sanityWriteClient = createClient({
  dataset,
  apiVersion,
  useCdn: false,
- token: process.env.SANITY_API_TOKEN, // Server-side only — never expose
+ token: typeof window === 'undefined' ? process.env.SANITY_API_TOKEN : undefined, // Server-side only — never expose
 });
 
 // Image URL builder

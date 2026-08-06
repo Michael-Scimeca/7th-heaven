@@ -1,7 +1,6 @@
 import { Resend } from 'resend';
 
-// We use process.env.RESEND_API_KEY. For local dev without a key, we log it.
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
+const resend = new Resend((typeof window === 'undefined' ? process.env.RESEND_API_KEY : undefined) || 're_dummy_key');
 
 const UNSUBSCRIBE_BASE = 'https://7thheavenband.com/api/newsletter/unsubscribe';
 

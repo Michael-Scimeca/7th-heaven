@@ -625,24 +625,23 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   /* ── Scroll-driven card reveal ── */
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.cardVisible);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
 
     cardRefs.current.forEach((card) => {
-      if (!card) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            card.classList.add(styles.cardVisible);
-            obs.disconnect();
-          }
-        },
-        { threshold: 0.15 }
-      );
-      obs.observe(card);
-      observers.push(obs);
+      if (card) observer.observe(card);
     });
 
-    return () => observers.forEach(obs => obs.disconnect());
+    return () => observer.disconnect();
   }, [itinerary.length, layoutMode]);
 
   if (!itinerary || itinerary.length === 0) return null;
