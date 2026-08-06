@@ -196,6 +196,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             ) : videoId ? (
               <div className="relative aspect-video bg-black border border-white/10 overflow-hidden">
                 <iframe
+                  title="7th Heaven Live Stream Video"
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
                   className="absolute inset-0 w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

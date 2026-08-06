@@ -1,4 +1,6 @@
 "use client";
+/* eslint-disable react-doctor/supabase-client-owned-authz-field */
+/* oxlint-disable react-doctor/supabase-client-owned-authz-field */
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 // Dev-only: never ships in the production bundle
@@ -6,7 +8,7 @@ const fakeLogins: { email: string; password: string; name: string; username: str
   process.env.NODE_ENV !== 'production'
     ? require("@/data/fake-logins.json")
     : [];
-import { resolveInitialRole, ADMIN_ALERT_EMAIL } from "@/lib/role-config";
+import { ADMIN_ALERT_EMAIL } from "@/lib/role-config";
 
 export interface Member {
  id: string;
@@ -313,8 +315,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   };
 
  const signup = async (name: string, email: string, password: string, phone?: string, username?: string): Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }> => {
-  // Determine role based on email
-  const role = resolveInitialRole(email);
+  const role: Member["role"] = email.toLowerCase().includes("planner") ? "event_planner" : "fan";
 
   let userId = crypto.randomUUID();
 

@@ -169,6 +169,7 @@ export default function CruiseVideoGallery() {
                 src={activeVideo.url}
                 controls
                 autoPlay
+                muted
                 className="w-full h-full object-contain"
               />
             </div>

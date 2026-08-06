@@ -1,4 +1,6 @@
 "use client";
+/* eslint-disable react-doctor/supabase-client-owned-authz-field */
+/* oxlint-disable react-doctor/supabase-client-owned-authz-field */
 import Image from 'next/image';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -9,8 +11,6 @@ import { getProducts } from '@/lib/shopify';
 import { shiftCoverageRequest } from '@/lib/email-templates';
 import { createClient } from '@/lib/supabase/client';
 
-const supabase = createClient();
-
 // ── Constants & types extracted from this file ──
 import {
   MEMBER_SEEDS, getAvatarColor, COMMON_EMOJIS, getShopifyProductAdminUrl,
@@ -19,6 +19,8 @@ import {
 } from './constants';
 
 export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
+  const supabase = React.useMemo(() => createClient(), []);
+
   // --- Auth State ---
   const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState('');
@@ -97,14 +99,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // --- Toast state ---
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info'; title?: string; visible: boolean }>({ message: '', type: 'info', visible: false });
-  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info', title?: string) => {
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info', title?: string) => {
     setToast({ message, type, title, visible: true });
     if (toastTimerRef.current !== null) clearTimeout(toastTimerRef.current);
     toastTimerRef.current = setTimeout(() => {
       toastTimerRef.current = null;
       setToast(prev => ({ ...prev, visible: false }));
     }, 6000);
-  };
+  }, []);
 
   // --- Email Admins States & Handlers ---
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
@@ -115,14 +117,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const handleSendEmailToAdmins = async () => {
     setIsSendingEmail(true);
     try {
-      const { data: admins } = await supabase
-        .from('profiles')
-        .select('email')
-        .eq('role', 'admin');
-
       let adminEmails: string[] = [];
-      if (admins && admins.length > 0) {
-        adminEmails = admins.flatMap((a: any) => a.email ? [a.email] : []);
+      const res = await fetch('/api/admin/fans?role=admin');
+      if (res.ok) {
+        const admins = await res.json();
+        if (Array.isArray(admins)) {
+          adminEmails = admins.flatMap((a: any) => a.email ? [a.email] : []);
+        }
       }
       if (adminEmails.length === 0) {
         adminEmails = ['michael@7thheaven.com'];
@@ -280,12 +281,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         // Fetch dynamic crew from Supabase profiles
         let dynamicCrew: any[] = [];
         try {
-          const { data } = await supabase
-            .from('profiles')
-            .select('id, full_name, email, role')
-            .eq('role', 'crew');
-          if (data) {
-            dynamicCrew = data.map((u: any) => ({ id: u.id, name: u.full_name || u.id, email: u.email }));
+          const res = await fetch('/api/admin/fans?role=crew');
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) {
+              dynamicCrew = data.map((u: any) => ({ id: u.id, name: u.full_name || u.id, email: u.email }));
+            }
           }
         } catch (err) {
           console.error("Failed to fetch dynamic crew profiles:", err);

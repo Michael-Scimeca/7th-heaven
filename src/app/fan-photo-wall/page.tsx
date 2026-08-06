@@ -529,6 +529,7 @@ export default function FansPage() {
                   className="w-full max-h-[70vh] object-contain"
                   controls
                   autoPlay
+                  muted
                   playsInline
                 />
               ) : (
