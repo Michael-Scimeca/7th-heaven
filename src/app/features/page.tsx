@@ -1288,8 +1288,8 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <p className="text-sm font-black uppercase tracking-widest text-white/30 mb-3">What it does</p>
           <ul className="space-y-2">
-            {f.bullets.map((b, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-lg text-white/60">
+            {f.bullets.map((b) => (
+              <li key={`bullet-${b.slice(0, 20)}`} className="flex items-start gap-2.5 text-lg text-white/60">
                 <span className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`} />
                 {b}
               </li>
@@ -1308,7 +1308,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
           </button>
           {expanded && (
             <div className="mt-3 space-y-2.5">
-              {f.howItWorks.map((h, i) => (
+              {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(({ h, i }) => (
                 <div key={i} className="flex items-start gap-3 text-base text-white/40 leading-relaxed">
                   <span className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-sm font-black mt-0.5 ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-white/5 text-white/30"}`}>{i + 1}</span>
                   {h}
@@ -1472,7 +1472,7 @@ export default function FeaturesPage() {
                   {/* Floating emoji reactions */}
                   <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     {["🔥", "🎸", "❤️", "🤘", "⚡", "🎶", "💜", "🔥"].map((e, i) => (
-                      <div key={i} className="absolute text-xl animate-pulse" style={{
+                      <div key={`emoji-${i}-${e}`} className="absolute text-xl animate-pulse" style={{
                         left: `${10 + i * 11}%`,
                         bottom: `${20 + (i % 3) * 15}%`,
                         animationDelay: `${i * 0.3}s`,
@@ -1520,7 +1520,7 @@ export default function FeaturesPage() {
 
                   {/* Messages */}
                   <div className="flex-1 overflow-hidden px-3 py-3 flex flex-col gap-2 justify-end">
-                    {[
+                    {Array.from([
                       { user: "RockFan99", msg: "This song is 🔥🔥🔥", color: "#c084fc" },
                       { user: "JennyM", msg: "Been waiting ALL week for this!", color: "#60a5fa" },
                       { user: "TonyB", msg: "Best live band in Chicago no cap", color: "#34d399" },
@@ -1529,7 +1529,7 @@ export default function FeaturesPage() {
                       { user: "DaveS", msg: "When's the merch drop??", color: "#a78bfa" },
                       { user: "SarahT", msg: "I'm literally crying rn 💜", color: "#2dd4bf" },
                       { user: "7thHeavenFan", msg: "Hype at 87%!! 🚀", color: "#c084fc" },
-                    ].map((m, i) => (
+                    ], (m, i) => ({ m, i })).map(({ m, i }) => (
                       <div key={i} className="flex items-start gap-1.5 animate-none">
                         <span className="text-xs font-black shrink-0" style={{ color: m.color }}>{m.user}</span>
                         <span className="text-xs text-white/60 leading-tight">{m.msg}</span>
@@ -1636,14 +1636,14 @@ export default function FeaturesPage() {
 
                   <div className="flex-1 bg-black/30 border border-white/[0.06] overflow-hidden flex flex-col" style={{ minHeight: "260px" }}>
                     <div className="flex-1 p-3 flex flex-col gap-2 justify-end overflow-hidden">
-                      {[
+                      {Array.from([
                         { user: "RockFan99", msg: "This song is 🔥🔥🔥", flag: false, color: "#c084fc" },
                         { user: "JennyM", msg: "Been waiting ALL week!", flag: false, color: "#60a5fa" },
                         { user: "TonyB", msg: "Best live band in Chicago", flag: false, color: "#34d399" },
                         { user: "SpamBot42", msg: "FREE tickets → spam-url.co/7th", flag: true, color: "#f87171" },
                         { user: "KayleighR", msg: "🤘🤘🤘🤘🤘", flag: false, color: "#fb923c" },
                         { user: "MikeC", msg: "Guitar solo was incredible!", flag: false, color: "#f472b6" },
-                      ].map((m, i) => (
+                      ], (m, i) => ({ m, i })).map(({ m, i }) => (
                         <div key={i} className={`flex items-center gap-2 p-1.5 rounded-lg ${m.flag ? "bg-red-500/10 border border-red-500/20" : "hover:bg-white/[0.02]"} group`}>
                           {m.flag && <span className="text-red-400 text-xs shrink-0">⚠</span>}
                           <div className="flex-1 min-w-0">
@@ -1850,7 +1850,7 @@ export default function FeaturesPage() {
                           { name: "Wedding Reception", org: "Sarah & Tom K.", venue: "Drury Lane", date: "Jan 22", budget: "$3,800", type: "Wedding", status: "pending" },
                           { name: "Summer Block Party", org: "Lakeview Assoc.", venue: "Wrigleyville", date: "Jul 4", budget: "$2,100", type: "Festival", status: "approved" },
                         ].map((b, i) => (
-                          <div key={i} className="px-4 py-3 hover:bg-white/[0.02] transition-colors">
+                          <div key={b.name} className="px-4 py-3 hover:bg-white/[0.02] transition-colors">
                             <div className="flex items-start justify-between gap-2 mb-1">
                               <div>
                                 <div className="text-white/85 text-xs font-bold">{b.name}</div>
@@ -1892,7 +1892,7 @@ export default function FeaturesPage() {
                           { bg: "from-[#001a2a] via-[#002d3d] to-[#00080d]", label: "MelM · Wrig", ok: true, glow: "#3b82f6" },
                           { bg: "from-[#1a1500] via-[#2d2200] to-[#0d0900]", label: "superfan99", ok: true, glow: "#eab308" },
                         ].map((p, i) => (
-                          <div key={i} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? 'border-white/10 hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-colors`}>
+                          <div key={p.label} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? 'border-white/10 hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-colors`}>
                             <div className="absolute inset-0">
                               <div className="absolute top-0 left-1/3 w-6 h-12 rounded-full opacity-50" style={{ background: p.glow, filter: 'blur(8px)' }} />
                               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40">
@@ -1925,7 +1925,7 @@ export default function FeaturesPage() {
                             { name: "nate_bass", tier: "Bronze", time: "11m ago", color: "#22d3ee" },
                             { name: "LaurenLive", tier: "Silver", time: "34m ago", color: "#a3e635" },
                           ].map((f, i) => (
-                            <div key={i} className="flex items-center gap-2">
+                            <div key={f.name} className="flex items-center gap-2">
                               <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-black shrink-0" style={{ background: `${f.color}25`, color: f.color }}>{f.name[0].toUpperCase()}</div>
                               <span className="text-white/60 text-xs flex-1 font-bold">{f.name}</span>
                               <span className="text-xs px-1.5 py-0.5 rounded-full font-bold" style={{ background: `${f.color}15`, color: f.color, border: `1px solid ${f.color}30` }}>{f.tier}</span>
@@ -1948,7 +1948,7 @@ export default function FeaturesPage() {
                             { name: "Michael S.", room: "live_michael", viewers: "1,247", duration: "1:23:47", peak: "1,891" },
                             { name: "Sammy D.", room: "live_sammy", viewers: "412", duration: "0:44:12", peak: "530" },
                           ].map((s, i) => (
-                            <div key={i} className="px-4 py-3">
+                            <div key={s.room} className="px-4 py-3">
                               <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center gap-2">
                                   <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
@@ -1998,7 +1998,7 @@ export default function FeaturesPage() {
                             { time: "14:02:17", action: "live_michael started · 0 viewers", color: "#60a5fa" },
                             { time: "13:55:44", action: "admin login · 192.168.1.x", color: "#c084fc" },
                           ].map((log, i) => (
-                            <div key={i} className="flex gap-2 items-start">
+                            <div key={`audit-${log.time}`} className="flex gap-2 items-start">
                               <span className="text-white/20 shrink-0">{log.time}</span>
                               <span style={{ color: log.color }} className="opacity-75">{log.action}</span>
                             </div>
@@ -2292,7 +2292,7 @@ export default function FeaturesPage() {
           </div>
           <p className="text-white/35 mb-12 max-w-2xl">The ten defining features of the platform — each explained in full with bullet points, business impact, and a technical walkthrough. Click <em>How It Works</em> on any card to expand the technical detail.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {highlights.map((f, i) => <FeatureCardUI key={i} f={f} />)}
+            {highlights.map((f) => <FeatureCardUI key={f.title} f={f} />)}
           </div>
         </div>
       </section>
@@ -2320,7 +2320,7 @@ export default function FeaturesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {filtered.map((f, i) => <FeatureCardUI key={`${activeCategory}-${i}`} f={f} />)}
+            {filtered.map((f) => <FeatureCardUI key={f.title} f={f} />)}
           </div>
         </div>
       </section>
@@ -2335,7 +2335,7 @@ export default function FeaturesPage() {
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-colors cursor-default">
+              <div key={t.name} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base font-black uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>

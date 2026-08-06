@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface Milestone {
   threshold: number;
@@ -42,25 +42,33 @@ export default function ReferralProgramPanel() {
   const [newEmoji, setNewEmoji] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
 
-  // Load config + leaderboard
-  useEffect(() => {
-    Promise.all([
-      fetch("/api/admin/referral-config").then((r) => r.json()),
-      fetch("/api/admin/referral-leaderboard").then((r) => r.json()),
-    ])
-      .then(([config, lb]) => {
-        if (config) {
-          setEnabled(config.enabled ?? false);
-          if (config.milestones?.length) setMilestones(config.milestones);
-        }
-        if (lb) {
-          setLeaderboard(lb.leaderboard || []);
-          setTotalReferrals(lb.totalReferrals || 0);
-          setTotalConverted(lb.totalConverted || 0);
-        }
-      })
-      .finally(() => setLoading(false));
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [configRes, lbRes] = await Promise.all([
+        fetch("/api/admin/referral-config"),
+        fetch("/api/admin/referral-leaderboard"),
+      ]);
+      const config = await configRes.json();
+      const lb = await lbRes.json();
+      if (config) {
+        setEnabled(config.enabled ?? false);
+        if (config.milestones?.length) setMilestones(config.milestones);
+      }
+      if (lb) {
+        setLeaderboard(lb.leaderboard || []);
+        setTotalReferrals(lb.totalReferrals || 0);
+        setTotalConverted(lb.totalConverted || 0);
+      }
+    } catch { }
+    finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const toggleEnabled = async () => {
     setToggling(true);
@@ -108,10 +116,13 @@ export default function ReferralProgramPanel() {
       body: JSON.stringify({ referrer_code, action: "mark_rewarded" }),
     });
     // Refresh leaderboard
-    const lb = await fetch("/api/admin/referral-leaderboard").then((r) => r.json());
-    if (lb) {
-      setLeaderboard(lb.leaderboard || []);
-      setTotalConverted(lb.totalConverted || 0);
+    const res = await fetch("/api/admin/referral-leaderboard");
+    if (res.ok) {
+      const lb = await res.json();
+      if (lb) {
+        setLeaderboard(lb.leaderboard || []);
+        setTotalConverted(lb.totalConverted || 0);
+      }
     }
   };
 
@@ -201,9 +212,9 @@ export default function ReferralProgramPanel() {
 
           {/* Existing milestones */}
           <div className="space-y-2 mb-3">
-            {milestones.map((m, i) => (
+            {Array.from(milestones, (m, i) => ({ m, i })).map(({ m, i }) => (
               <div
-                key={i}
+                key={m.threshold}
                 className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 group"
               >
                 <div className="flex items-center gap-3">
@@ -234,10 +245,11 @@ export default function ReferralProgramPanel() {
               </p>
               <div className="flex items-center gap-3">
                 <div>
-                  <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
+                  <label htmlFor="referral-new-threshold" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
                     Referrals Needed
                   </label>
                   <input
+                    id="referral-new-threshold"
                     type="number"
                     min={1}
                     value={newThreshold || ""}
@@ -246,10 +258,11 @@ export default function ReferralProgramPanel() {
                   />
                 </div>
                 <div className="flex-1">
-                  <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
+                  <label htmlFor="referral-new-reward" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
                     Reward
                   </label>
                   <input
+                    id="referral-new-reward"
                     type="text"
                     value={newReward}
                     onChange={(e) => setNewReward(e.target.value)}
@@ -258,10 +271,11 @@ export default function ReferralProgramPanel() {
                   />
                 </div>
                 <div>
-                  <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
+                  <label htmlFor="referral-new-emoji" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">
                     Emoji
                   </label>
                   <input
+                    id="referral-new-emoji"
                     type="text"
                     value={newEmoji}
                     onChange={(e) => setNewEmoji(e.target.value)}
@@ -298,9 +312,9 @@ export default function ReferralProgramPanel() {
             Fan-facing preview
           </p>
           <div className="flex items-center gap-2">
-            {milestones.map((m, i) => (
+            {milestones.map((m) => (
               <div
-                key={i}
+                key={m.threshold}
                 className="flex-1 text-center p-2 bg-white/[0.02] border border-white/5 rounded-lg"
               >
                 <p className="text-lg font-black text-purple-300">{m.threshold}</p>

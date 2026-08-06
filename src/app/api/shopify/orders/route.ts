@@ -16,6 +16,7 @@ async function shopifyREST(endpoint: string) {
     headers: { 'X-Shopify-Access-Token': adminToken },
     cache: 'no-store',
   });
+  if (!res.ok) return { error: `HTTP ${res.status}` };
   return res.json();
 }
 
@@ -25,6 +26,7 @@ async function shopifyGQL(query: string) {
     headers: { 'X-Shopify-Access-Token': adminToken },
     cache: 'no-store',
   });
+  if (!res.ok) return { error: `HTTP ${res.status}` };
   return res.json();
 }
 

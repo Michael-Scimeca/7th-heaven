@@ -148,11 +148,11 @@ export default function BulkInvitePanel() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ invites: batch }),
         });
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-          successCount += data.successCount;
-          failedCount += data.failedCount;
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) {
+            successCount += data.successCount;
+            failedCount += data.failedCount;
 
           // Build a lookup map of failures
           const failureMap = new Map<string, string>();
@@ -179,6 +179,7 @@ export default function BulkInvitePanel() {
                 : inv
             )
           );
+        }
         }
       } catch (err: any) {
         failedCount += batch.length;
@@ -237,8 +238,9 @@ export default function BulkInvitePanel() {
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label className="text-xs uppercase tracking-[0.15em] text-black/70 font-black">Copy-Paste Contact List</label>
+            <label htmlFor="bulk-invite-text-input" className="text-xs uppercase tracking-[0.15em] text-black/70 font-black">Copy-Paste Contact List</label>
             <textarea
+              id="bulk-invite-text-input"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
@@ -311,8 +313,8 @@ export default function BulkInvitePanel() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-black/5">
-                {invites.map((inv, idx) => (
-                  <tr key={idx} className="hover:bg-black/[0.01] transition-colors">
+                {invites.map((inv) => (
+                  <tr key={inv.email} className="hover:bg-black/[0.01] transition-colors">
                     <td className="py-3.5 px-4 font-bold text-black">{inv.email}</td>
                     <td className="py-3.5 px-4 text-black/70 font-semibold">{inv.name || <span className="italic text-black/30">N/A</span>}</td>
                     <td className="py-3.5 px-4 text-right">

@@ -159,7 +159,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
   // Load saved orders from localStorage
   useEffect(() => {
     try {
-      const existing = localStorage.getItem("7h_qr_merch_orders");
+      const existing = localStorage.getItem("7h_qr_merch_orders_v1") || localStorage.getItem("7h_qr_merch_orders");
       if (existing) {
         const parsed: OrderRecord[] = JSON.parse(existing);
         savedOrdersRef.current = parsed;
@@ -216,11 +216,11 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
     const updatedOrders = [newOrder, ...savedOrdersRef.current];
     savedOrdersRef.current = updatedOrders;
     setActiveOrder(newOrder);
-    localStorage.setItem("7h_qr_merch_orders", JSON.stringify(updatedOrders));
+    localStorage.setItem("7h_qr_merch_orders_v1", JSON.stringify(updatedOrders));
 
     // Also push to band Merch Queue in localStorage for live merch desk scanner
     try {
-      const queueRaw = localStorage.getItem("merch_pickup_queue") || "[]";
+      const queueRaw = localStorage.getItem("merch_pickup_queue_v1") || localStorage.getItem("merch_pickup_queue") || "[]";
       const queue = JSON.parse(queueRaw);
       queue.unshift({
         id: Date.now(),
@@ -233,7 +233,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
         claimed: false,
         size: selectedSize,
       });
-      localStorage.setItem("merch_pickup_queue", JSON.stringify(queue));
+      localStorage.setItem("merch_pickup_queue_v1", JSON.stringify(queue));
     } catch (err) {
       console.error("Failed to sync to merch_pickup_queue:", err);
     }
@@ -268,7 +268,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
         shippingAddress: { street, city, state, zip },
       });
     }
-    localStorage.setItem("7h_qr_merch_orders", JSON.stringify(updated));
+    localStorage.setItem("7h_qr_merch_orders_v1", JSON.stringify(updated));
     setShowSwitchToShippingModal(false);
     setSwitchOrderTarget(null);
   };
@@ -554,7 +554,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               {/* Size Selector if available */}
               {selectedProduct.sizes && selectedProduct.sizes.length > 0 && (
                 <div>
-                  <label className="text-xs font-black uppercase tracking-wider text-white/70 block mb-2">Select Size</label>
+                  <span className="text-xs font-black uppercase tracking-wider text-white/70 block mb-2">Select Size</span>
                   <div className="flex flex-wrap gap-2">
                     {selectedProduct.sizes.map(size => (
                       <button
@@ -575,7 +575,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               {/* Fulfillment Method Selector */}
               <div>
-                <label className="text-xs font-black uppercase tracking-wider text-white/70 block mb-2">Fulfillment Option</label>
+                <span className="text-xs font-black uppercase tracking-wider text-white/70 block mb-2">Fulfillment Option</span>
                 <div className="grid grid-cols-2 gap-3">
 
                   {/* Option 1: Merch Table Pickup */}
@@ -612,8 +612,9 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               {/* Customer Contact Details */}
               <div className="space-y-3 pt-2">
                 <div>
-                  <label className="text-[var(--font-size-2xs)] font-bold uppercase text-white/50 block mb-1">Your Full Name</label>
+                  <label htmlFor="qr-merch-customer-name" className="text-[var(--font-size-2xs)] font-bold uppercase text-white/50 block mb-1">Your Full Name</label>
                   <input
+                    id="qr-merch-customer-name"
                     type="text"
                     required
                     placeholder="e.g. Alex Miller"
@@ -624,8 +625,9 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 </div>
 
                 <div>
-                  <label className="text-[var(--font-size-2xs)] font-bold uppercase text-white/50 block mb-1">Email Address for Receipt & PIN</label>
+                  <label htmlFor="qr-merch-customer-email" className="text-[var(--font-size-2xs)] font-bold uppercase text-white/50 block mb-1">Email Address for Receipt & PIN</label>
                   <input
+                    id="qr-merch-customer-email"
                     type="email"
                     required
                     placeholder="alex@example.com"

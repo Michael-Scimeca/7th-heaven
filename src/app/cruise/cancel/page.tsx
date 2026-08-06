@@ -17,8 +17,11 @@ function CancelContent() {
     setStatus("cancelling");
     try {
       const res = await fetch(`/api/cruise/signup?token=${token}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to cancel");
+      }
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to cancel");
       setStatus("success");
       setName(data.name || "");
     } catch (err: any) {

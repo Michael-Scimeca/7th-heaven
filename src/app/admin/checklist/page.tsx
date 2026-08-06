@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface IntegrationStatus {
   connected: boolean;
@@ -24,32 +24,36 @@ export default function SetupChecklistPage() {
   const [loading, setLoading] = useState(true);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
-  useEffect(() => {
-    // Fetch live status of environment variables
-    fetch("/api/admin/setup-status")
-      .then((res) => res.json())
-      .then((data) => {
+  const fetchStatus = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/setup-status");
+      if (res.ok) {
+        const data = await res.json();
         setStatus(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to load status:", err);
-        setLoading(false);
-      });
+      }
+    } catch (err) {
+      console.error("Failed to load status:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStatus();
 
     // Load manual checkboxes from localStorage
-    const saved = localStorage.getItem("7h_setup_checklist_items");
+    const saved = localStorage.getItem("7h_setup_checklist_items_v1") || localStorage.getItem("7h_setup_checklist_items");
     if (saved) {
       try {
         setCheckedItems(JSON.parse(saved));
       } catch { }
     }
-  }, []);
+  }, [fetchStatus]);
 
   const handleToggle = (id: string) => {
     const updated = { ...checkedItems, [id]: !checkedItems[id] };
     setCheckedItems(updated);
-    localStorage.setItem("7h_setup_checklist_items", JSON.stringify(updated));
+    localStorage.setItem("7h_setup_checklist_items_v1", JSON.stringify(updated));
   };
 
   const countConnected = () => {

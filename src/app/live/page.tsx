@@ -210,13 +210,19 @@ export default function LiveHubPage() {
     return () => clearInterval(t);
   }, []);
 
-  // Fetch live alerts setting
-  useEffect(() => {
-    fetch("/api/admin/settings?key=live_alerts_enabled")
-      .then(r => r.json())
-      .then(d => { if (d.value === "off") setLiveAlertsEnabled(false); })
-      .catch(() => {});
+  const fetchAlertsSetting = useCallback(async () => {
+    try {
+      const r = await fetch("/api/admin/settings?key=live_alerts_enabled");
+      if (r.ok) {
+        const d = await r.json();
+        if (d.value === "off") setLiveAlertsEnabled(false);
+      }
+    } catch { }
   }, []);
+
+  useEffect(() => {
+    fetchAlertsSetting();
+  }, [fetchAlertsSetting]);
 
   const addLog = useCallback((action: string, user: string) => {
     setModLog(prev => [{ id: `mod-${Date.now()}`, action, user, time: Date.now() }, ...prev.slice(0, 49)]);

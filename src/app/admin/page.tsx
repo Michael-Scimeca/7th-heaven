@@ -147,8 +147,9 @@ export default function AdminGatewayPage() {
             ) : (
               <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                 <div>
-                  <label className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block font-bold">Email</label>
+                  <label htmlFor="root-admin-login-email" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block font-bold">Email</label>
                   <input
+                    id="root-admin-login-email"
                     type="email"
                     value={adminEmail}
                     onChange={e => setAdminEmail(e.target.value)}
@@ -160,8 +161,9 @@ export default function AdminGatewayPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block font-bold">Password</label>
+                  <label htmlFor="root-admin-login-password" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block font-bold">Password</label>
                   <input
+                    id="root-admin-login-password"
                     type="password"
                     value={adminPassword}
                     onChange={e => setAdminPassword(e.target.value)}

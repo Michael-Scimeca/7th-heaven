@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 
@@ -23,7 +23,7 @@ function formatMessageContent(content: string) {
       const isAdminTag = ['@admin', '@crew', '@moderator', '@mary', '@michael', '@tony', '@sammy', '@ryan', '@abbie'].some(t => tagLower.startsWith(t));
       return (
         <span
-          key={i}
+          key={`tag-${i}-${part}`}
           className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 rounded font-black text-xs border ${isAdminTag
             ? 'bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)] shadow-[0_0_8px_var(--color-purple-glow)]'
             : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
@@ -173,44 +173,48 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   const CHAT_ARCHIVE_DATE = CRUISE_END_DATE + (14 * 24 * 60 * 60 * 1000);
   const isArchived = Date.now() > CHAT_ARCHIVE_DATE;
 
-  useEffect(() => {
-    const fetchHistory = async () => {
-      const { data, error } = await supabase
-        .from("chat_messages")
-        .select("*")
-        .eq("room", room)
-        .order("created_at", { ascending: false })
-        .limit(50);
+  const fetchHistory = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .eq("room", room)
+      .order("created_at", { ascending: false })
+      .limit(50);
 
-      if (!error && data && data.length > 0) {
-        setMessages(data.reverse());
-      } else {
-        setMessages([
-          { id: '1', sender_name: 'TommyGuitar', sender_role: 'fan', sender_avatar: 'TG', content: 'GET YOUR PHONES UP 📱', created_at: new Date(Date.now() - 600000).toISOString() },
-          { id: '2', sender_name: 'ashley__xo', sender_role: 'fan', sender_avatar: 'AX', content: 'the energy in here is UNREAL', created_at: new Date(Date.now() - 540000).toISOString() },
-          { id: '3', sender_name: 'Jake7H', sender_role: 'fan', sender_avatar: 'J7', content: 'watching from my car in the parking lot lol 😂', created_at: new Date(Date.now() - 480000).toISOString() },
-          { id: '4', sender_name: 'drummer_kid', sender_role: 'fan', sender_avatar: 'DK', content: 'i drove 6 hours for this', created_at: new Date(Date.now() - 420000).toISOString() },
-          { id: '5', sender_name: 'MidwestMama', sender_role: 'fan', sender_avatar: 'MW', content: 'PIT IS INSANE RN', created_at: new Date(Date.now() - 360000).toISOString() },
-          { id: '6', sender_name: 'StaceyB', sender_role: 'fan', sender_avatar: 'SB', content: 'FRONT ROW BABY', created_at: new Date(Date.now() - 300000).toISOString() },
-          { id: '7', sender_name: 'StaceyB', sender_role: 'fan', sender_avatar: 'SB', content: '🤘🤘🤘 sending love from the back row', created_at: new Date(Date.now() - 240000).toISOString() },
-          { id: '8', sender_name: 'rockerdan', sender_role: 'fan', sender_avatar: 'RD', content: 'PLAY SING NEXT PLEASE 🎵', created_at: new Date(Date.now() - 180000).toISOString() },
-          { id: '9', sender_name: 'MidwestMama', sender_role: 'fan', sender_avatar: 'MW', content: 'my 15th 7H show and they keep getting better', created_at: new Date(Date.now() - 120000).toISOString() },
-          { id: '10', sender_name: 'drummer_kid', sender_role: 'fan', sender_avatar: 'DK', content: 'who else is crying rn 😭', created_at: new Date(Date.now() - 60000).toISOString() },
-        ]);
-      }
-    };
+    if (!error && data && data.length > 0) {
+      setMessages(data.reverse());
+    } else {
+      setMessages([
+        { id: '1', sender_name: 'TommyGuitar', sender_role: 'fan', sender_avatar: 'TG', content: 'GET YOUR PHONES UP 📱', created_at: new Date(Date.now() - 600000).toISOString() },
+        { id: '2', sender_name: 'ashley__xo', sender_role: 'fan', sender_avatar: 'AX', content: 'the energy in here is UNREAL', created_at: new Date(Date.now() - 540000).toISOString() },
+        { id: '3', sender_name: 'Jake7H', sender_role: 'fan', sender_avatar: 'J7', content: 'watching from my car in the parking lot lol 😂', created_at: new Date(Date.now() - 480000).toISOString() },
+        { id: '4', sender_name: 'drummer_kid', sender_role: 'fan', sender_avatar: 'DK', content: 'i drove 6 hours for this', created_at: new Date(Date.now() - 420000).toISOString() },
+        { id: '5', sender_name: 'MidwestMama', sender_role: 'fan', sender_avatar: 'MW', content: 'PIT IS INSANE RN', created_at: new Date(Date.now() - 360000).toISOString() },
+        { id: '6', sender_name: 'StaceyB', sender_role: 'fan', sender_avatar: 'SB', content: 'FRONT ROW BABY', created_at: new Date(Date.now() - 300000).toISOString() },
+        { id: '7', sender_name: 'StaceyB', sender_role: 'fan', sender_avatar: 'SB', content: '🤘🤘🤘 sending love from the back row', created_at: new Date(Date.now() - 240000).toISOString() },
+        { id: '8', sender_name: 'rockerdan', sender_role: 'fan', sender_avatar: 'RD', content: 'PLAY SING NEXT PLEASE 🎵', created_at: new Date(Date.now() - 180000).toISOString() },
+        { id: '9', sender_name: 'MidwestMama', sender_role: 'fan', sender_avatar: 'MW', content: 'my 15th 7H show and they keep getting better', created_at: new Date(Date.now() - 120000).toISOString() },
+        { id: '10', sender_name: 'drummer_kid', sender_role: 'fan', sender_avatar: 'DK', content: 'who else is crying rn 😭', created_at: new Date(Date.now() - 60000).toISOString() },
+      ]);
+    }
+  }, [room, supabase]);
 
-    fetchHistory();
-
-    const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
-
-    fetch("/api/cruise/chat-pin")
-      .then(res => res.json())
-      .then(data => {
+  const fetchChatPin = useCallback(async () => {
+    try {
+      const res = await fetch("/api/cruise/chat-pin");
+      if (res.ok) {
+        const data = await res.json();
         if (data.chatEnabled !== undefined) setChatEnabled(data.chatEnabled);
-        setIsLoading(false);
-      })
-      .catch(() => setIsLoading(false));
+      }
+    } catch { }
+    finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchHistory();
+    fetchChatPin();
 
     const channel = supabase
       .channel(`room_${room}`)
@@ -242,7 +246,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchHistory, fetchChatPin]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -312,11 +316,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         })
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
         alert(`Message rejected: ${data.error}`);
       } else {
+        const data = await res.json();
         setNewMessage("");
       }
     } catch (err) {

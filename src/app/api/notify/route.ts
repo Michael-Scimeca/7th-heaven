@@ -67,6 +67,9 @@ export async function POST(request: Request) {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `response=${captchaToken}&secret=${process.env.HCAPTCHA_SECRET}`,
       });
+      if (!captchaRes.ok) {
+        return NextResponse.json({ error: "CAPTCHA verification request failed" }, { status: 403 });
+      }
       const captchaData = await captchaRes.json();
       if (!captchaData.success) {
         return NextResponse.json({ error: "CAPTCHA verification failed" }, { status: 403 });

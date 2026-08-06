@@ -3,7 +3,7 @@
 import { useMember } from "@/context/MemberContext";
 import { useRouter, useParams, redirect } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import DOMPurify from "dompurify";
 import CruiseChat from "@/components/CruiseChat";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
@@ -33,7 +33,7 @@ function PassengersWidget() {
 
       <div className="flex items-center relative z-10">
         <div className="flex -space-x-3">
-          {avatars.map((initials, i) => {
+          {Array.from(avatars, (initials, i) => ({ initials, i })).map(({ initials, i }) => {
             const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
             return (
               <div key={i} className={`w-10 h-10 rounded-full border-2 border-white ${colors[i % colors.length]} flex items-center justify-center overflow-hidden shadow-md hover:-translate-y-1 transition-transform cursor-pointer relative z-[${10 - i}]`}>
@@ -207,71 +207,69 @@ export default function CruiseDashboard() {
   } as any);
   const isAdmin = effectiveMember?.role === 'admin' || effectiveMember?.role === 'crew' || member?.role === 'admin';
 
-  useEffect(() => {
-    // Only load data if user is logged in or dev bypass is active
-    if (!showAuth) {
-      // Load Cruise Itinerary
-      fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
-        .then(res => res.ok ? res.json() : null)
-        .then(data => {
-          if (!data) {
-            setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
-            return;
-          }
-          let actualData = data;
-          let attempts = 0;
-          while (typeof actualData === 'string' && attempts < 3) {
-            try { actualData = JSON.parse(actualData); } catch (e) { break; }
-            attempts++;
-          }
-          if (Array.isArray(actualData) && actualData.length > 0) {
-            setItinerary(actualData);
-          } else {
-            setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
-          }
-        })
-        .catch(() => {
+  const loadCruiseData = useCallback(async () => {
+    if (showAuth) return;
+    try {
+      const res = await fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' });
+      const data = res.ok ? await res.json() : null;
+      if (!data) {
+        setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
+      } else {
+        let actualData = data;
+        let attempts = 0;
+        while (typeof actualData === 'string' && attempts < 3) {
+          try { actualData = JSON.parse(actualData); } catch (e) { break; }
+          attempts++;
+        }
+        if (Array.isArray(actualData) && actualData.length > 0) {
+          setItinerary(actualData);
+        } else {
           setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
-        });
-
-      fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' })
-        .then(res => res.ok ? res.json() : null)
-        .then(data => {
-          let actualData = data;
-          let attempts = 0;
-          while (typeof actualData === 'string' && attempts < 3) {
-            try { actualData = JSON.parse(actualData); } catch (e) { break; }
-            attempts++;
-          }
-
-          if (actualData?.message) {
-            setAnnouncement(actualData.message);
-            setAnnouncementInput(actualData.message);
-            const subj = actualData?.subject || actualData?.title || '';
-            setAnnouncementTitle(subj);
-            setAnnouncementTitleInput(subj);
-          } else {
-            setAnnouncement(null); // Ensure it clears if empty
-            setAnnouncementInput('');
-            setAnnouncementTitle('');
-            setAnnouncementTitleInput('');
-          }
-        })
-        .catch(() => { });
-
-      fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' })
-        .then(res => res.ok ? res.json() : null)
-        .then(data => {
-          if (data?.title) {
-            setGuidelines(data);
-            setGuidelinesTitleInput(data.title || "Cruise Information & Guidelines");
-            setGuidelinesSubtitleInput(data.subtitle || "Cruiser Welcome Pack");
-            setGuidelinesContentInput(data.content || "");
-          }
-        })
-        .catch(() => { });
+        }
+      }
+    } catch {
+      setItinerary(DEFAULT_CARIBBEAN_ITINERARY);
     }
+
+    try {
+      const res = await fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' });
+      const data = res.ok ? await res.json() : null;
+      let actualData = data;
+      let attempts = 0;
+      while (typeof actualData === 'string' && attempts < 3) {
+        try { actualData = JSON.parse(actualData); } catch (e) { break; }
+        attempts++;
+      }
+
+      if (actualData?.message) {
+        setAnnouncement(actualData.message);
+        setAnnouncementInput(actualData.message);
+        const subj = actualData?.subject || actualData?.title || '';
+        setAnnouncementTitle(subj);
+        setAnnouncementTitleInput(subj);
+      } else {
+        setAnnouncement(null);
+        setAnnouncementInput('');
+        setAnnouncementTitle('');
+        setAnnouncementTitleInput('');
+      }
+    } catch { }
+
+    try {
+      const res = await fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' });
+      const data = res.ok ? await res.json() : null;
+      if (data?.title) {
+        setGuidelines(data);
+        setGuidelinesTitleInput(data.title || "Cruise Information & Guidelines");
+        setGuidelinesSubtitleInput(data.subtitle || "Cruiser Welcome Pack");
+        setGuidelinesContentInput(data.content || "");
+      }
+    } catch { }
   }, [showAuth]);
+
+  useEffect(() => {
+    loadCruiseData();
+  }, [loadCruiseData]);
 
   const [guidelines, setGuidelines] = useState<{ title: string; subtitle: string; content: string }>({
     title: "Cruise Information & Guidelines",
@@ -372,11 +370,12 @@ export default function CruiseDashboard() {
         })
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setAuthError(data.error || 'Failed to submit registration request.');
-      } else {
+      if (res.ok) {
+        const data = await res.json();
         setVerifyingPin(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setAuthError(data.error || 'Failed to submit registration request.');
       }
     } catch (err: any) {
       setAuthError(err.message || 'An error occurred during registration.');
@@ -404,11 +403,8 @@ export default function CruiseDashboard() {
         })
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setAuthError(data.error || 'Verification failed.');
-      } else {
-        // Verification succeeded! Auto-login using the password they provided
+      if (res.ok) {
+        const data = await res.json();
         const success = await login(email, password);
         if (success) {
           setVerifyingPin(false);
@@ -418,6 +414,9 @@ export default function CruiseDashboard() {
           setVerifyingPin(false);
           setAuthTab('login');
         }
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setAuthError(data.error || 'Verification failed.');
       }
     } catch (err: any) {
       setAuthError(err.message || 'An error occurred during verification.');
@@ -472,8 +471,9 @@ export default function CruiseDashboard() {
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
+                    <label htmlFor="cruise-user-pin-input" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
                     <input
+                      id="cruise-user-pin-input"
                       type="text"
                       required
                       placeholder="123456"
@@ -525,12 +525,12 @@ export default function CruiseDashboard() {
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
                       <p className="text-black/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address</label>
-                        <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <label htmlFor="cruise-hub-login-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address</label>
+                        <input id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Password</label>
-                        <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <label htmlFor="cruise-hub-login-password" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Password</label>
+                        <input id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
@@ -543,20 +543,20 @@ export default function CruiseDashboard() {
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
                       <p className="text-black/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                        <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <label htmlFor="cruise-hub-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
+                        <input id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address *</label>
-                        <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <label htmlFor="cruise-hub-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Email Address *</label>
+                        <input id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                        <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <label htmlFor="cruise-hub-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Phone Number *</label>
+                        <input id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                        <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
+                        <label htmlFor="cruise-hub-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-black/50 uppercase tracking-widest mb-1.5">Choose Password *</label>
+                        <input id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3 text-sm text-black focus:border-cyan-500 outline-none transition-colors" />
                       </div>
 
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
@@ -624,8 +624,9 @@ export default function CruiseDashboard() {
               {isEditingAnnouncement ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="text-[10px] font-bold text-black/50 uppercase tracking-widest block mb-1">Notice Header Title / Subject</label>
+                    <label htmlFor="cruise-hub-notice-title" className="text-[10px] font-bold text-black/50 uppercase tracking-widest block mb-1">Notice Header Title / Subject</label>
                     <input
+                      id="cruise-hub-notice-title"
                       type="text"
                       value={announcementTitleInput}
                       onChange={e => setAnnouncementTitleInput(e.target.value)}
@@ -634,8 +635,9 @@ export default function CruiseDashboard() {
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold text-black/50 uppercase tracking-widest block mb-1">Notice Content</label>
+                    <label htmlFor="cruise-hub-notice-content" className="text-[10px] font-bold text-black/50 uppercase tracking-widest block mb-1">Notice Content</label>
                     <textarea
+                      id="cruise-hub-notice-content"
                       value={announcementInput}
                       onChange={e => setAnnouncementInput(e.target.value)}
                       placeholder="Type news/announcements here (HTML formatting allowed)..."
@@ -693,8 +695,9 @@ export default function CruiseDashboard() {
                 {isEditingGuidelines ? (
                   <div className="space-y-4 min-w-0 max-w-full">
                     <div>
-                      <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Section Title</label>
+                      <label htmlFor="cruise-hub-guidelines-title" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Section Title</label>
                       <input
+                        id="cruise-hub-guidelines-title"
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={e => setGuidelinesTitleInput(e.target.value)}
@@ -702,8 +705,9 @@ export default function CruiseDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Subtitle / Badge</label>
+                      <label htmlFor="cruise-hub-guidelines-sub" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Subtitle / Badge</label>
                       <input
+                        id="cruise-hub-guidelines-sub"
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
@@ -711,7 +715,7 @@ export default function CruiseDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</label>
+                      <span className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
                       <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
                         <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="bg-white overflow-hidden" />
                       </div>

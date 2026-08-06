@@ -95,13 +95,13 @@ export default function HeroDemoPage() {
                 </div>
                 <div className="space-y-3 mb-6">
                   {["🚢 Miami → Cozumel → Grand Cayman → Roatán", "🎸 6 Live Performances", "🏝️ 3 Island Excursions"].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-white/[0.03] border border-white/[0.08]">
+                    <div key={`demo-item-${i}-${item}`} className="flex items-center gap-3 p-3 bg-white/[0.03] border border-white/[0.08]">
                       <span className="text-sm">{item}</span>
                     </div>
                   ))}
                 </div>
                 <div className="flex -space-x-2 mb-3">
-                  {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
+                  {Array.from(["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"], (c, i) => ({ c, i })).map(({ c, i }) => (
                     <div key={i} className="w-9 h-9 rounded-full border-2 border-[#0d0d14] flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                       {["E", "M", "D", "T", "T"][i]}
                     </div>
@@ -148,7 +148,7 @@ export default function HeroDemoPage() {
                 { icon: "🤿", label: "Roatán" },
                 { icon: "🎸", label: "6 Live Shows" },
               ].map((s, i) => (
-                <div key={i} className={`flex items-center gap-2 px-6 py-4 ${i > 0 ? "border-l border-white/[0.08]" : ""}`}>
+                <div key={s.label} className={`flex items-center gap-2 px-6 py-4 ${i > 0 ? "border-l border-white/[0.08]" : ""}`}>
                   <span className="text-lg">{s.icon}</span>
                   <span className="text-xs font-bold uppercase tracking-widest text-white/50">{s.label}</span>
                 </div>
@@ -161,7 +161,7 @@ export default function HeroDemoPage() {
             <div className="flex items-center justify-between bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-6 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
               <div className="flex items-center gap-6">
                 <div className="flex -space-x-2">
-                  {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
+                  {Array.from(["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"], (c, i) => ({ c, i })).map(({ c, i }) => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                       {["E", "M", "D", "T", "T"][i]}
                     </div>
@@ -235,7 +235,7 @@ export default function HeroDemoPage() {
                     { who: "Test", action: "added +2 guests", time: "3h ago", color: "#9333ea" },
                     { who: "Test", action: "signed up", time: "5h ago", color: "#10b981" },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 bg-white/[0.04] border border-white/[0.08]">
+                    <div key={`${item.who}-${item.time}`} className="flex items-center gap-3 p-3 bg-white/[0.04] border border-white/[0.08]">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: item.color }}>
                         {item.who[0]}
                       </div>
@@ -386,7 +386,7 @@ export default function HeroDemoPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex -space-x-2">
-                    {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
+                    {Array.from(["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"], (c, i) => ({ c, i })).map(({ c, i }) => (
                       <div key={i} className="w-9 h-9 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                         {["E", "M", "D", "T", "T"][i]}
                       </div>
@@ -510,7 +510,7 @@ export default function HeroDemoPage() {
           {/* Floating bottom stats */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8 bg-white/[0.05] backdrop-blur-2xl border border-white/[0.1] rounded-full px-8 py-3">
             <div className="flex -space-x-1.5">
-              {["#851DEF", "#3b82f6", "#06b6d4"].map((c, i) => (
+              {Array.from(["#851DEF", "#3b82f6", "#06b6d4"], (c, i) => ({ c, i })).map(({ c, i }) => (
                 <div key={i} className="w-7 h-7 rounded-full border-2 border-black/40 flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: c, zIndex: 3 - i }}>
                   {["E", "M", "D"][i]}
                 </div>
@@ -552,7 +552,7 @@ export default function HeroDemoPage() {
               <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="flex items-center justify-between">
                   {["🚢 Miami", "🏝️ Cozumel", "🐢 Cayman", "🤿 Roatán", "🎸 Miami"].map((stop, i) => (
-                    <div key={i} className="flex items-center gap-1">
+                    <div key={`stop-${stop}`} className="flex items-center gap-1">
                       {i > 0 && <div className="w-4 h-px bg-white/10 -ml-1 mr-1" />}
                       <span className="text-xs font-bold text-white/50">{stop}</span>
                     </div>
@@ -578,7 +578,7 @@ export default function HeroDemoPage() {
               {/* Social Proof Card */}
               <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 flex items-center gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
                 <div className="flex -space-x-2">
-                  {["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"].map((c, i) => (
+                  {Array.from(["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"], (c, i) => ({ c, i })).map(({ c, i }) => (
                     <div key={i} className="w-9 h-9 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>
                       {["E", "M", "D", "T", "T"][i]}
                     </div>

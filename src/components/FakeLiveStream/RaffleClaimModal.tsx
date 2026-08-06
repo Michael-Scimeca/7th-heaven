@@ -65,7 +65,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
                 <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] text-[var(--color-purple-light)] mb-3">Your Verification PIN</p>
                 <div className="flex items-center justify-center gap-2 mb-3">
                   {pin.split('').map((digit: string, i: number) => (
-                    <div key={i} className="w-9 h-12 bg-gray-100 border-2 border-[var(--color-border-purple)] rounded-lg flex items-center justify-center">
+                    <div key={`raffle-pin-${i}-${digit}`} className="w-9 h-12 bg-gray-100 border-2 border-[var(--color-border-purple)] rounded-lg flex items-center justify-center">
                       <span className="text-[var(--color-purple-light)] font-black text-2xl tabular-nums">{digit}</span>
                     </div>
                   ))}
@@ -125,7 +125,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
               <div className="bg-purple-500/5 border border-purple-500/30 p-4 mb-4">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   {pin.split('').map((digit: string, i: number) => (
-                    <div key={i} className="w-8 h-10 bg-gray-100 border border-purple-500/40 rounded flex items-center justify-center">
+                    <div key={`raffle-pin-confirm-${i}-${digit}`} className="w-8 h-10 bg-gray-100 border border-purple-500/40 rounded flex items-center justify-center">
                       <span className="text-purple-300 font-black text-lg tabular-nums">{digit}</span>
                     </div>
                   ))}

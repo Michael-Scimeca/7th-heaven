@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,19 +33,25 @@ export default function HomeMerch() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("/api/shopify/inventory")
-      .then(res => res.json())
-      .then(data => {
+  const loadInventory = useCallback(async () => {
+    try {
+      const res = await fetch("/api/shopify/inventory");
+      if (res.ok) {
+        const data = await res.json();
         if (data.products && Array.isArray(data.products)) {
-          // Only show items on special for the homepage
           const specials = data.products.filter((p: ShopifyProduct) => isOnSpecial(p));
           setProducts(specials.slice(0, 5));
         }
-      })
-      .catch(() => { })
-      .finally(() => setLoading(false));
+      }
+    } catch { }
+    finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadInventory();
+  }, [loadInventory]);
 
   const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com';
 

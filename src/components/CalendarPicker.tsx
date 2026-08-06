@@ -234,9 +234,10 @@ export function CalendarPicker({
           <div className="flex flex-col gap-4">
             {/* Show Start Time */}
             <div>
-              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show start?</label>
+              <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show start?</label>
               <div className="relative">
                 <select
+                  id="cal-show-start-time"
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
@@ -254,9 +255,10 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show finish?</label>
+              <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show finish?</label>
               <div className="relative">
                 <select
+                  id="cal-show-finish-time"
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
@@ -276,9 +278,10 @@ export function CalendarPicker({
 
             {/* Band Start Time */}
             <div>
-              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band go on?</label>
+              <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band go on?</label>
               <div className="relative">
                 <select
+                  id="cal-band-start-time"
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
@@ -296,9 +299,10 @@ export function CalendarPicker({
 
             {/* Band Finish Time */}
             <div>
-              <label className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band finish?</label>
+              <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band finish?</label>
               <div className="relative">
                 <select
+                  id="cal-band-finish-time"
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
                   className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"

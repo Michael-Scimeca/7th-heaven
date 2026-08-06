@@ -90,29 +90,30 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
     }
   };
 
-  // Fetch live stream status
-  useEffect(() => {
-    const checkLiveStreams = async () => {
-      try {
-        const res = await fetch("/api/live-rooms");
+  const checkLiveStreams = useCallback(async () => {
+    try {
+      const res = await fetch("/api/live-rooms");
+      if (res.ok) {
         const data = await res.json();
-        const allRooms = data.rooms || [];
-        const rooms = allRooms.filter((r: any) => r.showOnHomepage);
-        setActiveLiveRooms(rooms);
+      const allRooms = data.rooms || [];
+      const rooms = allRooms.filter((r: any) => r.showOnHomepage);
+      setActiveLiveRooms(rooms);
 
-        // Calculate total viewers across visible rooms
-        const total = rooms.reduce((acc: number, r: any) => acc + (r.numParticipants || 0), 0);
-        // If real viewers is 0 but rooms exist, show a small random number for "hype"
-        viewerCountRef.current = total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0);
-      } catch (err) {
-        console.error("Live rooms check failed", err);
+      // Calculate total viewers across visible rooms
+      const total = rooms.reduce((acc: number, r: any) => acc + (r.numParticipants || 0), 0);
+      // If real viewers is 0 but rooms exist, show a small random number for "hype"
+      viewerCountRef.current = total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0);
       }
-    };
+    } catch (err) {
+      console.error("Live rooms check failed", err);
+    }
+  }, []);
 
+  useEffect(() => {
     checkLiveStreams();
     const interval = setInterval(checkLiveStreams, 20000);
     return () => clearInterval(interval);
-  }, []);
+  }, [checkLiveStreams]);
 
   // Fetch posts
   const fetchPosts = useCallback(async () => {

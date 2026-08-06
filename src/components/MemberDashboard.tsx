@@ -2,7 +2,7 @@
 import Image from 'next/image';
 
 import { useMember, tierColors } from "@/context/MemberContext";
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -85,7 +85,7 @@ export default function MemberDashboard() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLocalInbox(JSON.parse(localStorage.getItem("vip_inbox_messages") || "[]"));
+      setLocalInbox(JSON.parse(localStorage.getItem("vip_inbox_messages_v1") || localStorage.getItem("vip_inbox_messages") || "[]"));
     }
   }, []);
 
@@ -99,17 +99,26 @@ export default function MemberDashboard() {
       // Mark as claimed in local state and localStorage
       const updated = localInbox.map(msg => msg.id === id ? { ...msg, isClaimed: true } : msg);
       setLocalInbox(updated);
-      localStorage.setItem("vip_inbox_messages", JSON.stringify(updated));
+      localStorage.setItem("vip_inbox_messages_v1", JSON.stringify(updated));
     }, 3500);
   };
 
-  useEffect(() => {
+  const fetchPhotos = useCallback(async () => {
     if (!member?.name) return;
-    fetch("/api/fans?all=true")
-      .then(r => r.json())
-      .then(data => setMyPhotos(data.filter((p: any) => p.name === member.name)))
-      .catch(() => { });
+    try {
+      const res = await fetch("/api/fans?all=true");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setMyPhotos(data.filter((p: any) => p.name === member.name));
+        }
+      }
+    } catch { }
   }, [member?.name]);
+
+  useEffect(() => {
+    fetchPhotos();
+  }, [fetchPhotos]);
 
   // Pre-fill name from member
   useEffect(() => {
@@ -126,9 +135,13 @@ export default function MemberDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: smsNameRef.current, zip: smsZip, phone: smsPhone }),
       });
-      const data = await res.json();
-      if (res.ok) { smsStatusRef.current = "success"; smsMessageRef.current = data.message; }
-      else { smsStatusRef.current = "error"; smsMessageRef.current = data.error || "Failed to subscribe."; }
+      if (res.ok) {
+        const data = await res.json();
+        smsStatusRef.current = "success"; smsMessageRef.current = data.message;
+      } else {
+        const data = await res.json().catch(() => ({}));
+        smsStatusRef.current = "error"; smsMessageRef.current = data.error || "Failed to subscribe.";
+      }
     } catch { smsStatusRef.current = "error"; smsMessageRef.current = "Network error. Try again."; }
   };
 
@@ -141,9 +154,13 @@ export default function MemberDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: unsubPhone }),
       });
-      const data = await res.json();
-      if (res.ok) { unsubStatusRef.current = "success"; unsubMessageRef.current = data.message; }
-      else { unsubStatusRef.current = "error"; unsubMessageRef.current = data.error || "Failed to unsubscribe."; }
+      if (res.ok) {
+        const data = await res.json();
+        unsubStatusRef.current = "success"; unsubMessageRef.current = data.message;
+      } else {
+        const data = await res.json().catch(() => ({}));
+        unsubStatusRef.current = "error"; unsubMessageRef.current = data.error || "Failed to unsubscribe.";
+      }
     } catch { unsubStatusRef.current = "error"; unsubMessageRef.current = "Network error. Try again."; }
   };
 

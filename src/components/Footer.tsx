@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTransition } from "@/context/TransitionContext";
 
 const FALLBACK_PLATFORM_LINKS = [
@@ -72,18 +72,22 @@ export function Footer() {
   const [bookingPhone, setBookingPhone] = useState('847-551-5363');
   const [bookingEmail, setBookingEmail] = useState('Rich@7thheaven.com');
 
-  useEffect(() => {
-    fetch('/api/settings')
-      .then(r => r.json())
-      .then(data => {
-        if (!data) return;
-        if (data.endorsements?.length) setEndorsements(data.endorsements);
-        if (data.socialLinks?.length) setSocialLinks(data.socialLinks);
-        if (data.bookingPhone) setBookingPhone(data.bookingPhone);
-        if (data.bookingEmail) setBookingEmail(data.bookingEmail);
-      })
-      .catch(() => { });
+  const loadSettings = useCallback(async () => {
+    try {
+      const res = await fetch('/api/settings');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data) return;
+      if (data.endorsements?.length) setEndorsements(data.endorsements);
+      if (data.socialLinks?.length) setSocialLinks(data.socialLinks);
+      if (data.bookingPhone) setBookingPhone(data.bookingPhone);
+      if (data.bookingEmail) setBookingEmail(data.bookingEmail);
+    } catch { }
   }, []);
+
+  useEffect(() => {
+    loadSettings();
+  }, [loadSettings]);
 
   // Hide footer when the overlay is at full coverage (isCovered=true).
   // This is driven by the overlay animation event — not the route change —

@@ -74,6 +74,7 @@ export async function GET() {
         cache: 'no-store',
       });
 
+      if (!res.ok) throw new Error(`Shopify admin returned ${res.status}`);
       const data = await res.json();
       const products = data.data?.products?.edges?.map((e: any) => ({
         ...e.node,
@@ -143,6 +144,7 @@ export async function GET() {
       cache: 'no-store',
     });
 
+    if (!res.ok) return NextResponse.json({ products: [], source: 'error', error: `Storefront API returned ${res.status}` }, { status: 500 });
     const data = await res.json();
     const products = data.data?.products?.edges?.map((e: any) => ({
       ...e.node,

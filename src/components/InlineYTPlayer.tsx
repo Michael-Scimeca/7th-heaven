@@ -70,7 +70,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         playerRef.current = null;
       }
     };
-  }, [videoId]);
+  }, [videoId, volume]);
 
   // Time update loop
   useEffect(() => {

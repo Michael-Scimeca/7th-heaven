@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -32,11 +32,19 @@ export default function MediaPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  useEffect(() => {
-    fetch("/data/videos.json")
-      .then((r) => r.json())
-      .then(setCategories);
+  const fetchCategories = useCallback(async () => {
+    try {
+      const r = await fetch("/data/videos.json");
+      if (r.ok) {
+        const data = await r.json();
+        setCategories(data);
+      }
+    } catch { }
   }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const featuredVideo = categories.find(c => c.category === 'Official Music Videos')?.videos[0];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 
 interface DMMessage {
@@ -25,9 +25,9 @@ export default function DirectMessageChat() {
   const userId = member?.id;
 
   // Fetch messages from localStorage
-  const loadMessages = () => {
+  const loadMessages = useCallback(() => {
     if (typeof window === "undefined" || !userId) return;
-    const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms") || "[]");
+    const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
     // Filter messages between this user and admin
     const relevant = dms.filter(
       (m) =>
@@ -35,7 +35,7 @@ export default function DirectMessageChat() {
         (m.sender === "user" && m.recipientId === userId)
     );
     setMessages(relevant);
-  };
+  }, [userId]);
 
   useEffect(() => {
     if (!isLoggedIn || !userId || isAdmin) return;
@@ -55,7 +55,7 @@ export default function DirectMessageChat() {
       window.removeEventListener("storage", handleStorageChange);
       window.removeEventListener("7h_dm_update", handleStorageChange);
     };
-  }, [isLoggedIn, userId, isAdmin]);
+  }, [isLoggedIn, userId, isAdmin, loadMessages]);
 
   // Scroll to bottom when opening or getting a message
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function DirectMessageChat() {
   // Mark all admin messages as read when opening the drawer
   useEffect(() => {
     if (open && messages.length > 0 && typeof window !== "undefined") {
-      const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms") || "[]");
+      const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
       let changed = false;
       const updated = dms.map((m) => {
         if (m.recipientId === userId && m.sender === "admin" && !m.read) {
@@ -78,7 +78,7 @@ export default function DirectMessageChat() {
       });
 
       if (changed) {
-        localStorage.setItem("7h_dms", JSON.stringify(updated));
+        localStorage.setItem("7h_dms_v1", JSON.stringify(updated));
         window.dispatchEvent(new Event("7h_dm_update"));
       }
     }
@@ -104,9 +104,9 @@ export default function DirectMessageChat() {
     };
 
     if (typeof window !== "undefined") {
-      const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms") || "[]");
+      const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
       const updated = [...dms, newMsg];
-      localStorage.setItem("7h_dms", JSON.stringify(updated));
+      localStorage.setItem("7h_dms_v1", JSON.stringify(updated));
       window.dispatchEvent(new Event("7h_dm_update"));
     }
 

@@ -86,11 +86,12 @@ export default function CruiseDashboardGate() {
         })
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setAuthError(data.error || 'Failed to submit registration request.');
-      } else {
+      if (res.ok) {
+        const data = await res.json();
         setVerifyingPin(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setAuthError(data.error || 'Failed to submit registration request.');
       }
     } catch (err: any) {
       setAuthError(err.message || 'An error occurred during registration.');
@@ -118,10 +119,8 @@ export default function CruiseDashboardGate() {
         })
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setAuthError(data.error || 'Verification failed.');
-      } else {
+      if (res.ok) {
+        const data = await res.json();
         const success = await login(email, password);
         if (success) {
           setVerifyingPin(false);
@@ -131,6 +130,9 @@ export default function CruiseDashboardGate() {
           setVerifyingPin(false);
           setAuthTab('login');
         }
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setAuthError(data.error || 'Verification failed.');
       }
     } catch (err: any) {
       setAuthError(err.message || 'An error occurred during verification.');
@@ -175,8 +177,9 @@ export default function CruiseDashboardGate() {
 
               <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
+                  <label htmlFor="cruise-pin-input" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">6-Digit Verification PIN</label>
                   <input
+                    id="cruise-pin-input"
                     type="text"
                     required
                     placeholder="123456"
@@ -228,12 +231,12 @@ export default function CruiseDashboardGate() {
                   <form onSubmit={handleLoginSubmit} className="space-y-4">
                     <p className="text-white/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
-                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <label htmlFor="cruise-login-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
+                      <input id="cruise-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                      <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <label htmlFor="cruise-login-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
+                      <input id="cruise-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
@@ -246,20 +249,20 @@ export default function CruiseDashboardGate() {
                   <form onSubmit={handleRegisterSubmit} className="space-y-4">
                     <p className="text-white/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                      <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <label htmlFor="cruise-reg-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
+                      <input id="cruise-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
-                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <label htmlFor="cruise-reg-email" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
+                      <input id="cruise-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                      <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
+                      <input id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                      <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
+                      <label htmlFor="cruise-reg-password" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
+                      <input id="cruise-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}

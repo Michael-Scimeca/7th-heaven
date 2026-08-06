@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useMember } from '@/context/MemberContext';
 
 export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
@@ -38,11 +38,12 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
     setCurrentSongIndex(0);
   }, [track?.id]);
 
-  const fetchTrack = async () => {
+  const fetchTrack = useCallback(async () => {
     try {
       const res = await fetch('/api/featured-track');
-      const data = await res.json();
-      if (data.track) {
+      if (res.ok) {
+        const data = await res.json();
+        if (data.track) {
         setTrack(data.track);
         setLocked(false);
       } else if (data.locked) {
@@ -52,12 +53,13 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
         setTrack(null);
         setLocked(false);
       }
+      }
     } catch (err) {
       console.error("Error fetching featured track:", err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const initWebAudio = () => {
     if (!audioRef.current || audioCtxRef.current) return;
@@ -125,7 +127,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
     // Poll for changes or expiration every 30 seconds
     const interval = setInterval(fetchTrack, 30000);
     return () => clearInterval(interval);
-  }, [isLoggedIn]);
+  }, [fetchTrack, isLoggedIn]);
 
   // Handle play/pause, volume, seek, listeners
   useEffect(() => {
@@ -183,7 +185,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
         audioRef.current.play().catch(e => console.log("Play prevented:", e));
       }
     }
-  }, [currentSong?.audio_url]);
+  }, [currentSong?.audio_url, isPlaying]);
 
   // Sync volume
   useEffect(() => {
@@ -324,11 +326,11 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             {/* Mini playlist list */}
             {track.songs && track.songs.length > 1 && (
               <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-1 max-h-[110px] overflow-y-auto pr-1 select-none">
-                {track.songs.map((song: any, idx: number) => {
+                {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                   const isActive = idx === currentSongIndex;
                   return (
                     <button
-                      key={song.id || idx}
+                      key={song.id || song.title}
                       type="button"
                       onClick={() => {
                         setCurrentSongIndex(idx);
@@ -563,11 +565,11 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 <div className="mt-8 pt-6 border-t border-white/5 space-y-3">
                   <span className="block text-[0.65rem] font-bold uppercase tracking-widest text-white/35">Drop Playlist</span>
                   <div className="space-y-1 max-h-[180px] overflow-y-auto pr-1">
-                    {track.songs.map((song: any, idx: number) => {
+                    {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
                       return (
                         <div
-                          key={song.id || idx}
+                          key={song.id || song.title}
                           onClick={() => {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);

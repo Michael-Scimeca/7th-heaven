@@ -55,16 +55,17 @@ function CruiseVerifyContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, pin }),
       });
-      const data = await res.json();
-      if (!res.ok) {
+      if (res.ok) {
+        const data = await res.json();
+        setStatus("success");
+        const destination = data.redirectUrl || "/cruise/dashboard";
+        setTimeout(() => { window.location.href = destination; }, 2200);
+      } else {
+        const data = await res.json().catch(() => ({}));
         setErrorMsg(data.error || "Invalid code. Please try again.");
         setStatus("error");
         setDigits(["", "", "", "", "", ""]);
         setTimeout(() => inputRefs.current[0]?.focus(), 50);
-      } else {
-        setStatus("success");
-        const destination = data.redirectUrl || "/cruise/dashboard";
-        setTimeout(() => { window.location.href = destination; }, 2200);
       }
     } catch {
       setErrorMsg("Something went wrong. Please try again.");
@@ -479,7 +480,7 @@ function CruiseVerifyContent() {
                 {/* PIN form */}
                 <form onSubmit={handleSubmit}>
                   <div className="pin-row">
-                    {digits.map((d, i) => (
+                    {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
                       <input
                         key={i}
                         ref={el => { inputRefs.current[i] = el; }}

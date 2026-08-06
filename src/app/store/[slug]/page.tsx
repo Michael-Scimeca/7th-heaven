@@ -50,9 +50,9 @@ export default function ProductDetailPage() {
 
             {/* Size Selector */}
             <div className="space-y-3">
-              <label className="text-xs uppercase tracking-widest text-white/40 font-bold block">
+              <span className="text-xs uppercase tracking-widest text-white/40 font-bold block">
                 Select Size
-              </label>
+              </span>
               <div className="flex gap-2">
                 {["S", "M", "L", "XL", "XXL"].map((size) => (
                   <button
@@ -71,9 +71,9 @@ export default function ProductDetailPage() {
 
             {/* Quantity Selector */}
             <div className="space-y-3">
-              <label className="text-xs uppercase tracking-widest text-white/40 font-bold block">
+              <span className="text-xs uppercase tracking-widest text-white/40 font-bold block">
                 Quantity
-              </label>
+              </span>
               <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 w-fit px-2 py-1 rounded-lg">
                 <button
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}

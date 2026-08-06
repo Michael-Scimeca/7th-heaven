@@ -172,7 +172,7 @@ export default function CursorTestingPage() {
           filter: preset !== "particles" ? "url(#gooey)" : "none",
         }}
       >
-        {pickSizes.map((size, i) => (
+        {Array.from(pickSizes, (size, i) => ({ size, i })).map(({ size, i }) => (
           <svg
             key={i}
             ref={(el) => { picksRef.current[i] = el; }}
@@ -278,7 +278,7 @@ export default function CursorTestingPage() {
             { title: "Tight Circles", desc: "Draw tight circles — watch the pick blob swirl and merge.", color: "hover:border-[#E35FA4]/60", badge: "text-[#E35FA4]" },
           ].map((t, i) => (
             <div
-              key={i}
+              key={t.title}
               className={`bg-[var(--color-bg-surface)] border border-white/10 ${t.color} rounded-3xl p-8 transition-colors group flex flex-col justify-between min-h-[220px]`}
             >
               <div>

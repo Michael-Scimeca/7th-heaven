@@ -77,8 +77,10 @@ export default function ProximityPanel() {
     setLoadingShows(true);
     try {
       const res = await fetch(`/api/proximity/shows?userId=${member.id}`);
-      const data = await res.json();
-      setNearbyShows(data.shows || []);
+      if (res.ok) {
+        const data = await res.json();
+        setNearbyShows(data.shows || []);
+      }
     } catch { }
     setLoadingShows(false);
   }, [member?.id, notificationsEnabled]);
@@ -98,10 +100,14 @@ export default function ProximityPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ zip, notificationRadius: radius, notificationsEnabled }),
       });
-      const data = await res.json();
-      if (data.success) {
-        setSaveStatus("saved");
-        fetchNearbyShows();
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setSaveStatus("saved");
+          fetchNearbyShows();
+        } else {
+          setSaveStatus("error");
+        }
       } else {
         setSaveStatus("error");
       }
@@ -118,10 +124,12 @@ export default function ProximityPanel() {
     setAttendeeLoading(true);
     try {
       const res = await fetch(`/api/proximity/attendees?showId=${show.id}`);
-      const data = await res.json();
-      setAttendees(data.attendees || []);
-      const mine = (data.attendees || []).find((a: Attendee) => a.profiles?.id === member?.id);
-      setMyStatus(mine?.status || null);
+      if (res.ok) {
+        const data = await res.json();
+        setAttendees(data.attendees || []);
+        const mine = (data.attendees || []).find((a: Attendee) => a.profiles?.id === member?.id);
+        setMyStatus(mine?.status || null);
+      }
     } catch { }
     setAttendeeLoading(false);
   };
@@ -174,8 +182,9 @@ export default function ProximityPanel() {
         {/* Zip + Radius */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
-            <label className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Your Zip Code</label>
+            <label htmlFor="proximity-zip-input" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Your Zip Code</label>
             <input
+              id="proximity-zip-input"
               type="text"
               maxLength={5}
               placeholder="60601"
@@ -185,8 +194,9 @@ export default function ProximityPanel() {
             />
           </div>
           <div>
-            <label className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Radius</label>
+            <label htmlFor="proximity-radius-select" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Radius</label>
             <select
+              id="proximity-radius-select"
               value={radius}
               onChange={e => setRadius(Number(e.target.value))}
               className="w-full bg-white/5 border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface Feature {
   id: string;
@@ -159,12 +159,21 @@ export default function AdminFeaturesPage() {
   const [filter, setFilter] = useState<string>("all");
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetch("/api/sms/subscribe")
-      .then((r) => r.json())
-      .then((d) => setSubscriberCount(d.total))
-      .catch(() => setSubscriberCount(0));
+  const loadSubscribers = useCallback(async () => {
+    try {
+      const r = await fetch("/api/sms/subscribe");
+      if (r.ok) {
+        const d = await r.json();
+        setSubscriberCount(d.total);
+      }
+    } catch {
+      setSubscriberCount(0);
+    }
   }, []);
+
+  useEffect(() => {
+    loadSubscribers();
+  }, [loadSubscribers]);
 
   const filtered = filter === "all" ? features : features.filter((f) => f.category === filter || f.status === filter);
 

@@ -14,6 +14,7 @@ async function geocodeCity(city: string, state: string): Promise<{ lat: number; 
       `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
       { headers: { "User-Agent": "7thHeavenBand/1.0" } }
     );
+    if (!res.ok) return null;
     const data = await res.json();
     if (data?.[0]) {
       return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };

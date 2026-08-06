@@ -285,7 +285,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [thisMondayTime, setThisMondayTime] = useState<number | null>(null);
 
   useEffect(() => {
-    setLocalAvatar(localStorage.getItem("7h_profile_avatar"));
+    setLocalAvatar(localStorage.getItem("7h_profile_avatar_v1") || localStorage.getItem("7h_profile_avatar"));
     const today = new Date();
     const day = today.getDay();
     const diff = today.getDate() - day + (day === 0 ? -6 : 1);
@@ -311,16 +311,21 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const [savePermStatus, setSavePermStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
-  useEffect(() => {
-    let active = true;
-    fetch('/api/admin/permissions')
-      .then(res => res.ok ? res.json() : null)
-      .then(d => {
-        if (d?.permissions && active) setAdminPermissions(d.permissions);
-      })
-      .catch(err => console.error(err));
-    return () => { active = false; };
+  const loadPermissions = useCallback(async () => {
+    try {
+      const res = await fetch('/api/admin/permissions');
+      if (res.ok) {
+        const d = await res.json();
+        if (d?.permissions) setAdminPermissions(d.permissions);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
+
+  useEffect(() => {
+    loadPermissions();
+  }, [loadPermissions]);
 
   const savePermissionsToBackend = async (updated: Record<string, Record<string, boolean>>) => {
     setAdminPermissions(updated);
@@ -510,13 +515,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [showJumpNav, setShowJumpNav] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem('7h_show_jump_nav');
+    const saved = localStorage.getItem('7h_show_jump_nav_v1') || localStorage.getItem('7h_show_jump_nav');
     if (saved === 'false') setShowJumpNav(false);
   }, []);
 
   const toggleJumpNav = () => {
     setShowJumpNav(prev => !prev);
-    try { localStorage.setItem('7h_show_jump_nav', String(!showJumpNav)); } catch { }
+    try { localStorage.setItem('7h_show_jump_nav_v1', String(!showJumpNav)); } catch { }
   };
 
   const customRolesRef = useRef<string[]>([]);
@@ -524,7 +529,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const defaultPresets = ["CAMERA", "BAND EQUIPMENT", "UNLOADING", "SERVER", "CHEF", "LINE COOK", "MANAGER", "AUDIO MIX"];
-      const saved = localStorage.getItem('7h_custom_roles');
+      const saved = localStorage.getItem('7h_custom_roles_v1') || localStorage.getItem('7h_custom_roles');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -532,19 +537,19 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           if (!migrated) {
             const merged = Array.from(new Set([...defaultPresets, ...parsed]));
             customRolesRef.current = merged;
-            localStorage.setItem('7h_custom_roles', JSON.stringify(merged));
+            localStorage.setItem('7h_custom_roles_v1', JSON.stringify(merged));
             localStorage.setItem('7h_roles_migrated_v2', 'true');
           } else {
             customRolesRef.current = parsed;
           }
         } catch (e) {
           customRolesRef.current = defaultPresets;
-          localStorage.setItem('7h_custom_roles', JSON.stringify(defaultPresets));
+          localStorage.setItem('7h_custom_roles_v1', JSON.stringify(defaultPresets));
           localStorage.setItem('7h_roles_migrated_v2', 'true');
         }
       } else {
         customRolesRef.current = defaultPresets;
-        localStorage.setItem('7h_custom_roles', JSON.stringify(defaultPresets));
+        localStorage.setItem('7h_custom_roles_v1', JSON.stringify(defaultPresets));
         localStorage.setItem('7h_roles_migrated_v2', 'true');
       }
     }
@@ -555,13 +560,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     if (!trimmed || customRolesRef.current.includes(trimmed)) return;
     const next = [...customRolesRef.current, trimmed];
     customRolesRef.current = next;
-    try { localStorage.setItem('7h_custom_roles', JSON.stringify(next)); } catch { }
+    try { localStorage.setItem('7h_custom_roles_v1', JSON.stringify(next)); } catch { }
   };
 
   const deleteCustomRole = (role: string) => {
     const next = customRolesRef.current.filter(r => r !== role);
     customRolesRef.current = next;
-    try { localStorage.setItem('7h_custom_roles', JSON.stringify(next)); } catch { }
+    try { localStorage.setItem('7h_custom_roles_v1', JSON.stringify(next)); } catch { }
   };
 
 
@@ -688,11 +693,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     try {
       const resetDone = localStorage.getItem('7h_fresh_start_reset_v2');
       if (!resetDone) {
-        localStorage.setItem('7h_crew_schedules', '[]');
+        localStorage.setItem('7h_crew_schedules_v1', '[]');
         localStorage.setItem('7h_fresh_start_reset_v2', 'true');
         return [];
       }
-      const saved = localStorage.getItem('7h_crew_schedules');
+      const saved = localStorage.getItem('7h_crew_schedules_v1') || localStorage.getItem('7h_crew_schedules');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && Array.isArray(parsed)) {
@@ -791,7 +796,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const [crewGroups, setCrewGroups] = useState<{ name: string; memberIds: string[]; memberSettings?: { [crewId: string]: { startHour: number; endHour: number; role: string } } }[]>(() => {
     if (typeof window === 'undefined') return [];
-    const saved = localStorage.getItem('7h_crew_groups');
+    const saved = localStorage.getItem('7h_crew_groups_v1') || localStorage.getItem('7h_crew_groups');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -830,7 +835,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
     if (typeof window === 'undefined') return {};
     try {
-      const saved = localStorage.getItem('7h_admin_collapsed');
+      const saved = localStorage.getItem('7h_admin_collapsed_v1') || localStorage.getItem('7h_admin_collapsed');
       return saved ? JSON.parse(saved) : {};
     } catch { return {}; }
   });
@@ -839,9 +844,29 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const next = { ...collapsedSections, [key]: !collapsedSections[key] };
     setCollapsedSections(next);
     try {
-      localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
+      localStorage.setItem('7h_admin_collapsed_v1', JSON.stringify(next));
       saveLayoutToSupabase(sectionOrder, next);
     } catch { }
+  };
+
+  const updateSectionOrder = (newOrder: string[]) => {
+    setSectionOrder(newOrder);
+    try {
+      localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(newOrder));
+      saveLayoutToSupabase(newOrder, collapsedSections);
+    } catch { }
+  };
+
+  const handleResetLayout = () => {
+    if (confirm("Reset layout to default order and expand all sections?")) {
+      setSectionOrder(DEFAULT_SECTION_ORDER);
+      setCollapsedSections({});
+      try {
+        localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(DEFAULT_SECTION_ORDER));
+        localStorage.setItem('7h_admin_collapsed_v1', JSON.stringify({}));
+        saveLayoutToSupabase(DEFAULT_SECTION_ORDER, {});
+      } catch { }
+    }
   };
 
   const isSectionOpen = (key: string) => !collapsedSections[key];
@@ -896,7 +921,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const updatedSchedules = [...schedules, ...newTestShifts];
     setSchedules(updatedSchedules);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updatedSchedules));
+      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updatedSchedules));
     }
 
     const totalCreated = newTestShifts.length;
@@ -912,7 +937,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const remaining = schedules.filter(s => !s.isTestData && !s.id.startsWith('test_shift_') && !(s.notes && s.notes.includes('[TEST]')));
       setSchedules(remaining);
       if (typeof window !== 'undefined') {
-        localStorage.setItem('7h_crew_schedules', JSON.stringify(remaining));
+        localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(remaining));
       }
       showAlert(" Test schedule data purged successfully!", "Purged Test Data", "success");
     }
@@ -945,10 +970,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const migrated = localStorage.getItem('7h_admin_order_migrated_v9');
       if (!migrated) {
         localStorage.setItem('7h_admin_order_migrated_v9', 'true');
-        localStorage.setItem('7h_admin_section_order', JSON.stringify(DEFAULT_SECTION_ORDER));
+        localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(DEFAULT_SECTION_ORDER));
         return DEFAULT_SECTION_ORDER;
       }
-      const saved = localStorage.getItem('7h_admin_section_order');
+      const saved = localStorage.getItem('7h_admin_section_order_v1') || localStorage.getItem('7h_admin_section_order');
       if (saved) {
         const parsed = JSON.parse(saved);
         const uniqueList = Array.from(new Set([...parsed, ...DEFAULT_SECTION_ORDER]));
@@ -1007,7 +1032,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             });
             localStorage.setItem('7h_admin_order_migrated_v7', 'true');
             setSectionOrder(DEFAULT_SECTION_ORDER);
-            localStorage.setItem('7h_admin_section_order', JSON.stringify(DEFAULT_SECTION_ORDER));
+            localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(DEFAULT_SECTION_ORDER));
           } else {
             const savedOrder = user.user_metadata.admin_section_order;
             const savedCollapsed = user.user_metadata.admin_collapsed_sections;
@@ -1016,12 +1041,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               const uniqueList = Array.from(new Set([...savedOrder, ...DEFAULT_SECTION_ORDER]));
               const filtered = uniqueList.filter(item => DEFAULT_SECTION_ORDER.includes(item));
               setSectionOrder(filtered);
-              localStorage.setItem('7h_admin_section_order', JSON.stringify(filtered));
+              localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(filtered));
             }
 
             if (savedCollapsed) {
               setCollapsedSections(savedCollapsed);
-              localStorage.setItem('7h_admin_collapsed', JSON.stringify(savedCollapsed));
+              localStorage.setItem('7h_admin_collapsed_v1', JSON.stringify(savedCollapsed));
             }
           }
         }
@@ -1038,7 +1063,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const migrated = localStorage.getItem('7h_admin_order_migrated_v7');
       if (!migrated) {
         setSectionOrder(DEFAULT_SECTION_ORDER);
-        localStorage.setItem('7h_admin_section_order', JSON.stringify(DEFAULT_SECTION_ORDER));
+        localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(DEFAULT_SECTION_ORDER));
         localStorage.setItem('7h_admin_order_migrated_v7', 'true');
       }
     }
@@ -1070,7 +1095,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const handleDragEnd = () => {
     setDraggedIndex(null);
     try {
-      localStorage.setItem('7h_admin_section_order', JSON.stringify(sectionOrder));
+      localStorage.setItem('7h_admin_section_order_v1', JSON.stringify(sectionOrder));
       saveLayoutToSupabase(sectionOrder, collapsedSections);
     } catch { }
   };
@@ -1431,6 +1456,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     syncResultRef.current = null;
     try {
       const res = await fetch("/api/sync-shows", { method: "POST" });
+      if (!res.ok) {
+        syncResultRef.current = { success: false, error: `HTTP ${res.status}` };
+        return;
+      }
       const data = await res.json();
       syncResultRef.current = data;
 
@@ -1735,20 +1764,22 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       }
 
       if (sendEmail && emails.length > 0) {
-        for (const email of emails) {
-          const emailRes = await fetch('/api/email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              to: email,
-              subject: emailSubject,
-              html: emailBody
-            })
-          });
-          if (!emailRes.ok) {
-            throw new Error(`Failed to send email to ${email}`);
-          }
-        }
+        await Promise.all(
+          emails.map(async (email) => {
+            const emailRes = await fetch('/api/email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                to: email,
+                subject: emailSubject,
+                html: emailBody
+              })
+            });
+            if (!emailRes.ok) {
+              throw new Error(`Failed to send email to ${email}`);
+            }
+          })
+        );
         emailStatus = `Emails sent to ${emails.length} crew. `;
       }
 
@@ -1811,7 +1842,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const matched = recipientsList.find(r => r.id === crewId);
         const crewShifts = dayShifts.filter(s => s.crewId === crewId);
         const roles = Array.from(new Set(crewShifts.map(s => s.role))).join(', ');
-        const times = Array.from(new Set(crewShifts.map(s => s.time || formatTimeFrame(s.startHour, s.endHour)))).filter(Boolean).join(', ');
+        const times = Array.from(new Set(crewShifts.flatMap(s => { const t = s.time || formatTimeFrame(s.startHour, s.endHour); return t ? [t] : []; }))).join(', ');
         const matchedStatic = staticCrew.find(sc => sc.id === crewId);
 
         return {
@@ -1823,7 +1854,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         };
       });
 
-    const phones = assignedCrew.map(c => normalizePhoneNumber(c.phone)).filter(Boolean);
+    const phones = assignedCrew.flatMap(c => { const p = normalizePhoneNumber(c.phone); return p ? [p] : []; });
     setSelectedCrewPhones(phones);
 
     const show = tourDates.find((s: any) => s.date === dateStr);
@@ -1899,7 +1930,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
     // Auto-select all band members when targeting a show
     const combined = getBandRecipientsCombined();
-    const phones = combined.map(b => normalizePhoneNumber(b.phone)).filter(Boolean);
+    const phones = combined.flatMap(b => { const p = normalizePhoneNumber(b.phone); return p ? [p] : []; });
     setSelectedBandPhones(phones);
 
     // Set SMS draft
@@ -1936,14 +1967,15 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }),
       });
 
-      const data = await res.json();
-      if (res.ok) {
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setBandAlertResult({ success: false, error: data.error || `HTTP ${res.status}` });
+      } else {
+        const data = await res.json();
         setBandAlertResult({ success: true, count: data.sent || selectedBandPhones.length });
         setBandAlertMsg('');
         setSelectedBandPhones([]);
         setBandSmsSelectedShowDate('');
-      } else {
-        setBandAlertResult({ success: false, error: data.error || 'Failed to send' });
       }
     } catch (err: any) {
       setBandAlertResult({ success: false, error: 'Network error occurred.' });
@@ -2047,9 +2079,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       if (newMem) {
         setUsers(prev => [newMem, ...prev]);
         try {
-          const stored = localStorage.getItem('7h_members');
+          const stored = localStorage.getItem('7h_members_v1') || localStorage.getItem('7h_members');
           const arr = stored ? JSON.parse(stored) : [];
-          localStorage.setItem('7h_members', JSON.stringify([newMem, ...arr]));
+          localStorage.setItem('7h_members_v1', JSON.stringify([newMem, ...arr]));
         } catch { }
       } else {
         setUsers(prev => prev.map((m: any) => m.email === savedEmail ? { ...m, role: 'crew' } : m));
@@ -2065,25 +2097,22 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     registryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  // Load Real Data from Supabase + simulated demo feeds
-  useEffect(() => {
-    let pollLocal: NodeJS.Timeout;
-
-    // Load Global Announcement Banner
-    fetch('/api/announcement')
-      .then(res => res.json())
-      .then(data => {
+  const loadAdminAnnouncements = useCallback(async () => {
+    try {
+      const res = await fetch('/api/announcement');
+      if (res.ok) {
+        const data = await res.json();
         setBannerActive(data.isActive);
         setBannerText(data.text || '');
         bannerLinkRef.current = data.link || '';
         setBannerExpiresAt(data.expiresAt || null);
-      })
-      .catch(() => { });
+      }
+    } catch { }
 
-    // Load Cruise Announcement
-    fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
+    try {
+      const res = await fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
         let actualData = data;
         let attempts = 0;
         while (typeof actualData === 'string' && attempts < 3) {
@@ -2092,43 +2121,88 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         if (actualData?.message) setCruiseMessage(actualData.message);
         if (actualData?.subject) setCruiseBlastSubject(actualData.subject);
-      })
-      .catch(() => { });
+      }
+    } catch { }
 
-    // Load Cruise Guidelines
-    fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
+    try {
+      const res = await fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
         if (data?.title) setAdminGuidelinesTitle(data.title);
         if (data?.subtitle) setAdminGuidelinesSubtitle(data.subtitle);
         if (data?.content) setAdminGuidelinesContent(data.content);
-      })
-      .catch(() => { });
-
-    // Load Cruise Chat Pin + enabled state
-    fetch(`/api/cruise/chat-pin`)
-      .then(res => res.json())
-      .then(data => {
+      }
+    } catch { }
+    try {
+      const res = await fetch(`/api/cruise/chat-pin`);
+      if (res.ok) {
+        const data = await res.json();
         if (data?.pin) cruiseChatPinRef.current = data.pin;
         if (data?.chatEnabled !== undefined) cruiseChatEnabledRef.current = data.chatEnabled;
-      })
-      .catch(() => { });
+      }
+    } catch { }
 
-    // Load Cruise Chat History for admin view
-    supabase
-      .from('chat_messages')
-      .select('*')
-      .eq('room', 'cruise_dashboard')
-      .order('created_at', { ascending: false })
-      .limit(80)
-      .then(({ data }: any) => {
-        if (data) {
-          setAdminChatMessages(data.reverse());
-          if (adminTabRef.current !== 'cruise' && data.length > 0) {
-            setUnreadCruiseChat(data.length);
-          }
+    try {
+      const res = await fetch(`/api/cruise/important-links?t=${Date.now()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.links && Array.isArray(data.links)) {
+          importantLinksRef.current = data.links;
         }
-      });
+      }
+    } catch { }
+
+    try {
+      const res = await fetch(`/api/admin/cruise-stats?t=${Date.now()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && !data.error) setCruiseStats(data);
+      }
+    } catch { }
+
+    try {
+      const res = await fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+      let actualData = data;
+      let attempts = 0;
+      while (typeof actualData === 'string' && attempts < 3) {
+        try { actualData = JSON.parse(actualData); } catch (e) { break; }
+        attempts++;
+      }
+      if (Array.isArray(actualData) && actualData.length > 0) {
+        itineraryRef.current = actualData;
+      } else {
+        itineraryRef.current = [];
+      }
+      }
+    } catch {
+      itineraryRef.current = [];
+    }
+
+    try {
+      const { data } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('room', 'cruise_dashboard')
+        .order('created_at', { ascending: false })
+        .limit(80);
+      if (data) {
+        setAdminChatMessages(data.reverse());
+        if (adminTabRef.current !== 'cruise' && data.length > 0) {
+          setUnreadCruiseChat(data.length);
+        }
+      }
+    } catch { }
+  }, [supabase]);
+
+  // Load Real Data from Supabase + simulated demo feeds
+  useEffect(() => {
+    let pollLocal: NodeJS.Timeout;
+
+    loadAdminAnnouncements();
+
+
 
     // Realtime subscription for admin chat feed
     const adminChatChannel = supabase
@@ -2146,50 +2220,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
       })
       .subscribe();
-
-    // Load Important Links
-    fetch(`/api/cruise/important-links?t=${Date.now()}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.links && Array.isArray(data.links)) {
-          importantLinksRef.current = data.links;
-        }
-      })
-      .catch(() => { });
-
-    // Load Cruise Stats
-    fetch(`/api/admin/cruise-stats?t=${Date.now()}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && !data.error) setCruiseStats(data);
-      })
-      .catch(() => { });
-
-    // Load Cruise Itinerary
-    fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
-        let actualData = data;
-        let attempts = 0;
-        while (typeof actualData === 'string' && attempts < 3) {
-          try { actualData = JSON.parse(actualData); } catch (e) { break; }
-          attempts++;
-        }
-        if (Array.isArray(actualData) && actualData.length > 0) {
-          itineraryRef.current = actualData;
-        } else {
-          // Default empty state or fallback template
-          itineraryRef.current = [
-            {
-              id: 'day1', dayLabel: 'Day 1', location: 'Miami, FL', theme: 'Embarkation', colorTheme: 'var(--color-accent)', events: [
-                { id: 'e1', time: '15:00', title: 'Welcome Aboard Party', subtitle: 'Lido Deck Poolside' },
-                { id: 'e2', time: '20:00', title: 'Main Stage Kickoff', subtitle: 'Starlight Theater' }
-              ]
-            }
-          ];
-        }
-      })
-      .catch(() => { });
 
     async function loadAdminData() {
       const { data: streamsData } = await supabase
@@ -2307,10 +2337,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           if (!resetDone) {
             localStorage.setItem('7h_fresh_start_reset_v5', 'true');
             currentSchedules = defaultShifts;
-            localStorage.setItem('7h_crew_schedules', JSON.stringify(currentSchedules));
+            localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(currentSchedules));
             setSchedules(currentSchedules);
           } else {
-            const saved = localStorage.getItem('7h_crew_schedules');
+            const saved = localStorage.getItem('7h_crew_schedules_v1') || localStorage.getItem('7h_crew_schedules');
             if (saved) {
               try {
                 const parsed = JSON.parse(saved);
@@ -2477,7 +2507,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       'PHOTOGRAPHER'
     ];
 
-    const stored = localStorage.getItem('7h_preset_roles');
+    const stored = localStorage.getItem('7h_preset_roles_v1') || localStorage.getItem('7h_preset_roles');
     let loaded: string[] = [];
     if (stored) {
       try {
@@ -2492,7 +2522,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       loaded = DEFAULT_PRESET_ROLES;
     }
     setPresetRoles(loaded);
-    localStorage.setItem('7h_preset_roles', JSON.stringify(loaded));
+    localStorage.setItem('7h_preset_roles_v1', JSON.stringify(loaded));
   }, []);
 
   const handleAddPresetRole = (newRole: string) => {
@@ -2500,13 +2530,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     if (!trimmed || presetRoles.includes(trimmed)) return;
     const updated = [...presetRoles, trimmed];
     setPresetRoles(updated);
-    localStorage.setItem('7h_preset_roles', JSON.stringify(updated));
+    localStorage.setItem('7h_preset_roles_v1', JSON.stringify(updated));
   };
 
   const handleDeletePresetRole = (roleToDelete: string) => {
     const updated = presetRoles.filter(r => r !== roleToDelete);
     setPresetRoles(updated);
-    localStorage.setItem('7h_preset_roles', JSON.stringify(updated));
+    localStorage.setItem('7h_preset_roles_v1', JSON.stringify(updated));
   };
 
   const killStream = async (feed: any) => {
@@ -2570,15 +2600,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'close' })
       });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        activeFeaturedTrackRef.current = null;
-        setAuditLog(prev => [{
-          id: crypto.randomUUID(),
-          text: " Closed featured song/track.",
-          time: "Just now",
-          color: "bg-purple-600"
-        }, ...prev]);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          activeFeaturedTrackRef.current = null;
+          setAuditLog(prev => [{
+            id: crypto.randomUUID(),
+            text: " Closed featured song/track.",
+            time: "Just now",
+            color: "bg-purple-600"
+          }, ...prev]);
+        }
       }
     } catch (err) {
       console.error("Failed to close featured track:", err);
@@ -2632,23 +2664,28 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         body: formData,
       });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
-        trackUploadSuccessRef.current = true;
-        activeFeaturedTrackRef.current = data.track;
-        trackTitleRef.current = '';
-        dropSongsRef.current = [{ title: '', file: null }];
-        try {
-          (e.target as HTMLFormElement).reset();
-        } catch { }
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          trackUploadSuccessRef.current = true;
+          activeFeaturedTrackRef.current = data.track;
+          trackTitleRef.current = '';
+          dropSongsRef.current = [{ title: '', file: null }];
+          try {
+            (e.target as HTMLFormElement).reset();
+          } catch { }
 
-        setAuditLog(prev => [{
-          id: crypto.randomUUID(),
+          setAuditLog(prev => [{
+            id: crypto.randomUUID(),
           text: ` Uploaded featured track: "${data.track.title}"`,
           time: "Just now",
           color: "bg-emerald-500"
         }, ...prev]);
+        } else {
+          trackUploadErrorRef.current = data.error || 'Upload failed';
+        }
       } else {
+        const data = await res.json().catch(() => ({}));
         trackUploadErrorRef.current = data.error || 'Upload failed';
       }
     } catch (err: any) {
@@ -2844,8 +2881,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               ) : (
                 <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                   <div>
-                    <label className="text-[0.65rem] uppercase tracking-[0.15em] text-black/70 mb-2 block font-black">Email</label>
+                    <label htmlFor="admin-login-email" className="text-[0.65rem] uppercase tracking-[0.15em] text-black/70 mb-2 block font-black">Email</label>
                     <input
+                      id="admin-login-email"
                       type="email"
                       value={adminEmail}
                       onChange={e => setAdminEmail(e.target.value)}
@@ -2857,8 +2895,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     />
                   </div>
                   <div>
-                    <label className="text-[0.65rem] uppercase tracking-[0.15em] text-black/70 mb-2 block font-black">Password</label>
+                    <label htmlFor="admin-login-password" className="text-[0.65rem] uppercase tracking-[0.15em] text-black/70 mb-2 block font-black">Password</label>
                     <input
+                      id="admin-login-password"
                       type="password"
                       value={adminPassword}
                       onChange={e => setAdminPassword(e.target.value)}
@@ -4518,8 +4557,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           {/* Show Picker */}
           <div className="space-y-4">
             <div>
-              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
+              <label htmlFor="sms-selected-show-select" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
               <select
+                id="sms-selected-show-select"
                 value={smsSelectedShow}
                 onChange={e => {
                   setSmsSelectedShow(e.target.value);
@@ -4643,9 +4683,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
               <div className="lg:col-span-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <label className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
+                  <span className="text-[0.65rem] font-extrabold uppercase tracking-widest text-rose-400 flex items-center gap-1.5">
                     <span></span> Live Twilio SMS Smartphone Preview
-                  </label>
+                  </span>
                   <span className="text-[10px] text-white/40 italic">Renders exact recipient view</span>
                 </div>
 
@@ -4716,9 +4756,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               <div className="lg:col-span-6 space-y-4">
                 {/* Custom message override */}
                 <div>
-                  <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
+                  <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">
                     Custom Message Override <span className="text-white/20 normal-case">(optional — replaces auto-message)</span>
-                  </label>
+                  </span>
                   <div className="w-full text-black [&_.ql-editor]:min-h-[110px] relative z-20">
                     <ReactQuill
                       theme="snow"
@@ -4810,9 +4850,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           headers: { 'Content-Type': 'application/json' },
                           body: JSON.stringify(body),
                         });
-                        const data = await res.json();
-                        setSmsResult(data);
-                        if (data.success) {
+                        if (res.ok) {
+                          const data = await res.json();
+                          setSmsResult(data);
+                          if (data.success) {
                           const costNum = parseFloat(calcCost);
                           setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
                           setSmsTotalSpentAllTime(prev => prev + costNum);
@@ -4822,6 +4863,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             ...prev
                           ]);
                         }
+                      }
                       } catch (err: any) {
                         setSmsResult({ error: err.message });
                       }
@@ -5031,7 +5073,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
       const updatedGroups = [...crewGroups, newGroup];
       setCrewGroups(updatedGroups);
-      localStorage.setItem('7h_crew_groups', JSON.stringify(updatedGroups));
+      localStorage.setItem('7h_crew_groups_v1', JSON.stringify(updatedGroups));
 
       setSelectedGroup(trimmed);
       setNewSmsGroupName('');
@@ -5049,9 +5091,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
         // Save to localStorage so static and dynamic roles persist reliably
         if (typeof window !== 'undefined') {
-          const savedDuties = JSON.parse(localStorage.getItem('7h_crew_duties') || '{}');
+          const savedDuties = JSON.parse(localStorage.getItem('7h_crew_duties_v1') || localStorage.getItem('7h_crew_duties') || '{}');
           savedDuties[profileId] = finalRole;
-          localStorage.setItem('7h_crew_duties', JSON.stringify(savedDuties));
+          localStorage.setItem('7h_crew_duties_v1', JSON.stringify(savedDuties));
         }
 
         // Call backend API
@@ -5148,7 +5190,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               <div className="lg:col-span-2 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <label className="text-[0.65rem] font-bold uppercase tracking-widest text-black/60 dark:text-white/40 block">Choose Recipients</label>
+                    <span className="text-[0.65rem] font-bold uppercase tracking-widest text-black/60 dark:text-white/40 block">Choose Recipients</span>
                     <button
                       type="button"
                       onClick={() => setIsManageRolesModalOpen(true)}
@@ -5387,7 +5429,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 p-4 space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
+                      <label htmlFor="crew-sms-select-group" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
                       <button
                         type="button"
                         onClick={() => {
@@ -5401,6 +5443,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </div>
                     <div className="relative">
                       <select
+                        id="crew-sms-select-group"
                         value={selectedGroup}
                         onChange={(e) => {
                           if (e.target.value === 'CREATE_NEW') {
@@ -5427,9 +5470,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Select Show */}
                   <div>
-                    <label className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-2">Select Show (Autofill Crew)</label>
+                    <label htmlFor="crew-sms-select-show" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-2">Select Show (Autofill Crew)</label>
                     <div className="relative">
                       <select
+                        id="crew-sms-select-show"
                         value={smsSelectedShowDate}
                         onChange={(e) => selectShowForSms(e.target.value)}
                         className="w-full appearance-none pr-8 pl-3 py-2 border border-slate-300 dark:border-white/15 bg-white text-black font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid hover:border-slate-400"
@@ -5492,7 +5536,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                               if (confirm(`Are you sure you want to delete the group "${group.name}"?`)) {
                                 const updated = crewGroups.filter(g => g.name !== group.name);
                                 setCrewGroups(updated);
-                                localStorage.setItem('7h_crew_groups', JSON.stringify(updated));
+                                localStorage.setItem('7h_crew_groups_v1', JSON.stringify(updated));
                                 setSelectedGroup("");
                                 setSelectedCrewPhones([]);
                               }
@@ -5513,8 +5557,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     {showSaveSmsGroup ? (
                       <div className="flex flex-col gap-2.5 bg-black/20 border border-white/5 p-3 animate-[slideIn_0.2s_ease-out]">
                         <div className="flex flex-col gap-1">
-                          <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">New Group Name</label>
+                          <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">New Group Name</label>
                           <input
+                            id="admin-new-sms-group-name"
                             type="text"
                             value={newSmsGroupName}
                             onChange={(e) => {
@@ -5529,7 +5574,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                         {/* Inline Checklist */}
                         <div className="flex flex-col gap-1">
-                          <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">Select Group Members</label>
+                          <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">Select Group Members</span>
                           <div className="max-h-[550px] min-h-[420px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5">
                             {(() => {
                               const selectedCrewPhonesSet = new Set(selectedCrewPhones);
@@ -5767,9 +5812,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             sendAsGroup: crewSendAsGroup
                           }),
                         });
-                        const data = await res.json();
-                        setCrewAlertResult(data);
-                        if (data.success) {
+                        if (res.ok) {
+                          const data = await res.json();
+                          setCrewAlertResult(data);
+                          if (data.success) {
                           setCrewAlertMsg('');
                           setSelectedCrewPhones([]);
                           setSmsSelectedShowDate('');
@@ -5794,6 +5840,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             color: 'bg-red-500'
                           }, ...prev]);
                         }
+                      }
                       } catch (err: any) {
                         setCrewAlertResult({ error: err.message });
                       }
@@ -5917,9 +5964,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           sendAsGroup: crewSendAsGroup
                         }),
                       });
-                      const data = await res.json();
-                      setCrewAlertResult(data);
-                      if (data.success) {
+                      if (res.ok) {
+                        const data = await res.json();
+                        setCrewAlertResult(data);
+                        if (data.success) {
                         setCrewAlertMsg('');
                         setSelectedCrewPhones([]);
                         setSmsSelectedShowDate('');
@@ -5944,6 +5992,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           color: 'bg-red-500'
                         }, ...prev]);
                       }
+                    }
                     } catch (err: any) {
                       setCrewAlertResult({ error: err.message });
                     }
@@ -6027,9 +6076,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Add New Preset Role */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">Add New Preset Role</label>
+                    <label htmlFor="admin-new-preset-role" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40">Add New Preset Role</label>
                     <div className="flex gap-2">
                       <input
+                        id="admin-new-preset-role"
                         type="text"
                         value={newPresetRoleInput}
                         onChange={(e) => setNewPresetRoleInput(e.target.value)}
@@ -6057,7 +6107,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Preset Roles List */}
                   <div className="space-y-1.5">
-                    <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block">Current Preset Roles ({presetRoles.length})</label>
+                    <span className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 block">Current Preset Roles ({presetRoles.length})</span>
                     <div className="max-h-[220px] overflow-y-auto custom-scrollbar border border-white/10 bg-black/40 p-2 space-y-1.5">
                       {presetRoles.length === 0 ? (
                         <div className="text-xs text-white/30 italic text-center py-4">No preset roles defined.</div>
@@ -6142,12 +6192,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               {/* Left Column: Band List (Choose Recipients) */}
               <div className="lg:col-span-2 space-y-4">
                 <div className="flex items-center justify-between flex-wrap gap-2">
-                  <label className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 block">Choose Recipients</label>
+                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-white/40 block">Choose Recipients</span>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => {
-                        const allKeys = allBandCombined.map(b => normalizePhoneNumber(b.phone) || b.id || b.name).filter(Boolean);
+                        const allKeys = allBandCombined.flatMap(b => { const k = normalizePhoneNumber(b.phone) || b.id || b.name; return k ? [k] : []; });
                         setSelectedBandPhones(allKeys);
                       }}
                       className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
@@ -6265,9 +6315,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               <div className="space-y-5">
                 <div className="bg-[var(--color-bg-card)]/40 border border-white/5 p-4 space-y-4">
                   <div>
-                    <label className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
+                    <label htmlFor="admin-band-sms-show-select" className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
                     <div className="relative">
                       <select
+                        id="admin-band-sms-show-select"
                         value={bandSmsSelectedShowDate}
                         onChange={(e) => selectShowForBandSms(e.target.value)}
                         className="w-full appearance-none pr-8 pl-3 py-2 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid"
@@ -6345,8 +6396,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   {/* Email Subject Line (Conditional) */}
                   {sendBandEmailAlert && (
                     <div className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
-                      <label className="text-[0.6rem] font-bold uppercase tracking-widest text-slate-800 block">Email Subject Line</label>
+                      <label htmlFor="admin-band-email-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-slate-800 block">Email Subject Line</label>
                       <input
+                        id="admin-band-email-subject"
                         type="text"
                         value={bandEmailSubject}
                         onChange={(e) => setBandEmailSubject(e.target.value)}
@@ -6359,8 +6411,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Message Form */}
                   <div className="space-y-2">
-                    <label className="text-[0.65rem] font-bold uppercase tracking-widest text-slate-800 block">Broadcast message</label>
+                    <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] font-bold uppercase tracking-widest text-slate-800 block">Broadcast message</label>
                     <textarea
+                      id="admin-band-broadcast-msg"
                       value={bandAlertMsg}
                       onChange={(e) => setBandAlertMsg(e.target.value)}
                       placeholder="Write message to send..."
@@ -6545,8 +6598,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         <div className="p-6">
           <div className="space-y-4">
             <div>
-              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
+              <label htmlFor="admin-newsletter-blast-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
               <input
+                id="admin-newsletter-blast-subject"
                 type="text"
                 value={blastSubject}
                 onChange={e => setBlastSubject(e.target.value)}
@@ -6555,8 +6609,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
+              <label htmlFor="admin-newsletter-blast-body" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
               <textarea
+                id="admin-newsletter-blast-body"
                 value={blastBody}
                 onChange={e => setBlastBody(e.target.value)}
                 placeholder="Write your announcement here..."
@@ -6585,9 +6640,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ subject: blastSubject, body: blastBody }),
                     });
-                    const data = await res.json();
-                    setBlastResult(data);
-                    if (data.success) { setBlastSubject(''); setBlastBody(''); }
+                    if (res.ok) {
+                      const data = await res.json();
+                      setBlastResult(data);
+                      if (data.success) { setBlastSubject(''); setBlastBody(''); }
+                    }
                   } catch (err: any) {
                     setBlastResult({ error: err.message });
                   }
@@ -6871,7 +6928,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                     onClick={async () => {
                                       const res = await adminResetPassword(user.id, user.email);
                                       if (res.success) {
-                                        const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+                                        const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
                                         accounts[user.email.toLowerCase()] = {
                                           ...accounts[user.email.toLowerCase()],
                                           id: user.id,
@@ -6880,7 +6937,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                           password: res.password,
                                           role: 'crew'
                                         };
-                                        localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+                                        localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
                                         alert(`Password reset to: ${res.password}\n\nPlease refresh to see changes.`);
                                         window.location.reload();
                                       }
@@ -6936,8 +6993,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+              <label htmlFor="admin-create-crew-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
               <input
+                id="admin-create-crew-name"
                 type="text"
                 placeholder="e.g. Alex Rivera"
                 value={newCrewName}
@@ -6946,8 +7004,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
+              <label htmlFor="admin-create-crew-username" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
               <input
+                id="admin-create-crew-username"
                 type="text"
                 placeholder="e.g. alex_7h"
                 value={newCrewUsername}
@@ -6957,8 +7016,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
+              <label htmlFor="admin-create-crew-email" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
               <input
+                id="admin-create-crew-email"
                 type="email"
                 placeholder="crew@7thheaven.com"
                 value={newCrewEmail}
@@ -6967,8 +7027,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
+              <label htmlFor="admin-create-crew-password" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
               <input
+                id="admin-create-crew-password"
                 type="password"
                 placeholder="Min 6 characters"
                 value={newCrewPassword}
@@ -6977,8 +7038,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
+              <label htmlFor="admin-create-crew-phone" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Phone Number <span className="text-purple-300">*</span></label>
               <input
+                id="admin-create-crew-phone"
                 type="tel"
                 placeholder="(555) 123-4567"
                 value={newCrewPhone}
@@ -7094,8 +7156,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+              <label htmlFor="admin-create-admin-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
               <input
+                id="admin-create-admin-name"
                 type="text"
                 placeholder="e.g. Michael Scimeca"
                 value={newAdminName}
@@ -7104,8 +7167,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
+              <label htmlFor="admin-create-admin-email" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email Address</label>
               <input
+                id="admin-create-admin-email"
                 type="email"
                 placeholder="admin@7thheaven.com"
                 value={newAdminEmail}
@@ -7114,8 +7178,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               />
             </div>
             <div>
-              <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
+              <label htmlFor="admin-create-admin-username" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Username</label>
               <input
+                id="admin-create-admin-username"
                 type="text"
                 placeholder="e.g. mikeys"
                 value={newAdminUsername}
@@ -7296,8 +7361,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           body: JSON.stringify({ id, [field]: value }),
         });
         const res = await fetch(`/api/admin/cruise-stats?t=${Date.now()}`);
-        const data = await res.json();
-        if (data && !data.error) setCruiseStats(data);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && !data.error) setCruiseStats(data);
+        }
       } catch { }
     };
     const deleteSignup = async (id: string, name: string) => {
@@ -7309,8 +7376,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           body: JSON.stringify({ id }),
         });
         const res = await fetch(`/api/admin/cruise-stats?t=${Date.now()}`);
-        const data = await res.json();
-        if (data && !data.error) setCruiseStats(data);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && !data.error) setCruiseStats(data);
+        }
       } catch { }
     };
 
@@ -7326,9 +7395,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ subject: cruiseEmailSubject, body: cruiseEmailBody, recipients: cruiseSelectedEmails }),
         });
-        const data = await res.json();
-        setCruiseEmailResult(data);
-        if (data.success) { setCruiseEmailSubject(''); setCruiseEmailBody(''); }
+        if (res.ok) {
+          const data = await res.json();
+          setCruiseEmailResult(data);
+          if (data.success) { setCruiseEmailSubject(''); setCruiseEmailBody(''); }
+        }
       } catch (err: any) {
         setCruiseEmailResult({ error: err.message });
       }
@@ -7418,8 +7489,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   ))}
                 </div>
                 <div>
-                  <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
+                  <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
                   <input
+                    id="admin-cruise-email-subject"
                     type="text"
                     value={cruiseEmailSubject}
                     onChange={e => setCruiseEmailSubject(e.target.value)}
@@ -7428,8 +7500,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   />
                 </div>
                 <div>
-                  <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
+                  <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
                   <textarea
+                    id="admin-cruise-email-body"
                     value={cruiseEmailBody}
                     onChange={e => setCruiseEmailBody(e.target.value)}
                     placeholder="Write your message to cruise passengers..."
@@ -8511,7 +8584,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
     const renderRosterBoard = () => {
       const renderRoleBadges = (roleStr: string) => {
-        const roles = (roleStr || 'Crew').split(/[,|/]/).map(r => r.trim()).filter(Boolean);
+        const roles = (roleStr || 'Crew').split(/[,|/]/).flatMap(r => { const t = r.trim(); return t ? [t] : []; });
         return roles.map((r, idx) => {
           const upper = r.toUpperCase();
           let colorClass = "text-white/45 bg-white/5 border-white/10";
@@ -9782,9 +9855,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   {/* Search by Person */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
+                    <label htmlFor="admin-sched-person-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
                     <div className="relative">
                       <input
+                        id="admin-sched-person-search"
                         type="text"
                         value={schedulePersonSearch}
                         onChange={(e) => setSchedulePersonSearch(e.target.value)}
@@ -9805,9 +9879,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Search by Venue */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
+                    <label htmlFor="admin-sched-venue-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
                     <div className="relative">
                       <input
+                        id="admin-sched-venue-search"
                         type="text"
                         value={scheduleVenueSearch}
                         onChange={(e) => setScheduleVenueSearch(e.target.value)}
@@ -9828,9 +9903,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Event Type Filter */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
+                    <label htmlFor="admin-sched-event-type" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
                     <div className="relative">
                       <select
+                        id="admin-sched-event-type"
                         value={scheduleEventTypeFilter}
                         onChange={(e) => setScheduleEventTypeFilter(e.target.value)}
                         className="appearance-none w-full bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-xs outline-none transition-colors cursor-pointer border-solid font-bold"
@@ -9850,7 +9926,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                   {/* Date Range Selection */}
                   <div className="flex flex-col gap-1.5 col-span-1">
-                    <label className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Custom Date Range</label>
+                    <span className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Custom Date Range</span>
                     <div className="flex items-center gap-2">
                       <input
                         type="date"
@@ -10336,7 +10412,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
                       {!(editingShift && editingShift.isCoverageRequested) && (
                         <div className="flex flex-col shrink-0">
-                          <label className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</label>
+                          <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</span>
 
                           {/* Search and Grouping Controls */}
                           <div className="shrink-0 mb-3 space-y-2">
@@ -10479,8 +10555,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                                 <div className="grid grid-cols-2 gap-3">
                                   <div>
-                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
+                                    <label htmlFor={`admin-drawer-start-time-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
                                     <select
+                                      id={`admin-drawer-start-time-${index}`}
                                       value={tf.startHour}
                                       onChange={(e) => {
                                         const val = parseFloat(e.target.value);
@@ -10501,8 +10578,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                   </div>
 
                                   <div>
-                                    <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
+                                    <label htmlFor={`admin-drawer-end-time-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
                                     <select
+                                      id={`admin-drawer-end-time-${index}`}
                                       value={tf.endHour}
                                       onChange={(e) => {
                                         const val = parseFloat(e.target.value);
@@ -10518,8 +10596,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                 </div>
 
                                 <div className="space-y-1">
-                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
+                                  <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
                                   <input
+                                    id={`admin-drawer-role-${index}`}
                                     type="text"
                                     value={tf.role}
                                     onChange={e => {
@@ -10563,9 +10642,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                 </div>
 
                                 <div className="space-y-1">
-                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
+                                  <label htmlFor={`admin-drawer-tags-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
                                   <div className="relative">
                                     <select
+                                      id={`admin-drawer-tags-${index}`}
                                       value=""
                                       onChange={(e) => {
                                         const val = e.target.value;
@@ -10731,8 +10811,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                     {/* Group Name input */}
                     <div className="space-y-1.5">
-                      <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
+                      <label htmlFor="admin-new-group-name" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
                       <input
+                        id="admin-new-group-name"
                         type="text"
                         value={newGroupNameInput}
                         onChange={(e) => setNewGroupNameInput(e.target.value)}
@@ -10743,7 +10824,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                     {/* Member Pick list */}
                     <div className="space-y-2">
-                      <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</label>
+                      <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
 
                       <div className="border border-white/5 bg-black/20 divide-y divide-white/5 overflow-hidden">
                         {crewMembers.filter(m => m.id !== 'openshifts').map((m) => {
@@ -10818,8 +10899,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                       {/* Start / End selects */}
                                       <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
+                                          <label htmlFor={`admin-group-member-${m.id}-tf-${tfIdx}-start`} className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
                                           <select
+                                            id={`admin-group-member-${m.id}-tf-${tfIdx}-start`}
                                             value={tf.startHour}
                                             onChange={(e) => {
                                               const h = parseFloat(e.target.value);
@@ -10841,8 +10923,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                         </div>
 
                                         <div>
-                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
+                                          <label htmlFor={`admin-group-member-${m.id}-tf-${tfIdx}-end`} className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
                                           <select
+                                            id={`admin-group-member-${m.id}-tf-${tfIdx}-end`}
                                             value={tf.endHour}
                                             onChange={(e) => {
                                               const h = parseFloat(e.target.value);
@@ -10865,7 +10948,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                                       {/* Role pills */}
                                       <div>
-                                        <label className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</label>
+                                        <span className="uppercase tracking-wider text-white/50 mb-1 block font-bold" style={{ fontSize: '7.5px' }}>Roles / Duties</span>
                                         <div className="flex flex-wrap gap-1">
                                           {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
                                             const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
@@ -11756,8 +11839,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Section Title</label>
+                        <label htmlFor="admin-guidelines-title" className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Section Title</label>
                         <input
+                          id="admin-guidelines-title"
                           type="text"
                           value={adminGuidelinesTitle}
                           onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
@@ -11766,8 +11850,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         />
                       </div>
                       <div>
-                        <label className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Subtitle Badge</label>
+                        <label htmlFor="admin-guidelines-subtitle" className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Subtitle Badge</label>
                         <input
+                          id="admin-guidelines-subtitle"
                           type="text"
                           value={adminGuidelinesSubtitle}
                           onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
@@ -11778,7 +11863,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </div>
 
                     <div>
-                      <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</label>
+                      <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
                       <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
                         <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
                       </div>
@@ -11855,8 +11940,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       {/* Left Column: Form Inputs & Target Controls */}
                       <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
                         <div>
-                          <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
+                          <label htmlFor="admin-cruise-blast-subject" className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
                           <input
+                            id="admin-cruise-blast-subject"
                             type="text"
                             value={cruiseBlastSubject}
                             onChange={(e) => setCruiseBlastSubject(e.target.value)}
@@ -11866,7 +11952,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         </div>
 
                         <div>
-                          <label className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</label>
+                          <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</span>
                           <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
                             <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
                           </div>
@@ -12191,7 +12277,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
                     <div className="space-y-3">
                       <div>
-                        <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</label>
+                        <span className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</span>
                         <div className="grid grid-cols-2 gap-2">
                           <button
                             type="button"
@@ -12219,10 +12305,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                       {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
                         <div>
-                          <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
+                          <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
                             {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
                           </label>
                           <select
+                            id="admin-qr-variant-select"
                             value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
                             onChange={(e) => {
                               const val = parseInt(e.target.value);
@@ -12246,8 +12333,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
+                        <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
                         <input
+                          id="admin-qr-subtitle-input"
                           type="text"
                           value={qrSubtitle}
                           onChange={(e) => setQrSubtitle(e.target.value)}

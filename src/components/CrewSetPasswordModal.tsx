@@ -161,10 +161,11 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
         ) : (
           <form onSubmit={handleSubmit}>
             {/* New Password */}
-            <label style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label htmlFor="crew-set-new-password" style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               New Password
             </label>
             <input
+              id="crew-set-new-password"
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -184,10 +185,11 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
             />
 
             {/* Confirm Password */}
-            <label style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
+            <label htmlFor="crew-set-confirm-password" style={{ display: "block", color: "var(--color-text-subtle)", fontSize: "var(--font-size-xs)", fontWeight: 800, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
               Confirm Password
             </label>
             <input
+              id="crew-set-confirm-password"
               type="password"
               value={confirm}
               onChange={e => setConfirm(e.target.value)}

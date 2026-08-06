@@ -73,9 +73,9 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
 
           {/* Remaining Articles List (Right - 5 Cols) */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            {newsItems.slice(1).map((item, i) => (
+            {newsItems.slice(1).map((item) => (
               <div
-                key={i}
+                key={item.title}
                 onClick={() => setSelectedArticle(item)}
                 className="bg-[var(--bg-color)] border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group"
               >

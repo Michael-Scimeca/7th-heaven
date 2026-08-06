@@ -34,33 +34,26 @@ export default function AdminFeedPost() {
 
  // ─── Real-time Presence (Who's online) ───
  useEffect(() => {
-  if (!supabase) return;
+  if (!supabase) return () => {};
   let active = true;
 
   const channel = supabase.channel('crew_dashboard_presence', {
    config: { presence: { key: selectedMember.name } }
   });
 
-  channel
-   .on('presence', { event: 'sync' }, () => {
-    if (!active) return;
-    const newState = channel.presenceState();
-    const flattened = Object.values(newState).flat();
-    setOnlineMembers(flattened);
-   })
-   .subscribe(async (status: any) => {
-    if (status === 'SUBSCRIBED' && active) {
-     await channel.track({
-      name: selectedMember.name,
-      avatar: selectedMember.avatar,
-      onlineAt: new Date().toISOString()
-     });
-    }
-   });
+  const subscription = channel.subscribe((status: any) => {
+   if (status === 'SUBSCRIBED' && active) {
+    channel.track({
+     name: selectedMember.name,
+     avatar: selectedMember.avatar,
+     onlineAt: new Date().toISOString()
+    });
+   }
+  });
 
   return () => {
    active = false;
-   channel.unsubscribe();
+   subscription.unsubscribe();
    supabase.removeChannel(channel);
   };
  }, [selectedMember]);
@@ -117,9 +110,9 @@ export default function AdminFeedPost() {
     {/* Presence Header */}
     <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 rounded-sm">
      <div className="flex -space-x-2">
-      {onlineMembers.map((m: any, i) => (
+      {Array.from(onlineMembers, (m: any, i) => ({ m, i })).map(({ m, i }) => (
        <div 
-        key={i} 
+        key={m.id || m.name || i} 
         title={m.name}
         className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 border-[#0a0a0f] bg-[var(--color-accent)] text-white"
        >
@@ -150,7 +143,7 @@ export default function AdminFeedPost() {
     <form onSubmit={handlePost} className="space-y-5">
      {/* Who's posting */}
      <div>
-      <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">I am</label>
+      <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">I am</span>
       <div className="grid grid-cols-3 gap-2">
        {crewMembers.map((m) => (
         <button
@@ -180,7 +173,7 @@ export default function AdminFeedPost() {
 
      {/* Post type */}
      <div>
-      <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Post Type</label>
+      <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Post Type</span>
       <div className="flex flex-wrap gap-2">
        {postTypes.map((t) => (
         <button
@@ -203,10 +196,11 @@ export default function AdminFeedPost() {
 
      {/* Content */}
      <div>
-      <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">
+      <label htmlFor="admin-feed-post-content" className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">
        What&apos;s happening?
       </label>
       <textarea
+       id="admin-feed-post-content"
        ref={textareaRef}
        value={content}
        onChange={(e) => setContent(e.target.value)}
@@ -232,8 +226,9 @@ export default function AdminFeedPost() {
      {/* Image URL (for photo type) */}
      {(postType === "photo" || postType === "crowd") && (
       <div>
-       <label className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Image URL</label>
+       <label htmlFor="admin-feed-post-image-url" className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Image URL</label>
        <input
+        id="admin-feed-post-image-url"
         type="url"
         value={imageUrl}
         onChange={(e) => setImageUrl(e.target.value)}
@@ -282,8 +277,8 @@ export default function AdminFeedPost() {
      <div className="mt-8">
       <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-white/30 mb-3">Recently Posted</h3>
       <div className="space-y-2">
-       {recentPosts.map((p, i) => (
-        <div key={i} className="p-3 border border-white/[0.06] bg-white/[0.02] text-sm text-white/50">
+       {recentPosts.map((p) => (
+        <div key={p.content || p.member} className="p-3 border border-white/[0.06] bg-white/[0.02] text-sm text-white/50">
          <span className="text-white/70 font-medium">{p.member}:</span> {p.content.slice(0, 80)}
          {p.content.length > 80 ? "…" : ""}{" "}
          <span className="text-white/20">· {p.time}</span>

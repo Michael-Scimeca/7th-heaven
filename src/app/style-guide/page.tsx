@@ -889,32 +889,35 @@ export default function StyleGuidePage() {
       <Section title="Form Inputs" id="forms">
         <div className="max-w-md space-y-4">
           <div>
-            <label className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Text Input</label>
+            <label htmlFor="sg-text-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Text Input</label>
             <input
+              id="sg-text-input"
               type="text"
               placeholder="Enter your name..."
               className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors placeholder:text-white/20"
             />
           </div>
           <div>
-            <label className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Email</label>
+            <label htmlFor="sg-email-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Email</label>
             <input
+              id="sg-email-input"
               type="email"
               placeholder="you@example.com"
               className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors placeholder:text-white/20"
             />
           </div>
           <div>
-            <label className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Textarea</label>
+            <label htmlFor="sg-textarea-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Textarea</label>
             <textarea
+              id="sg-textarea-input"
               placeholder="Write your message..."
               rows={4}
               className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors placeholder:text-white/20 resize-none"
             />
           </div>
           <div>
-            <label className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Select</label>
-            <select className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors">
+            <label htmlFor="sg-select-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Select</label>
+            <select id="sg-select-input" className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors">
               <option>Option One</option>
               <option>Option Two</option>
               <option>Option Three</option>

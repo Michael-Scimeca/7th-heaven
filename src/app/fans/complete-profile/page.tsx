@@ -155,12 +155,13 @@ export default function CompleteProfilePage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {/* Username */}
               <div>
-                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <label htmlFor="complete-profile-username" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Choose Your Username
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-sm">@</span>
                   <input
+                    id="complete-profile-username"
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
@@ -175,9 +176,9 @@ export default function CompleteProfilePage() {
 
               {/* Notification Preferences */}
               <div className="flex flex-col gap-2">
-                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
+                <span className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Notification Preferences
-                </label>
+                </span>
 
                 {/* Proximity alerts */}
                 <button
@@ -204,8 +205,9 @@ export default function CompleteProfilePage() {
                 {/* Zip code */}
                 {wantNotifications && (
                   <div className="ml-1">
-                    <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
+                    <label htmlFor="complete-profile-zip" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
                     <input
+                      id="complete-profile-zip"
                       type="text"
                       value={zipCode}
                       onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}

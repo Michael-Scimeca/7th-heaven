@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const layouts = ["A", "B", "C", "D", "E", "F"] as const;
 type Layout = typeof layouts[number];
@@ -42,7 +42,19 @@ export default function GridLayoutDemo() {
   const [categories, setCategories] = useState<VideoCategory[]>([]);
   const [cat, setCat] = useState("Official Music Videos");
 
-  useEffect(() => { fetch("/data/videos.json").then(r => r.json()).then(setCategories); }, []);
+  const fetchCategories = useCallback(async () => {
+    try {
+      const r = await fetch("/data/videos.json");
+      if (r.ok) {
+        const data = await r.json();
+        setCategories(data);
+      }
+    } catch { }
+  }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
   const videos = categories.find(c => c.category === cat)?.videos || [];
   const catNames = categories.map(c => c.category);
 

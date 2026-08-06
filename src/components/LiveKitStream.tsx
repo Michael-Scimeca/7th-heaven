@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   LiveKitRoom,
   GridLayout,
@@ -74,32 +74,27 @@ export function LiveKitStream({
   const [error, setError] = useState('');
 
   useEffect(() => {
-    let aborted = false;
-    let retryTimer: ReturnType<typeof setTimeout> | null = null;
+    let active = true;
 
-    const fetchToken = async (retryCount = 0) => {
-      if (aborted) return;
+    const timerId = setTimeout(async () => {
       try {
-        const supabase = createClient();
-        const { data: { session } } = await supabase.auth.getSession();
-        if (aborted) return;
-
-        const headers: Record<string, string> = {
-          'Content-Type': 'application/json'
-        };
-
-        if (session?.access_token) {
-          headers['Authorization'] = `Bearer ${session.access_token}`;
-        }
+        const tokenVal = typeof window !== 'undefined' ? localStorage.getItem('7h_crew_token') : null;
+        const headers: Record<string, string> = {};
+        if (tokenVal) headers['Authorization'] = `Bearer ${tokenVal}`;
 
         const res = await fetch(
           `/api/livekit?room=${encodeURIComponent(room)}&username=${encodeURIComponent(username)}&publish=${isPublisher}`,
           { headers }
         );
 
-        if (aborted) return;
+        if (!active) return;
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          setError(data.error || `HTTP ${res.status}`);
+          return;
+        }
         const data = await res.json();
-        if (aborted) return;
+        if (!active) return;
         if (data.error) {
           setError(data.error);
           return;
@@ -107,23 +102,14 @@ export function LiveKitStream({
         setToken(data.token);
         setUrl(data.url);
       } catch (err) {
-        if (aborted) return;
-        if (retryCount < 2) {
-          if (retryTimer) clearTimeout(retryTimer);
-          retryTimer = setTimeout(() => {
-            if (!aborted) fetchToken(retryCount + 1);
-          }, 1000);
-        } else {
-          console.error('Token fetch failed:', err);
-          setError('Failed to connect to stream server');
-        }
+        if (!active) return;
+        setError('Failed to connect to stream server');
       }
-    };
-    fetchToken();
+    }, 0);
 
     return () => {
-      aborted = true;
-      if (retryTimer) clearTimeout(retryTimer);
+      active = false;
+      clearTimeout(timerId);
     };
   }, [room, username, isPublisher]);
 

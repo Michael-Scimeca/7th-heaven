@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 
@@ -147,7 +147,7 @@ export function OriginStats() {
 
       <div className="space-y-4">
         {stats.map((stat, i) => (
-          <div key={i}>
+          <div key={stat.location}>
             <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-1.5">
               <span className="text-white/70">{stat.location}</span>
               <span className=" text-[var(--color-accent)]">{stat.count} fans</span>
@@ -225,7 +225,7 @@ export function BookingManager({ email }: { email?: string }) {
   const [regCabinPref, setRegCabinPref] = useState('group_d4');
   const [regError, setRegError] = useState('');
 
-  useEffect(() => {
+  const fetchBooking = useCallback(async () => {
     const effectiveEmail = email || member?.email || 'cruise@7thheaven.com';
 
     const defaultBooking = {
@@ -257,66 +257,71 @@ export function BookingManager({ email }: { email?: string }) {
       return;
     }
 
-    fetch(`/api/cruise/booking?email=${encodeURIComponent(effectiveEmail)}`)
-      .then(res => res.json())
-      .then(data => {
+    try {
+      const res = await fetch(`/api/cruise/booking?email=${encodeURIComponent(effectiveEmail)}`);
+      if (res.ok) {
+        const data = await res.json();
         if (data.success && data.booking) {
-          let cabinPref = data.booking.cabin_preference || 'Ocean View Balcony (Cabin 9122)';
-          let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
-          if (data.booking.notes) {
-            const notesLower = data.booking.notes.toLowerCase();
-            const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
-            if (matches && matches[1]) {
-              cabinPref = matches[1].split('\n')[0].trim();
-            }
-            if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
-              cabinImg = '/images/cruise/n5.jpg';
-            } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
-              cabinImg = '/images/cruise/if.jpg';
-            } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
-              cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
-            } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
-              cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
-            } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
-              cabinImg = '/images/cruise/jy.png';
-            }
+        let cabinPref = data.booking.cabin_preference || 'Ocean View Balcony (Cabin 9122)';
+        let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+        if (data.booking.notes) {
+          const notesLower = data.booking.notes.toLowerCase();
+          const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
+          if (matches && matches[1]) {
+            cabinPref = matches[1].split('\n')[0].trim();
           }
-
-          const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$1,200.00");
-          const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$350.00");
-
-          setBooking({
-            ...data.booking,
-            name: data.booking.name || member?.name || 'Cruise Guest',
-            cabin_preference: cabinPref,
-            cabin_image: cabinImg,
-            total_fare: data.booking.total_fare || "$1,550.00",
-            amount_paid: amountPaid,
-            balance_due: balanceDue
-          });
-
-          setFormData({
-            guest_count: data.booking.guest_count || 2,
-            phone: data.booking.phone || '(555) 019-9283',
-            anonymous: data.booking.anonymous || false,
-            guests: data.booking.guests || [{ name: 'Sarah Connor', type: 'adult' }]
-          });
-        } else {
-          setBooking(defaultBooking);
-          setFormData({
-            guest_count: 2,
-            phone: '(555) 019-9283',
-            anonymous: false,
-            guests: [{ name: 'Sarah Connor', type: 'adult' }]
-          });
+          if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
+            cabinImg = '/images/cruise/n5.jpg';
+          } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
+            cabinImg = '/images/cruise/if.jpg';
+          } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
+            cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+          } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
+            cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
+          } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
+            cabinImg = '/images/cruise/jy.png';
+          }
         }
-        setLoading(false);
-      })
-      .catch(() => {
+
+        const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$1,200.00");
+        const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$350.00");
+
+        setBooking({
+          ...data.booking,
+          name: data.booking.name || member?.name || 'Cruise Guest',
+          cabin_preference: cabinPref,
+          cabin_image: cabinImg,
+          total_fare: data.booking.total_fare || "$1,550.00",
+          amount_paid: amountPaid,
+          balance_due: balanceDue
+        });
+
+        setFormData({
+          guest_count: data.booking.guest_count || 2,
+          phone: data.booking.phone || '(555) 019-9283',
+          anonymous: data.booking.anonymous || false,
+          guests: data.booking.guests || [{ name: 'Sarah Connor', type: 'adult' }]
+        });
+      } else {
         setBooking(defaultBooking);
-        setLoading(false);
-      });
+        setFormData({
+          guest_count: 2,
+          phone: '(555) 019-9283',
+          anonymous: false,
+          guests: [{ name: 'Sarah Connor', type: 'adult' }]
+        });
+      }
+      }
+    } catch {
+      setBooking(defaultBooking);
+    } finally {
+      setLoading(false);
+    }
   }, [email, member]);
+
+  useEffect(() => {
+    fetchBooking();
+  }, [fetchBooking]);
 
   const handleSave = async () => {
     setSaveStatus('Saving...');
@@ -339,8 +344,9 @@ export function BookingManager({ email }: { email?: string }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, ...formData })
       });
-      const data = await res.json();
-      if (data.success) {
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
         // Parse cabin preference and set matching image
         let cabinPref = 'Ocean View Balcony';
         let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
@@ -378,6 +384,7 @@ export function BookingManager({ email }: { email?: string }) {
       } else {
         setSaveStatus('Error saving');
       }
+      }
     } catch {
       setSaveStatus('Error saving');
     }
@@ -405,14 +412,12 @@ export function BookingManager({ email }: { email?: string }) {
           website: ''
         })
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setRegError(data.error || 'Registration failed.');
-      } else {
-        // Refresh booking info
+      if (res.ok) {
+        const data = await res.json();
         const bookRes = await fetch(`/api/cruise/booking?email=${encodeURIComponent(email || '')}`);
-        const bookData = await bookRes.json();
-        if (bookData.success) {
+        if (bookRes.ok) {
+          const bookData = await bookRes.json();
+          if (bookData.success) {
           setBooking(bookData.booking);
           setFormData({
             guest_count: bookData.booking.guest_count || 1,
@@ -422,6 +427,10 @@ export function BookingManager({ email }: { email?: string }) {
           });
         }
       }
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setRegError(data.error || 'Registration failed.');
+    }
     } catch (err) {
       setRegError('An error occurred during registration.');
     } finally {
@@ -446,27 +455,27 @@ export function BookingManager({ email }: { email?: string }) {
       <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</label>
+            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</span>
             <input type="text" readOnly value={member?.name || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
           <div>
-            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</label>
+            <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</span>
             <input type="text" readOnly value={email || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
-            <input type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
+            <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
+            <input id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
           </div>
           <div>
-            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
-            <input type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
+            <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
+            <input id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
           </div>
           <div>
-            <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
-            <select value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors cursor-pointer">
+            <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
+            <select id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors cursor-pointer">
               <option value="group_n5">Ocean View</option>
               <option value="group_if">Infinite Central Park</option>
               <option value="group_d4">Ocean View Balcony</option>
@@ -528,8 +537,9 @@ export function BookingManager({ email }: { email?: string }) {
             <div className="md:col-span-3 space-y-4">
               <h3 className="text-xs font-bold text-cyan-700 uppercase tracking-widest border-b border-black/10 pb-2">Edit Booking & Guest Info</h3>
               <div>
-                <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
+                <label htmlFor="cruise-edit-party-size" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
                 <input
+                  id="cruise-edit-party-size"
                   type="number" min="1" max="10"
                   value={formData.guest_count}
                   onChange={e => setFormData({ ...formData, guest_count: parseInt(e.target.value) || 1 })}
@@ -537,8 +547,9 @@ export function BookingManager({ email }: { email?: string }) {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
+                <label htmlFor="cruise-edit-phone" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
                 <input
+                  id="cruise-edit-phone"
                   type="text"
                   value={formData.phone}
                   onChange={e => setFormData({ ...formData, phone: e.target.value })}
@@ -558,11 +569,11 @@ export function BookingManager({ email }: { email?: string }) {
 
               <div className="pt-2 border-t border-black/10">
                 <div className="flex justify-between items-center mb-2">
-                  <label className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</label>
+                  <span className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</span>
                   <button onClick={() => setFormData({ ...formData, guests: [...formData.guests, { name: '', type: 'adult' }] })} className="text-xs font-bold  text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
                 </div>
                 <div className="space-y-2">
-                  {formData.guests.map((g: any, i: number) => (
+                  {Array.from(formData.guests, (g: any, i: number) => ({ g, i })).map(({ g, i }) => (
                     <div key={i} className="flex gap-2">
                       <input
                         type="text" placeholder="Name" value={g.name || ''}
@@ -969,8 +980,9 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
+                      <label htmlFor="cruise-card-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
                       <input
+                        id="cruise-card-name"
                         type="text"
                         placeholder="John Doe"
                         value={cardName}
@@ -979,9 +991,10 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                       />
                     </div>
                     <div>
-                      <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
+                      <label htmlFor="cruise-card-number" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
                       <div className="relative">
                         <input
+                          id="cruise-card-number"
                           type="text"
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
@@ -993,8 +1006,9 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
+                        <label htmlFor="cruise-card-expiry" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
                         <input
+                          id="cruise-card-expiry"
                           type="text"
                           placeholder="MM/YY"
                           value={cardExpiry}
@@ -1003,8 +1017,9 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                         />
                       </div>
                       <div>
-                        <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
+                        <label htmlFor="cruise-card-cvc" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
                         <input
+                          id="cruise-card-cvc"
                           type="password"
                           placeholder="123"
                           value={cardCVC}
@@ -1044,16 +1059,21 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
 export function ImportantLinksWidget() {
   const [links, setLinks] = useState<{ title: string, url: string, icon: string }[]>([]);
 
-  useEffect(() => {
-    fetch(`/api/cruise/important-links?t=${Date.now()}`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => {
+  const loadLinks = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/cruise/important-links?t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
         if (data.links && Array.isArray(data.links)) {
           setLinks(data.links);
         }
-      })
-      .catch(() => { });
+      }
+    } catch { }
   }, []);
+
+  useEffect(() => {
+    loadLinks();
+  }, [loadLinks]);
 
   if (links.length === 0) return null;
 
@@ -1071,9 +1091,9 @@ export function ImportantLinksWidget() {
       </div>
 
       <div className="space-y-3 relative z-10">
-        {links.map((link, i) => (
+        {links.map((link) => (
           <a
-            key={i}
+            key={link.url || link.title}
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
@@ -1210,7 +1230,7 @@ export function ExcursionTeasers() {
 
       <div className="space-y-3">
         {excursions.map((ex, i) => (
-          <div key={i} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
+          <div key={ex.title} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
               <div className="text-sm font-bold text-white mb-0.5">{ex.title}</div>
               <div className="text-xs text-cyan-400/80 uppercase tracking-wider">Join {ex.bandMember}</div>

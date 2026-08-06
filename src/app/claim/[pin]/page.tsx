@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
 
@@ -19,7 +19,7 @@ export default function ClaimPage() {
 
   useEffect(() => {
     if (pin) {
-      const claimedMap = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '{}');
+      const claimedMap = JSON.parse(localStorage.getItem('claimed_raffle_pins_v1') || localStorage.getItem('claimed_raffle_pins') || '{}');
       if (claimedMap[pin]) {
         setHasClaimed(true);
       }
@@ -30,9 +30,9 @@ export default function ClaimPage() {
     if (hasClaimed || !pin) return;
 
     // Save to claimed map
-    const claimedMap = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '{}');
+    const claimedMap = JSON.parse(localStorage.getItem('claimed_raffle_pins_v1') || localStorage.getItem('claimed_raffle_pins') || '{}');
     claimedMap[pin] = true;
-    localStorage.setItem('claimed_raffle_pins', JSON.stringify(claimedMap));
+    localStorage.setItem('claimed_raffle_pins_v1', JSON.stringify(claimedMap));
     setHasClaimed(true);
 
     const firstPrize = prizesList[0];
@@ -59,12 +59,12 @@ export default function ClaimPage() {
 
     // Save to admin_orders_list in localStorage
     try {
-      const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list') || '[]');
+      const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list') || '[]');
       currentOrders.unshift(newClaimOrder);
-      localStorage.setItem('admin_orders_list', JSON.stringify(currentOrders));
+      localStorage.setItem('admin_orders_list_v1', JSON.stringify(currentOrders));
 
       // Also add to merch_pickup_queue
-      const queue = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
+      const queue = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
       queue.unshift({
         id: newClaimOrder.id,
         code: `PU-${pin}`,
@@ -77,7 +77,7 @@ export default function ClaimPage() {
         ts: newClaimOrder.ts,
         claimed: false
       });
-      localStorage.setItem('merch_pickup_queue', JSON.stringify(queue));
+      localStorage.setItem('merch_pickup_queue_v1', JSON.stringify(queue));
 
       // Decrement inventory in Shopify storefront for the prize
       if (firstPrize?.variantId) {
@@ -85,7 +85,7 @@ export default function ClaimPage() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ variantId: firstPrize.variantId, quantity: firstPrize.qty || 1 })
-        }).then(res => res.json())
+        }).then(res => res.ok ? res.json() : null)
           .then(data => console.log('[Shopify Inventory Sync]', data))
           .catch(err => console.error('[Shopify Inventory Sync Error]', err));
       }
@@ -112,11 +112,11 @@ export default function ClaimPage() {
     }
   }, [prizeName]);
 
-  useEffect(() => {
+  const fetchShopifyDetails = useCallback(async () => {
     if (prizesList.length === 0) return;
-    const fetchShopifyDetails = async () => {
-      try {
-        const res = await fetch('/api/shopify/inventory');
+    try {
+      const res = await fetch('/api/shopify/inventory');
+      if (res.ok) {
         const data = await res.json();
         const productList = data.products || data || [];
         const map: Record<string, { title: string, imageUrl: string }> = {};
@@ -127,12 +127,15 @@ export default function ClaimPage() {
           };
         }
         setShopifyProductsMap(map);
-      } catch (e) {
-        console.error('Failed to load Shopify products for claiming page:', e);
       }
-    };
+    } catch (e) {
+      console.error('Failed to load Shopify products for claiming page:', e);
+    }
+  }, [prizesList.length]);
+
+  useEffect(() => {
     fetchShopifyDetails();
-  }, [prizesList]);
+  }, [fetchShopifyDetails]);
 
   useEffect(() => {
     if (!pin) { setStatus('invalid'); return; }
@@ -261,13 +264,13 @@ export default function ClaimPage() {
               {/* Prizes List */}
               <div className="space-y-3 mb-8">
                 <p className="text-white/30 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-1 text-center font-sans">Prizes Won ({prizesList.length})</p>
-                {prizesList.map((item, idx) => {
+                {prizesList.map((item) => {
                   const shopifyDetails = item.productId ? shopifyProductsMap[item.productId] : null;
                   const displayTitle = shopifyDetails?.title || item.name;
                   const displayImage = shopifyDetails?.imageUrl || '/images/mockups/merch-hoodie.png';
 
                   return (
-                    <div key={idx} className="bg-white/[0.03] border border-white/10 p-3 flex gap-3 items-center text-left">
+                    <div key={item.productId || item.variantId || item.name} className="bg-white/[0.03] border border-white/10 p-3 flex gap-3 items-center text-left">
                       <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center p-1 relative shrink-0">
                         <Image width={200} height={200} unoptimized src={displayImage} alt={displayTitle} className="w-full h-full object-contain mix-blend-screen" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                       </div>
@@ -284,7 +287,7 @@ export default function ClaimPage() {
               <div className="mb-6">
                 <p className="text-white/30 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-3 font-sans">Verification PIN</p>
                 <div className="flex items-center justify-center gap-2">
-                  {pin.split('').map((digit, i) => (
+                  {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
                     <div key={i} className="w-10 h-14 bg-black/60 border-2 border-purple-500/40 rounded-lg flex items-center justify-center shadow-[0_0_8px_rgba(192, 132, 252,0.15)]">
                       <span className="text-purple-300 font-black text-2xl tabular-nums font-sans">{digit}</span>
                     </div>

@@ -75,15 +75,20 @@ export default function AwardPicksPanel() {
           awardedBy: "admin",
         }),
       });
-      const data = await res.json();
-      if (data.success) {
-        const pickMeta = PICK_TYPES.find((p) => p.id === selectedPick)!;
-        setResult({ ok: true, msg: `Awarded ${pickMeta.name} to ${selectedFan.full_name || selectedFan.email}!` });
-        setRecentAwards((prev) => [
-          { fan: selectedFan.full_name || selectedFan.email, pick: pickMeta.name, rarity: pickMeta.rarity, time: new Date().toLocaleTimeString(), color: pickMeta.color },
-          ...prev.slice(0, 9),
-        ]);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          const pickMeta = PICK_TYPES.find((p) => p.id === selectedPick)!;
+          setResult({ ok: true, msg: `Awarded ${pickMeta.name} to ${selectedFan.full_name || selectedFan.email}!` });
+          setRecentAwards((prev) => [
+            { fan: selectedFan.full_name || selectedFan.email, pick: pickMeta.name, rarity: pickMeta.rarity, time: new Date().toLocaleTimeString(), color: pickMeta.color },
+            ...prev.slice(0, 9),
+          ]);
+        } else {
+          setResult({ ok: false, msg: data.error || "Failed to award pick" });
+        }
       } else {
+        const data = await res.json().catch(() => ({}));
         setResult({ ok: false, msg: data.error || "Failed to award pick" });
       }
     } catch (err: any) {
@@ -98,23 +103,28 @@ export default function AwardPicksPanel() {
     if (!confirm(`Award ${PICK_TYPES.find(p => p.id === selectedPick)?.name} to ${count} fans?`)) return;
     setAwarding(true);
     setResult(null);
-    let success = 0;
-    for (const fan of filteredFans) {
-      try {
-        const res = await fetch("/api/picks", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: fan.id,
-            pickType: selectedPick,
-            reason: selectedReason,
-            awardedBy: "admin",
-          }),
-        });
-        const data = await res.json();
-        if (data.success) success++;
-      } catch { }
-    }
+    const results = await Promise.all(
+      filteredFans.map(async (fan) => {
+        try {
+          const res = await fetch("/api/picks", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: fan.id,
+              pickType: selectedPick,
+              reason: selectedReason,
+              awardedBy: "admin",
+            }),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            return data.success ? 1 : 0;
+          }
+        } catch { }
+        return 0;
+      })
+    );
+    const success = results.reduce<number>((acc, cur) => acc + cur, 0);
     setResult({ ok: true, msg: `Awarded picks to ${success}/${count} fans` });
     setAwarding(false);
   };
@@ -123,7 +133,7 @@ export default function AwardPicksPanel() {
     <div className="space-y-6">
       {/* Pick Type Selection */}
       <div>
-        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Select Pick Type</label>
+        <span className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Select Pick Type</span>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           {PICK_TYPES.map((pick) => (
             <button
@@ -151,7 +161,7 @@ export default function AwardPicksPanel() {
 
       {/* Award Reason */}
       <div>
-        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Reason</label>
+        <span className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Reason</span>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
           {AWARD_REASONS.map((r) => (
             <button
@@ -170,10 +180,11 @@ export default function AwardPicksPanel() {
 
       {/* Fan Search + Selection */}
       <div>
-        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">
+        <label htmlFor="search-fan-input" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">
           Select Fan {selectedFan && <span className=" text-[var(--color-accent)]">→ {selectedFan.full_name || selectedFan.email}</span>}
         </label>
         <input
+          id="search-fan-input"
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -231,10 +242,10 @@ export default function AwardPicksPanel() {
       {/* Recent Awards Log */}
       {recentAwards.length > 0 && (
         <div>
-          <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Recent Awards</label>
+          <span className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Recent Awards</span>
           <div className="space-y-1.5">
-            {recentAwards.map((a, i) => (
-              <div key={i} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg text-sm">
+            {recentAwards.map((a) => (
+              <div key={a.id || `${a.fan}-${a.time}`} className="flex items-center gap-3 px-3 py-2 bg-white/[0.02] border border-white/5 rounded-lg text-sm">
                 <span className="w-3 h-3 rounded-full" style={{ background: a.color }} />
                 <span className="text-white/70 font-bold">{a.fan}</span>
                 <span className="text-white/30">→</span>

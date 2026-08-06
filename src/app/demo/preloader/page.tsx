@@ -321,7 +321,7 @@ export default function PreloaderDemo() {
                 desc: "A brief pause on 100% for readability, followed by a CSS opacity fade-out animation. Unlocks page scroll and unmounts from the DOM tree.",
               },
             ].map((p, idx) => (
-              <div key={idx} className="flex gap-4 items-start pb-6 last:pb-0 border-b last:border-0 border-white/5">
+              <div key={p.phase} className="flex gap-4 items-start pb-6 last:pb-0 border-b last:border-0 border-white/5">
                 <div className="w-8 h-8 rounded-full bg-purple-950/50 border border-purple-500/20  text-[var(--color-accent)] flex items-center justify-center shrink-0 font-bold font-mono text-sm">
                   {idx + 1}
                 </div>

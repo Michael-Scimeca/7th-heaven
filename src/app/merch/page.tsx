@@ -98,7 +98,7 @@ function MerchDashboard() {
       } else {
         // Mark as claimed
         queue[orderIndex].claimed = true;
-        localStorage.setItem('merch_pickup_queue', JSON.stringify(queue));
+        localStorage.setItem('merch_pickup_queue_v1', JSON.stringify(queue));
         setPickupQueue(queue);
         setScanResult({ status: 'valid', order: queue[orderIndex] });
       }
@@ -108,12 +108,12 @@ function MerchDashboard() {
 
   // Load data
   const loadData = async () => {
-    const queue: PickupOrder[] = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
+    const queue: PickupOrder[] = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
     setPickupQueue(queue);
     setRaffleWins(getRaffleWins());
 
     // Load claimed pins from localStorage
-    const claimedLocal = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '[]');
+    const claimedLocal = JSON.parse(localStorage.getItem('claimed_raffle_pins_v1') || localStorage.getItem('claimed_raffle_pins') || '[]');
     const claimedSet = new Set<string>(claimedLocal);
 
     // Also load claimed status from Supabase to merge
@@ -173,10 +173,10 @@ function MerchDashboard() {
     setAwardedPins(prev => new Set([...prev, pin]));
 
     // 1. Save to localStorage
-    const claimed = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '[]');
+    const claimed = JSON.parse(localStorage.getItem('claimed_raffle_pins_v1') || localStorage.getItem('claimed_raffle_pins') || '[]');
     if (!claimed.includes(pin)) {
       claimed.push(pin);
-      localStorage.setItem('claimed_raffle_pins', JSON.stringify(claimed));
+      localStorage.setItem('claimed_raffle_pins_v1', JSON.stringify(claimed));
     }
 
     // 2. Persist to Supabase by finding the raffle and updating it
@@ -224,9 +224,9 @@ function MerchDashboard() {
 
   // Mark pickup as claimed
   const markClaimed = (id: number) => {
-    const queue: PickupOrder[] = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
+    const queue: PickupOrder[] = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
     const updated = queue.map(o => o.id === id ? { ...o, claimed: true } : o);
-    localStorage.setItem('merch_pickup_queue', JSON.stringify(updated));
+    localStorage.setItem('merch_pickup_queue_v1', JSON.stringify(updated));
     setPickupQueue(updated);
   };
 
@@ -382,7 +382,7 @@ function MerchDashboard() {
                       {/* PIN displayed as large readable digits */}
                       <div className="flex items-center gap-1.5">
                         {win.pin.split('').map((digit, i) => (
-                          <div key={i} className={`w-10 h-13 min-h-[52px] flex items-center justify-center rounded-lg border-2 ${awarded
+                          <div key={`digit-${i}-${digit}`} className={`w-10 h-13 min-h-[52px] flex items-center justify-center rounded-lg border-2 ${awarded
                             ? 'bg-white/5 border-white/10'
                             : 'bg-purple-500/5 border-purple-500/40 shadow-[0_0_12px_rgba(147,51,234,0.1)]'
                             }`}>

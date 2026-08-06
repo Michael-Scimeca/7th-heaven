@@ -246,9 +246,9 @@ export default function YTCarouselPage() {
           </svg>
         </button>
         <div className="ytc-dots">
-          {VIDEOS.map((_, i) => (
+          {Array.from(VIDEOS, (v, i) => ({ v, i })).map(({ v, i }) => (
             <button
-              key={i}
+              key={v.id || v.title}
               className={`ytc-dot${i === activeIndex ? " ytc-dot--on" : ""}`}
               onClick={() => goTo(i)}
               aria-label={VIDEOS[i].title}

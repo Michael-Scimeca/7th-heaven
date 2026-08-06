@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface Show {
   _id: string;
@@ -31,25 +31,33 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchChallenge = useCallback(async () => {
     if (!selectedShowId) return;
     setLoading(true);
-    fetch(`/api/admin/invite-challenge?showId=${selectedShowId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data) {
-          setChallenge({
-            enabled: data.enabled ?? false,
-            threshold: data.threshold ?? 20,
-            reward_name: data.reward_name ?? "",
-            reward_description: data.reward_description ?? "Claim at the merch table, night of show",
-          });
-        } else {
-          setChallenge({ enabled: false, threshold: 20, reward_name: "", reward_description: "Claim at the merch table, night of show" });
-        }
-      })
-      .finally(() => setLoading(false));
+    try {
+      const r = await fetch(`/api/admin/invite-challenge?showId=${selectedShowId}`);
+      if (r.ok) {
+        const data = await r.json();
+      if (data) {
+        setChallenge({
+          enabled: data.enabled ?? false,
+          threshold: data.threshold ?? 20,
+          reward_name: data.reward_name ?? "",
+          reward_description: data.reward_description ?? "Claim at the merch table, night of show",
+        });
+      } else {
+        setChallenge({ enabled: false, threshold: 20, reward_name: "", reward_description: "Claim at the merch table, night of show" });
+      }
+      }
+    } catch { }
+    finally {
+      setLoading(false);
+    }
   }, [selectedShowId]);
+
+  useEffect(() => {
+    fetchChallenge();
+  }, [fetchChallenge]);
 
   const save = async () => {
     if (!selectedShowId || !challenge.reward_name) return;
@@ -102,8 +110,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
         <div className="relative p-6 pt-0 border-t border-white/[0.04] mt-1 space-y-5 animate-[fadeIn_0.2s_ease-out]">
           {/* Show picker */}
           <div className="mb-4 mt-4">
-            <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
+            <label htmlFor="invite-challenge-show-select" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
             <select
+              id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
               className="w-full bg-white/[0.04] border border-white/10 text-white text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
@@ -141,11 +150,12 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                     <>
                       {/* Threshold */}
                       <div>
-                        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                        <label htmlFor="invite-challenge-threshold" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Invite Threshold
                         </label>
                         <div className="flex items-center gap-3">
                           <input
+                            id="invite-challenge-threshold"
                             type="number"
                             min={1}
                             max={500}
@@ -159,10 +169,11 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward name */}
                       <div>
-                        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                        <label htmlFor="invite-challenge-reward-name" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Reward Name
                         </label>
                         <input
+                          id="invite-challenge-reward-name"
                           type="text"
                           value={challenge.reward_name}
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
@@ -173,10 +184,11 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                       {/* Reward description */}
                       <div>
-                        <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
+                        <label htmlFor="invite-challenge-claim-instructions" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Claim Instructions
                         </label>
                         <textarea
+                          id="invite-challenge-claim-instructions"
                           value={challenge.reward_description}
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
                           rows={2}

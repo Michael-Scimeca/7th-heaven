@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
@@ -37,35 +37,34 @@ export function Header() {
   const isDemoCruisePage = pathname === "/cruise/demo";
   const isDemoPage = isDemoFanPage || isDemoCruisePage;
 
-  // Check live stream status
-  useEffect(() => {
-    const checkLive = async () => {
-      if (document.visibilityState !== "visible") return;
-      try {
-        const res = await fetch("/api/live-rooms");
-        if (!res.ok) return;
-        const data = await res.json();
-        const allRooms = data.rooms || [];
-        const validRooms = allRooms.filter((r: any) => r.name?.startsWith("live_"));
+  const checkLive = useCallback(async () => {
+    if (document.visibilityState !== "visible") return;
+    try {
+      const res = await fetch("/api/live-rooms");
+      if (!res.ok) return;
+      const data = await res.json();
+      const allRooms = data.rooms || [];
+      const validRooms = allRooms.filter((r: any) => r.name?.startsWith("live_"));
 
-        if (validRooms.length > 0) {
-          setHasLiveStreams(true);
-          return;
-        }
-
-        const supabase = createClient();
-        const { data: dbStreams } = await supabase
-          .from("live_streams")
-          .select("id")
-          .eq("status", "live")
-          .limit(1);
-
-        setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
-      } catch {
-        // Silent catch for background live check to prevent dev overlay popups when offline/restarting
+      if (validRooms.length > 0) {
+        setHasLiveStreams(true);
+        return;
       }
-    };
 
+      const supabase = createClient();
+      const { data: dbStreams } = await supabase
+        .from("live_streams")
+        .select("id")
+        .eq("status", "live")
+        .limit(1);
+
+      setHasLiveStreams(!!(dbStreams && dbStreams.length > 0));
+    } catch {
+      // Silent catch for background live check to prevent dev overlay popups when offline/restarting
+    }
+  }, []);
+
+  useEffect(() => {
     checkLive();
     const interval = setInterval(checkLive, 60000);
 
@@ -85,7 +84,7 @@ export function Header() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [checkLive]);
 
 
 

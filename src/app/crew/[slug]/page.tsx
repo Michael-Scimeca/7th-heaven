@@ -29,8 +29,8 @@ export default function CrewMemberPage() {
 
   useEffect(() => {
     // Seed localStorage so the crew dashboard loads with the right identity
-    localStorage.setItem('7h_dev_bypass', 'true');
-    localStorage.setItem('7h_member', JSON.stringify({
+    localStorage.setItem('7h_dev_bypass_v1', 'true');
+    localStorage.setItem('7h_member_v1', JSON.stringify({
       id: member.id,
       name: member.name,
       email: member.email,

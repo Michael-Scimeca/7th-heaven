@@ -67,7 +67,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   const [customWords, setCustomWords] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
-      const stored = localStorage.getItem('7h_custom_flagged_words');
+      const stored = localStorage.getItem('7h_custom_flagged_words_v1') || localStorage.getItem('7h_custom_flagged_words');
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -83,8 +83,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   useEffect(() => {
     if (defaultMemberId && MEMBER_SEEDS[defaultMemberId]) {
       const seed = MEMBER_SEEDS[defaultMemberId];
-      localStorage.setItem("7h_dev_bypass", "true");
-      localStorage.setItem("7h_member", JSON.stringify({
+      localStorage.setItem("7h_dev_bypass_v1", "true");
+      localStorage.setItem("7h_member_v1", JSON.stringify({
         ...seed, role: "crew",
         joinDate: new Date().toISOString(), points: 0, tier: "Bronze",
         showsAttended: 0, favoriteVenues: [], notificationsEnabled: false, notificationRadius: 25,
@@ -138,32 +138,43 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   }, [slug, LS]);
 
   // ─── Load moderation state + sales + notes ─────────────────────────
-  useEffect(() => {
+  const loadSimAndSales = useCallback(async () => {
     if (!userId) return;
     try {
-      const f = localStorage.getItem("7h_flagged_msgs");
+      const f = localStorage.getItem("7h_flagged_msgs_v1") || localStorage.getItem("7h_flagged_msgs");
       if (f) setFlagged(new Set(JSON.parse(f)));
-      const b = localStorage.getItem("7h_banned_users");
+      const b = localStorage.getItem("7h_banned_users_v1") || localStorage.getItem("7h_banned_users");
       if (b) setBanned(new Set(JSON.parse(b)));
-      const w = localStorage.getItem("7h_warned_users");
+      const w = localStorage.getItem("7h_warned_users_v1") || localStorage.getItem("7h_warned_users");
       if (w) setWarned(new Set(JSON.parse(w)));
       const n = localStorage.getItem(`7h_crew_notes_${slug}`);
       if (n) setCrewNotes(n);
       setModerationCount(parseInt(localStorage.getItem(`7h_mod_count_${slug}`) || "0"));
     } catch { }
 
-    fetch("/api/chat/simulate")
-      .then(r => r.json())
-      .then(d => setSimActive(d.active))
-      .catch(() => { });
-
-    fetch("/api/shopify/orders?days=365").then(r => r.json()).then(d => {
-      if (d.orders) {
-        setSalesRevenue(d.orders.reduce((s: number, o: any) => s + (o.total || 0), 0));
-        setSalesCount(d.orders.length);
+    try {
+      const res = await fetch("/api/chat/simulate");
+      if (res.ok) {
+        const d = await res.json();
+        setSimActive(d.active);
       }
-    }).catch(() => { });
+    } catch { }
+
+    try {
+      const res = await fetch("/api/shopify/orders?days=365");
+      if (res.ok) {
+        const d = await res.json();
+        if (d.orders) {
+          setSalesRevenue(d.orders.reduce((s: number, o: any) => s + (o.total || 0), 0));
+          setSalesCount(d.orders.length);
+        }
+      }
+    } catch { }
   }, [userId, slug]);
+
+  useEffect(() => {
+    loadSimAndSales();
+  }, [loadSimAndSales]);
 
   // ─── Load historical messages from all rooms ───────────────────────
   useEffect(() => {
@@ -205,7 +216,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       .on('broadcast', { event: 'custom_words_sync' }, ({ payload }: { payload: any }) => {
         if (payload?.words) {
           setCustomWords(payload.words);
-          try { localStorage.setItem('7h_custom_flagged_words', JSON.stringify(payload.words)); } catch { }
+          try { localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(payload.words)); } catch { }
         }
       })
       .subscribe();
@@ -238,7 +249,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setCustomWords(next);
     setNewCustomWord('');
     try {
-      localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+      localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
       // Broadcast via Supabase Realtime so other dashboards and fans get the update!
       await supabase.channel('live_events').send({
         type: 'broadcast',
@@ -252,7 +263,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const next = customWords.filter(w => w !== word);
     setCustomWords(next);
     try {
-      localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+      localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
       await supabase.channel('live_events').send({
         type: 'broadcast',
         event: 'custom_words_sync',
@@ -265,7 +276,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const next = new Set(flagged);
     if (next.has(msgId)) next.delete(msgId); else next.add(msgId);
     setFlagged(next);
-    try { localStorage.setItem("7h_flagged_msgs", JSON.stringify([...next])); } catch { }
+    try { localStorage.setItem("7h_flagged_msgs_v1", JSON.stringify([...next])); } catch { }
     bumpMod();
   };
 
@@ -277,7 +288,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const next = new Set(warned);
     if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
     setWarned(next);
-    try { localStorage.setItem("7h_warned_users", JSON.stringify([...next])); } catch { }
+    try { localStorage.setItem("7h_warned_users_v1", JSON.stringify([...next])); } catch { }
     bumpMod();
 
     try {
@@ -303,7 +314,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const next = new Set(banned);
     if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
     setBanned(next);
-    try { localStorage.setItem("7h_banned_users", JSON.stringify([...next])); } catch { }
+    try { localStorage.setItem("7h_banned_users_v1", JSON.stringify([...next])); } catch { }
     bumpMod();
 
     try {

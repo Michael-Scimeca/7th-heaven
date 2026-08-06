@@ -332,8 +332,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           { initials: "JM", name: "Jake M.", status: "there", color: "from-cyan-400 to-blue-500" },
                           { initials: "LR", name: "Lisa R.", status: "going", color: "from-emerald-400 to-teal-500" },
                           { initials: "??", name: "Anonymous", status: "going", color: "from-white/10 to-white/5" },
-                        ].map((fan, i) => (
-                          <div key={i} className={`flex items-center gap-1.5 p-1 border ${fan.status === "there" ? " border-[var(--color-accent)]/30 bg-emerald-500/[0.03]" : "border-white/[0.04]"} rounded`}>
+                        ].map((fan) => (
+                          <div key={fan.name} className={`flex items-center gap-1.5 p-1 border ${fan.status === "there" ? " border-[var(--color-accent)]/30 bg-emerald-500/[0.03]" : "border-white/[0.04]"} rounded`}>
                             <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${fan.color} flex items-center justify-center shrink-0`}>
                               <span className="text-[var(--font-size-2xs)] font-black text-white">{fan.initials}</span>
                             </div>
@@ -603,7 +603,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
 
                     {/* Notification Agreement */}
-                    <label className="flex items-start gap-3 cursor-pointer pt-1">
+                    <div className="flex items-start gap-3 cursor-pointer pt-1">
                       <button
                         type="button"
                         onClick={() => setAgreeNotify(!agreeNotify)}
@@ -616,10 +616,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           }`} />
                       </button>
                       <span className="text-sm text-white/40 leading-snug">Enable proximity notifications &amp; SMS alerts for nearby shows. You can manage this anytime in your profile settings.</span>
-                    </label>
+                    </div>
 
                     {/* Terms & Privacy Agreement */}
-                    <label className="flex items-start gap-3 cursor-pointer pt-1">
+                    <div className="flex items-start gap-3 cursor-pointer pt-1">
                       <div
                         onClick={() => setAgreeTerms(!agreeTerms)}
                         className={`w-[18px] h-[18px] rounded border-2 shrink-0 mt-0.5 flex items-center justify-center transition-colors duration-200 cursor-pointer ${agreeTerms
@@ -636,7 +636,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         <Link href="/terms" className="text-white/50 underline hover:text-white/70 transition-colors">Terms of Service</Link>{' '}and{' '}
                         <Link href="/privacy" className="text-white/50 underline hover:text-white/70 transition-colors">Privacy Policy</Link>.
                       </span>
-                    </label>
+                    </div>
 
                     {/* Submit */}
                     <button

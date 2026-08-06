@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import dynamic from "next/dynamic";
 
@@ -48,10 +48,10 @@ export default function FansPage() {
   const isModerator = isLoggedIn && (member?.role === "admin" || member?.role === "crew");
 
   // Fetch photos and notify PageTransition when data & images are loaded
-  const fetchPhotos = () => {
+  const fetchPhotos = useCallback(() => {
     const url = isModerator ? "/api/fans?all=true" : "/api/fans";
     fetch(url)
-      .then((r) => r.json())
+      .then((r) => r.ok ? r.json() : [])
       .then((data) => {
         setPhotos(data);
         requestAnimationFrame(() => {
@@ -61,15 +61,15 @@ export default function FansPage() {
       .catch(() => {
         window.dispatchEvent(new CustomEvent("7h:page:ready"));
       });
-  };
+  }, [isModerator]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const searchParams = new URLSearchParams(window.location.search);
       if (searchParams.get("bypass") === "true") {
-        localStorage.setItem("7h_dev_bypass", "true");
-        if (!localStorage.getItem("7h_member")) {
-          localStorage.setItem("7h_member", JSON.stringify({
+        localStorage.setItem("7h_dev_bypass_v1", "true");
+        if (!localStorage.getItem("7h_member_v1") && !localStorage.getItem("7h_member")) {
+          localStorage.setItem("7h_member_v1", JSON.stringify({
             id: "fake-fan-123",
             name: "Super Fan",
             username: "super_fan",
@@ -92,7 +92,7 @@ export default function FansPage() {
 
   useEffect(() => {
     fetchPhotos();
-  }, [isModerator]);
+  }, [fetchPhotos]);
 
   const handleFlagPhoto = async (id: string) => {
     if (confirm("Are you sure you want to flag this photo or video for admin review?")) {

@@ -115,8 +115,13 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     const cssText = `background: linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, gradOpacity * 0.75)} ${gradMidstop}%, transparent 100%);\nheight: ${gradHeight}%;`;
     navigator.clipboard.writeText(cssText);
     setGradCopied(true);
-    setTimeout(() => setGradCopied(false), 2000);
   };
+
+  useEffect(() => {
+    if (!gradCopied) return;
+    const t = setTimeout(() => setGradCopied(false), 2000);
+    return () => clearTimeout(t);
+  }, [gradCopied]);
 
   const updateColor = (color: string) => {
     setTintColor(color);
@@ -137,8 +142,13 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     const cssText = `background-color: ${tintColor}; opacity: ${tintOpacity}; mix-blend-mode: ${mixBlendMode};`;
     navigator.clipboard.writeText(cssText);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(t);
+  }, [copied]);
 
   // ── Canvas capture ──────────────────────────────────────────────────────────
   const captureFrame = useCallback(() => {
@@ -163,34 +173,16 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
   // Capture on mount (once ready) + every 30 s thereafter
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
     let active = true;
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-    let handler: (() => void) | undefined;
 
-    const startCapturing = () => {
-      if (!active) return;
-      captureFrame();
-      intervalId = setInterval(() => {
-        if (active) captureFrame();
-      }, SNAPSHOT_INTERVAL_MS);
-    };
-
-    if (video.readyState >= 2) {
-      startCapturing();
-    } else {
-      handler = () => {
-        if (active) startCapturing();
-        if (handler) video.removeEventListener("canplay", handler);
-      };
-      video.addEventListener("canplay", handler);
-    }
+    captureFrame();
+    const intervalId = setInterval(() => {
+      if (active) captureFrame();
+    }, SNAPSHOT_INTERVAL_MS);
 
     return () => {
       active = false;
-      if (handler) video.removeEventListener("canplay", handler);
-      if (intervalId) clearInterval(intervalId);
+      clearInterval(intervalId);
     };
   }, [captureFrame, videoSrc]); // re-run when source changes
 
@@ -199,12 +191,6 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     const next = ALBUM_VIDEOS[albumId] ?? DEFAULT_VIDEO;
     if (next === videoSrc) return;
     setVideoSrc(next);
-    setTimeout(() => {
-      if (videoRef.current) {
-        videoRef.current.load();
-        videoRef.current.play().catch(() => { });
-      }
-    }, 0);
   };
 
   const ctxValue: VideoSnapshotContextValue = { snapshots };
@@ -226,6 +212,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       ) : (
         <video
           ref={videoRef}
+          onCanPlay={captureFrame}
           autoPlay
           muted
           loop

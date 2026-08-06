@@ -259,11 +259,11 @@ export default function FanUploadForm() {
               >
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-white/90 z-20">
-                    {previews.map((src, i) => {
+                    {Array.from(previews, (src, i) => ({ src, i })).map(({ src, i }) => {
                       const file = selectedFiles[i];
                       const isVideo = file && (file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov'));
                       return (
-                        <div key={i} className="relative aspect-square rounded-lg overflow-hidden border border-black/10 group">
+                        <div key={src} className="relative aspect-square rounded-lg overflow-hidden border border-black/10 group">
                           {isVideo ? (
                             <video src={src} className="w-full h-full object-cover" muted playsInline />
                           ) : (
@@ -308,20 +308,20 @@ export default function FanUploadForm() {
             <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 bg-gray-50 border border-black/10 p-4">
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
-                  <input type="text" name="venue" placeholder="e.g. Durty Nellies" required
+                  <label htmlFor="fan-upload-venue" className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
+                  <input id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
                     className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
-                  <input type="date" name="date" required
+                  <label htmlFor="fan-upload-date" className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
+                  <input id="fan-upload-date" type="date" name="date" required
                     className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black focus:border-[var(--color-accent)] focus:outline-none transition-colors [color-scheme:light]"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Caption</label>
-                  <input type="text" name="caption" placeholder="Short description..."
+                  <label htmlFor="fan-upload-caption" className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Caption</label>
+                  <input id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
                     className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                   />
                 </div>

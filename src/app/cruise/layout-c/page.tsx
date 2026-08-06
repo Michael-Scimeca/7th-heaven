@@ -64,8 +64,8 @@ export default function CruiseLayoutC() {
       </section>
 
       {/* ── ALTERNATING SECTIONS ── */}
-      {SECTIONS.map((section, i) => (
-        <section key={i} className="py-20 border-t border-white/5">
+      {Array.from(SECTIONS, (section, i) => ({ section, i })).map(({ section, i }) => (
+        <section key={section.title} className="py-20 border-t border-white/5">
           <div className="site-container max-w-5xl">
             <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${section.align === "left" ? "lg:direction-rtl" : ""}`}>
               {/* Photo */}

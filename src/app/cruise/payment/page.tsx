@@ -34,11 +34,12 @@ export default function CruisePaymentPage() {
         body: JSON.stringify(formData)
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Failed to process payment. Please check your inputs.");
       }
+
+      const data = await res.json();
 
       setStatus("success");
       setMessage(data.message);
@@ -100,10 +101,11 @@ export default function CruisePaymentPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label htmlFor="cruise-pay-booking-number" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Booking Number: *
               </label>
               <input
+                id="cruise-pay-booking-number"
                 type="text"
                 required
                 placeholder="Enter Booking ID (e.g. 550e8400-e29b-41d4-a716-446655440000)"
@@ -114,10 +116,11 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label htmlFor="cruise-pay-email" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Email: *
               </label>
               <input
+                id="cruise-pay-email"
                 type="email"
                 required
                 placeholder="Enter Email"
@@ -128,10 +131,11 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label htmlFor="cruise-pay-phone" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Cell Phone:
               </label>
               <input
+                id="cruise-pay-phone"
                 type="tel"
                 placeholder="Enter Cell Phone"
                 value={formData.phone}
@@ -141,10 +145,11 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label htmlFor="cruise-pay-card-name" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Your Name on Credit Card: *
               </label>
               <input
+                id="cruise-pay-card-name"
                 type="text"
                 required
                 placeholder="Enter Name on Card"
@@ -155,10 +160,11 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label htmlFor="cruise-pay-card-number" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Credit Card Number: *
               </label>
               <input
+                id="cruise-pay-card-number"
                 type="text"
                 required
                 placeholder="Enter Card Number"
@@ -170,10 +176,11 @@ export default function CruisePaymentPage() {
 
             <div className="grid grid-cols-3 gap-3">
               <div className="col-span-1">
-                <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+                <label htmlFor="cruise-pay-card-expiry" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   Exp. Date: *
                 </label>
                 <input
+                  id="cruise-pay-card-expiry"
                   type="text"
                   required
                   placeholder="MM/YY"
@@ -184,10 +191,11 @@ export default function CruisePaymentPage() {
               </div>
 
               <div className="col-span-1">
-                <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+                <label htmlFor="cruise-pay-card-cvv" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   CVC/CVV: *
                 </label>
                 <input
+                  id="cruise-pay-card-cvv"
                   type="text"
                   required
                   placeholder="3-4 Digit"
@@ -198,10 +206,11 @@ export default function CruisePaymentPage() {
               </div>
 
               <div className="col-span-1">
-                <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+                <label htmlFor="cruise-pay-card-zip" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   Zip Code: *
                 </label>
                 <input
+                  id="cruise-pay-card-zip"
                   type="text"
                   required
                   placeholder="Zip"
@@ -213,10 +222,11 @@ export default function CruisePaymentPage() {
             </div>
 
             <div>
-              <label className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
+              <label htmlFor="cruise-pay-amount" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Amount to Charge: *
               </label>
               <input
+                id="cruise-pay-amount"
                 type="text"
                 required
                 placeholder="Enter Amount (e.g. 250.00)"

@@ -809,7 +809,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         className="block md:hidden relative w-full py-6 px-[25px]"
       >
         <div className="space-y-6 pl-6 relative">
-          {chronologicalHistory.map((hist, idx) => {
+          {Array.from(chronologicalHistory, (hist, idx) => ({ hist, idx })).map(({ hist, idx }) => {
             const isReached = idx === 0 || mobileProgress >= Math.max(0, (idx / chronologicalHistory.length) - 0.03);
             const nextHist = chronologicalHistory[idx + 1];
             const isLastHistoricalNode = hist.year === '2026';
@@ -817,7 +817,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             const showConnectorLine = !isLastHistoricalNode && !isFutureItem && nextHist;
 
             return (
-              <div key={idx} className="relative group">
+              <div key={hist.year || idx} className="relative group">
                 {/* Node Circle Box */}
                 <div
                   className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'

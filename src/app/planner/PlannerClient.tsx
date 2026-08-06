@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useState, useEffect, useSyncExternalStore, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 
 interface Booking {
@@ -33,41 +33,45 @@ export default function PlannerClient() {
   const [loginLoading, setLoginLoading] = useState(false);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
 
-  useEffect(() => {
+  const loadPlannerBookings = useCallback(async () => {
     const memberEmail = member?.email || (() => { try { const s = localStorage.getItem('7h_member'); return s ? JSON.parse(s).email : null; } catch { return null; } })();
     if (!memberEmail) return;
-    (async () => {
-      try {
-        const res = await fetch(`/api/booking?email=${encodeURIComponent(memberEmail)}`);
+    try {
+      const res = await fetch(`/api/booking?email=${encodeURIComponent(memberEmail)}`);
+      if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const mapped: Booking[] = data.map((item: any) => ({
-            id: item.bookingId || item.booking_id || '',
-            eventName: item.eventType ? (typeLabels[item.eventType] || item.eventType) : '',
-            eventType: item.eventType || '',
-            date: item.eventDate || item.event_date || '',
-            startTime: item.startTime || item.start_time || '',
-            endTime: item.endTime || item.end_time || '',
-            venueName: item.venueName || item.venue_name || '',
-            venueCity: item.venueCity || item.venue_city || '',
-            venueState: item.venueState || item.venue_state || '',
-            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || '',
-            expectedAttendance: item.expectedAttendance || item.expected_attendance || '',
-            organization: item.organization || '',
-            status: item.status || 'pending',
-            soundSystem: item.soundSystem || item.sound_system || '',
-            stageAvailable: item.stageAvailable || item.stage_available || '',
-            loadInTime: item.loadInTime || item.load_in_time || '',
-            notes: item.details || item.notes || '',
-          }));
-          setAllBookings(mapped);
-          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
-          setBooking(active);
-          setNotes(active.notes || '');
-        }
-      } catch (e) { console.error(e); }
-    })();
-  }, [isLoggedIn, member?.email]);
+      if (Array.isArray(data) && data.length > 0) {
+        const mapped: Booking[] = data.map((item: any) => ({
+          id: item.bookingId || item.booking_id || '',
+          eventName: item.eventType ? (typeLabels[item.eventType] || item.eventType) : '',
+          eventType: item.eventType || '',
+          date: item.eventDate || item.event_date || '',
+          startTime: item.startTime || item.start_time || '',
+          endTime: item.endTime || item.end_time || '',
+          venueName: item.venueName || item.venue_name || '',
+          venueCity: item.venueCity || item.venue_city || '',
+          venueState: item.venueState || item.venue_state || '',
+          indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || '',
+          expectedAttendance: item.expectedAttendance || item.expected_attendance || '',
+          organization: item.organization || '',
+          status: item.status || 'pending',
+          soundSystem: item.soundSystem || item.sound_system || '',
+          stageAvailable: item.stageAvailable || item.stage_available || '',
+          loadInTime: item.loadInTime || item.load_in_time || '',
+          notes: item.details || item.notes || '',
+        }));
+        setAllBookings(mapped);
+        const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
+        setBooking(active);
+        setNotes(active.notes || '');
+      }
+      }
+    } catch (e) { console.error(e); }
+  }, [member?.email]);
+
+  useEffect(() => {
+    loadPlannerBookings();
+  }, [loadPlannerBookings]);
 
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -138,8 +142,9 @@ export default function PlannerClient() {
               <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto">
                 {mode === 'signup' && (
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Full Name</label>
+                    <label htmlFor="planner-client-name" className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Full Name</label>
                     <input
+                      id="planner-client-name"
                       type="text"
                       value={name}
                       onChange={e => setName(e.target.value)}
@@ -150,8 +155,9 @@ export default function PlannerClient() {
                   </div>
                 )}
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Email</label>
+                  <label htmlFor="planner-client-email" className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Email</label>
                   <input
+                    id="planner-client-email"
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
@@ -161,8 +167,9 @@ export default function PlannerClient() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Password</label>
+                  <label htmlFor="planner-client-password" className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Password</label>
                   <input
+                    id="planner-client-password"
                     type="password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
@@ -217,7 +224,7 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
-              <div key={i} className="bg-white border border-black/10 p-5 text-center">
+              <div key={`step-anon-${item.step}`} className="bg-white border border-black/10 p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black  text-[var(--color-accent)]">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
                 <p className="text-xs text-black/40 leading-relaxed">{item.desc}</p>
@@ -267,7 +274,7 @@ export default function PlannerClient() {
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
             ].map((item, i) => (
-              <div key={i} className="bg-white border border-black/10 p-5 text-center">
+              <div key={`step-nobook-${item.step}`} className="bg-white border border-black/10 p-5 text-center">
                 <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black  text-[var(--color-accent)]">{item.step}</div>
                 <h4 className="text-sm font-bold mb-1">{item.title}</h4>
                 <p className="text-xs text-black/40 leading-relaxed">{item.desc}</p>
@@ -312,7 +319,7 @@ export default function PlannerClient() {
                 <div className="absolute left-[9px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/30 to-white/5" />
                 <div className="flex flex-col gap-10">
                   {statusSteps.map((step, i) => (
-                    <div key={i} className="flex items-center gap-4 relative">
+                    <div key={step.label} className="flex items-center gap-4 relative">
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${step.active ? 'bg-purple-600 border-purple-400 shadow-[0_0_12px_rgba(255,10,61,0.5)]' : 'bg-white border-black/10'}`}>
                         {step.active && <div className="w-2 h-2 rounded-full bg-white" />}
                       </div>
@@ -360,7 +367,7 @@ export default function PlannerClient() {
                     { label: "Venue", value: booking.venueName },
                     { label: "City", value: `${booking.venueCity}, ${booking.venueState}` },
                   ].map((item, i) => (
-                    <div key={i}>
+                    <div key={item.label}>
                       <p className="text-xs uppercase tracking-widest text-black/40 font-bold mb-1">{item.label}</p>
                       <p className="text-sm font-bold text-black">{item.value}</p>
                     </div>
@@ -404,7 +411,7 @@ export default function PlannerClient() {
                     const fieldKey = fieldMap[item.label] || '';
                     const isEditing = editField === i;
                     return (
-                      <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-gray-50 border-black/10'}`}>
+                      <div key={item.label} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border ${item.done ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-gray-50 border-black/10'}`}>
                         <span className="text-xs shrink-0">{item.done ? '✅' : '⬜'}</span>
                         <div className="flex-1 min-w-0">
                           <span className={`text-xs font-semibold ${item.done ? 'text-black/70' : 'text-black/40'}`}>{item.label}</span>
@@ -483,7 +490,7 @@ export default function PlannerClient() {
                         ? { dot: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/5', border: 'border-emerald-500/15' }
                         : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
-                      <div key={i} className="bg-white border border-black/10 hover:border-black/10 p-4 flex items-center gap-4 transition-colors group">
+                      <div key={pb.id || pb.eventName || pb.date} className="bg-white border border-black/10 hover:border-black/10 p-4 flex items-center gap-4 transition-colors group">
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-black truncate">{pb.eventName}</h4>

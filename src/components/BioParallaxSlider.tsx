@@ -415,7 +415,7 @@ height: ${overlayHeight}vh`;
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale]);
+  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY]);
 
   // Go to slide
   const goToSlide = (idx: number) => {

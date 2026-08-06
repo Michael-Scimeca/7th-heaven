@@ -251,9 +251,9 @@ export default function CircleCarouselPage() {
           </svg>
         </button>
         <div className="cc-dots">
-          {ITEMS.map((_, i) => (
+          {Array.from(ITEMS, (item, i) => ({ item, i })).map(({ item, i }) => (
             <button
-              key={i}
+              key={item.id || item.label}
               className={`cc-dot${i === activeIndex ? " cc-dot--on" : ""}`}
               onClick={() => goTo(i)}
               aria-label={ITEMS[i].label}

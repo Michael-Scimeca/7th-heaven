@@ -552,10 +552,12 @@ export async function PATCH(request: Request) {
               `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
               { headers: { "User-Agent": "7thHeavenBand/1.0" } }
             );
-            const geoJson = await geoRes.json();
-            if (geoJson?.[0]) {
-              lat = parseFloat(geoJson[0].lat);
-              lng = parseFloat(geoJson[0].lon);
+            if (geoRes.ok) {
+              const geoJson = await geoRes.json();
+              if (geoJson?.[0]) {
+                lat = parseFloat(geoJson[0].lat);
+                lng = parseFloat(geoJson[0].lon);
+              }
             }
           } catch (geoErr) {
             console.error("Geocoding failed during booking auto-sync:", geoErr);

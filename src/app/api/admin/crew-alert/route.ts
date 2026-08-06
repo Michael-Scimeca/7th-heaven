@@ -82,7 +82,7 @@ export async function POST(request: Request) {
     // 2. Add custom additional numbers
     if (additionalPhones) {
       const customNumbers = typeof additionalPhones === 'string'
-        ? additionalPhones.split(',').map(s => s.trim()).filter(Boolean)
+        ? additionalPhones.split(',').flatMap(s => { const t = s.trim(); return t ? [t] : []; })
         : additionalPhones;
 
       for (const phone of customNumbers) {
@@ -200,9 +200,7 @@ async function notifyAdminsOfAlert({
       .select('email')
       .eq('role', 'admin');
 
-    const adminEmails = (admins || [])
-      .map(a => a.email)
-      .filter(Boolean);
+    const adminEmails = (admins || []).flatMap(a => a.email ? [a.email] : []);
 
     if (adminEmails.length === 0) {
       console.warn('[Crew Alert Email] No admin email addresses found.');

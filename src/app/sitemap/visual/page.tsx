@@ -288,7 +288,7 @@ export default function VisualSitemapPage() {
               const d = `M ${sx1} ${sy1} C ${sx1 + dx} ${sy1}, ${sx2 - dx} ${sy2}, ${sx2} ${sy2}`;
 
               return (
-                <g key={idx}>
+                <g key={`vis-conn-${conn.from}-${conn.to}`}>
                   <path d={d} fill="none" stroke={active ? colors.activeStroke : colors.stroke} strokeWidth={active ? 2.5 : 1} className={active ? "dash-animate" : ""} style={active ? { strokeDasharray: "8, 4" } : undefined} />
                   {active && conn.label && (
                     <text x={(sx1 + sx2) / 2} y={(sy1 + sy2) / 2 - 8} textAnchor="middle" fill="white" fillOpacity={0.5} fontSize={9} fontWeight="bold" className="uppercase">{conn.label}</text>
@@ -333,7 +333,7 @@ export default function VisualSitemapPage() {
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
                         {page.sections.slice(0, 4).map((s, i) => (
-                          <span key={i} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
+                          <span key={`sec-col0-${i}-${s}`} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
                         ))}
                         {page.sections.length > 4 && <span className="text-[0.5rem] text-white/30">+{page.sections.length - 4}</span>}
                       </div>
@@ -374,7 +374,7 @@ export default function VisualSitemapPage() {
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
                         {page.sections.slice(0, 4).map((s, i) => (
-                          <span key={i} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
+                          <span key={`sec-col1-${i}-${s}`} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
                         ))}
                         {page.sections.length > 4 && <span className="text-[0.5rem] text-white/30">+{page.sections.length - 4}</span>}
                       </div>
@@ -415,7 +415,7 @@ export default function VisualSitemapPage() {
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
                         {page.sections.slice(0, 4).map((s, i) => (
-                          <span key={i} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
+                          <span key={`sec-col2-${i}-${s}`} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
                         ))}
                         {page.sections.length > 4 && <span className="text-[0.5rem] text-white/30">+{page.sections.length - 4}</span>}
                       </div>
@@ -456,7 +456,7 @@ export default function VisualSitemapPage() {
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
                         {page.sections.slice(0, 4).map((s, i) => (
-                          <span key={i} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
+                          <span key={`sec-col3-${i}-${s}`} className={`text-[0.5rem] px-1.5 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
                         ))}
                         {page.sections.length > 4 && <span className="text-[0.5rem] text-white/30">+{page.sections.length - 4}</span>}
                       </div>
@@ -487,7 +487,7 @@ export default function VisualSitemapPage() {
                   <p className="text-xs text-white/50 leading-relaxed mb-3">{page.desc}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {page.sections.map((s, i) => (
-                      <span key={i} className={`text-[0.55rem] px-2 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
+                      <span key={`sec-detail-${i}-${s}`} className={`text-[0.55rem] px-2 py-0.5 rounded ${style.badge} font-semibold`}>{s}</span>
                     ))}
                   </div>
                 </div>
@@ -497,7 +497,7 @@ export default function VisualSitemapPage() {
                     <div>
                       <p className="text-[0.55rem] font-black uppercase tracking-widest text-white/30 mb-1.5">Sends To →</p>
                       {outgoing.map((c, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[0.6rem] text-white/50 py-0.5">
+                        <div key={`out-${c.to}`} className="flex items-center gap-2 text-[0.6rem] text-white/50 py-0.5">
                           <span className={`w-1.5 h-1.5 rounded-full ${connectionColors[c.type].activeStroke === "rgba(34,211,238,0.6)" ? "bg-cyan-400" : connectionColors[c.type].activeStroke === "rgba(16,185,129,0.6)" ? "bg-emerald-400" : connectionColors[c.type].activeStroke === "rgba(147, 51, 234,0.6)" ? "bg-purple-500" : "bg-violet-400"}`} />
                           <span className="font-bold text-white/70">{pages.find(p => p.id === c.to)?.name}</span>
                           {c.label && <span className="text-white/30">— {c.label}</span>}
@@ -509,7 +509,7 @@ export default function VisualSitemapPage() {
                     <div>
                       <p className="text-[0.55rem] font-black uppercase tracking-widest text-white/30 mb-1.5">← Receives From</p>
                       {incoming.map((c, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[0.6rem] text-white/50 py-0.5">
+                        <div key={`inc-${c.from}`} className="flex items-center gap-2 text-[0.6rem] text-white/50 py-0.5">
                           <span className={`w-1.5 h-1.5 rounded-full ${connectionColors[c.type].activeStroke === "rgba(34,211,238,0.6)" ? "bg-cyan-400" : connectionColors[c.type].activeStroke === "rgba(16,185,129,0.6)" ? "bg-emerald-400" : connectionColors[c.type].activeStroke === "rgba(147, 51, 234,0.6)" ? "bg-purple-500" : "bg-violet-400"}`} />
                           <span className="font-bold text-white/70">{pages.find(p => p.id === c.from)?.name}</span>
                           {c.label && <span className="text-white/30">— {c.label}</span>}
@@ -536,7 +536,7 @@ export default function VisualSitemapPage() {
             { value: pages.filter(p => p.category === "email").length, label: "Email Systems", color: "text-purple-300" },
             { value: connections.length, label: "Connections", color: "text-white/60" },
           ].map((stat, i) => (
-            <div key={i} className="px-4">
+            <div key={stat.label} className="px-4">
               <div className={`text-2xl font-black ${stat.color}`}>{stat.value}</div>
               <div className="text-[0.55rem] uppercase tracking-widest text-white/30 font-bold">{stat.label}</div>
             </div>

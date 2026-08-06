@@ -36,8 +36,8 @@ export default async function ContactPage() {
 
                     {/* Contact Cards Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 md:gap-y-12 gap-x-12 md:gap-x-16">
-                        {contacts.map((contact, i) => (
-                            <div key={i} className="flex flex-col justify-between" id={`contact-card-${i}`}>
+                        {contacts.map((contact) => (
+                            <div key={contact.category || contact.name} className="flex flex-col justify-between" id={`contact-card-${contact.category}`}>
                                 <div>
                                     <h3 className="font-[var(--font-heading)] text-2xl md:text-3xl font-black  text-[var(--color-accent)] mb-2">
                                         {contact.category}

@@ -48,7 +48,8 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
     try {
       console.log("[PickAwards] Fetching picks for userId:", userId);
       const res = await fetch(`/api/picks?userId=${userId}`);
-      const data = await res.json();
+      if (res.ok) {
+        const data = await res.json();
       console.log("[PickAwards] API response:", data);
       if (data.error) {
         console.error("[PickAwards] API error:", data.error);
@@ -60,6 +61,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
         setUniqueTypes(data.uniqueTypes);
         setTotalTypes(data.totalTypes);
       }
+      }
     } catch (err) { console.error("[PickAwards] fetchPicks failed:", err); }
   }, [userId]);
 
@@ -67,8 +69,10 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
     if (!userId) return;
     try {
       const res = await fetch(`/api/picks/lotteries?userId=${userId}`);
-      const data = await res.json();
-      if (data.lotteries) setLotteries(data.lotteries);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.lotteries) setLotteries(data.lotteries);
+      }
     } catch (err) { console.error("[PickAwards] fetchLotteries failed:", err); }
   }, [userId]);
 
@@ -90,11 +94,16 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lotteryId, userId }),
       });
-      const data = await res.json();
-      if (data.success) {
-        setLotteryMsg({ ok: true, msg: data.message });
-        await fetchLotteries(); // refresh entries
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setLotteryMsg({ ok: true, msg: data.message });
+          await fetchLotteries(); // refresh entries
+        } else {
+          setLotteryMsg({ ok: false, msg: data.error || "Failed to enter lottery" });
+        }
       } else {
+        const data = await res.json().catch(() => ({}));
         setLotteryMsg({ ok: false, msg: data.error || "Failed to enter lottery" });
       }
     } catch (err: any) {
@@ -177,8 +186,8 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-xs text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
-                  {pick.picks.slice(0, 5).map((p: any, i: number) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-black/70 bg-gray-50 px-3 py-1.5 rounded">
+                  {pick.picks.slice(0, 5).map((p: any) => (
+                    <div key={p.id || p.created_at} className="flex items-center gap-2 text-xs text-black/70 bg-gray-50 px-3 py-1.5 rounded">
                       <span>{REASON_LABELS[p.awarded_reason] || "🎁 Awarded"}</span>
                       <span className="text-black/40 ml-auto">
                         {new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}

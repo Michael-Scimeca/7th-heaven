@@ -62,9 +62,7 @@ export async function GET(request: Request) {
     }
 
     // Get profile names for all referrer IDs
-    const referrerIds = Object.values(referrerMap)
-      .map((r) => r.referrer_id)
-      .filter(Boolean) as string[];
+    const referrerIds = Object.values(referrerMap).flatMap(r => r.referrer_id ? [r.referrer_id] : []);
 
     let nameMap: Record<string, string> = {};
     if (referrerIds.length > 0) {

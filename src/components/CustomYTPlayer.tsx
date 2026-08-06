@@ -103,7 +103,7 @@ export default function CustomYTPlayer({
         playerRef.current = null;
       }
     };
-  }, [videoId]);
+  }, [videoId, hasNext, onNext, volume]);
 
   // Update time loop
   useEffect(() => {
@@ -136,57 +136,34 @@ export default function CustomYTPlayer({
     return () => { if (hideTimer.current) clearTimeout(hideTimer.current); };
   }, [isPlaying, resetHideTimer]);
 
-  // Keyboard controls
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { onClose(); return; }
-      if (e.key === " " || e.key === "k") { e.preventDefault(); togglePlay(); }
-      if (e.key === "ArrowLeft") { seekRelative(-10); }
-      if (e.key === "ArrowRight") { seekRelative(10); }
-      if (e.key === "ArrowUp") { e.preventDefault(); changeVolume(10); }
-      if (e.key === "ArrowDown") { e.preventDefault(); changeVolume(-10); }
-      if (e.key === "m") { toggleMute(); }
-      if (e.key === "f") { toggleFullscreen(); }
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [isPlaying, volume, isMuted]);
-
-  // Fullscreen change listener
-  useEffect(() => {
-    const handler = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", handler);
-    return () => document.removeEventListener("fullscreenchange", handler);
-  }, []);
-
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (!playerRef.current) return;
     if (isPlaying) {
       playerRef.current.pauseVideo();
     } else {
       playerRef.current.playVideo();
     }
-  };
+  }, [isPlaying]);
 
   const seekTo = (pct: number) => {
     if (!playerRef.current || !duration) return;
     playerRef.current.seekTo(pct * duration, true);
   };
 
-  const seekRelative = (seconds: number) => {
+  const seekRelative = useCallback((seconds: number) => {
     if (!playerRef.current) return;
     const t = playerRef.current.getCurrentTime() + seconds;
     playerRef.current.seekTo(Math.max(0, Math.min(t, duration)), true);
-  };
+  }, [duration]);
 
-  const changeVolume = (delta: number) => {
+  const changeVolume = useCallback((delta: number) => {
     const newVol = Math.max(0, Math.min(100, volume + delta));
     setVolume(newVol);
     setIsMuted(newVol === 0);
     playerRef.current?.setVolume(newVol);
-  };
+  }, [volume]);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (isMuted) {
       playerRef.current?.unMute();
       playerRef.current?.setVolume(volume || 80);
@@ -195,16 +172,43 @@ export default function CustomYTPlayer({
       playerRef.current?.mute();
       setIsMuted(true);
     }
-  };
+  }, [isMuted, volume]);
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     if (!containerRef.current) return;
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
       containerRef.current.requestFullscreen();
     }
-  };
+  }, []);
+
+  // Global Keyboard Controls
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      // Don't intercept keypresses when typing in inputs/textareas
+      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) return;
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key === " " || e.key === "k") { e.preventDefault(); togglePlay(); }
+      if (e.key === "ArrowLeft") { seekRelative(-5); }
+      if (e.key === "ArrowRight") { seekRelative(10); }
+      if (e.key === "ArrowUp") { e.preventDefault(); changeVolume(10); }
+      if (e.key === "ArrowDown") { e.preventDefault(); changeVolume(-10); }
+      if (e.key === "m") { toggleMute(); }
+      if (e.key === "f") { toggleFullscreen(); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isPlaying, volume, isMuted, onClose, togglePlay, seekRelative, changeVolume, toggleMute, toggleFullscreen]);
+
+  // Fullscreen change listener
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+
 
   const handleProgressClick = (e: React.MouseEvent) => {
     if (!progressRef.current) return;

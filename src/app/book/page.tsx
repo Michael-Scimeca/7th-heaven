@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
@@ -46,7 +46,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <label className="text-base font-bold uppercase tracking-widest text-black/50 block mb-1.5">{label}</label>
+      <span className="text-base font-bold uppercase tracking-widest text-black/50 block mb-1.5">{label}</span>
       <button
         type="button"
         onClick={() => setShowCal(!showCal)}
@@ -84,7 +84,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
           ) : (
             <>
               <div className="grid grid-cols-7 mb-1">
-                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} className="text-center text-lg font-bold text-black/40 uppercase">{d}</div>)}
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={`day-${i}-${d}`} className="text-center text-lg font-bold text-black/40 uppercase">{d}</div>)}
               </div>
               <div className="grid grid-cols-7 gap-1">
                 {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
@@ -115,30 +115,36 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
   );
 }
 
-const InputField = ({ label, required, ...props }: { label: string; required?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) => (
-  <div>
-    <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
-    <input {...props} required={required}
-      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors"
-    />
-  </div>
-);
+const InputField = ({ label, required, id, ...props }: { label: string; required?: boolean; id?: string } & React.InputHTMLAttributes<HTMLInputElement>) => {
+  const inputId = id || props.name || `book-input-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+  return (
+    <div>
+      <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
+      <input id={inputId} {...props} required={required}
+        className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors"
+      />
+    </div>
+  );
+};
 
-const SelectField = ({ label, options, required, ...props }: { label: string; options: string[]; required?: boolean } & React.SelectHTMLAttributes<HTMLSelectElement>) => (
-  <div>
-    <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
-    <select {...props} required={required}
-      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors appearance-none cursor-pointer"
-    >
-      <option value="" className="bg-white text-black">Select</option>
-      {options.map(o => <option key={o} value={o} className="bg-white text-black">{o}</option>)}
-    </select>
-  </div>
-);
+const SelectField = ({ label, options, required, id, ...props }: { label: string; options: string[]; required?: boolean; id?: string } & React.SelectHTMLAttributes<HTMLSelectElement>) => {
+  const selectId = id || props.name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+  return (
+    <div>
+      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
+      <select id={selectId} {...props} required={required}
+        className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors appearance-none cursor-pointer"
+      >
+        <option value="" className="bg-white text-black">Select</option>
+        {options.map(o => <option key={o} value={o} className="bg-white text-black">{o}</option>)}
+      </select>
+    </div>
+  );
+};
 
 const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
   <div className="mb-2">
-    <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-3">{label}{required && " *"}</label>
+    <span className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-3">{label}{required && " *"}</span>
     <div className="flex flex-wrap gap-2">
       {options.map(o => (
         <button
@@ -223,27 +229,34 @@ function BookPageContent() {
     }));
   }, [bookingSlots]);
 
+  const loadAvailability = useCallback(async () => {
+    try {
+      const r = await fetch('/api/booking/availability');
+      if (r.ok) {
+        const d = await r.json();
+        setBlockedDates(d.blockedDates || []);
+      }
+    } catch { }
+  }, []);
+
   // Fetch blocked dates on mount
   useEffect(() => {
-    fetch('/api/booking/availability')
-      .then(r => r.json())
-      .then(d => setBlockedDates(d.blockedDates || []))
-      .catch(() => { });
+    loadAvailability();
 
     try {
-      const saved = localStorage.getItem('7h_planner_last_form');
+      const saved = localStorage.getItem('7h_planner_last_form_v1') || localStorage.getItem('7h_planner_last_form');
       if (saved) {
         setHasSavedForm(true);
       }
     } catch { }
-  }, []);
+  }, [loadAvailability]);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
   useEffect(() => {
     if (isFromPlanner) {
       // Try to restore full form data from last booking
       try {
-        const savedForm = localStorage.getItem('7h_planner_last_form');
+        const savedForm = localStorage.getItem('7h_planner_last_form_v1') || localStorage.getItem('7h_planner_last_form');
         if (savedForm) {
           const parsed = JSON.parse(savedForm);
           setFormData(prev => ({
@@ -325,7 +338,7 @@ function BookPageContent() {
 
   const handleLoadLastForm = () => {
     try {
-      const saved = localStorage.getItem('7h_planner_last_form');
+      const saved = localStorage.getItem('7h_planner_last_form_v1') || localStorage.getItem('7h_planner_last_form');
       if (saved) {
         const parsed = JSON.parse(saved);
         setFormData(prev => ({
@@ -367,11 +380,16 @@ function BookPageContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: accountEmail }),
       });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setPinError(data.error || "Failed to send verification code.");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.error) {
+          setPinError(data.error);
+        } else {
+          setPinSent(true);
+        }
       } else {
-        setPinSent(true);
+        const data = await res.json().catch(() => ({}));
+        setPinError(data.error || "Failed to send verification code.");
       }
     } catch (err) {
       setPinError("Failed to send verification code. Please try again.");
@@ -401,16 +419,21 @@ function BookPageContent() {
           wantNewsletter: true,
         }),
       });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setPinError(data.error || "Verification failed.");
-      } else {
-        const loginOk = await login(accountEmail, accountPassword);
-        if (loginOk) {
-          window.location.href = "/planner";
+      if (res.ok) {
+        const data = await res.json();
+        if (data.error) {
+          setPinError(data.error);
         } else {
-          setPinError("Account created, but auto-login failed. Please sign in manually.");
+          const loginOk = await login(accountEmail, accountPassword);
+          if (loginOk) {
+            window.location.href = "/planner";
+          } else {
+            setPinError("Account created, but auto-login failed. Please sign in manually.");
+          }
         }
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setPinError(data.error || "Verification failed.");
       }
     } catch (err) {
       setPinError("Failed to verify code. Please try again.");
@@ -480,7 +503,7 @@ function BookPageContent() {
 
     // Rate limiting — max 3 submissions per hour
     try {
-      const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps') || '[]');
+      const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps_v1') || localStorage.getItem('7h_booking_timestamps') || '[]');
       const oneHourAgo = Date.now() - 60 * 60 * 1000;
       const recent = timestamps.filter(t => t > oneHourAgo);
       if (recent.length >= 3) {
@@ -520,11 +543,11 @@ function BookPageContent() {
           website: formData.website
         }),
       });
-      const result = await res.json();
-
-      if (res.ok && result.success) {
+      if (res.ok) {
+        const result = await res.json();
+        if (result.success) {
         // Save full form data for rebook auto-fill
-        localStorage.setItem('7h_planner_last_form', JSON.stringify({
+        localStorage.setItem('7h_planner_last_form_v1', JSON.stringify({
           ...formData,
           eventType: selectedType,
           bookingSlots,
@@ -534,18 +557,18 @@ function BookPageContent() {
 
         // Track submission timestamp for rate limiting
         try {
-          const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps') || '[]');
+          const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps_v1') || localStorage.getItem('7h_booking_timestamps') || '[]');
           timestamps.push(Date.now());
           const oneHourAgo = Date.now() - 60 * 60 * 1000;
-          localStorage.setItem('7h_booking_timestamps', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
+          localStorage.setItem('7h_booking_timestamps_v1', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
         } catch { }
 
         // Persist phone number to user account if logged in
         if (isLoggedIn && member && formData.phone) {
-          const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+          const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
           if (accounts[member.email]) {
             accounts[member.email].phone = formData.phone;
-            localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+            localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
           }
         }
 
@@ -562,8 +585,12 @@ function BookPageContent() {
         }
 
         setSubmitted(true);
+        } else {
+          setValidationErrors([result.error || "Something went wrong. Please try again."]);
+        }
       } else {
-        setValidationErrors([result.error || "Something went wrong. Please try again."]);
+        const result = await res.json().catch(() => ({}));
+        setValidationErrors([result.error || `HTTP error ${res.status}`]);
       }
     } catch (err) {
       console.error("Booking error:", err);
@@ -976,9 +1003,10 @@ function BookPageContent() {
                           <div className="space-y-3 mt-4 border-t border-black/10 pt-4">
                             {/* Format */}
                             <div>
-                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
+                              <label htmlFor={`slot-format-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
                               <div className="relative">
                                 <select
+                                  id={`slot-format-${slot.id}`}
                                   value={slot.eventType}
                                   onChange={(e) => {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
@@ -1012,9 +1040,10 @@ function BookPageContent() {
                             {/* Times */}
                             <div className="grid grid-cols-2 gap-2">
                               <div>
-                                <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
+                                <label htmlFor={`slot-start-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
                                 <div className="relative">
                                   <select
+                                    id={`slot-start-${slot.id}`}
                                     value={slot.startTime}
                                     onChange={(e) => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
@@ -1032,9 +1061,10 @@ function BookPageContent() {
                                 </div>
                               </div>
                               <div>
-                                <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
+                                <label htmlFor={`slot-end-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
                                 <div className="relative">
                                   <select
+                                    id={`slot-end-${slot.id}`}
                                     value={slot.endTime}
                                     onChange={(e) => {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
@@ -1057,7 +1087,7 @@ function BookPageContent() {
                           {/* Separate Contact/Venue details toggle buttons & form fields */}
                           <div className="mt-4 pt-4 border-t border-black/10">
                             <div className="mb-3">
-                              <label className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</label>
+                              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</span>
                               <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 border border-white/5">
                                 <button
                                   type="button"
@@ -1150,7 +1180,7 @@ function BookPageContent() {
                                         type="button"
                                         onClick={() => {
                                           try {
-                                            const saved = localStorage.getItem('7h_planner_last_form');
+                                            const saved = localStorage.getItem('7h_planner_last_form_v1') || localStorage.getItem('7h_planner_last_form');
                                             if (saved) {
                                               const parsed = JSON.parse(saved);
                                               const updated = bookingSlots.map(s => s.id === slot.id ? {
@@ -1176,8 +1206,9 @@ function BookPageContent() {
 
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
+                                    <label htmlFor={`slot-contact-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
                                     <input
+                                      id={`slot-contact-name-${slot.id}`}
                                       type="text"
                                       placeholder="e.g. Jane Doe"
                                       value={slot.contactName || ""}
@@ -1189,8 +1220,9 @@ function BookPageContent() {
                                     />
                                   </div>
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
+                                    <label htmlFor={`slot-contact-email-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
                                     <input
+                                      id={`slot-contact-email-${slot.id}`}
                                       type="email"
                                       placeholder="e.g. jane@email.com"
                                       value={slot.contactEmail || ""}
@@ -1204,8 +1236,9 @@ function BookPageContent() {
                                 </div>
 
                                 <div>
-                                  <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
+                                  <label htmlFor={`slot-venue-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
                                   <input
+                                    id={`slot-venue-name-${slot.id}`}
                                     type="text"
                                     placeholder="e.g. House of Blues"
                                     value={slot.venueName || ""}
@@ -1219,8 +1252,9 @@ function BookPageContent() {
 
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
+                                    <label htmlFor={`slot-venue-city-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
                                     <input
+                                      id={`slot-venue-city-${slot.id}`}
                                       type="text"
                                       placeholder="Chicago"
                                       value={slot.venueCity || ""}
@@ -1232,8 +1266,9 @@ function BookPageContent() {
                                     />
                                   </div>
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
+                                    <label htmlFor={`slot-venue-state-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
                                     <input
+                                      id={`slot-venue-state-${slot.id}`}
                                       type="text"
                                       placeholder="IL"
                                       value={slot.venueState || ""}
@@ -1264,9 +1299,10 @@ function BookPageContent() {
                                 {/* Age Restriction & Doors Time */}
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
+                                    <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
                                     <div className="relative">
                                       <select
+                                        id={`slot-age-limit-${slot.id}`}
                                         value={slot.ageRestriction || "all_ages"}
                                         onChange={(e) => {
                                           const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
@@ -1284,9 +1320,10 @@ function BookPageContent() {
                                     </div>
                                   </div>
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
+                                    <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
                                     <div className="relative">
                                       <select
+                                        id={`slot-doors-time-${slot.id}`}
                                         value={slot.doorsTime || ""}
                                         onChange={(e) => {
                                           const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
@@ -1309,8 +1346,9 @@ function BookPageContent() {
                                 {/* Ticket Price & Link */}
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
+                                    <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
                                     <input
+                                      id={`slot-cover-${slot.id}`}
                                       type="text"
                                       placeholder="e.g. Free, $15..."
                                       value={slot.cover || ""}
@@ -1322,8 +1360,9 @@ function BookPageContent() {
                                     />
                                   </div>
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
+                                    <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
                                     <input
+                                      id={`slot-ticket-link-${slot.id}`}
                                       type="text"
                                       placeholder="https://..."
                                       value={slot.ticketLink || ""}
@@ -1352,8 +1391,9 @@ function BookPageContent() {
                                   </label>
 
                                   <div>
-                                    <label className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Public Notes (shown to fans)</label>
+                                    <label htmlFor={`slot-notes-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Public Notes (shown to fans)</label>
                                     <textarea
+                                      id={`slot-notes-${slot.id}`}
                                       placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
                                       value={slot.notes || ""}
                                       onChange={(e) => {
@@ -1582,7 +1622,7 @@ function BookPageContent() {
                         </div>
                         <ul className="space-y-1">
                           {validationErrors.map((err, i) => (
-                            <li key={i} className="text-red-600 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500">{err}</li>
+                            <li key={`err-${i}-${err}`} className="text-red-600 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500">{err}</li>
                           ))}
                         </ul>
                       </div>

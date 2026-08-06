@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 export default function GlobalError({
   error,
@@ -11,6 +11,31 @@ export default function GlobalError({
 }) {
   const reported = useRef(false);
   const resetAttempted = useRef(false);
+
+  const reportError = useCallback(async (errToReport: Error & { digest?: string }) => {
+    if (reported.current) return;
+    reported.current = true;
+    try {
+      await fetch("/api/report-error", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          error: errToReport.stack || errToReport.message,
+          digest: errToReport.digest,
+          path:
+            typeof window !== "undefined"
+              ? window.location.href
+              : "Root Layout / Server",
+          userAgent:
+            typeof window !== "undefined"
+              ? window.navigator.userAgent
+              : "Unknown",
+        }),
+      });
+    } catch (err) {
+      console.error("Global Error Reporting Failed silently:", err);
+    }
+  }, []);
 
   useEffect(() => {
     // Auto-recover immediately for transient DOM reconciliation errors
@@ -29,29 +54,8 @@ export default function GlobalError({
       return () => clearTimeout(t);
     }
 
-    // Report non-transient errors once
-    if (!reported.current) {
-      reported.current = true;
-      fetch("/api/report-error", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          error: error.stack || error.message,
-          digest: error.digest,
-          path:
-            typeof window !== "undefined"
-              ? window.location.href
-              : "Root Layout / Server",
-          userAgent:
-            typeof window !== "undefined"
-              ? window.navigator.userAgent
-              : "Unknown",
-        }),
-      }).catch((err) => {
-        console.error("Failed to send global error report:", err);
-      });
-    }
-  }, [error, reset]);
+    reportError(error);
+  }, [error, reset, reportError]);
 
   return (
     <html lang="en">

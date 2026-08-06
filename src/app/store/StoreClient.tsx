@@ -88,13 +88,13 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
       // Save to admin_orders_list in localStorage
       try {
-        const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list') || '[]');
+        const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list') || '[]');
         currentOrders.unshift(newOrder);
-        localStorage.setItem('admin_orders_list', JSON.stringify(currentOrders));
+        localStorage.setItem('admin_orders_list_v1', JSON.stringify(currentOrders));
 
         // If table pickup, also add to merch_pickup_queue for unified live stream fulfillment queue compatibility
         if (checkoutDeliveryMethod === 'merch_table') {
-          const queue = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
+          const queue = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
           queue.unshift({
             id: newOrder.id,
             code: `PU-${claimPinRef.current}`,
@@ -107,7 +107,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             ts: newOrder.ts,
             claimed: false
           });
-          localStorage.setItem('merch_pickup_queue', JSON.stringify(queue));
+          localStorage.setItem('merch_pickup_queue_v1', JSON.stringify(queue));
         }
 
         // Decrement inventory in Shopify storefront
@@ -123,7 +123,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ variantId: selectedVariantNode.id, quantity: 1 })
-          }).then(res => res.json())
+          }).then(res => res.ok ? res.json() : null)
             .then(data => console.log('[Shopify Inventory Sync]', data))
             .catch(err => console.error('[Shopify Inventory Sync Error]', err));
         }
@@ -282,8 +282,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                   {selectedProduct.title.toLowerCase().match(/shirt|tee|hoodie|sweat|jersey|jacket|tank|hat|cap/) && (
                     <div className="grid grid-cols-2 gap-3 bg-gray-50 border border-black/10 p-3">
                       <div>
-                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Select Size</label>
+                        <label htmlFor="store-checkout-size" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Select Size</label>
                         <select 
+                          id="store-checkout-size"
                           value={checkoutSelectedSize}
                           onChange={e => setCheckoutSelectedSize(e.target.value)}
                           className="w-full bg-white border border-black/15 rounded-lg p-2 text-xs text-black outline-none focus:border-purple-600 font-sans cursor-pointer"
@@ -295,8 +296,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         </select>
                       </div>
                       <div>
-                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Select Color</label>
+                        <label htmlFor="store-checkout-color" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Select Color</label>
                         <select 
+                          id="store-checkout-color"
                           value={checkoutSelectedColor}
                           onChange={e => setCheckoutSelectedColor(e.target.value)}
                           className="w-full bg-white border border-black/15 rounded-lg p-2 text-xs text-black outline-none focus:border-purple-600 font-sans cursor-pointer"
@@ -311,7 +313,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                   {/* Delivery method toggle */}
                   <div className="space-y-1.5">
-                    <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block font-sans">Delivery Option</label>
+                    <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block font-sans">Delivery Option</span>
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         type="button"
@@ -341,8 +343,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                   {/* Details forms */}
                   <div className="space-y-3 pt-2">
                     <div>
-                      <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Full Name</label>
+                      <label htmlFor="store-checkout-name" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Full Name</label>
                       <input
+                        id="store-checkout-name"
                         type="text"
                         required
                         value={shippingDetails.name}
@@ -352,8 +355,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       />
                     </div>
                     <div>
-                      <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Email Address</label>
+                      <label htmlFor="store-checkout-email" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Email Address</label>
                       <input
+                        id="store-checkout-email"
                         type="email"
                         required
                         value={shippingDetails.email}
@@ -366,8 +370,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     {checkoutDeliveryMethod === 'shipping' && (
                       <>
                         <div>
-                          <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Shipping Address</label>
+                          <label htmlFor="store-checkout-address" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Shipping Address</label>
                           <input
+                            id="store-checkout-address"
                             type="text"
                             required
                             value={shippingDetails.address}
@@ -378,8 +383,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                           <div>
-                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">City</label>
+                            <label htmlFor="store-checkout-city" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">City</label>
                             <input
+                              id="store-checkout-city"
                               type="text"
                               required
                               value={shippingDetails.city}
@@ -389,8 +395,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                             />
                           </div>
                           <div>
-                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">ZIP Code</label>
+                            <label htmlFor="store-checkout-zip" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">ZIP Code</label>
                             <input
+                              id="store-checkout-zip"
                               type="text"
                               required
                               value={shippingDetails.zip}
@@ -404,8 +411,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     )}
 
                     <div>
-                      <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Card Details (Mock)</label>
+                      <label htmlFor="store-checkout-card" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/50 font-bold block mb-1 font-sans">Card Details (Mock)</label>
                       <input
+                        id="store-checkout-card"
                         type="text"
                         required
                         value={shippingDetails.card}

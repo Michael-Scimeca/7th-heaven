@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 
@@ -80,7 +80,7 @@ export default function PlannerDashboard() {
       // Create planner account in localStorage
       if (!plannerName.trim()) { setPlannerLoginError('Name is required.'); setPlannerLoginLoading(false); return; }
       if (!plannerAgeConfirmed) { setPlannerLoginError('You must confirm you are over 18 years old to sign up.'); setPlannerLoginLoading(false); return; }
-      const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+      const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
       if (accounts[plannerEmail.toLowerCase()]) {
         setPlannerLoginError('An account with this email already exists. Try signing in.');
         setPlannerLoginLoading(false);
@@ -91,7 +91,7 @@ export default function PlannerDashboard() {
         joinDate: new Date().toISOString(), avatar: plannerName.trim().split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase(),
         points: 0, tier: 'Bronze', showsAttended: 0, favoriteVenues: [], notificationsEnabled: false, notificationRadius: 25, role: 'event_planner',
       };
-      localStorage.setItem('7h_accounts', JSON.stringify(accounts));
+      localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
     }
 
     const ok = await login(plannerEmail, plannerPassword);
@@ -99,7 +99,7 @@ export default function PlannerDashboard() {
       setPlannerLoginError(plannerMode === 'signup' ? 'Account created but login failed. Try signing in.' : 'No account found. Create one below.');
     } else {
       // Verify they have the right role
-      const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
+      const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
       const acct = accounts[plannerEmail.toLowerCase()];
       if (acct && acct.role !== 'event_planner') {
         setPlannerLoginError('This account is not an Event Planner account.');
@@ -108,50 +108,52 @@ export default function PlannerDashboard() {
     setPlannerLoginLoading(false);
   };
 
+  const fetchBookings = useCallback(async () => {
+    try {
+      const stored = localStorage.getItem('7h_member_v1') || localStorage.getItem('7h_member');
+      const email = stored ? JSON.parse(stored).email : null;
+      if (!email) return;
+      const res = await fetch(`/api/booking?email=${encodeURIComponent(email)}`);
+      if (res.ok) {
+        const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        const mapped: BookingData[] = data.map((item: any) => ({
+          id: item.bookingId || item.booking_id || defaultBooking.id,
+          eventName: item.eventType ? (eventTypeLabels[item.eventType] || item.eventType) : defaultBooking.eventName,
+          eventType: item.eventType || defaultBooking.eventType,
+          date: item.eventDate || item.event_date || defaultBooking.date,
+          startTime: item.startTime || item.start_time || defaultBooking.startTime,
+          endTime: item.endTime || item.end_time || defaultBooking.endTime,
+          venueName: item.venueName || item.venue_name || defaultBooking.venueName,
+          venueCity: item.venueCity || item.venue_city || defaultBooking.venueCity,
+          venueState: item.venueState || item.venue_state || defaultBooking.venueState,
+          indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || defaultBooking.indoorOutdoor,
+          expectedAttendance: item.expectedAttendance || item.expected_attendance || defaultBooking.expectedAttendance,
+          organization: item.organization || defaultBooking.organization,
+          status: item.status || defaultBooking.status,
+          cancelledAt: item.cancelledAt || item.cancelled_at,
+          soundSystem: item.soundSystem || item.sound_system || '',
+          stageAvailable: item.stageAvailable || item.stage_available || '',
+          loadInTime: item.loadInTime || item.load_in_time || '',
+          notes: item.details || item.notes || '',
+        }));
+        setAllBookings(mapped);
+        // Active booking = most recent non-cancelled, or just the first
+        const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
+        setBooking(active);
+        setEditDraft(active);
+        setPlannerNotes(active.notes || '');
+      }
+      }
+    } catch (e) {
+      console.error('Failed to fetch bookings:', e);
+    }
+  }, []);
+
   useEffect(() => {
     setMounted(true);
-    // Fetch ALL bookings from Supabase via API
-    const fetchBookings = async () => {
-      try {
-        const stored = localStorage.getItem('7h_member');
-        const email = stored ? JSON.parse(stored).email : null;
-        if (!email) return;
-        const res = await fetch(`/api/booking?email=${encodeURIComponent(email)}`);
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const mapped: BookingData[] = data.map((item: any) => ({
-            id: item.bookingId || item.booking_id || defaultBooking.id,
-            eventName: item.eventType ? (eventTypeLabels[item.eventType] || item.eventType) : defaultBooking.eventName,
-            eventType: item.eventType || defaultBooking.eventType,
-            date: item.eventDate || item.event_date || defaultBooking.date,
-            startTime: item.startTime || item.start_time || defaultBooking.startTime,
-            endTime: item.endTime || item.end_time || defaultBooking.endTime,
-            venueName: item.venueName || item.venue_name || defaultBooking.venueName,
-            venueCity: item.venueCity || item.venue_city || defaultBooking.venueCity,
-            venueState: item.venueState || item.venue_state || defaultBooking.venueState,
-            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || defaultBooking.indoorOutdoor,
-            expectedAttendance: item.expectedAttendance || item.expected_attendance || defaultBooking.expectedAttendance,
-            organization: item.organization || defaultBooking.organization,
-            status: item.status || defaultBooking.status,
-            cancelledAt: item.cancelledAt || item.cancelled_at,
-            soundSystem: item.soundSystem || item.sound_system || '',
-            stageAvailable: item.stageAvailable || item.stage_available || '',
-            loadInTime: item.loadInTime || item.load_in_time || '',
-            notes: item.details || item.notes || '',
-          }));
-          setAllBookings(mapped);
-          // Active booking = most recent non-cancelled, or just the first
-          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
-          setBooking(active);
-          setEditDraft(active);
-          setPlannerNotes(active.notes || '');
-        }
-      } catch (e) {
-        console.error('Failed to fetch bookings:', e);
-      }
-    };
     fetchBookings();
-  }, []);
+  }, [fetchBookings]);
 
   // Revive countdown timer
   useEffect(() => {
@@ -217,19 +219,19 @@ export default function PlannerDashboard() {
               <form onSubmit={handlePlannerLogin} className="flex flex-col gap-4">
                 {plannerMode === 'signup' && (
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
-                    <input type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
+                    <label htmlFor="planner-full-name" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
+                    <input id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
                       placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
-                  <input type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
+                  <label htmlFor="planner-login-email" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
+                  <input id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
                     placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
-                  <input type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
+                  <label htmlFor="planner-login-password" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
+                  <input id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
                     placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
 
@@ -444,41 +446,41 @@ export default function PlannerDashboard() {
                 /* Edit Mode */
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
-                    <input value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
+                    <label htmlFor="planner-edit-event-name" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
+                    <input id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                      <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
-                      <input value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
+                      <label htmlFor="planner-edit-start-time" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
+                      <input id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
-                      <input value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
+                      <label htmlFor="planner-edit-end-time" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
+                      <input id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
-                      <input value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
+                      <label htmlFor="planner-edit-venue" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
+                      <input id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
-                      <input value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
+                      <label htmlFor="planner-edit-attendance" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
+                      <input id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
-                      <input value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
+                      <label htmlFor="planner-edit-city" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
+                      <input id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
-                      <label className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
-                      <input value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
+                      <label htmlFor="planner-edit-state" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
+                      <input id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                   </div>
@@ -687,7 +689,7 @@ export default function PlannerDashboard() {
                   { label: 'Expected attendance', done: !!booking.expectedAttendance, detail: booking.expectedAttendance ? `~${booking.expectedAttendance} guests` : 'Not set' },
                 ].map((item, i) => (
                   <div
-                    key={i}
+                    key={item.label}
                     className={`flex items-center gap-3 px-4 py-3  border transition-colors ${item.done
                       ? 'bg-emerald-500/5 border-emerald-500/15'
                       : 'bg-white/[0.02] border-white/5 hover:border-purple-500/20'

@@ -11,7 +11,6 @@ import { useMember } from "@/context/MemberContext";
 function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const phaseRef = useRef(0);
-  const rafRef = useRef<number | null>(null);
 
   const draw = useCallback((phase: number, isHovered: boolean, isActive: boolean) => {
     const canvas = canvasRef.current;
@@ -79,20 +78,23 @@ function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: num
 
   // Animate when active (up-next) or hovered
   useEffect(() => {
+    let animId: number | undefined;
     const shouldAnimate = hovered || active;
     if (shouldAnimate) {
       const loop = () => {
         phaseRef.current += active ? 0.05 : 0.07;
         draw(phaseRef.current, hovered, active);
-        rafRef.current = requestAnimationFrame(loop);
+        animId = requestAnimationFrame(loop);
       };
-      rafRef.current = requestAnimationFrame(loop);
+      animId = requestAnimationFrame(loop);
     } else {
-      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
-      // wind back to static
       draw(phaseRef.current, false, false);
     }
-    return () => { if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; } };
+    return () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+      }
+    };
   }, [hovered, active, draw]);
 
   return (
@@ -460,11 +462,16 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      const result = await res.json();
-      if (res.ok && result.success) {
-        setIsModalOpen(false);
-        window.location.reload();
+      if (res.ok) {
+        const result = await res.json();
+        if (result.success) {
+          setIsModalOpen(false);
+          window.location.reload();
+        } else {
+          setModalError(result.error || "Failed to save show date.");
+        }
       } else {
+        const result = await res.json().catch(() => ({}));
         setModalError(result.error || "Failed to save show date.");
       }
     } catch (err) {
@@ -480,10 +487,15 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       const res = await fetch(`/api/admin/shows?id=${id}`, {
         method: "DELETE"
       });
-      const result = await res.json();
-      if (res.ok && result.success) {
-        window.location.reload();
+      if (res.ok) {
+        const result = await res.json();
+        if (result.success) {
+          window.location.reload();
+        } else {
+          alert("Failed to delete show: " + (result.error || "Unknown error"));
+        }
       } else {
+        const result = await res.json().catch(() => ({}));
         alert("Failed to delete show: " + (result.error || "Unknown error"));
       }
     } catch (err) {
@@ -502,19 +514,25 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     return () => document.removeEventListener('click', handleOutsideClick);
   }, []);
 
-  // Load user notification subscriptions
-  useEffect(() => {
+  const loadSubscriptions = useCallback(async () => {
     if (!member?.email) return;
-    fetch(`/api/shows/notify-me?email=${encodeURIComponent(member.email)}`)
-      .then(res => res.json())
-      .then(data => {
+    try {
+      const res = await fetch(`/api/shows/notify-me?email=${encodeURIComponent(member.email)}`);
+      if (res.ok) {
+        const data = await res.json();
         if (data.success && data.subscriptions) {
           const ids = data.subscriptions.map((s: any) => s.showId);
           setSubscribedShowIds(ids);
         }
-      })
-      .catch(err => console.error("Error loading notification subscriptions:", err));
+      }
+    } catch (err) {
+      console.error("Error loading notification subscriptions:", err);
+    }
   }, [member?.email]);
+
+  useEffect(() => {
+    loadSubscriptions();
+  }, [loadSubscriptions]);
 
   const handleToggleNotification = (show: any) => {
     // Not logged in → open sign-up modal
@@ -1103,7 +1121,7 @@ ${filterLine}
           </div>
 
           <div className="flex flex-col gap-0 overflow-visible pt-0" id="tour-rows-container">
-            {(() => {
+            {Array.from((() => {
               let rows = filtered;
               if (maxShows && upNext) {
                 const startIdx = filtered.findIndex(s => s.date === upNext.date && s.venue === upNext.venue && s.time === upNext.time);
@@ -1112,14 +1130,14 @@ ${filterLine}
                 rows = filtered.slice(0, maxShows);
               }
               return rows;
-            })().map((show, i) => {
+            })(), (show, i) => ({ show, i })).map(({ show, i }) => {
               const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
               const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
               const isHighlighted = highlightedId === rowId;
               const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
-                <div key={`${show.date}-${show.venue}-${i}`} className="overflow-visible"
+                <div key={show.id || rowId} className="overflow-visible"
                   onMouseEnter={() => setHoveredRowIdx(i)}
                   onMouseLeave={() => setHoveredRowIdx(null)}
                 >
@@ -1466,69 +1484,69 @@ ${filterLine}
               <form onSubmit={handleSaveShow} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
-                    <input type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
+                    <label htmlFor="tour-form-venue" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
+                    <input id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
                       placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
-                    <input type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
+                    <label htmlFor="tour-form-date" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
+                    <input id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
                       className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
-                    <input type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
+                    <label htmlFor="tour-form-city" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
+                    <input id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
                       placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
-                    <input type="text" required value={formState} onChange={e => setFormState(e.target.value)}
+                    <label htmlFor="tour-form-state" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
+                    <input id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
                       placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
-                    <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
+                    <label htmlFor="tour-form-time" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
+                    <input id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
                       placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
-                    <input type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
+                    <label htmlFor="tour-form-doors-time" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
+                    <input id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
                       placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
-                    <input type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
+                    <label htmlFor="tour-form-play-time" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
+                    <input id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
                       placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
-                    <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
+                    <label htmlFor="tour-form-cover" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
+                    <input id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
                       placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
-                    <input type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
+                    <label htmlFor="tour-form-ticket-link" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
+                    <input id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
                       placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
-                    <input type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
+                    <label htmlFor="tour-form-directions-link" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
+                    <input id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
                       placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
-                  <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
+                  <label htmlFor="tour-form-notes" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
+                  <textarea id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
                     placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
@@ -1738,8 +1756,9 @@ ${filterLine}
 
             {/* Font Family */}
             <div className="mb-5">
-              <label className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
+              <label htmlFor="tour-font-style" className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
               <select
+                id="tour-font-style"
                 value={tourFontFamily}
                 onChange={(e) => setTourFontFamily(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
@@ -1758,10 +1777,11 @@ ${filterLine}
             {/* Font Size */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
+                <label htmlFor="tour-font-size-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
               </div>
               <input
+                id="tour-font-size-slider"
                 type="range"
                 min="10"
                 max="24"
@@ -1779,10 +1799,11 @@ ${filterLine}
             {/* Website Button Font Size */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
+                <label htmlFor="tour-website-btn-size-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{websiteBtnFontSize}</span>
               </div>
               <input
+                id="tour-website-btn-size-slider"
                 type="range"
                 min="8"
                 max="22"
@@ -1804,10 +1825,11 @@ ${filterLine}
             {/* Row Padding */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
+                <label htmlFor="tour-row-padding-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowPadding}</span>
               </div>
               <input
+                id="tour-row-padding-slider"
                 type="range"
                 min="0"
                 max="40"
@@ -1825,10 +1847,11 @@ ${filterLine}
             {/* Row Spacing */}
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
+                <label htmlFor="tour-row-spacing-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowGap}</span>
               </div>
               <input
+                id="tour-row-spacing-slider"
                 type="range"
                 min="0"
                 max="30"
@@ -1846,10 +1869,11 @@ ${filterLine}
             {/* Row Height */}
             <div className="mb-5">
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
+                <label htmlFor="tour-row-height-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowHeight}</span>
               </div>
               <input
+                id="tour-row-height-slider"
                 type="range"
                 min="30"
                 max="100"

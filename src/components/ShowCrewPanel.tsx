@@ -182,8 +182,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             ) : (
               <>
                 <div className="space-y-1.5 mb-3">
-                  {data.crew.map((c, i) => (
-                    <div key={i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-colors ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
+                  {Array.from(data.crew, (c, i) => ({ c, i })).map(({ c, i }) => (
+                    <div key={c.name || i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-colors ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
                       <button onClick={() => toggleConfirm(i)} className="cursor-pointer shrink-0" title={c.confirmed ? 'Confirmed' : 'Click to confirm'}>
                         {c.confirmed ? <span className="text-emerald-400 text-sm">✅</span> : <span className="text-white/15 text-sm">⬜</span>}
                       </button>
@@ -199,12 +199,12 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 {addingCrew ? (
                   <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
                     <div className="flex-1">
-                      <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
-                      <input value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
+                      <label htmlFor="show-crew-new-name" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
+                      <input id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
                     </div>
                     <div>
-                      <label className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
-                      <select value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
+                      <label htmlFor="show-crew-new-role" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
+                      <select id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
@@ -222,8 +222,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         {/* TIMELINE */}
         {activeSection === "timeline" && (
           <div className="space-y-2">
-            {data.timeline.map((event, i) => (
-              <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/[0.01] border border-white/5">
+            {Array.from(data.timeline, (event, i) => ({ event, i })).map(({ event, i }) => (
+              <div key={event.label} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/[0.01] border border-white/5">
                 <div className="relative flex flex-col items-center shrink-0">
                   <div className={`w-3 h-3 rounded-full border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : 'bg-transparent border-white/15'}`} />
                   {i < data.timeline.length - 1 && <div className="w-px h-6 bg-white/5 absolute top-3.5" />}
@@ -252,8 +252,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <span className={`text-xs font-bold ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
-              {data.gear.map((item, i) => (
-                <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-colors ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
+              {Array.from(data.gear, (item, i) => ({ item, i })).map(({ item, i }) => (
+                <div key={item.name} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-colors ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
                   <button onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
                     {item.loaded ? <span className="text-emerald-400 text-xs">✅</span> : <span className="text-white/15 text-xs">⬜</span>}
                   </button>
@@ -293,8 +293,8 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <div className="text-center py-6 text-white/15 text-sm">No notes yet — add logistics info for the crew</div>
             ) : (
               <div className="space-y-2 max-h-48 overflow-y-auto">
-                {data.notes.map((note, i) => (
-                  <div key={i} className="px-3 py-2.5 bg-white/[0.02] border border-white/5 rounded-lg">
+                {data.notes.map((note) => (
+                  <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border border-white/5 rounded-lg">
                     <p className="text-sm text-white/70 leading-relaxed">{note.text}</p>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="text-[var(--font-size-2xs)] font-bold  text-[var(--color-accent)]/50">{note.author}</span>

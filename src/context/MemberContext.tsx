@@ -150,7 +150,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             await syncUser(session.user);
           } else {
             // Fallback to local storage on initial load if offline/no session
-            const stored = localStorage.getItem("7h_member");
+            const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
             if (stored) {
               try {
                 setMember(JSON.parse(stored));
@@ -167,7 +167,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             await syncUser(session.user);
           } else if (event === "SIGNED_OUT") {
             if (active) {
-              const stored = localStorage.getItem("7h_member");
+              const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
               if (!stored) setMember(null);
             }
           }
@@ -176,7 +176,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       } catch (err) {
         console.error("Supabase client creation/initialization failed, falling back to local storage:", err);
         // Fallback to local storage on error
-        const stored = localStorage.getItem("7h_member");
+        const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
         if (stored) {
           try {
             setMember(JSON.parse(stored));
@@ -201,8 +201,9 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
    if (!hydrated) return;
    if (member) {
-    localStorage.setItem("7h_member", JSON.stringify(member));
+    localStorage.setItem("7h_member_v1", JSON.stringify(member));
    } else {
+    localStorage.removeItem("7h_member_v1");
     localStorage.removeItem("7h_member");
    }
   }, [member, hydrated]);
@@ -247,9 +248,10 @@ export function MemberProvider({ children }: { children: ReactNode }) {
      role: (fakeUser.userRole || (fakeUser as any).role) as Member["role"],
     };
 
-    localStorage.setItem("7h_member", JSON.stringify(fakeMember));
+    localStorage.setItem("7h_member_v1", JSON.stringify(fakeMember));
     setMember(fakeMember);
     setIsModalOpen(false);
+    localStorage.removeItem('vip_inbox_messages_v1');
     localStorage.removeItem('vip_inbox_messages');
     return true;
    }
@@ -294,10 +296,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     };
 
     // Cache member profile (NOT the password) for fast access
-    localStorage.setItem("7h_member", JSON.stringify(supabaseMember));
+    localStorage.setItem("7h_member_v1", JSON.stringify(supabaseMember));
 
     setMember(supabaseMember);
     setIsModalOpen(false);
+    localStorage.removeItem('vip_inbox_messages_v1');
     localStorage.removeItem('vip_inbox_messages');
     return true;
    } catch (e: any) {
@@ -368,10 +371,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   };
 
   // Cache member profile (NOT the password) for fast access
-  localStorage.setItem("7h_member", JSON.stringify(newMember));
+  localStorage.setItem("7h_member_v1", JSON.stringify(newMember));
 
   setMember(newMember);
   setIsModalOpen(false);
+  localStorage.removeItem('vip_inbox_messages_v1');
   localStorage.removeItem('vip_inbox_messages');
 
   // ── Send welcome + admin alert emails (fire-and-forget) ──
@@ -465,12 +469,12 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       return { ...prev, avatar: avatarUrl };
     });
     try {
-      localStorage.setItem("7h_profile_avatar", avatarUrl);
-      const stored = localStorage.getItem("7h_member");
+      localStorage.setItem("7h_profile_avatar_v1", avatarUrl);
+      const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
       if (stored) {
         const parsed = JSON.parse(stored);
         parsed.avatar = avatarUrl;
-        localStorage.setItem("7h_member", JSON.stringify(parsed));
+        localStorage.setItem("7h_member_v1", JSON.stringify(parsed));
       }
       const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();

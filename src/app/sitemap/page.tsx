@@ -597,7 +597,7 @@ export default function SitemapPage() {
                   "4. Alerts & Emails",
                   "5. Database & State"
                 ].map((title, i) => (
-                  <div key={i} className="text-center">
+                  <div key={title} className="text-center">
                     <h3 className="text-xs font-black uppercase tracking-widest text-white/40 pb-2 border-b border-white/5">{title}</h3>
                   </div>
                 ))}
@@ -630,7 +630,7 @@ export default function SitemapPage() {
                     }
 
                     return (
-                      <g key={idx}>
+                      <g key={`conn-${conn.from}-${conn.to}`}>
                         {/* Interactive hover container */}
                         <path
                           d={d}
@@ -717,7 +717,7 @@ export default function SitemapPage() {
         ) : (
           <div className="space-y-16">
             {siteStructure.map((category, idx) => (
-              <section key={idx} className="relative">
+              <section key={category.title} className="relative">
                 <h2 className="text-xl font-bold uppercase tracking-[0.15em] text-white/80 mb-8 border-b border-white/10 pb-4">
                   {category.title}
                 </h2>
@@ -807,7 +807,7 @@ export default function SitemapPage() {
               { name: "TensorFlow.js", desc: "AI Moderation — client-side NSFW image scanning", color: "text-orange-400", icon: "🧠" },
               { name: "Upstash Redis", desc: "Rate limiting — API abuse prevention", color: "text-rose-500", icon: "🛡️" },
             ].map((tech, i) => (
-              <div key={i} className="p-4 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={tech.name} className="p-4 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lg">{tech.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${tech.color}`}>{tech.name}</h3>
@@ -927,7 +927,7 @@ export default function SitemapPage() {
                 icon: "🔄",
               },
             ].map((sms, i) => (
-              <div key={i} className={`p-5  border ${sms.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+              <div key={sms.trigger} className={`p-5  border ${sms.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{sms.icon}</span>
@@ -986,7 +986,7 @@ export default function SitemapPage() {
               { name: "Crew Work Hours Summary", desc: "Sent to a crew member summarizing their weekly/monthly scheduled hours and capacity load.", category: "Crew", status: "live", icon: "🕒" },
               { name: "Schedule Change Alert", desc: "Sent to a crew member when their scheduled shift is added, updated, or removed.", category: "Crew", status: "live", icon: "🗓️" },
             ].map((email, i) => (
-              <div key={i} className="p-5 border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={email.name} className="p-5 border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-lg">{email.icon}</span>
@@ -1064,7 +1064,7 @@ export default function SitemapPage() {
                 border: "border-green-500/30",
               },
             ].map((item, i) => (
-              <div key={i} className={`p-5  border ${item.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+              <div key={item.title} className={`p-5  border ${item.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-xl">{item.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
@@ -1152,7 +1152,7 @@ export default function SitemapPage() {
               { route: "/api/report-error", method: "POST", desc: "Client-side error reporting", color: "text-gray-400" },
               { route: "/api/sync-shows", method: "POST", desc: "Sync Sanity show dates to Supabase", color: "text-blue-400" },
             ].map((api, i) => (
-              <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={api.route} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-xs font-mono text-white/60 font-bold">{api.route}</span>
                   <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-white/5 text-white/30">{api.method}</span>
@@ -1187,7 +1187,7 @@ export default function SitemapPage() {
               { file: "migration_012_invite_challenge.sql", desc: "show_invite_challenges + show_invite_referrals — per-show merch reward system", status: "applied" },
               { file: "migration_013_show_memories.sql", desc: "show_memories — post-show fan memory & photo submissions", status: "applied" },
             ].map((m, i) => (
-              <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={m.file} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <span className="text-xs font-mono font-bold text-white/20 w-4 text-right">{i + 1}</span>
                 <span className="text-sm font-mono font-bold  text-[var(--color-accent)] min-w-[260px]">{m.file}</span>
                 <span className="text-xs text-white/50 flex-1">{m.desc}</span>
@@ -1615,7 +1615,7 @@ export default function SitemapPage() {
                 bg: "bg-emerald-500/5",
               },
             ].map((item, i) => (
-              <div key={i} className={`p-6  border ${item.border} ${item.bg} transition-colors hover:scale-[1.02]`}>
+              <div key={item.title} className={`p-6  border ${item.border} ${item.bg} transition-colors hover:scale-[1.02]`}>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-2xl">{item.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
@@ -1657,7 +1657,7 @@ export default function SitemapPage() {
               { name: "SMSSignup", file: "SMSSignup.tsx", used: "/fans", desc: "SMS opt-in form for show proximity alerts", color: "text-purple-300" },
               { name: "RoleBadge", file: "RoleBadge.tsx", used: "Multiple", desc: "Color-coded role indicator (Fan, Crew, Admin, Planner)", color: " text-[var(--color-accent)]" },
             ].map((comp, i) => (
-              <div key={i} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={comp.name} className="p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className={`text-sm font-black uppercase tracking-wide ${comp.color}`}>{comp.name}</span>
                   <span className="text-[var(--font-size-2xs)] font-mono text-white/20">{comp.file}</span>
@@ -1701,7 +1701,7 @@ export default function SitemapPage() {
               { key: "MUX_TOKEN_" + "ID", service: "Mux", desc: "Mux video API token ID (video processing)", required: false },
               { key: "MUX_TOKEN_" + "SECRET", service: "Mux", desc: "Mux video API secret", required: false },
             ].map((env, i) => (
-              <div key={i} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div key={env.key} className="flex items-center gap-4 p-3.5 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                 <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${env.required ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-white/5 text-white/30 border border-white/10'
                   }`}>{env.required ? 'Required' : 'Optional'}</span>
                 <div className="flex-1 min-w-0">
@@ -1844,7 +1844,7 @@ export default function SitemapPage() {
                 required: false,
               },
             ].map((s, i) => (
-              <div key={i} className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5  border ${s.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
+              <div key={s.service} className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5  border ${s.border} bg-white/[0.02] hover:bg-white/[0.04] transition-colors`}>
                 <div className="flex items-center gap-3 min-w-[200px]">
                   <span className="text-xl">{s.icon}</span>
                   <div>

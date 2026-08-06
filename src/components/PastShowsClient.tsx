@@ -192,9 +192,9 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         {/* Category Filter Pills */}
         <div>
-          <label className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-2.5">
+          <span className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-2.5">
             Filter by Event Type:
-          </label>
+          </span>
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
@@ -213,9 +213,9 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         {/* Year Filter Pills */}
         <div>
-          <label className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-2.5">
+          <span className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-2.5">
             Jump to Year:
-          </label>
+          </span>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedYear("ALL")}

@@ -148,6 +148,7 @@ export async function POST(request: Request) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
+        if (!res.ok) continue;
         const data = await res.json();
 
         // Log the blast

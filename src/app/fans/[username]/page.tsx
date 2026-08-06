@@ -60,10 +60,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   } as any) : null;
   // ── END DEMO MODE ──────────────────────────────────────────────────────────
 
-  useEffect(() => {
+  const checkCruiser = useCallback(async () => {
     if (!member?.email) return;
 
-    // 1. Check if 60 days have passed since the cruise ended
     const daysSinceCruise = (new Date().getTime() - new Date(CRUISE_END_DATE).getTime()) / (1000 * 60 * 60 * 24);
     if (daysSinceCruise > 60) {
       setIsCruiser(false);
@@ -71,33 +70,34 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
       return;
     }
 
-    // 2. Check if the fan is on the Cruise manifest
-    const checkCruiser = async () => {
-      const { data } = await supabase.from('cruise_signups').select('id').eq('email', member.email).single();
-      if (data || member?.signup_source === 'cruise_member_signup') {
-        setIsCruiser(true);
-        if (member?.signup_source === 'cruise_member_signup') {
-          setDashboardView('cruise');
-        }
-        // Load cruise data
-        fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
-          .then(res => res.json())
-          .then(raw => {
-            let d = raw; let i = 0;
-            while (typeof d === 'string' && i < 3) { try { d = JSON.parse(d); } catch { break; } i++; }
-            if (Array.isArray(d) && d.length > 0) setCruiseItinerary(d);
-          }).catch(() => { });
-        fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' })
-          .then(res => res.json())
-          .then(raw => {
-            let d = raw; let i = 0;
-            while (typeof d === 'string' && i < 3) { try { d = JSON.parse(d); } catch { break; } i++; }
-            if (d?.message) setCruiseAnnouncement(d.message); else setCruiseAnnouncement(null);
-          }).catch(() => { });
+    const { data } = await supabase.from('cruise_signups').select('id').eq('email', member.email).single();
+    if (data || member?.signup_source === 'cruise_member_signup') {
+      setIsCruiser(true);
+      if (member?.signup_source === 'cruise_member_signup') {
+        setDashboardView('cruise');
       }
-    };
-    checkCruiser();
+      
+      // Load itinerary
+      fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' })
+        .then(res => res.ok ? res.json() : null)
+        .then(raw => {
+          let d = raw; let i = 0;
+          while (typeof d === 'string' && i < 3) { try { d = JSON.parse(d); } catch { break; } i++; }
+          if (Array.isArray(d) && d.length > 0) setCruiseItinerary(d);
+        }).catch(() => { });
+
+      // Load announcement
+      fetch('/api/cruise/announcement?t=' + Date.now(), { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (d?.message) setCruiseAnnouncement(d.message); else setCruiseAnnouncement(null);
+        }).catch(() => { });
+    }
   }, [member?.email, member?.signup_source]);
+
+  useEffect(() => {
+    checkCruiser();
+  }, [checkCruiser]);
 
 
 
@@ -119,11 +119,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: cleaned, name: member?.name || 'Fan', zipCode: '00000', source: 'live_alert' }),
       });
-      const data = await res.json();
-      if (data.success || res.ok) {
-        localStorage.setItem('7h_live_alert_phone', cleaned);
-        setLiveAlertSubscribed(true);
-        setLiveAlertStatus('subscribed');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem('7h_live_alert_phone', cleaned);
+          setLiveAlertSubscribed(true);
+          setLiveAlertStatus('subscribed');
+        } else {
+          setLiveAlertStatus('error');
+        }
       } else {
         setLiveAlertStatus('error');
       }
@@ -132,24 +136,33 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   const referralCode = (member?.name ? member.name.replace(/\s+/g, '').toUpperCase().slice(0, 6) : 'FAN') + (member?.id?.slice(-4) || '7H');
 
-  // Fetch all data
-  useEffect(() => {
-    let active = true;
-    fetch("/api/tour").then(r => r.ok ? r.json() : null).then(data => {
-      if (!active || !data) return;
-      const upcoming = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') >= new Date());
-      const past = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') < new Date()).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      setShows(upcoming);
-      if (upcoming.length > 0) setNextShow(upcoming[0]);
-    }).catch(() => { });
-    fetch("/api/merch").then(r => r.ok ? r.json() : null).then(data => { if (active && data) setMerch(data); }).catch(() => { });
-    // Load live alerts visibility toggle
-    // Load live alerts visibility toggle
-    fetch("/api/admin/settings?key=live_alerts_enabled").then(r => r.ok ? r.json() : null).then(data => {
-      if (!active || !data) return;
-      if (data.value === 'off') setLiveAlertsEnabled(false);
-    }).catch(() => { });
-    // Clear stale session data so dashboard starts fresh
+  const loadDashboardData = useCallback(async () => {
+    try {
+      const tourRes = await fetch("/api/tour");
+      if (tourRes.ok) {
+        const data = await tourRes.json();
+        const upcoming = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') >= new Date());
+        setShows(upcoming);
+        if (upcoming.length > 0) setNextShow(upcoming[0]);
+      }
+    } catch { }
+
+    try {
+      const merchRes = await fetch("/api/merch");
+      if (merchRes.ok) {
+        const data = await merchRes.json();
+        if (data) setMerch(data);
+      }
+    } catch { }
+
+    try {
+      const alertRes = await fetch("/api/admin/settings?key=live_alerts_enabled");
+      if (alertRes.ok) {
+        const data = await alertRes.json();
+        if (data?.value === 'off') setLiveAlertsEnabled(false);
+      }
+    } catch { }
+
     try {
       localStorage.removeItem('vip_inbox_messages');
       localStorage.removeItem('7h_vip_inbox');
@@ -158,106 +171,114 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           localStorage.removeItem(k);
         }
       });
-    } catch (e) { }
-    // Load claimed raffle pins
+    } catch { }
+
     try {
       const claimed = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '[]');
       setClaimedPins(Array.isArray(claimed) ? claimed : []);
     } catch { }
-
-    return () => { active = false; };
   }, []);
 
-  // Fetch member-specific data when logged in
   useEffect(() => {
-    if (!member?.name) return;
-    let active = true;
-    fetch("/api/fans?all=true").then(r => r.ok ? r.json() : null).then(data => {
-      if (active && data) setMyPhotos(data.filter((p: any) => p.name === member.name));
-    }).catch(() => { });
+    loadDashboardData();
+  }, [loadDashboardData]);
 
-    return () => { active = false; };
+  const loadMyPhotos = useCallback(async () => {
+    if (!member?.name) return;
+    try {
+      const res = await fetch("/api/fans?all=true");
+      if (res.ok) {
+        const data = await res.json();
+        setMyPhotos(data.filter((p: any) => p.name === member.name));
+      }
+    } catch { }
   }, [member?.name]);
+
+  useEffect(() => {
+    loadMyPhotos();
+  }, [loadMyPhotos]);
 
   // Live stream polling — checks actual crew live status + Supabase broadcasts
   const [liveFeeds, setLiveFeeds] = useState<{ room: string; title: string; viewers: number; host: string }[]>([]);
 
-  useEffect(() => {
-    const check = async () => {
-      try {
-        const feeds: { room: string; title: string; viewers: number; host: string }[] = [];
-        const seenRooms = new Set<string>();
+  const checkLiveFeeds = useCallback(async () => {
+    try {
+      const feeds: { room: string; title: string; viewers: number; host: string }[] = [];
+      const seenRooms = new Set<string>();
 
-        // 1. Get active LiveKit rooms for cross-validation
-        const activeLkRooms = new Set<string>();
-        try {
-          const res = await fetch('/api/live-rooms');
+      // 1. Get active LiveKit rooms for cross-validation
+      const activeLkRooms = new Set<string>();
+      try {
+        const res = await fetch('/api/live-rooms');
+        if (res.ok) {
           const data = await res.json();
           if (data.rooms?.length > 0) {
             for (const room of data.rooms) {
               activeLkRooms.add(room.name);
             }
           }
-        } catch { }
+        }
+      } catch { }
 
-        // 2. Query Supabase live_streams — only show LiveKit-confirmed streams
-        try {
-          const { data: streams } = await supabase
-            .from('live_streams')
-            .select('*')
-            .eq('status', 'live');
-          if (streams?.length) {
-            const seenUsers = new Set<string>();
-            const staleIds: string[] = [];
+      // 2. Query Supabase live_streams — only show LiveKit-confirmed streams
+      try {
+        const { data: streams } = await supabase
+          .from('live_streams')
+          .select('*')
+          .eq('status', 'live');
+        if (streams?.length) {
+          const seenUsers = new Set<string>();
+          const staleIds: string[] = [];
 
-            for (const st of streams) {
-              const roomName = st.stream_url || `live_${st.user_id}`;
+          for (const st of streams) {
+            const roomName = st.stream_url || `live_${st.user_id}`;
 
-              // Only show if LiveKit confirms it's actually live
-              if (activeLkRooms.has(roomName) && !seenUsers.has(st.user_id) && !seenRooms.has(roomName)) {
-                seenUsers.add(st.user_id);
-                seenRooms.add(roomName);
-                feeds.push({
-                  room: roomName,
-                  title: st.title || 'Crew Broadcast',
-                  viewers: st.viewer_count || 0,
-                  host: st.title?.split(' — ')[0] || 'Crew Member',
-                });
-              } else if (!activeLkRooms.has(roomName)) {
-                staleIds.push(st.id);
-              }
-            }
-
-            // Auto-clean stale entries
-            if (staleIds.length > 0) {
-              supabase.from('live_streams').update({ status: 'ended' }).in('id', staleIds).then(null, () => { });
+            // Only show if LiveKit confirms it's actually live
+            if (activeLkRooms.has(roomName) && !seenUsers.has(st.user_id) && !seenRooms.has(roomName)) {
+              seenUsers.add(st.user_id);
+              seenRooms.add(roomName);
+              feeds.push({
+                room: roomName,
+                title: st.title || 'Crew Broadcast',
+                viewers: st.viewer_count || 0,
+                host: st.title?.split(' — ')[0] || 'Crew Member',
+              });
+            } else if (!activeLkRooms.has(roomName)) {
+              staleIds.push(st.id);
             }
           }
-        } catch { }
-        // 3. FALLBACK: Show LiveKit rooms not matched to Supabase entries
-        activeLkRooms.forEach((roomName: string) => {
-          if (!seenRooms.has(roomName)) {
-            seenRooms.add(roomName);
-            const hostName = roomName.replace(/^live_/, '').replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
-            feeds.push({ room: roomName, title: 'Crew Broadcast', viewers: 0, host: hostName });
+
+          // Auto-clean stale entries
+          if (staleIds.length > 0) {
+            supabase.from('live_streams').update({ status: 'ended' }).in('id', staleIds).then(null, () => { });
           }
-        });
+        }
+      } catch { }
+      // 3. FALLBACK: Show LiveKit rooms not matched to Supabase entries
+      activeLkRooms.forEach((roomName: string) => {
+        if (!seenRooms.has(roomName)) {
+          seenRooms.add(roomName);
+          const hostName = roomName.replace(/^live_/, '').replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+          feeds.push({ room: roomName, title: 'Crew Broadcast', viewers: 0, host: hostName });
+        }
+      });
 
-        setLiveFeeds(feeds);
-        setIsLive(feeds.length > 0);
-      } catch { setIsLive(false); setLiveFeeds([]); }
-    };
-    check();
-    const interval = setInterval(check, 4000);
+      setLiveFeeds(feeds);
+      setIsLive(feeds.length > 0);
+    } catch { setIsLive(false); setLiveFeeds([]); }
+  }, []);
 
-    // Also listen for Supabase realtime + storage events
+  useEffect(() => {
+    checkLiveFeeds();
+    const interval = setInterval(checkLiveFeeds, 4000);
+
     const handleStorage = (e: StorageEvent) => {
-      if (e.key?.startsWith('crew_is_live_') || e.key?.startsWith('7h_crew_is_live_')) check();
+      if (e.key?.startsWith('crew_is_live_') || e.key?.startsWith('7h_crew_is_live_')) checkLiveFeeds();
     };
     window.addEventListener('storage', handleStorage);
 
     return () => { clearInterval(interval); window.removeEventListener('storage', handleStorage); };
-  }, []);
+  }, [checkLiveFeeds]);
 
   // Countdown timer
   useEffect(() => {
@@ -323,19 +344,26 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   const [subscribedShows, setSubscribedShows] = useState<any[]>([]);
   const [loadingAlerts, setLoadingAlerts] = useState(false);
 
-  useEffect(() => {
+  const loadSubscribedShows = useCallback(async () => {
     if (!effectiveMember?.email) return;
     setLoadingAlerts(true);
-    fetch(`/api/shows/notify-me?email=${encodeURIComponent(effectiveMember.email)}`)
-      .then(res => res.json())
-      .then(data => {
+    try {
+      const res = await fetch(`/api/shows/notify-me?email=${encodeURIComponent(effectiveMember.email)}`);
+      if (res.ok) {
+        const data = await res.json();
         if (data.success && data.subscriptions) {
           setSubscribedShows(data.subscriptions);
         }
-      })
-      .catch(err => console.error("Error loading show alerts:", err))
-      .finally(() => setLoadingAlerts(false));
+      }
+    } catch { }
+    finally {
+      setLoadingAlerts(false);
+    }
   }, [effectiveMember?.email]);
+
+  useEffect(() => {
+    loadSubscribedShows();
+  }, [loadSubscribedShows]);
 
   const handleUnsubscribeShow = async (showId: string) => {
     if (!effectiveMember?.email) return;
@@ -601,7 +629,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
                           const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
                           return (
-                            <div key={i} className={`w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden  hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
+                            <div key={`fan-avatar-${i}-${initials}`} className={`w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden  hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
                               <span className="text-xs font-black text-black/90 tracking-widest">{initials}</span>
                             </div>
                           );
@@ -669,7 +697,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {(() => {
                   const claimedPinsSet = new Set(claimedPins);
-                  return inboxMessages.flatMap((win, i) => {
+                  return Array.from(inboxMessages, (win, i) => ({ win, i })).flatMap(({ win, i }) => {
                     if (!(win.color === 'yellow' || win.title?.includes('Win'))) return [];
                     const pinMatch = win.desc?.match(/PIN: (\d+)/);
                     const pin = pinMatch ? pinMatch[1] : null;
@@ -779,7 +807,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             ) : (
                               <div className="flex items-center gap-3">
                                 {[{ v: countdown.days, l: 'Days' }, { v: countdown.hours, l: 'Hrs' }, { v: countdown.mins, l: 'Min' }, { v: countdown.secs, l: 'Sec' }].map((u, i) => (
-                                  <div key={i} className="flex flex-col items-center">
+                                  <div key={u.l} className="flex flex-col items-center">
                                     <span className="text-2xl md:text-3xl font-black text-white tabular-nums  w-14 h-14 flex items-center justify-center">{String(u.v).padStart(2, '0')}</span>
                                     <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/40 font-bold mt-1">{u.l}</span>
                                   </div>
@@ -810,8 +838,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               </div>
               {shows.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {shows.slice(0, 3).map((show: any, i: number) => (
-                    <div key={i} className="flex items-start gap-4 py-3 pr-4 group">
+                  {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
+                    <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-white/5 border border-white/15 rounded-lg shrink-0">
                         <span className="text-xs font-black text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }) : ''}</span>
                         <span className="text-lg font-black text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
@@ -1144,8 +1172,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   </div>
 
                   <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
-                    {inboxMessages.map((msg, i) => (
-                      <div key={msg.id || i} className={`group cursor-pointer p-3 -mx-3  hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
+                    {inboxMessages.map((msg) => (
+                      <div key={msg.id || msg.title} className={`group cursor-pointer p-3 -mx-3  hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 ${msg.isNew ? 'bg-white/[0.02]' : 'opacity-60'}`}>
                         <div className="flex items-start gap-3">
                           <div className={`w-8 h-8 rounded-full ${msg.color === 'yellow' ? 'bg-yellow-500/20 border-yellow-500/30' : 'bg-emerald-500/20 border-emerald-500/30'} flex items-center justify-center shrink-0`}>
                             <span className="text-[var(--font-size-3xs)]">{msg.icon}</span>

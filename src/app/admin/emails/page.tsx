@@ -35,13 +35,18 @@ export default function EmailPreviewPage() {
           html: html,
         }),
       });
-      const data = await res.json();
-      if (data.success) {
-        setSendResult({ success: true, message: `Successfully sent test to ${testEmail}` });
-        setTimeout(() => setSendResult(null), 5000);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setSendResult({ success: true, message: `Successfully sent test to ${testEmail}` });
+        } else {
+          setSendResult({ success: false, message: data.error || "Failed to send email" });
+        }
       } else {
-        throw new Error(data.error || "Failed to send");
+        const data = await res.json().catch(() => ({}));
+        setSendResult({ success: false, message: data.error || `HTTP error ${res.status}` });
       }
+      setTimeout(() => setSendResult(null), 5000);
     } catch (err: any) {
       setSendResult({ success: false, message: err.message });
     } finally {

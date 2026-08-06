@@ -18,7 +18,7 @@ function VersionA() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        {guests.map((guest, i) => (
+        {Array.from(guests, (guest, i) => ({ guest, i })).map(({ guest, i }) => (
           <button key={i} type="button" onClick={() => setActiveTab(i)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer ${activeTab === i
                 ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
@@ -52,7 +52,7 @@ function VersionB() {
     <div className="space-y-5">
       {/* Progress */}
       <div className="flex items-center justify-between">
-        {labels.map((label, i) => (
+        {Array.from(labels, (label, i) => ({ label, i })).map(({ label, i }) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setStep(i)}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
@@ -89,7 +89,7 @@ function VersionC() {
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      {guests.map((g, i) => (
+      {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className={`p-4  border space-y-2.5 ${i === 0 ? "bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`}>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-6 h-6 rounded-md flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
@@ -122,7 +122,7 @@ function VersionD() {
         <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Email</span>
         <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/20">Phone</span>
       </div>
-      {guests.map((g, i) => (
+      {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}>
           <span className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
           <input type="text" placeholder={i === 0 ? "Your name" : "Guest name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={SMALL} />
@@ -144,7 +144,7 @@ function VersionE() {
 
   return (
     <div className="space-y-2">
-      {guests.map((g, i) => (
+      {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="overflow-hidden border border-white/5">
           <button type="button" onClick={() => setOpen(open === i ? -1 : i)}
             className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
@@ -180,7 +180,7 @@ function VersionF() {
 
   return (
     <div className="space-y-3">
-      {guests.map((g, i) => (
+      {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="flex items-start gap-2">
           <span className="w-7 h-7 rounded-md flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white shrink-0 mt-2" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
           <div className="flex-1 grid grid-cols-3 gap-2">

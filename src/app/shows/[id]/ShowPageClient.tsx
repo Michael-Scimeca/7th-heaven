@@ -108,6 +108,22 @@ export default function ShowPageClient({
   };
 
   // ── Auto-RSVP from ?rsvp=going|there SMS link ──────────────────
+  const handleAutoRsvp = useCallback(async (rsvpParam: string) => {
+    try {
+      await fetch("/api/proximity/attendees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ showId: show.id, status: rsvpParam, anonymous: false }),
+      });
+      const r = await fetch(`/api/proximity/attendees?showId=${show.id}`);
+      if (r.ok) {
+        const d = await r.json();
+        setAttendees(d.attendees || []);
+        setAttendeeListOpen(true);
+      }
+    } catch { }
+  }, [show.id]);
+
   useEffect(() => {
     if (autoRsvpDoneRef.current) return;
     const params = new URLSearchParams(window.location.search);
@@ -116,19 +132,11 @@ export default function ShowPageClient({
 
     if (isLoggedIn) {
       autoRsvpDoneRef.current = true;
-      fetch("/api/proximity/attendees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ showId: show.id, status: rsvpParam, anonymous: false }),
-      }).then(() => {
-        fetch(`/api/proximity/attendees?showId=${show.id}`)
-          .then((r) => r.json())
-          .then((d) => { setAttendees(d.attendees || []); setAttendeeListOpen(true); });
-      });
+      handleAutoRsvp(rsvpParam);
     } else {
       openModal("login");
     }
-  }, [isLoggedIn, show.id, openModal]);
+  }, [isLoggedIn, show.id, openModal, handleAutoRsvp]);
 
   const myAttendee = attendees.find((a) => a.profiles?.id === member?.id);
   const isGoing = !!myAttendee;
@@ -163,8 +171,10 @@ export default function ShowPageClient({
       const activeLkRooms = new Set<string>();
       try {
         const res = await fetch("/api/live-rooms");
-        const data = await res.json();
-        if (data.rooms?.length) data.rooms.forEach((r: { name: string }) => activeLkRooms.add(r.name));
+        if (res.ok) {
+          const data = await res.json();
+          if (data.rooms?.length) data.rooms.forEach((r: { name: string }) => activeLkRooms.add(r.name));
+        }
       } catch { }
 
       // Check Supabase live_streams
@@ -233,9 +243,11 @@ export default function ShowPageClient({
         body: JSON.stringify({ showId: show.id, status: "going", anonymous: wantAnonymous }),
       });
       const res = await fetch(`/api/proximity/attendees?showId=${show.id}`);
-      const data = await res.json();
-      setAttendees(data.attendees || []);
-      setAttendeeListOpen(true);
+      if (res.ok) {
+        const data = await res.json();
+        setAttendees(data.attendees || []);
+        setAttendeeListOpen(true);
+      }
     }
     setRsvpLoading(false);
   };

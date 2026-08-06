@@ -98,8 +98,13 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
         }),
       });
 
-      const data = await res.json();
-      setDispatchResult(data);
+      if (res.ok) {
+        const data = await res.json();
+        setDispatchResult(data);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setDispatchResult({ error: data.error || `HTTP ${res.status}` });
+      }
     } catch (err: any) {
       setDispatchResult({ error: err.message || "Failed to dispatch broadcast" });
     } finally {
@@ -147,9 +152,9 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
       {/* Preset Alert Type Selector */}
       <div>
-        <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
+        <span className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
           1. Quick Alert Presets
-        </label>
+        </span>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <button
             type="button"
@@ -201,16 +206,17 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Target Show Selector */}
         <div>
-          <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
+          <label htmlFor="emg-target-show" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
             2. Target Show Date / Venue
           </label>
           <select
+            id="emg-target-show"
             value={selectedShowDate}
             onChange={(e) => setSelectedShowDate(e.target.value)}
             className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-purple-500 cursor-pointer"
           >
-            {tourDates.map((s, idx) => (
-              <option key={idx} value={s.date} className="bg-zinc-900 text-white font-semibold">
+            {tourDates.map((s) => (
+              <option key={s.date} value={s.date} className="bg-zinc-900 text-white font-semibold">
                 {s.date} — {s.venue} ({s.city || 'IL'})
               </option>
             ))}
@@ -219,10 +225,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
         {/* Target Audience Selector */}
         <div>
-          <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
+          <label htmlFor="emg-target-audience" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
             3. Target Audience
           </label>
           <select
+            id="emg-target-audience"
             value={targetAudience}
             onChange={(e) => setTargetAudience(e.target.value as any)}
             className="w-full bg-black/40 border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-purple-500 cursor-pointer"
@@ -236,9 +243,9 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
       {/* Notification Delivery Channels */}
       <div>
-        <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
+        <span className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
           4. Delivery Channels & Cost Estimator
-        </label>
+        </span>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div
             onClick={() => setSendSms(!sendSms)}
@@ -289,10 +296,11 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
         {/* Custom Message Inputs */}
         <div className="space-y-2.5">
           <div>
-            <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1">
+            <label htmlFor="emg-msg-title" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1">
               Message Title / Header
             </label>
             <input
+              id="emg-msg-title"
               type="text"
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
@@ -303,7 +311,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider">
+              <label htmlFor="emg-msg-body" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider">
                 SMS & Alert Body Text
               </label>
               <span className="text-[9px] font-mono font-bold text-purple-300">
@@ -311,6 +319,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
               </span>
             </div>
             <textarea
+              id="emg-msg-body"
               rows={3}
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}

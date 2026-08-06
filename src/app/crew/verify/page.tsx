@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useMember } from '@/context/MemberContext';
 
 // All raffle_sync keys across all crew slugs — check any that exist
@@ -61,7 +61,7 @@ export default function VerifyPage() {
     }
   };
 
-  const verify = () => {
+  const verify = useCallback(() => {
     if (fullPin.length < 6) return;
     setResult('checking');
     if (verifyTimerRef.current !== null) clearTimeout(verifyTimerRef.current);
@@ -76,7 +76,7 @@ export default function VerifyPage() {
         setResult('invalid');
       }
     }, 600);
-  };
+  }, [fullPin]);
 
   const reset = () => {
     setPin(['', '', '', '', '', '']);
@@ -100,7 +100,7 @@ export default function VerifyPage() {
       if (verifyTimerRef.current !== null) clearTimeout(verifyTimerRef.current);
       if (resetTimerRef.current !== null) clearTimeout(resetTimerRef.current);
     };
-  }, [fullPin]);
+  }, [fullPin, result, verify]);
 
   // Disable all document body & page scrolling on verify page
   useEffect(() => {
@@ -209,7 +209,7 @@ export default function VerifyPage() {
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-2 mb-6" onPaste={handlePaste}>
-              {pin.map((digit, i) => (
+              {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
                 <input
                   key={i}
                   ref={el => { inputRefs.current[i] = el; }}
@@ -268,7 +268,7 @@ export default function VerifyPage() {
               {/* PIN confirmation */}
               <div className="flex items-center justify-center gap-1.5 mb-5">
                 {fullPin.split('').map((d, i) => (
-                  <div key={i} className="w-9 h-11 bg-black/60 border border-purple-500/40 rounded-lg flex items-center justify-center">
+                  <div key={`pin-confirm-${i}-${d}`} className="w-9 h-11 bg-black/60 border border-purple-500/40 rounded-lg flex items-center justify-center">
                     <span className="text-purple-300 font-black text-lg tabular-nums">{d}</span>
                   </div>
                 ))}

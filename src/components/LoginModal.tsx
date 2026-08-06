@@ -121,17 +121,21 @@ export default function LoginModal() {
           ...signUpPayload
         }),
       });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setError(data.error || "Verification failed.");
-      } else {
-        // Verification succeeded! Now log the user in to establish the session
-        const loginOk = await login(signUpPayload.email, signUpPayload.password);
-        if (loginOk) {
-          window.location.href = `/fans/${signUpPayload.username || 'me'}`;
+      if (res.ok) {
+        const data = await res.json();
+        if (data.error) {
+          setError(data.error);
         } else {
-          setError("Account created, but automatic login failed. Please sign in manually.");
+          const loginOk = await login(signUpPayload.email, signUpPayload.password);
+          if (loginOk) {
+            window.location.href = `/fans/${signUpPayload.username || 'me'}`;
+          } else {
+            setError("Account created, but automatic login failed. Please sign in manually.");
+          }
         }
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Verification failed.");
       }
     } catch (err) {
       setError("Failed to verify code. Please try again.");
@@ -158,12 +162,17 @@ export default function LoginModal() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
           });
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            setError(data.error || "Failed to send reset code.");
+          if (res.ok) {
+            const data = await res.json();
+            if (data.error) {
+              setError(data.error);
+            } else {
+              setForgotPinSent(true);
+              setError("");
+            }
           } else {
-            setForgotPinSent(true);
-            setError("");
+            const data = await res.json().catch(() => ({}));
+            setError(data.error || "Failed to send reset code.");
           }
         } catch (err) {
           setError("Failed to request reset PIN. Try again.");
@@ -188,35 +197,40 @@ export default function LoginModal() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, pin: forgotPinCode, password }),
           });
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            setError(data.error || "Failed to reset password.");
-          } else {
-            if (typeof window !== 'undefined' && (data.devBypass || process.env.NODE_ENV !== 'production')) {
-              localStorage.setItem(`7h_dev_password_${email.toLowerCase()}`, password);
-            }
-            const loginOk = await login(email, password);
-            if (loginOk) {
-              setForgotPinSent(false);
-              setForgotPinCode("");
-              setPassword("");
-              const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
-              const acctRole = stored.role;
-              const acctUsername = stored.username || 'me';
-              if (loginRole === 'planner' || acctRole === 'event_planner') {
-                window.location.href = '/planner';
-              } else if (loginRole === 'cruise' || acctRole === 'cruise') {
-                window.location.href = `/cruise/${acctUsername || 'dashboard'}`;
-              } else if (loginRole === 'crew' || acctRole === 'crew') {
-                window.location.href = '/crew';
-              } else if (acctRole === 'admin') {
-                window.location.href = '/admin';
-              } else {
-                window.location.href = `/fans/${acctUsername}`;
-              }
+          if (res.ok) {
+            const data = await res.json();
+            if (data.error) {
+              setError(data.error);
             } else {
-              setError("Password updated, but automatic login failed. Please sign in manually.");
+              if (typeof window !== 'undefined' && (data.devBypass || process.env.NODE_ENV !== 'production')) {
+                localStorage.setItem(`7h_dev_password_${email.toLowerCase()}`, password);
+              }
+              const loginOk = await login(email, password);
+              if (loginOk) {
+                setForgotPinSent(false);
+                setForgotPinCode("");
+                setPassword("");
+                const stored = JSON.parse(localStorage.getItem("7h_member") || "{}");
+                const acctRole = stored.role;
+                const acctUsername = stored.username || 'me';
+                if (loginRole === 'planner' || acctRole === 'event_planner') {
+                  window.location.href = '/planner';
+                } else if (loginRole === 'cruise' || acctRole === 'cruise') {
+                  window.location.href = `/cruise/${acctUsername || 'dashboard'}`;
+                } else if (loginRole === 'crew' || acctRole === 'crew') {
+                  window.location.href = '/crew';
+                } else if (acctRole === 'admin') {
+                  window.location.href = '/admin';
+                } else {
+                  window.location.href = `/fans/${acctUsername}`;
+                }
+              } else {
+                setError("Password updated, but automatic login failed. Please sign in manually.");
+              }
             }
+          } else {
+            const data = await res.json().catch(() => ({}));
+            setError(data.error || "Failed to reset password.");
           }
         } catch (err) {
           setError("Error resetting password. Please try again.");
@@ -306,16 +320,21 @@ export default function LoginModal() {
               ...payload
             }),
           });
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            setError(data.error || "Account creation failed.");
-          } else {
-            const loginOk = await login(email, password);
-            if (loginOk) {
-              window.location.href = `/fans/${payload.username || 'me'}`;
+          if (res.ok) {
+            const data = await res.json();
+            if (data.error) {
+              setError(data.error);
             } else {
-              setError("Account created, but automatic login failed. Please sign in manually.");
+              const loginOk = await login(email, password);
+              if (loginOk) {
+                window.location.href = `/fans/${payload.username || 'me'}`;
+              } else {
+                setError("Account created, but automatic login failed. Please sign in manually.");
+              }
             }
+          } else {
+            const data = await res.json().catch(() => ({}));
+            setError(data.error || "Account creation failed.");
           }
         } catch (err) {
           setError("Failed to create account. Please try again.");
@@ -344,17 +363,21 @@ export default function LoginModal() {
               ...payload
             }),
           });
-          const data = await res.json();
-          if (!res.ok || data.error) {
-            setError(data.error || "Verification failed.");
-          } else {
-            // Verification succeeded! Now log the user in to establish the session
-            const loginOk = await login(email, password);
-            if (loginOk) {
-              window.location.href = `/fans/${payload.username || 'me'}`;
+          if (res.ok) {
+            const data = await res.json();
+            if (data.error) {
+              setError(data.error);
             } else {
-              setError("Account created, but automatic login failed. Please sign in manually.");
+              const loginOk = await login(email, password);
+              if (loginOk) {
+                window.location.href = `/fans/${payload.username || 'me'}`;
+              } else {
+                setError("Account created, but automatic login failed. Please sign in manually.");
+              }
             }
+          } else {
+            const data = await res.json().catch(() => ({}));
+            setError(data.error || "Verification failed.");
           }
         } catch (err) {
           setError("Failed to verify code. Please try again.");
@@ -369,10 +392,11 @@ export default function LoginModal() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
         });
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          setError(data.error || "Failed to send verification code.");
-        } else {
+        if (res.ok) {
+          const data = await res.json();
+          if (data.error) {
+            setError(data.error);
+          } else {
           setSignUpPayload({
             name,
             email,
@@ -384,7 +408,11 @@ export default function LoginModal() {
           });
           setPinSent(true);
         }
-      } catch (err) {
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "Failed to send verification code.");
+      }
+    } catch (err) {
         setError("Failed to send verification code. Please try again.");
       }
     }
@@ -573,8 +601,9 @@ export default function LoginModal() {
               </div>
 
               <div>
-                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/50 mb-1 block">Admin Email</label>
+                <label htmlFor="login-admin-email" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/50 mb-1 block">Admin Email</label>
                 <input
+                  id="login-admin-email"
                   type="email"
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
@@ -584,8 +613,9 @@ export default function LoginModal() {
                 />
               </div>
               <div>
-                <label className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/50 mb-1 block">Password</label>
+                <label htmlFor="login-admin-password" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/50 mb-1 block">Password</label>
                 <input
+                  id="login-admin-password"
                   type="password"
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
@@ -662,8 +692,9 @@ export default function LoginModal() {
               })()}
 
               <div>
-                <label className="text-xs uppercase tracking-[0.15em] text-black/40 mb-1 block text-center">Verification Code</label>
+                <label htmlFor="login-verification-code" className="text-xs uppercase tracking-[0.15em] text-black/40 mb-1 block text-center">Verification Code</label>
                 <input
+                  id="login-verification-code"
                   type="text"
                   value={pinCode}
                   onChange={(e) => setPinCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
@@ -762,10 +793,11 @@ export default function LoginModal() {
                   {/* Name + Username — side by side */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+                      <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                         Full Name {isInviteFlow && <span className=" text-[var(--color-accent)]">✓ on file</span>}
                       </label>
                       <input
+                        id="signup-full-name"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -775,10 +807,11 @@ export default function LoginModal() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+                      <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                         Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
                       </label>
                       <input
+                        id="signup-username-input"
                         type="text"
                         value={usernameField}
                         onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
@@ -832,8 +865,9 @@ export default function LoginModal() {
                       {/* Zip code — only if opted in */}
                       {wantNotifications && (
                         <div className="pt-1">
-                          <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code</label>
+                          <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code</label>
                           <input
+                            id="signup-zip-code"
                             type="text"
                             value={zipCode}
                             onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
@@ -852,8 +886,9 @@ export default function LoginModal() {
                 <div className="flex flex-col gap-4 my-4">
                   {!forgotPinSent ? (
                     <div>
-                      <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Email Address</label>
+                      <label htmlFor="forgot-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Email Address</label>
                       <input
+                        id="forgot-email-input"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -868,8 +903,9 @@ export default function LoginModal() {
                         A verification code has been sent to <strong>{email}</strong>
                       </div>
                       <div>
-                        <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Verification PIN</label>
+                        <label htmlFor="forgot-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Verification PIN</label>
                         <input
+                          id="forgot-pin-input"
                           type="text"
                           maxLength={6}
                           value={forgotPinCode}
@@ -880,8 +916,9 @@ export default function LoginModal() {
                         />
                       </div>
                       <div>
-                        <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">New Password</label>
+                        <label htmlFor="forgot-new-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">New Password</label>
                         <input
+                          id="forgot-new-password-input"
                           type="password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -899,10 +936,11 @@ export default function LoginModal() {
               {modalMode !== "forgot" && (
                 <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+                    <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                       Email {isInviteFlow && <span className=" text-[var(--color-accent)]">✓ on file</span>}
                     </label>
                     <input
+                      id="login-email-input"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -915,8 +953,9 @@ export default function LoginModal() {
                     />
                   </div>
                   <div>
-                    <label className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Password</label>
+                    <label htmlFor="login-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Password</label>
                     <input
+                      id="login-password-input"
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}

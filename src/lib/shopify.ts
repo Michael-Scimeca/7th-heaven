@@ -31,7 +31,7 @@ async function shopifyFetch<T>({ query, variables }: { query: string; variables?
       cache: 'no-store',
     });
 
-    const body = await result.json();
+    const body = result.ok ? await result.json() : await result.json().catch(() => ({} as T));
     return { status: result.status, body };
   } catch (error) {
     console.error('Error fetching from Shopify:', error);

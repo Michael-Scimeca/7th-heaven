@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useRef, useEffect, Suspense } from "react";
+import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 
 // ─── Digit-by-digit PIN input (same UX as cruise verify) ───────────────────
 function PlannerVerifyContent() {
@@ -17,22 +17,7 @@ function PlannerVerifyContent() {
   const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Auto-request PIN when email is prefilled from URL
-  useEffect(() => {
-    if (emailParam && step === "pin") {
-      handleRequestPin(emailParam);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (step === "pin") {
-      const t = setTimeout(() => inputRefs.current[0]?.focus(), 100);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
-
-  const handleRequestPin = async (targetEmail: string) => {
+  const handleRequestPin = useCallback(async (targetEmail: string) => {
     setStatus("requesting");
     setErrorMsg("");
     try {
@@ -41,19 +26,34 @@ function PlannerVerifyContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: targetEmail }),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setErrorMsg(data.error || "Could not send PIN. Please try again.");
-        setStatus("error");
-      } else {
+      if (res.ok) {
+        const data = await res.json();
         setStatus("idle");
         setStep("pin");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error || "Could not send PIN. Please try again.");
+        setStatus("error");
       }
     } catch {
-      setErrorMsg("Something went wrong. Please try again.");
+      setErrorMsg("Network error. Please check your connection.");
       setStatus("error");
     }
-  };
+  }, []);
+
+  // Auto-request PIN when email is prefilled from URL
+  useEffect(() => {
+    if (emailParam && step === "pin") {
+      handleRequestPin(emailParam);
+    }
+  }, [emailParam, step, handleRequestPin]);
+
+  useEffect(() => {
+    if (step === "pin") {
+      const t = setTimeout(() => inputRefs.current[0]?.focus(), 100);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
 
   const handleDigit = (i: number, val: string) => {
     if (!/^\d*$/.test(val)) return;
@@ -91,16 +91,17 @@ function PlannerVerifyContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, pin }),
       });
-      const data = await res.json();
-      if (!res.ok) {
+      if (res.ok) {
+        const data = await res.json();
+        setStatus("success");
+        const destination = data.redirectUrl || "/planner";
+        setTimeout(() => { window.location.href = destination; }, 2000);
+      } else {
+        const data = await res.json().catch(() => ({}));
         setErrorMsg(data.error || "Invalid PIN. Please try again.");
         setStatus("error");
         setDigits(["", "", "", "", "", ""]);
         setTimeout(() => inputRefs.current[0]?.focus(), 50);
-      } else {
-        setStatus("success");
-        const destination = data.redirectUrl || "/planner";
-        setTimeout(() => { window.location.href = destination; }, 2200);
       }
     } catch {
       setErrorMsg("Something went wrong. Please try again.");
@@ -288,7 +289,7 @@ function PlannerVerifyContent() {
             <form onSubmit={handleSubmit}>
               {/* 6 digit boxes */}
               <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 24 }} onPaste={handlePaste}>
-                {digits.map((d, i) => (
+                {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
                   <input
                     key={i}
                     ref={el => { inputRefs.current[i] = el; }}

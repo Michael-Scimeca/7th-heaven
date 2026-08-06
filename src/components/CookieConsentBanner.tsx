@@ -7,7 +7,7 @@ type ConsentState = {
   marketing: boolean;
 };
 
-const COOKIE_KEY = "7h_consent";
+const COOKIE_KEY = "7h_consent_v1";
 const COOKIE_VERSION = "1"; // bump to re-prompt after policy changes
 
 function readConsent(): (ConsentState & { version: string }) | null {

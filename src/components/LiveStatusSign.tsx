@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase-client";
 
@@ -8,10 +8,10 @@ export default function LiveStatusSign() {
   const [isLive, setIsLive] = useState(false);
   const [liveCount, setLiveCount] = useState(0);
 
-  useEffect(() => {
-    const checkLiveStatus = async () => {
-      try {
-        const res = await fetch("/api/live-rooms");
+  const checkLiveStatus = useCallback(async () => {
+    try {
+      const res = await fetch("/api/live-rooms");
+      if (res.ok) {
         const data = await res.json();
         const allRooms = data.rooms || [];
         const visibleRooms = allRooms.filter((r: any) => r.showOnHomepage);
@@ -23,17 +23,19 @@ export default function LiveStatusSign() {
           setIsLive(false);
           setLiveCount(0);
         }
-      } catch {
-        // API unavailable — silently stay in "not live" state
-        setIsLive(false);
       }
-    };
+    } catch {
+      // API unavailable — silently stay in "not live" state
+      setIsLive(false);
+    }
+  }, []);
 
+  useEffect(() => {
     checkLiveStatus();
     // Check every 30 seconds
     const interval = setInterval(checkLiveStatus, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [checkLiveStatus]);
 
   if (!isLive) return null;
 

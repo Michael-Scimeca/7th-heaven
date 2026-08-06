@@ -20,9 +20,7 @@ export async function GET() {
 
     if (error) throw error;
 
-    const blockedDates = (data || [])
-      .map(b => b.event_date)
-      .filter(Boolean);
+    const blockedDates = (data || []).flatMap(b => b.event_date ? [b.event_date] : []);
 
     return NextResponse.json({ blockedDates });
   } catch (err: any) {

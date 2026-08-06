@@ -254,7 +254,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Preload audio elements on mount
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return () => {};
     if (!portAudioRef.current) {
       portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
       portAudioRef.current.loop = true;
@@ -269,7 +269,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Unlock browser autoplay policy on first user interaction anywhere on page
   useEffect(() => {
-    if (soundMuted || typeof window === 'undefined') return;
+    if (soundMuted || typeof window === 'undefined') return () => {};
 
     const unlockAudio = () => {
       if (soundMuted || !hasScrolledIntoRangeRef.current) return;
@@ -292,7 +292,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Keep playing sound of current location continuously when in section range
   useEffect(() => {
-    if (!itinerary || itinerary.length === 0) return;
+    if (!itinerary || itinerary.length === 0) return () => {};
 
     if (soundMuted || !hasScrolledIntoRange) {
       fadeAudioOut(portAudioRef.current);
@@ -370,12 +370,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         saved.nodeMinScale = 1.0;
         saved.nodeAction = 'none';
         saved.anchorOffsetX = 0;
-        saved.anchorOffsetY = 0;
-        saved.shipOffsetY = 0.50;
-        saved.maxShipDistPad = 0;
-        saved.lerpSpeed = 1.0;
-        saved.speedMultiplier = 1.0;
-        setTuning({ ...DEFAULT_TUNING, ...saved, shipScale: 1.5, nodeMinScale: 1.0, nodeAction: 'none', shipOffsetY: 0.50, lerpSpeed: 1.0, speedMultiplier: 1.0, maxShipDistPad: 0 });
+        const parsed = JSON.parse(savedStr);
+        setTuning(prev => ({ ...prev, ...parsed }));
       }
     } catch { }
   }, []);
@@ -388,7 +384,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   const handleSaveTuning = () => {
     try {
-      localStorage.setItem('7h_cruise_tuning', JSON.stringify(tuning));
+      localStorage.setItem('7h_cruise_tuning_v1', JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
     } catch { }
@@ -397,6 +393,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const handleResetTuning = () => {
     setTuning(DEFAULT_TUNING);
     try {
+      localStorage.removeItem('7h_cruise_tuning_v1');
       localStorage.removeItem('7h_cruise_tuning');
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
@@ -599,24 +596,22 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       rafId = requestAnimationFrame(tick);
     };
 
-    // getTotalLength() + getPointAtLength() force browser layout reflow every frame.
-    // Starting this loop while the page-transition wave is animating stalls the wave's
-    // own rAF and causes it to freeze mid-animation. Defer until the wave exits.
     const startLoop = () => { if (running) rafId = requestAnimationFrame(tick); };
 
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
     if ((window as any).__pageTransitionActive) {
       window.addEventListener('7h:pagetransition:done', startLoop, { once: true });
-      const fallback = setTimeout(startLoop, 3000);
-      return () => {
-        running = false;
-        cancelAnimationFrame(rafId);
-        clearTimeout(fallback);
-        window.removeEventListener('7h:pagetransition:done', startLoop);
-      };
+      fallbackTimer = setTimeout(startLoop, 3000);
     } else {
       startLoop();
-      return () => { running = false; cancelAnimationFrame(rafId); };
     }
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(rafId);
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      window.removeEventListener('7h:pagetransition:done', startLoop);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itinerary.length, layoutMode]);
 
@@ -635,11 +630,14 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       { threshold: 0.15 }
     );
 
-    cardRefs.current.forEach((card) => {
+    const cards = cardRefs.current;
+    for (const card of cards) {
       if (card) observer.observe(card);
-    });
+    }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [itinerary.length, layoutMode]);
 
   if (!itinerary || itinerary.length === 0) return null;
@@ -857,7 +855,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {/* Action Mode Toggle */}
                   <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                    <label className="block text-xs font-bold text-white/90">🎭 Port Circle Action</label>
+                    <span className="block text-xs font-bold text-white/90">🎭 Port Circle Action</span>
                     <div className="flex gap-1.5 pt-1">
                       {[
                         { id: 'hide', label: '🙈 Hide & Flip' },
@@ -1082,7 +1080,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         </svg>
 
         {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
-        {nodes.map((node, i) => {
+        {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
           const topPct = (node.y / totalH) * 100;
           const leftPct = (node.x / SVG_W) * 100;
           const day = itinerary[i];
@@ -1165,10 +1163,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               maxWidth: isMobile ? 'calc(100vw - 64px)' : '620px',
             };
           }
-
           return (
             <div
-              key={i}
+              key={day?.location || day?.theme}
               ref={el => { cardRefs.current[i] = el; }}
               className={`${styles.card} ${node.isLeft ? styles.cardLeft : styles.cardRight}`}
               style={cardStyle}
@@ -1213,7 +1210,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         </div>
 
         {/* Node circle ring HTML overlays — video element always rendered, paused until ship reaches/passes node */}
-        {nodes.map((node, i) => {
+        {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
           const day = itinerary[i];
           const isSea = isAtSeaDay(day);
           const isActive = activeNodeIndex === i;
@@ -1238,7 +1235,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           };
 
           return (
-            <React.Fragment key={`node-group-${i}`}>
+            <React.Fragment key={`node-group-${day?.location || day?.theme}`}>
               {/* Day Badge — aligned flush with 32px margin */}
               <div
                 style={{
@@ -1263,7 +1260,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               </div>
               {/* Circle Video Node — aligned flush with 32px margin */}
               <div
-                key={`node-ring-${i}`}
+                key={`node-ring-${day?.location || day?.theme}`}
                 style={{
                   position: 'absolute',
                   ...(node.isLeft

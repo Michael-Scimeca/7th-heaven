@@ -245,7 +245,7 @@ export default function AudioPlayerSection() {
       audioRef.current.play().catch(e => console.log("Autoplay prevented:", e));
       setIsPlaying(true);
     }
-  }, [activeTrackIndex, activeAlbumIndex]);
+  }, [activeTrackIndex, activeAlbumIndex, activeTrack, isPlaying]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -373,14 +373,14 @@ export default function AudioPlayerSection() {
                 </div>
               )
             ) : (
-              activeAlbum?.tracks.map((track, idx) => {
+              activeAlbum?.tracks && Array.from(activeAlbum.tracks, (track, idx) => ({ track, idx })).map(({ track, idx }) => {
                 const isActive = idx === activeTrackIndex;
                 const trackNumber = String(idx + 1).padStart(2, '0');
                 const cleanName = cleanTitle(track.title);
 
                 return (
                   <div
-                    key={idx}
+                    key={track.title}
                     className={`group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`}
                     onClick={() => {
                       if (isActive) togglePlay();
@@ -581,8 +581,8 @@ export default function AudioPlayerSection() {
                   <div className="mb-4">
                     <h3 className="text-xs font-black tracking-wider text-black/70 uppercase mb-1.5">Line-Up</h3>
                     <ul className="flex flex-col gap-1 text-xs font-semibold text-black/80">
-                      {activeAlbum.lineup.map((line, i) => (
-                        <li key={i}>{line}</li>
+                      {activeAlbum.lineup.map((line) => (
+                        <li key={line}>{line}</li>
                       ))}
                     </ul>
                   </div>
@@ -592,8 +592,8 @@ export default function AudioPlayerSection() {
                   <div className="mb-4">
                     <h3 className="text-xs font-black tracking-wider text-black/70 uppercase mb-1.5">Credits</h3>
                     <ul className="flex flex-col gap-1 text-xs font-semibold text-black/80">
-                      {activeAlbum.credits.map((line, i) => (
-                        <li key={i}>{line}</li>
+                      {activeAlbum.credits.map((line) => (
+                        <li key={line}>{line}</li>
                       ))}
                     </ul>
                   </div>

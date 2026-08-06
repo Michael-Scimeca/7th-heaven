@@ -315,8 +315,8 @@ export default function AdminLegalPage() {
             <div className="space-y-4">
               <h3 className="text-xs font-extrabold uppercase tracking-widest  text-[var(--color-accent)] mb-3">Requirements & Action Checklist</h3>
 
-              {active.requirements.map((req, index) => (
-                <div key={index} className="bg-[#f8f9fa] border border-black/5 p-5 relative overflow-hidden">
+              {active.requirements.map((req) => (
+                <div key={req.title} className="bg-[#f8f9fa] border border-black/5 p-5 relative overflow-hidden">
 
                   {/* Critical Warning Indicator */}
                   {req.isCritical && (

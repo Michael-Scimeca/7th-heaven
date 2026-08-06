@@ -19,10 +19,16 @@ function CancelContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ bookingId, token }),
       });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setStatus("done");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setStatus("done");
+        } else {
+          setErrorMsg(data.error || "Something went wrong");
+          setStatus("error");
+        }
       } else {
+        const data = await res.json().catch(() => ({}));
         setErrorMsg(data.error || "Something went wrong");
         setStatus("error");
       }

@@ -497,7 +497,7 @@ export default function ProximityDemoPage() {
                 {/* Filter tabs */}
                 <div className="flex items-center gap-1 mb-5 bg-white/[0.03] border border-white/5 p-1 w-fit">
                   {["All (12)", "Going (11)", "Here Now (1)"].map((label, i) => (
-                    <div key={i} className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest ${i === 0 ? "bg-white/10 text-white" : "text-white/30"}`}>{label}</div>
+                    <div key={label} className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest ${i === 0 ? "bg-white/10 text-white" : "text-white/30"}`}>{label}</div>
                   ))}
                 </div>
 
@@ -555,7 +555,7 @@ export default function ProximityDemoPage() {
                     </button>
                   ) : (
                     <>
-                      {[
+                      {Array.from([
                         { initials: "TK", name: "Taylor Kim", tier: "Silver", status: "going" },
                         { initials: "MR", name: "Marcus Rivera", tier: "Bronze", status: "going" },
                         { initials: "SP", name: "Sam Patel", tier: "Gold", status: "there" },
@@ -564,7 +564,7 @@ export default function ProximityDemoPage() {
                         { initials: "CR", name: "Casey Reed", tier: "Bronze", status: "going" },
                         { initials: "???", name: "Anonymous Fan", tier: null, status: "going" },
                         { initials: "NK", name: "Nina Khan", tier: "Silver", status: "going" },
-                      ].map((fan, i) => (
+                      ], (fan, i) => ({ fan, i })).map(({ fan, i }) => (
                         <div key={i} className={`flex items-center gap-4 p-4 border bg-white/[0.01] ${fan.status === "there" ? "border-emerald-500/30 bg-emerald-500/[0.03]" : "border-white/[0.04]"}`}>
                           <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-black text-xs border border-white/10 text-white/40 bg-white/[0.03]">{fan.initials}</div>
                           <div>

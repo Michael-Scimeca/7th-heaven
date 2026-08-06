@@ -224,9 +224,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
   useEffect(() => {
     let active = true;
-    import("leaflet").then((module) => {
-      if (active) setL(module);
-    });
+    const loadLeaflet = async () => {
+      try {
+        const module = await import("leaflet");
+        if (active) setL(module);
+      } catch (e) {
+        console.warn("Failed to load Leaflet:", e);
+      }
+    };
+    loadLeaflet();
     return () => { active = false; };
   }, []);
 
@@ -263,29 +269,28 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       if (container) {
         container.style.pointerEvents = 'auto';
         container.style.cursor = 'pointer';
-
-        const closeTooltip = () => {
+        container.onclick = () => {
           mapInstance.closeTooltip(tooltip);
         };
-
-        container.addEventListener('click', closeTooltip);
       }
     });
 
     // Close popups when clicked (unless clicking a link)
     mapInstance.on('popupopen', (e: any) => {
       const popup = e.popup;
+      const source = popup?._source;
+      if (onPinClickRef.current && source?.options?.venueName) {
+        onPinClickRef.current(source.options.venueName, source.options.showDate);
+      }
+
       const container = popup.getElement();
       if (container) {
         container.style.cursor = 'pointer';
-
-        const handlePopupClick = (event: MouseEvent) => {
+        container.onclick = (event: MouseEvent) => {
           const target = event.target as HTMLElement;
           if (target.closest('a')) return; // Allow clicking links
           mapInstance.closePopup(popup);
         };
-
-        container.addEventListener('click', handlePopupClick);
       }
     });
 
@@ -293,15 +298,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     mapInstanceRef.current = mapInstance;
 
     // Force a resize check to fix broken tiles on initial load
-    const invalidateSizeTimer = setTimeout(() => mapInstance.invalidateSize(), 500);
+    const timerId = setTimeout(() => mapInstance.invalidateSize(), 500);
 
     return () => {
-      clearTimeout(invalidateSizeTimer);
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-        setMap(null);
-      }
+      clearTimeout(timerId);
+      mapInstance.off();
+      mapInstance.remove();
+      mapInstanceRef.current = null;
+      setMap(null);
     };
   }, [L]);
 
@@ -310,37 +314,33 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     onPinClickRef.current = onPinClick;
   }, [onPinClick]);
 
+  interface GroupedVenue {
+    venue: string;
+    city: string;
+    state: string;
+    lat: number;
+    lng: number;
+    type: string;
+    shows: {
+      date: string;
+      time: string;
+      playTime?: string;
+      info: string;
+      allAges?: boolean;
+      mapUrl?: string;
+      websiteUrl?: string;
+    }[];
+  }
+
   // Draw and Update Markers
   useEffect(() => {
-    if (!L || !map) return;
+    if (!L || !map) return () => {};
 
-    console.log("TourMap drawing markers. nextShowVenue:", nextShowVenue, "nextShowCity:", nextShowCity);
-    console.log("Shows list count:", shows?.length);
-
-    const hoverTimers: ReturnType<typeof setTimeout>[] = [];
-
-    // Clear old markers
-    markersRef.current.forEach(m => m.marker.remove());
-    markersRef.current = [];
-
-    // Group shows by venue+city to support multiple shows at the same location
-    interface GroupedVenue {
-      venue: string;
-      city: string;
-      state: string;
-      lat: number;
-      lng: number;
-      type: string;
-      shows: {
-        date: string;
-        time: string;
-        playTime?: string;
-        info: string;
-        allAges?: boolean;
-        mapUrl?: string;
-        websiteUrl?: string;
-      }[];
+    for (const m of markersRef.current) {
+      m.marker.off();
+      m.marker.remove();
     }
+    markersRef.current = [];
 
     const showGroups: Record<string, GroupedVenue> = {};
 
@@ -462,7 +462,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         iconAnchor: [w / 2, h],
       });
 
-      const marker = L.marker([v.lat, v.lng], { icon, zIndexOffset: isBouncing ? 1000 : 0 }).addTo(map);
+      const marker = L.marker([v.lat, v.lng], { icon, zIndexOffset: isBouncing ? 1000 : 0, venueName: v.venue, showDate: firstShow.date } as any).addTo(map);
 
       // Store marker reference for Near Me feature
       markersRef.current.push({ marker, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
@@ -515,45 +515,6 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         </div>
       `, { className: "venue-popup", offset: [0, -6], maxWidth: 280, minWidth: 200 });
 
-      // Click-to-scroll: when popup opens, scroll to the show row in the table
-      marker.on('popupopen', () => {
-        if (onPinClickRef.current) onPinClickRef.current(v.venue, firstShow.date);
-      });
-
-      // Pan map if the hover tooltip card goes outside the map container boundaries
-      marker.on('mouseover', () => {
-        const timer = setTimeout(() => {
-          const el = marker.getElement();
-          if (!el) return;
-          const tooltip = el.querySelector('.custom-tooltip-card') as HTMLElement;
-          if (!tooltip) return;
-
-          const mapContainer = map.getContainer();
-          const mapRect = mapContainer.getBoundingClientRect();
-          const tooltipRect = tooltip.getBoundingClientRect();
-
-          const padding = 20;
-          let panX = 0;
-          let panY = 0;
-
-          if (tooltipRect.top < mapRect.top) {
-            panY = tooltipRect.top - mapRect.top - padding;
-          } else if (tooltipRect.bottom > mapRect.bottom) {
-            panY = tooltipRect.bottom - mapRect.bottom + padding;
-          }
-
-          if (tooltipRect.left < mapRect.left) {
-            panX = tooltipRect.left - mapRect.left - padding;
-          } else if (tooltipRect.right > mapRect.right) {
-            panX = tooltipRect.right - mapRect.right + padding;
-          }
-
-          if (panX !== 0 || panY !== 0) {
-            map.panBy([panX, panY], { animate: true, duration: 0.25 });
-          }
-        }, 80);
-        hoverTimers.push(timer);
-      });
     });
 
     // Center map on active show and zoom in +1 level as default
@@ -584,8 +545,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     }
 
     return () => {
-      hoverTimers.forEach(clearTimeout);
-      markersRef.current.forEach(m => m.marker.remove());
+      for (const m of markersRef.current) {
+        m.marker.off();
+        m.marker.remove();
+      }
       markersRef.current = [];
     };
   }, [L, map, shows, nextShowVenue, nextShowCity, selectedTypes]);

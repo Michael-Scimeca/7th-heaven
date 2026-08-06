@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { CruiseVideoItem } from '@/app/api/cruise/videos/route';
 
 export default function CruiseVideoGallery() {
@@ -10,23 +10,26 @@ export default function CruiseVideoGallery() {
   const [activeVideo, setActiveVideo] = useState<CruiseVideoItem | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch('/api/cruise/videos');
+  const fetchVideos = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/cruise/videos');
+      if (res.ok) {
         const data = await res.json();
         if (data.videos && Array.isArray(data.videos)) {
           setVideos(data.videos);
         }
-      } catch {
-        // Fallback default if fetch fails
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchVideos();
+    } catch {
+      // Fallback default if fetch fails
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchVideos();
+  }, [fetchVideos]);
 
   const categories = ['All', ...Array.from(new Set(videos.map(v => v.category)))];
 

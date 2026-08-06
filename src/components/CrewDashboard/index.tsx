@@ -122,7 +122,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       let adminEmails: string[] = [];
       if (admins && admins.length > 0) {
-        adminEmails = admins.map((a: any) => a.email).filter(Boolean);
+        adminEmails = admins.flatMap((a: any) => a.email ? [a.email] : []);
       }
       if (adminEmails.length === 0) {
         adminEmails = ['michael@7thheaven.com'];
@@ -149,17 +149,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         </div>
       `;
 
-      for (const recipient of adminEmails) {
-        await fetch('/api/email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: recipient,
-            subject: `✉️ Message from Crew Member (${displayName}): ${emailSubject}`,
-            html: htmlContent
+      await Promise.all(
+        adminEmails.map((recipient) =>
+          fetch('/api/email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: recipient,
+              subject: `✉️ Message from Crew Member (${displayName}): ${emailSubject}`,
+              html: htmlContent
+            })
           })
-        });
-      }
+        )
+      );
 
       alert('✉️ Email sent successfully to administrators!');
       setIsEmailModalOpen(false);
@@ -200,6 +202,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     return hasAllCerts && hasAllTraining;
   };
 
+  const memberSlug = (userId && userId.length < 36)
+    ? userId.toLowerCase().replace(/\s+/g, '_')
+    : (displayName || 'michael').split(' ')[0].toLowerCase().replace(/\s+/g, '_');
+  const roomSlug = `live_${memberSlug}`;
+
+  const slug = (defaultMemberId || memberSlug || 'michael').toLowerCase().trim();
+
   const getCrewMemberEmail = (crewId: string): string => {
     const fallbackMap: Record<string, string> = {
       abbie: 'abbie@7thheaven.com',
@@ -232,7 +241,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         return s;
       });
       setCrewSchedules(updated);
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updated));
       window.dispatchEvent(new Event('storage'));
 
       const res = await fetch('/api/crew/calendar', {
@@ -326,7 +335,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }
   };
 
-  const handleAcceptCoverage = async (shiftId: string) => {
+  const handleAcceptCoverage = useCallback(async (shiftId: string) => {
     try {
       const targetShift = crewSchedules.find(s => s.id === shiftId);
       if (!targetShift) return;
@@ -352,7 +361,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         return s;
       });
       setCrewSchedules(updated);
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updated));
       window.dispatchEvent(new Event('storage'));
 
       const res = await fetch('/api/crew/calendar', {
@@ -434,9 +443,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       console.error(e);
       showToast('Error accepting coverage: ' + e, 'error', 'Error');
     }
-  };
+  }, [crewSchedules, slug, displayName, email, showToast]);
 
-  const handleShiftResponse = async (shiftId: string, status: 'approved' | 'declined', reason?: string) => {
+  const handleShiftResponse = useCallback(async (shiftId: string, status: 'approved' | 'declined', reason?: string) => {
     try {
       const updated = crewSchedules.map(s => {
         if (s.id === shiftId) {
@@ -449,7 +458,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         return s;
       });
       setCrewSchedules(updated);
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
+      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updated));
       window.dispatchEvent(new Event('storage'));
 
       const res = await fetch('/api/crew/calendar', {
@@ -472,46 +481,46 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       console.error(e);
       showToast('Error updating shift: ' + e, 'error', 'Error');
     }
-  };
+  }, [crewSchedules, showToast]);
+
+  const loadTourDates = useCallback(async () => {
+    try {
+      const res = await fetch('/api/tour');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data)) {
+          setTourDates(data);
+        }
+      }
+    } catch (err) {
+      console.warn('Failed to load tour dates:', err);
+    }
+  }, []);
+
+  const loadSchedules = useCallback(async () => {
+    try {
+      const saved = localStorage.getItem('7h_crew_schedules_v1') || localStorage.getItem('7h_crew_schedules');
+      if (saved) {
+        setCrewSchedules(JSON.parse(saved));
+      }
+
+      const res = await fetch('/api/crew/calendar');
+      if (res.ok) {
+        const apiSchedules = await res.json();
+        if (apiSchedules && Array.isArray(apiSchedules)) {
+          setCrewSchedules(apiSchedules);
+          localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(apiSchedules));
+        }
+      }
+    } catch { }
+  }, []);
 
   useEffect(() => {
-    const loadSchedules = async () => {
-      try {
-        const saved = localStorage.getItem('7h_crew_schedules');
-        if (saved) {
-          setCrewSchedules(JSON.parse(saved));
-        }
-
-        const res = await fetch('/api/crew/calendar');
-        if (res.ok) {
-          const apiSchedules = await res.json();
-          if (apiSchedules && Array.isArray(apiSchedules)) {
-            setCrewSchedules(apiSchedules);
-            localStorage.setItem('7h_crew_schedules', JSON.stringify(apiSchedules));
-          }
-        }
-      } catch (err) {
-        console.warn('Failed to load crew schedules:', err);
-      }
-    };
-    const loadTourDates = async () => {
-      try {
-        const res = await fetch('/api/tour');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && Array.isArray(data)) {
-            setTourDates(data);
-          }
-        }
-      } catch (err) {
-        console.warn('Failed to load tour dates:', err);
-      }
-    };
     loadSchedules();
     loadTourDates();
     const onStorage = () => {
       try {
-        const saved = localStorage.getItem('7h_crew_schedules');
+        const saved = localStorage.getItem('7h_crew_schedules_v1') || localStorage.getItem('7h_crew_schedules');
         if (saved) {
           setCrewSchedules(JSON.parse(saved));
         }
@@ -519,12 +528,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  }, [loadSchedules, loadTourDates]);
 
-  // Process email link actions (accept-coverage or decline-coverage)
-  useEffect(() => {
+  const processCoverageLink = useCallback(() => {
     if (typeof window === 'undefined') return;
-    if (crewSchedules.length === 0) return; // Wait until schedules are loaded
+    if (crewSchedules.length === 0) return;
 
     const params = new URLSearchParams(window.location.search);
     const action = params.get('action');
@@ -532,30 +540,30 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
     if (actionShiftId) {
       if (action === 'accept-coverage') {
-        // Automatically trigger accepting coverage
         handleAcceptCoverage(actionShiftId);
-        // Clean URL params so it doesn't run again on page refresh
         const cleanUrl = window.location.pathname;
         window.history.replaceState({}, '', cleanUrl);
       } else if (action === 'decline-coverage') {
-        // Show decline feedback toast
         showToast('You have declined the coverage request. The shift remains open for other crew members.', 'info', 'Shift Coverage Declined');
-        // Clean URL params
         const cleanUrl = window.location.pathname;
         window.history.replaceState({}, '', cleanUrl);
       }
     }
-  }, [crewSchedules]);
+  }, [crewSchedules, handleAcceptCoverage]);
+
+  useEffect(() => {
+    processCoverageLink();
+  }, [processCoverageLink]);
 
   // Load Venue Database
   useEffect(() => {
     const loadVenues = () => {
       try {
-        const savedVenues = localStorage.getItem('7h_venue_database');
+        const savedVenues = localStorage.getItem('7h_venue_database_v1') || localStorage.getItem('7h_venue_database');
         if (savedVenues) {
           setVenues(JSON.parse(savedVenues));
         } else {
-          localStorage.setItem('7h_venue_database', JSON.stringify(MOCK_VENUES));
+          localStorage.setItem('7h_venue_database_v1', JSON.stringify(MOCK_VENUES));
           setVenues(MOCK_VENUES);
         }
       } catch (err) {
@@ -574,22 +582,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     };
   }, []);
 
-  // Build a stable, human-readable room slug that matches the fan page URL
-  // If userId is a short slug (e.g. 'michael'), use it directly. If it's a UUID, derive from displayName.
-  const memberSlug = (userId && userId.length < 36)
-    ? userId.toLowerCase().replace(/\s+/g, '_')
-    : (displayName || 'michael').split(' ')[0].toLowerCase().replace(/\s+/g, '_');
-  const roomSlug = `live_${memberSlug}`;
-
-  const slug = (defaultMemberId || memberSlug || 'michael').toLowerCase().trim();
-
   // Namespaced localStorage helper for synchronization
   const LS = useCallback((key: string) => `${key}_${slug}`, [slug]);
 
   useEffect(() => {
     const loadAvailabilityAndRequests = () => {
       try {
-        const savedAvail = localStorage.getItem('7h_crew_availability');
+        const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
         if (savedAvail) {
           const parsed = JSON.parse(savedAvail) as AvailabilityItem[];
           setMyAvailabilities(parsed.filter(a => a.crewId === slug));
@@ -597,7 +596,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           setMyAvailabilities([]);
         }
 
-        const savedReqs = localStorage.getItem('7h_time_off_requests');
+        const savedReqs = localStorage.getItem('7h_time_off_requests_v1') || localStorage.getItem('7h_time_off_requests');
         if (savedReqs) {
           const parsed = JSON.parse(savedReqs) as TimeOffRequest[];
           setMyTimeOffRequests(parsed.filter(r => r.crewId === slug));
@@ -605,14 +604,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           setMyTimeOffRequests([]);
         }
 
-        const savedLineups = localStorage.getItem('7h_set_lineups');
+        const savedLineups = localStorage.getItem('7h_set_lineups_v1') || localStorage.getItem('7h_set_lineups');
         if (savedLineups) {
           setSetLineups(JSON.parse(savedLineups));
         } else {
           setSetLineups({});
         }
 
-        const savedComments = localStorage.getItem('7h_gig_comments');
+        const savedComments = localStorage.getItem('7h_gig_comments_v1') || localStorage.getItem('7h_gig_comments');
         if (savedComments) {
           setGigComments(JSON.parse(savedComments));
         } else {
@@ -648,13 +647,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     };
 
     try {
-      const savedAvail = localStorage.getItem('7h_crew_availability');
+      const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
       const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
       // Remove any existing availability for same date and crewId to avoid duplicates
       const filtered = currentList.filter(item => !(item.crewId === slug && item.date === availDate));
       const nextList = [...filtered, newItem];
 
-      localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
+      localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
       window.dispatchEvent(new Event('storage'));
 
       setMyAvailabilities(nextList.filter(a => a.crewId === slug));
@@ -668,12 +667,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   const handleRemoveAvailability = (id: string) => {
     try {
-      const savedAvail = localStorage.getItem('7h_crew_availability');
+      const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
       if (!savedAvail) return;
       const currentList: AvailabilityItem[] = JSON.parse(savedAvail);
       const nextList = currentList.filter(item => item.id !== id);
 
-      localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
+      localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
       window.dispatchEvent(new Event('storage'));
 
       setMyAvailabilities(nextList.filter(a => a.crewId === slug));
@@ -697,11 +696,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     };
 
     try {
-      const savedReqs = localStorage.getItem('7h_time_off_requests');
+      const savedReqs = localStorage.getItem('7h_time_off_requests_v1') || localStorage.getItem('7h_time_off_requests');
       const currentList: TimeOffRequest[] = savedReqs ? JSON.parse(savedReqs) : [];
       const nextList = [...currentList, newReq];
 
-      localStorage.setItem('7h_time_off_requests', JSON.stringify(nextList));
+      localStorage.setItem('7h_time_off_requests_v1', JSON.stringify(nextList));
       window.dispatchEvent(new Event('storage'));
 
       setMyTimeOffRequests(nextList.filter(r => r.crewId === slug));
@@ -715,12 +714,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   const handleRemoveTimeOffRequest = (id: string) => {
     try {
-      const savedReqs = localStorage.getItem('7h_time_off_requests');
+      const savedReqs = localStorage.getItem('7h_time_off_requests_v1') || localStorage.getItem('7h_time_off_requests');
       if (!savedReqs) return;
       const currentList: TimeOffRequest[] = JSON.parse(savedReqs);
       const nextList = currentList.filter(item => item.id !== id);
 
-      localStorage.setItem('7h_time_off_requests', JSON.stringify(nextList));
+      localStorage.setItem('7h_time_off_requests_v1', JSON.stringify(nextList));
       window.dispatchEvent(new Event('storage'));
 
       setMyTimeOffRequests(nextList.filter(r => r.crewId === slug));
@@ -757,6 +756,31 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const [liveSalesCount, setLiveSalesCount] = useState(0);
   const [liveSalesRevenue, setLiveSalesRevenue] = useState(0);
 
+  const checkSales = useCallback(async () => {
+    try {
+      const startStr = localStorage.getItem(LS('live_stream_start'));
+      const startTime = startStr ? parseInt(startStr) : Date.now();
+
+      const res = await fetch(`/api/shopify/orders?days=1`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.mode === 'orders' && data.orders) {
+          const liveOrders = data.orders.filter((o: any) => new Date(o.createdAt).getTime() > startTime);
+          const total = liveOrders.reduce((sum: number, o: any) => sum + o.total, 0);
+          setLiveSalesCount(liveOrders.length);
+          setLiveSalesRevenue(total);
+          return;
+        }
+      }
+    } catch { }
+
+    // Fallback: Simulation check
+    const savedCount = parseInt(localStorage.getItem(LS('sim_sales_count')) || '0');
+    const savedRevenue = parseFloat(localStorage.getItem(LS('sim_sales_revenue')) || '0');
+    setLiveSalesCount(savedCount);
+    setLiveSalesRevenue(savedRevenue);
+  }, [LS]);
+
   // Poll Shopify orders or load simulated live purchases
   useEffect(() => {
     if (!isLive) {
@@ -774,37 +798,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       return;
     }
 
-    const checkSales = async () => {
-      try {
-        const startStr = localStorage.getItem(LS('live_stream_start'));
-        const startTime = startStr ? parseInt(startStr) : Date.now();
-
-        const res = await fetch(`/api/shopify/orders?days=1`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.mode === 'orders' && data.orders) {
-            const liveOrders = data.orders.filter((o: any) => new Date(o.createdAt).getTime() > startTime);
-            const total = liveOrders.reduce((sum: number, o: any) => sum + o.total, 0);
-            setLiveSalesCount(liveOrders.length);
-            setLiveSalesRevenue(total);
-            return;
-          }
-        }
-      } catch (err) {
-        console.warn('Failed to query shopify orders API, using simulator');
-      }
-
-      // Fallback: Simulation check
-      const savedCount = parseInt(localStorage.getItem(LS('sim_sales_count')) || '0');
-      const savedRevenue = parseFloat(localStorage.getItem(LS('sim_sales_revenue')) || '0');
-      setLiveSalesCount(savedCount);
-      setLiveSalesRevenue(savedRevenue);
-    };
-
     checkSales();
     const interval = setInterval(checkSales, 10000);
     return () => clearInterval(interval);
-  }, [isLive, LS]);
+  }, [isLive, slug, LS, checkSales]);
 
   // Simulate active sales occurrences during live stream (if API is not connecting or mock demo mode)
   useEffect(() => {
@@ -997,7 +994,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const [customWords, setCustomWords] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
-      const stored = localStorage.getItem('7h_custom_flagged_words');
+      const stored = localStorage.getItem('7h_custom_flagged_words_v1') || localStorage.getItem('7h_custom_flagged_words');
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -1010,7 +1007,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('admin_orders_list');
+      const stored = localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list');
       if (stored) {
         setOrders(JSON.parse(stored));
       } else {
@@ -1051,7 +1048,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             ts: Date.now() - 3600000 * 5
           }
         ];
-        localStorage.setItem('admin_orders_list', JSON.stringify(initialMock));
+        localStorage.setItem('admin_orders_list_v1', JSON.stringify(initialMock));
         setOrders(initialMock);
       }
     } catch { }
@@ -1173,12 +1170,24 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const bannerLinkRef = useRef('');
   const bannerUpdatingRef = useRef(false);
 
+  const loadAnnouncement = useCallback(async () => {
+    try {
+      const res = await fetch('/api/announcement');
+      if (res.ok) {
+        const data = await res.json();
+        bannerActiveRef.current = data.isActive;
+        bannerTextRef.current = data.text || '';
+        bannerLinkRef.current = data.link || '';
+      }
+    } catch { }
+  }, []);
+
   useEffect(() => {
     // Seed identity for demo member pages (e.g. /crew-sam)
     if (defaultMemberId && MEMBER_SEEDS[defaultMemberId]) {
       const seed = MEMBER_SEEDS[defaultMemberId];
-      localStorage.setItem('7h_dev_bypass', 'true');
-      localStorage.setItem('7h_member', JSON.stringify({
+      localStorage.setItem('7h_dev_bypass_v1', 'true');
+      localStorage.setItem('7h_member_v1', JSON.stringify({
         ...seed, role: 'crew',
         joinDate: new Date().toISOString(),
         points: 0, tier: 'Bronze', showsAttended: 0,
@@ -1187,14 +1196,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }
 
     // Load Global Announcement Banner
-    fetch('/api/announcement')
-      .then(res => res.json())
-      .then(data => {
-        bannerActiveRef.current = data.isActive;
-        bannerTextRef.current = data.text || '';
-        bannerLinkRef.current = data.link || '';
-      })
-      .catch(() => { });
+    loadAnnouncement();
 
     getProducts().then(products => {
       setShopifyProducts(products);
@@ -1228,7 +1230,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       }
 
       // 2. FALLBACK: Check localStorage-based login (from MemberContext)
-      const storedMember = localStorage.getItem('7h_member');
+      const storedMember = localStorage.getItem('7h_member_v1') || localStorage.getItem('7h_member');
       if (storedMember) {
         try {
           const parsed = JSON.parse(storedMember);
@@ -1243,15 +1245,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       }
 
       // 3. DEV BYPASS: Only if no real session exists
-      if (localStorage.getItem('7h_dev_bypass') === 'true') {
-        const stored = localStorage.getItem('7h_member');
+      if (localStorage.getItem('7h_dev_bypass_v1') === 'true' || localStorage.getItem('7h_dev_bypass') === 'true') {
+        const stored = localStorage.getItem('7h_member_v1') || localStorage.getItem('7h_member');
         const parsed = stored ? JSON.parse(stored) : null;
 
         setUserId(parsed?.id || 'michael');
         setDisplayName(parsed?.name || 'Michael Scimeca');
         setEmail(parsed?.email || 'michael@7thheaven.com');
-        if (!localStorage.getItem('7h_member')) {
-          localStorage.setItem('7h_member', JSON.stringify({
+        if (!localStorage.getItem('7h_member_v1') && !localStorage.getItem('7h_member')) {
+          localStorage.setItem('7h_member_v1', JSON.stringify({
             id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com',
             role: 'crew', avatar: 'MS', joinDate: new Date().toISOString(),
             points: 0, tier: 'Bronze', showsAttended: 0, favoriteVenues: [],
@@ -1266,82 +1268,40 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       setIsLoading(false);
     };
     checkUser();
-  }, []);
+  }, [loadAnnouncement]);
 
   // Separate effect to load stream state once userId is stable
-  useEffect(() => {
+  const loadStreamState = useCallback(async () => {
     if (!userId || isLoading) return;
+    const slug = roomSlug;
+    try {
+      const { data, error } = await supabase
+        .from('live_streams')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('status', 'live')
+        .limit(1)
+        .single();
 
-    const loadStreamState = async () => {
-      const slug = roomSlug; // uses display-name-based slug from component scope
-      try {
-        const { data, error } = await supabase
-          .from('live_streams')
-          .select('*')
-          .eq('user_id', userId)
-          .eq('status', 'live')
-          .limit(1)
-          .single();
-        if (data && !error) {
-          // Stream IS live — load chat
-          setIsLive(true);
-          streamTitleRef.current = data.title || '';
-          localStorage.setItem(LS('is_live'), 'true');
-
-          try {
-            const { data: chatData } = await supabase
-              .from('chat_messages')
-              .select('*')
-              .eq('room', slug)
-              .order('created_at', { ascending: true })
-              .limit(100);
-            if (chatData && chatData.length > 0) {
-              const mapped = chatData.map((m: any) => ({
-                id: m.id,
-                account: {
-                  id: m.sender_name,
-                  name: m.sender_name,
-                  displayName: m.sender_name,
-                  role: m.sender_role || 'fan',
-                  color: m.sender_role === 'crew' ? '#f97316' : '#8b5cf6',
-                  avatar: m.sender_avatar || m.sender_name.slice(0, 2).toUpperCase(),
-                },
-                text: m.content,
-                timestamp: new Date(m.created_at).getTime(),
-              }));
-              setPosts(mapped);
-            }
-          } catch { }
-        } else {
-          // Stream is NOT live — purge ALL stale data
-          setIsLive(false);
-          setPosts([]);
-          setActivePinned(null);
-
-          localStorage.setItem(LS('is_live'), 'false');
-          localStorage.removeItem(`is_live_${slug.replace('live_', '')}`);
-          localStorage.removeItem('is_live');
-          localStorage.setItem(LS('live_chat_history'), '[]');
-          localStorage.setItem('7h_global_chat_history', '[]');
-          localStorage.removeItem(LS('live_pinned'));
-          localStorage.setItem('7h_global_pinned', 'null');
-
-          // Delete orphaned data from Supabase
-          fetch('/api/live/clear-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room: slug }) }).catch(() => { });
-          fetch('/api/live-rooms/delete', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ roomName: slug }),
-          }).catch(() => { });
-        }
-      } catch {
+      if (data && !error) {
+        setIsLive(true);
+        streamTitleRef.current = data.title || '';
+        localStorage.setItem(LS('is_live'), 'true');
+      } else {
         setIsLive(false);
         setPosts([]);
         setActivePinned(null);
         localStorage.setItem(LS('is_live'), 'false');
       }
-    };
+    } catch {
+      setIsLive(false);
+      setPosts([]);
+      setActivePinned(null);
+      localStorage.setItem(LS('is_live'), 'false');
+    }
+  }, [userId, isLoading, roomSlug, LS, supabase]);
 
+  useEffect(() => {
     loadStreamState();
 
     try {
@@ -1502,7 +1462,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       clearInterval(viewerInterval);
       // NOTE: Do NOT close bcRef here — it is managed by its own dedicated useEffect below
     };
-  }, [userId, slug, LS]);
+  }, [userId, slug, LS, loadStreamState]);
 
   // Open BroadcastChannel once we know the userId (keyed to the member slug, NOT raw userId)
   // FakeLiveStream uses `7h_live_${memberId}` so we must match that key exactly.
@@ -1644,7 +1604,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     setIsSavingReplay(false);
 
     try {
-      const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds') || '[]');
+      const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds_v1') || localStorage.getItem('7h_custom_live_feeds') || '[]');
       customFeeds.unshift({
         id: 'LWeA2cE8YlI',
         title: streamTitleRef.current || `${userId || 'Crew'} Broadcast Demo`,
@@ -1653,7 +1613,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         description: `7th heaven Live Crew Broadcast Archive (Test Run)`,
         viewCount: '1'
       });
-      localStorage.setItem('7h_custom_live_feeds', JSON.stringify(customFeeds));
+      localStorage.setItem('7h_custom_live_feeds_v1', JSON.stringify(customFeeds));
     } catch (e) { }
 
     setShowEndModal(false);
@@ -1978,7 +1938,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     if (!customWords.includes(word)) {
       const next = [...customWords, word];
       setCustomWords(next);
-      localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+      localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
       syncCustomWords(next);
     }
     setNewCustomWord('');
@@ -1987,7 +1947,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const handleRemoveCustomWord = (wordToRemove: string) => {
     const next = customWords.filter(w => w !== wordToRemove);
     setCustomWords(next);
-    localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+    localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
     syncCustomWords(next);
   };
 
@@ -2026,7 +1986,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       });
 
       try {
-        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
+        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages_v1') || localStorage.getItem('vip_inbox_messages') || '[]');
         winners.forEach((w, idx) => {
           inbox.unshift({
             id: Date.now() + idx,
@@ -2050,7 +2010,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             prize: prizeName,
           })).catch(() => { });
         });
-        localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox.slice(0, 50)));
+        localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox.slice(0, 50)));
       } catch { }
     }, 4000); // Wait 4s for simulated spin effect on fan page
   };
@@ -2200,12 +2160,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       timestamp: Date.now(),
     };
     // Sync to persistence history
-    const stored = JSON.parse(localStorage.getItem('7h_global_chat_history') || '[]');
+    const stored = JSON.parse(localStorage.getItem('7h_global_chat_history_v1') || localStorage.getItem('7h_global_chat_history') || '[]');
     const nextPosts = [...stored, msg];
     const limited = nextPosts.length > 100 ? nextPosts.slice(-100) : nextPosts;
 
     setPosts(limited);
-    localStorage.setItem('7h_global_chat_history', JSON.stringify(limited));
+    localStorage.setItem('7h_global_chat_history_v1', JSON.stringify(limited));
 
     // Also write the individual message to live_chat_sync for cross-tab fan page pickup
     localStorage.setItem(LS('live_chat_sync'), JSON.stringify(msg));
@@ -2343,7 +2303,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     };
 
     // Sync drop via local storage directly across tabs (immediate sync for testing)
-    localStorage.setItem('7h_flash_drop', JSON.stringify({ ...payload, ts: Date.now() }));
+    localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...payload, ts: Date.now() }));
 
     // BroadcastChannel: fires instantly on the fan page tab
     bcRef.current?.postMessage({ type: 'FLASH_DROP', payload });
@@ -2992,7 +2952,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     type="button"
                     onClick={() => {
                       const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
-                      localStorage.setItem('7h_flash_drop', JSON.stringify({ ...testPayload, ts: Date.now() }));
+                      localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
                       try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
                     }}
                     className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
@@ -3028,8 +2988,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {/* Multi-Raffle Queue Configuration */}
               <div className="overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
                 <div className="space-y-3 min-w-0">
-                  {raffleQueue.map((item, idx) => (
-                    <div key={idx} className={`flex flex-col gap-1.5 relative ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
+                  {Array.from(raffleQueue, (item, idx) => ({ item, idx })).map(({ item, idx }) => (
+                    <div key={item.name || idx} className={`flex flex-col gap-1.5 relative ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
                       {/* Show indicator if it's the currently active raffle */}
                       {idx === activeQueueIndex && raffleStatus !== 'idle' && (
                         <div className="absolute -left-5 top-7  text-[var(--color-accent)] animate-pulse text-xs">▶</div>
@@ -3038,7 +2998,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <div className="flex gap-2 items-end">
                         {/* Input 1: Prize Name */}
                         <div className="flex-1 flex flex-col gap-1.5">
-                          {idx === 0 && <label className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa]">1. Prize Name</label>}
+                          {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
                           <input
                             type="text"
                             disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
@@ -3051,7 +3011,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Input 2: Entries Needed */}
                         <div className="w-20 flex flex-col gap-1.5 relative">
-                          {idx === 0 && <label className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] truncate">2. Entries</label>}
+                          {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] truncate block">2. Entries</span>}
                           <input
                             type="number"
                             min="1"
@@ -3070,7 +3030,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                         {/* Input 3: Prize Qty */}
                         <div className="w-14 flex flex-col gap-1.5">
-                          {idx === 0 && <label className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate">3. Qty</label>}
+                          {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
                           <input
                             type="number"
                             min="1"
@@ -3617,8 +3577,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                         <div>
                                           <form onSubmit={handleAddAvailability} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
                                             <div>
-                                              <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Date</label>
+                                              <label htmlFor="avail-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Date</label>
                                               <input
+                                                id="avail-date-input"
                                                 type="date"
                                                 required
                                                 value={availDate}
@@ -3627,8 +3588,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                               />
                                             </div>
                                             <div>
-                                              <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Status</label>
+                                              <label htmlFor="avail-type-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Status</label>
                                               <select
+                                                id="avail-type-select"
                                                 value={availType}
                                                 onChange={e => setAvailType(e.target.value as any)}
                                                 className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
@@ -3639,8 +3601,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                             </div>
                                             <div className="sm:col-span-2 flex gap-3 items-end">
                                               <div className="flex-1">
-                                                <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Comment / Note (Optional)</label>
+                                                <label htmlFor="avail-note-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Comment / Note (Optional)</label>
                                                 <select
+                                                  id="avail-note-select"
                                                   value={availNote}
                                                   onChange={e => setAvailNote(e.target.value)}
                                                   className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
@@ -3721,8 +3684,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                         <div>
                                           <form onSubmit={handleAddTimeOffRequest} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
                                             <div>
-                                              <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Request Date</label>
+                                              <label htmlFor="time-off-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Request Date</label>
                                               <input
+                                                id="time-off-date-input"
                                                 type="date"
                                                 required
                                                 value={timeOffDate}
@@ -3732,8 +3696,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                             </div>
                                             <div className="sm:col-span-2 flex gap-3 items-end">
                                               <div className="flex-1">
-                                                <label className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Reason for Time-off</label>
+                                                <label htmlFor="time-off-reason-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Reason for Time-off</label>
                                                 <select
+                                                  id="time-off-reason-select"
                                                   required
                                                   value={timeOffReason}
                                                   onChange={e => setTimeOffReason(e.target.value)}
@@ -4106,11 +4071,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 type: 'available'
                                               };
                                               try {
-                                                const savedAvail = localStorage.getItem('7h_crew_availability');
+                                                const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
                                                 const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
                                                 const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
                                                 const nextList = [...filtered, newItem];
-                                                localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
+                                                localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
                                                 window.dispatchEvent(new Event('storage'));
                                                 setMyAvailabilities(nextList.filter(a => a.crewId === slug));
                                                 showToast('Logged as Available!', 'success', 'Logged Available');
@@ -4132,11 +4097,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 type: 'unavailable'
                                               };
                                               try {
-                                                const savedAvail = localStorage.getItem('7h_crew_availability');
+                                                const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
                                                 const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
                                                 const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
                                                 const nextList = [...filtered, newItem];
-                                                localStorage.setItem('7h_crew_availability', JSON.stringify(nextList));
+                                                localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
                                                 window.dispatchEvent(new Event('storage'));
                                                 setMyAvailabilities(nextList.filter(a => a.crewId === slug));
                                                 showToast('Logged as Unavailable!', 'info', 'Logged Unavailable');
@@ -4363,15 +4328,16 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
             <div className="space-y-3">
               <div>
-                <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">From</label>
+                <span className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">From</span>
                 <div className="bg-black/35 border border-black/10 px-3.5 py-2 text-xs text-black/70">
                   {displayName} <span className="text-black/35">({email})</span>
                 </div>
               </div>
 
               <div>
-                <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
+                <label htmlFor="crew-email-subject" className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Subject</label>
                 <input
+                  id="crew-email-subject"
                   type="text"
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
@@ -4381,8 +4347,9 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               </div>
 
               <div>
-                <label className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Message</label>
+                <label htmlFor="crew-email-message" className="text-[var(--font-size-3xs)] text-black/40 uppercase font-bold tracking-wider block mb-1">Message</label>
                 <textarea
+                  id="crew-email-message"
                   value={emailMessage}
                   onChange={(e) => setEmailMessage(e.target.value)}
                   placeholder="Type your message to the administrators here..."
@@ -4827,8 +4794,9 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               {/* Direct Swap Colleague Selection */}
               {swapTargetColleagueId !== '' && (
                 <div className="space-y-2 bg-white/[0.02] border border-black/10 p-3 animate-[fadeIn_0.2s_ease-out]">
-                  <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block">Select Colleague to Swap With</label>
+                  <label htmlFor="swap-target-colleague-select" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block">Select Colleague to Swap With</label>
                   <select
+                    id="swap-target-colleague-select"
                     value={swapTargetColleagueId === 'openshifts' ? '' : swapTargetColleagueId}
                     onChange={(e) => setSwapTargetColleagueId(e.target.value)}
                     className="w-full px-3 py-2 bg-white border border-black/10 text-xs text-black rounded-lg outline-none focus:border-[var(--color-accent)]/50 transition-colors font-bold cursor-pointer"

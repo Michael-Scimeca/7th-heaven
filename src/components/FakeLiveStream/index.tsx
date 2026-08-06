@@ -98,7 +98,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [customWords, setCustomWords] = useState<string[]>(() => {
     if (typeof window === 'undefined') return [];
     try {
-      const stored = localStorage.getItem('7h_custom_flagged_words');
+      const stored = localStorage.getItem('7h_custom_flagged_words_v1') || localStorage.getItem('7h_custom_flagged_words');
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -301,6 +301,18 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     }
   }, [raffleState?.status, raffleState?.countdown, LS]);
 
+  const sendWinnerEmail = useCallback((targetEmail: string, prizeName: string, pin: string, claimUrl: string, pinDigits: string) => {
+    fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: targetEmail,
+        subject: '🏆 You Won the 7th Heaven Raffle!',
+        html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
+      })
+    }).catch(console.error);
+  }, []);
+
   // Auto-reopen widget + fire winner email when raffle completes and current user won
   const winnerEmailSent = useRef(false);
   useEffect(() => {
@@ -328,20 +340,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       const promptEmail = typeof window !== 'undefined' ? window.prompt("Testing Dispatch: What is your exact Resend account email address to receive the test?", member?.email || fallbackEmail) : null;
       const targetEmail = promptEmail ? promptEmail.trim() : fallbackEmail;
 
-      fetch('/api/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: targetEmail,
-          subject: '🏆 You Won the 7th Heaven Raffle!',
-          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:uppercase;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
-        })
-      }).catch(console.error);
+      sendWinnerEmail(targetEmail, prizeName, pin, claimUrl, pinDigits);
 
       try {
-        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
+        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages_v1') || localStorage.getItem('vip_inbox_messages') || '[]');
         inbox.unshift({ id: Date.now(), icon: '🏆', title: 'You Won the Raffle!', desc: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`, time: 'Just now', isNew: true, color: 'yellow' });
-        localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
+        localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox));
 
         Promise.resolve(supabase.from('notifications').insert({
           user_email: member?.email || 'unknown@fan.7thheaven.com',
@@ -496,7 +500,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
     // Broadcast the like event to crew via LocalStorage for same-browser testing
     try {
-      localStorage.setItem('song_like_sync', JSON.stringify({
+      localStorage.setItem('song_like_sync_v1', JSON.stringify({
         songId,
         crewId: memberId,
         ts: Date.now()
@@ -646,7 +650,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     //    pick it up immediately so the fan page never misses an active drop. ──
     if (!adminMode) {
       try {
-        const stored = localStorage.getItem('7h_flash_drop');
+        const stored = localStorage.getItem('7h_flash_drop_v1') || localStorage.getItem('7h_flash_drop');
         if (stored) {
           const data = JSON.parse(stored);
           // Only hydrate if the drop was set within the last hour (safety guard)
@@ -672,6 +676,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               setMerchTimeLeft(remaining);
             } else {
               // Drop expired — clean up
+              localStorage.removeItem('7h_flash_drop_v1');
               localStorage.removeItem('7h_flash_drop');
             }
           }
@@ -821,56 +826,37 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Start auto-message loop when stream goes live ── */
   useEffect(() => {
-    if (showOverlay) return;
     let active = true;
-    // Demo auto-messages always run; crewIsLive triggers the overlay animation
-    // Initial burst of crew going live
-    const delays = [400, 1800, 3200, 5000];
-    const timeouts = delays.map(d => setTimeout(() => {
-      if (active) addAutoMessage();
-    }, d));
+    let autoInterval: ReturnType<typeof setInterval> | undefined;
+    let t1: ReturnType<typeof setTimeout> | undefined;
+    let t2: ReturnType<typeof setTimeout> | undefined;
+    let t3: ReturnType<typeof setTimeout> | undefined;
+    let t4: ReturnType<typeof setTimeout> | undefined;
 
-    // Then regular cadence: random 2.5s – 7s
-    const schedule = () => {
-      if (!active) return;
-      const delay = 2500 + Math.random() * 4500;
-      const t = setTimeout(() => {
-        if (!active) return;
-        addAutoMessage();
-        schedule();
-      }, delay);
-      timeouts.push(t);
-    };
-    const startTimer = setTimeout(schedule, 6000);
+    if (!showOverlay) {
+      t1 = setTimeout(() => { if (active) addAutoMessage(); }, 400);
+      t2 = setTimeout(() => { if (active) addAutoMessage(); }, 1800);
+      t3 = setTimeout(() => { if (active) addAutoMessage(); }, 3200);
+      t4 = setTimeout(() => { if (active) addAutoMessage(); }, 5000);
 
-    // Periodic system join events
-    SYSTEM_EVENTS.forEach(ev => {
-      const t = setTimeout(() => {
-        if (!active) return;
-        setMessages(prev => {
-          const next = [...prev, {
-            id: `sys-${Date.now()}-${Math.random()}`,
-            account: null,
-            text: ev.text,
-            timestamp: Date.now(),
-            isSystem: true,
-          }];
-          return next.length > 80 ? next.slice(-80) : next;
-        });
-      }, ev.delay + 200);
-      timeouts.push(t);
-    });
-    timeouts.push(startTimer);
+      autoInterval = setInterval(() => {
+        if (active) addAutoMessage();
+      }, 4000);
+    }
 
     return () => {
       active = false;
-      timeouts.forEach(clearTimeout);
+      if (t1) clearTimeout(t1);
+      if (t2) clearTimeout(t2);
+      if (t3) clearTimeout(t3);
+      if (t4) clearTimeout(t4);
+      if (autoInterval) clearInterval(autoInterval);
     };
   }, [showOverlay, crewIsLive, addAutoMessage]);
 
   /* ── Auto-flag new messages ── */
   useEffect(() => {
-    if (messages.length === 0) return;
+    if (messages.length === 0) return () => {};
 
     messages.forEach(msg => {
       if (msg.isSystem || !msg.account) return;
@@ -922,7 +908,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     if (!customWords.includes(word)) {
       const next = [...customWords, word];
       setCustomWords(next);
-      localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+      localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
       syncCustomWords(next);
     }
   };
@@ -930,7 +916,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const handleRemoveCustomWord = (wordToRemove: string) => {
     const next = customWords.filter(w => w !== wordToRemove);
     setCustomWords(next);
-    localStorage.setItem('7h_custom_flagged_words', JSON.stringify(next));
+    localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
     syncCustomWords(next);
   };
 
@@ -1522,7 +1508,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               setHasEnteredRaffle(true);
                               setRaffleWidgetClosed(false);
                               const fanName = member?.name || 'Fan';
-                              localStorage.setItem('raffle_enter_sync', JSON.stringify({ fanName, email: member?.email || 'fan@7thheavenband.com', id: member?.id || 'unknown', crewId: memberId, ts: Date.now() }));
+                              localStorage.setItem('raffle_enter_sync_v1', JSON.stringify({ fanName, email: member?.email || 'fan@7thheavenband.com', id: member?.id || 'unknown', crewId: memberId, ts: Date.now() }));
                               try { supabase.channel('live_events').send({ type: 'broadcast', event: 'raffle_enter', payload: { fanName, email: member?.email || 'fan@7thheavenband.com', fanId: member?.id || 'unknown', crewId: memberId } }); } catch { }
                               fetch('/api/email', {
                                 method: 'POST',
@@ -1534,9 +1520,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 })
                               }).catch(console.error);
                               try {
-                                const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages') || '[]');
+                                const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages_v1') || localStorage.getItem('vip_inbox_messages') || '[]');
                                 inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
-                                localStorage.setItem('vip_inbox_messages', JSON.stringify(inbox));
+                                localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox));
                               } catch { }
                             }} className="w-full py-3 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] text-white font-black text-sm uppercase tracking-[0.15em] transition-colors shadow-[0_0_15px_var(--color-purple-glow)]">
                               Enter Raffle
@@ -1577,11 +1563,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             <span className="font-black text-sm uppercase tracking-widest">Raffle Winner</span>
                           </div>
                           <div className="space-y-2">
-                            {raffleState.winners.map((wObj: any, i: number) => {
+                            {Array.from(raffleState.winners, (wObj: any, i: number) => ({ wObj, i })).map(({ wObj, i }) => {
                               const w = wObj?.name || wObj;
                               const isMine = isCurrentUserWinner && i === 0;
                               return (
-                                <div key={i} className={` overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
+                                <div key={wObj?.name || wObj?.id || i} className={` overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
                                   <div className={`px-3 py-1 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] text-center ${isMine ? 'bg-purple-600 text-white' : 'bg-gray-50 text-black/30'}`}>
                                     {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
                                   </div>
@@ -2857,9 +2843,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               };
 
               try {
-                const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list') || '[]');
+                const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list') || '[]');
                 currentOrders.unshift(newOrder);
-                localStorage.setItem('admin_orders_list', JSON.stringify(currentOrders));
+                localStorage.setItem('admin_orders_list_v1', JSON.stringify(currentOrders));
               } catch (e) {
                 console.error('Failed to save to admin orders list:', e);
               }
@@ -2870,7 +2856,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               // Decrement inventory in Shopify storefront for flash drop
               // Match product by name
               fetch('/api/shopify/inventory')
-                .then(res => res.json())
+                .then(res => res.ok ? res.json() : null)
                 .then(data => {
                   const productList = data.products || data || [];
                   const matchedProduct = productList.find((p: any) =>
@@ -2889,7 +2875,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ variantId: matchedVariant.id, quantity: 1 })
-                    }).then(res => res.json())
+                    }).then(res => res.ok ? res.json() : null)
                       .then(d => console.log('[Shopify Flash Drop Sync Success]', d))
                       .catch(err => console.error('[Shopify Flash Drop Sync Error]', err));
                   }
@@ -2899,7 +2885,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               // Save order to merch_pickup_queue in localStorage if choosing pickup
               if (checkoutDeliveryMethod === 'merch_table') {
                 try {
-                  const queue = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
+                  const queue = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
                   queue.unshift({
                     id: newOrder.id,
                     code: `PU-${claimPin}`,
@@ -2912,7 +2898,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     ts: Date.now(),
                     claimed: false
                   });
-                  localStorage.setItem('merch_pickup_queue', JSON.stringify(queue));
+                  localStorage.setItem('merch_pickup_queue_v1', JSON.stringify(queue));
                 } catch (e) {
                   console.error('Failed to update merch queue:', e);
                 }
@@ -3038,7 +3024,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                     <div className="space-y-3">
                       <div>
-                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5 font-sans">Delivery Option</label>
+                        <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5 font-sans">Delivery Option</span>
                         <div className="grid grid-cols-2 gap-2">
                           <button
                             type="button"
@@ -3076,7 +3062,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         if (!sizeOptions) return null;
                         return (
                           <div>
-                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5 font-sans">Select Size</label>
+                            <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5 font-sans">Select Size</span>
                             <div className="flex flex-wrap gap-1.5">
                               {sizeOptions.map((size: string) => (
                                 <button
@@ -3111,7 +3097,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         ];
                         return (
                           <div>
-                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5 font-sans">Select Color</label>
+                            <span className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1.5 font-sans">Select Color</span>
                             <div className="flex flex-wrap gap-2">
                               {COLORS.map((c) => (
                                 <button
@@ -3136,8 +3122,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       })()}
 
                       <div>
-                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Full Name</label>
+                        <label htmlFor="live-checkout-name" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Full Name</label>
                         <input
+                          id="live-checkout-name"
                           type="text"
                           required
                           value={shippingDetails.name}
@@ -3147,8 +3134,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         />
                       </div>
                       <div>
-                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Email Address</label>
+                        <label htmlFor="live-checkout-email" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Email Address</label>
                         <input
+                          id="live-checkout-email"
                           type="email"
                           required
                           value={shippingDetails.email}
@@ -3161,8 +3149,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {checkoutDeliveryMethod === 'shipping' && (
                         <>
                           <div>
-                            <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Shipping Address</label>
+                            <label htmlFor="live-checkout-address" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Shipping Address</label>
                             <input
+                              id="live-checkout-address"
                               type="text"
                               required
                               value={shippingDetails.address}
@@ -3173,8 +3162,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           </div>
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">City</label>
+                              <label htmlFor="live-checkout-city" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">City</label>
                               <input
+                                id="live-checkout-city"
                                 type="text"
                                 required
                                 value={shippingDetails.city}
@@ -3184,8 +3174,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               />
                             </div>
                             <div>
-                              <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">ZIP Code</label>
+                              <label htmlFor="live-checkout-zip" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">ZIP Code</label>
                               <input
+                                id="live-checkout-zip"
                                 type="text"
                                 required
                                 value={shippingDetails.zip}
@@ -3199,8 +3190,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       )}
 
                       <div>
-                        <label className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Card Details (Mock)</label>
+                        <label htmlFor="live-checkout-card" className="text-[var(--font-size-4xs)] uppercase tracking-wider text-black/40 font-bold block mb-1 font-sans">Card Details (Mock)</label>
                         <input
+                          id="live-checkout-card"
                           type="text"
                           required
                           value={shippingDetails.card}

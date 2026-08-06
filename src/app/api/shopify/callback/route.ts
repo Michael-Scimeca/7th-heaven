@@ -25,6 +25,10 @@ export async function GET(req: Request) {
       }),
     });
 
+    if (!response.ok) {
+      return NextResponse.json({ error: `Shopify token request failed with status ${response.status}` }, { status: 400 });
+    }
+
     const data = await response.json();
     
     if (data.error) {

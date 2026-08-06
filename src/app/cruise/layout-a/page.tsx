@@ -119,7 +119,7 @@ export default function CruiseLayoutA() {
                 <p className="text-xs text-white/30 font-bold uppercase tracking-widest mb-2">How it works</p>
                 <div className="space-y-2">
                   {["Sign up free — tell us your group size", "We negotiate the rate with cruise management", "You get first access at the locked-in price"].map((s, i) => (
-                    <div key={i} className="flex items-start gap-2">
+                    <div key={`step-${i}-${s}`} className="flex items-start gap-2">
                       <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-2xs)] font-black  text-[var(--color-accent)] shrink-0">{i + 1}</span>
                       <p className="text-sm text-white/40">{s}</p>
                     </div>
