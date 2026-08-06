@@ -4621,7 +4621,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   })();
                   const loc = show.state ? `${show.city}, ${show.state}` : show.city;
                   return (
-                    <option key={show._id || `sms-show-${show.date}-${idx}`} value={show._id || show.date}>
+                    <option key={show._id || `sms-show-${show.date}-${show.venue}-${idx}`} value={show._id || show.date}>
                       {dateStr} — {show.venue} ({loc}) {show.time ? `@ ${show.time}` : ''}
                     </option>
                   );
@@ -5462,7 +5462,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         <option value="all" className="bg-white text-black"> All Crew & Admins ({recipients.length})</option>
                         <option value="CREATE_NEW" className="bg-amber-100 text-purple-300 font-black"> Create New Group...</option>
                         {crewGroups.map((g, idx) => (
-                          <option key={g.name || idx} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
+                          <option key={g.name || `group-${idx}`} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
                         ))}
                       </select>
                       <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/60">
@@ -5485,7 +5485,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           .filter((show: any) => show.date)
                           .sort((a: any, b: any) => a.date.localeCompare(b.date))
                           .map((show: any, idx: number) => (
-                            <option key={show._id || `show-opt-${show.date}-${idx}`} value={show.date} className="bg-white text-black">
+                            <option key={show._id || `show-opt-${show.date}-${show.venue}-${idx}`} value={show.date} className="bg-white text-black">
                               {show.venue || show.venue_name} ({show.date})
                             </option>
                           ))}
@@ -6309,7 +6309,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       >
                         <option value="">-- Choose target show --</option>
                         {tourDates.map((s: any, idx: number) => (
-                          <option key={s._id || `band-show-opt-${s.date}-${idx}`} value={s.date}>
+                          <option key={s._id || `band-show-opt-${s.date}-${s.venue}-${idx}`} value={s.date}>
                             {s.date} - {s.venue || s.venue_name}
                           </option>
                         ))}
@@ -9609,7 +9609,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                               : 'Unknown';
                             return (
                               <button
-                                key={idx}
+                                key={show._id || `tour-show-${show.date}-${show.venue}-${idx}`}
                                 type="button"
                                 onClick={() => {
                                   if (show.date) {
@@ -9988,7 +9988,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                         return (
                           <SidebarDateButton
-                            key={idx}
+                            key={show._id || `side-btn-${show.date}-${show.venue}-${idx}`}
                             show={show}
                             isSelected={isSelected}
                             isActiveWeek={isActiveWeek}
@@ -10484,7 +10484,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         {showFormDetails && (
                           <div className="space-y-4 font-sans">
                             {dropTimeFrames.map((tf, index) => (
-                              <div key={index} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
+                              <div key={tf.id || `tf-${tf.startHour}-${tf.endHour}-${index}`} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
                                 <div className="flex items-center justify-between">
                                   <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                   {dropTimeFrames.length > 1 && (
@@ -11559,8 +11559,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         {adminTab === 'band' && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              {METRICS.map((metric, i) => (
-                <div key={i} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`p-4 bg-white  border border-black/10 shadow-sm hover:shadow-md transition-all ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+              {METRICS.map((metric) => (
+                <div key={metric.label} onClick={() => { if (metric.label === 'Booking Requests') document.getElementById('booking-requests-section')?.scrollIntoView({ behavior: 'smooth' }); }} className={`p-4 bg-white  border border-black/10 shadow-sm hover:shadow-md transition-all ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
                   <p className="text-[0.65rem] font-black uppercase tracking-wider text-black/60 mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
                     <span className="text-3xl font-black text-black">{metric.value}</span>
@@ -12107,7 +12107,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
                       <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
                         {(cruiseStats.recentSignups || []).map((s, i) => (
-                          <div key={i} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-all group/row">
+                          <div key={s.email || `${s.name}-${i}`} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-all group/row">
                             <div className="w-7 h-7 rounded-full bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center text-[0.5rem] font-black text-[var(--color-accent)] shrink-0">
                               {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                             </div>
@@ -12256,7 +12256,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           >
                             {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
                             {selectedQrProduct.variants.map((v: any, index: number) => (
-                              <option key={index} value={index}>
+                              <option key={v.id || `variant-${v.title}-${index}`} value={index}>
                                 {v.title} — ${v.price.toFixed(2)}
                               </option>
                             ))}
