@@ -3535,7 +3535,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             </button>
           </div>
           {shopifyTab === 'shopify' && (
-            <div className="flex items-center gap-3 transition-opacity duration-300 animate-in fade-in">
+            <div className="flex items-center gap-3 transition-opacity duration-300 ease-out">
               <div className="flex bg-white/15 p-1 border border-white/20">
                 {[7, 30, 90].map(d => (
                   <button
@@ -3891,7 +3891,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               )}
             </div>
           ) : null) : (
-          <div className="p-6 transition-opacity duration-300 animate-in fade-in">
+          <div className="p-6 transition-opacity duration-300 ease-out">
             {/* Simulated Metrics Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-colors">
@@ -12366,7 +12366,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           </div>
         )}
         {activeToast && (
-          <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 transition-opacity duration-300 animate-in slide-in-from-bottom-5 fade-in">
+          <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 transition-opacity duration-300 ease-out">
             <div className="text-xl"></div>
             <div>
               <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-widest">{activeToast.title}</p>
