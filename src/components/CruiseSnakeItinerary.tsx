@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 
 import React, { useEffect, useRef, useState, Fragment, Suspense } from 'react';
 import { createPortal } from 'react-dom';
@@ -1097,7 +1098,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="group">
               {dayImage && (
                 <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={dayImage}
                     alt={day.theme}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

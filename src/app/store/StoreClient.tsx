@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState } from "react";
 
@@ -182,7 +183,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
               <div key={product.id} className="group border border-black/10 bg-white shadow-sm hover:shadow-md hover:border-black/20 transition-all duration-300 flex flex-col overflow-hidden text-black">
                 <div className="relative aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
                   {imageUrl ? (
-                    <img src={imageUrl} alt={product.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image width={200} height={200} unoptimized src={imageUrl} alt={product.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                     <span className="text-4xl opacity-30">🛒</span>
                   )}
@@ -255,7 +256,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                   <div className="flex gap-4 p-3 bg-gray-50 border border-black/10">
                     <div className="w-16 h-16 bg-white border border-black/10 rounded-lg flex items-center justify-center p-1 relative shrink-0">
                       {selectedProduct.images?.edges?.[0]?.node?.url ? (
-                        <img 
+                        <Image width={200} height={200} unoptimized 
                           src={selectedProduct.images.edges[0].node.url} 
                           alt={selectedProduct.title} 
                           className="w-full h-full object-contain"
@@ -457,7 +458,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
                       {/* Product Image */}
                       <div className="flex justify-center">
-                        <img 
+                        <Image width={200} height={200} unoptimized 
                           src={selectedProduct.images?.edges?.[0]?.node?.url || '/images/merch/vinyl.png'} 
                           alt={selectedProduct.title} 
                           className="w-28 h-28 object-cover border border-black/10 shadow-sm" 

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import { useState, useEffect } from "react";
 
 const layouts = ["A", "B", "C", "D", "E", "F"] as const;
@@ -62,7 +63,7 @@ export default function GridLayoutDemo() {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {videos.map(v => (
             <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden">
-              <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+              <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all" />
               {/* Play */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -84,7 +85,7 @@ export default function GridLayoutDemo() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-white/[0.04]">
           {videos.map(v => (
             <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden bg-[var(--color-bg-surface)]">
-              <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="w-14 h-14 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.4)]"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -104,7 +105,7 @@ export default function GridLayoutDemo() {
           {videos.map(v => (
             <div key={v.id} className="group cursor-pointer">
               <div className="relative aspect-video overflow-hidden">
-                <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-all" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -131,7 +132,7 @@ export default function GridLayoutDemo() {
                 {/* Large */}
                 <div className={`relative md:col-span-2 md:row-span-2 aspect-video md:aspect-auto group cursor-pointer overflow-hidden ${flip ? "md:order-2" : ""}`} style={{ minHeight: "300px" }}>
                   {row[0] && <>
-                    <img src={thumb(row[0].id)} alt={row[0].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <Image width={200} height={200} unoptimized src={thumb(row[0].id)} alt={row[0].title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/80 flex items-center justify-center shadow-[0_0_40px_rgba(255,10,61,0.5)]"><svg width="26" height="26" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -145,7 +146,7 @@ export default function GridLayoutDemo() {
                 {/* 3 smaller */}
                 {row.slice(1).map(v => (
                   <div key={v.id} className={`relative aspect-video group cursor-pointer overflow-hidden ${flip ? "md:order-1" : ""}`}>
-                    <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all" />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -169,7 +170,7 @@ export default function GridLayoutDemo() {
           {videos.map(v => (
             <div key={v.id} className="relative group cursor-pointer overflow-hidden bg-[var(--color-bg-surface)]">
               <div className="aspect-video relative overflow-hidden">
-                <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-500" />
+                <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover brightness-75 group-hover:brightness-100 group-hover:scale-105 transition-all duration-500" />
                 <div className="absolute inset-0 border-2 border-transparent group-hover:border-[var(--color-accent)] transition-colors" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.6)] scale-75 group-hover:scale-100 transition-transform"><svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -195,7 +196,7 @@ export default function GridLayoutDemo() {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {videos.map((v, i) => (
             <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden">
-              <img src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-all" />
               {/* Big number */}
               <span className="absolute top-3 left-4 text-6xl font-black italic text-white/[0.08] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{String(i + 1).padStart(2, "0")}</span>

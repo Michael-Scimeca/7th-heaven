@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useCallback } from "react";
 
@@ -140,7 +141,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                   }`}
               >
                 <div className="relative mx-auto w-16 h-16 mb-2">
-                  <img src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
+                  <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-full h-full object-contain" />
                   {pick.owned > 1 && (
                     <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-xs font-bold bg-[var(--color-accent)] text-white rounded">
                       ×{pick.owned}
@@ -166,7 +167,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <div className="mb-6 p-4 border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-lg animate-[fadeIn_0.2s_ease]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <img src={pick.img} alt={pick.name} className="w-10 h-10 object-contain" />
+                    <Image width={200} height={200} unoptimized src={pick.img} alt={pick.name} className="w-10 h-10 object-contain" />
                     <div>
                       <h3 className="font-bold text-black">{pick.name}</h3>
                       <p className={`text-xs font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>

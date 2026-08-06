@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState } from "react";
 
@@ -39,7 +40,7 @@ export default function CruiseLayoutC() {
 
       {/* ── EDITORIAL HERO ── */}
       <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
-        <img src="/images/cruise-hero.png" alt="7th Heaven Media" className="w-full h-full object-cover" />
+        <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt="7th Heaven Media" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-black/40 to-black/20" />
 
         {/* Overlapping text blocks */}
@@ -69,7 +70,7 @@ export default function CruiseLayoutC() {
             <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${section.align === "left" ? "lg:direction-rtl" : ""}`}>
               {/* Photo */}
               <div className={`relative aspect-[4/3]  overflow-hidden ${section.align === "left" ? "lg:order-2" : ""}`}>
-                <img src="/images/cruise-hero.png" alt="7th Heaven Media" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt="7th Heaven Media" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   style={{ objectPosition: i === 0 ? 'center' : i === 1 ? 'center 30%' : 'center 70%' }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               </div>

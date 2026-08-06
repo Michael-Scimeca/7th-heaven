@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
@@ -347,7 +348,7 @@ export default function CrewFeed() {
           {/* Image attachment */}
           {post.image_url && (
            <div className="mb-4 border border-white/10 overflow-hidden">
-            <img src={post.image_url} alt="7th Heaven Media" className="w-full h-auto" loading="lazy" />
+            <Image width={200} height={200} unoptimized src={post.image_url} alt="7th Heaven Media" className="w-full h-auto" loading="lazy" />
            </div>
           )}
 

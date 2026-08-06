@@ -1,5 +1,6 @@
-/* impeccable-disable codex-grid-background */
 "use client";
+/* impeccable-disable codex-grid-background */
+import Image from 'next/image';
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -77,7 +78,7 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
       onClick={handleCardClick}
     >
       {screenshot && (
-        <img
+        <Image width={200} height={200} unoptimized
           src={`/sitemap-screenshots/${screenshot}${imgVersion}`}
           alt={label}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -95,7 +96,7 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
           justifyContent: "center",
           padding: "6px"
         }}>
-          <img
+          <Image width={200} height={200} unoptimized
             src={`/sitemap-screenshots/${overlayScreenshot}${imgVersion}`}
             alt="overlay"
             style={{
@@ -210,7 +211,7 @@ function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProp
             flexShrink: 0,
             boxShadow: "0 2px 4px rgba(0,0,0,0.4)"
           }}>
-            <img
+            <Image width={200} height={200} unoptimized
               src={`/sitemap-screenshots/${screenshot}${imgVersion}`}
               alt={label}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
@@ -3087,7 +3088,7 @@ export default function FlowchartPage() {
             }}
             onClick={(e) => e.stopPropagation()} // Prevents closing when clicking on the image itself
           >
-            <img 
+            <Image width={200} height={200} unoptimized 
               src={lightboxImage} 
               alt={lightboxTitle} 
               style={{

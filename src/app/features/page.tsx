@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -1177,7 +1178,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
           }`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image width={200} height={200} unoptimized
           src={src}
           alt={`${title} demo preview`}
           className="w-full h-full object-cover object-top"
@@ -1230,7 +1231,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
             {/* Image */}
             <div className={` overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "border-white/15"}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image width={200} height={200} unoptimized
                 src={src}
                 alt={`${title} demo`}
                 className="w-full h-auto"
@@ -2048,7 +2049,7 @@ export default function FeaturesPage() {
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/features/fan-dashboard-hero.png" alt="Fan Dashboard — Profile header with live show countdown" className="w-full" />
+              <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-hero.png" alt="Fan Dashboard — Profile header with live show countdown" className="w-full" />
             </div>
           </div>
 
@@ -2066,7 +2067,7 @@ export default function FeaturesPage() {
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/features/fan-dashboard-middle.png" alt="Fan Dashboard — Proximity alerts and upcoming shows" className="w-full" />
+              <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-middle.png" alt="Fan Dashboard — Proximity alerts and upcoming shows" className="w-full" />
             </div>
           </div>
 
@@ -2084,7 +2085,7 @@ export default function FeaturesPage() {
                 <div className="flex-1 mx-4 bg-white/5 rounded px-3 py-0.5 text-white/25 text-xs font-mono">7thheavenband.com/fans/demo</div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/features/fan-dashboard-lower.png" alt="Fan Dashboard — Show memories and referral program" className="w-full" />
+              <Image width={200} height={200} unoptimized src="/images/features/fan-dashboard-lower.png" alt="Fan Dashboard — Show memories and referral program" className="w-full" />
             </div>
           </div>
 

@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 
 import React, {
   useState, useEffect, useRef, useCallback, useMemo,
@@ -2909,7 +2910,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       
                       <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; text-align: center; margin: 20px 0;">
                         <div style="margin-bottom: 16px;">
-                          <img src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
+                          <Image width={200} height={200} unoptimized src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
                         </div>
                         <p style="font-weight: bold; font-size: 16px; margin: 0 0 4px 0; color: #000;">${activeMerchDrop.product.name}</p>
                         ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ''}
@@ -2918,7 +2919,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <p style="font-size: 12px; color: #666; margin: 0 0 24px 0;">Price Paid: ${activeMerchDrop.product.price}</p>
 
                         <p style="text-transform: uppercase; font-size: 11px; color: #666; margin: 0 0 8px 0; letter-spacing: 0.1em; font-weight: 800;">Your Single-Use QR Code</p>
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PU-${claimPin}" alt="Scan QR Code" style="display: block; margin: 12px auto; border: 4px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" width="150" height="150" />
+                        <Image width={200} height={200} unoptimized src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PU-${claimPin}" alt="Scan QR Code" style="display: block; margin: 12px auto; border: 4px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" width="150" height="150" />
                         <p style="font-size: 11px; color: #6b21a8; font-weight: bold; margin: 12px 0 0 0;">⚠️ This QR code is only valid for ONE claim. Do not share this email.</p>
                       </div>
                       
@@ -2934,7 +2935,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       
                       <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; margin: 20px 0; text-align: center;">
                         <div style="margin-bottom: 12px;">
-                          <img src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
+                          <Image width={200} height={200} unoptimized src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
                         </div>
                         <p style="font-weight: bold; font-size: 16px; margin: 0 0 4px 0; color: #000;">${activeMerchDrop.product.name}</p>
                         ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ''}
@@ -2979,7 +2980,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                     <div className="text-center mb-2 flex flex-col items-center">
                       <div className="w-20 h-20 border border-black/10 bg-gray-50 overflow-hidden mb-2.5 shrink-0">
-                        <img
+                        <Image width={200} height={200} unoptimized
                           src={activeMerchDrop.product.image || '/images/merch/vinyl.png'}
                           alt={activeMerchDrop.product.name}
                           onError={(e) => {
@@ -3233,7 +3234,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
                         {/* Product Image - large and prominent */}
                         <div className="flex justify-center">
-                          <img
+                          <Image width={200} height={200} unoptimized
                             src={activeMerchDrop.product.image || '/images/merch/vinyl.png'}
                             alt={activeMerchDrop.product.name}
                             onError={(e) => {

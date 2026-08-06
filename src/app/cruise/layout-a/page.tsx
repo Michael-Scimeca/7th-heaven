@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState } from "react";
 
@@ -33,7 +34,7 @@ export default function CruiseLayoutA() {
       {/* ── FULL-VIEWPORT HERO ── */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/images/cruise-hero.png" alt="7th Heaven Media" className="w-full h-full object-cover" />
+          <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt="7th Heaven Media" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-[var(--color-bg-primary)]" />
         </div>
         <div className="relative z-10 text-center px-6 max-w-4xl">

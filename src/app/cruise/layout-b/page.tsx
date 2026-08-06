@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState } from "react";
 
@@ -83,7 +84,7 @@ export default function CruiseLayoutB() {
 
           {/* Right: photo */}
           <div className="relative hidden lg:block">
-            <img src="/images/cruise-hero.png" alt="Cruise ship at sunset" className="w-full h-full object-cover" />
+            <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt="Cruise ship at sunset" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-bg-primary)] via-transparent to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-transparent to-transparent" />
           </div>
@@ -102,7 +103,7 @@ export default function CruiseLayoutB() {
             <div key={island.name} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-cyan-500/30 transition-all group">
               {/* Island photo placeholder */}
               <div className="aspect-[4/3] bg-gradient-to-br from-cyan-900/30 to-blue-900/30 relative overflow-hidden">
-                <img src="/images/cruise-hero.png" alt={island.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt={island.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <span className="text-2xl">{island.icon}</span>

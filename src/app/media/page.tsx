@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -80,7 +81,7 @@ export default function MediaPage() {
               </div>
             ) : (
               <>
-                <img
+                <Image width={200} height={200} unoptimized
                   src={thumbMax(featuredVideo.id)}
                   alt="7th Heaven Media"
                   className="w-full h-full object-cover"
@@ -187,7 +188,7 @@ export default function MediaPage() {
                     <InlineYTPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                   ) : (
                     <button className="absolute inset-0 w-full h-full cursor-pointer" onClick={() => setPlayingId(video.id)} aria-label={`Play ${video.title}`}>
-                      <img src={thumbMax(video.id)} alt={video.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" onLoad={(e) => { const img = e.currentTarget; if (img.naturalWidth <= 120 && img.src.includes('maxresdefault')) img.src = thumb(video.id); }} onError={(e) => { const img = e.currentTarget; if (img.src.includes('maxresdefault')) img.src = thumb(video.id); }} />
+                      <Image width={200} height={200} unoptimized src={thumbMax(video.id)} alt={video.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" onLoad={(e) => { const img = e.currentTarget; if (img.naturalWidth <= 120 && img.src.includes('maxresdefault')) img.src = thumb(video.id); }} onError={(e) => { const img = e.currentTarget; if (img.src.includes('maxresdefault')) img.src = thumb(video.id); }} />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-all" />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div></div>
                       {video.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[var(--font-size-2xs)] font-bold px-1.5 py-0.5 rounded">{video.duration}</span>}

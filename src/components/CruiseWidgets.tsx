@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
@@ -510,7 +511,7 @@ export function BookingManager({ email }: { email?: string }) {
             {/* Left Column: Cabin Image Preview */}
             <div className="md:col-span-2 flex flex-col justify-start">
               <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
-                <img
+                <Image width={200} height={200} unoptimized
                   src={booking?.cabin_image || '/images/cruise/d1_ocean_view_balcony.jpg'}
                   alt="Selected Cabin"
                   className="w-full h-full object-cover"
@@ -616,7 +617,7 @@ export function BookingManager({ email }: { email?: string }) {
             {booking.cabin_image && (
               <div className="md:col-span-2 flex flex-col justify-start">
                 <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={booking.cabin_image}
                     alt="Selected Cabin"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"

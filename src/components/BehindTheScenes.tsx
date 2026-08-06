@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
@@ -56,7 +57,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
           </div>
         ) : (
           <>
-            <img
+            <Image width={200} height={200} unoptimized
               src={`https://img.youtube.com/vi/${featured.id}/maxresdefault.jpg`}
               alt={featured.title}
               className="absolute inset-0 w-full h-full object-cover"
@@ -137,7 +138,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       onClick={() => setPlayingId(`bts-${video.id}`)}
                       aria-label={`Play ${video.title}`}
                     >
-                      <img
+                      <Image width={200} height={200} unoptimized
                         src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                         alt={video.title}
                         className="absolute inset-0 z-[1] w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"

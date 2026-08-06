@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -295,7 +296,7 @@ export function Header() {
                     title={displayName}
                   >
                     {isAvatarUrl ? (
-                      <img src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
+                      <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
                         {initials}

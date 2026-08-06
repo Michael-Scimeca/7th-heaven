@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
@@ -268,7 +269,7 @@ export default function ShowPageClient({
         {/* Avatar */}
         <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 font-black text-sm border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10 text-white/60"} bg-white/[0.04]`}>
           {!isAnon && a.profiles?.profile_photo_url ? (
-            <img src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-full" />
+            <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-full" />
           ) : isAnon ? "👤" : initials}
         </div>
 

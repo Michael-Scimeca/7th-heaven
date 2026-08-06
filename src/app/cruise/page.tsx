@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -827,7 +828,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <div>
                       {room.image && (
                         <div className="relative h-44 w-full overflow-hidden text-center">
-                          <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
                       <div className="p-5">
@@ -906,7 +907,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div>
                           {room.image && (
                             <div className="relative h-44 w-full overflow-hidden text-center">
-                              <img src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             </div>
                           )}
                           <div className="p-5">
@@ -1621,7 +1622,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div key={idx} className="relative rounded-3xl overflow-hidden group border border-black/10 aspect-[4/5] bg-black">
                 {band.photo ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={band.photo}
                     alt={band.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
@@ -1729,7 +1730,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div key={idx} className="bg-black/[0.03] border border-black/10 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-sm">
                     <div className="h-48 w-full relative overflow-hidden bg-black/60">
                       <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/30 z-10" />
-                      {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
+                      {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
                       <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border-none rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300">
                         Port Call #{idx + 1}
                       </span>
@@ -1751,7 +1752,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div className="h-72 md:h-96 w-full relative overflow-hidden bg-black">
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14] via-black/40 to-transparent z-10" />
                     {PORTS_DATA[activeSpotlightPort].image && (
-                      <img src={PORTS_DATA[activeSpotlightPort].image} alt={PORTS_DATA[activeSpotlightPort].name} className="w-full h-full object-cover scale-105" />
+                      <Image width={200} height={200} unoptimized src={PORTS_DATA[activeSpotlightPort].image} alt={PORTS_DATA[activeSpotlightPort].name} className="w-full h-full object-cover scale-105" />
                     )}
                     <div className="absolute top-6 left-6 z-20 bg-cyan-500 text-black px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
                       ⭐ Featured Destination Spotlight
@@ -1790,7 +1791,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         }`}
                     >
                       <div className="w-12 h-12 overflow-hidden shrink-0 bg-black">
-                        {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover" />}
+                        {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className={`text-xs font-bold uppercase truncate ${activeSpotlightPort === idx ? "text-cyan-400" : "text-white"}`}>
@@ -1841,7 +1842,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     >
                       <div className="h-52 w-full relative overflow-hidden bg-black/60">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
-                        {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
+                        {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
                         <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/70 backdrop-blur-md border border-white/20 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400">
                           {idx + 1} / {PORTS_DATA.length}
                         </span>
@@ -1862,7 +1863,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 {PORTS_DATA.map((port, idx) => (
                   <div key={idx} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/30 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-all duration-300 hover:bg-white/[0.02]">
                     <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden bg-black relative shrink-0">
-                      {port.image && <img src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
+                      {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
                       <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)] font-black text-cyan-400 uppercase">
                         Port #{idx + 1}
                       </span>
@@ -1989,7 +1990,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 return (
                   <div key={idx} className="relative overflow-hidden group border border-black/10 h-48 md:h-56">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                       <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 bg-cyan-500/30 backdrop-blur-md px-2 py-0.5 rounded-full font-bold self-start mb-1.5">{food.tag}</span>
                       <p className="font-extrabold text-white text-base md:text-lg leading-snug">{food.name}</p>
@@ -2085,7 +2086,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 return (
                   <div key={idx} className="relative overflow-hidden group border border-black/10 h-48 md:h-56 shadow-sm">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                       <span className={`text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-0.5 rounded-full font-bold self-start mb-1.5 ${isCyan ? 'text-cyan-300 bg-cyan-500/30' : 'text-purple-300 bg-purple-500/30'
                         }`}>{item.tag}</span>

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -143,7 +144,7 @@ export default function CompleteProfilePage() {
             {/* Avatar from OAuth */}
             {profile?.avatar_url && (
               <div className="flex justify-center mb-6">
-                <img
+                <Image width={200} height={200} unoptimized
                   src={profile.avatar_url}
                   alt={profile.full_name}
                   className="w-20 h-20 rounded-full border-2 border-[var(--color-accent)]/40 object-cover"

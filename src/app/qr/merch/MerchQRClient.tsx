@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -296,7 +297,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
           <div className="bg-[#0b0b14]/90 border border-cyan-500/40 p-4 max-w-xs mx-auto shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col items-center space-y-2">
             <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.2em] text-cyan-400">📱 Scan QR Code to Test</span>
             <div className="w-44 h-44 bg-white p-2.5 border border-white/20">
-              <img
+              <Image width={200} height={200} unoptimized
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://7thheavenband.com/qr/merch')}`}
                 alt="7th Heaven QR Merch Code"
                 className="w-full h-full object-contain"
@@ -395,7 +396,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 overflow-hidden border border-white/10 shrink-0 bg-black">
-                <img src={activeOrder.productImage} alt={activeOrder.productTitle} className="w-full h-full object-cover" />
+                <Image width={200} height={200} unoptimized src={activeOrder.productImage} alt={activeOrder.productTitle} className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -476,7 +477,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               <div>
                 {/* Image */}
                 <div className="relative aspect-square bg-black/60 overflow-hidden">
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={product.imageUrl}
                     alt={product.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -534,7 +535,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
-                <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-12 h-12 object-cover border border-white/10" />
+                <Image width={200} height={200} unoptimized src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-12 h-12 object-cover border border-white/10" />
                 <div>
                   <h3 className="text-white font-black text-base line-clamp-1">{selectedProduct.title}</h3>
                   <p className="text-cyan-400 font-black text-sm">${selectedProduct.price}</p>
@@ -779,7 +780,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               {/* Scannable QR Code Image */}
               <div className="w-56 h-56 mx-auto bg-white p-3 shadow-[0_0_30px_rgba(6,182,212,0.5)] flex items-center justify-center mb-4">
-                <img
+                <Image width={200} height={200} unoptimized
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('https://7thheavenband.com/qr/merch')}`}
                   alt="Scan to order 7th Heaven Merch"
                   className="w-full h-full object-contain"

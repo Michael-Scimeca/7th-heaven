@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -229,7 +230,7 @@ export default function HeroLiveThumbs() {
               >
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={thumbSrc}
                     alt={crewName}
                     onLoad={() => setImgLoaded(prev => ({ ...prev, [post.id]: true }))}

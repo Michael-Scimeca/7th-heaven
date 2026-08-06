@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useRef } from "react";
 import Link from "next/link";
@@ -445,7 +446,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           }`}
                       >
                         {profilePic ? (
-                          <img src={profilePic} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
+                          <Image width={200} height={200} unoptimized src={profilePic} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
                         ) : name.trim() ? (
                           <span className="text-2xl font-bold text-white leading-none">{name.trim()[0].toUpperCase()}</span>
                         ) : (

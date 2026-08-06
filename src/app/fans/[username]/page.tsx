@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useMember } from "@/context/MemberContext";
 import { useEffect, useState, useCallback, use } from "react";
@@ -378,7 +379,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black  text-[var(--color-accent)] overflow-hidden shrink-0">
               {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
-                <img
+                <Image width={200} height={200} unoptimized
                   src={effectiveMember?.avatar || member?.avatar}
                   alt={effectiveMember?.name || 'Profile'}
                   className="w-full h-full object-cover rounded-full"
@@ -1058,7 +1059,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             {isVideo ? (
                               <video src={photo.src} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay loop muted playsInline />
                             ) : (
-                              <img src={photo.src} alt={photo.venue} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              <Image width={200} height={200} unoptimized src={photo.src} alt={photo.venue} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             )}
 
                             {/* Status Badge */}
@@ -1178,7 +1179,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div key={item.id} className="bg-white/5 border border-white/10 overflow-hidden hover:border-fuchsia-500/30 transition-all group">
                       {item.image && (
                         <div className="aspect-square bg-black/40 overflow-hidden">
-                          <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                          <Image width={200} height={200} unoptimized src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
                         </div>
                       )}
                       <div className="p-4">

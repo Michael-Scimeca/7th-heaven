@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
@@ -208,7 +209,7 @@ export default function LiveShowFeed() {
           </div>
         ) : selectedMedia?.image_url ? (
           <div className="relative aspect-video bg-black border border-white/10 overflow-hidden">
-            <img
+            <Image width={200} height={200} unoptimized
               src={selectedMedia.image_url}
               alt={selectedMedia.content}
               className="w-full h-full object-cover"
@@ -260,7 +261,7 @@ export default function LiveShowFeed() {
                 style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}
               >
                 {thumbSrc && (
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={thumbSrc}
                     alt="7th Heaven Media"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
@@ -162,7 +163,7 @@ export default function FansPage() {
         {/* Hero Background Image & Gradient Overlay */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image width={200} height={200} unoptimized
             src="https://img.youtube.com/vi/C0PQYmyaTFk/maxresdefault.jpg"
             alt="7th Heaven Live at DeKalb Cornfest"
             className="w-full h-[180%] -translate-y-[45%] object-cover filter brightness-90 saturate-125 opacity-75"
@@ -291,7 +292,7 @@ export default function FansPage() {
                           loop
                         />
                       ) : (
-                        <img
+                        <Image width={200} height={200} unoptimized
                           src={photo.src}
                           alt="Fan Upload"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -359,7 +360,7 @@ export default function FansPage() {
                   playsInline
                 />
               ) : (
-                <img
+                <Image width={200} height={200} unoptimized
                   src={approvedPhotos[0].src}
                   alt={`Featured: ${approvedPhotos[0].name}`}
                   className="w-full h-full object-cover"
@@ -452,7 +453,7 @@ export default function FansPage() {
                         playsInline
                       />
                     ) : (
-                      <img
+                      <Image width={200} height={200} unoptimized
                         src={photo.src}
                         alt={`Photo by ${photo.name}`}
                         className="w-full h-auto max-h-[600px] object-cover block"
@@ -531,7 +532,7 @@ export default function FansPage() {
                   playsInline
                 />
               ) : (
-                <img
+                <Image width={200} height={200} unoptimized
                   src={selectedPhoto.src}
                   alt={`Photo by ${selectedPhoto.name}`}
                   className="w-full max-h-[70vh] object-contain"

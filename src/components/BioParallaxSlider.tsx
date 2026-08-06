@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { SanityBandMember, urlFor } from "@/lib/sanity";
@@ -634,9 +635,9 @@ height: ${overlayHeight}vh`;
                         }}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image width={200} height={200} unoptimized
                           src={imageSrc}
-                          alt={m?.name}
+                          alt={m?.name || "Member Photo"}
                           draggable={false}
                           className="smooothy-img w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0"
                           style={{

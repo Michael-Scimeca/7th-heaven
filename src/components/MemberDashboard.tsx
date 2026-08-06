@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useMember, tierColors } from "@/context/MemberContext";
 import { useEffect, useState, useMemo } from "react";
@@ -391,7 +392,7 @@ export default function MemberDashboard() {
                     }`}
                 >
                   <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
-                    <img
+                    <Image width={200} height={200} unoptimized
                       src={photo.src}
                       alt={photo.caption || "Upload"}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -505,7 +506,7 @@ export default function MemberDashboard() {
                       {order.items.map((item, j) => (
                         <div key={j} className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <img src={item.img} alt={item.name} className="w-12 h-12 object-cover border border-white/10" />
+                            <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-12 h-12 object-cover border border-white/10" />
                             <div>
                               <p className="text-sm font-semibold text-white/80">{item.name}</p>
                               <p className="text-xs text-white/25 uppercase tracking-[0.1em]">{item.type}</p>

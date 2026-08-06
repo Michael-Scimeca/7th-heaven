@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
@@ -2869,7 +2870,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <p className="text-xs font-black tracking-widest uppercase text-white/40">Active Products</p>
                     {activeDrop.products.map(p => (
                       <div key={p.id} className="flex gap-3 p-2.5 bg-white/5 border border-white/10 items-center justify-between">
-                        <img src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                        <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
                           <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
@@ -2940,7 +2941,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     ) : (
                       selectedProducts.map(p => (
                         <div key={p.id} className="flex gap-4 p-3 border border-white/15 items-center justify-between text-white bg-white/5">
-                          <img src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                          <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
                             <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>

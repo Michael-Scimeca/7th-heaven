@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -58,7 +59,7 @@ export default function VideoSection() {
                 <InlineYTPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
               ) : (
                 <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb" onClick={() => setPlayingId(video.id)} aria-label={`Play ${video.title}`}>
-                  <img
+                  <Image width={200} height={200} unoptimized
                     src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                     alt={video.title}
                     className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
@@ -105,7 +106,7 @@ export default function VideoSection() {
                     <InlineYTPlayer videoId={latest.id} title={latest.title} onClose={() => setPlayingId(null)} />
                   ) : (
                     <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb" onClick={() => setPlayingId(`featured-${latest.id}`)} aria-label={`Play ${latest.title}`}>
-                      <img
+                      <Image width={200} height={200} unoptimized
                         src={`https://img.youtube.com/vi/${latest.id}/maxresdefault.jpg`}
                         alt={latest.title}
                         className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-700 group-hover/thumb:scale-105"
@@ -210,7 +211,7 @@ export default function VideoSection() {
                     onClick={() => setPlayingId(video.id)}
                     aria-label={`Play ${video.title}`}
                   >
-                    <img
+                    <Image width={200} height={200} unoptimized
                       src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                       alt={video.title}
                       className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"

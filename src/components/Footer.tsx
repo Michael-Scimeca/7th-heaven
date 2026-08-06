@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -204,7 +205,7 @@ export function Footer() {
         <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--muted-text)] mb-8">Official Gear Endorsements</p>
         <div className="flex flex-wrap justify-start items-center gap-x-8 gap-y-6">
           {endorsements.map((brand) => (
-            <img
+            <Image width={200} height={200} unoptimized
               key={brand.name}
               src={brand.logoPath}
               alt={brand.name}

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
@@ -203,7 +204,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               </div>
             ) : selectedMedia?.image_url ? (
               <div className="relative aspect-video bg-black border border-white/10 overflow-hidden">
-                <img src={selectedMedia.image_url} alt={selectedMedia.content} className="w-full h-full object-cover" />
+                <Image width={200} height={200} unoptimized src={selectedMedia.image_url} alt={selectedMedia.content} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div className="flex items-center gap-2 mb-1">
@@ -255,7 +256,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     className={`relative aspect-square overflow-hidden border transition-all duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover:border-white/20"
                       }`}
                   >
-                    {thumbSrc && <img src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
+                    {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
                     {isVideo && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="white" className="opacity-80"><path d="M8 5v14l11-7z" /></svg>

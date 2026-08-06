@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 
 import React, { useState, useEffect } from 'react';
 import type { CruiseVideoItem } from '@/app/api/cruise/videos/route';
@@ -92,7 +93,7 @@ export default function CruiseVideoGallery() {
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden">
-                <img
+                <Image width={200} height={200} unoptimized
                   src={vid.poster || '/images/cruise-hero.png'}
                   alt={vid.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
