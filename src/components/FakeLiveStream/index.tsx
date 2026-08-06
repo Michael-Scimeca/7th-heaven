@@ -51,7 +51,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [hype, setHype] = useState(20);
   const [hypeBurst, setHypeBurst] = useState(false);
   const [floating, setFloating] = useState<FloatingEmoji[]>([]);
-  const [lightPhase, setLightPhase] = useState(0);
+  const lightPhaseRef = useRef(0);
   const [elapsed, setElapsed] = useState(0);
   const [viewerCount, setViewerCount] = useState(847);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -140,7 +140,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [checkoutSelectedColor, setCheckoutSelectedColor] = useState('Black');
   const [shippingDetails, setShippingDetails] = useState({ name: '', email: '', address: '', city: '', zip: '', card: '•••• •••• •••• 4242' });
   const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<'shipping' | 'merch_table'>('merch_table');
-  const [checkoutClaimPin, setCheckoutClaimPin] = useState('');
 
   // 🎵 Live Setlist States
   const [setlist, setSetlist] = useState<SetlistSong[]>([
@@ -208,9 +207,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Stage gradient ── */
   const stageGradient = useMemo(() => {
-    const h1 = lightPhase % 360;
-    const h2 = (lightPhase + 120) % 360;
-    const h3 = (lightPhase + 240) % 360;
+    const h1 = lightPhaseRef.current % 360;
+    const h2 = (lightPhaseRef.current + 120) % 360;
+    const h3 = (lightPhaseRef.current + 240) % 360;
     return `
       radial-gradient(ellipse 80% 60% at 20% 80%, hsla(${h1}, 80%, 30%, 0.5) 0%, transparent 70%),
       radial-gradient(ellipse 60% 50% at 80% 70%, hsla(${h2}, 80%, 25%, 0.4) 0%, transparent 60%),
@@ -218,11 +217,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       radial-gradient(circle at 50% 30%, rgba(255,255,255,0.03) 0%, transparent 40%),
       linear-gradient(180deg, #050508 0%, #0a0a12 40%, #0d0b18 100%)
     `;
-  }, [lightPhase]);
+  }, []);
 
   /* ── Light phase ── */
   useEffect(() => {
-    const t = setInterval(() => setLightPhase(p => (p + 1) % 360), 80);
+    const t = setInterval(() => { lightPhaseRef.current = (lightPhaseRef.current + 1) % 360; }, 80);
     return () => clearInterval(t);
   }, []);
 
@@ -1051,14 +1050,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     // Also inject the pre-seeded violation messages into the live chat so Users tab shows them
     setMessages(prev => {
       const existingIds = new Set(prev.map(m => m.id));
-      const toAdd = DEMO_VIOLATIONS.slice(0, 3)
-        .map((v, i) => ({
-          id: `seed-flag-${i}`,
+      const toAdd = DEMO_VIOLATIONS.slice(0, 3).flatMap((v, i) => {
+        const id = `seed-flag-${i}`;
+        if (existingIds.has(id)) return [];
+        return [{
+          id,
           account: FAN_ACCOUNTS.find(a => a.id === v.fanId) ?? FAN_ACCOUNTS[i],
           text: v.text,
           timestamp: Date.now() - (3 - i) * 45000,
-        }))
-        .filter(m => !existingIds.has(m.id));
+        }];
+      });
       return toAdd.length > 0 ? [...prev, ...toAdd] : prev;
     });
 
@@ -2340,7 +2341,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <div>
                         <p className="text-xs font-black uppercase tracking-widest mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Drop History</p>
                         <div className="space-y-1">
-                          {modLog.filter(e => e.action === '🛍 Merch Drop').map(e => (
+                          {modLog.flatMap(e => e.action === '🛍 Merch Drop' ? [
                             <div key={e.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)' }}>
                               <span className="text-xs text-black/60 font-bold">{e.user}</span>
                               <div className="flex items-center gap-2">
@@ -2348,7 +2349,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>{new Date(e.time).toLocaleTimeString()}</span>
                               </div>
                             </div>
-                          ))}
+                          ] : [])}
                         </div>
                       </div>
                     )}
@@ -2780,7 +2781,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             setCheckoutStep('processing');
 
             const claimPin = Math.floor(1000 + Math.random() * 9000).toString();
-            setCheckoutClaimPin(claimPin);
 
             // Simulate payment processing for 1.8 seconds
             setTimeout(() => {

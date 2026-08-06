@@ -48,12 +48,9 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   const member = memberOverride || contextMember;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  const [pinnedMessage, setPinnedMessage] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [chatEnabled, setChatEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [isEditingPin, setIsEditingPin] = useState(false);
-  const [pinInput, setPinInput] = useState("");
   const [showTagMenu, setShowTagMenu] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [chatLayout, setChatLayout] = useState<number>(3);
@@ -80,10 +77,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: newPin })
       });
-      if (res.ok) {
-        setPinnedMessage(newPin);
-        setIsEditingPin(false);
-      } else {
+      if (!res.ok) {
         alert('Failed to update announcement');
       }
     } catch (e) {
@@ -213,11 +207,6 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
     fetch("/api/cruise/chat-pin")
       .then(res => res.json())
       .then(data => {
-        if (data.pin) {
-          const clean = stripHtml(data.pin);
-          setPinnedMessage(clean);
-          setPinInput(clean || '');
-        }
         if (data.chatEnabled !== undefined) setChatEnabled(data.chatEnabled);
         setIsLoading(false);
       })
@@ -225,11 +214,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
     const channel = supabase
       .channel(`room_${room}`)
-      .on("broadcast", { event: "pin_update" }, (payload: any) => {
-        const clean = stripHtml(payload.payload.pin);
-        setPinnedMessage(clean);
-        if (clean) setPinInput(clean);
-      })
+      .on("broadcast", { event: "pin_update" }, () => {})
       .on("broadcast", { event: "chat_toggle" }, (payload: any) => {
         setChatEnabled(payload.payload.chatEnabled);
       })

@@ -59,31 +59,26 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
   const filteredYears = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
-    return years
-      .filter((yGroup) => {
-        if (selectedYear !== "ALL" && yGroup.year !== selectedYear) return false;
-        return true;
-      })
-      .map((yGroup) => {
-        const filteredShows = yGroup.shows.filter((show) => {
-          // Category filter
-          if (!matchesCategory(show, selectedCategory)) return false;
+    return years.flatMap((yGroup) => {
+      if (selectedYear !== "ALL" && yGroup.year !== selectedYear) return [];
 
-          // Text query filter
-          if (!query) return true;
-          return (
-            show.venue.toLowerCase().includes(query) ||
-            show.date.toLowerCase().includes(query) ||
-            yGroup.year.includes(query)
-          );
-        });
+      const filteredShows = yGroup.shows.filter((show) => {
+        if (!matchesCategory(show, selectedCategory)) return false;
+        if (!query) return true;
+        return (
+          show.venue.toLowerCase().includes(query) ||
+          show.date.toLowerCase().includes(query) ||
+          yGroup.year.includes(query)
+        );
+      });
 
-        return {
-          year: yGroup.year,
-          shows: filteredShows,
-        };
-      })
-      .filter((yGroup) => yGroup.shows.length > 0);
+      if (filteredShows.length === 0) return [];
+
+      return [{
+        year: yGroup.year,
+        shows: filteredShows,
+      }];
+    });
   }, [years, searchQuery, selectedYear, selectedCategory]);
 
   const displayedCount = useMemo(() => {

@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export type ShopifyProduct = {
   id: string;
@@ -24,7 +24,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
   const [checkoutSelectedSize, setCheckoutSelectedSize] = useState('L');
   const [checkoutSelectedColor, setCheckoutSelectedColor] = useState('Black');
   const [shippingDetails, setShippingDetails] = useState({ name: '', email: '', address: '', city: '', zip: '', card: '•••• •••• •••• 4242' });
-  const [claimPin, setClaimPin] = useState('');
+  const claimPinRef = useRef('');
   
   // Create a mapping or guess the category based on tags or productType. 
   const categories = ["All", "Apparel", "Music", "Accessories"];
@@ -51,7 +51,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
   const handleCheckoutClick = (product: ShopifyProduct) => {
     setSelectedProduct(product);
     setCheckoutStep('form');
-    setClaimPin(Math.floor(1000 + Math.random() * 9000).toString());
+    claimPinRef.current = Math.floor(1000 + Math.random() * 9000).toString();
     setShowCheckoutModal(true);
   };
 
@@ -97,7 +97,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
           const queue = JSON.parse(localStorage.getItem('merch_pickup_queue') || '[]');
           queue.unshift({
             id: newOrder.id,
-            code: `PU-${claimPin}`,
+            code: `PU-${claimPinRef.current}`,
             item: newOrder.item,
             size: newOrder.size,
             color: newOrder.color,

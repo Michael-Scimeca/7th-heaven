@@ -21,7 +21,7 @@ export default function FanUploadForm() {
     return searchParams?.get("mockScanning") === "true" ? ["/sitemap-screenshots/fan-photo-wall.png"] : [];
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [fileSafetyFlags, setFileSafetyFlags] = useState<Record<string, string>>({});
+  const fileSafetyFlagsRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
     return () => {
@@ -160,7 +160,7 @@ export default function FanUploadForm() {
 
     setSelectedFiles(prev => [...prev, ...compressedFiles]);
     setPreviews(prev => [...prev, ...newPreviews]);
-    setFileSafetyFlags(prev => ({ ...prev, ...newFlags }));
+    fileSafetyFlagsRef.current = { ...fileSafetyFlagsRef.current, ...newFlags };
     setIsScanning(false);
     setScanStatus('');
   };
@@ -200,8 +200,8 @@ export default function FanUploadForm() {
     selectedFiles.forEach(file => fd.append('photo', file));
     fd.append('name', member?.name || 'Authorized Fan');
     // Send safety flags so the server can tag flagged uploads for priority review
-    if (Object.keys(fileSafetyFlags).length > 0) {
-      fd.append('safety_flags', JSON.stringify(fileSafetyFlags));
+    if (Object.keys(fileSafetyFlagsRef.current).length > 0) {
+      fd.append('safety_flags', JSON.stringify(fileSafetyFlagsRef.current));
     }
 
     try {

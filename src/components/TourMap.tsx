@@ -117,10 +117,8 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [locating, setLocating] = useState(false);
-  const [nearMeResult, setNearMeResult] = useState<string | null>(null);
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
+  const [isLoaded, setIsLoaded] = useState(false);
   const [markerCount, setMarkerCount] = useState(0);
   const [legendOpen, setLegendOpen] = useState(false);
   const [L, setL] = useState<any>(null);
@@ -346,11 +344,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
     const showGroups: Record<string, GroupedVenue> = {};
 
-    (shows || [])
-      .filter(s => s.city) // skip private events
-      .filter(s => !isShowOver(s)) // skip past shows!
-      .forEach(s => {
-        const key = `${s.venue}|${s.city}`;
+    (shows || []).forEach(s => {
+      if (!s.city || isShowOver(s)) return;
+      const key = `${s.venue}|${s.city}`;
         const coords = VENUE_COORDS[key] || (s.lat && s.lng ? [s.lat, s.lng] : null);
         if (coords) {
           if (!showGroups[key]) {
@@ -596,14 +592,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
   // Near Me handler
   const handleNearMe = useCallback(() => {
-    if (!navigator.geolocation) {
-      setNearMeResult("Geolocation not supported");
-      setTimeout(() => setNearMeResult(null), 3000);
-      return;
-    }
-
-    setLocating(true);
-    setNearMeResult(null);
+    if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -628,17 +617,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             closest.marker.openPopup();
             if (onPinClick) onPinClick(closest.venue, closest.date);
           }, 1300);
-          setNearMeResult(`${closest.venue} — ${Math.round(minDist)} mi away`);
-          setTimeout(() => setNearMeResult(null), 5000);
         }
-
-        setLocating(false);
       },
-      () => {
-        setLocating(false);
-        setNearMeResult("Location access denied");
-        setTimeout(() => setNearMeResult(null), 3000);
-      },
+      () => {},
       { enableHighAccuracy: false, timeout: 8000 }
     );
   }, [onPinClick]);

@@ -29,7 +29,6 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   const [isLive, setIsLive] = useState(false);
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0, status: 'upcoming' as 'upcoming' | 'live' | 'ended' });
   const [nextShow, setNextShow] = useState<any>(null);
-  const [lastShow, setLastShow] = useState<any>(null);
   const [referralCopied, setReferralCopied] = useState(false);
   const [liveAlertPhone, setLiveAlertPhone] = useState('');
   const [liveAlertStatus, setLiveAlertStatus] = useState<'idle' | 'saving' | 'subscribed' | 'error'>('idle');
@@ -43,9 +42,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   const [dashboardView, setDashboardView] = useState<'fan' | 'cruise'>('fan');
   const CRUISE_END_DATE = "2026-04-19";
 
-  // Referral Program (admin-controlled)
-  const [referralEnabled, setReferralEnabled] = useState(false);
-  const [referralMilestones, setReferralMilestones] = useState<{ threshold: number; reward: string; emoji: string }[]>([]);
+
 
   // Cruise dashboard data
   const [cruiseAnnouncement, setCruiseAnnouncement] = useState<string | null>(null);
@@ -144,15 +141,9 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
       const past = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') < new Date()).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setShows(upcoming);
       if (upcoming.length > 0) setNextShow(upcoming[0]);
-      if (past.length > 0) setLastShow(past[0]);
     }).catch(() => { });
     fetch("/api/merch").then(r => r.ok ? r.json() : null).then(data => { if (active && data) setMerch(data); }).catch(() => { });
-    // Load referral program config
-    fetch("/api/admin/referral-config").then(r => r.ok ? r.json() : null).then(data => {
-      if (!active || !data) return;
-      setReferralEnabled(data.enabled ?? false);
-      if (data.milestones?.length) setReferralMilestones(data.milestones);
-    }).catch(() => { });
+    // Load live alerts visibility toggle
     // Load live alerts visibility toggle
     fetch("/api/admin/settings?key=live_alerts_enabled").then(r => r.ok ? r.json() : null).then(data => {
       if (!active || !data) return;
@@ -162,7 +153,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
     try {
       localStorage.removeItem('vip_inbox_messages');
       localStorage.removeItem('7h_vip_inbox');
-      Object.keys(localStorage).filter(k => k.includes('is_live') || k.includes('crew_is_live') || k.includes('raffle') || k.includes('pinned')).forEach(k => localStorage.removeItem(k));
+      Object.keys(localStorage).forEach(k => {
+        if (k.includes('is_live') || k.includes('crew_is_live') || k.includes('raffle') || k.includes('pinned')) {
+          localStorage.removeItem(k);
+        }
+      });
     } catch (e) { }
     // Load claimed raffle pins
     try {
@@ -674,7 +669,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {(() => {
                   const claimedPinsSet = new Set(claimedPins);
-                  return inboxMessages.filter(m => m.color === 'yellow' || m.title?.includes('Win')).map((win, i) => {
+                  return inboxMessages.flatMap((win, i) => {
+                    if (!(win.color === 'yellow' || win.title?.includes('Win'))) return [];
                     const pinMatch = win.desc?.match(/PIN: (\d+)/);
                     const pin = pinMatch ? pinMatch[1] : null;
 
@@ -685,7 +681,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       } catch { }
                     }
 
-                  return (
+                  return [(
                     <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? ' border-[var(--color-accent)]/30 opacity-60' : 'border-yellow-500/30'}  p-6 relative overflow-hidden group shadow-md`}>
                       <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                       </div>
@@ -736,7 +732,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </button>
                       </div>
                     </div>
-                  );
+                  )];
                 });
               })()}
               </div>

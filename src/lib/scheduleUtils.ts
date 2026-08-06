@@ -65,10 +65,12 @@ export function checkShiftOverlap(
  */
 export function calculateScheduledHours(crewId: string, shifts: Shift[], targetDates?: string[]): number {
   const dateSet = targetDates ? new Set(targetDates) : null;
-  return shifts
-    .filter(s => s.crewId === crewId && !s.isTimeOff && s.crewId !== 'openshifts')
-    .filter(s => (dateSet ? dateSet.has(s.date) : true))
-    .reduce((acc, s) => acc + Math.max(0, s.endHour - s.startHour), 0);
+  return shifts.reduce((acc, s) => {
+    if (s.crewId === crewId && !s.isTimeOff && s.crewId !== 'openshifts' && (!dateSet || dateSet.has(s.date))) {
+      return acc + Math.max(0, s.endHour - s.startHour);
+    }
+    return acc;
+  }, 0);
 }
 
 /**

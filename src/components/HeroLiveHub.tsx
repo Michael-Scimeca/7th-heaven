@@ -61,32 +61,32 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
   const [posts, setPosts] = useState<FeedPostDB[]>([]);
   const [selectedMedia, setSelectedMedia] = useState<FeedPostDB | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [viewerCount, setViewerCount] = useState(0);
+  const viewerCountRef = useRef(0);
   const [activeLiveRooms, setActiveLiveRooms] = useState<any[]>([]);
 
   // Notification form state
-  const [email, setEmail] = useState("");
-  const [zip, setZip] = useState("");
+  const emailRef = useRef("");
+  const zipRef = useRef("");
   const [radius, setRadius] = useState("50");
-  const [notifyStatus, setNotifyStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const notifyStatusRef = useRef<"idle" | "loading" | "success" | "error">("idle");
 
   const handleNotify = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !zip) return;
-    setNotifyStatus("loading");
+    if (!emailRef.current || !zipRef.current) return;
+    notifyStatusRef.current = "loading";
     try {
       const res = await fetch("/api/notify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, zip, radius }),
+        body: JSON.stringify({ email: emailRef.current, zip: zipRef.current, radius }),
       });
       if (res.ok) {
-        setNotifyStatus("success");
-        setEmail("");
-        setZip("");
-      } else setNotifyStatus("error");
+        notifyStatusRef.current = "success";
+        emailRef.current = "";
+        zipRef.current = "";
+      } else notifyStatusRef.current = "error";
     } catch {
-      setNotifyStatus("error");
+      notifyStatusRef.current = "error";
     }
   };
 
@@ -103,7 +103,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
         // Calculate total viewers across visible rooms
         const total = rooms.reduce((acc: number, r: any) => acc + (r.numParticipants || 0), 0);
         // If real viewers is 0 but rooms exist, show a small random number for "hype"
-        setViewerCount(total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0));
+        viewerCountRef.current = total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0);
       } catch (err) {
         console.error("Live rooms check failed", err);
       }

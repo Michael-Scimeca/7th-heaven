@@ -195,9 +195,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const visitedNodesRef = useRef<Record<number, boolean>>({});
   const [visitedNodes, setVisitedNodes] = useState<Record<number, boolean>>({});
   const hasScrolledIntoRangeRef = useRef(false);
-  const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
   const isShipInNodeProximityRef = useRef(false);
-  const [isShipInNodeProximity, setIsShipInNodeProximity] = useState(false);
+  const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const portAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -567,7 +566,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         if (isShipInNodeProximityRef.current !== inProximity) {
           isShipInNodeProximityRef.current = inProximity;
-          setIsShipInNodeProximity(inProximity);
         }
 
         shipScaleFactorRef.current = 1.0;

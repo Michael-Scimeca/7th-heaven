@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { useMember } from "@/context/MemberContext";
 
 interface Booking {
@@ -19,7 +19,7 @@ const typeLabels: Record<string, string> = {
 
 export default function PlannerClient() {
   const { member, isLoggedIn, hydrated, login, signup } = useMember();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
   const [booking, setBooking] = useState<Booking | null>(null);
   const [allBookings, setAllBookings] = useState<Booking[]>([]);
   const [notes, setNotes] = useState('');
@@ -32,8 +32,6 @@ export default function PlannerClient() {
   const [loginErr, setLoginErr] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
-
-  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const memberEmail = member?.email || (() => { try { const s = localStorage.getItem('7h_member'); return s ? JSON.parse(s).email : null; } catch { return null; } })();

@@ -519,8 +519,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     try { localStorage.setItem('7h_show_jump_nav', String(!showJumpNav)); } catch { }
   };
 
-  const [showRoleDropdown, setShowRoleDropdown] = useState(false);
-  const [customRoles, setCustomRoles] = useState<string[]>([]);
+  const customRolesRef = useRef<string[]>([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -532,19 +531,19 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           const migrated = localStorage.getItem('7h_roles_migrated_v2');
           if (!migrated) {
             const merged = Array.from(new Set([...defaultPresets, ...parsed]));
-            setCustomRoles(merged);
+            customRolesRef.current = merged;
             localStorage.setItem('7h_custom_roles', JSON.stringify(merged));
             localStorage.setItem('7h_roles_migrated_v2', 'true');
           } else {
-            setCustomRoles(parsed);
+            customRolesRef.current = parsed;
           }
         } catch (e) {
-          setCustomRoles(defaultPresets);
+          customRolesRef.current = defaultPresets;
           localStorage.setItem('7h_custom_roles', JSON.stringify(defaultPresets));
           localStorage.setItem('7h_roles_migrated_v2', 'true');
         }
       } else {
-        setCustomRoles(defaultPresets);
+        customRolesRef.current = defaultPresets;
         localStorage.setItem('7h_custom_roles', JSON.stringify(defaultPresets));
         localStorage.setItem('7h_roles_migrated_v2', 'true');
       }
@@ -553,28 +552,19 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const saveCustomRole = (role: string) => {
     const trimmed = role.trim().toUpperCase();
-    if (!trimmed || customRoles.includes(trimmed)) return;
-    const next = [...customRoles, trimmed];
-    setCustomRoles(next);
+    if (!trimmed || customRolesRef.current.includes(trimmed)) return;
+    const next = [...customRolesRef.current, trimmed];
+    customRolesRef.current = next;
     try { localStorage.setItem('7h_custom_roles', JSON.stringify(next)); } catch { }
   };
 
   const deleteCustomRole = (role: string) => {
-    const next = customRoles.filter(r => r !== role);
-    setCustomRoles(next);
+    const next = customRolesRef.current.filter(r => r !== role);
+    customRolesRef.current = next;
     try { localStorage.setItem('7h_custom_roles', JSON.stringify(next)); } catch { }
   };
 
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      const container = document.getElementById('role-suggest-container');
-      if (container && !container.contains(e.target as Node)) {
-        setShowRoleDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
+
 
   useEffect(() => {
     const handleTourDropdownOutside = (e: MouseEvent) => {
@@ -724,7 +714,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const [editingShiftId, setEditingShiftId] = useState<string | null>(null);
   const [calendarView, setCalendarView] = useState<'timeline' | 'roster' | 'list'>('roster');
-  const [showEligibleCoverageList, setShowEligibleCoverageList] = useState(false);
   const [onlyShowFitRole, setOnlyShowFitRole] = useState<boolean>(true);
   const [calendarRange, setCalendarRange] = useState<'week' | '4weeks' | 'month'>('week');
   const [selectedCrewAssignments, setSelectedCrewAssignments] = useState<{ [crewId: string]: { active: boolean; customized?: boolean; role: string; startHour: number; endHour: number; timeFrames?: { id?: string; startHour: number; endHour: number; role: string; tags?: string[] }[] } }>({});
@@ -794,7 +783,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [cellGroupPopover, setCellGroupPopover] = useState<string | null>(null);
   const [showGroupsSubmenu, setShowGroupsSubmenu] = useState<string | null>(null);
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
-  const [createGroupForDate, setCreateGroupForDate] = useState<string | null>(null);
+  const createGroupForDateRef = useRef<string | null>(null);
   const [newGroupNameInput, setNewGroupNameInput] = useState('');
   const [newGroupMemberSettings, setNewGroupMemberSettings] = useState<{ [crewId: string]: { active: boolean; role?: string; startHour?: number; endHour?: number; timeFrames?: { startHour: number; endHour: number; role: string }[] } }>({});
   const [groupNameError, setGroupNameError] = useState('');
@@ -834,8 +823,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     { startHour: 12, endHour: 17, role: 'SERVER', tags: [] }
   ]);
   const [isFilteringRoles, setIsFilteringRoles] = useState(false);
-  const [dropLocation, setDropLocation] = useState<string>('');
-  const [dropNotes, setDropNotes] = useState<string>('');
+  const dropLocationRef = useRef<string>('');
+  const dropNotesRef = useRef<string>('');
   const supabase = createClient();
   //  Collapsible Sections (persisted via localStorage & Supabase) 
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
@@ -1155,11 +1144,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   //  Memoized Schedule Calculations for Performance 
   const crewMembers = useMemo(() => {
-    const dynamicCrew = users
-      .filter(u => u.role === 'crew')
-      .map(u => {
-        const initials = u.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-        return {
+    const dynamicCrew = users.flatMap(u => {
+      if (u.role !== 'crew') return [];
+      const initials = u.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+        return [{
           id: u.id,
           name: u.name,
           role: u.duty || 'Crew Member',
@@ -1169,7 +1157,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           initials: initials || 'C',
           color: getAvatarColor(u.name),
           avatar: u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=random`
-        };
+        }];
       });
 
     const processedStatic = STATIC_CREW.map(sc => {
@@ -1298,9 +1286,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const crewWithShifts = useMemo(() => {
     return new Set(
-      schedules
-        .filter(s => next7Days.some(d => d.dateStr === s.date) && s.crewId !== 'openshifts')
-        .map(s => s.crewId)
+      schedules.flatMap(s => (next7Days.some(d => d.dateStr === s.date) && s.crewId !== 'openshifts') ? [s.crewId] : [])
     );
   }, [schedules, next7Days]);
 
@@ -1408,9 +1394,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     };
 
     return crewMembers
-      .filter(m => m.id !== 'openshifts')
-      .map(m => ({ ...m, hours: getHoursForPeriod(m.id) }))
-      .filter(m => m.hours > 0)
+      .flatMap(m => {
+        if (m.id === 'openshifts') return [];
+        const hours = getHoursForPeriod(m.id);
+        if (hours <= 0) return [];
+        return [{ ...m, hours }];
+      })
       .sort((a, b) => b.hours - a.hours);
   }, [crewMembers, schedules, leaderboardPeriod, currentWeekStart, next7Days]);
 
@@ -1434,16 +1423,16 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       return current;
     });
   }, []);
-  const [syncLoading, setSyncLoading] = useState(false);
-  const [syncResult, setSyncResult] = useState<any>(null);
+  const syncLoadingRef = useRef(false);
+  const syncResultRef = useRef<any>(null);
 
   const handleSyncTourDates = async () => {
-    setSyncLoading(true);
-    setSyncResult(null);
+    syncLoadingRef.current = true;
+    syncResultRef.current = null;
     try {
       const res = await fetch("/api/sync-shows", { method: "POST" });
       const data = await res.json();
-      setSyncResult(data);
+      syncResultRef.current = data;
 
       if (data.success) {
         const tourRes = await fetch("/api/tour");
@@ -1480,9 +1469,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }, ...prev]);
       }
     } catch (err: any) {
-      setSyncResult({ success: false, error: err.message || "Network error" });
+      syncResultRef.current = { success: false, error: err.message || "Network error" };
     } finally {
-      setSyncLoading(false);
+      syncLoadingRef.current = false;
     }
   };
 
@@ -1490,7 +1479,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [memoryQueue, setMemoryQueue] = useState<any[]>([]);
 
   const moderateMemory = async (id: string, action: 'approve' | 'reject') => {
-    setMemoryQueue(current => current.filter(m => m.id !== id));
+    setMemoryQueue(prev => prev.filter(m => m.id !== id));
     try {
       await fetch('/api/fans/memories', {
         method: 'PATCH',
@@ -1504,23 +1493,23 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
 
   // Featured Track State
-  const [activeFeaturedTrack, setActiveFeaturedTrack] = useState<any>(null);
-  const [trackTitle, setTrackTitle] = useState(''); // Serves as Drop / Album Name
-  const [dropSongs, setDropSongs] = useState<{ title: string; file: File | null }[]>([{ title: '', file: null }]);
+  const activeFeaturedTrackRef = useRef<any>(null);
+  const trackTitleRef = useRef(''); // Serves as Drop / Album Name
+  const dropSongsRef = useRef<{ title: string; file: File | null }[]>([{ title: '', file: null }]);
   const [trackVisibility, setTrackVisibility] = useState<'everyone' | 'fans'>('everyone');
   const [trackDurationType, setTrackDurationType] = useState<'indefinite' | 'temporary'>('indefinite');
   const [trackDurationHours, setTrackDurationHours] = useState('24');
   const [trackCustomExpiresAt, setTrackCustomExpiresAt] = useState('');
   const [trackCompression, setTrackCompression] = useState<'superb' | 'standard' | 'high' | 'none'>('standard');
   const [trackNormalize, setTrackNormalize] = useState(true);
-  const [uploadingTrack, setUploadingTrack] = useState(false);
-  const [trackUploadError, setTrackUploadError] = useState('');
-  const [trackUploadSuccess, setTrackUploadSuccess] = useState(false);
+  const uploadingTrackRef = useRef(false);
+  const trackUploadErrorRef = useRef('');
+  const trackUploadSuccessRef = useRef(false);
 
   // Global Announcement State
   const [bannerActive, setBannerActive] = useState(false);
   const [bannerText, setBannerText] = useState('');
-  const [bannerLink, setBannerLink] = useState('');
+  const bannerLinkRef = useRef('');
   const [bannerExpiresAt, setBannerExpiresAt] = useState<string | null>(null);
   const [bannerUpdating, setBannerUpdating] = useState(false);
 
@@ -1555,7 +1544,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [newCrewUsername, setNewCrewUsername] = useState('');
   const [createdCrew, setCreatedCrew] = useState<{ name: string; email: string; password: string; phone: string; username: string } | null>(null);
   const [crewError, setCrewError] = useState('');
-  const [crewLoading, setCrewLoading] = useState(false);
+  const crewLoadingRef = useRef(false);
   const [viewingUser, setViewingUser] = useState<string | null>(null);
   const registryRef = useRef<HTMLElement>(null);
   const loggedStreamIds = useRef<Set<string>>(new Set());
@@ -1582,7 +1571,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   };
 
   // Fan Analytics
-  const [fanData, setFanData] = useState<any>(null);
+  const fanDataRef = useRef<any>(null);
 
   // Google Analytics Mock Data
   const [gaData, setGaData] = useState<any>({
@@ -1667,8 +1656,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [presetRoles, setPresetRoles] = useState<string[]>([]);
   const [isManageRolesModalOpen, setIsManageRolesModalOpen] = useState(false);
   const [newPresetRoleInput, setNewPresetRoleInput] = useState('');
-  const [crewAutoReminders, setCrewAutoReminders] = useState(true);
-  const [crewAutoRemindersHours, setCrewAutoRemindersHours] = useState(24);
+
 
   // New Embedded Broadcast states
   const [smsSelectedShowDate, setSmsSelectedShowDate] = useState<string>('');
@@ -1692,7 +1680,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [bandEmailSubject, setBandEmailSubject] = useState<string>('');
 
   // Show Broadcast Alert Modal State
-  const [broadcastModal, setBroadcastModal] = useState<{
+  const broadcastModalRef = useRef<{
     isOpen: boolean;
     dateStr: string;
     showName: string;
@@ -1715,18 +1703,18 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     sendEmail: true,
     rolesSummary: []
   });
-  const [broadcastSending, setBroadcastSending] = useState(false);
-  const [broadcastResult, setBroadcastResult] = useState<string | null>(null);
+  const broadcastSendingRef = useRef(false);
+  const broadcastResultRef = useRef<string | null>(null);
   const [emailPreviewTab, setEmailPreviewTab] = useState<'edit' | 'preview'>('preview');
 
   const handleSendBroadcast = async () => {
-    setBroadcastSending(true);
-    setBroadcastResult(null);
+    broadcastSendingRef.current = true;
+    broadcastResultRef.current = null;
     try {
-      const { assignedCrew, smsMessage, emailSubject, emailBody, sendSms, sendEmail, showName } = broadcastModal;
+      const { assignedCrew, smsMessage, emailSubject, emailBody, sendSms, sendEmail, showName } = broadcastModalRef.current;
 
-      const phones = assignedCrew.map(c => c.phone).filter(p => p && p.length > 0);
-      const emails = assignedCrew.map(c => c.email).filter(e => e && e.length > 0);
+      const phones = assignedCrew.flatMap(c => c.phone ? [c.phone] : []);
+      const emails = assignedCrew.flatMap(c => c.email ? [c.email] : []);
 
       let smsStatus = '';
       let emailStatus = '';
@@ -1764,7 +1752,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         emailStatus = `Emails sent to ${emails.length} crew. `;
       }
 
-      setBroadcastResult(`Success! ${smsStatus}${emailStatus}`);
+      broadcastResultRef.current = `Success! ${smsStatus}${emailStatus}`;
       setAuditLog(prev => [{
         id: crypto.randomUUID(),
         text: ` Sent broadcast to ${showName} crew (SMS: ${sendSms ? phones.length : 0}, Email: ${sendEmail ? emails.length : 0})`,
@@ -1779,13 +1767,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       }, ...prev]);
 
       setTimeout(() => {
-        setBroadcastModal(prev => ({ ...prev, isOpen: false }));
-        setBroadcastResult(null);
+        broadcastModalRef.current = { ...broadcastModalRef.current, isOpen: false };
+        broadcastResultRef.current = null;
       }, 2000);
     } catch (err: any) {
-      setBroadcastResult(`Error: ${err.message}`);
+      broadcastResultRef.current = `Error: ${err.message}`;
     } finally {
-      setBroadcastSending(false);
+      broadcastSendingRef.current = false;
     }
   };
 
@@ -1929,9 +1917,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const show = tourDates.find((s: any) => s.date === bandSmsSelectedShowDate);
     const combined = getBandRecipientsCombined();
     const selectedBandPhonesSet = new Set(selectedBandPhones);
-    const sentToNames = combined
-      .filter(b => selectedBandPhonesSet.has(normalizePhoneNumber(b.phone)))
-      .map(b => b.name);
+    const sentToNames = combined.flatMap(b => selectedBandPhonesSet.has(normalizePhoneNumber(b.phone)) ? [b.name] : []);
 
     try {
       const res = await fetch('/api/admin/crew-alert', {
@@ -1990,18 +1976,18 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   // Cruise Itinerary Builder
   type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
   type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };
-  const [itinerary, setItinerary] = useState<ItineraryDay[]>([]);
-  const [itineraryUpdating, setItineraryUpdating] = useState(false);
-  const [itinerarySaveStatus, setItinerarySaveStatus] = useState<'saved' | 'error' | null>(null);
+  const itineraryRef = useRef<ItineraryDay[]>([]);
+  const itineraryUpdatingRef = useRef(false);
+  const itinerarySaveStatusRef = useRef<'saved' | 'error' | null>(null);
 
   // Cruise Chat Pin
-  const [cruiseChatPin, setCruiseChatPin] = useState('');
-  const [cruiseChatPinUpdating, setCruiseChatPinUpdating] = useState(false);
-  const [cruiseChatPinSaveStatus, setCruiseChatPinSaveStatus] = useState<'saved' | 'error' | null>(null);
+  const cruiseChatPinRef = useRef('');
+  const cruiseChatPinUpdatingRef = useRef(false);
+  const cruiseChatPinSaveStatusRef = useRef<'saved' | 'error' | null>(null);
 
   // Cruise Chat Enable/Disable
-  const [cruiseChatEnabled, setCruiseChatEnabled] = useState(true);
-  const [cruiseChatToggling, setCruiseChatToggling] = useState(false);
+  const cruiseChatEnabledRef = useRef(true);
+  const cruiseChatTogglingRef = useRef(false);
 
   // Admin Live Chat Feed
   type AdminChatMsg = { id: string; sender_name: string; sender_role: string; sender_avatar: string; content: string; created_at: string; };
@@ -2012,9 +1998,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const adminChatContainerRef = useRef<HTMLDivElement>(null);
 
   // Cruise Important Links
-  const [importantLinks, setImportantLinks] = useState<{ title: string, url: string, icon: string }[]>([]);
-  const [linksUpdating, setLinksUpdating] = useState(false);
-  const [linksSaveStatus, setLinksSaveStatus] = useState<'saved' | 'error' | null>(null);
+  const importantLinksRef = useRef<{ title: string, url: string, icon: string }[]>([]);
+  const linksUpdatingRef = useRef(false);
+  const linksSaveStatusRef = useRef<'saved' | 'error' | null>(null);
 
   // Cruise Stats
   const [cruiseStats, setCruiseStats] = useState<{ total: number; adults: number; children: number; signups: number; recentSignups: { name: string; email: string; phone: string; date: string; partySize: number }[] }>({ total: 0, adults: 0, children: 0, signups: 0, recentSignups: [] });
@@ -2041,7 +2027,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const createCrew = async () => {
     if (!newCrewName || !newCrewEmail || !newCrewPassword) return;
     if (newCrewPassword.length < 6) { setCrewError('Password must be at least 6 characters.'); return; }
-    setCrewLoading(true);
+    crewLoadingRef.current = true;
     setCrewError('');
     setCreatedCrew(null);
     const savedName = newCrewName;
@@ -2057,46 +2043,22 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       setNewCrewPassword('');
       setNewCrewPhone('');
       setNewCrewUsername('');
-
-      // Also save to localStorage so crew can login via the standard modal
-      const accounts = JSON.parse(localStorage.getItem('7h_accounts') || '{}');
-      accounts[savedEmail.toLowerCase()] = {
-        id: crypto.randomUUID(),
-        name: savedName,
-        email: savedEmail.toLowerCase(),
-        password: savedPassword,
-        phone: savedPhone,
-        joinDate: new Date().toISOString(),
-        avatar: savedName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2),
-        points: 0,
-        tier: 'Bronze',
-        showsAttended: 0,
-        favoriteVenues: [],
-        notificationsEnabled: false,
-        notificationRadius: 25,
-        role: 'crew',
-      };
-      localStorage.setItem('7h_accounts', JSON.stringify(accounts));
-
-      const { data: profilesData } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
-      if (profilesData) {
-        setUsers(profilesData.map((p: any) => ({
-          id: p.id,
-          name: p.full_name || p.email || 'Anonymous',
-          email: p.email || '',
-          phone: p.phone || '',
-          role: p.role,
-          duty: p.crew_duty || null,
-          status: 'active',
-          strikes: 0,
-          avatar: p.avatar_url || p.profile_photo_url || null
-        })));
+      const newMem = (res as any).newMember;
+      if (newMem) {
+        setUsers(prev => [newMem, ...prev]);
+        try {
+          const stored = localStorage.getItem('7h_members');
+          const arr = stored ? JSON.parse(stored) : [];
+          localStorage.setItem('7h_members', JSON.stringify([newMem, ...arr]));
+        } catch { }
+      } else {
+        setUsers(prev => prev.map((m: any) => m.email === savedEmail ? { ...m, role: 'crew' } : m));
       }
       setFilterRole('crew');
     } else {
       setCrewError(res.error || 'Failed to create crew member.');
     }
-    setCrewLoading(false);
+    crewLoadingRef.current = false;
   };
 
   const scrollToRegistry = () => {
@@ -2113,7 +2075,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       .then(data => {
         setBannerActive(data.isActive);
         setBannerText(data.text || '');
-        setBannerLink(data.link || '');
+        bannerLinkRef.current = data.link || '';
         setBannerExpiresAt(data.expiresAt || null);
       })
       .catch(() => { });
@@ -2147,8 +2109,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     fetch(`/api/cruise/chat-pin`)
       .then(res => res.json())
       .then(data => {
-        if (data?.pin) setCruiseChatPin(data.pin);
-        if (data?.chatEnabled !== undefined) setCruiseChatEnabled(data.chatEnabled);
+        if (data?.pin) cruiseChatPinRef.current = data.pin;
+        if (data?.chatEnabled !== undefined) cruiseChatEnabledRef.current = data.chatEnabled;
       })
       .catch(() => { });
 
@@ -2190,7 +2152,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       .then(res => res.json())
       .then(data => {
         if (data.links && Array.isArray(data.links)) {
-          setImportantLinks(data.links);
+          importantLinksRef.current = data.links;
         }
       })
       .catch(() => { });
@@ -2214,17 +2176,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           attempts++;
         }
         if (Array.isArray(actualData) && actualData.length > 0) {
-          setItinerary(actualData);
+          itineraryRef.current = actualData;
         } else {
           // Default empty state or fallback template
-          setItinerary([
+          itineraryRef.current = [
             {
               id: 'day1', dayLabel: 'Day 1', location: 'Miami, FL', theme: 'Embarkation', colorTheme: 'var(--color-accent)', events: [
                 { id: 'e1', time: '15:00', title: 'Welcome Aboard Party', subtitle: 'Lido Deck Poolside' },
                 { id: 'e2', time: '20:00', title: 'Main Stage Kickoff', subtitle: 'Starlight Theater' }
               ]
             }
-          ]);
+          ];
         }
       })
       .catch(() => { });
@@ -2294,7 +2256,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const { data: profilesData } = await supabase
         .from('profiles').select('*').order('created_at', { ascending: false });
       if (profilesData) {
-        setUsers(profilesData.map((p: any) => ({
+        setUsers(profilesData.flatMap((p: any) => [{
           id: p.id,
           name: p.full_name || 'Anonymous',
           email: p.email || '',
@@ -2304,7 +2266,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           status: 'active',
           strikes: 0,
           avatar: p.avatar_url || p.profile_photo_url || null
-        })));
+        }]));
       }
 
 
@@ -2419,7 +2381,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       // Load Fan Analytics
       try {
         const fanRes = await fetch('/api/admin/fans');
-        if (fanRes.ok) setFanData(await fanRes.json());
+        if (fanRes.ok) fanDataRef.current = await fanRes.json();
       } catch { }
 
       // Load Crew Alert Stats
@@ -2443,11 +2405,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           const autoBlastDays = settings.find((s: any) => s.key === 'sms_auto_blast_days');
           if (autoBlast) setSmsAutoBlast(autoBlast.value !== 'off');
           if (autoBlastDays) setSmsAutoBlastDays(parseInt(autoBlastDays.value, 10) || 3);
-
-          const crewReminders = settings.find((s: any) => s.key === 'crew_auto_reminders');
-          const crewRemindersHours = settings.find((s: any) => s.key === 'crew_auto_reminders_hours');
-          if (crewReminders) setCrewAutoReminders(crewReminders.value !== 'off');
-          if (crewRemindersHours) setCrewAutoRemindersHours(parseInt(crewRemindersHours.value, 10) || 24);
         }
       } catch { }
 
@@ -2457,9 +2414,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         if (trackRes.ok) {
           const trackData = await trackRes.json();
           if (trackData.track) {
-            setActiveFeaturedTrack(trackData.track);
+            activeFeaturedTrackRef.current = trackData.track;
           } else {
-            setActiveFeaturedTrack(null);
+            activeFeaturedTrackRef.current = null;
           }
         }
       } catch (err) {
@@ -2495,14 +2452,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     }
   }, [adminChatMessages]);
 
-  const [chatRate, setChatRate] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => {
-      const chatLog = JSON.parse(localStorage.getItem('7h_global_chat_history') || '[]');
-      setChatRate(chatLog.length);
-    }, 2000);
-    return () => clearInterval(t);
-  }, []);
+
 
   // Initialize and synchronize preset roles
   useEffect(() => {
@@ -2622,7 +2572,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setActiveFeaturedTrack(null);
+        activeFeaturedTrackRef.current = null;
         setAuditLog(prev => [{
           id: crypto.randomUUID(),
           text: " Closed featured song/track.",
@@ -2637,27 +2587,27 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const handleUploadTrack = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!trackTitle || dropSongs.length === 0) return;
+    if (!trackTitleRef.current || dropSongsRef.current.length === 0) return;
 
-    const hasIncomplete = dropSongs.some(s => !s.title || !s.file);
+    const hasIncomplete = dropSongsRef.current.some(s => !s.title || !s.file);
     if (hasIncomplete) {
-      setTrackUploadError('Please provide a song title and select an audio file for all tracks.');
+      trackUploadErrorRef.current = 'Please provide a song title and select an audio file for all tracks.';
       return;
     }
 
-    setUploadingTrack(true);
-    setTrackUploadError('');
-    setTrackUploadSuccess(false);
+    uploadingTrackRef.current = true;
+    trackUploadErrorRef.current = '';
+    trackUploadSuccessRef.current = false;
 
     try {
       const formData = new FormData();
-      formData.append('title', trackTitle);
+      formData.append('title', trackTitleRef.current);
       formData.append('visibility', trackVisibility);
       formData.append('compression', trackCompression);
       formData.append('normalize', String(trackNormalize));
 
       // Append multiple songs
-      dropSongs.forEach((song, idx) => {
+      dropSongsRef.current.forEach((song, idx) => {
         if (song.file) {
           formData.append(`audio_${idx}`, song.file);
           formData.append(`title_${idx}`, song.title);
@@ -2684,10 +2634,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
       const data = await res.json();
       if (res.ok && data.success) {
-        setTrackUploadSuccess(true);
-        setActiveFeaturedTrack(data.track);
-        setTrackTitle('');
-        setDropSongs([{ title: '', file: null }]);
+        trackUploadSuccessRef.current = true;
+        activeFeaturedTrackRef.current = data.track;
+        trackTitleRef.current = '';
+        dropSongsRef.current = [{ title: '', file: null }];
         try {
           (e.target as HTMLFormElement).reset();
         } catch { }
@@ -2699,12 +2649,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           color: "bg-emerald-500"
         }, ...prev]);
       } else {
-        setTrackUploadError(data.error || 'Upload failed');
+        trackUploadErrorRef.current = data.error || 'Upload failed';
       }
     } catch (err: any) {
-      setTrackUploadError(err.message || 'Network error during upload');
+      trackUploadErrorRef.current = err.message || 'Network error during upload';
     } finally {
-      setUploadingTrack(false);
+      uploadingTrackRef.current = false;
     }
   };
 
@@ -2714,119 +2664,108 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     setBannerUpdating(true);
     setBannerSaveStatus(null);
     try {
-      await fetch('/api/announcement', {
+      const payload = {
+        active: overrides?.isActive !== undefined ? overrides.isActive : bannerActive,
+        text: bannerText,
+        linkUrl: bannerLinkRef.current,
+        expiresAt: overrides?.expiresAt !== undefined ? overrides.expiresAt : bannerExpiresAt,
+      };
+
+      const res = await fetch('/api/announcement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          isActive: overrides?.isActive ?? bannerActive,
-          text: bannerText,
-          link: bannerLink,
-          expiresAt: overrides?.expiresAt !== undefined ? overrides.expiresAt : bannerExpiresAt,
-        })
+        body: JSON.stringify(payload),
       });
-      setBannerSaveStatus('saved');
-      setTimeout(() => setBannerSaveStatus(null), 3000);
-    } catch (e) {
+
+      if (res.ok) {
+        if (overrides?.isActive !== undefined) setBannerActive(overrides.isActive);
+        setBannerSaveStatus('saved');
+        setTimeout(() => setBannerSaveStatus(null), 3000);
+      } else {
+        setBannerSaveStatus('error');
+        setTimeout(() => setBannerSaveStatus(null), 4000);
+      }
+    } catch {
       setBannerSaveStatus('error');
       setTimeout(() => setBannerSaveStatus(null), 4000);
+    } finally {
+      setBannerUpdating(false);
     }
-    setBannerUpdating(false);
-  };
-
-  const updateCruiseMessage = async (msgOverride?: string) => {
-    const rawMessage = msgOverride !== undefined ? msgOverride : cruiseMessage;
-    const finalMessage = cleanWysiwygHtml(rawMessage);
-    setCruiseUpdating(true);
-    setCruiseSaveStatus(null);
-    try {
-      await fetch('/api/cruise/announcement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: finalMessage, subject: cruiseBlastSubject })
-      });
-      setCruiseMessage(finalMessage);
-      setCruiseSaveStatus('saved');
-      setTimeout(() => setCruiseSaveStatus(null), 3000);
-    } catch (e) {
-      setCruiseSaveStatus('error');
-      setTimeout(() => setCruiseSaveStatus(null), 4000);
-    }
-    setCruiseUpdating(false);
   };
 
   const updateItinerary = async (newItin: ItineraryDay[]) => {
-    setItineraryUpdating(true);
-    setItinerarySaveStatus(null);
+    itineraryUpdatingRef.current = true;
+    itinerarySaveStatusRef.current = null;
     try {
       await fetch('/api/cruise/itinerary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ itinerary: newItin })
       });
-      setItinerary(newItin);
-      setItinerarySaveStatus('saved');
-      setTimeout(() => setItinerarySaveStatus(null), 3000);
+      itineraryRef.current = newItin;
+      itinerarySaveStatusRef.current = 'saved';
+      setTimeout(() => itinerarySaveStatusRef.current = null, 3000);
     } catch (e) {
-      setItinerarySaveStatus('error');
-      setTimeout(() => setItinerarySaveStatus(null), 4000);
+      itinerarySaveStatusRef.current = 'error';
+      setTimeout(() => itinerarySaveStatusRef.current = null, 4000);
     }
-    setItineraryUpdating(false);
+    itineraryUpdatingRef.current = false;
   };
 
-  const updateCruiseChatPin = async (msgOverride?: string) => {
-    const finalMessage = msgOverride !== undefined ? msgOverride : cruiseChatPin;
-    setCruiseChatPinUpdating(true);
-    setCruiseChatPinSaveStatus(null);
+  const updateCruiseMessage = async (msgOverride?: string) => {
+    const finalMessage = msgOverride !== undefined ? msgOverride : cruiseChatPinRef.current;
+    cruiseChatPinUpdatingRef.current = true;
+    cruiseChatPinSaveStatusRef.current = null;
     try {
       await fetch('/api/cruise/chat-pin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: finalMessage })
       });
-      if (msgOverride !== undefined) setCruiseChatPin(msgOverride);
-      setCruiseChatPinSaveStatus('saved');
-      setTimeout(() => setCruiseChatPinSaveStatus(null), 3000);
+      if (msgOverride !== undefined) cruiseChatPinRef.current = msgOverride;
+      cruiseChatPinSaveStatusRef.current = 'saved';
+      setTimeout(() => cruiseChatPinSaveStatusRef.current = null, 3000);
     } catch (e) {
-      setCruiseChatPinSaveStatus('error');
-      setTimeout(() => setCruiseChatPinSaveStatus(null), 4000);
+      cruiseChatPinSaveStatusRef.current = 'error';
+      setTimeout(() => cruiseChatPinSaveStatusRef.current = null, 4000);
     } finally {
-      setCruiseChatPinUpdating(false);
+      cruiseChatPinUpdatingRef.current = false;
     }
   };
 
   const toggleCruiseChat = async () => {
-    const newVal = !cruiseChatEnabled;
-    setCruiseChatToggling(true);
+    const newVal = !cruiseChatEnabledRef.current;
+    cruiseChatTogglingRef.current = true;
     try {
       await fetch('/api/cruise/chat-pin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chatEnabled: newVal }),
       });
-      setCruiseChatEnabled(newVal);
+      cruiseChatEnabledRef.current = newVal;
     } catch {
       // revert on failure
     } finally {
-      setCruiseChatToggling(false);
+      cruiseChatTogglingRef.current = false;
     }
   };
 
   const updateImportantLinks = async () => {
-    setLinksUpdating(true);
-    setLinksSaveStatus(null);
+    linksUpdatingRef.current = true;
+    linksSaveStatusRef.current = null;
     try {
       await fetch('/api/cruise/important-links', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ links: importantLinks })
+        body: JSON.stringify({ links: importantLinksRef.current })
       });
-      setLinksSaveStatus('saved');
-      setTimeout(() => setLinksSaveStatus(null), 3000);
+      linksSaveStatusRef.current = 'saved';
+      setTimeout(() => linksSaveStatusRef.current = null, 3000);
     } catch {
-      setLinksSaveStatus('error');
-      setTimeout(() => setLinksSaveStatus(null), 4000);
+      linksSaveStatusRef.current = 'error';
+      setTimeout(() => linksSaveStatusRef.current = null, 4000);
     } finally {
-      setLinksUpdating(false);
+      linksUpdatingRef.current = false;
     }
   };
 
@@ -4198,7 +4137,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         </div>
         <div className="flex items-center gap-3">
           <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[0.6rem] uppercase font-bold tracking-widest flex items-center gap-2 text-white/40">
-            {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).length} Planners
+            {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).length} Planners
           </span>
           <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('planners') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
@@ -4212,7 +4151,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
           ) : (
             <div className="space-y-3 p-4 md:p-6">
-              {Array.from(new Map(bookings.filter(b => b.email).map(b => [b.email, b])).values()).map((planner: any) => (
+              {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
                 <div key={planner.email} className="bg-black/20 border border-white/5 p-4 hover:border-[var(--color-accent)]/50 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex items-center gap-4 min-w-[240px]">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-sm font-black  text-[var(--color-accent)] shrink-0 border border-[var(--color-accent)]/20">
@@ -5014,9 +4953,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           email: r.email
         };
       }),
-      ...staticCrew.filter(sc => !recipients.some(r => r.id === sc.id) && isNotBandOnlyMember(sc.name, sc.email)).map(sc => {
+      ...staticCrew.flatMap(sc => {
+        if (!(!recipients.some(r => r.id === sc.id) && isNotBandOnlyMember(sc.name, sc.email))) return [];
         const customDuty = localDuties[sc.id] !== undefined ? localDuties[sc.id] : null;
-        return {
+        return [{
           id: sc.id,
           name: sc.name,
           phone: sc.phone,
@@ -5024,7 +4964,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           role: customDuty || sc.role || 'CREW',
           avatar: resolveMemberAvatar(sc.name, sc.avatar),
           email: sc.email
-        };
+        }];
       })
     ];
 
@@ -5054,13 +4994,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       const group = crewGroups.find(g => g.name === groupName);
       if (group) {
         const memberIds = allCrewCombined
-          .filter(r =>
+          .flatMap(r =>
             group.memberIds.some(mId =>
               mId === r.id ||
               mId.toLowerCase() === (r.name || '').toLowerCase()
-            )
-          )
-          .map(r => r.id);
+            ) ? [r.id] : []
+          );
         setSelectedCrewPhones(memberIds);
       }
     };
@@ -5074,11 +5013,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
       const selectedCrewPhonesSet = new Set(selectedCrewPhones);
       const memberIds = allCrewCombined
-        .filter(r => {
+        .flatMap(r => {
           const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-          return selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
-        })
-        .map(r => r.id);
+          return (selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false)) ? [r.id] : [];
+        });
 
       if (memberIds.length === 0) {
         setNewSmsGroupError('Please select at least one crew member.');
@@ -6157,14 +6095,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const bandShowTimeTarget = bandShowTarget ? (bandShowTarget.time || '8:00pm') : undefined;
 
     const selectedBandPhonesSetForPreview = new Set(selectedBandPhones);
-    const checkedBandRecipientsList = allBandCombined.filter(c => selectedBandPhonesSetForPreview.has(normalizePhoneNumber(c.phone))).map(r => ({
-      name: r.name,
-      phone: r.phone || '(555) 234-5678',
-      email: r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`,
-      avatar: r.avatar || '',
-      role: r.role || 'BAND MEMBER',
-      hours: '5:00 PM - 10:00 PM'
-    }));
+    const checkedBandRecipientsList = allBandCombined.flatMap(c => {
+      if (!selectedBandPhonesSetForPreview.has(normalizePhoneNumber(c.phone))) return [];
+      return [{
+        name: c.name,
+        phone: c.phone || '(555) 234-5678',
+        email: c.email || `${c.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`,
+        avatar: c.avatar || '',
+        role: c.role || 'BAND MEMBER',
+        hours: '5:00 PM - 10:00 PM'
+      }];
+    });
 
     const bandEmailHtmlPreview = crewSmsDispatchedAlert({
       message: bandAlertMsg || 'Hey band, reminder for our upcoming show. Load-in is 2 hours before.',
@@ -6635,7 +6576,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               <button
                 disabled={blastSending || !blastSubject.trim() || !blastBody.trim()}
                 onClick={async () => {
-                  if (!confirm(`Send this email to ALL ${fanData?.total || 0} fans?`)) return;
+                  if (!confirm(`Send this email to ALL ${fanDataRef.current?.total || 0} fans?`)) return;
                   setBlastSending(true);
                   setBlastResult(null);
                   try {
@@ -7330,7 +7271,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const renderCruiseSignups = () => {
     const signups = cruiseStats.recentSignups || [];
-    const allEmails = signups.filter((s: any) => s.email).map((s: any) => s.email);
+    const allEmails = signups.flatMap((s: any) => s.email ? [s.email] : []);
     const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
     const allSelected = allEmails.length > 0 && allEmails.every((e: string) => cruiseSelectedEmailsSet.has(e));
 
@@ -7680,8 +7621,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               endHour: tf.endHour,
               time: formatTimeFrame(tf.startHour, tf.endHour),
               role: tf.role.toUpperCase(),
-              location: dropLocation,
-              notes: dropNotes,
+              location: dropLocationRef.current,
+              notes: dropNotesRef.current,
               tags: tf.tags || []
             };
             updated.push(newItem);
@@ -7706,8 +7647,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               endHour: tf.endHour,
               time: formatTimeFrame(tf.startHour, tf.endHour),
               role: tf.role.toUpperCase(),
-              location: dropLocation,
-              notes: dropNotes,
+              location: dropLocationRef.current,
+              notes: dropNotesRef.current,
               tags: tf.tags || []
             };
             updated.push(newItem);
@@ -7725,8 +7666,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               endHour: tf.endHour,
               time: formatTimeFrame(tf.startHour, tf.endHour),
               role: tf.role.toUpperCase(),
-              location: dropLocation,
-              notes: dropNotes,
+              location: dropLocationRef.current,
+              notes: dropNotesRef.current,
               tags: tf.tags || []
             };
             updated.push(newItem);
@@ -8140,12 +8081,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       if (dayShow) {
         const venueName = dayShow.venue || dayShow.venue_name || '';
         const cityStr = dayShow.city ? `${dayShow.city}, ${dayShow.state || 'IL'}` : '';
-        setDropLocation(cityStr ? `${venueName} at ${cityStr}` : venueName);
+        dropLocationRef.current = cityStr ? `${venueName} at ${cityStr}` : venueName;
       } else {
-        setDropLocation('');
+        dropLocationRef.current = '';
       }
 
-      setDropNotes('');
+      dropNotesRef.current = '';
       setEditingShiftId(null);
 
       // Load existing shifts for this crew member on this day if any
@@ -8214,15 +8155,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
     const handleEditShiftClick = (shift: any) => {
       setDrawerCrewSearch('');
-      setShowEligibleCoverageList(false);
       setEditingShiftId(shift.id);
       setDraggedCrewMemberId(shift.crewId);
       setActiveDropDay(shift.date);
       setDropStartHour(shift.startHour);
       setDropEndHour(shift.endHour);
       setDropRole(shift.role);
-      setDropLocation(shift.location);
-      setDropNotes(shift.notes);
+      dropLocationRef.current = shift.location;
+      dropNotesRef.current = shift.notes;
 
       // Load only the specific shift being edited into the drawer
       let loadedTimeFrames = [{ id: shift.id, startHour: shift.startHour, endHour: shift.endHour, role: shift.role, tags: shift.tags || [] }];
@@ -8376,14 +8316,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </span>
                   ))
                 ) : null}
-                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !STANDARD_ROLE_TAGS_SET.has(t.toUpperCase())).map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {shift.tags && shift.tags.length > 0 && shift.tags.flatMap((tag: string) => {
+                  if (tag === shift.role || STANDARD_ROLE_TAGS_SET.has(tag.toUpperCase())) return [];
+                  return [(
+                    <span
+                      key={tag}
+                      className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
+                    >
+                      {tag}
+                    </span>
+                  )];
+                })}
               </div>
             </div>
           ) : (
@@ -8411,14 +8354,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </span>
                   ))
                 ) : null}
-                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !STANDARD_ROLE_TAGS_SET.has(t.toUpperCase())).map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {shift.tags && shift.tags.length > 0 && shift.tags.flatMap((tag: string) => {
+                  if (tag === shift.role || STANDARD_ROLE_TAGS_SET.has(tag.toUpperCase())) return [];
+                  return [(
+                    <span
+                      key={tag}
+                      className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
+                    >
+                      {tag}
+                    </span>
+                  )];
+                })}
                 {shift.isCoverageRequested && (
                   <span className="px-1 py-0.2 rounded-[2px] text-[5.5px] font-black uppercase tracking-wider leading-none bg-red-500/20 border border-red-500/35 text-red-300 animate-pulse">
                     ⏳ Coverage
@@ -8755,9 +8701,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setCreateGroupForDate(day.dateStr);
+                                createGroupForDateRef.current = day.dateStr;
                                 const initialSettings: any = {};
-                                crewMembers.filter(m => m.id !== 'openshifts').forEach(m => {
+                                crewMembers.forEach(m => {
+                                  if (m.id === 'openshifts') return;
                                   initialSettings[m.id] = {
                                     active: false,
                                     role: m.role || 'SERVER',
@@ -10771,7 +10718,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     <button
                       onClick={() => {
                         setIsCreateGroupModalOpen(false);
-                        setCreateGroupForDate(null);
+                        createGroupForDateRef.current = null;
                       }}
                       className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
                     >
@@ -10996,7 +10943,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       type="button"
                       onClick={() => {
                         setIsCreateGroupModalOpen(false);
-                        setCreateGroupForDate(null);
+                        createGroupForDateRef.current = null;
                       }}
                       className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                     >
@@ -11028,12 +10975,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                         setCrewGroups(current => [...current, newGroup]);
 
-                        if (createGroupForDate) {
-                          handleAddGroupToDay(createGroupForDate, newGroup);
+                        if (createGroupForDateRef.current) {
+                          handleAddGroupToDay(createGroupForDateRef.current, newGroup);
                         }
 
                         setIsCreateGroupModalOpen(false);
-                        setCreateGroupForDate(null);
+                        createGroupForDateRef.current = null;
                       }}
                       className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/20 disabled:text-white/30 text-black font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-[0_0_20px_rgba(16,185,129,0.2)]"
                     >

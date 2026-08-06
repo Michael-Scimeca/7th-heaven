@@ -20,7 +20,6 @@ import {
 
 export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
   // --- Auth State ---
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState('');
   const [userId, setUserId] = useState('');
@@ -33,7 +32,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   // --- Work Schedule State ---
   const [crewSchedules, setCrewSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; isDraft?: boolean; approvalStatus?: 'pending' | 'approved' | 'declined'; declineReason?: string; isCoverageRequested?: boolean }[]>([]);
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
-  const [decliningShiftId, setDecliningShiftId] = useState<string | null>(null);
+  const decliningShiftIdRef = useRef<string | null>(null);
   const [declineReason, setDeclineReason] = useState('');
   const [tourDates, setTourDates] = useState<any[]>([]);
   const [activeScheduleTab, setActiveScheduleTab] = useState<'my_schedule' | 'tour_events'>('my_schedule');
@@ -745,7 +744,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // --- Stream State ---
   const [isLive, setIsLive] = useState(false);
-  const [streamTitle, setStreamTitle] = useState('');
+  const streamTitleRef = useRef('');
   const [viewerCount, setViewerCount] = useState(0);
   const [toggling, setToggling] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
@@ -1093,9 +1092,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const rafflePrizes = [{ name: raffleQueue[activeQueueIndex]?.name || '', qty: raffleQueue[activeQueueIndex]?.qty || 1 }];
 
   // --- Flash Drop State ---
-  const [inventoryQty, setInventoryQty] = useState(15);
+  const inventoryQtyRef = useRef(15);
   const [shopifyProducts, setShopifyProducts] = useState<any[]>([]);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const selectedProductIdRef = useRef<string | null>(null);
   const [selectedProducts, setSelectedProducts] = useState<Array<{
     id: string;
     title: string;
@@ -1169,10 +1168,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const bcRef = useRef<BroadcastChannel | null>(null);
 
   // --- Global Announcement Banner State ---
-  const [bannerActive, setBannerActive] = useState(false);
-  const [bannerText, setBannerText] = useState('');
-  const [bannerLink, setBannerLink] = useState('');
-  const [bannerUpdating, setBannerUpdating] = useState(false);
+  const bannerActiveRef = useRef(false);
+  const bannerTextRef = useRef('');
+  const bannerLinkRef = useRef('');
+  const bannerUpdatingRef = useRef(false);
 
   useEffect(() => {
     // Seed identity for demo member pages (e.g. /crew-sam)
@@ -1191,17 +1190,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     fetch('/api/announcement')
       .then(res => res.json())
       .then(data => {
-        setBannerActive(data.isActive);
-        setBannerText(data.text || '');
-        setBannerLink(data.link || '');
+        bannerActiveRef.current = data.isActive;
+        bannerTextRef.current = data.text || '';
+        bannerLinkRef.current = data.link || '';
       })
       .catch(() => { });
 
     getProducts().then(products => {
       setShopifyProducts(products);
       if (products.length > 0) {
-        setSelectedProductId(products[0].id);
-        setInventoryQty(products[0].quantityAvailable || 15);
+        selectedProductIdRef.current = products[0].id;
+        inventoryQtyRef.current = products[0].quantityAvailable || 15;
         const initialPrice = products[0].variants?.edges?.[0]?.node?.price?.amount || '45.00';
         setSelectedProducts([
           {
@@ -1221,7 +1220,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.displayName || 'Crew';
-        setIsAuthenticated(true);
         setUserId(session.user.id);
         setDisplayName(name);
         setEmail(session.user.email || '');
@@ -1235,7 +1233,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         try {
           const parsed = JSON.parse(storedMember);
           if (parsed.role === 'crew' || parsed.role === 'admin') {
-            setIsAuthenticated(true);
             setUserId(parsed.id || 'crew');
             setDisplayName(parsed.name || 'Crew');
             setEmail(parsed.email || '');
@@ -1250,7 +1247,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         const stored = localStorage.getItem('7h_member');
         const parsed = stored ? JSON.parse(stored) : null;
 
-        setIsAuthenticated(true);
         setUserId(parsed?.id || 'michael');
         setDisplayName(parsed?.name || 'Michael Scimeca');
         setEmail(parsed?.email || 'michael@7thheaven.com');
@@ -1289,7 +1285,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         if (data && !error) {
           // Stream IS live — load chat
           setIsLive(true);
-          setStreamTitle(data.title || '');
+          streamTitleRef.current = data.title || '';
           localStorage.setItem(LS('is_live'), 'true');
 
           try {
@@ -1651,7 +1647,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds') || '[]');
       customFeeds.unshift({
         id: 'LWeA2cE8YlI',
-        title: streamTitle || `${userId || 'Crew'} Broadcast Demo`,
+        title: streamTitleRef.current || `${userId || 'Crew'} Broadcast Demo`,
         year: new Date().getFullYear(),
         duration: formatTime(elapsed),
         description: `7th heaven Live Crew Broadcast Archive (Test Run)`,
@@ -1693,18 +1689,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       localStorage.removeItem(LS('crew_is_live'));
     }
     localStorage.setItem(LS('is_live'), nextState.toString());
-    localStorage.setItem(LS('stream_title'), streamTitle);
+    localStorage.setItem(LS('stream_title'), streamTitleRef.current);
 
     // BroadcastChannel: sync stream state to the fan page tab (FakeLiveStream)
     if (bcRef.current) {
-      bcRef.current.postMessage({ type: 'STREAM_STATE', payload: { isLive: nextState, title: streamTitle, userId } });
+      bcRef.current.postMessage({ type: 'STREAM_STATE', payload: { isLive: nextState, title: streamTitleRef.current, userId } });
     }
 
     // Supabase Realtime broadcast (best-effort, non-blocking)
     supabase.channel('live_events').send({
       type: 'broadcast',
       event: 'stream_state',
-      payload: { isLive: nextState, title: streamTitle, userId }
+      payload: { isLive: nextState, title: streamTitleRef.current, userId }
     }).catch(() => { });
 
     // ═══════════════════════════════════════════════════════════════════
@@ -1733,7 +1729,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         const { data: newStream, error: insertErr } = await supabase
           .from('live_streams')
           .insert({
-            title: `${displayName} — ${streamTitle || 'Crew Broadcast'}`,
+            title: `${displayName} — ${streamTitleRef.current || 'Crew Broadcast'}`,
             status: 'live',
             viewer_count: 0,
           })
@@ -1805,12 +1801,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   };
 
   const syncStreamTitle = () => {
-    localStorage.setItem(LS('stream_title'), streamTitle);
+    localStorage.setItem(LS('stream_title'), streamTitleRef.current);
     if (isLive) {
       supabase.channel('live_events').send({
         type: 'broadcast',
         event: 'stream_state',
-        payload: { isLive, title: streamTitle, userId }
+        payload: { isLive, title: streamTitleRef.current, userId }
       });
     }
   };
@@ -1848,9 +1844,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       rawTitles = title.split(/[\n\r,;]+/);
     }
 
-    const cleanTitles = rawTitles
-      .map(t => t.trim())
-      .filter(t => t.length > 0);
+    const cleanTitles = rawTitles.flatMap(t => {
+      const trimmed = t.trim();
+      return trimmed.length > 0 ? [trimmed] : [];
+    });
 
     if (cleanTitles.length === 0) return;
 
@@ -1885,7 +1882,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     });
   };
 
-  const [activeRaffleId, setActiveRaffleId] = useState<string | null>(null);
+  const activeRaffleIdRef = useRef<string | null>(null);
 
   const syncRaffle = async (status: any, entrants: any, min: number, prizes: any, winners: any, winnerPins?: string[]) => {
     const state = {
@@ -1917,15 +1914,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         ...(status === 'complete' ? { completed_at: new Date().toISOString() } : {}),
       };
 
-      if (activeRaffleId) {
-        await supabase.from('raffles').update(raffleData).eq('id', activeRaffleId);
+      if (activeRaffleIdRef.current) {
+        await supabase.from('raffles').update(raffleData).eq('id', activeRaffleIdRef.current);
       } else if (status === 'open') {
         const { data } = await supabase.from('raffles').insert(raffleData).select('id').single();
-        if (data) setActiveRaffleId(data.id);
+        if (data) activeRaffleIdRef.current = data.id;
       }
 
       if (status === 'idle' || status === 'complete') {
-        setActiveRaffleId(null);
+        activeRaffleIdRef.current = null;
       }
     } catch (e) {
       console.error('[Raffle] Supabase sync failed, localStorage is still active:', e);
@@ -2396,26 +2393,26 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   };
 
   const updateGlobalBanner = async () => {
-    setBannerUpdating(true);
+    bannerUpdatingRef.current = true;
     try {
       await fetch('/api/announcement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isActive: bannerActive, text: bannerText, link: bannerLink })
+        body: JSON.stringify({ isActive: bannerActiveRef.current, text: bannerTextRef.current, link: bannerLinkRef.current })
       });
       alert('Global Announcement Banner Updated!');
     } catch (e) {
       alert('Failed to update banner.');
     }
-    setBannerUpdating(false);
+    bannerUpdatingRef.current = false;
   };
 
   if (isLoading) return <div className="min-h-screen bg-[#f0f2f5]" />;
 
-  const activeProduct = shopifyProducts.find(p => p.id === selectedProductId) || shopifyProducts[0];
+  const activeProduct = shopifyProducts.find(p => p.id === selectedProductIdRef.current) || shopifyProducts[0];
   const pName = activeProduct?.title || '7TH HEAVEN HOODIE 2026';
   const pPrice = activeProduct ? activeProduct.variants.edges[0].node.price.amount : '45.00';
-  const pStock = activeProduct ? (activeProduct.quantityAvailable || 0) : inventoryQty;
+  const pStock = activeProduct ? (activeProduct.quantityAvailable || 0) : inventoryQtyRef.current;
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
@@ -3923,7 +3920,7 @@ Reason for decline: ${shift.declineReason || ''}
                                         <button
                                           type="button"
                                           onClick={() => {
-                                            setDecliningShiftId(shift.id);
+                                            decliningShiftIdRef.current = shift.id;
                                             setIsDeclineModalOpen(true);
                                           }}
                                           className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer font-bold"
@@ -4326,7 +4323,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   type="button"
                   onClick={() => {
                     setIsDeclineModalOpen(false);
-                    setDecliningShiftId(null);
+                    decliningShiftIdRef.current = null;
                     setDeclineReason('');
                   }}
                   className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors"
@@ -4337,11 +4334,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   type="button"
                   disabled={!declineReason.trim()}
                   onClick={() => {
-                    if (decliningShiftId) {
-                      handleShiftResponse(decliningShiftId, 'declined', declineReason);
+                    if (decliningShiftIdRef.current) {
+                      handleShiftResponse(decliningShiftIdRef.current, 'declined', declineReason);
                     }
                     setIsDeclineModalOpen(false);
-                    setDecliningShiftId(null);
+                    decliningShiftIdRef.current = null;
                     setDeclineReason('');
                   }}
                   className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
@@ -4856,10 +4853,9 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       { id: 'ryan', name: 'Ryan K' },
                       { id: 'tony', name: 'Tony M' }
                     ]
-                      .filter(m => m.id !== slug)
-                      .map(m => (
+                      .flatMap(m => m.id !== slug ? [
                         <option key={m.id} value={m.id}>{m.name}</option>
-                      ))}
+                      ] : [])}
                   </select>
                 </div>
               )}

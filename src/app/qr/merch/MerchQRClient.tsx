@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 export type MerchProduct = {
@@ -145,7 +145,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeOrder, setActiveOrder] = useState<OrderRecord | null>(null);
-  const [savedOrders, setSavedOrders] = useState<OrderRecord[]>([]);
+  const savedOrdersRef = useRef<OrderRecord[]>([]);
 
   // Modal to switch from pickup to shipping post-purchase
   const [showSwitchToShippingModal, setShowSwitchToShippingModal] = useState(false);
@@ -162,7 +162,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       const existing = localStorage.getItem("7h_qr_merch_orders");
       if (existing) {
         const parsed: OrderRecord[] = JSON.parse(existing);
-        setSavedOrders(parsed);
+        savedOrdersRef.current = parsed;
         if (parsed.length > 0) {
           setActiveOrder(parsed[0]);
         }
@@ -213,8 +213,8 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
     };
 
     // Save order locally
-    const updatedOrders = [newOrder, ...savedOrders];
-    setSavedOrders(updatedOrders);
+    const updatedOrders = [newOrder, ...savedOrdersRef.current];
+    savedOrdersRef.current = updatedOrders;
     setActiveOrder(newOrder);
     localStorage.setItem("7h_qr_merch_orders", JSON.stringify(updatedOrders));
 
@@ -247,7 +247,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
     e.preventDefault();
     if (!switchOrderTarget || !street || !city || !state || !zip) return;
 
-    const updated = savedOrders.map(order => {
+    const updated = savedOrdersRef.current.map(order => {
       if (order.id === switchOrderTarget.id) {
         return {
           ...order,
@@ -259,7 +259,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       return order;
     });
 
-    setSavedOrders(updated);
+    savedOrdersRef.current = updated;
     if (activeOrder?.id === switchOrderTarget.id) {
       setActiveOrder({
         ...activeOrder,

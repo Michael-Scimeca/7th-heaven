@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     }
 
     // Filter out empty song entries and sanitize
-    const cleanSongs = (songs || []).filter((s: string) => s.trim()).map((s: string) => sanitizeName(s, 200));
+    const cleanSongs = (songs || []).flatMap((s: string) => s.trim() ? [sanitizeName(s, 200)] : []);
 
     const { data, error } = await supabase
       .from('setlist_requests')

@@ -52,20 +52,20 @@ export default function MediaPage() {
   };
 
   // Filter categories based on active filter and search
-  const displayCategories = categories
-    .filter(cat => !activeFilter || cat.category === activeFilter)
-    .map(cat => {
-      if (!searchQuery.trim()) return cat;
-      const q = searchQuery.toLowerCase();
-      return {
-        ...cat,
-        videos: cat.videos.filter(v =>
-          v.title.toLowerCase().includes(q) ||
-          (v.description && v.description.toLowerCase().includes(q))
-        ),
-      };
-    })
-    .filter(cat => cat.videos.length > 0);
+  const displayCategories = categories.flatMap(cat => {
+    if (activeFilter && cat.category !== activeFilter) return [];
+    if (!searchQuery.trim()) return [cat];
+    const q = searchQuery.toLowerCase();
+    const filteredVideos = cat.videos.filter(v =>
+      v.title.toLowerCase().includes(q) ||
+      (v.description && v.description.toLowerCase().includes(q))
+    );
+    if (filteredVideos.length === 0) return [];
+    return [{
+      ...cat,
+      videos: filteredVideos,
+    }];
+  });
 
   return (
     <div className="min-h-screen">

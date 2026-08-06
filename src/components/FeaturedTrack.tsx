@@ -13,7 +13,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
-  const [prevVolume, setPrevVolume] = useState(0.8);
+  const prevVolumeRef = useRef(0.8);
   const [isCompressorActive, setIsCompressorActive] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [showPlaylist, setShowPlaylist] = useState(false);
@@ -219,10 +219,10 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
   const toggleMute = () => {
     if (volume > 0) {
-      setPrevVolume(volume);
+      prevVolumeRef.current = volume;
       setVolume(0);
     } else {
-      setVolume(prevVolume > 0 ? prevVolume : 0.8);
+      setVolume(prevVolumeRef.current > 0 ? prevVolumeRef.current : 0.8);
     }
   };
 

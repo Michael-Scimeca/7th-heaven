@@ -2,7 +2,7 @@
 import Image from 'next/image';
 
 import { useMember, tierColors } from "@/context/MemberContext";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
@@ -62,18 +62,18 @@ const tierThresholds = [
 
 export default function MemberDashboard() {
   const { member, logout, isLoggedIn, openModal, updateLocation, toggleNotifications, setNotificationRadius: setRadius } = useMember();
-  const [geoStatus, setGeoStatus] = useState<"idle" | "loading" | "granted" | "denied">("idle");
+  const geoStatusRef = useRef<"idle" | "loading" | "granted" | "denied">("idle");
 
   // SMS Alert form state
-  const [smsName, setSmsName] = useState("");
+  const smsNameRef = useRef("");
   const [smsZip, setSmsZip] = useState("");
   const [smsPhone, setSmsPhone] = useState("");
   const [smsConsent, setSmsConsent] = useState(false);
-  const [smsStatus, setSmsStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [smsMessage, setSmsMessage] = useState("");
+  const smsStatusRef = useRef<"idle" | "sending" | "success" | "error">("idle");
+  const smsMessageRef = useRef("");
   const [unsubPhone, setUnsubPhone] = useState("");
-  const [unsubStatus, setUnsubStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [unsubMessage, setUnsubMessage] = useState("");
+  const unsubStatusRef = useRef<"idle" | "sending" | "success" | "error">("idle");
+  const unsubMessageRef = useRef("");
 
   // Fan Authored Photos State
   const [myPhotos, setMyPhotos] = useState<any[]>([]);
@@ -113,28 +113,28 @@ export default function MemberDashboard() {
 
   // Pre-fill name from member
   useEffect(() => {
-    if (member?.name && !smsName) setSmsName(member.name);
-  }, [member?.name, smsName]);
+    if (member?.name && !smsNameRef.current) smsNameRef.current = member.name;
+  }, [member?.name]);
 
   const handleSubscribe = async () => {
-    if (!smsConsent) { setSmsStatus("error"); setSmsMessage("You must agree to the terms first."); return; }
-    if (!smsPhone || !smsZip) { setSmsStatus("error"); setSmsMessage("Phone and zip code are required."); return; }
-    setSmsStatus("sending");
+    if (!smsConsent) { smsStatusRef.current = "error"; smsMessageRef.current = "You must agree to the terms first."; return; }
+    if (!smsPhone || !smsZip) { smsStatusRef.current = "error"; smsMessageRef.current = "Phone and zip code are required."; return; }
+    smsStatusRef.current = "sending";
     try {
       const res = await fetch("/api/sms/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: smsName, zip: smsZip, phone: smsPhone }),
+        body: JSON.stringify({ name: smsNameRef.current, zip: smsZip, phone: smsPhone }),
       });
       const data = await res.json();
-      if (res.ok) { setSmsStatus("success"); setSmsMessage(data.message); }
-      else { setSmsStatus("error"); setSmsMessage(data.error || "Failed to subscribe."); }
-    } catch { setSmsStatus("error"); setSmsMessage("Network error. Try again."); }
+      if (res.ok) { smsStatusRef.current = "success"; smsMessageRef.current = data.message; }
+      else { smsStatusRef.current = "error"; smsMessageRef.current = data.error || "Failed to subscribe."; }
+    } catch { smsStatusRef.current = "error"; smsMessageRef.current = "Network error. Try again."; }
   };
 
   const handleUnsubscribe = async () => {
-    if (!unsubPhone) { setUnsubStatus("error"); setUnsubMessage("Enter your phone number."); return; }
-    setUnsubStatus("sending");
+    if (!unsubPhone) { unsubStatusRef.current = "error"; unsubMessageRef.current = "Enter your phone number."; return; }
+    unsubStatusRef.current = "sending";
     try {
       const res = await fetch("/api/sms/unsubscribe", {
         method: "POST",
@@ -142,39 +142,43 @@ export default function MemberDashboard() {
         body: JSON.stringify({ phone: unsubPhone }),
       });
       const data = await res.json();
-      if (res.ok) { setUnsubStatus("success"); setUnsubMessage(data.message); }
-      else { setUnsubStatus("error"); setUnsubMessage(data.error || "Failed to unsubscribe."); }
-    } catch { setUnsubStatus("error"); setUnsubMessage("Network error. Try again."); }
+      if (res.ok) { unsubStatusRef.current = "success"; unsubMessageRef.current = data.message; }
+      else { unsubStatusRef.current = "error"; unsubMessageRef.current = data.error || "Failed to unsubscribe."; }
+    } catch { unsubStatusRef.current = "error"; unsubMessageRef.current = "Network error. Try again."; }
   };
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    if (member?.location) { setGeoStatus("granted"); return; }
+    if (member?.location) { geoStatusRef.current = "granted"; return; }
   }, [isLoggedIn, member?.location]);
 
   const requestLocation = () => {
-    setGeoStatus("loading");
+    geoStatusRef.current = "loading";
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         updateLocation(pos.coords.latitude, pos.coords.longitude);
-        setGeoStatus("granted");
+        geoStatusRef.current = "granted";
       },
-      () => setGeoStatus("denied"),
+      () => { geoStatusRef.current = "denied"; },
       { enableHighAccuracy: true }
     );
   };
 
   const nearbyShows = useMemo(() => {
     if (!member?.location) return [];
+    const radius = member.notificationRadius;
+    const { lat, lng } = member.location;
     return showVenues
-      .map((v) => ({ ...v, distance: getDistance(member.location!.lat, member.location!.lng, v.lat, v.lng) }))
-      .filter((v) => v.distance <= member.notificationRadius)
+      .flatMap((v) => {
+        const distance = getDistance(lat, lng, v.lat, v.lng);
+        return distance <= radius ? [{ ...v, distance }] : [];
+      })
       .sort((a, b) => a.distance - b.distance);
   }, [member?.location, member?.notificationRadius]);
 
   // Not logged in
   if (!isLoggedIn) {
-    const isSignup = geoStatus === "idle" || geoStatus === "loading" || geoStatus === "denied" || geoStatus === "granted"; // Just a hack to force a state or we can use a local state
+    const isSignup = true;
     // We need a proper local state for this form.
     return (
       <section className="py-20 min-h-[calc(100vh-72px)] flex items-center justify-center">

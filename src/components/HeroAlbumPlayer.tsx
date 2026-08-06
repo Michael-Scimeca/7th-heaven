@@ -24,7 +24,6 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
   const [duration, setDuration] = useState("3:45");
-  const [audioError, setAudioError] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -47,10 +46,8 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
     } else {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
-        setAudioError(false);
       }).catch((err) => {
         console.warn("Audio autoplay blocked or file missing:", err);
-        setAudioError(true);
         setIsPlaying(false);
       });
     }
@@ -93,7 +90,6 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
         src={audioSrc}
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => setIsPlaying(false)}
-        onError={() => setAudioError(true)}
       />
 
       {/* Header Tag */}

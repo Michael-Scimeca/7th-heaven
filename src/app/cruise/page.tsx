@@ -219,7 +219,6 @@ export default function CruisePage() {
     } catch { }
   }, [formData]);
 
-  const [activeAnchor, setActiveAnchor] = useState("book-now");
   const [portLayoutMode, setPortLayoutMode] = useState<"grid" | "spotlight" | "carousel" | "list">("grid");
   const [activeSpotlightPort, setActiveSpotlightPort] = useState<number>(0);
   const portCarouselRef = useRef<HTMLDivElement>(null);
@@ -234,27 +233,7 @@ export default function CruisePage() {
     }
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["book-now", "itinerary", "bands-ports", "pricing", "ship-explorer", "faqs"];
-      const scrollPosition = window.scrollY + 350; // Offset for highlights
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveAnchor(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);

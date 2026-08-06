@@ -114,7 +114,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const mobilePathRef = useRef<SVGPathElement>(null);
 
-  const [desktopProgress, setDesktopProgress] = useState(0);
   const [desktopPathLength, setDesktopPathLength] = useState(0);
 
   const [mobileProgress, setMobileProgress] = useState(0);
@@ -472,7 +471,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     const tick = () => {
       if (Math.abs(desktopRaw - desktopSmoothed) > 0.0001) {
         desktopSmoothed += (desktopRaw - desktopSmoothed) * LERP;
-        setDesktopProgress(desktopSmoothed);
         latestProgressRef.current = desktopSmoothed;
         updateShipPositionRef.current(desktopSmoothed);
       }

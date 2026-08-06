@@ -114,7 +114,7 @@ export default function AudioPlayerSection() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
-  const [prevVolume, setPrevVolume] = useState(0.8);
+  const prevVolumeRef = useRef(0.8);
   const [showLyrics, setShowLyrics] = useState(false);
   const [eqBarProps] = useState(() =>
     [...Array(24)].map(() => ({
@@ -179,10 +179,10 @@ export default function AudioPlayerSection() {
 
   const toggleMute = () => {
     if (volume > 0) {
-      setPrevVolume(volume);
+      prevVolumeRef.current = volume;
       setVolume(0);
     } else {
-      setVolume(prevVolume > 0 ? prevVolume : 0.8);
+      setVolume(prevVolumeRef.current > 0 ? prevVolumeRef.current : 0.8);
     }
   };
 
@@ -286,11 +286,14 @@ export default function AudioPlayerSection() {
   };
 
   const cleanTitle = (str: string) => str.replace(/^\d+\s*/, '').replace(/\.mp3$/i, '').replace(/&apos;/gi, "'").replace(/&amp;/gi, "&");  // Memoized search results across 700+ songs
-  const searchResults = searchQuery.trim()
+  const q = searchQuery.toLowerCase().trim();
+  const searchResults = q
     ? albums.flatMap((album, albumIdx) =>
-      album.tracks
-        .map((track, trackIdx) => ({ track, trackIdx, album, albumIdx }))
-        .filter(({ track }) => track.title.toLowerCase().includes(searchQuery.toLowerCase().trim()))
+      album.tracks.flatMap((track, trackIdx) =>
+        track.title.toLowerCase().includes(q)
+          ? [{ track, trackIdx, album, albumIdx }]
+          : []
+      )
     )
     : [];
 

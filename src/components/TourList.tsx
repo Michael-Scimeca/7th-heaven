@@ -257,14 +257,7 @@ interface TourListProps {
 
 export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
   const { member, isLoggedIn, openModal } = useMember();
-  const isFan = isLoggedIn && member?.email && (member?.role === 'fan' || member?.role === 'admin');
-  // devBypass: false on SSR, updated client-side after mount to avoid hydration mismatch.
-  const [devBypass, setDevBypass] = useState(false);
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      setDevBypass(localStorage.getItem('7h_dev_bypass') === 'true');
-    }
-  }, []);
+  const isFan = !member || member.role === "fan";
   const [showPastShows, setShowPastShows] = useState(false);
   const [activeMonth, setActiveMonth] = useState("All");
   const [activeType, setActiveType] = useState("All");
@@ -349,7 +342,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [formCover, setFormCover] = useState("");
   const [formTicketLink, setFormTicketLink] = useState("");
   const [formDirectionsLink, setFormDirectionsLink] = useState("");
-  const [formIsSoldOut, setFormIsSoldOut] = useState(false);
+  const formIsSoldOutRef = useRef(false);
   const [formIsFestival, setFormIsFestival] = useState(false);
   const [formIsPrivate, setFormIsPrivate] = useState(false);
   const [formNotes, setFormNotes] = useState("");
@@ -371,7 +364,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormCover(show.cover || "");
       setFormTicketLink(show.ticketLink || "");
       setFormDirectionsLink(show.directionsLink || "");
-      setFormIsSoldOut(show.isSoldOut || false);
+      formIsSoldOutRef.current = show.isSoldOut || false;
       setFormIsFestival(show.isFestival || false);
       setFormIsPrivate(show.isPrivate || false);
       setFormNotes(show.notes || "");
@@ -404,7 +397,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormCover("");
       setFormTicketLink("");
       setFormDirectionsLink("");
-      setFormIsSoldOut(false);
+      formIsSoldOutRef.current = false;
       setFormIsFestival(false);
       setFormIsPrivate(false);
       setFormNotes("");
@@ -451,7 +444,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       cover: formCover,
       ticketLink: formTicketLink.trim(),
       directionsLink: formDirectionsLink.trim(),
-      isSoldOut: formIsSoldOut,
+      isSoldOut: formIsSoldOutRef.current,
       isFestival: formIsFestival,
       isPrivate: formIsPrivate,
       notes: formNotes.trim(),

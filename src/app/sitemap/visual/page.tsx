@@ -303,11 +303,12 @@ export default function VisualSitemapPage() {
             {/* Column 0: Public Entry Pages */}
             <div className="space-y-3">
               <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-cyan-400/60 mb-4 pb-2 border-b border-cyan-500/10">🌐 Public Pages</h2>
-              {pages.filter(p => p.col === 0).map(page => {
+              {pages.flatMap(page => {
+                if (page.col !== 0) return [];
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
                 const isHovered = hoveredId === page.id;
-                return (
+                return [(
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
@@ -338,18 +339,19 @@ export default function VisualSitemapPage() {
                       </div>
                     </div>
                   </div>
-                );
+                )];
               })}
             </div>
 
             {/* Column 1: Conversion / Functional Pages */}
             <div className="space-y-3">
               <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-cyan-400/60 mb-4 pb-2 border-b border-cyan-500/10">🎯 Conversion Pages</h2>
-              {pages.filter(p => p.col === 1).map(page => {
+              {pages.flatMap(page => {
+                if (page.col !== 1) return [];
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
                 const isHovered = hoveredId === page.id;
-                return (
+                return [(
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
@@ -378,18 +380,19 @@ export default function VisualSitemapPage() {
                       </div>
                     </div>
                   </div>
-                );
+                )];
               })}
             </div>
 
             {/* Column 2: Authenticated Dashboards */}
             <div className="space-y-3">
               <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-4 pb-2 border-b border-white/10">📊 Dashboards</h2>
-              {pages.filter(p => p.col === 2).map(page => {
+              {pages.flatMap(page => {
+                if (page.col !== 2) return [];
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
                 const isHovered = hoveredId === page.id;
-                return (
+                return [(
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
@@ -418,18 +421,19 @@ export default function VisualSitemapPage() {
                       </div>
                     </div>
                   </div>
-                );
+                )];
               })}
             </div>
 
             {/* Column 3: Admin Tools & Email Templates */}
             <div className="space-y-3">
               <h2 className="text-[0.65rem] font-black uppercase tracking-[0.2em] text-purple-300/60 mb-4 pb-2 border-b border-purple-500/10">📧 Admin & Email Tools</h2>
-              {pages.filter(p => p.col === 3).map(page => {
+              {pages.flatMap(page => {
+                if (page.col !== 3) return [];
                 const style = categoryStyles[page.category];
                 const connected = isConnected(page.id);
                 const isHovered = hoveredId === page.id;
-                return (
+                return [(
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
@@ -458,7 +462,7 @@ export default function VisualSitemapPage() {
                       </div>
                     </div>
                   </div>
-                );
+                )];
               })}
             </div>
           </div>

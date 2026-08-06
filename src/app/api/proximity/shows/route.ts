@@ -79,15 +79,16 @@ export async function GET(req: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
 
-    const nearbyShows = (shows || []).filter((show) => {
-      if (!show.latitude || !show.longitude) return false;
+    const nearbyShows = (shows || []).flatMap((show) => {
+      if (!show.latitude || !show.longitude) return [];
       const dist = haversine(userLat!, userLng!, show.latitude, show.longitude);
-      return dist <= radius;
-    }).map((show) => ({
-      ...show,
-      distanceMiles: Math.round(haversine(userLat!, userLng!, show.latitude, show.longitude)),
-      showPageUrl: `${baseUrl}/shows/${show.id}`,
-    }));
+      if (dist > radius) return [];
+      return [{
+        ...show,
+        distanceMiles: Math.round(dist),
+        showPageUrl: `${baseUrl}/shows/${show.id}`,
+      }];
+    });
 
     return NextResponse.json({ shows: nearbyShows });
   } catch (e) {

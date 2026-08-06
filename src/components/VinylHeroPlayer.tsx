@@ -231,7 +231,6 @@ export default function VinylHeroPlayer({
   const [activeTrackIdx, setActiveTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTracklist, setShowTracklist] = useState(false);
-  const [audioError, setAudioError] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
   const [duration, setDuration] = useState("0:00");
@@ -278,7 +277,6 @@ export default function VinylHeroPlayer({
     const url = currentAlbum.tracks[trackIdx]?.audioUrl;
     if (!url) return;
     setActiveTrackIdx(trackIdx);
-    setAudioError(false);
     setProgress(0);
     setCurrentTime("0:00");
     if (audioRef.current) {
@@ -292,7 +290,6 @@ export default function VinylHeroPlayer({
     if (!url) return;
     setActiveTrackIdx(trackIdx);
     setIsPlaying(true);
-    setAudioError(false);
     setProgress(0);
     setCurrentTime("0:00");
     if (audioRef.current) {
@@ -300,7 +297,7 @@ export default function VinylHeroPlayer({
       audioRef.current.load();
       audioRef.current.play()
         .then(() => setIsPlaying(true))
-        .catch(() => { setIsPlaying(false); setAudioError(true); });
+        .catch(() => { setIsPlaying(false); });
     }
   };
 
@@ -311,11 +308,9 @@ export default function VinylHeroPlayer({
       setIsPlaying(false);
     } else {
       setIsPlaying(true);
-      setAudioError(false);
       audioRef.current.play()
         .catch((err) => {
           console.warn("Audio play failed:", err);
-          setAudioError(true);
         });
     }
   };
@@ -436,7 +431,6 @@ export default function VinylHeroPlayer({
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={nextTrack}
-          onError={() => setAudioError(true)}
         />
 
         {/* ── SWIPER VINYL DISC SLIDER ── */}

@@ -1,7 +1,7 @@
 "use client";
 import Image from 'next/image';
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore, useRef } from "react";
 import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -70,7 +70,7 @@ export default function ShowPageClient({
   const [goingFilter, setGoingFilter] = useState<"all" | "going" | "there">("all");
   const [wantAnonymous, setWantAnonymous] = useState(false);
   const [liveFeeds, setLiveFeeds] = useState<LiveFeed[]>([]);
-  const [autoRsvpDone, setAutoRsvpDone] = useState(false);
+  const autoRsvpDoneRef = useRef(false);
 
   // ── Notify Me Next Time States ──────────────────────────────────
   const [notifyEmail, setNotifyEmail] = useState("");
@@ -109,13 +109,13 @@ export default function ShowPageClient({
 
   // ── Auto-RSVP from ?rsvp=going|there SMS link ──────────────────
   useEffect(() => {
-    if (autoRsvpDone) return;
+    if (autoRsvpDoneRef.current) return;
     const params = new URLSearchParams(window.location.search);
     const rsvpParam = params.get("rsvp");
     if (rsvpParam !== "going" && rsvpParam !== "there") return;
 
     if (isLoggedIn) {
-      setAutoRsvpDone(true);
+      autoRsvpDoneRef.current = true;
       fetch("/api/proximity/attendees", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -128,7 +128,7 @@ export default function ShowPageClient({
     } else {
       openModal("login");
     }
-  }, [isLoggedIn, autoRsvpDone, show.id, openModal]);
+  }, [isLoggedIn, show.id, openModal]);
 
   const myAttendee = attendees.find((a) => a.profiles?.id === member?.id);
   const isGoing = !!myAttendee;
@@ -147,10 +147,11 @@ export default function ShowPageClient({
     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue_name} ${show.city} ${show.state}`)}`;
 
   // shareUrl: use a safe default on SSR, update to real URL after hydration
-  const [shareUrl, setShareUrl] = useState(`https://7thheavenband.com/shows/${show.id}`);
-  useEffect(() => {
-    setShareUrl(window.location.href);
-  }, []);
+  const shareUrl = useSyncExternalStore(
+    () => () => {},
+    () => window.location.href,
+    () => `https://7thheavenband.com/shows/${show.id}`
+  );
 
   // ── Live feed polling ────────────────────────────────────────────
   const checkLiveFeeds = useCallback(async () => {

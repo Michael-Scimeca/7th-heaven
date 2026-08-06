@@ -23,7 +23,6 @@ export function Header() {
   const { mode, pendingHref } = useTransition();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isCrewLive, setIsCrewLive] = useState(false);
   const [hasLiveStreams, setHasLiveStreams] = useState(false);
   const { member, isLoggedIn, openModal, logout } = useMember();
 
@@ -88,12 +87,7 @@ export function Header() {
     };
   }, []);
 
-  useEffect(() => {
-    const check = () => setIsCrewLive(localStorage.getItem("crew_is_live") === "true");
-    check();
-    const interval = setInterval(check, 1000);
-    return () => clearInterval(interval);
-  }, []);
+
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);

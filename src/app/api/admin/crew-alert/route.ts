@@ -343,29 +343,26 @@ export async function GET() {
       return true;
     };
 
-    const validProfiles = (allProfiles || [])
-      .filter(p => isNotBandOnlyMember(p.full_name, p.email))
-      .filter(p => p.phone?.replace(/\D/g, '').length >= 10);
+    const recipients = (allProfiles || []).flatMap(p => {
+      if (!isNotBandOnlyMember(p.full_name, p.email)) return [];
+      const digits = p.phone ? p.phone.replace(/\D/g, '') : '';
+      const e164 = digits.length >= 10 ? (digits.length === 10 ? `+1${digits}` : `+${digits}`) : '';
+      return [{
+        id: p.id,
+        name: p.full_name || p.email,
+        phone: e164 || null,
+        role: p.role,
+        email: p.email || '',
+        avatar: p.avatar_url || p.profile_photo_url || null,
+        duty: p.crew_duty || null,
+      }];
+    });
 
-    const recipients = (allProfiles || [])
-      .filter(p => isNotBandOnlyMember(p.full_name, p.email))
-      .map(p => {
-        const digits = p.phone ? p.phone.replace(/\D/g, '') : '';
-        const e164 = digits.length >= 10 ? (digits.length === 10 ? `+1${digits}` : `+${digits}`) : '';
-        return {
-          id: p.id,
-          name: p.full_name || p.email,
-          phone: e164 || null,
-          role: p.role,
-          email: p.email || '',
-          avatar: p.avatar_url || p.profile_photo_url || null,
-          duty: p.crew_duty || null,
-        };
-      });
+    const validProfilesCount = recipients.filter(r => r.phone).length;
 
     return NextResponse.json({
       totalCrew: (crewCount || 0) + (adminCount || 0),
-      withPhone: validProfiles.length,
+      withPhone: validProfilesCount,
       recipients,
     });
   } catch (err: any) {

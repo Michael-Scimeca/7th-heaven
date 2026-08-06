@@ -127,14 +127,6 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const adamCenterIdx = 2; // Index 2 is Adam Heisler
   const [activeIndex, setActiveIndex] = useState<number>(adamCenterIdx);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 80);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Fast Staggered load animation delays:
   // Adam (idx 2, Lead singer) fades in first (40ms)
@@ -223,7 +215,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   // Tuner UI state
   const [showTuner, setShowTuner] = useState<boolean>(false);
-  const [copied, setCopied] = useState<boolean>(false);
+  const copiedRef = useRef<boolean>(false);
 
   const itemTotalWidth = cardWidth + gap;
 
@@ -321,8 +313,8 @@ left: ${overlayLeft}vw
 bottom: ${overlayBottom}px
 height: ${overlayHeight}vh`;
     navigator.clipboard.writeText(config);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    copiedRef.current = true;
+    setTimeout(() => { copiedRef.current = false; }, 2000);
   };
 
   // Initialize position centered on Adam Heisler (index 2)

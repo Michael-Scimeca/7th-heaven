@@ -2,7 +2,7 @@
 /* impeccable-disable codex-grid-background */
 import Image from 'next/image';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
 
 interface FlowNode {
@@ -27,11 +27,7 @@ interface FlowCardProps {
 }
 
 function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, width = "300px", height = "175px", fontSize = "17.5px" }: FlowCardProps) {
-  const [imgVersion, setImgVersion] = useState("");
-
-  useEffect(() => {
-    setImgVersion(`?v=${Date.now()}`);
-  }, []);
+  const imgVersion = useSyncExternalStore(() => () => {}, () => `?v=${Date.now()}`, () => "");
 
   const textContent = (
     <div style={{ textAlign: "center", width: "100%", marginBottom: "6px" }}>
@@ -161,11 +157,7 @@ interface EmailListItemProps {
 }
 
 function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProps) {
-  const [imgVersion, setImgVersion] = useState("");
-
-  useEffect(() => {
-    setImgVersion(`?v=${Date.now()}`);
-  }, []);
+  const imgVersion = useSyncExternalStore(() => () => {}, () => `?v=${Date.now()}`, () => "");
 
   const handleClick = () => {
     if (screenshot) {
@@ -266,8 +258,8 @@ export default function FlowchartPage() {
   const [zoom, setZoom] = useState(0.85);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [hasDragged, setHasDragged] = useState(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const hasDraggedRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -293,22 +285,29 @@ export default function FlowchartPage() {
       return;
     }
     setIsDragging(true);
-    setHasDragged(false);
-    setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+    hasDraggedRef.current = false;
+    dragStartRef.current = { x: e.clientX - panOffset.x, y: e.clientY - panOffset.y };
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    const dx = e.clientX - dragStart.x;
-    const dy = e.clientY - dragStart.y;
+    const dx = e.clientX - dragStartRef.current.x;
+    const dy = e.clientY - dragStartRef.current.y;
     if (Math.abs(dx - panOffset.x) > 3 || Math.abs(dy - panOffset.y) > 3) {
-      setHasDragged(true);
+      hasDraggedRef.current = true;
     }
     setPanOffset({ x: dx, y: dy });
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
+  };
+
+  const handleNodeClick = (e: React.MouseEvent) => {
+    if (hasDraggedRef.current) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   };
 
   // Colors matching the user's sitemap flowchart image
@@ -325,7 +324,7 @@ export default function FlowchartPage() {
   };
 
   const handleClickCapture = (e: React.MouseEvent) => {
-    if (hasDragged) {
+    if (hasDraggedRef.current) {
       e.preventDefault();
       e.stopPropagation();
     }
