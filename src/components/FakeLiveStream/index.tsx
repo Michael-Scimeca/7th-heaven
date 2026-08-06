@@ -153,20 +153,37 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   ]);
   const [activeSidebarTab, setActiveSidebarTab] = useState<'chat' | 'setlist'>('chat');
   const [setlistSort, setSetlistSort] = useState<'order' | 'likes'>('order');
-  const [likedSongs, setLikedSongs] = useState<Set<string>>(new Set());
-  useEffect(() => {
-    // Populate liked songs from localStorage on mount
+  const [prevMemberId, setPrevMemberId] = useState(memberId);
+  const [likedSongs, setLikedSongs] = useState<Set<string>>(() => {
     const liked = new Set<string>();
     try {
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k?.startsWith(`liked_song_${memberId}_`) && localStorage.getItem(k) === 'true') {
-          liked.add(k.slice(`liked_song_${memberId}_`.length));
+      if (typeof window !== 'undefined') {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k?.startsWith(`liked_song_${memberId}_`) && localStorage.getItem(k) === 'true') {
+            liked.add(k.slice(`liked_song_${memberId}_`.length));
+          }
+        }
+      }
+    } catch { }
+    return liked;
+  });
+
+  if (prevMemberId !== memberId) {
+    setPrevMemberId(memberId);
+    const liked = new Set<string>();
+    try {
+      if (typeof window !== 'undefined') {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k?.startsWith(`liked_song_${memberId}_`) && localStorage.getItem(k) === 'true') {
+            liked.add(k.slice(`liked_song_${memberId}_`.length));
+          }
         }
       }
     } catch { }
     setLikedSongs(liked);
-  }, [memberId]);
+  }
 
   // ── Merch drop (admin-controlled) ──
   const [merchTimerActive, setMerchTimerActive] = useState(false);
