@@ -638,7 +638,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
 
               {/* Shipping Address Inputs if Shipping selected */}
               {fulfillmentMethod === "shipping" && (
-                <div className="space-y-3 pt-2 border-t border-white/10 animate-in fade-in duration-300">
+                <div className="space-y-3 pt-2 border-t border-white/10 transition-opacity duration-300 animate-in fade-in">
                   <p className="text-xs font-black uppercase tracking-wider  text-[var(--color-accent)]">Shipping Address</p>
                   <div>
                     <input

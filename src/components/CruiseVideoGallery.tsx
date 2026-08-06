@@ -140,7 +140,7 @@ export default function CruiseVideoGallery() {
 
       {/* Full-screen Video Player Modal */}
       {activeVideo && (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in">
           <div className="relative w-full max-w-5xl bg-[var(--color-bg-deep)] border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>

@@ -107,7 +107,7 @@ export default function AdminGatewayPage() {
 
       <div className="w-full max-w-md relative z-10">
         <div
-          className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+          className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 animate-in fade-in zoom-in-95"
           style={modalGlassStyle}
         >
           <div className="p-8 sm:p-10">
