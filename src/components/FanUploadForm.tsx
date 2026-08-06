@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
 
 export default function FanUploadForm() {
@@ -22,6 +22,16 @@ export default function FanUploadForm() {
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileSafetyFlags, setFileSafetyFlags] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    return () => {
+      previews.forEach(url => {
+        if (url.startsWith('blob:')) {
+          URL.revokeObjectURL(url);
+        }
+      });
+    };
+  }, [previews]);
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 

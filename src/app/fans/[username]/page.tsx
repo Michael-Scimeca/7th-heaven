@@ -137,21 +137,25 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   // Fetch all data
   useEffect(() => {
-    fetch("/api/tour").then(r => r.json()).then(data => {
+    let active = true;
+    fetch("/api/tour").then(r => r.ok ? r.json() : null).then(data => {
+      if (!active || !data) return;
       const upcoming = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') >= new Date());
       const past = (data || []).filter((s: any) => s.date && new Date(s.date + 'T23:59:59') < new Date()).sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setShows(upcoming);
       if (upcoming.length > 0) setNextShow(upcoming[0]);
       if (past.length > 0) setLastShow(past[0]);
     }).catch(() => { });
-    fetch("/api/merch").then(r => r.json()).then(data => setMerch(data || [])).catch(() => { });
+    fetch("/api/merch").then(r => r.ok ? r.json() : null).then(data => { if (active && data) setMerch(data); }).catch(() => { });
     // Load referral program config
-    fetch("/api/admin/referral-config").then(r => r.json()).then(data => {
+    fetch("/api/admin/referral-config").then(r => r.ok ? r.json() : null).then(data => {
+      if (!active || !data) return;
       setReferralEnabled(data.enabled ?? false);
       if (data.milestones?.length) setReferralMilestones(data.milestones);
     }).catch(() => { });
     // Load live alerts visibility toggle
-    fetch("/api/admin/settings?key=live_alerts_enabled").then(r => r.json()).then(data => {
+    fetch("/api/admin/settings?key=live_alerts_enabled").then(r => r.ok ? r.json() : null).then(data => {
+      if (!active || !data) return;
       if (data.value === 'off') setLiveAlertsEnabled(false);
     }).catch(() => { });
     // Clear stale session data so dashboard starts fresh
@@ -165,12 +169,19 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
       const claimed = JSON.parse(localStorage.getItem('claimed_raffle_pins') || '[]');
       setClaimedPins(Array.isArray(claimed) ? claimed : []);
     } catch { }
+
+    return () => { active = false; };
   }, []);
 
   // Fetch member-specific data when logged in
   useEffect(() => {
     if (!member?.name) return;
-    fetch("/api/fans?all=true").then(r => r.json()).then(data => setMyPhotos(data.filter((p: any) => p.name === member.name))).catch(() => { });
+    let active = true;
+    fetch("/api/fans?all=true").then(r => r.ok ? r.json() : null).then(data => {
+      if (active && data) setMyPhotos(data.filter((p: any) => p.name === member.name));
+    }).catch(() => { });
+
+    return () => { active = false; };
   }, [member?.name]);
 
   // Live stream polling — checks actual crew live status + Supabase broadcasts

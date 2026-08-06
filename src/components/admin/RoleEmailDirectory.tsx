@@ -120,6 +120,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const getRoleBadgeStyle = (role: string) => {

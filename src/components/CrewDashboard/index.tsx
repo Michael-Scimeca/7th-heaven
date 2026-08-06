@@ -1056,21 +1056,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   }, []);
 
   const handleUpdateOrderStatus = (orderId: number, nextStatus: string) => {
-    setOrders(prev => {
-      const updated = prev.map(o => {
-        if (o.id === orderId) {
-          const updatedOrder = { ...o, status: nextStatus };
-          if (nextStatus === 'Shipped') {
-            updatedOrder.trackingNumber = `USPS-7H-${Math.floor(10000000 + Math.random() * 90000000)}`;
-          }
-          return updatedOrder;
+    setOrders(prev => prev.map(o => {
+      if (o.id === orderId) {
+        const updatedOrder = { ...o, status: nextStatus };
+        if (nextStatus === 'Shipped') {
+          updatedOrder.trackingNumber = `USPS-7H-${Math.floor(10000000 + Math.random() * 90000000)}`;
         }
-        return o;
-      });
-      // Side effect deferred via queueMicrotask to keep updater pure
-      queueMicrotask(() => localStorage.setItem('admin_orders_list', JSON.stringify(updated)));
-      return updated;
-    });
+        return updatedOrder;
+      }
+      return o;
+    }));
     showToast(`Order status updated to ${nextStatus}`, 'success', 'Fulfillment Updated');
   };
 
@@ -1146,15 +1141,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // Timer loop for active drop
   useEffect(() => {
-    if (!activeDrop) return;
+    if (!activeDrop) {
+      if (typeof window !== 'undefined') localStorage.removeItem('7h_flash_drop');
+      return;
+    }
     const timer = setInterval(() => {
       setActiveDrop(prev => {
-        if (!prev) return null;
-        if (prev.timeLeft <= 1) {
-          // Remove from localStorage outside the updater (deferred)
-          queueMicrotask(() => localStorage.removeItem('7h_flash_drop'));
-          return null;
-        }
+        if (!prev || prev.timeLeft <= 1) return null;
         return { ...prev, timeLeft: prev.timeLeft - 1 };
       });
     }, 1000);
@@ -1569,12 +1562,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       }
 
       if (type === 'ORDER_CREATED' && payload) {
-        setOrders(prev => {
-          if (prev.find(o => o.id === payload.id)) return prev;
-          const updated = [payload, ...prev];
-          queueMicrotask(() => localStorage.setItem('admin_orders_list', JSON.stringify(updated)));
-          return updated;
-        });
+        setOrders(prev => prev.find(o => o.id === payload.id) ? prev : [payload, ...prev]);
         showToast(
           `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`,
           'success',
@@ -2077,41 +2065,34 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     if (targetCrewId && targetCrewId !== currentSlug) return;
     setRaffleEntrants(prev => {
       if (prev.some(e => e.name === name)) return prev;
-      const next = [...prev, { name, id: id || Math.random().toString(), email }];
-      queueMicrotask(() => syncRaffle(currentStatus, next, currentMin, currentPrizes, currentWinners, currentPins));
-      return next;
+      return [...prev, { name, id: id || Math.random().toString(), email }];
     });
-  }, []);
+    syncRaffle(currentStatus, [...raffleEntrants, { name, id: id || Math.random().toString(), email }], currentMin, currentPrizes, currentWinners, currentPins);
+  }, [raffleEntrants, syncRaffle]);
 
   const handleRegisterEntrantRef = useRef(handleRegisterEntrant);
-  handleRegisterEntrantRef.current = handleRegisterEntrant;
+  useEffect(() => {
+    handleRegisterEntrantRef.current = handleRegisterEntrant;
+  }, [handleRegisterEntrant]);
 
   const handleRegisterLike = useCallback((songId: string, targetCrewId?: string) => {
     if (targetCrewId && targetCrewId !== slug && targetCrewId !== userId) return;
-    setSetlist(prev => {
-      const next = prev.map(s => {
-        if (s.id === songId) {
-          return { ...s, likes: s.likes + 1 };
-        }
-        return s;
+    const next = setlist.map(s => s.id === songId ? { ...s, likes: s.likes + 1 } : s);
+    setSetlist(next);
+    localStorage.setItem(LS('live_setlist_sync'), JSON.stringify(next));
+    try {
+      supabase.channel('live_events').send({
+        type: 'broadcast',
+        event: 'setlist_sync',
+        payload: { setlist: next, userId: slug },
       });
-      queueMicrotask(() => {
-        localStorage.setItem(LS('live_setlist_sync'), JSON.stringify(next));
-        try {
-          supabase.channel('live_events').send({
-            type: 'broadcast',
-            event: 'setlist_sync',
-            payload: { setlist: next, userId: slug },
-          });
-        } catch { }
-      });
-      return next;
-    });
-  }, [LS, slug, userId]);
+    } catch { }
+  }, [setlist, LS, slug, userId]);
 
   const handleRegisterLikeRef = useRef(handleRegisterLike);
-  // Assign during render — ref mutation is intentionally synchronous and side-effect-free
-  handleRegisterLikeRef.current = handleRegisterLike;
+  useEffect(() => {
+    handleRegisterLikeRef.current = handleRegisterLike;
+  }, [handleRegisterLike]);
 
   const rigWinForMe = () => {
     if (raffleStatus !== 'open') {
@@ -4691,7 +4672,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     disabled={!replyText.trim()}
                                     onClick={() => {
                                       setGigComments(current => {
-                                        const newComment = {
+                                        return [...current, {
                                           id: 'comment_' + Date.now(),
                                           date: activeDiscussionDate,
                                           authorId: slug,
@@ -4699,13 +4680,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                           text: replyText.trim(),
                                           createdAt: new Date().toISOString(),
                                           parentId: c.id
-                                        };
-                                        const updated = [...current, newComment];
-                                        queueMicrotask(() => {
-                                          localStorage.setItem('7h_gig_comments', JSON.stringify(updated));
-                                          window.dispatchEvent(new Event('storage'));
-                                        });
-                                        return updated;
+                                        }];
                                       });
                                       setReplyText('');
                                       setReplyingToCommentId(null);
@@ -4753,22 +4728,17 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           type="button"
                           disabled={!newCommentText.trim()}
                           onClick={() => {
-                            setGigComments(current => {
-                              const newComment = {
+                            setGigComments(current => [
+                              ...current,
+                              {
                                 id: 'comment_' + Date.now(),
                                 date: activeDiscussionDate,
                                 authorId: slug,
                                 authorName: displayName || slug,
                                 text: newCommentText.trim(),
                                 createdAt: new Date().toISOString()
-                              };
-                              const updated = [...current, newComment];
-                              queueMicrotask(() => {
-                                localStorage.setItem('7h_gig_comments', JSON.stringify(updated));
-                                window.dispatchEvent(new Event('storage'));
-                              });
-                              return updated;
-                            });
+                              }
+                            ]);
                             setNewCommentText('');
                           }}
                           className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none text-black font-black uppercase tracking-wider text-xs rounded-lg border-none cursor-pointer"

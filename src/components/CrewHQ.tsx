@@ -224,11 +224,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   }, [msgs]);
 
   // ─── Moderation actions ───────────────────────────────────────────
-  const bumpMod = () => setModerationCount(c => {
-    const v = c + 1;
-    queueMicrotask(() => localStorage.setItem(`7h_mod_count_${slug}`, v.toString()));
-    return v;
-  });
+  const bumpMod = () => {
+    const v = moderationCount + 1;
+    setModerationCount(v);
+    try { localStorage.setItem(`7h_mod_count_${slug}`, v.toString()); } catch { }
+  };
 
   const handleAddCustomWord = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -262,12 +262,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   };
 
   const handleFlag = (msgId: string) => {
-    setFlagged(prev => {
-      const next = new Set(prev);
-      if (next.has(msgId)) next.delete(msgId); else next.add(msgId);
-      queueMicrotask(() => { try { localStorage.setItem("7h_flagged_msgs", JSON.stringify([...next])); } catch { } });
-      return next;
-    });
+    const next = new Set(flagged);
+    if (next.has(msgId)) next.delete(msgId); else next.add(msgId);
+    setFlagged(next);
+    try { localStorage.setItem("7h_flagged_msgs", JSON.stringify([...next])); } catch { }
     bumpMod();
   };
 
@@ -276,12 +274,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const currentlyWarned = warned.has(senderName);
     const action = currentlyWarned ? 'unwarn' : 'warn';
 
-    setWarned(prev => {
-      const next = new Set(prev);
-      if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
-      queueMicrotask(() => { try { localStorage.setItem("7h_warned_users", JSON.stringify([...next])); } catch { } });
-      return next;
-    });
+    const next = new Set(warned);
+    if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
+    setWarned(next);
+    try { localStorage.setItem("7h_warned_users", JSON.stringify([...next])); } catch { }
     bumpMod();
 
     try {
@@ -304,12 +300,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const currentlyBanned = banned.has(senderName);
     const action = currentlyBanned ? 'unban' : 'ban';
 
-    setBanned(prev => {
-      const next = new Set(prev);
-      if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
-      try { localStorage.setItem("7h_banned_users", JSON.stringify([...next])); } catch { }
-      return next;
-    });
+    const next = new Set(banned);
+    if (next.has(senderName)) next.delete(senderName); else next.add(senderName);
+    setBanned(next);
+    try { localStorage.setItem("7h_banned_users", JSON.stringify([...next])); } catch { }
     bumpMod();
 
     try {

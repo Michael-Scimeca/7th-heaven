@@ -233,14 +233,12 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     const checkLive = () => {
       const feedSlug = activeFeedId === 'mike' ? 'michael' : activeFeedId;
       const nowLive = localStorage.getItem(`is_live_${feedSlug}`) === 'true';
-      setCrewIsLive(prev => {
-        const next = nowLive || prev;
-        if (nowLive && !prev && activeFeedId === normalizedId) {
-          // Trigger overlay outside the updater to keep it pure
-          setTimeout(() => setShowOverlay(true), 0);
-        }
-        return next;
-      });
+      if (nowLive && !crewIsLive && activeFeedId === normalizedId) {
+        setShowOverlay(true);
+      }
+      if (nowLive !== crewIsLive) {
+        setCrewIsLive(nowLive);
+      }
     };
     checkLive();
     const t = setInterval(checkLive, 1000);

@@ -431,9 +431,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       if (type === 'ORDER_CREATED' && payload) {
         setSimulatedOrders(prev => {
           if (prev.find(o => o.id === payload.id)) return prev;
-          const updated = [payload, ...prev];
-          queueMicrotask(() => localStorage.setItem('admin_orders_list_v1', JSON.stringify(updated)));
-          return updated;
+          return [payload, ...prev];
         });
 
         // Play notification chime sound
@@ -457,7 +455,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   // Update status and tracking of simulated orders
   const handleUpdateSimulatedOrderStatus = (orderId: number, nextStatus: string) => {
     setSimulatedOrders(prev => {
-      const updated = prev.map(o => {
+      return prev.map(o => {
         if (o.id === orderId) {
           const updatedOrder = { ...o, status: nextStatus };
           if (nextStatus === 'Shipped') {
@@ -467,8 +465,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         return o;
       });
-      queueMicrotask(() => localStorage.setItem('admin_orders_list_v1', JSON.stringify(updated)));
-      return updated;
     });
 
     setActiveToast({
@@ -505,11 +501,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   });
 
   const toggleJumpNav = () => {
-    setShowJumpNav(prev => {
-      const next = !prev;
-      queueMicrotask(() => localStorage.setItem('7h_show_jump_nav', String(next)));
-      return next;
-    });
+    setShowJumpNav(prev => !prev);
+    try { localStorage.setItem('7h_show_jump_nav', String(!showJumpNav)); } catch { }
   };
 
   const [showRoleDropdown, setShowRoleDropdown] = useState(false);
@@ -546,21 +539,16 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const saveCustomRole = (role: string) => {
     const trimmed = role.trim().toUpperCase();
-    if (!trimmed) return;
-    setCustomRoles(prev => {
-      if (prev.includes(trimmed)) return prev;
-      const next = [...prev, trimmed];
-      queueMicrotask(() => localStorage.setItem('7h_custom_roles', JSON.stringify(next)));
-      return next;
-    });
+    if (!trimmed || customRoles.includes(trimmed)) return;
+    const next = [...customRoles, trimmed];
+    setCustomRoles(next);
+    try { localStorage.setItem('7h_custom_roles', JSON.stringify(next)); } catch { }
   };
 
   const deleteCustomRole = (role: string) => {
-    setCustomRoles(prev => {
-      const next = prev.filter(r => r !== role);
-      queueMicrotask(() => localStorage.setItem('7h_custom_roles', JSON.stringify(next)));
-      return next;
-    });
+    const next = customRoles.filter(r => r !== role);
+    setCustomRoles(next);
+    try { localStorage.setItem('7h_custom_roles', JSON.stringify(next)); } catch { }
   };
 
   useEffect(() => {
@@ -640,14 +628,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
     if (changed) {
       setSchedules(updated);
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-      window.dispatchEvent(new Event('storage'));
-
-      fetch("/api/crew/calendar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated)
-      }).catch(err => console.error("Failed to sync schedules:", err));
     }
   };
 
@@ -853,16 +833,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   });
 
   const toggleSection = (key: string) => {
-    setCollapsedSections(prev => {
-      const next = { ...prev, [key]: !prev[key] };
-      queueMicrotask(() => {
-        try {
-          localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
-          saveLayoutToSupabase(sectionOrder, next);
-        } catch { }
-      });
-      return next;
-    });
+    const next = { ...collapsedSections, [key]: !collapsedSections[key] };
+    setCollapsedSections(next);
+    try {
+      localStorage.setItem('7h_admin_collapsed', JSON.stringify(next));
+      saveLayoutToSupabase(sectionOrder, next);
+    } catch { }
   };
 
   const isSectionOpen = (key: string) => !collapsedSections[key];
@@ -7572,7 +7548,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
             {/* Bottom actions */}
             <div className="flex gap-3 mt-4">
-              <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
+              <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
                 Export CSV
               </button>
@@ -7714,15 +7690,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
       }
 
-      localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-      window.dispatchEvent(new Event('storage'));
-
-      fetch("/api/crew/calendar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated)
-      }).catch(err => console.error("Failed to sync schedules:", err));
-
       return updated;
     });
 
@@ -7736,17 +7703,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const deleteScheduleItem = (id: string) => {
     setSchedules(current => {
-      const updated = current.filter(item => item.id !== id);
-      queueMicrotask(() => {
-        localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-        window.dispatchEvent(new Event('storage'));
-        fetch("/api/crew/calendar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updated)
-        }).catch(err => console.error("Failed to sync schedules:", err));
-      });
-      return updated;
+      return current.filter(item => item.id !== id);
     });
   };
 
@@ -8114,7 +8071,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
 
         setSchedules(current => {
-          const updated = current.map(s => {
+          return current.map(s => {
             if (s.id === shiftId) {
               const crewMember = crewMembers.find(c => c.id === crewId);
               return {
@@ -8126,16 +8083,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             }
             return s;
           });
-          localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-          window.dispatchEvent(new Event('storage'));
-
-          fetch("/api/crew/calendar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updated)
-          }).catch(err => console.error("Failed to sync schedules:", err));
-
-          return updated;
         });
       }
     };
@@ -9022,22 +8969,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     }
 
                     setSchedules(current => {
-                      const updated = current.map(s => {
+                      return current.map(s => {
                         if (s.id === shiftId) {
                           return { ...s, date: day.dateStr };
                         }
                         return s;
                       });
-                      queueMicrotask(() => {
-                        localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                        window.dispatchEvent(new Event('storage'));
-                        fetch("/api/crew/calendar", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify(updated)
-                        }).catch(err => console.error("Failed to sync schedules:", err));
-                      });
-                      return updated;
                     });
                   }
                 }}
@@ -9169,10 +9106,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                               return { ...s, date: day.dateStr };
                             }
                             return s;
-                          });
-                          queueMicrotask(() => {
-                            localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                            window.dispatchEvent(new Event('storage'));
                           });
                           return updated;
                         });
@@ -10209,13 +10142,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                       }
                                       return s;
                                     });
-                                    localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                                    window.dispatchEvent(new Event('storage'));
-                                    fetch("/api/crew/calendar", {
-                                      method: "POST",
-                                      headers: { "Content-Type": "application/json" },
-                                      body: JSON.stringify(updated)
-                                    }).catch(err => console.error("Failed to sync schedules:", err));
                                     return updated;
                                   });
                                 }}
@@ -10243,22 +10169,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                               <button
                                 type="button"
                                 onClick={() => {
-                                  setSchedules(current => {
-                                    const updated = current.map(s => {
-                                      if (s.id === editingShiftId) {
-                                        return { ...s, isCoverageRequested: false };
-                                      }
-                                      return s;
-                                    });
-                                    localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                                    window.dispatchEvent(new Event('storage'));
-                                    fetch("/api/crew/calendar", {
-                                      method: "POST",
-                                      headers: { "Content-Type": "application/json" },
-                                      body: JSON.stringify(updated)
-                                    }).catch(err => console.error("Failed to sync schedules:", err));
-                                    return updated;
-                                  });
+                                  setSchedules(current => current.map(s => {
+                                    if (s.id === editingShiftId) {
+                                      return { ...s, isCoverageRequested: false };
+                                    }
+                                    return s;
+                                  }));
                                 }}
                                 className="px-2 py-0.5 bg-red-500/20 hover:bg-red-500/40 text-red-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded border border-red-500/30 transition-colors"
                               >
@@ -10366,13 +10282,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                                 return s;
                                               });
                                               queueMicrotask(() => {
-                                                localStorage.setItem('7h_crew_schedules', JSON.stringify(updated));
-                                                window.dispatchEvent(new Event('storage'));
-                                                fetch("/api/crew/calendar", {
-                                                  method: "POST",
-                                                  headers: { "Content-Type": "application/json" },
-                                                  body: JSON.stringify(updated)
-                                                }).catch(err => console.error("Failed to sync schedules:", err));
                                                 // Close sidebar after successful reassign
                                                 setActiveDropDay(null);
                                                 setDraggedCrewMemberId(null);
@@ -12212,7 +12121,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   )}
 
                   {/* Download CSV */}
-                  <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border  border-[var(--color-accent)]/30 flex items-center justify-center gap-2 mt-auto">
+                  <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-all cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border  border-[var(--color-accent)]/30 flex items-center justify-center gap-2 mt-auto">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
                     Download Full CSV
                   </button>
