@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay, isValidEmail } from "@/lib/validation";
@@ -1500,7 +1501,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
 
                       <p className="text-[var(--font-size-3xs)] text-black/60 font-semibold text-center leading-relaxed">
-                        By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="text-black font-bold underline hover:text-black/80 transition-colors">Privacy Policy</a> and <a href="/terms" className="text-black font-bold underline hover:text-black/80 transition-colors">Terms of Service</a>. You'll receive a confirmation email.
+                        By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="text-black font-bold underline hover:text-black/80 transition-colors">Privacy Policy</Link> and <Link href="/terms" className="text-black font-bold underline hover:text-black/80 transition-colors">Terms of Service</Link>. You'll receive a confirmation email.
                       </p>
                       {signupStatus === "error" && <p className="text-rose-600 text-xs font-bold text-center">{formError || 'Something went wrong. Try again.'}</p>}
                     </div>

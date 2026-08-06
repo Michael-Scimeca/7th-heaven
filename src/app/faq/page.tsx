@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 
 interface FAQItem {
   id: string;
@@ -292,12 +293,12 @@ export default function FAQPage() {
               Can't find the answer you are looking for? Reach out to our direct support.
             </p>
           </div>
-          <a
+          <Link
             href="/contact"
             className="px-6 py-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
 
       </div>

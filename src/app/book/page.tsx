@@ -1603,7 +1603,7 @@ function BookPageContent() {
                       )}
                     </button>
                     <p className="text-base text-black/50 text-center mt-4">
-                      By submitting, you confirm you are 18 years of age or older and agree to our <a href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</a> and <a href="/terms" className="underline hover:text-black transition-colors">Terms</a>.
+                      By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-black transition-colors">Terms</Link>.
                     </p>
                   </div>
                 </div>

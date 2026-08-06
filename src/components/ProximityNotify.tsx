@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
 
 interface ProximityNotifyProps {
@@ -631,8 +632,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       </div>
                       <span className="text-sm text-white/35 leading-snug">
                         I am 18 years of age or older and agree to the{' '}
-                        <a href="/terms" className="text-white/50 underline hover:text-white/70 transition-colors">Terms of Service</a>{' '}and{' '}
-                        <a href="/privacy" className="text-white/50 underline hover:text-white/70 transition-colors">Privacy Policy</a>.
+                        <Link href="/terms" className="text-white/50 underline hover:text-white/70 transition-colors">Terms of Service</Link>{' '}and{' '}
+                        <Link href="/privacy" className="text-white/50 underline hover:text-white/70 transition-colors">Privacy Policy</Link>.
                       </span>
                     </label>
 

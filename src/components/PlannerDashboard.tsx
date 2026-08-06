@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 
 interface BookingData {
@@ -569,13 +570,13 @@ export default function PlannerDashboard() {
                   )}
                 </>
               ) : (
-                <a
+                <Link
                   href="/planner"
                   className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold text-sm uppercase tracking-wider transition-all border border-white/10 flex items-center justify-center gap-2"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                   Sign in to manage
-                </a>
+                </Link>
               )}
               <a
                 href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking Dashboard] Issue with Event — ${booking.id}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nI'm reaching out from my Booking Dashboard regarding the following event:\n\n────────────────────────\nBooking ID: ${booking.id}\nEvent: ${booking.eventName}\nType: ${eventTypeLabels[booking.eventType] || booking.eventType}\nDate: ${booking.date}\nTime: ${booking.startTime} – ${booking.endTime}\nVenue: ${booking.venueName}\nCity: ${booking.venueCity}, ${booking.venueState}\nStatus: ${s.label}\n────────────────────────\n\nEvent Planner Message:\n\n`)}`}

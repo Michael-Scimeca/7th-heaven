@@ -195,7 +195,7 @@ export function Footer() {
             </form>
           )}
           {smsStatus === 'error' && <p className="text-xs text-rose-500 mt-2">Something went wrong. Try again.</p>}
-          <p className="text-xs text-[var(--muted-text)] mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <a href="/privacy" className="underline hover:text-[var(--text-color)] transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-[var(--text-color)] transition-colors">Terms</a>.</p>
+          <p className="text-xs text-[var(--muted-text)] mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <Link href="/privacy" className="underline hover:text-[var(--text-color)] transition-colors">Privacy</Link> & <Link href="/terms" className="underline hover:text-[var(--text-color)] transition-colors">Terms</Link>.</p>
         </div>
       </div>
 

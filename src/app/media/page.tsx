@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const InlineYTPlayer = dynamic(() => import("@/components/InlineYTPlayer"), { ssr: false });
@@ -134,12 +135,12 @@ export default function MediaPage() {
       )}
 
       {/* ── FLOATING LAYOUT OPTIONS LINK ── */}
-      <a
+      <Link
         href="/media/layout-demo"
         className="fixed bottom-6 left-6 z-[999] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_30px_rgba(255,10,61,0.5)] transition-all hover:scale-105 flex items-center gap-2"
       >
         <span>🎨 Layout Options</span>
-      </a>
+      </Link>
 
       {/* ── CATEGORY NAV + SEARCH (Underline tabs with count) ── */}
       <div className="sticky top-[88px] z-40 bg-[var(--color-bg-primary)]/90 backdrop-blur-xl border-b border-black/10">

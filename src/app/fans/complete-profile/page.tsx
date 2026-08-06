@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 function nameToUsername(name: string) {
@@ -257,8 +258,8 @@ export default function CompleteProfilePage() {
 
               <p className="text-[var(--font-size-3xs)] text-white/25 text-center leading-relaxed">
                 By continuing you confirm you are 13+ and agree to our{" "}
-                <a href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</a> &amp;{" "}
-                <a href="/terms" className="underline hover:text-white/40 transition-colors">Terms</a>.
+                <Link href="/privacy" className="underline hover:text-white/40 transition-colors">Privacy</Link> &amp;{" "}
+                <Link href="/terms" className="underline hover:text-white/40 transition-colors">Terms</Link>.
               </p>
             </form>
           </div>

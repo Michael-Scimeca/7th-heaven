@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
 // Dev-only: never ships in the production bundle
@@ -968,7 +969,7 @@ export default function LoginModal() {
               </button>
               {modalMode === "signup" && (
                 <p className="text-xs text-black/35 text-center leading-relaxed">
-                  By creating an account you confirm you are 18+ and agree to our <a href="/privacy" className="underline hover:text-black/60 transition-colors">Privacy</a> & <a href="/terms" className="underline hover:text-black/60 transition-colors">Terms</a>.
+                  By creating an account you confirm you are 18+ and agree to our <Link href="/privacy" className="underline hover:text-black/60 transition-colors">Privacy</Link> & <Link href="/terms" className="underline hover:text-black/60 transition-colors">Terms</Link>.
                 </p>
               )}
             </form>
