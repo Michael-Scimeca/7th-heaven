@@ -603,7 +603,7 @@ height: ${overlayHeight}vh`;
           {/* TRACK ELEMENT */}
           <div
             ref={trackRef}
-            className="will-change-transform flex items-end pt-2 pb-0"
+            className="flex items-end pt-2 pb-0"
             style={{ gap: `${gap}px`, width: `${displayMembers.length * itemTotalWidth}px` }}
           >
             {displayMembers.map((m, i) => {
