@@ -657,7 +657,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         {showSettings && mounted && createPortal(
           <div
             data-settings-panel
-            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[var(--color-bg-deep)]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left animate-in slide-in-from-right duration-300 opacity-100"
+            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[var(--color-bg-deep)]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
             style={{ zIndex: 999999, pointerEvents: 'auto' }}
           >
             <style>{`
@@ -1007,7 +1007,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
               <div className="flex items-center gap-3">
                 {saveToast && (
-                  <span className="text-xs font-bold text-[var(--color-accent)] animate-in fade-in duration-300">
+                  <span className="text-xs font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
                     ✓ Settings Saved!
                   </span>
                 )}

@@ -325,7 +325,7 @@ function PlannerVerifyContent() {
                   color: "#fff", fontWeight: 800, fontSize: 15,
                   cursor: pin.length !== 6 || status === "submitting" ? "not-allowed" : "pointer",
                   boxShadow: pin.length === 6 ? "0 0 20px rgba(168,85,247,0.35)" : "none",
-                  transition: "all 0.2s",
+                  transition: "background 0.2s, box-shadow 0.2s",
                   marginBottom: 16,
                 }}
               >

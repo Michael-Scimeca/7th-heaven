@@ -306,7 +306,7 @@ function MerchDashboard() {
             </form>
 
             {scanResult && (
-              <div className="animate-in fade-in duration-250">
+              <div className="transition-opacity duration-250 ease-out">
                 {scanResult.status === 'valid' && scanResult.order && (
                   <div className="p-4 bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-3">
                     <span className="text-2xl">✅</span>

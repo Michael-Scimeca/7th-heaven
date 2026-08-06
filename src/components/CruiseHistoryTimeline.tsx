@@ -857,10 +857,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
       {showSettings && mounted && createPortal(
-        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-transparent pointer-events-none animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-transparent pointer-events-none transition-opacity duration-200 ease-out">
           <div
             data-settings-panel
-            className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/30 border border-cyan-400/40 rounded-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left animate-in slide-in-from-bottom duration-300 pointer-events-auto"
+            className="fixed bottom-16 left-6 w-[450px] max-w-[94vw] max-h-[85vh] overflow-y-auto p-6 bg-[#04040e]/30 border border-cyan-400/40 rounded-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] text-left transition-opacity duration-300 ease-out pointer-events-auto"
           >
             <style>{`
               [data-settings-panel], [data-settings-panel] * {
@@ -1122,7 +1122,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               </button>
               <div className="flex items-center gap-2">
                 {saveToast && (
-                  <span className="text-xs font-bold text-[var(--color-accent)] animate-in fade-in duration-300">
+                  <span className="text-xs font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
                     ✓ Saved!
                   </span>
                 )}

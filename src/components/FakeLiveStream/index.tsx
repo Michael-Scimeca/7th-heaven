@@ -1451,7 +1451,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 const activeSong = setlist.find(s => s.isPlaying);
                 if (!activeSong) return null;
                 return (
-                  <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] transition-opacity duration-300 ease-out">
                     <div
                       className="flex items-center gap-2 px-3 py-1.5 text-black text-xs font-black uppercase tracking-wider border border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
@@ -1473,7 +1473,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 const isCurrentUserWinner = hasEnteredRaffle && !!member?.name &&
                   raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
                 return (
-                  <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs animate-in slide-in-from-right-8 fade-in duration-500">
+                  <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs transition-opacity duration-500 ease-out">
                     <div className="bg-gray-50/95 backdrop-blur-xl border-2 border-yellow-500/50 overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)] text-black relative flex flex-col px-4 py-5 pointer-events-auto">
 
                       <button
@@ -2990,7 +2990,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
           return (
             <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
-              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm shadow-md relative animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto text-black text-left"
+              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm shadow-md relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black text-left"
                 style={{ borderColor: `${activeMerchDrop.product.color}55`, boxShadow: `0 0 40px ${activeMerchDrop.product.color}15` }}>
 
                 {/* Close Button */}

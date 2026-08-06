@@ -230,7 +230,7 @@ export function CrewSetPasswordModal({ email, onComplete }: CrewSetPasswordModal
                 color: "var(--color-text-main)", fontWeight: 800, fontSize: "var(--font-size-md)",
                 textTransform: "uppercase",
                 cursor: loading ? "not-allowed" : "pointer",
-                transition: "all 0.2s",
+                transition: "background 0.2s, box-shadow 0.2s",
                 boxShadow: loading ? "none" : "0 0 20px var(--color-purple-glow)",
                 letterSpacing: 1,
               }}

@@ -153,7 +153,7 @@ export default function VerifyPage() {
         {renderBackground()}
 
         <div
-          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={modalGlassStyle}
         >
           <span className="text-5xl block mb-4">🔐</span>
@@ -176,7 +176,7 @@ export default function VerifyPage() {
         {renderBackground()}
 
         <div
-          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+          className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={modalGlassStyle}
         >
           <span className="text-5xl block mb-4">🚫</span>
@@ -203,7 +203,7 @@ export default function VerifyPage() {
         {/* PIN Input Form */}
         {result !== 'valid' && (
           <div
-            className="rounded-3xl p-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in duration-300"
+            className="rounded-3xl p-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={modalGlassStyle}
           >
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
@@ -246,7 +246,7 @@ export default function VerifyPage() {
         {/* VALID */}
         {result === 'valid' && winnerData && (
           <div
-            className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+            className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={modalGlassStyle}
           >
             <div className="bg-purple-600 px-6 py-4 text-center shadow-[0_0_25px_rgba(147,51,234,0.5)]">
@@ -286,7 +286,7 @@ export default function VerifyPage() {
         {/* INVALID */}
         {result === 'invalid' && (
           <div
-            className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-in fade-in zoom-in-95 duration-300"
+            className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={modalGlassStyle}
           >
             <span className="text-5xl block mb-3">❌</span>

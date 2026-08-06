@@ -2512,7 +2512,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* Callout Link - Only visible when stream is LIVE */}
               {isLive && (
-                <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out">
                   <div className="mb-4 sm:mb-0 text-center sm:text-left">
                     <p className="text-xs flex flex-col sm:flex-row items-center gap-1.5 font-black text-[var(--color-accent)] uppercase tracking-[0.2em] mb-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
@@ -3387,7 +3387,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {/* Add Song form */}
               <div className="pt-3 border-t border-black/10">
                 {isBulkImport ? (
-                  <div className="space-y-2 animate-in fade-in duration-250">
+                  <div className="space-y-2 transition-opacity duration-250 ease-out">
                     <textarea
                       placeholder="Paste a list of songs (one per line, or separated by commas)..."
                       value={newSongTitle}
@@ -4264,7 +4264,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
         {/* End Stream Modal */}
         {showEndModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-200 ease-out">
             <div className="max-w-md w-full bg-white border border-black/10 p-8 shadow-md relative overflow-hidden">
               {isSavingReplay && (
                 <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">

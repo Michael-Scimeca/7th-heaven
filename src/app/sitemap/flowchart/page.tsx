@@ -71,7 +71,7 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        transition: "all 0.25s ease",
+        transition: "border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease",
         cursor: (screenshot || overlayScreenshot) ? "zoom-in" : (targetUrl ? "pointer" : "default")
       }}
       className="flowcard-img-container"
@@ -142,7 +142,7 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: width, transition: "all 0.25s", padding: "6px 0" }} className="flowcard-wrapper">
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: width, transition: "transform 0.25s, opacity 0.25s", padding: "6px 0" }} className="flowcard-wrapper">
       {textContent}
       {cardBox}
     </div>
@@ -193,7 +193,7 @@ function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProp
         border: `1px ${hasScreenshot ? 'solid' : 'dashed'} ${colorTheme.border}`,
         borderRadius: "8px",
         cursor: hasScreenshot ? "zoom-in" : "default",
-        transition: "all 0.2s ease-in-out",
+        transition: "background-color 0.2s, border-color 0.2s, transform 0.2s",
         position: "relative",
         overflow: "hidden"
       }}
@@ -2983,7 +2983,7 @@ export default function FlowchartPage() {
           style={{
             width: "36px", height: "36px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: "bold", fontSize: "16px", cursor: "pointer", display: "flex",
-            alignItems: "center", justifyContent: "center", transition: "all 0.2s"
+            alignItems: "center", justifyContent: "center", transition: "background-color 0.2s, border-color 0.2s, transform 0.2s"
           }}
           className="zoom-btn"
         >+</button>
@@ -2992,7 +2992,7 @@ export default function FlowchartPage() {
           style={{
             width: "36px", height: "36px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: "bold", fontSize: "16px", cursor: "pointer", display: "flex",
-            alignItems: "center", justifyContent: "center", transition: "all 0.2s"
+            alignItems: "center", justifyContent: "center", transition: "background-color 0.2s, border-color 0.2s, transform 0.2s"
           }}
           className="zoom-btn"
         >−</button>
@@ -3001,7 +3001,7 @@ export default function FlowchartPage() {
           style={{
             padding: "6px 8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: "bold", fontSize: "9px", cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s"
+            display: "flex", alignItems: "center", justifyContent: "center", transition: "background-color 0.2s, border-color 0.2s, transform 0.2s"
           }}
           className="zoom-btn"
         >RESET</button>
@@ -3064,7 +3064,7 @@ export default function FlowchartPage() {
                 color: "#ffffff",
                 fontSize: "18px",
                 cursor: "pointer",
-                transition: "all 0.2s"
+                transition: "background-color 0.2s, border-color 0.2s, transform 0.2s"
               }}
               onClick={() => setLightboxImage(null)}
             >
