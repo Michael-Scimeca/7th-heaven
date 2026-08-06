@@ -17,7 +17,7 @@ const mockLiveMedia: FeedPostDB[] = [
     video_url: "https://www.youtube.com/watch?v=BzHUNTZ66zY",
     reactions: { "🔥": 142, "🤘": 97 },
     is_live: true,
-    created_at: new Date(Date.now() - 3 * 60 * 1000).toISOString(),
+    created_at: "2026-08-06T16:47:00.000Z",
   },
   {
     id: "live-2",
@@ -29,7 +29,7 @@ const mockLiveMedia: FeedPostDB[] = [
     image_url: "/images/band-performance.png",
     reactions: { "🔥": 89, "📸": 34 },
     is_live: true,
-    created_at: new Date(Date.now() - 8 * 60 * 1000).toISOString(),
+    created_at: "2026-08-06T16:42:00.000Z",
   },
 ];
 

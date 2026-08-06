@@ -29,7 +29,7 @@ const defaultBooking: BookingData = {
   id: "7H-BK-8921",
   eventName: "Mainstage Festival Event",
   eventType: "unplugged",
-  date: new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }),
+  date: "Thu, Aug 6, 2026",
   startTime: "7:00 PM",
   endTime: "10:00 PM",
   venueName: "Soldier Field Outdoor Grid",

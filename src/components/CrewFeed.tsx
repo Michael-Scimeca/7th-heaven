@@ -55,7 +55,7 @@ const mockPosts: FeedPostDB[] = [
   post_type: "photo",
   reactions: { "🔥": 47, "🤘": 32, "❤️": 18 },
   is_live: true,
-  created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+  created_at: "2026-08-06T14:00:00.000Z",
  },
  {
   id: "2",
@@ -66,7 +66,7 @@ const mockPosts: FeedPostDB[] = [
   post_type: "text",
   reactions: { "🎸": 28, "❤️": 41 },
   is_live: true,
-  created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+  created_at: "2026-08-05T16:00:00.000Z",
  },
  {
   id: "3",
@@ -77,7 +77,7 @@ const mockPosts: FeedPostDB[] = [
   post_type: "photo",
   reactions: { "🌌": 55, "🔥": 22, "❤️": 34 },
   is_live: true,
-  created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  created_at: "2026-08-04T16:00:00.000Z",
  },
  {
   id: "4",
@@ -88,7 +88,7 @@ const mockPosts: FeedPostDB[] = [
   post_type: "announcement",
   reactions: { "🤘": 89, "🔥": 67, "❤️": 45 },
   is_live: true,
-  created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  created_at: "2026-08-03T16:00:00.000Z",
  },
  {
   id: "5",
@@ -99,7 +99,7 @@ const mockPosts: FeedPostDB[] = [
   post_type: "text",
   reactions: { "🎸": 19, "🔥": 14 },
   is_live: true,
-  created_at: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+  created_at: "2026-08-02T16:00:00.000Z",
  },
  {
   id: "6",
@@ -110,7 +110,7 @@ const mockPosts: FeedPostDB[] = [
   post_type: "text",
   reactions: { "🥁": 33, "🤘": 21 },
   is_live: true,
-  created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+  created_at: "2026-08-01T16:00:00.000Z",
  },
 ];
 
