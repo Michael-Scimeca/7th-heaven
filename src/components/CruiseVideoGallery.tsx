@@ -89,10 +89,11 @@ export default function CruiseVideoGallery() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredVideos.map(vid => (
-            <div
+            <button
+              type="button"
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="group bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1 text-left"
+              className="w-full text-left group bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1"
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden">
@@ -136,7 +137,7 @@ export default function CruiseVideoGallery() {
                   <span>→</span>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       )}

@@ -2404,9 +2404,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
         <div className="transition-colors duration-300 text-white">
           {/* Accordion Toggle Header */}
-          <div
+          <button
+            type="button"
             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-            className="py-4 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group"
+            className="w-full text-left py-4 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group"
           >
             <div className="flex items-center gap-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -2434,7 +2435,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 ▼
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Collapsible Content */}
           {!isBroadcastPanelCollapsed && (
@@ -3269,9 +3270,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
         {/* LIVE SETLIST & FAN LIKES */}
         <div className={`xl:col-span-2 bg-white border border-black/10  overflow-hidden shadow-md flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
-          <div
+          <button
+            type="button"
             onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-            className="p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
+            className="w-full text-left p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
           >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
@@ -3283,17 +3285,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
             </div>
             <div className="flex items-center gap-3 self-end md:self-auto">
-              <button
+              <span
                 onClick={(e) => { e.stopPropagation(); resetSetlistLikes(); }}
-                className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold"
+                className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold cursor-pointer"
               >
                 Reset Likes
-              </button>
+              </span>
               <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}>
                 ▼
               </div>
             </div>
-          </div>
+          </button>
 
           {!isSetlistCollapsed && (
             <div className="p-4 flex-1 flex flex-col justify-between gap-4">
@@ -3419,9 +3421,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           return (
             <>
               <div className="mt-6 text-white">
-                <div
+                <button
+                  type="button"
                   onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                  className="mb-4 flex items-center justify-between cursor-pointer select-none group"
+                  className="w-full text-left mb-4 flex items-center justify-between cursor-pointer select-none group"
                 >
                   <div className="flex items-center gap-3">
                     <div>
@@ -3455,7 +3458,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
                     ▼
                   </div>
-                </div>
+                </button>
                 {!isScheduleCollapsed && (
                   <div className="pt-4">
                     {/* Calendar Feed Subscription Utility */}

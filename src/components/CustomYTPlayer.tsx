@@ -227,6 +227,8 @@ export default function CustomYTPlayer({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
       className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center"
       onClick={onClose}
     >
@@ -237,9 +239,17 @@ export default function CustomYTPlayer({
       >
         {/* Player Container */}
         <div
+          role="button"
+          tabIndex={0}
           className="relative aspect-video bg-black border border-white/10 overflow-hidden group/player cursor-pointer"
           onMouseMove={resetHideTimer}
           onClick={togglePlay}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              togglePlay();
+            }
+          }}
         >
           {/* YouTube Player (hidden controls) */}
           <div id="yt-player-frame" className="absolute inset-0 w-full h-full pointer-events-none" />
@@ -312,8 +322,23 @@ export default function CustomYTPlayer({
             {/* Progress Bar */}
             <div
               ref={progressRef}
+              role="slider"
+              aria-label="Seek track position"
+              aria-valuenow={Math.round(currentTime)}
+              aria-valuemin={0}
+              aria-valuemax={Math.round(duration)}
+              tabIndex={0}
               className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-4 relative hover:h-1.5 transition-colors"
               onClick={handleProgressClick}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight') {
+                  e.preventDefault();
+                  if (playerRef.current?.seekTo) playerRef.current.seekTo(Math.min(duration, currentTime + 5), true);
+                } else if (e.key === 'ArrowLeft') {
+                  e.preventDefault();
+                  if (playerRef.current?.seekTo) playerRef.current.seekTo(Math.max(0, currentTime - 5), true);
+                }
+              }}
             >
               {/* Buffered */}
               <div

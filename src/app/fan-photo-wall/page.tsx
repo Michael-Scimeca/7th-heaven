@@ -344,8 +344,9 @@ export default function FansPage() {
         {/* Featured Hero Photo */}
         {approvedPhotos.length > 0 && (
           <div className="site-container mx-auto mb-8">
-            <div
-              className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer border border-white/10"
+            <button
+              type="button"
+              className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer border border-white/10 text-left"
               onClick={() => setSelectedPhoto(approvedPhotos[0])}
             >
               {approvedPhotos[0].type === "video" ||
@@ -387,7 +388,7 @@ export default function FansPage() {
                   </p>
                 )}
               </div>
-            </div>
+            </button>
           </div>
         )}
 
@@ -439,8 +440,9 @@ export default function FansPage() {
                       )}
                     </div>
                   </div>
-                  <div
-                    className="relative group cursor-pointer bg-black"
+                  <button
+                    type="button"
+                    className="relative group cursor-pointer bg-black w-full text-left"
                     onClick={() => setSelectedPhoto(photo)}
                   >
                     {isVideo ? (
@@ -465,7 +467,7 @@ export default function FansPage() {
                         {isVideo ? "Play Video" : "Expand Photo"}
                       </span>
                     </div>
-                  </div>
+                  </button>
                   {photo.caption && (
                     <div className="pl-8 pr-4 py-4 bg-black/[0.02] border-t border-black/5">
                       <p className="text-black/80 text-sm leading-relaxed font-medium">

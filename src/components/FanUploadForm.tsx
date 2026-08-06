@@ -248,10 +248,19 @@ export default function FanUploadForm() {
           <div className="flex flex-col gap-6">
             <div>
               <div
+                role="button"
+                tabIndex={0}
                 onClick={(e) => {
                   if ((e.target as HTMLElement).closest('.plus-button')) return;
                   if (!isLoggedIn) { openModal('login'); return; }
                   fileRef.current?.click();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (!isLoggedIn) { openModal('login'); return; }
+                    fileRef.current?.click();
+                  }
                 }}
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
@@ -274,7 +283,8 @@ export default function FanUploadForm() {
                         </div>
                       );
                     })}
-                    <div
+                    <button
+                      type="button"
                       onClick={() => {
                         if (!isLoggedIn) { openModal('login'); return; }
                         fileRef.current?.click();
@@ -282,7 +292,7 @@ export default function FanUploadForm() {
                       className="plus-button aspect-square rounded-lg border-2 border-dashed border-black/20 flex flex-col items-center justify-center text-black/40 hover:bg-gray-100 hover:text-black transition-colors cursor-pointer"
                     >
                       <span className="text-2xl font-light">+</span>
-                    </div>
+                    </button>
                   </div>
                 ) : (
                   <div className="text-center p-6 relative z-10 flex flex-col items-center">

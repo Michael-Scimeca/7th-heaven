@@ -572,13 +572,14 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
                       return (
-                        <div
+                        <button
+                          type="button"
                           key={song.id || song.title}
                           onClick={() => {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
-                          className={`flex items-center justify-between p-3  border cursor-pointer select-none transition-colors duration-300 ${isActive
+                          className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive
                               ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
                               : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
                             }`}
@@ -595,7 +596,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             )}
                             <span className="text-[0.55rem] text-white/25 uppercase font-bold tracking-widest">MP3</span>
                           </div>
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
