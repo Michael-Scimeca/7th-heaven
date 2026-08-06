@@ -3148,13 +3148,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           { label: '12h', hours: 12 },
                           { label: '24h', hours: 24 },
                         ].map(({ label, hours }) => {
-                          const expiry = new Date(Date.now() + hours * 3600000).toISOString();
-                          const isSelected = bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - Date.now() - hours * 3600000) < 60000;
+                          const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
                           return (
                             <button
                               key={label}
                               type="button"
                               onClick={async () => {
+                                const expiry = new Date(Date.now() + hours * 3600000).toISOString();
                                 setBannerExpiresAt(expiry);
                                 await updateGlobalBanner({ expiresAt: expiry });
                               }}
