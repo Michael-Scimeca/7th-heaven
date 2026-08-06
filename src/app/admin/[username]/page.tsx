@@ -280,8 +280,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   });
 
   const [localAvatar, setLocalAvatar] = useState<string | null>(null);
+  const [thisMondayTime, setThisMondayTime] = useState<number | null>(null);
+
   useEffect(() => {
     setLocalAvatar(localStorage.getItem("7h_profile_avatar"));
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    setThisMondayTime(new Date(today.getFullYear(), today.getMonth(), diff, 0, 0, 0, 0).getTime());
   }, []);
 
   const activeAdminAvatar = adminAvatarOverride || effectiveAdmin.avatar || member?.avatar || localAvatar;
@@ -9521,19 +9527,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     value={(() => {
                       if (calendarRange === '4weeks') return '4weeks';
                       if (calendarRange === 'month') return 'month';
-                      if (!mounted) return 'current';
+                      if (thisMondayTime === null) return 'current';
 
                       const time = currentWeekStart.getTime();
-                      const today = new Date();
-                      const day = today.getDay();
-                      const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-                      const thisMonday = new Date(today.getFullYear(), today.getMonth(), diff, 0, 0, 0, 0);
-
-                      if (time === thisMonday.getTime()) return 'current';
-                      if (time === thisMonday.getTime() + 7 * 86400000) return 'next';
-                      if (time === thisMonday.getTime() + 14 * 86400000) return 'next2';
-                      if (time === thisMonday.getTime() + 21 * 86400000) return 'next3';
-                      if (time === thisMonday.getTime() + 28 * 86400000) return 'next4';
+                      if (time === thisMondayTime) return 'current';
+                      if (time === thisMondayTime + 7 * 86400000) return 'next';
+                      if (time === thisMondayTime + 14 * 86400000) return 'next2';
+                      if (time === thisMondayTime + 21 * 86400000) return 'next3';
+                      if (time === thisMondayTime + 28 * 86400000) return 'next4';
                       return 'custom';
                     })()}
                     onChange={(e) => {
