@@ -376,7 +376,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
-      const stored = localStorage.getItem('admin_orders_list');
+      const stored = localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list');
       if (stored) {
         setSimulatedOrders(JSON.parse(stored));
       } else {
@@ -416,7 +416,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             ts: Date.now() - 3600000 * 5
           }
         ];
-        localStorage.setItem('admin_orders_list', JSON.stringify(initialMock));
+        localStorage.setItem('admin_orders_list_v1', JSON.stringify(initialMock));
         setSimulatedOrders(initialMock);
       }
     }
@@ -432,7 +432,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         setSimulatedOrders(prev => {
           if (prev.find(o => o.id === payload.id)) return prev;
           const updated = [payload, ...prev];
-          queueMicrotask(() => localStorage.setItem('admin_orders_list', JSON.stringify(updated)));
+          queueMicrotask(() => localStorage.setItem('admin_orders_list_v1', JSON.stringify(updated)));
           return updated;
         });
 
@@ -467,7 +467,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         }
         return o;
       });
-      queueMicrotask(() => localStorage.setItem('admin_orders_list', JSON.stringify(updated)));
+      queueMicrotask(() => localStorage.setItem('admin_orders_list_v1', JSON.stringify(updated)));
       return updated;
     });
 
