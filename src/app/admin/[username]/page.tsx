@@ -8153,7 +8153,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           role: loadedTimeFrames[0].role,
           startHour: loadedTimeFrames[0].startHour,
           endHour: loadedTimeFrames[0].endHour,
-          timeFrames: JSON.parse(JSON.stringify(loadedTimeFrames))
+          timeFrames: structuredClone(loadedTimeFrames)
         };
       }
       setSelectedCrewAssignments(initialAssignments);
@@ -8212,7 +8212,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           role: shift.role,
           startHour: shift.startHour,
           endHour: shift.endHour,
-          timeFrames: JSON.parse(JSON.stringify(loadedTimeFrames))
+          timeFrames: structuredClone(loadedTimeFrames)
         };
       }
       setSelectedCrewAssignments(initialAssignments);
@@ -10430,7 +10430,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                                   role: assignment.role || dropRole || member.role || 'STAGE HAND',
                                                   startHour: assignment.startHour || dropStartHour || 12,
                                                   endHour: assignment.endHour || dropEndHour || 17,
-                                                  timeFrames: JSON.parse(JSON.stringify(dropTimeFrames))
+                                                  timeFrames: structuredClone(dropTimeFrames)
                                                 }
                                               }));
                                             }}
