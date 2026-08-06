@@ -2,7 +2,8 @@
 
 import React from 'react';
 
-import { useState, useEffect, useRef, use, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, use, useMemo, useCallback, useSyncExternalStore } from "react";
+const emptySubscribe = () => () => {};
 import Link from "next/link";
 import { useRouter, redirect } from 'next/navigation';
 import { createClient } from "@/lib/supabase/client";
@@ -346,7 +347,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [moderationQueue, setModerationQueue] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const staticCrew = STATIC_CREW;
 
@@ -373,7 +374,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   // Load simulated orders from localStorage on mount
   useEffect(() => {
-    setMounted(true);
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
       const stored = localStorage.getItem('admin_orders_list');

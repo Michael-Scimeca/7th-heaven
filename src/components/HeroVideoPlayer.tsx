@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useSyncExternalStore } from "react";
+const emptySubscribe = () => () => {};
 import type { ReactNode } from "react";
 import VinylHeroPlayer from "@/components/VinylHeroPlayer";
 import HeroYTBackground from "@/components/HeroYTBackground";
@@ -62,7 +63,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [mixBlendMode, setMixBlendMode] = useState<"normal" | "multiply" | "screen" | "overlay" | "color" | "darken">("normal");
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   // ── Bottom-Up Gradient Customizer states ──────────────────────────────────
   const [gradHeight, setGradHeight] = useState(46); // %
@@ -73,7 +74,6 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [gradCopied, setGradCopied] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const savedColor = localStorage.getItem("7h_tint_color");
     const savedOpacity = localStorage.getItem("7h_tint_opacity");
     const savedBlend = localStorage.getItem("7h_tint_blend");
