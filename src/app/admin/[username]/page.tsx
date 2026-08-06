@@ -3445,7 +3445,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
               <div className="space-y-3">
                 {gaData.locations && gaData.locations.map((loc: any, idx: number) => (
-                  <div key={loc.id || loc.city || idx} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
+                  <div key={loc.id || `loc-${loc.city || 'city'}-${loc.percentage}-${idx}`} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
                     <div className="flex items-center justify-between text-xs font-bold mb-1">
                       <span className="text-[var(--text-color)]"> {loc.city}</span>
                       <span className="text-[var(--muted-text)] font-mono">{loc.percentage}% of total fans</span>
@@ -3626,7 +3626,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </tr></thead>
                     <tbody>
                       {shopifyData.products.map((p: any, i: number) => (
-                        <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                        <tr key={p.id || p.handle || `prod-${p.title}-${i}`} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
                               {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
@@ -3710,7 +3710,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         </thead>
                         <tbody>
                           {shopifyData.topProducts.map((p: any, i: number) => (
-                            <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <tr key={p.id || `top-prod-${p.title}-${i}`} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
                                   <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
@@ -3750,7 +3750,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             const maxRevenue = Math.max(...Object.values(shopifyData.dailyRevenue).map(Number));
                             const pct = maxRevenue > 0 ? (amount / maxRevenue) * 100 : 0;
                             return (
-                              <div key={`daily-rev-${date}-${idx}`} className="flex items-center gap-3">
+                              <div key={`daily-rev-${date}`} className="flex items-center gap-3">
                                 <span className="text-[0.6rem] font-mono text-white/30 w-16 shrink-0">
                                   {new Date(date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                 </span>
@@ -3855,7 +3855,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </tr></thead>
                     <tbody>
                       {shopifyData.products.map((p: any, i: number) => (
-                        <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                        <tr key={p.id || p.handle || `prod-bottom-${p.title}-${i}`} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
                               {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
@@ -6681,8 +6681,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     { name: 'Booking Admin Alert', trigger: 'Sent to 7th Heaven admins to review new booking details.' },
                     { name: 'Booking Status Update', trigger: 'Sent to planner when admin approves/declines booking.' },
                     { name: 'Booking Cancelled', trigger: 'Sent when planner/admin cancels booking reservation.' }
-                  ].map((email, idx) => (
-                    <div key={idx} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-all">
+                  ].map((email) => (
+                    <div key={email.name} className="bg-emerald-500/5 border border-emerald-500/10 rounded-lg p-2.5 hover:border-emerald-500/30 transition-all">
                       <h4 className="text-[var(--font-size-2xs)] font-extrabold text-emerald-200">{email.name}</h4>
                       <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
@@ -6704,8 +6704,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     { name: 'Crew Alert (Email + SMS)', trigger: 'Sent when admin broadcasts text broadcast via Crew SMS panel.' },
                     { name: 'Crew SMS Dispatched', trigger: 'Sent to admin showing confirmation and recipient table.' },
                     { name: 'Crew Work Hours Summary', trigger: 'Sent automatically when crew checks out of a completed shift.' }
-                  ].map((email, idx) => (
-                    <div key={idx} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-all">
+                  ].map((email) => (
+                    <div key={email.name} className="bg-purple-500/10 border border-purple-500/15 rounded-lg p-2.5 hover:border-purple-500/30 transition-all">
                       <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
                       <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
@@ -6729,8 +6729,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     { name: 'Fan Upload Approved', trigger: 'Sent when admin approves fan-submitted live gallery photo.' },
                     { name: 'Fan Upload Rejected', trigger: 'Sent when admin rejects image due to policy guidelines.' },
                     { name: 'Fan Invitation', trigger: 'Sent when admin sends invite via Bulk Invites system.' }
-                  ].map((email, idx) => (
-                    <div key={idx} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-all">
+                  ].map((email) => (
+                    <div key={email.name} className="bg-pink-500/5 border border-pink-500/10 rounded-lg p-2.5 hover:border-pink-500/30 transition-all">
                       <h4 className="text-[var(--font-size-2xs)] font-extrabold text-pink-200">{email.name}</h4>
                       <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
@@ -6751,8 +6751,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     { name: 'Cruise Community Welcome', trigger: 'Sent when cruise admin approves user reservation.' },
                     { name: 'Cruise Cancellation', trigger: 'Sent when reservation is cancelled by user/admin.' },
                     { name: 'Cruise Community Blast', trigger: 'Sent when cruise admin broadcasts to cruise page chat group.' }
-                  ].map((email, idx) => (
-                    <div key={idx} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-all">
+                  ].map((email) => (
+                    <div key={email.name} className="bg-cyan-500/5 border border-cyan-500/10 rounded-lg p-2.5 hover:border-cyan-500/30 transition-all">
                       <h4 className="text-[var(--font-size-2xs)] font-extrabold text-cyan-200">{email.name}</h4>
                       <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
@@ -6775,8 +6775,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     { name: 'New Account Alert — Admin', trigger: 'Sent to super-admin when new admin logs in first time.' },
                     { name: 'Welcome — Planner', trigger: 'Sent to corporate planner on registration.' },
                     { name: 'Welcome — Admin', trigger: 'Sent when new system admin account created.' }
-                  ].map((email, idx) => (
-                    <div key={idx} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-all">
+                  ].map((email) => (
+                    <div key={email.name} className="bg-purple-500/5 border border-purple-500/10 rounded-lg p-2.5 hover:border-purple-500/30 transition-all">
                       <h4 className="text-[var(--font-size-2xs)] font-extrabold text-purple-200">{email.name}</h4>
                       <p className="text-[var(--font-size-4xs)] text-white/40 mt-1 leading-normal">{email.trigger}</p>
                     </div>
@@ -7513,7 +7513,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   <span></span>
                 </div>
                 {signups.map((s: any, i: number) => (
-                  <div key={s.id || i} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-all group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
+                  <div key={s.id || s.email || `cruise-${i}`} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-all group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
                     {/* Email checkbox */}
                     <div className="flex justify-center">
                       <button onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${cruiseSelectedEmails.includes(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
@@ -8339,7 +8339,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 {shift.role ? (
                   shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
                     <span
-                      key={rIdx}
+                      key={`${singleRole}-${rIdx}`}
                       className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
                       {singleRole}
@@ -8348,7 +8348,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 ) : null}
                 {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
                   <span
-                    key={idx}
+                    key={`${tag}-${idx}`}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
                     {tag}
@@ -8374,7 +8374,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 {shift.role ? (
                   shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
                     <span
-                      key={rIdx}
+                      key={`${singleRole}-${rIdx}`}
                       className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
                       {singleRole}
@@ -8383,7 +8383,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 ) : null}
                 {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
                   <span
-                    key={idx}
+                    key={`${tag}-${idx}`}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
                     {tag}
@@ -8552,7 +8552,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           }
           return (
             <span
-              key={idx}
+              key={`${r}-${idx}`}
               className={`inline-block px-1.5 py-0.5 text-[8.5px] font-black uppercase tracking-tight rounded border leading-none shrink-0 ${colorClass}`}
             >
               {r}
