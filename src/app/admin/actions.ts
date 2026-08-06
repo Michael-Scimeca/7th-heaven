@@ -3,6 +3,7 @@
 import crypto from 'crypto';
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { RoomServiceClient } from 'livekit-server-sdk';
 import { requireAdminSession, requireCrewSession } from "@/lib/supabase/server";
 
@@ -20,7 +21,7 @@ const roomService = new RoomServiceClient(
 
 export async function adminKillStream(streamId: string) {
   await requireAdminSession();
-  console.log(`[Admin] Aggressively terminating stream ${streamId}`);
+  after(() => { console.log(`[Admin] Aggressively terminating stream ${streamId}`); });
   
   // 1 & 2. Get stream details and update Supabase status concurrently
   const [streamResult, updateResult] = await Promise.all([
@@ -41,7 +42,7 @@ export async function adminKillStream(streamId: string) {
     const roomName = stream.stream_url || `live_${stream.user_id}`;
     try {
       await roomService.deleteRoom(roomName);
-      console.log(`[Admin] LiveKit room ${roomName} deleted.`);
+      after(() => { console.log(`[Admin] LiveKit room ${roomName} deleted.`); });
     } catch (lkErr) {
       console.error("Failed to delete LiveKit room:", lkErr);
       // Not a fatal error, maybe the room was already empty
@@ -55,7 +56,7 @@ export async function adminKillStream(streamId: string) {
 
 export async function adminBanUser(userId: string) {
   await requireAdminSession();
-  console.log(`[Admin] Removing user ${userId}`);
+  after(() => { console.log(`[Admin] Removing user ${userId}`); });
   
   // SECURE GUARD: Prevent deletion of Admin accounts
   const { data: profile } = await supabaseAdmin.from("profiles").select("role").eq("id", userId).single();
@@ -85,7 +86,7 @@ export async function adminBanUser(userId: string) {
 // Crew-level action: can only remove fans
 export async function crewBanUser(userId: string) {
   await requireCrewSession();
-  console.log(`[Crew] Attempting to remove user ${userId}`);
+  after(() => { console.log(`[Crew] Attempting to remove user ${userId}`); });
   
   const { data: profile } = await supabaseAdmin.from("profiles").select("role").eq("id", userId).single();
   if (profile?.role !== 'fan') {
@@ -111,7 +112,7 @@ export async function crewBanUser(userId: string) {
 
 export async function seedMockData() {
   await requireAdminSession();
-  console.log("[Admin] Seeding mock users for testing...");
+  after(() => { console.log("[Admin] Seeding mock users for testing..."); });
   
   const postfix = Math.floor(Math.random() * 100000);
   const mockUsers = [
@@ -152,7 +153,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
   if (!phone || phone.replace(/\D/g, '').length !== 10) {
     return { success: false, error: 'A valid 10-digit phone number is required to create a crew account.' };
   }
-  console.log(`[Admin] Creating crew member ${email}`);
+  after(() => { console.log(`[Admin] Creating crew member ${email}`); });
   // Use provided password or generate a secure temporary one
   const password = providedPassword || (crypto.randomBytes(8).toString('hex') + "!A1");
   // Create auth user
@@ -199,7 +200,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
       subject: '🛡️ Welcome to the 7th Heaven Crew',
       html: welcomeCrew({ name, email, username: username || undefined, tempPassword: password }),
     });
-    console.log(`[Admin] Welcome email sent to crew member ${email}`);
+    after(() => { console.log(`[Admin] Welcome email sent to crew member ${email}`); });
 
     // 2. Alert email to site admin
     if (adminEmail) {
@@ -214,7 +215,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
           createdBy: 'Admin Dashboard',
         }),
       });
-      console.log(`[Admin] Account alert sent to ${adminEmail}`);
+      after(() => { console.log(`[Admin] Account alert sent to ${adminEmail}`); });
     }
   } catch (emailErr) {
     // Don't fail the account creation if email fails
@@ -228,7 +229,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
 
 export async function adminCreateAdmin({ name, email, username }: { name: string; email: string; username: string }) {
   await requireAdminSession();
-  console.log(`[Admin] Creating admin account for ${email} with username ${username}`);
+  after(() => { console.log(`[Admin] Creating admin account for ${email} with username ${username}`); });
   // Generate a secure temporary password
   const password = crypto.randomBytes(8).toString('hex') + '!A7';
 
@@ -287,7 +288,7 @@ export async function adminCreateAdmin({ name, email, username }: { name: string
           </div>
         </div>`,
     });
-    console.log(`[Admin] Welcome email sent to new admin ${email}`);
+    after(() => { console.log(`[Admin] Welcome email sent to new admin ${email}`); });
   } catch (emailErr) {
     console.error('[Admin] Admin welcome email failed (non-fatal):', emailErr);
   }
@@ -298,7 +299,7 @@ export async function adminCreateAdmin({ name, email, username }: { name: string
 
 export async function adminResetPassword(userId: string, email: string) {
   await requireAdminSession();
-  console.log(`[Admin] Resetting password for ${email}`);
+  after(() => { console.log(`[Admin] Resetting password for ${email}`); });
   const newPassword = crypto.randomBytes(8).toString('hex') + "!A1";
   
   const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
@@ -315,7 +316,7 @@ export async function adminResetPassword(userId: string, email: string) {
 
 export async function seed20CrewMembers() {
   await requireAdminSession();
-  console.log("[Admin] Seeding 20 mock crew members...");
+  after(() => { console.log("[Admin] Seeding 20 mock crew members..."); });
   
   const mockNames = [
     "Alice Smith", "Bob Jones", "Charlie Brown", "David Miller", "Emma Wilson",
