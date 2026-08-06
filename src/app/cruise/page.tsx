@@ -309,18 +309,19 @@ export default function CruisePage() {
     const yyyy = today.getFullYear();
     setSignatureDate(`${mm}/${dd}/${yyyy}`);
 
-    const loadStats = async () => {
+    let active = true;
+    (async () => {
       try {
         const res = await fetch('/api/cruise/count');
-        if (res.ok) {
+        if (res.ok && active) {
           const data = await res.json();
           setSignupCount(data.signupCount);
           setTotalGuests(data.totalGuests);
           setJoinedFans(data.joinedFans);
         }
       } catch { }
-    };
-    loadStats();
+    })();
+    return () => { active = false; };
   }, []);
 
   // Pre-fill form if user is logged in
