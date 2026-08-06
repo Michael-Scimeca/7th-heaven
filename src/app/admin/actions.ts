@@ -1,5 +1,6 @@
 "use server";
 
+import crypto from 'crypto';
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { RoomServiceClient } from 'livekit-server-sdk';
@@ -153,7 +154,7 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
   }
   console.log(`[Admin] Creating crew member ${email}`);
   // Use provided password or generate a secure temporary one
-  const password = providedPassword || (Math.random().toString(36).slice(-10) + "!A1");
+  const password = providedPassword || (crypto.randomBytes(8).toString('hex') + "!A1");
   // Create auth user
   const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
     email,
@@ -229,7 +230,7 @@ export async function adminCreateAdmin({ name, email, username }: { name: string
   await requireAdminSession();
   console.log(`[Admin] Creating admin account for ${email} with username ${username}`);
   // Generate a secure temporary password
-  const password = Math.random().toString(36).slice(-10) + '!A7';
+  const password = crypto.randomBytes(8).toString('hex') + '!A7';
 
   // Create Supabase auth user
   const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
@@ -298,7 +299,7 @@ export async function adminCreateAdmin({ name, email, username }: { name: string
 export async function adminResetPassword(userId: string, email: string) {
   await requireAdminSession();
   console.log(`[Admin] Resetting password for ${email}`);
-  const newPassword = Math.random().toString(36).slice(-10) + "!A1";
+  const newPassword = crypto.randomBytes(8).toString('hex') + "!A1";
   
   const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
     password: newPassword

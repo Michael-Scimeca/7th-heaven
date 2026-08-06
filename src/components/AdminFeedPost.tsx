@@ -56,7 +56,7 @@ export default function AdminFeedPost() {
     }
    });
 
-  return () => { channel.unsubscribe(); };
+   return () => { supabase.removeChannel(channel); };
  }, [selectedMember]);
 
  const handlePost = async (e: React.FormEvent) => {

@@ -379,9 +379,9 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     try {
       localStorage.setItem(`7h_crew_notes_${slug}`, crewNotes);
       await supabase.from("crew_notes").upsert({
-        crew_id: userId, crew_name: displayName,
+        crew_name: displayName,
         content: crewNotes, updated_at: new Date().toISOString(),
-      }, { onConflict: "crew_id" });
+      });
     } catch { }
     setNotesSaved(true);
     setTimeout(() => setNotesSaved(false), 2500);

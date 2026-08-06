@@ -2,32 +2,26 @@
 
 import { Suspense } from "react";
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, redirect } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
 function FansRedirectContent() {
   const { member, isLoggedIn, hydrated, openModal, login } = useMember();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const isDemo = searchParams.get("demo") === "true";
+
+  if (hydrated && isDemo) {
+    redirect("/fans/demo");
+  }
+
+  if (hydrated && isLoggedIn && member) {
+    const slug = member.username || "me";
+    redirect(`/fans/${slug}`);
+  }
 
   useEffect(() => {
     if (!hydrated) return;
 
-    // Demo mode — redirect to /fans/demo
-    if (isDemo) {
-      router.replace("/fans/demo");
-      return;
-    }
-
-    // Logged in — redirect to /fans/[username]
-    if (isLoggedIn && member) {
-      const slug = member.username || "me";
-      router.replace(`/fans/${slug}`);
-      return;
-    }
-
-    // Not logged in — auto-login in dev mode or open modal in production
     if (!isLoggedIn) {
       if (process.env.NODE_ENV === 'development') {
         login("fan@7thheaven.com", "password123");
@@ -35,7 +29,7 @@ function FansRedirectContent() {
         openModal("login");
       }
     }
-  }, [hydrated, isLoggedIn, member, isDemo, router, openModal, login]);
+  }, [hydrated, isLoggedIn, openModal, login]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

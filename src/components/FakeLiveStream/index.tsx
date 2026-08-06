@@ -813,13 +813,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     const timeouts = delays.map(d => setTimeout(addAutoMessage, d));
 
     // Then regular cadence: random 2.5s – 7s
-    let timeout: ReturnType<typeof setTimeout>;
     const schedule = () => {
       const delay = 2500 + Math.random() * 4500;
-      timeout = setTimeout(() => {
+      const t = setTimeout(() => {
         addAutoMessage();
         schedule();
       }, delay);
+      timeouts.push(t);
     };
     const startTimer = setTimeout(schedule, 6000);
 
@@ -843,7 +843,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
     return () => {
       timeouts.forEach(clearTimeout);
-      clearTimeout(timeout);
     };
   }, [showOverlay, crewIsLive, addAutoMessage]);
 
@@ -2765,8 +2764,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               // Decrement the stock of the product in the local state or product catalog
               let newStock = 0;
               if (activeMerchDrop.product) {
-                activeMerchDrop.product.stock = Math.max(0, activeMerchDrop.product.stock - 1);
-                newStock = activeMerchDrop.product.stock;
+                newStock = Math.max(0, activeMerchDrop.product.stock - 1);
+                setActiveMerchDrop(prev => prev ? {
+                  ...prev,
+                  product: prev.product ? { ...prev.product, stock: newStock } : prev.product
+                } : null);
               }
 
               // Broadcast stock update

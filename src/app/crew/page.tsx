@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
 const CREW_MEMBERS = [
@@ -14,25 +14,19 @@ const CREW_MEMBERS = [
 
 export default function CrewPortalPage() {
   const { member, isLoggedIn, hydrated, openModal } = useMember();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!hydrated) return;
-
-    if (!isLoggedIn) {
-      // Open the login modal with the Crew tab pre-selected
-      openModal("login", "crew");
-      return;
-    }
-
-    // Auto-redirect logged-in crew to their own studio
+  if (hydrated && isLoggedIn) {
     const crewMatch = CREW_MEMBERS.find(
       (c) => member?.email?.toLowerCase().includes(c.emailKey)
-    ) || CREW_MEMBERS[0]; // Fallback to first crew member (Michael)
-    if (crewMatch) {
-      router.replace(crewMatch.path);
+    ) || CREW_MEMBERS[0];
+    redirect(crewMatch.path);
+  }
+
+  useEffect(() => {
+    if (hydrated && !isLoggedIn) {
+      openModal("login", "crew");
     }
-  }, [hydrated, isLoggedIn, member, router, openModal]);
+  }, [hydrated, isLoggedIn, openModal]);
 
   // Full-screen loading / redirect state
   return (

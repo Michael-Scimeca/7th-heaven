@@ -1,7 +1,7 @@
 "use client";
 
 import { useMember } from "@/context/MemberContext";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, redirect } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
@@ -59,12 +59,9 @@ export default function CruiseDashboard() {
   const urlUsername = typeof params?.username === 'string' ? params.username : '';
   const isDemoMode = urlUsername === 'demo';
 
-  useEffect(() => {
-    if (isDemoMode) return;
-    if (isLoggedIn && member?.role === 'cruise' && member?.username && member.username !== urlUsername) {
-      router.push(`/cruise/${member.username}`);
-    }
-  }, [isLoggedIn, member, urlUsername, router, isDemoMode]);
+  if (!isDemoMode && isLoggedIn && member?.role === 'cruise' && member?.username && member.username !== urlUsername) {
+    redirect(`/cruise/${member.username}`);
+  }
 
   const [announcement, setAnnouncement] = useState<string | null>(null);
   const [announcementTitle, setAnnouncementTitle] = useState<string>('');

@@ -27,7 +27,7 @@ export default function CompleteProfilePage() {
     const loadProfile = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        router.push("/");
+        window.location.replace("/");
         return;
       }
 
@@ -38,13 +38,13 @@ export default function CompleteProfilePage() {
         .single();
 
       if (!profileData) {
-        router.push("/");
+        window.location.replace("/");
         return;
       }
 
       // If profile is already completed, redirect to dashboard
       if (profileData.profile_completed) {
-        router.push(`/fans/${profileData.username}`);
+        window.location.replace(`/fans/${profileData.username}`);
         return;
       }
 

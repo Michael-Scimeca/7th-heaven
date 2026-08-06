@@ -10,7 +10,7 @@ if (!process.env.CRUISE_ENCRYPTION_KEY && process.env.NODE_ENV === 'production')
 // restarts stay consistent without requiring the env var.
 const KEY: Buffer = process.env.CRUISE_ENCRYPTION_KEY
   ? crypto.createHash('sha256').update(process.env.CRUISE_ENCRYPTION_KEY).digest()
-  : crypto.createHash('sha256').update('dev-only').digest();
+  : crypto.randomBytes(32);
 
 const ALGORITHM = 'aes-256-gcm';
 const IV_LENGTH = 12; // Standard for AES-GCM

@@ -4,6 +4,19 @@ import path from "path";
 
 export const dynamic = "force-dynamic";
 
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "fans");
+const META_PATH = path.join(process.cwd(), "data", "fan-photos.json");
+const META_DIR = path.dirname(META_PATH);
+
+async function readPhotos(): Promise<Record<string, unknown>[]> {
+  if (!fs.existsSync(META_PATH)) return [];
+  try {
+    return JSON.parse(await fs.promises.readFile(META_PATH, "utf-8"));
+  } catch {
+    return [];
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -24,17 +37,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Photo and name are required" }, { status: 400 });
     }
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "fans");
-    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-    
-    const metaPath = path.join(process.cwd(), "data", "fan-photos.json");
-    const metaDir = path.dirname(metaPath);
-    if (!fs.existsSync(metaDir)) fs.mkdirSync(metaDir, { recursive: true });
+    if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+    if (!fs.existsSync(META_DIR)) fs.mkdirSync(META_DIR, { recursive: true });
 
-    let photos: Record<string, unknown>[] = [];
-    if (fs.existsSync(metaPath)) {
-      photos = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
-    }
+    let photos = await readPhotos();
 
     for (const file of files) {
       // Validate file type (allow images and videos)
@@ -56,12 +62,12 @@ export async function POST(request: Request) {
       if (isVideo) {
         fileTypeField = 'video';
         finalFilename = `fan_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.mp4`;
-        const finalPath = path.join(uploadDir, finalFilename);
+        const finalPath = path.join(UPLOAD_DIR, finalFilename);
         
         // Write original to temporary file first
         const origExt = file.name.split(".").pop() || "mp4";
         const tempFilename = `temp_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${origExt}`;
-        const tempPath = path.join(uploadDir, tempFilename);
+        const tempPath = path.join(UPLOAD_DIR, tempFilename);
         
         const buffer = Buffer.from(await file.arrayBuffer());
         fs.writeFileSync(tempPath, buffer);
@@ -85,7 +91,7 @@ export async function POST(request: Request) {
           // Fallback: rename/move temp file to the final filename (or fallback filename)
           const fallbackExt = origExt.toLowerCase() === 'mov' ? 'mov' : 'mp4';
           finalFilename = `fan_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${fallbackExt}`;
-          const fallbackFinalPath = path.join(uploadDir, finalFilename);
+          const fallbackFinalPath = path.join(UPLOAD_DIR, finalFilename);
           try {
             fs.renameSync(tempPath, fallbackFinalPath);
           } catch (renameErr) {
@@ -98,7 +104,7 @@ export async function POST(request: Request) {
         fileTypeField = 'image';
         const ext = file.name.split(".").pop() || "jpg";
         finalFilename = `fan_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const filePath = path.join(uploadDir, finalFilename);
+        const filePath = path.join(UPLOAD_DIR, finalFilename);
         const buffer = Buffer.from(await file.arrayBuffer());
         fs.writeFileSync(filePath, buffer);
       }
@@ -121,7 +127,7 @@ export async function POST(request: Request) {
       photos.push(entry);
     }
 
-    fs.writeFileSync(metaPath, JSON.stringify(photos, null, 2));
+    await fs.promises.writeFile(META_PATH, JSON.stringify(photos, null, 2));
 
     return NextResponse.json({ success: true, message: "Photos submitted for review!" });
   } catch (error) {
@@ -135,18 +141,14 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const returnAll = searchParams.get("all") === "true";
 
-    const metaPath = path.join(process.cwd(), "data", "fan-photos.json");
-    if (!fs.existsSync(metaPath)) {
-      return NextResponse.json([]);
-    }
-    const photos = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+    const photos = await readPhotos();
     
     if (returnAll) {
       return NextResponse.json(photos);
     }
 
     // Only return approved photos by default
-    const approved = photos.filter((p: { approved: boolean }) => p.approved);
+    const approved = photos.filter((p: any) => p.approved);
     return NextResponse.json(approved);
   } catch {
     return NextResponse.json([]);
@@ -160,10 +162,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Invalid parameters" }, { status: 400 });
     }
 
-    const metaPath = path.join(process.cwd(), "data", "fan-photos.json");
-    if (!fs.existsSync(metaPath)) return NextResponse.json({ error: "No data found" }, { status: 404 });
-
-    let photos = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+    let photos = await readPhotos();
     const photoIndex = photos.findIndex((p: any) => p.id === id);
 
     if (photoIndex === -1) return NextResponse.json({ error: "Photo not found" }, { status: 404 });
@@ -183,7 +182,7 @@ export async function PATCH(request: Request) {
       photos[photoIndex].flagged = true;
     }
 
-    fs.writeFileSync(metaPath, JSON.stringify(photos, null, 2));
+    await fs.promises.writeFile(META_PATH, JSON.stringify(photos, null, 2));
 
     return NextResponse.json({ success: true });
   } catch (error) {

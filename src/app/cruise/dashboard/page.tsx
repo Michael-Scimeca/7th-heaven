@@ -1,7 +1,7 @@
 "use client";
 
 import { useMember } from "@/context/MemberContext";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -25,21 +25,21 @@ export default function CruiseDashboardGate() {
   const [pinInput, setPinInput] = useState('');
 
   // If already logged in, redirect immediately to the username dashboard
+  if (isLoggedIn && member?.username) {
+    redirect(`/cruise/${member.username}`);
+  } else if (isLoggedIn && member) {
+    const fallbackUsername = member.email?.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '') || 'cruiser';
+    redirect(`/cruise/${fallbackUsername}`);
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('bypass') === 'true') {
-        router.replace('/cruise/demo?bypass=true');
-        return;
+        window.location.replace('/cruise/demo?bypass=true');
       }
     }
-    if (isLoggedIn && member?.username) {
-      router.replace(`/cruise/${member.username}`);
-    } else if (isLoggedIn && member) {
-      const fallbackUsername = member.email?.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '') || 'cruiser';
-      router.replace(`/cruise/${fallbackUsername}`);
-    }
-  }, [isLoggedIn, member, router]);
+  }, []);
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

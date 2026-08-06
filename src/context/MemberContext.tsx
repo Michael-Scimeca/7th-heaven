@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 // Dev-only: never ships in the production bundle
-const fakeLogins: { email: string; password: string; name: string; username: string; role: string; pin: string }[] =
+const fakeLogins: { email: string; password: string; name: string; username: string; userRole: string; pin: string }[] =
   process.env.NODE_ENV !== 'production'
     ? require("@/data/fake-logins.json")
     : [];
@@ -232,7 +232,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     }
 
     const fakeMember: Member = {
-     id: `fake-${fakeUser.role}-${Date.now()}`,
+     id: `fake-${fakeUser.userRole || (fakeUser as any).role}-${Date.now()}`,
      name: fakeUser.name,
      username: fakeUser.username,
      email: fakeUser.email.toLowerCase(),
@@ -244,7 +244,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
      favoriteVenues: [],
      notificationsEnabled: true,
      notificationRadius: 25,
-     role: fakeUser.role as Member["role"],
+     role: (fakeUser.userRole || (fakeUser as any).role) as Member["role"],
     };
 
     localStorage.setItem("7h_member", JSON.stringify(fakeMember));
@@ -262,7 +262,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     if (error || !data.user) return false;
 
     // Fetch profile for role
-    const { data: profile } = await supabase.from("profiles").select("role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source, is_banned, is_warned").eq("id", data.user.id).single();
+    const { data: profile } = await supabase.from("profiles").select("*").eq("id", data.user.id).single();
 
     if (profile?.is_banned) {
       console.warn("Attempted login to banned account:", email);
@@ -323,7 +323,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
         email,
         password,
         options: {
-          data: { full_name: name, username: username || '', role, phone: phone || '' },
+          data: { full_name: name, username: username || '', phone: phone || '' },
           emailRedirectTo: `${window.location.origin}/fans`,
         },
       });

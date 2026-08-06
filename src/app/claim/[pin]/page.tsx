@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
 
@@ -13,7 +13,6 @@ export default function ClaimPage() {
   const [status, setStatus] = useState<'loading' | 'valid' | 'wrong_user' | 'not_logged_in' | 'invalid'>('loading');
   const [winnerName, setWinnerName] = useState('');
   const [prizeName, setPrizeName] = useState('');
-  const [prizesList, setPrizesList] = useState<{ name: string, qty: number, productId?: string, variantId?: string }[]>([]);
   const [shopifyProductsMap, setShopifyProductsMap] = useState<Record<string, { title: string, imageUrl: string }>>({});
   const [hasClaimed, setHasClaimed] = useState(false);
 
@@ -99,17 +98,16 @@ export default function ClaimPage() {
     }
   };
 
-  useEffect(() => {
-    if (!prizeName) return;
+  const prizesList = useMemo<{ name: string, qty: number, productId?: string, variantId?: string }[]>(() => {
+    if (!prizeName) return [];
     try {
       if (prizeName.startsWith('[') || prizeName.startsWith('{')) {
         const parsed = JSON.parse(prizeName);
-        setPrizesList(Array.isArray(parsed) ? parsed : [parsed]);
-      } else {
-        setPrizesList([{ name: prizeName, qty: 1 }]);
+        return Array.isArray(parsed) ? parsed : [parsed];
       }
+      return [{ name: prizeName, qty: 1 }];
     } catch {
-      setPrizesList([{ name: prizeName, qty: 1 }]);
+      return [{ name: prizeName, qty: 1 }];
     }
   }, [prizeName]);
 

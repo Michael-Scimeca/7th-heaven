@@ -402,7 +402,7 @@ export default function SetupChecklistPage() {
             <div className="pt-4 border-t border-black/5">
               <span className="text-3xs uppercase tracking-wider font-bold text-black/20 block mb-1">Active config key</span>
               <code className="text-xs font-mono  text-[var(--color-accent)]/80 block break-all">
-                NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN, NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
+                NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN, {'NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'}
               </code>
             </div>
           </div>

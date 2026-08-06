@@ -2,6 +2,18 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+const VIDEOS_FILE_PATH = path.join(process.cwd(), 'public', 'data', 'videos.json');
+
+async function readVideos(): Promise<any[]> {
+  if (!fs.existsSync(VIDEOS_FILE_PATH)) return [];
+  try {
+    const raw = await fs.promises.readFile(VIDEOS_FILE_PATH, 'utf8');
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const { youtubeId, title, year, duration, description } = await req.json();
@@ -10,9 +22,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'youtubeId and title are required.' }, { status: 400 });
     }
 
-    const filePath = path.join(process.cwd(), 'public', 'data', 'videos.json');
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const categories: any[] = JSON.parse(raw);
+    const categories: any[] = await readVideos();
 
     // Find or create the "Live Feeds" category
     let liveFeedsCategory = categories.find((c: any) => c.category === 'Live Feeds');
@@ -37,7 +47,7 @@ export async function POST(req: Request) {
       viewCount: '0',
     });
 
-    fs.writeFileSync(filePath, JSON.stringify(categories, null, 2), 'utf8');
+    await fs.promises.writeFile(VIDEOS_FILE_PATH, JSON.stringify(categories, null, 2), 'utf8');
 
     return NextResponse.json({ success: true, message: `"${title}" successfully saved to Live Feeds gallery.` });
   } catch (error: any) {

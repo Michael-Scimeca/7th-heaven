@@ -23,7 +23,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const [isLoading, setIsLoading] = useState(true);
   const [displayName, setDisplayName] = useState('');
   const [userId, setUserId] = useState('');
-  const [role, setRole] = useState<'fan' | 'crew' | 'admin'>('crew');
   const [email, setEmail] = useState('');
   const [isBroadcastPanelCollapsed, setIsBroadcastPanelCollapsed] = useState(false);
   const [isScheduleCollapsed, setIsScheduleCollapsed] = useState(false);
@@ -1229,7 +1228,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         setUserId(session.user.id);
         setDisplayName(name);
         setEmail(session.user.email || '');
-        setRole(session.user.user_metadata?.role || 'crew');
         setIsLoading(false);
         return;
       }
@@ -1244,7 +1242,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             setUserId(parsed.id || 'crew');
             setDisplayName(parsed.name || 'Crew');
             setEmail(parsed.email || '');
-            setRole(parsed.role);
             setIsLoading(false);
             return;
           }
@@ -1260,7 +1257,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         setUserId(parsed?.id || 'michael');
         setDisplayName(parsed?.name || 'Michael Scimeca');
         setEmail(parsed?.email || 'michael@7thheaven.com');
-        setRole('crew');
         if (!localStorage.getItem('7h_member')) {
           localStorage.setItem('7h_member', JSON.stringify({
             id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com',
@@ -1745,7 +1741,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         const { data: newStream, error: insertErr } = await supabase
           .from('live_streams')
           .insert({
-            user_id: userId,
             title: `${displayName} — ${streamTitle || 'Crew Broadcast'}`,
             status: 'live',
             viewer_count: 0,
@@ -1919,7 +1914,6 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     // Persist to Supabase
     try {
       const raffleData = {
-        crew_id: userId,
         stream_id: `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`,
         status,
         prize_name: prizes?.[0]?.name || '',
@@ -2072,19 +2066,23 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }, 4000); // Wait 4s for simulated spin effect on fan page
   };
 
+  const raffleStateRef = useRef({ raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug });
+  useEffect(() => {
+    raffleStateRef.current = { raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug };
+  });
+
   const handleRegisterEntrant = useCallback((name: string, email?: string, id?: string, targetCrewId?: string) => {
-    if (targetCrewId && targetCrewId !== slug) return;
+    const { slug: currentSlug, raffleStatus: currentStatus, raffleMinEntrants: currentMin, rafflePrizes: currentPrizes, drawnWinners: currentWinners, winnerPins: currentPins } = raffleStateRef.current;
+    if (targetCrewId && targetCrewId !== currentSlug) return;
     setRaffleEntrants(prev => {
       if (prev.some(e => e.name === name)) return prev;
       const next = [...prev, { name, id: id || Math.random().toString(), email }];
-      // Sync raffle outside updater to keep it pure
-      queueMicrotask(() => syncRaffle(raffleStatus, next, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins));
+      queueMicrotask(() => syncRaffle(currentStatus, next, currentMin, currentPrizes, currentWinners, currentPins));
       return next;
     });
-  }, [raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug]);
+  }, []);
 
   const handleRegisterEntrantRef = useRef(handleRegisterEntrant);
-  // Assign during render — ref mutation is intentionally synchronous and side-effect-free
   handleRegisterEntrantRef.current = handleRegisterEntrant;
 
   const handleRegisterLike = useCallback((songId: string, targetCrewId?: string) => {
@@ -3691,7 +3689,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                             </div>
                                           ) : (
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                              {myAvailabilities
+                                              {[...myAvailabilities]
                                                 .sort((a, b) => a.date.localeCompare(b.date))
                                                 .map((item) => (
                                                   <div key={item.id} className="p-3 bg-white/5 border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-colors">
@@ -3784,7 +3782,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                             </div>
                                           ) : (
                                             <div className="flex flex-col gap-3">
-                                              {myTimeOffRequests
+                                              {[...myTimeOffRequests]
                                                 .sort((a, b) => b.date.localeCompare(a.date))
                                                 .map((req) => (
                                                   <div key={req.id} className="p-4 bg-white/5 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/20 transition-colors">

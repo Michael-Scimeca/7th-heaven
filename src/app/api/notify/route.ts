@@ -5,6 +5,19 @@ import path from "path";
 import { validateSignup } from "@/lib/validation";
 import { checkRateLimit } from "@/lib/rate-limit";
 
+const ACCOUNTS_FILE_PATH = path.join(process.cwd(), "data", "accounts.json");
+const ACCOUNTS_DIR = path.dirname(ACCOUNTS_FILE_PATH);
+
+async function readAccounts(): Promise<Record<string, unknown>[]> {
+  if (!fs.existsSync(ACCOUNTS_FILE_PATH)) return [];
+  try {
+    const raw = await fs.promises.readFile(ACCOUNTS_FILE_PATH, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
 export async function POST(request: Request) {
   try {
     // ── 1. Rate Limiting ──
@@ -79,15 +92,9 @@ export async function POST(request: Request) {
     };
 
     // ── 6. Save to data store ──
-    const filePath = path.join(process.cwd(), "data", "accounts.json");
-    const dir = path.dirname(filePath);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    if (!fs.existsSync(ACCOUNTS_DIR)) fs.mkdirSync(ACCOUNTS_DIR, { recursive: true });
 
-    let accounts: Record<string, unknown>[] = [];
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, "utf-8");
-      accounts = JSON.parse(raw);
-    }
+    let accounts = await readAccounts();
 
     // Check for duplicate email
     const existing = accounts.find((a) => a.email === email);
@@ -99,7 +106,7 @@ export async function POST(request: Request) {
     }
 
     accounts.push(account);
-    fs.writeFileSync(filePath, JSON.stringify(accounts, null, 2));
+    await fs.promises.writeFile(ACCOUNTS_FILE_PATH, JSON.stringify(accounts, null, 2));
 
     // ── 7. TODO: Send confirmation email ──
     // When ready, integrate with Resend, SendGrid, or Supabase Auth:

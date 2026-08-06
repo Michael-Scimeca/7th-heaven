@@ -174,18 +174,21 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     };
 
     let intervalId: ReturnType<typeof setInterval>;
-
+    let handler: () => void;
     if (video.readyState >= 2) {
       intervalId = onReady();
     } else {
-      const handler = () => {
+      handler = () => {
         intervalId = onReady();
         video.removeEventListener("canplay", handler);
       };
       video.addEventListener("canplay", handler);
     }
 
-    return () => clearInterval(intervalId);
+    return () => {
+      if (handler) video.removeEventListener("canplay", handler);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [captureFrame, videoSrc]); // re-run when source changes
 
   // ── Album → video sync ──────────────────────────────────────────────────────

@@ -427,6 +427,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     }
   }, [pathD, updateShipPosition]);
 
+  const updateShipPositionRef = useRef(updateShipPosition);
+  updateShipPositionRef.current = updateShipPosition;
+
   // Native scroll-progress scrub (replaces GSAP ScrollTrigger)
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -469,7 +472,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         desktopSmoothed += (desktopRaw - desktopSmoothed) * LERP;
         setDesktopProgress(desktopSmoothed);
         latestProgressRef.current = desktopSmoothed;
-        updateShipPosition(desktopSmoothed);
+        updateShipPositionRef.current(desktopSmoothed);
       }
       if (Math.abs(mobileRaw - mobileSmoothed) > 0.0001) {
         mobileSmoothed += (mobileRaw - mobileSmoothed) * LERP;
@@ -504,7 +507,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const l = (window as any).__lenis;
       if (l) l.off('scroll', onScroll);
     };
-  }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning, updateShipPosition]);
+  }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
 
   return (
     <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip border-t border-cyan-500/20">

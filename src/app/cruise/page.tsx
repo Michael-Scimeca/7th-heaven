@@ -335,22 +335,23 @@ export default function CruisePage() {
 
   // Dynamically update payment deposit amounts
   useEffect(() => {
-    const activeCount = 1 + guests.filter(g => g.active).length;
-    const totalDeposit = activeCount * 250;
-    if (formData.splitPayment && activeCount > 1) {
-      setFormData(prev => ({
-        ...prev,
-        cardAmount1: (totalDeposit / 2).toFixed(2),
-        cardAmount2: (totalDeposit / 2).toFixed(2),
-      }));
-    } else {
-      setFormData(prev => ({
+    setFormData(prev => {
+      const activeCount = 1 + guests.filter(g => g.active).length;
+      const totalDeposit = activeCount * 250;
+      if (prev.splitPayment && activeCount > 1) {
+        return {
+          ...prev,
+          cardAmount1: (totalDeposit / 2).toFixed(2),
+          cardAmount2: (totalDeposit / 2).toFixed(2),
+        };
+      }
+      return {
         ...prev,
         cardAmount1: totalDeposit.toFixed(2),
         cardAmount2: "250.00",
-      }));
-    }
-  }, [formData.splitPayment, guests]);
+      };
+    });
+  }, [guests]);
 
   const [formError, setFormError] = useState('');
 

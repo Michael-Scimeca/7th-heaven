@@ -486,7 +486,7 @@ export default function ShowPageClient({
                     title="7th Heaven Live Performance Video"
                     className="w-full h-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                    sandbox="allow-scripts allow-presentation allow-popups allow-forms"
                     allowFullScreen
                   />
                 </div>

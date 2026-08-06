@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, redirect } from 'next/navigation';
 
 /**
  * /crew/[slug] — pre-seeds localStorage with the correct crew member identity
@@ -20,16 +20,14 @@ const CREW_MEMBERS: Record<string, { id: string; name: string; email: string; av
 
 export default function CrewMemberPage() {
   const params = useParams();
-  const router = useRouter();
   const slug = (params?.slug as string)?.toLowerCase();
   const member = slug ? CREW_MEMBERS[slug] : null;
 
-  useEffect(() => {
-    if (!member) {
-      router.replace('/crew');
-      return;
-    }
+  if (!member) {
+    redirect('/crew');
+  }
 
+  useEffect(() => {
     // Seed localStorage so the crew dashboard loads with the right identity
     localStorage.setItem('7h_dev_bypass', 'true');
     localStorage.setItem('7h_member', JSON.stringify({
@@ -48,8 +46,8 @@ export default function CrewMemberPage() {
     }));
 
     // Now redirect to the main crew dashboard which reads from localStorage
-    router.replace('/crew');
-  }, [member, router]);
+    window.location.replace('/crew');
+  }, [member]);
 
   // Show a brief loading state while redirecting
   return (

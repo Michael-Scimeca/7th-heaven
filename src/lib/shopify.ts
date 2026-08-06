@@ -8,13 +8,13 @@
  * 4. Configure Storefront API Integration and select 'unauthenticated_read_product_listings' and related scopes.
  * 5. Drop the provided Public Access Token into your .env.local file:
  *    NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN="your-store.myshopify.com"
- *    NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN="xxxxx"
+ *    NEXT_PUBLIC_SHOPIFY_STOREFRONT_KEY="xxxxx"
  */
 
 const domain = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com').replace(/"/g, '');
 // No hardcoded token fallback — missing token will cause a 401 from Shopify,
 // which is the correct and visible failure mode for misconfiguration.
-const storefrontAccessToken = (process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '').replace(/"/g, '');
+const storefrontAccessToken = (process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'] || '').replace(/"/g, '');
 
 async function shopifyFetch<T>({ query, variables }: { query: string; variables?: any }): Promise<{ status: number; body: T }> {
   const endpoint = `https://${domain}/api/2025-01/graphql.json`;

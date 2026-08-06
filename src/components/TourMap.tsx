@@ -306,12 +306,17 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     };
   }, [L]);
 
+  const onPinClickRef = useRef(onPinClick);
+  onPinClickRef.current = onPinClick;
+
   // Draw and Update Markers
   useEffect(() => {
     if (!L || !map) return;
 
     console.log("TourMap drawing markers. nextShowVenue:", nextShowVenue, "nextShowCity:", nextShowCity);
     console.log("Shows list count:", shows?.length);
+
+    const hoverTimers: ReturnType<typeof setTimeout>[] = [];
 
     // Clear old markers
     markersRef.current.forEach(m => m.marker.remove());
@@ -513,12 +518,12 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       // Click-to-scroll: when popup opens, scroll to the show row in the table
       marker.on('popupopen', () => {
-        if (onPinClick) onPinClick(v.venue, firstShow.date);
+        if (onPinClickRef.current) onPinClickRef.current(v.venue, firstShow.date);
       });
 
       // Pan map if the hover tooltip card goes outside the map container boundaries
       marker.on('mouseover', () => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           const el = marker.getElement();
           if (!el) return;
           const tooltip = el.querySelector('.custom-tooltip-card') as HTMLElement;
@@ -548,6 +553,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             map.panBy([panX, panY], { animate: true, duration: 0.25 });
           }
         }, 80);
+        hoverTimers.push(timer);
       });
     });
 
@@ -579,10 +585,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     }
 
     return () => {
+      hoverTimers.forEach(clearTimeout);
       markersRef.current.forEach(m => m.marker.remove());
       markersRef.current = [];
     };
-  }, [L, map, shows, nextShowVenue, nextShowCity, onPinClick, selectedTypes]);
+  }, [L, map, shows, nextShowVenue, nextShowCity, selectedTypes]);
 
   // Near Me handler
   const handleNearMe = useCallback(() => {

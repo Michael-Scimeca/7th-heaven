@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+const META_PATH = path.join(process.cwd(), "data", "fan-photos.json");
+
+async function readPhotos() {
+  if (!fs.existsSync(META_PATH)) return [];
+  try {
+    return JSON.parse(await fs.promises.readFile(META_PATH, "utf-8"));
+  } catch {
+    return [];
+  }
+}
+
 // POST /api/fans/approve — approve or reject a fan photo
 export async function POST(request: Request) {
   try {
@@ -11,12 +22,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
-    const metaPath = path.join(process.cwd(), "data", "fan-photos.json");
-    if (!fs.existsSync(metaPath)) {
-      return NextResponse.json({ error: "No photos found" }, { status: 404 });
-    }
-
-    const photos = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+    const photos = await readPhotos();
     const idx = photos.findIndex((p: { id: string }) => p.id === photoId);
 
     if (idx === -1) {
@@ -28,11 +34,11 @@ export async function POST(request: Request) {
     } else {
       // Delete file and remove entry
       const filePath = path.join(process.cwd(), "public", photos[idx].src);
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      if (fs.existsSync(filePath)) await fs.promises.unlink(filePath);
       photos.splice(idx, 1);
     }
 
-    fs.writeFileSync(metaPath, JSON.stringify(photos, null, 2));
+    await fs.promises.writeFile(META_PATH, JSON.stringify(photos, null, 2));
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Approve error:", error);
@@ -43,10 +49,7 @@ export async function POST(request: Request) {
 // GET /api/fans/approve — get pending photos (admin)
 export async function GET() {
   try {
-    const metaPath = path.join(process.cwd(), "data", "fan-photos.json");
-    if (!fs.existsSync(metaPath)) return NextResponse.json([]);
-
-    const photos = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+    const photos = await readPhotos();
     const pending = photos.filter((p: { approved: boolean }) => !p.approved);
     return NextResponse.json(pending);
   } catch {

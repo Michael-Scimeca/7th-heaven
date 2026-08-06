@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { verifyPin } from '@/lib/pins';
 import { sendEmail } from '@/lib/email';
 import { createClient } from '@supabase/supabase-js';
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
       }).eq('id', userId);
     } else {
       // Create a new auto-confirmed user (no password — they'll use magic link / Sign In)
-      const tempPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2).toUpperCase() + '!7';
+      const tempPassword = crypto.randomBytes(12).toString('hex') + '!7A';
       const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
         email: cleanEmail,
         password: tempPassword,

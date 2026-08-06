@@ -137,8 +137,7 @@ export function Footer() {
           ) : (
             <form
               suppressHydrationWarning
-              onSubmit={async (e) => {
-                e.preventDefault();
+              action={async () => {
                 const digits = smsPhone.replace(/\D/g, '');
                 if (digits.length < 10 || !smsZip || smsZip.length < 5) return;
                 setSmsStatus('sending');

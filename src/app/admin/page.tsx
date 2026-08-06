@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
 export default function AdminGatewayPage() {
@@ -25,11 +25,9 @@ export default function AdminGatewayPage() {
   }, []);
 
   // Handle redirect if logged in as admin
-  useEffect(() => {
-    if (hydrated && isLoggedIn && member?.role === 'admin' && member.username) {
-      router.replace(`/admin/${member.username}`);
-    }
-  }, [hydrated, isLoggedIn, member, router]);
+  if (hydrated && isLoggedIn && member?.role === 'admin' && member.username) {
+    redirect(`/admin/${member.username}`);
+  }
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,10 +48,10 @@ export default function AdminGatewayPage() {
     if (hydrated && typeof window !== 'undefined') {
       const devBypass = localStorage.getItem('7h_dev_bypass') === 'true';
       if (devBypass) {
-        router.replace(`/admin/admin`);
+        window.location.replace('/admin/admin');
       }
     }
-  }, [hydrated, router]);
+  }, [hydrated]);
 
   if (!hydrated) {
     return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;

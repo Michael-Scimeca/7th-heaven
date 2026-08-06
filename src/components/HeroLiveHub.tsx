@@ -197,7 +197,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
                   className="absolute inset-0 w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                  sandbox="allow-scripts allow-presentation allow-popups allow-forms"
                   allowFullScreen
                 />
               </div>

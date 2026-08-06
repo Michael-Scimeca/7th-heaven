@@ -522,7 +522,7 @@ export default function LiveHubPage() {
                 <p className="text-sm text-black/50 mb-8 leading-relaxed">
                   Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
                 </p>
-                <form onSubmit={e => { e.preventDefault(); alert("You are now subscribed to Live Stream Alerts!"); }}
+                <form action={() => alert("You are now subscribed to Live Stream Alerts!")}
                   className="flex flex-col sm:flex-row gap-3 items-center w-full">
                   <div className="relative flex-1 w-full">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">

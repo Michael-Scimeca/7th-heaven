@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useState, useEffect, useRef, use, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 
@@ -337,13 +337,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
 
   // Redirect if username in URL doesn't match logged-in user's username
-  useEffect(() => {
-    if (isLoggedIn && member?.role === 'admin' && member.username) {
-      if (member.username !== username && !isMaryRoute) {
-        router.replace(`/admin/${member.username}`);
-      }
-    }
-  }, [isLoggedIn, member, username, router, isMaryRoute]);
+  if (isLoggedIn && member?.role === 'admin' && member.username && member.username !== username && !isMaryRoute) {
+    redirect(`/admin/${member.username}`);
+  }
   const [feeds, setFeeds] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [filterRole, setFilterRole] = useState<"All" | "fan" | "crew" | "admin">("All");
@@ -3458,7 +3454,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
               <div className="space-y-3">
                 {gaData.locations && gaData.locations.map((loc: any, idx: number) => (
-                  <div key={idx} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
+                  <div key={loc.id || loc.city || idx} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
                     <div className="flex items-center justify-between text-xs font-bold mb-1">
                       <span className="text-[var(--text-color)]"> {loc.city}</span>
                       <span className="text-[var(--muted-text)] font-mono">{loc.percentage}% of total fans</span>
@@ -5475,7 +5471,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         <option value="all" className="bg-white text-black"> All Crew & Admins ({recipients.length})</option>
                         <option value="CREATE_NEW" className="bg-amber-100 text-purple-300 font-black"> Create New Group...</option>
                         {crewGroups.map((g, idx) => (
-                          <option key={idx} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
+                          <option key={g.name || idx} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
                         ))}
                       </select>
                       <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/60">
@@ -6052,6 +6048,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       srcDoc={emailHtmlPreview}
                       title="Crew Email Template Live Preview"
                       className="w-full h-full border-none"
+                      sandbox="allow-same-origin"
                     />
                   </div>
                 </div>
@@ -6555,6 +6552,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     srcDoc={bandEmailHtmlPreview}
                     title="Band Email Template Live Preview"
                     className="w-full h-full border-none"
+                    sandbox="allow-same-origin"
                   />
                 </div>
               </div>
@@ -11802,6 +11800,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                         `}
                                           className="w-full h-[180px] border-none bg-[var(--color-bg-surface)]"
                                           title="Email Preview"
+                                          sandbox="allow-same-origin"
                                         />
                                       </div>
                                     </div>

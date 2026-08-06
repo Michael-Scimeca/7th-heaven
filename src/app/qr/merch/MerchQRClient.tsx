@@ -361,7 +361,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   <p className="text-[var(--font-size-2xs)] text-white/60">Add these 2 variables to your <code className="text-white font-mono">.env.local</code> file:</p>
                   <pre className="bg-black p-2 rounded text-[var(--font-size-3xs)] font-mono text-cyan-300 mt-2 overflow-x-auto">
                     NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN="7th-heaven-store.myshopify.com"{"\n"}
-                    NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN="your_token_here"
+                    {'NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'}="your_token_here"
                   </pre>
                 </div>
 

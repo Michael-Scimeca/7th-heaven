@@ -358,26 +358,26 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [formIsCasino, setFormIsCasino] = useState(false);
   const [formIsSpecialEvent, setFormIsSpecialEvent] = useState(false);
 
-  useEffect(() => {
-    if (editingShow) {
-      setFormVenue(editingShow.venue || "");
-      setFormCity(editingShow.city || "");
-      setFormState(editingShow.state || "IL");
-      setFormDate(editingShow.startDate || "");
-      setFormTime(editingShow.time || "");
-      setFormDoorsTime(editingShow.doorsTime || "");
-      setFormPlayTime(editingShow.playTime || "");
-      setFormAllAges(editingShow.allAges ?? true);
-      setFormCover(editingShow.cover || "");
-      setFormTicketLink(editingShow.ticketLink || "");
-      setFormDirectionsLink(editingShow.directionsLink || "");
-      setFormIsSoldOut(editingShow.isSoldOut || false);
-      setFormIsFestival(editingShow.isFestival || false);
-      setFormIsPrivate(editingShow.isPrivate || false);
-      setFormNotes(editingShow.notes || "");
+  const populateForm = useCallback((show: any | null) => {
+    if (show) {
+      setFormVenue(show.venue || "");
+      setFormCity(show.city || "");
+      setFormState(show.state || "IL");
+      setFormDate(show.startDate || "");
+      setFormTime(show.time || "");
+      setFormDoorsTime(show.doorsTime || "");
+      setFormPlayTime(show.playTime || "");
+      setFormAllAges(show.allAges ?? true);
+      setFormCover(show.cover || "");
+      setFormTicketLink(show.ticketLink || "");
+      setFormDirectionsLink(show.directionsLink || "");
+      setFormIsSoldOut(show.isSoldOut || false);
+      setFormIsFestival(show.isFestival || false);
+      setFormIsPrivate(show.isPrivate || false);
+      setFormNotes(show.notes || "");
 
-      const currentTags = editingShow.tags || [];
-      const lowerNotes = ((editingShow.notes || "") + " " + (editingShow.info || "")).toLowerCase();
+      const currentTags = show.tags || [];
+      const lowerNotes = ((show.notes || "") + " " + (show.info || "")).toLowerCase();
       setFormIsUnplugged(currentTags.includes("unplugged") || lowerNotes.includes("unplugged"));
       setFormIsOutdoor(currentTags.includes("outdoor") || lowerNotes.includes("outdoor") || lowerNotes.includes("beer garden"));
       setFormIsCasino(currentTags.includes("casino") || lowerNotes.includes("casino"));
@@ -414,10 +414,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormIsSpecialEvent(false);
     }
     setModalError(null);
-  }, [editingShow, isModalOpen]);
+  }, []);
 
   const handleEditClick = (show: any) => {
     setEditingShow(show);
+    populateForm(show);
     setIsModalOpen(true);
   };
 
