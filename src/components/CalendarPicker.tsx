@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useSyncExternalStore } from "react";
 
 export interface BookingSlot {
   id: string;
@@ -57,6 +57,12 @@ export function CalendarPicker({
   const [expandedMetadata, setExpandedMetadata] = useState<Record<string, boolean>>({});
 
   const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates]);
+
+  const todayTimestamp = useSyncExternalStore(
+    () => () => {},
+    () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); },
+    () => 0
+  );
 
   const daysInMonth = useMemo(() => {
     const year = currentMonth.getFullYear();
@@ -169,9 +175,7 @@ export function CalendarPicker({
               const dateString = date.toISOString().split("T")[0];
               const slotsForDay = slots.filter(s => s.date === dateString);
               const isSelected = slotsForDay.length > 0;
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              const isPastDate = date < today;
+              const isPastDate = todayTimestamp > 0 && date.getTime() < todayTimestamp;
               const isBlocked = blockedSet.has(dateString);
 
               return (

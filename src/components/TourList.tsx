@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
 import { SanityTourDate } from "@/lib/sanity";
 import "leaflet/dist/leaflet.css";
 import TourMap, { isShowOver, typeConfig, getShowType, getShowDateTime } from "./TourMap";
@@ -259,6 +259,11 @@ interface TourListProps {
 
 export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
   const { member, isLoggedIn, openModal } = useMember();
+  const todayStartTimestamp = useSyncExternalStore(
+    () => () => {},
+    () => { const now = new Date(); return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime(); },
+    () => 0
+  );
   const isFan = !member || member.role === "fan";
   const [showPastShows, setShowPastShows] = useState(false);
   const [activeMonth, setActiveMonth] = useState("All");
@@ -1134,7 +1139,7 @@ ${filterLine}
               const isUpNext = upNext ? (show.date === upNext.date && show.venue === upNext.venue && show.time === upNext.time) : false;
               const rowId = `tour-${show.venue}-${show.date}-${show.time || ''}`.replace(/\s+/g, '-').toLowerCase();
               const isHighlighted = highlightedId === rowId;
-              const isPast = parseShowDate(show.date, show.startDate).getTime() < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime();
+              const isPast = todayStartTimestamp > 0 && parseShowDate(show.date, show.startDate).getTime() < todayStartTimestamp;
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
                 <div key={show.id || rowId} className="overflow-visible"

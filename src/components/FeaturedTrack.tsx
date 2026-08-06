@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useMember } from '@/context/MemberContext';
 
+const MINI_EQ_DURATIONS = [0.8, 1.0, 0.7, 1.1, 0.9];
+const MAIN_EQ_NORMAL = [0.8, 1.0, 0.7, 1.1, 0.9, 0.85, 1.05, 0.75];
+const MAIN_EQ_ACTIVE = [0.45, 0.6, 0.4, 0.65, 0.5, 0.55, 0.6, 0.45];
+
 export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
   const { isLoggedIn, openModal } = useMember();
   const [track, setTrack] = useState<any>(null);
@@ -290,7 +294,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     className="w-[2px] rounded-full bg-[var(--color-accent)]/80"
                     style={{
                       animationName: isPlaying ? 'eqBarShort' : 'none',
-                      animationDuration: `${0.6 + Math.random() * 0.6}s`,
+                      animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
                       animationTimingFunction: 'ease-in-out',
                       animationIterationCount: 'infinite',
                       animationDirection: 'alternate',
@@ -451,7 +455,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                         }`}
                       style={{
                         animationName: isPlaying ? 'eqBarShort' : 'none',
-                        animationDuration: `${(isCompressorActive ? 0.35 : 0.6) + Math.random() * (isCompressorActive ? 0.35 : 0.6)}s`,
+                        animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
                         animationTimingFunction: 'ease-in-out',
                         animationIterationCount: 'infinite',
                         animationDirection: 'alternate',

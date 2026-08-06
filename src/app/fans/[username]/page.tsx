@@ -2,7 +2,7 @@
 import Image from 'next/image';
 
 import { useMember } from "@/context/MemberContext";
-import { useEffect, useState, useCallback, use } from "react";
+import { useEffect, useState, useCallback, use, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import ProximityPanel from "@/components/ProximityPanel";
@@ -41,6 +41,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   const [isCruiser, setIsCruiser] = useState(false);
   const [dashboardView, setDashboardView] = useState<'fan' | 'cruise'>('fan');
   const CRUISE_END_DATE = "2026-04-19";
+  const isCruiseBannerActive = useSyncExternalStore(
+    () => () => {},
+    () => ((new Date().getTime() - new Date(CRUISE_END_DATE).getTime()) / (1000 * 60 * 60 * 24)) < 60,
+    () => false
+  );
 
 
 
@@ -998,8 +1003,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               </div>
             </div>
 
-            {/* Cruise Promo Banner — only if cruise window is active and user hasn't signed up */}
-            {!isCruiser && ((new Date().getTime() - new Date(CRUISE_END_DATE).getTime()) / (1000 * 60 * 60 * 24)) < 60 && (
+            {!isCruiser && isCruiseBannerActive && (
               <Link href="/cruise" className="block mb-8 group">
                 <div className="relative overflow-hidden border border-cyan-500/20 p-6 md:p-8 hover:border-cyan-500/40 transition-colors text-white">
                   <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
