@@ -296,7 +296,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     }
   });
 
-  const [savingPermissions, setSavingPermissions] = useState(false);
   const [savePermStatus, setSavePermStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
   useEffect(() => {
@@ -310,7 +309,6 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
   const savePermissionsToBackend = async (updated: Record<string, Record<string, boolean>>) => {
     setAdminPermissions(updated);
-    setSavingPermissions(true);
     setSavePermStatus('saving');
     try {
       const res = await fetch('/api/admin/permissions', {
@@ -321,12 +319,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       if (res.ok) {
         setSavePermStatus('saved');
         setTimeout(() => setSavePermStatus('idle'), 3000);
+      } else {
+        setSavePermStatus('idle');
       }
     } catch (e) {
       console.error(e);
       setSavePermStatus('idle');
-    } finally {
-      setSavingPermissions(false);
     }
   };
 
