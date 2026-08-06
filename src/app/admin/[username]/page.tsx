@@ -3450,8 +3450,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
               <div className="space-y-3">
-                {gaData.locations && gaData.locations.map((loc: any, idx: number) => (
-                  <div key={loc.id || `loc-${loc.city || 'city'}-${loc.percentage}-${idx}`} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
+                {gaData.locations && gaData.locations.map((loc: any) => (
+                  <div key={loc.id || loc.city || loc.name || 'loc'} className="p-3 bg-black/20 border border-[var(--border-color)] rounded-lg">
                     <div className="flex items-center justify-between text-xs font-bold mb-1">
                       <span className="text-[var(--text-color)]"> {loc.city}</span>
                       <span className="text-[var(--muted-text)] font-mono">{loc.percentage}% of total fans</span>
@@ -3631,8 +3631,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
                     </tr></thead>
                     <tbody>
-                      {shopifyData.products.map((p: any, i: number) => (
-                        <tr key={p.id || p.handle || `prod-${p.title}-${i}`} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      {shopifyData.products.map((p: any) => (
+                        <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
                               {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
@@ -3716,7 +3716,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         </thead>
                         <tbody>
                           {shopifyData.topProducts.map((p: any, i: number) => (
-                            <tr key={p.id || `top-prod-${p.title}-${i}`} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
                                   <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-[0.55rem] font-black shrink-0 ${i === 0 ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
@@ -3860,8 +3860,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       <th className="px-4 py-3 font-bold border-b border-white/5 text-right">Value</th>
                     </tr></thead>
                     <tbody>
-                      {shopifyData.products.map((p: any, i: number) => (
-                        <tr key={p.id || p.handle || `prod-bottom-${p.title}-${i}`} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      {shopifyData.products.map((p: any) => (
+                        <tr key={p.id || p.handle || p.title} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
                               {p.image && <img src={p.image} alt="7th Heaven Media" className="w-8 h-8 rounded object-cover border border-white/10" />}
@@ -4627,7 +4627,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   })();
                   const loc = show.state ? `${show.city}, ${show.state}` : show.city;
                   return (
-                    <option key={show._id || `sms-show-${show.date}-${show.venue}-${idx}`} value={show._id || show.date}>
+                    <option key={show._id || `${show.date}-${show.venue}`} value={show._id || show.date}>
                       {dateStr} — {show.venue} ({loc}) {show.time ? `@ ${show.time}` : ''}
                     </option>
                   );
@@ -5467,8 +5467,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         <option value="" className="bg-white text-black">Choose a group...</option>
                         <option value="all" className="bg-white text-black"> All Crew & Admins ({recipients.length})</option>
                         <option value="CREATE_NEW" className="bg-amber-100 text-purple-300 font-black"> Create New Group...</option>
-                        {crewGroups.map((g, idx) => (
-                          <option key={g.name || `group-${idx}`} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
+                        {crewGroups.map((g) => (
+                          <option key={g.name} value={g.name} className="bg-white text-black"> {g.name} ({g.memberIds.length})</option>
                         ))}
                       </select>
                       <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/60">
@@ -5491,7 +5491,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           .filter((show: any) => show.date)
                           .sort((a: any, b: any) => a.date.localeCompare(b.date))
                           .map((show: any, idx: number) => (
-                            <option key={show._id || `show-opt-${show.date}-${show.venue}-${idx}`} value={show.date} className="bg-white text-black">
+                            <option key={show._id || `${show.date}-${show.venue}`} value={show.date} className="bg-white text-black">
                               {show.venue || show.venue_name} ({show.date})
                             </option>
                           ))}
@@ -6314,8 +6314,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         className="w-full appearance-none pr-8 pl-3 py-2 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid"
                       >
                         <option value="">-- Choose target show --</option>
-                        {tourDates.map((s: any, idx: number) => (
-                          <option key={s._id || `band-show-opt-${s.date}-${s.venue}-${idx}`} value={s.date}>
+                        {tourDates.map((s: any) => (
+                          <option key={s._id || `${s.date}-${s.venue}`} value={s.date}>
                             {s.date} - {s.venue || s.venue_name}
                           </option>
                         ))}
@@ -7519,7 +7519,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   <span></span>
                 </div>
                 {signups.map((s: any, i: number) => (
-                  <div key={s.id || s.email || `cruise-${i}`} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-all group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
+                  <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-all group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
                     {/* Email checkbox */}
                     <div className="flex justify-center">
                       <button onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-all cursor-pointer ${cruiseSelectedEmails.includes(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
@@ -8343,18 +8343,18 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
               </div>
               <div className="flex flex-wrap gap-0.5 mt-0.5">
                 {shift.role ? (
-                  shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
+                  shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string) => (
                     <span
-                      key={`${singleRole}-${rIdx}`}
+                      key={singleRole}
                       className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
                       {singleRole}
                     </span>
                   ))
                 ) : null}
-                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
+                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string) => (
                   <span
-                    key={`${tag}-${idx}`}
+                    key={tag}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
                     {tag}
@@ -8378,18 +8378,18 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
               <div className="mt-1 flex items-center justify-start gap-0.5 flex-wrap">
                 {shift.role ? (
-                  shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string, rIdx: number) => (
+                  shift.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean).map((singleRole: string) => (
                     <span
-                      key={`${singleRole}-${rIdx}`}
+                      key={singleRole}
                       className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-purple-500/20 text-purple-300 border border-purple-500/40 select-none truncate max-w-full"
                     >
                       {singleRole}
                     </span>
                   ))
                 ) : null}
-                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string, idx: number) => (
+                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string) => (
                   <span
-                    key={`${tag}-${idx}`}
+                    key={tag}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
                   >
                     {tag}
@@ -8558,7 +8558,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           }
           return (
             <span
-              key={`${r}-${idx}`}
+              key={r}
               className={`inline-block px-1.5 py-0.5 text-[8.5px] font-black uppercase tracking-tight rounded border leading-none shrink-0 ${colorClass}`}
             >
               {r}
@@ -9611,7 +9611,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                               : 'Unknown';
                             return (
                               <button
-                                key={show._id || `tour-show-${show.date}-${show.venue}-${idx}`}
+                                key={show._id || `${show.date}-${show.venue}`}
                                 type="button"
                                 onClick={() => {
                                   if (show.date) {
@@ -9990,7 +9990,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                         return (
                           <SidebarDateButton
-                            key={show._id || `side-btn-${show.date}-${show.venue}-${idx}`}
+                            key={show._id || `${show.date}-${show.venue}`}
                             show={show}
                             isSelected={isSelected}
                             isActiveWeek={isActiveWeek}
@@ -10486,7 +10486,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         {showFormDetails && (
                           <div className="space-y-4 font-sans">
                             {dropTimeFrames.map((tf, index) => (
-                              <div key={tf.id || `tf-${tf.startHour}-${tf.endHour}-${index}`} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
+                              <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
                                 <div className="flex items-center justify-between">
                                   <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
                                   {dropTimeFrames.length > 1 && (
@@ -12108,8 +12108,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     <div>
                       <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
                       <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
-                        {(cruiseStats.recentSignups || []).map((s, i) => (
-                          <div key={s.email || `${s.name}-${i}`} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-all group/row">
+                        {(cruiseStats.recentSignups || []).map((s) => (
+                          <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-all group/row">
                             <div className="w-7 h-7 rounded-full bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center text-[0.5rem] font-black text-[var(--color-accent)] shrink-0">
                               {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
                             </div>
@@ -12257,8 +12257,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
                           >
                             {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
-                            {selectedQrProduct.variants.map((v: any, index: number) => (
-                              <option key={v.id || `variant-${v.title}-${index}`} value={index}>
+                            {selectedQrProduct.variants.map((v: any, vIdx: number) => (
+                              <option key={v.id || v.title} value={vIdx}>
                                 {v.title} — ${v.price.toFixed(2)}
                               </option>
                             ))}
