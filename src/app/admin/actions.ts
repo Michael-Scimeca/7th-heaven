@@ -22,14 +22,14 @@ export async function adminKillStream(streamId: string) {
   await requireAdminSession();
   console.log(`[Admin] Aggressively terminating stream ${streamId}`);
   
-  // 1. Get the stream details to find the room name
-  const { data: stream } = await supabaseAdmin.from("live_streams").select("user_id, stream_url").eq("id", streamId).single();
-  
-  // 2. Update Supabase status
-  const { error } = await supabaseAdmin
-    .from("live_streams")
-    .update({ status: "ended", ended_at: new Date().toISOString() })
-    .eq("id", streamId);
+  // 1 & 2. Get stream details and update Supabase status concurrently
+  const [streamResult, updateResult] = await Promise.all([
+    supabaseAdmin.from("live_streams").select("user_id, stream_url").eq("id", streamId).single(),
+    supabaseAdmin.from("live_streams").update({ status: "ended", ended_at: new Date().toISOString() }).eq("id", streamId),
+  ]);
+
+  const stream = streamResult.data;
+  const error = updateResult.error;
 
   if (error) {
     console.error("Failed to kill stream in DB:", error);
