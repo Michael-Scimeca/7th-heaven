@@ -672,16 +672,18 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {/* Rewards & Raffle Wins */}
             {inboxMessages.some(m => m.color === 'yellow' || m.title?.includes('Win')) && (
               <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {inboxMessages.filter(m => m.color === 'yellow' || m.title?.includes('Win')).map((win, i) => {
-                  const pinMatch = win.desc?.match(/PIN: (\d+)/);
-                  const pin = pinMatch ? pinMatch[1] : null;
+                {(() => {
+                  const claimedPinsSet = new Set(claimedPins);
+                  return inboxMessages.filter(m => m.color === 'yellow' || m.title?.includes('Win')).map((win, i) => {
+                    const pinMatch = win.desc?.match(/PIN: (\d+)/);
+                    const pin = pinMatch ? pinMatch[1] : null;
 
-                  let isClaimed = false;
-                  if (pin) {
-                    try {
-                      isClaimed = claimedPins.includes(pin);
-                    } catch { }
-                  }
+                    let isClaimed = false;
+                    if (pin) {
+                      try {
+                        isClaimed = claimedPinsSet.has(pin);
+                      } catch { }
+                    }
 
                   return (
                     <div key={i} className={`bg-gradient-to-br from-[#1a1a25] to-[#0a0a0f] border-2 ${isClaimed ? ' border-[var(--color-accent)]/30 opacity-60' : 'border-yellow-500/30'}  p-6 relative overflow-hidden group shadow-md`}>
@@ -735,7 +737,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       </div>
                     </div>
                   );
-                })}
+                });
+              })()}
               </div>
             )}
 

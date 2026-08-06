@@ -23,6 +23,8 @@ const AdminMap = dynamic(() => import('@/components/AdminMap'), {
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
+
+const STANDARD_ROLE_TAGS_SET = new Set(['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE']);
 import 'react-quill-new/dist/quill.snow.css';
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
@@ -1270,15 +1272,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     }
 
     if (scheduleEventTypeFilter) {
+      const showByDateMap = new Map(tourDates.map(s => [s.date, s]));
       days = days.filter(day => {
-        const show = tourDates.find(s => s.date === day.dateStr);
+        const show = showByDateMap.get(day.dateStr);
         if (!show) return false;
 
-        const isFestival = show.isFestival || show.tags?.includes('festival');
-        const isPrivate = show.isPrivate || show.tags?.includes('private');
-        const isCorporate = show.tags?.includes('corporate');
-        const isCruise = show.tags?.includes('cruise');
-        const isClub = show.tags?.includes('club');
+        const showTagsSet = new Set(show.tags || []);
+        const isFestival = show.isFestival || showTagsSet.has('festival');
+        const isPrivate = show.isPrivate || showTagsSet.has('private');
+        const isCorporate = showTagsSet.has('corporate');
+        const isCruise = showTagsSet.has('cruise');
+        const isClub = showTagsSet.has('club');
 
         if (scheduleEventTypeFilter === 'festival') return isFestival;
         if (scheduleEventTypeFilter === 'private') return isPrivate;
@@ -1385,8 +1389,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         const activeDay = next7Days[0]?.dateStr || todayStr;
         relevantShifts = relevantShifts.filter(s => s.date === activeDay);
       } else if (leaderboardPeriod === 'week') {
-        const weekDates = next7Days.map(d => d.dateStr);
-        relevantShifts = relevantShifts.filter(s => weekDates.includes(s.date));
+        const weekDates = new Set(next7Days.map(d => d.dateStr));
+        relevantShifts = relevantShifts.filter(s => weekDates.has(s.date));
       } else if (leaderboardPeriod === 'month') {
         const year = currentWeekStart.getFullYear();
         const month = String(currentWeekStart.getMonth() + 1).padStart(2, '0');
@@ -1924,8 +1928,9 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
     const show = tourDates.find((s: any) => s.date === bandSmsSelectedShowDate);
     const combined = getBandRecipientsCombined();
+    const selectedBandPhonesSet = new Set(selectedBandPhones);
     const sentToNames = combined
-      .filter(b => selectedBandPhones.includes(normalizePhoneNumber(b.phone)))
+      .filter(b => selectedBandPhonesSet.has(normalizePhoneNumber(b.phone)))
       .map(b => b.name);
 
     try {
@@ -5067,10 +5072,11 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
         return;
       }
 
+      const selectedCrewPhonesSet = new Set(selectedCrewPhones);
       const memberIds = allCrewCombined
         .filter(r => {
           const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-          return selectedCrewPhones.includes(r.id) || (norm ? selectedCrewPhones.includes(norm) : false);
+          return selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
         })
         .map(r => r.id);
 
@@ -5147,9 +5153,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
 
 
+    const selectedCrewPhonesSetForPreview = new Set(selectedCrewPhones);
     const checkedRecipientsForPreview = allCrewCombined.filter(c => {
       const norm = c.phone ? normalizePhoneNumber(c.phone) : null;
-      return selectedCrewPhones.includes(c.id) || (norm ? selectedCrewPhones.includes(norm) : false);
+      return selectedCrewPhonesSetForPreview.has(c.id) || (norm ? selectedCrewPhonesSetForPreview.has(norm) : false);
     });
     const showTarget = smsSelectedShowDate ? tourDates.find((s: any) => s.date === smsSelectedShowDate) : null;
     const showVenueTarget = showTarget ? (showTarget.venue || showTarget.venue_name) : undefined;
@@ -5218,20 +5225,22 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                 </div>
                 <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 p-4 min-h-[650px] max-h-[900px] overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-1">
-                    {recipients
-                      .slice()
-                      .sort((a, b) => {
-                        const normA = a.phone ? normalizePhoneNumber(a.phone) : null;
-                        const normB = b.phone ? normalizePhoneNumber(b.phone) : null;
-                        const aChecked = selectedCrewPhones.includes(a.id) || (normA ? selectedCrewPhones.includes(normA) : false);
-                        const bChecked = selectedCrewPhones.includes(b.id) || (normB ? selectedCrewPhones.includes(normB) : false);
-                        if (aChecked && !bChecked) return -1;
-                        if (!aChecked && bChecked) return 1;
-                        return a.name.localeCompare(b.name);
-                      })
-                      .map((r) => {
-                        const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-                        const isChecked = selectedCrewPhones.includes(r.id) || (norm ? selectedCrewPhones.includes(norm) : false);
+                    {(() => {
+                      const selectedCrewPhonesSet = new Set(selectedCrewPhones);
+                      return recipients
+                        .slice()
+                        .sort((a, b) => {
+                          const normA = a.phone ? normalizePhoneNumber(a.phone) : null;
+                          const normB = b.phone ? normalizePhoneNumber(b.phone) : null;
+                          const aChecked = selectedCrewPhonesSet.has(a.id) || (normA ? selectedCrewPhonesSet.has(normA) : false);
+                          const bChecked = selectedCrewPhonesSet.has(b.id) || (normB ? selectedCrewPhonesSet.has(normB) : false);
+                          if (aChecked && !bChecked) return -1;
+                          if (!aChecked && bChecked) return 1;
+                          return a.name.localeCompare(b.name);
+                        })
+                        .map((r) => {
+                          const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
+                          const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
                         const editKey = `main:${r.id}`;
                         const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
                         return (
@@ -5428,7 +5437,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                             </div>
                           </div>
                         );
-                      })}
+                      });
+                    })()}
                   </div>
                 </div>
               </div>
@@ -5583,15 +5593,17 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                         <div className="flex flex-col gap-1">
                           <label className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">Select Group Members</label>
                           <div className="max-h-[550px] min-h-[420px] overflow-y-auto custom-scrollbar border border-white/5 rounded-lg p-2.5 bg-black/40 space-y-1.5">
-                            {allCrewCombined.map(r => {
-                              const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
-                              const isChecked = selectedCrewPhones.includes(r.id) || (norm ? selectedCrewPhones.includes(norm) : false);
-                              const editKey = `group:${r.id}`;
-                              const isEditingThis = editingDutyMemberId === editKey;
-                              const displayRole = r.duty || r.role || 'CREW';
-                              return (
-                                <div
-                                  key={r.id}
+                            {(() => {
+                              const selectedCrewPhonesSet = new Set(selectedCrewPhones);
+                              return allCrewCombined.map(r => {
+                                const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
+                                const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
+                                const editKey = `group:${r.id}`;
+                                const isEditingThis = editingDutyMemberId === editKey;
+                                const displayRole = r.duty || r.role || 'CREW';
+                                return (
+                                  <div
+                                    key={r.id}
                                   className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-1 px-1.5 rounded hover:bg-white/10 relative"
                                 >
                                   <div
@@ -5727,7 +5739,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                   </div>
                                 </div>
                               );
-                            })}
+                            });
+                          })()}
                           </div>
                         </div>
 
@@ -6143,7 +6156,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     const bandShowVenueTarget = bandShowTarget ? (bandShowTarget.venue || bandShowTarget.venue_name) : undefined;
     const bandShowTimeTarget = bandShowTarget ? (bandShowTarget.time || '8:00pm') : undefined;
 
-    const checkedBandRecipientsList = allBandCombined.filter(c => selectedBandPhones.includes(normalizePhoneNumber(c.phone))).map(r => ({
+    const selectedBandPhonesSetForPreview = new Set(selectedBandPhones);
+    const checkedBandRecipientsList = allBandCombined.filter(c => selectedBandPhonesSetForPreview.has(normalizePhoneNumber(c.phone))).map(r => ({
       name: r.name,
       phone: r.phone || '(555) 234-5678',
       email: r.email || `${r.name.toLowerCase().replace(/[^a-z0-9]/g, '')}@7thheavenband.com`,
@@ -6216,88 +6230,92 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                 <div className="bg-[var(--color-bg-card)]/40 border border-black/10 dark:border-white/5 p-4 max-h-[460px] overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-1">
-                    {allBandCombined
-                      .slice()
-                      .sort((a, b) => {
-                        const normA = normalizePhoneNumber(a.phone) || a.id;
-                        const normB = normalizePhoneNumber(b.phone) || b.id;
-                        const aChecked = selectedBandPhones.includes(normA) || selectedBandPhones.includes(a.id) || selectedBandPhones.includes(a.name);
-                        const bChecked = selectedBandPhones.includes(normB) || selectedBandPhones.includes(b.id) || selectedBandPhones.includes(b.name);
-                        if (aChecked && !bChecked) return -1;
-                        if (!aChecked && bChecked) return 1;
-                        return a.name.localeCompare(b.name);
-                      })
-                      .map((r) => {
-                        const normPhone = normalizePhoneNumber(r.phone);
-                        const isChecked = (normPhone && selectedBandPhones.includes(normPhone)) || selectedBandPhones.includes(r.id) || selectedBandPhones.includes(r.name);
-                        const toggleSelection = () => {
-                          const normKey = normPhone || r.id || r.name;
-                          setSelectedBandPhones(prev => {
-                            const isCurrentlySelected = (normPhone && prev.includes(normPhone)) || prev.includes(r.id) || prev.includes(r.name);
-                            if (isCurrentlySelected) {
-                              return prev.filter(p => p !== normPhone && p !== r.id && p !== r.name);
-                            } else {
-                              return [...prev, normKey];
-                            }
-                          });
-                        };
+                    {(() => {
+                      const selectedBandPhonesSet = new Set(selectedBandPhones);
+                      return allBandCombined
+                        .slice()
+                        .sort((a, b) => {
+                          const normA = normalizePhoneNumber(a.phone) || a.id;
+                          const normB = normalizePhoneNumber(b.phone) || b.id;
+                          const aChecked = selectedBandPhonesSet.has(normA) || selectedBandPhonesSet.has(a.id) || selectedBandPhonesSet.has(a.name);
+                          const bChecked = selectedBandPhonesSet.has(normB) || selectedBandPhonesSet.has(b.id) || selectedBandPhonesSet.has(b.name);
+                          if (aChecked && !bChecked) return -1;
+                          if (!aChecked && bChecked) return 1;
+                          return a.name.localeCompare(b.name);
+                        })
+                        .map((r) => {
+                          const normPhone = normalizePhoneNumber(r.phone);
+                          const isChecked = (normPhone && selectedBandPhonesSet.has(normPhone)) || selectedBandPhonesSet.has(r.id) || selectedBandPhonesSet.has(r.name);
+                          const toggleSelection = () => {
+                            const normKey = normPhone || r.id || r.name;
+                            setSelectedBandPhones(prev => {
+                              const prevSet = new Set(prev);
+                              const isCurrentlySelected = (normPhone ? prevSet.has(normPhone) : false) || prevSet.has(r.id) || prevSet.has(r.name);
+                              if (isCurrentlySelected) {
+                                return prev.filter(p => p !== normPhone && p !== r.id && p !== r.name);
+                              } else {
+                                return [...prev, normKey];
+                              }
+                            });
+                          };
 
-                        return (
-                          <div
-                            key={r.id}
-                            onClick={toggleSelection}
-                            className={`flex items-center justify-between gap-2.5 px-3 py-2.5  border transition-colors duration-200 cursor-pointer select-none min-h-[44px] ${isChecked
-                              ? 'bg-purple-500/15 border-purple-500/40 text-white shadow-[0_0_12px_rgba(147, 51, 234,0.15)]'
-                              : 'bg-black/20 border-white/5 hover:bg-white/[0.05] text-white/80'
-                              }`}
-                            title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
-                          >
-                            <div className="flex items-center gap-3 flex-1 min-w-0">
-                              {/* Custom Styled Checkbox */}
-                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors shrink-0 ${isChecked
-                                ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-105'
-                                : 'bg-black/40 border-white/30 group-hover:border-white/60'
-                                }`}>
-                                {isChecked && (
-                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                )}
+                          return (
+                            <div
+                              key={r.id}
+                              onClick={toggleSelection}
+                              className={`flex items-center justify-between gap-2.5 px-3 py-2.5  border transition-colors duration-200 cursor-pointer select-none min-h-[44px] ${isChecked
+                                ? 'bg-purple-500/15 border-purple-500/40 text-white shadow-[0_0_12px_rgba(147, 51, 234,0.15)]'
+                                : 'bg-black/20 border-white/5 hover:bg-white/[0.05] text-white/80'
+                                }`}
+                              title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
+                            >
+                              <div className="flex items-center gap-3 flex-1 min-w-0">
+                                {/* Custom Styled Checkbox */}
+                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors shrink-0 ${isChecked
+                                  ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-105'
+                                  : 'bg-black/40 border-white/30 group-hover:border-white/60'
+                                  }`}>
+                                  {isChecked && (
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                  )}
+                                </div>
+
+                                {/* Avatar */}
+                                {(() => {
+                                  const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                  return avatarSrc ? (
+                                    <img
+                                      src={avatarSrc}
+                                      alt={r.name}
+                                      className="w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white/20 shadow-md"
+                                      onError={(e) => {
+                                        const fallback = resolveMemberAvatar(r.name, '');
+                                        if (fallback && !e.currentTarget.src.endsWith(fallback)) {
+                                          e.currentTarget.src = fallback;
+                                        }
+                                      }}
+                                    />
+                                  ) : (
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white/20 shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0">
+                                      {r.name.slice(0, 2)}
+                                    </div>
+                                  );
+                                })()}
+
+                                {/* Name */}
+                                <span className="text-sm font-extrabold truncate leading-none text-white">{r.name}</span>
                               </div>
 
-                              {/* Avatar */}
-                              {(() => {
-                                const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                return avatarSrc ? (
-                                  <img
-                                    src={avatarSrc}
-                                    alt={r.name}
-                                    className="w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white/20 shadow-md"
-                                    onError={(e) => {
-                                      const fallback = resolveMemberAvatar(r.name, '');
-                                      if (fallback && !e.currentTarget.src.endsWith(fallback)) {
-                                        e.currentTarget.src = fallback;
-                                      }
-                                    }}
-                                  />
-                                ) : (
-                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white/20 shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0">
-                                    {r.name.slice(0, 2)}
-                                  </div>
-                                );
-                              })()}
-
-                              {/* Name */}
-                              <span className="text-sm font-extrabold truncate leading-none text-white">{r.name}</span>
+                              {/* Role badge */}
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1 rounded-md leading-none shrink-0">
+                                  {r.role}
+                                </span>
+                              </div>
                             </div>
-
-                            {/* Role badge */}
-                            <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1 rounded-md leading-none shrink-0">
-                                {r.role}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        });
+                      })()}
                   </div>
                 </div>
               </div>
@@ -6447,7 +6465,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
                 {/* Visual Recipients List */}
                 {(() => {
-                  const checkedRecipients = allBandCombined.filter(c => selectedBandPhones.includes(normalizePhoneNumber(c.phone)));
+                  const selectedBandPhonesSet = new Set(selectedBandPhones);
+                  const checkedRecipients = allBandCombined.filter(c => selectedBandPhonesSet.has(normalizePhoneNumber(c.phone)));
                   if (checkedRecipients.length === 0) return null;
                   return (
                     <div className="space-y-2">
@@ -7312,7 +7331,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const renderCruiseSignups = () => {
     const signups = cruiseStats.recentSignups || [];
     const allEmails = signups.filter((s: any) => s.email).map((s: any) => s.email);
-    const allSelected = allEmails.length > 0 && allEmails.every((e: string) => cruiseSelectedEmails.includes(e));
+    const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
+    const allSelected = allEmails.length > 0 && allEmails.every((e: string) => cruiseSelectedEmailsSet.has(e));
 
     const toggleEmail = (email: string) => {
       setCruiseSelectedEmails(prev =>
@@ -7518,12 +7538,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   <span className="text-center">Full</span>
                   <span></span>
                 </div>
-                {signups.map((s: any, i: number) => (
-                  <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-colors group/row ${cruiseSelectedEmails.includes(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
-                    {/* Email checkbox */}
-                    <div className="flex justify-center">
-                      <button onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${cruiseSelectedEmails.includes(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                        {cruiseSelectedEmails.includes(s.email) && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                {(() => {
+                  const cruiseSelectedEmailsSet = new Set(cruiseSelectedEmails);
+                  return signups.map((s: any, i: number) => (
+                    <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-colors group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
+                      {/* Email checkbox */}
+                      <div className="flex justify-center">
+                        <button onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${cruiseSelectedEmailsSet.has(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                          {cruiseSelectedEmailsSet.has(s.email) && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                       </button>
                     </div>
                     {/* Row number */}
@@ -7563,7 +7585,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
                     </button>
                   </div>
-                ))}
+                ));
+              })()}
               </div>
             )}
 
@@ -7859,7 +7882,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
       });
 
       setSchedules(prev => {
-        const filtered = prev.filter(s => !(s.date === dateStr && group.memberIds.includes(s.crewId)));
+        const groupMemberIdsSet = new Set(group.memberIds);
+        const filtered = prev.filter(s => !(s.date === dateStr && groupMemberIdsSet.has(s.crewId)));
         return [...filtered, ...newShiftsToAdd];
       });
     };
@@ -8352,7 +8376,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </span>
                   ))
                 ) : null}
-                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string) => (
+                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !STANDARD_ROLE_TAGS_SET.has(t.toUpperCase())).map((tag: string) => (
                   <span
                     key={tag}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
@@ -8387,7 +8411,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                     </span>
                   ))
                 ) : null}
-                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE'].includes(t.toUpperCase())).map((tag: string) => (
+                {shift.tags && shift.tags.length > 0 && shift.tags.filter((t: string) => t !== shift.role && !STANDARD_ROLE_TAGS_SET.has(t.toUpperCase())).map((tag: string) => (
                   <span
                     key={tag}
                     className="px-1.5 py-0.5 rounded text-[8.5px] font-black uppercase tracking-wider leading-none bg-black/40 text-white/80 border border-white/15 select-none"
@@ -8566,6 +8590,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
           );
         });
       };
+
+      const collapsedCrewIdsSet = new Set(collapsedCrewIds);
 
       return (
         <div
@@ -8798,7 +8824,8 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                   const monthHours = getCrewScheduledHoursForMonth(member.id, currentWeekStart);
                   const hoursStatus = getCrewHoursStatus(member.id, totalHours);
                   const hasExclamation = member.id === 'arjun' || member.id === 'dave_croke';
-                  const isCollapsed = collapsedCrewIds.includes(member.id);
+                  const collapsedCrewIdsSet = new Set(collapsedCrewIds);
+                  const isCollapsed = collapsedCrewIdsSet.has(member.id);
                   const activeSortDate = scheduleSortByDate || selectedTourDate;
                   const isWorkingOnActiveDate = activeSortDate ? schedules.some(s => s.date === activeSortDate && s.crewId === member.id && !s.isTimeOff && s.crewId !== 'openshifts') : false;
 
@@ -8920,13 +8947,13 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                       type="button"
                       onClick={() => {
                         const allIds = filteredCrewMembers.map(m => m.id);
-                        const allCollapsed = allIds.every(id => collapsedCrewIds.includes(id));
+                        const allCollapsed = allIds.every(id => collapsedCrewIdsSet.has(id));
                         setCollapsedCrewIds(allCollapsed ? [] : allIds);
                       }}
                       className="w-full px-4 py-1.5 flex items-center gap-2 text-left border-none bg-transparent hover:bg-slate-100 transition-colors cursor-pointer group"
                     >
                       <span className="text-[9px] font-bold text-slate-500 group-hover:text-black uppercase tracking-wider transition-colors">
-                        {filteredCrewMembers.every(m => collapsedCrewIds.includes(m.id)) ? ' Expand All' : ' Collapse All'}
+                        {filteredCrewMembers.every(m => collapsedCrewIdsSet.has(m.id)) ? ' Expand All' : ' Collapse All'}
                       </span>
                     </button>
                   </td>

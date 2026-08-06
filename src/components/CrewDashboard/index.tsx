@@ -188,11 +188,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     const userQuals = CREW_QUALIFICATIONS[crewId.toLowerCase()];
     if (!userQuals) return false;
 
+    const userCertsSet = new Set(userQuals.certifications);
+    const userTrainingSet = new Set(userQuals.training);
+
     const hasAllCerts = requirements.certifications.every(cert =>
-      userQuals.certifications.includes(cert)
+      userCertsSet.has(cert)
     );
     const hasAllTraining = requirements.training.every(train =>
-      userQuals.training.includes(train)
+      userTrainingSet.has(train)
     );
 
     return hasAllCerts && hasAllTraining;

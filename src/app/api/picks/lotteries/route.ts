@@ -60,8 +60,9 @@ export async function GET(req: Request) {
     const totalPicks = userPicks.length;
     const uniqueTypes = new Set(userPicks.map((p: any) => p.pick_type)).size;
 
+    const userEntriesSet = new Set(userEntries);
     const enriched = (lotteries || []).map((l: any) => {
-      const isEntered = userEntries.includes(l.id);
+      const isEntered = userEntriesSet.has(l.id);
       let isEligible = false;
       let progress = 0;
 

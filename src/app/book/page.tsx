@@ -1436,32 +1436,35 @@ function BookPageContent() {
                   </h2>
                   <p className="text-black/50 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
-                      const isActive = addOns.includes(option.id);
-                      return (
-                        <button
-                          key={option.id}
-                          type="button"
-                          onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4  border transition-colors cursor-pointer flex items-start gap-3 group
-                        ${isActive
-                              ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
-                              : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
-                            }`}
-                        >
-                          <span className="text-xl mt-0.5">{option.icon}</span>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className={`text-base font-bold block ${isActive ? ' text-[var(--color-accent)]' : 'text-black/80'}`}>{option.label}</span>
-                              {isActive && (
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                              )}
+                    {(() => {
+                      const addOnsSet = new Set(addOns);
+                      return ([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
+                        const isActive = addOnsSet.has(option.id);
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
+                            className={`w-full text-left p-4  border transition-colors cursor-pointer flex items-start gap-3 group
+                          ${isActive
+                                ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
+                                : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
+                              }`}
+                          >
+                            <span className="text-xl mt-0.5">{option.icon}</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className={`text-base font-bold block ${isActive ? ' text-[var(--color-accent)]' : 'text-black/80'}`}>{option.label}</span>
+                                {isActive && (
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                )}
+                              </div>
+                              <span className="text-base text-black/50 block leading-snug">{option.desc}</span>
                             </div>
-                            <span className="text-base text-black/50 block leading-snug">{option.desc}</span>
-                          </div>
-                        </button>
-                      );
-                    })}
+                          </button>
+                        );
+                      });
+                    })()}
                   </div>
                   {addOns.length > 0 && (
                     <div className="mt-5 pt-4 border-t border-black/10 flex items-center gap-3 flex-wrap">
