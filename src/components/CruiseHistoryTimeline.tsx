@@ -428,7 +428,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   }, [pathD, updateShipPosition]);
 
   const updateShipPositionRef = useRef(updateShipPosition);
-  updateShipPositionRef.current = updateShipPosition;
+  useEffect(() => {
+    updateShipPositionRef.current = updateShipPosition;
+  }, [updateShipPosition]);
 
   // Native scroll-progress scrub (replaces GSAP ScrollTrigger)
   useEffect(() => {

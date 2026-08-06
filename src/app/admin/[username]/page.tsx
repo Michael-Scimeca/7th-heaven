@@ -279,7 +279,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     avatar: m?.avatar
   });
 
-  const activeAdminAvatar = adminAvatarOverride || effectiveAdmin.avatar || member?.avatar || (typeof window !== "undefined" ? localStorage.getItem("7h_profile_avatar") : null);
+  const [localAvatar, setLocalAvatar] = useState<string | null>(null);
+  useEffect(() => {
+    setLocalAvatar(localStorage.getItem("7h_profile_avatar"));
+  }, []);
+
+  const activeAdminAvatar = adminAvatarOverride || effectiveAdmin.avatar || member?.avatar || localAvatar;
   const isAvatarUrl = activeAdminAvatar && (activeAdminAvatar.startsWith("http") || activeAdminAvatar.startsWith("/") || activeAdminAvatar.startsWith("data:"));
 
   // Master admin = role is 'admin' in Supabase profiles — no hardcoded email needed
@@ -494,11 +499,12 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [adminCreateLoading, setAdminCreateLoading] = useState(false);
   const [openInfoSection, setOpenInfoSection] = useState<string | null>(null);
 
-  const [showJumpNav, setShowJumpNav] = useState(() => {
-    if (typeof window === 'undefined') return true;
+  const [showJumpNav, setShowJumpNav] = useState(true);
+
+  useEffect(() => {
     const saved = localStorage.getItem('7h_show_jump_nav');
-    return saved !== 'false';
-  });
+    if (saved === 'false') setShowJumpNav(false);
+  }, []);
 
   const toggleJumpNav = () => {
     setShowJumpNav(prev => !prev);
@@ -2823,9 +2829,18 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
     { label: "Server Status", value: "Online", trend: "Stable", color: "text-emerald-400" },
   ];
 
-  //  Admin Login Gate 
-  const devBypass = typeof window !== 'undefined' && process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true';
-  const forceLogin = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('login') === 'true';
+  // Admin Login Gate
+  const [devBypass, setDevBypass] = useState(false);
+  const [forceLogin, setForceLogin] = useState(false);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development' && localStorage.getItem('7h_dev_bypass') === 'true') {
+      setDevBypass(true);
+    }
+    if (new URLSearchParams(window.location.search).get('login') === 'true') {
+      setForceLogin(true);
+    }
+  }, []);
 
   if (!mounted) {
     return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
@@ -7839,9 +7854,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
 
       setSchedules(prev => {
         const filtered = prev.filter(s => !(s.date === dateStr && group.memberIds.includes(s.crewId)));
-        const next = [...filtered, ...newShiftsToAdd];
-        queueMicrotask(() => localStorage.setItem('7h_crew_schedules', JSON.stringify(next)));
-        return next;
+        return [...filtered, ...newShiftsToAdd];
       });
     };
 
@@ -10270,7 +10283,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                           onClick={() => {
                                             // Reassign shift to this member
                                             setSchedules(current => {
-                                              const updated = current.map(s => {
+                                              return current.map(s => {
                                                 if (s.id === editingShiftId) {
                                                   return {
                                                     ...s,
@@ -10281,14 +10294,10 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                                                 }
                                                 return s;
                                               });
-                                              queueMicrotask(() => {
-                                                // Close sidebar after successful reassign
-                                                setActiveDropDay(null);
-                                                setDraggedCrewMemberId(null);
-                                                setEditingShiftId(null);
-                                              });
-                                              return updated;
                                             });
+                                            setActiveDropDay(null);
+                                            setDraggedCrewMemberId(null);
+                                            setEditingShiftId(null);
                                           }}
                                           className={`px-2 py-1 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors border-none ${isOverlapping
                                             ? 'bg-white/5 text-white/20 cursor-not-allowed'
@@ -10988,11 +10997,7 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
                           memberSettings
                         };
 
-                        setCrewGroups(current => {
-                          const updated = [...current, newGroup];
-                          queueMicrotask(() => localStorage.setItem('7h_crew_groups', JSON.stringify(updated)));
-                          return updated;
-                        });
+                        setCrewGroups(current => [...current, newGroup]);
 
                         if (createGroupForDate) {
                           handleAddGroupToDay(createGroupForDate, newGroup);

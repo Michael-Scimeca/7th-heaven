@@ -307,7 +307,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, [L]);
 
   const onPinClickRef = useRef(onPinClick);
-  onPinClickRef.current = onPinClick;
+  useEffect(() => {
+    onPinClickRef.current = onPinClick;
+  }, [onPinClick]);
 
   // Draw and Update Markers
   useEffect(() => {

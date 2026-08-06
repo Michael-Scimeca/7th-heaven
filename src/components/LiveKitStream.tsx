@@ -78,9 +78,11 @@ export function LiveKitStream({
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     const fetchToken = async (retryCount = 0) => {
+      if (aborted) return;
       try {
         const supabase = createClient();
         const { data: { session } } = await supabase.auth.getSession();
+        if (aborted) return;
 
         const headers: Record<string, string> = {
           'Content-Type': 'application/json'
@@ -95,6 +97,7 @@ export function LiveKitStream({
           { headers }
         );
 
+        if (aborted) return;
         const data = await res.json();
         if (aborted) return;
         if (data.error) {
@@ -106,7 +109,10 @@ export function LiveKitStream({
       } catch (err) {
         if (aborted) return;
         if (retryCount < 2) {
-          retryTimer = setTimeout(() => fetchToken(retryCount + 1), 1000);
+          if (retryTimer) clearTimeout(retryTimer);
+          retryTimer = setTimeout(() => {
+            if (!aborted) fetchToken(retryCount + 1);
+          }, 1000);
         } else {
           console.error('Token fetch failed:', err);
           setError('Failed to connect to stream server');

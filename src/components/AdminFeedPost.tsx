@@ -35,6 +35,7 @@ export default function AdminFeedPost() {
  // ─── Real-time Presence (Who's online) ───
  useEffect(() => {
   if (!supabase) return;
+  let active = true;
 
   const channel = supabase.channel('crew_dashboard_presence', {
    config: { presence: { key: selectedMember.name } }
@@ -42,12 +43,13 @@ export default function AdminFeedPost() {
 
   channel
    .on('presence', { event: 'sync' }, () => {
+    if (!active) return;
     const newState = channel.presenceState();
     const flattened = Object.values(newState).flat();
     setOnlineMembers(flattened);
    })
    .subscribe(async (status: any) => {
-    if (status === 'SUBSCRIBED') {
+    if (status === 'SUBSCRIBED' && active) {
      await channel.track({
       name: selectedMember.name,
       avatar: selectedMember.avatar,
@@ -56,7 +58,11 @@ export default function AdminFeedPost() {
     }
    });
 
-   return () => { supabase.removeChannel(channel); };
+  return () => {
+   active = false;
+   channel.unsubscribe();
+   supabase.removeChannel(channel);
+  };
  }, [selectedMember]);
 
  const handlePost = async (e: React.FormEvent) => {

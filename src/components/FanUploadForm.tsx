@@ -133,20 +133,25 @@ export default function FanUploadForm() {
         const compressed = await compressImage(file, 1920);
         const objectUrl = URL.createObjectURL(compressed);
 
-        // ── Hive Moderation (server-side) ────────────────────────────
-        const decision = await moderateImage(compressed);
+        try {
+          // ── Hive Moderation (server-side) ────────────────────────────
+          const decision = await moderateImage(compressed);
 
-        if (decision === "block") {
-          alert(`⛔ "${file.name}" was blocked by our safety filter.\n\nThis image appears to contain explicit content and cannot be uploaded. All submissions must be concert/event-related photos.`);
+          if (decision === "block") {
+            alert(`⛔ "${file.name}" was blocked by our safety filter.\n\nThis image appears to contain explicit content and cannot be uploaded. All submissions must be concert/event-related photos.`);
+            URL.revokeObjectURL(objectUrl);
+            continue;
+          }
+
+          compressedFiles.push(compressed);
+          newPreviews.push(objectUrl);
+
+          if (decision === "flag") {
+            newFlags[compressed.name] = 'flagged_for_review';
+          }
+        } catch (err) {
           URL.revokeObjectURL(objectUrl);
-          continue;
-        }
-
-        compressedFiles.push(compressed);
-        newPreviews.push(objectUrl);
-
-        if (decision === "flag") {
-          newFlags[compressed.name] = 'flagged_for_review';
+          throw err;
         }
       } catch (err) {
         console.error("Compression or scanning failed", err);

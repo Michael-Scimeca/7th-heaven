@@ -823,15 +823,20 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   /* ── Start auto-message loop when stream goes live ── */
   useEffect(() => {
     if (showOverlay) return;
+    let active = true;
     // Demo auto-messages always run; crewIsLive triggers the overlay animation
     // Initial burst of crew going live
     const delays = [400, 1800, 3200, 5000];
-    const timeouts = delays.map(d => setTimeout(addAutoMessage, d));
+    const timeouts = delays.map(d => setTimeout(() => {
+      if (active) addAutoMessage();
+    }, d));
 
     // Then regular cadence: random 2.5s – 7s
     const schedule = () => {
+      if (!active) return;
       const delay = 2500 + Math.random() * 4500;
       const t = setTimeout(() => {
+        if (!active) return;
         addAutoMessage();
         schedule();
       }, delay);
@@ -842,6 +847,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     // Periodic system join events
     SYSTEM_EVENTS.forEach(ev => {
       const t = setTimeout(() => {
+        if (!active) return;
         setMessages(prev => {
           const next = [...prev, {
             id: `sys-${Date.now()}-${Math.random()}`,
@@ -858,6 +864,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     timeouts.push(startTimer);
 
     return () => {
+      active = false;
       timeouts.forEach(clearTimeout);
     };
   }, [showOverlay, crewIsLive, addAutoMessage]);

@@ -165,27 +165,30 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    let active = true;
+    let intervalId: ReturnType<typeof setInterval> | undefined;
+    let handler: (() => void) | undefined;
 
-    // Wait for the first frame to be ready before capturing
-    const onReady = () => {
+    const startCapturing = () => {
+      if (!active) return;
       captureFrame();
-      const id = setInterval(captureFrame, SNAPSHOT_INTERVAL_MS);
-      return id;
+      intervalId = setInterval(() => {
+        if (active) captureFrame();
+      }, SNAPSHOT_INTERVAL_MS);
     };
 
-    let intervalId: ReturnType<typeof setInterval>;
-    let handler: () => void;
     if (video.readyState >= 2) {
-      intervalId = onReady();
+      startCapturing();
     } else {
       handler = () => {
-        intervalId = onReady();
-        video.removeEventListener("canplay", handler);
+        if (active) startCapturing();
+        if (handler) video.removeEventListener("canplay", handler);
       };
       video.addEventListener("canplay", handler);
     }
 
     return () => {
+      active = false;
       if (handler) video.removeEventListener("canplay", handler);
       if (intervalId) clearInterval(intervalId);
     };

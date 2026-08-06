@@ -2067,8 +2067,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       if (prev.some(e => e.name === name)) return prev;
       return [...prev, { name, id: id || Math.random().toString(), email }];
     });
-    syncRaffle(currentStatus, [...raffleEntrants, { name, id: id || Math.random().toString(), email }], currentMin, currentPrizes, currentWinners, currentPins);
-  }, [raffleEntrants, syncRaffle]);
+  }, []);
 
   const handleRegisterEntrantRef = useRef(handleRegisterEntrant);
   useEffect(() => {
