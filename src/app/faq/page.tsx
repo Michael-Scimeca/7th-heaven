@@ -239,7 +239,7 @@ export default function FAQPage() {
               return (
                 <div 
                   key={faq.id}
-                  className={`bg-white border  overflow-hidden transition-all duration-300 shadow-sm ${
+                  className={`bg-white border  overflow-hidden transition-colors duration-300 shadow-sm ${
                     isExpanded 
                       ? "border-purple-500/40 shadow-md" 
                       : "border-black/10 hover:border-black/20"
@@ -261,7 +261,7 @@ export default function FAQPage() {
                   
                   {/* Expanded Answer with height transition */}
                   <div 
-                    className={`transition-all duration-300 ease-in-out ${
+                    className={`transition-colors duration-300 ease-in-out ${
                       isExpanded ? "max-h-[300px] border-t border-black/10 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
                     } overflow-hidden`}
                   >

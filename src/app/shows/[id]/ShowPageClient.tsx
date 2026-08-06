@@ -259,7 +259,7 @@ export default function ShowPageClient({
     return (
       <div
         key={a.id}
-        className={`flex items-center gap-4 p-4 border transition-all ${a.status === "there"
+        className={`flex items-center gap-4 p-4 border transition-colors ${a.status === "there"
           ? "border-emerald-500/30 bg-emerald-500/[0.03]"
           : isMe
             ? "border-purple-500/40 bg-purple-500/5"
@@ -316,7 +316,7 @@ export default function ShowPageClient({
                     <span className="text-xs text-red-300/70">{feed.viewers} watching</span>
                   )}
                 </div>
-                <span className="px-4 py-1.5 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-all shrink-0">
+                <span className="px-4 py-1.5 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white group-hover:text-red-600 transition-colors shrink-0">
                   Watch Now →
                 </span>
               </Link>
@@ -385,7 +385,7 @@ export default function ShowPageClient({
                     onClick={handleRsvp}
                     disabled={rsvpLoading}
                     id="rsvp-btn"
-                    className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-all disabled:opacity-50 cursor-pointer ${isGoing
+                    className={`px-8 py-4 text-sm font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer ${isGoing
                       ? "bg-white/10 text-white border border-white/20 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 shadow-[0_0_30px_rgba(255,10,61,0.4)]"
                       }`}
@@ -398,23 +398,23 @@ export default function ShowPageClient({
                     <button
                       type="button"
                       onClick={() => setWantAnonymous(!wantAnonymous)}
-                      className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-all cursor-pointer ${wantAnonymous
+                      className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors cursor-pointer ${wantAnonymous
                         ? "border-white/20 bg-white/5 text-white/60"
                         : "border-white/[0.06] text-white/30 hover:text-white/50"
                         }`}
                     >
                       <span className={`w-7 h-4 rounded-full relative transition-colors shrink-0 ${wantAnonymous ? "bg-white/30" : "bg-white/10"}`}>
-                        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${wantAnonymous ? "left-[14px]" : "left-0.5"}`} />
+                        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${wantAnonymous ? "left-[14px]" : "left-0.5"}`} />
                       </span>
                       Go anonymously
                     </button>
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-all text-center">
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-all">
+              <button onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -461,7 +461,7 @@ export default function ShowPageClient({
                         <button
                           type="submit"
                           disabled={notifyLoading}
-                          className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest transition-all disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                          className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest transition-colors disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
                         >
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </button>
@@ -499,7 +499,7 @@ export default function ShowPageClient({
           <button
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
-            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] hover:border-white/10 transition-all mb-1 group cursor-pointer"
+            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] hover:border-white/10 transition-colors mb-1 group cursor-pointer"
           >
             <div className="flex items-center gap-6">
               <div className="text-left">
@@ -542,7 +542,7 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
+                      className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
                         }`}
                     >
                       {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
@@ -593,12 +593,12 @@ export default function ShowPageClient({
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <button onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-all">
+                <button onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-colors">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </button>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 text-sm font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-all"
+                  className="px-6 py-3 border border-white/10 text-white/50 text-sm font-black uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors"
                 >
                   💬 Text a Friend
                 </a>

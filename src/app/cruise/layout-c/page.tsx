@@ -120,7 +120,7 @@ export default function CruiseLayoutC() {
                   <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option><option value="10">10+</option>
                 </select>
               </div>
-                <button type="submit" disabled={signupStatus === "submitting"} className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
+                <button type="submit" disabled={signupStatus === "submitting"} className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
                 {signupStatus === "submitting" ? "Submitting..." : "Count Me In — It's Free"}
                 </button>
             </form>
@@ -148,7 +148,7 @@ export default function CruiseLayoutC() {
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <a href="#signup-section" onClick={e => { e.preventDefault(); document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="flex-1 md:flex-none px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-all text-center">
+                className="flex-1 md:flex-none px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors text-center">
                 Sign Up Now
               </a>
               <button onClick={() => setStickyVisible(false)} className="text-white/30 hover:text-white text-xl cursor-pointer px-2">×</button>

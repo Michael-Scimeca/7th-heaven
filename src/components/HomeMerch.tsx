@@ -62,7 +62,7 @@ export default function HomeMerch() {
               <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
               <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
             </div>
-            <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-all">
+            <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
               Shop All →
             </Link>
           </div>
@@ -143,7 +143,7 @@ export default function HomeMerch() {
             <span className="text-xs font-black  text-[var(--color-accent)] uppercase tracking-[0.2em] mb-2 block">Specials</span>
             <h2 className="text-2xl font-black italic tracking-tight text-white uppercase">On Sale Now</h2>
           </div>
-          <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-all">
+          <Link href="/store" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-[0.15em] border border-white/10 px-4 py-2 transition-colors">
             Shop All →
           </Link>
         </div>
@@ -156,7 +156,7 @@ export default function HomeMerch() {
             const soldOut = product.quantityAvailable === 0;
 
             return (
-              <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-[var(--color-accent)]/30 transition-all group relative">
+              <div key={product.id} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-[var(--color-accent)]/30 transition-colors group relative">
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="bg-red-500 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-red-500/20">

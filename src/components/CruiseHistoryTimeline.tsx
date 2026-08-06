@@ -702,7 +702,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         >
                           <div
                             data-year-badge
-                            className={`inline-block  z-40 transition-all duration-300 ${isReached
+                            className={`inline-block  z-40 transition-colors duration-300 ${isReached
                               ? 'bg-[#06060c] border-2 border-cyan-400 text-cyan-300 scale-105 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
                               : 'bg-[#06060c] border border-white/10'
                               }`}
@@ -761,7 +761,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: 'clamp(200px, 24vw, 380px)' }}
                         >
                           <div
-                            className={`transition-all duration-300 ${isReached
+                            className={`transition-colors duration-300 ${isReached
                               ? 'opacity-100'
                               : 'opacity-70'
                               }`}
@@ -822,7 +822,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div key={idx} className="relative group">
                 {/* Node Circle Box */}
                 <div
-                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-all duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
+                  className={`absolute left-[-25px] top-2 w-4 h-4 rounded-full border-2 border-[#06060c] z-10 transition-colors duration-300 ${isReached ? 'bg-cyan-300 scale-125 shadow-[0_0_12px_rgba(6,182,212,0.8)]' : 'bg-cyan-500/30'
                     }`}
                 />
 
@@ -835,7 +835,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 )}
 
                 <div
-                  className={`py-1 transition-all duration-300 ${isReached ? 'opacity-100' : 'opacity-70'
+                  className={`py-1 transition-colors duration-300 ${isReached ? 'opacity-100' : 'opacity-70'
                     }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
@@ -932,7 +932,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <button
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
-                      className={`py-1.5 px-2  text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
+                      className={`py-1.5 px-2  text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
                         ? 'bg-cyan-400 text-black border-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
                         : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
                         }`}
@@ -1116,7 +1116,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-6">
               <button
                 onClick={handleResetTuning}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-extrabold text-xs uppercase tracking-widest transition-all cursor-pointer"
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-extrabold text-xs uppercase tracking-widest transition-colors cursor-pointer"
               >
                 🔄 Reset Defaults
               </button>
@@ -1128,7 +1128,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 )}
                 <button
                   onClick={handleSaveTuning}
-                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                  className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
                 >
                   💾 Save Settings
                 </button>

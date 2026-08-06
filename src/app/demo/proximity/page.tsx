@@ -87,7 +87,7 @@ export default function ProximityDemoPage() {
             <div key={s.id} className="flex items-center flex-1">
               <button
                 onClick={() => setStep(s.id as Step)}
-                className={`flex flex-col items-center gap-1.5 flex-1 py-3 transition-all border-b-2 ${step === s.id
+                className={`flex flex-col items-center gap-1.5 flex-1 py-3 transition-colors border-b-2 ${step === s.id
                   ? "border-purple-500 text-white"
                   : "border-white/10 text-white/30 hover:text-white/50"
                   }`}
@@ -158,7 +158,7 @@ export default function ProximityDemoPage() {
               </ul>
             </div>
 
-            <button onClick={() => setStep("sms")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all">
+            <button onClick={() => setStep("sms")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors">
               Next: See the SMS Alert →
             </button>
           </div>
@@ -198,7 +198,7 @@ export default function ProximityDemoPage() {
 
                     {/* Notification banner — tap to advance */}
                     <div
-                      className={`transition-all duration-700 cursor-pointer ${notificationVisible && !notificationDismissed
+                      className={`transition-colors duration-700 cursor-pointer ${notificationVisible && !notificationDismissed
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 -translate-y-4 pointer-events-none"
                         }`}
@@ -227,13 +227,13 @@ export default function ProximityDemoPage() {
                             <div className="flex gap-2 mt-2 pt-2 border-t border-white/10">
                               <button
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
-                                className="flex-1 py-1 rounded bg-purple-500/30 border border-purple-400/30 text-purple-200 text-xs font-black uppercase tracking-widest hover:bg-purple-500/50 transition-all"
+                                className="flex-1 py-1 rounded bg-purple-500/30 border border-purple-400/30 text-purple-200 text-xs font-black uppercase tracking-widest hover:bg-purple-500/50 transition-colors"
                               >
                                 🎸 Going
                               </button>
                               <button
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
-                                className="flex-1 py-1 rounded bg-emerald-500/30 border  border-[var(--color-accent)]/30 text-emerald-200 text-xs font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-all"
+                                className="flex-1 py-1 rounded bg-emerald-500/30 border  border-[var(--color-accent)]/30 text-emerald-200 text-xs font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-colors"
                               >
                                 ✓ There
                               </button>
@@ -296,14 +296,14 @@ export default function ProximityDemoPage() {
                     <button
                       onClick={() => handleRsvp("going")}
                       disabled={rsvpStatus === "loading"}
-                      className="flex-1 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black uppercase tracking-widest hover:bg-purple-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
+                      className="flex-1 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black uppercase tracking-widest hover:bg-purple-600/40 transition-colors disabled:opacity-50 rounded-lg cursor-pointer"
                     >
                       {rsvpStatus === "loading" ? "…" : "🎸 I'm Going"}
                     </button>
                     <button
                       onClick={() => handleRsvp("there")}
                       disabled={rsvpStatus === "loading"}
-                      className="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-xs font-black uppercase tracking-widest hover:bg-emerald-600/40 transition-all disabled:opacity-50 rounded-lg cursor-pointer"
+                      className="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-xs font-black uppercase tracking-widest hover:bg-emerald-600/40 transition-colors disabled:opacity-50 rounded-lg cursor-pointer"
                     >
                       {rsvpStatus === "loading" ? "…" : "✓ I'm There"}
                     </button>
@@ -313,12 +313,12 @@ export default function ProximityDemoPage() {
             </div>
 
             {!notificationVisible && (
-              <button onClick={() => setNotificationVisible(true)} className="w-full py-3 border border-white/10 text-white/50 text-sm font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-all">
+              <button onClick={() => setNotificationVisible(true)} className="w-full py-3 border border-white/10 text-white/50 text-sm font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors">
                 Show Notification Again
               </button>
             )}
 
-            <button onClick={() => setStep("show")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all">
+            <button onClick={() => setStep("show")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors">
               Next: Open the Show Page →
             </button>
           </div>
@@ -378,7 +378,7 @@ export default function ProximityDemoPage() {
                     <button
                       onClick={() => handleRsvp("going")}
                       disabled={rsvpStatus === "loading"}
-                      className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-all ${rsvpStatus === "going"
+                      className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-colors ${rsvpStatus === "going"
                         ? "bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.4)]"
                         : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.4)] hover:brightness-110"
                         }`}
@@ -388,10 +388,10 @@ export default function ProximityDemoPage() {
 
                     <button
                       onClick={() => setAnonToggle((v) => !v)}
-                      className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-xs font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-xs font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-colors cursor-pointer"
                     >
                       <span className={`w-7 h-4 rounded-full relative shrink-0 transition-colors ${anonToggle ? "bg-purple-500" : "bg-white/10"}`}>
-                        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${anonToggle ? "left-3.5" : "left-0.5"}`} />
+                        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${anonToggle ? "left-3.5" : "left-0.5"}`} />
                       </span>
                       {anonToggle ? <span className="text-purple-300">Anonymous On</span> : "Go anonymously"}
                     </button>
@@ -399,7 +399,7 @@ export default function ProximityDemoPage() {
                     <a
                       href={`https://maps.google.com/?q=${encodeURIComponent(`${DEMO_SHOW.venue}, ${DEMO_SHOW.city}, ${DEMO_SHOW.state}`)}`}
                       target="_blank" rel="noopener noreferrer"
-                      className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-all"
+                      className="px-6 py-4 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 text-center hover:border-white/30 hover:text-white transition-colors"
                     >
                       📍 Directions
                     </a>
@@ -451,7 +451,7 @@ export default function ProximityDemoPage() {
                       <div className="mb-1.5">
                         <div className="h-2 bg-white/[0.05] w-full">
                           <div
-                            className="h-full bg-[var(--color-accent)] transition-all"
+                            className="h-full bg-[var(--color-accent)] transition-colors"
                             style={{ width: rsvpStatus !== "idle" ? "35%" : "30%" }}
                           />
                         </div>
@@ -549,7 +549,7 @@ export default function ProximityDemoPage() {
                   {!showAllAttendees ? (
                     <button
                       onClick={() => setShowAllAttendees(true)}
-                      className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 hover:bg-white/[0.02] transition-all group w-full"
+                      className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 hover:bg-white/[0.02] transition-colors group w-full"
                     >
                       <span className="text-white/25 text-sm font-bold group-hover:text-white/50 transition-colors">+ 8 more fans going ↓</span>
                     </button>
@@ -580,7 +580,7 @@ export default function ProximityDemoPage() {
                       ))}
                       <button
                         onClick={() => setShowAllAttendees(false)}
-                        className="flex items-center justify-center p-3 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 transition-all group w-full"
+                        className="flex items-center justify-center p-3 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 transition-colors group w-full"
                       >
                         <span className="text-white/20 text-xs font-bold group-hover:text-white/40 transition-colors">Show less ↑</span>
                       </button>
@@ -597,7 +597,7 @@ export default function ProximityDemoPage() {
             {/* CTA to real page */}
             <Link
               href={`/shows/${DEMO_SHOW.id}`}
-              className="block w-full py-5 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-all text-center shadow-[0_0_40px_rgba(255,10,61,0.3)]"
+              className="block w-full py-5 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors text-center shadow-[0_0_40px_rgba(255,10,61,0.3)]"
             >
               Open the Live Show Page →
             </Link>

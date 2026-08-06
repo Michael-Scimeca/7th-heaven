@@ -114,7 +114,7 @@ export default function SetupChecklistPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" id="checklist-grid">
 
           {/* 1. EMAIL (Resend) */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -168,7 +168,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 2. TEXT (Twilio) */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -222,7 +222,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 3. GOOGLE ANALYTICS */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -264,7 +264,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 4. STRIPE */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -312,7 +312,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 5. LIVEKIT & MUX STREAMING */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -360,7 +360,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 6. SHOPIFY STOREFRONT */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -408,7 +408,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 7. SUPABASE DATABASE */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -456,7 +456,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 8. SANITY CMS */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -504,7 +504,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 9. OAUTH SOCIAL LOGIN */}
-          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-[var(--color-accent)]/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -572,7 +572,7 @@ export default function SetupChecklistPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* 10. CAN-SPAM EMAIL COMPLIANCE */}
-          <div className="bg-white border border-black/5 p-6 hover:border-rose-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-rose-500/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -637,7 +637,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 11. LIVE CHAT & MODERATION */}
-          <div className="bg-white border border-black/5 p-6 hover:border-purple-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-purple-500/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -702,7 +702,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 12. LIVE STREAMING LEGAL */}
-          <div className="bg-white border border-black/5 p-6 hover:border-purple-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-purple-500/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
@@ -761,7 +761,7 @@ export default function SetupChecklistPage() {
           </div>
 
           {/* 13. LEGAL PAGES & POLICIES */}
-          <div className="bg-white border border-black/5 p-6 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
+          <div className="bg-white border border-black/5 p-6 hover:border-emerald-500/30 transition-colors flex flex-col justify-between">
             <div>
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>

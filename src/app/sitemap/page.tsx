@@ -10,7 +10,7 @@ function TreeNode({ path, label, color, children }: { path: string; label: strin
       <div className="flex items-center gap-2 py-0.5">
         <span className="text-white/15 select-none">├─</span>
         {isLinkable ? (
-          <Link href={path} className={`${color} font-bold hover:underline hover:text-white transition-all`}>{path}</Link>
+          <Link href={path} className={`${color} font-bold hover:underline hover:text-white transition-colors`}>{path}</Link>
         ) : (
           <span className={`${color} font-bold`}>{path}</span>
         )}
@@ -528,7 +528,7 @@ export default function SitemapPage() {
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link
               href="/sitemap/flowchart"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_25px_rgba(255,10,61,0.4)] transition-all transform hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_25px_rgba(255,10,61,0.4)] transition-colors transform hover:scale-105"
             >
               <span>📊</span> Open Interactive Flowchart Sitemap ↗
             </Link>
@@ -542,7 +542,7 @@ export default function SitemapPage() {
         <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-20">
           <button
             onClick={() => setActiveView('flow')}
-            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${activeView === 'flow'
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-colors cursor-pointer ${activeView === 'flow'
               ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10  text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
               : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
               }`}
@@ -551,7 +551,7 @@ export default function SitemapPage() {
           </button>
           <button
             onClick={() => setActiveView('directory')}
-            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-all cursor-pointer ${activeView === 'directory'
+            className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-colors cursor-pointer ${activeView === 'directory'
               ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10  text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
               : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
               }`}
@@ -561,13 +561,13 @@ export default function SitemapPage() {
           <div className="w-px h-10 bg-white/10 self-center hidden md:block" />
           <Link
             href="/sitemap/visual"
-            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 text-xs font-black uppercase tracking-widest transition-all"
+            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 text-xs font-black uppercase tracking-widest transition-colors"
           >
             🖼️ Visual Connection Map
           </Link>
           <Link
             href="/sitemap/flowchart"
-            className="px-6 py-3 border border-pink-500/20 hover:border-pink-500/40 text-pink-400 text-xs font-black uppercase tracking-widest transition-all"
+            className="px-6 py-3 border border-pink-500/20 hover:border-pink-500/40 text-pink-400 text-xs font-black uppercase tracking-widest transition-colors"
           >
             🗺️ Flowchart Sitemap
           </Link>
@@ -645,7 +645,7 @@ export default function SitemapPage() {
                         <path
                           d={d}
                           fill="none"
-                          className={`${strokeColor} transition-all duration-300 ${active ? 'stroke-[2px] line-pulse-animation' : 'stroke-[1px]'}`}
+                          className={`${strokeColor} transition-colors duration-300 ${active ? 'stroke-[2px] line-pulse-animation' : 'stroke-[1px]'}`}
                           style={{
                             strokeDasharray: active ? "6, 4" : undefined,
                           }}
@@ -671,7 +671,7 @@ export default function SitemapPage() {
                         width: colWidth,
                         height: 48,
                       }}
-                      className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all duration-300 flex flex-col justify-center select-none ${isHovered
+                      className={`p-2.5 rounded-lg border text-left cursor-pointer transition-colors duration-300 flex flex-col justify-center select-none ${isHovered
                         ? `scale-[1.05] z-30 ${style.activeBorder} ${style.activeBg} ${style.glow}`
                         : isDimmed
                           ? 'opacity-20 grayscale pointer-events-none'
@@ -691,7 +691,7 @@ export default function SitemapPage() {
             </div>
 
             {/* Details panel */}
-            <div className="mt-6 p-5 bg-white/[0.02] border border-white/5 min-h-[90px] flex flex-col justify-center transition-all duration-300">
+            <div className="mt-6 p-5 bg-white/[0.02] border border-white/5 min-h-[90px] flex flex-col justify-center transition-colors duration-300">
               {hoveredNodeId ? (
                 <div>
                   <div className="flex items-center gap-2 mb-1.5">
@@ -727,7 +727,7 @@ export default function SitemapPage() {
                     <Link
                       key={rIdx}
                       href={route.path.includes('[') ? '#' : (route.path !== "#" ? route.path : "/")}
-                      className={`group relative flex flex-col p-6  border ${route.border} ${route.bg} backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden`}
+                      className={`group relative flex flex-col p-6  border ${route.border} ${route.bg} backdrop-blur-sm transition-colors duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] overflow-hidden`}
                     >
                       {/* Hover Glow Effect */}
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
@@ -1615,7 +1615,7 @@ export default function SitemapPage() {
                 bg: "bg-emerald-500/5",
               },
             ].map((item, i) => (
-              <div key={i} className={`p-6  border ${item.border} ${item.bg} transition-all hover:scale-[1.02]`}>
+              <div key={i} className={`p-6  border ${item.border} ${item.bg} transition-colors hover:scale-[1.02]`}>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-2xl">{item.icon}</span>
                   <h3 className={`text-sm font-black uppercase tracking-wide ${item.color}`}>{item.title}</h3>
@@ -1947,7 +1947,7 @@ function SiteNode({
   const dotMap: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-purple-600", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
   const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-purple-200", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
   const isLinkable = !href.includes('[') && href !== '#';
-  const cls = `flex flex-col items-center justify-center border rounded-lg transition-all text-center group w-full cursor-pointer hover:scale-[1.03] active:scale-[0.98] ${colorMap[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`;
+  const cls = `flex flex-col items-center justify-center border rounded-lg transition-colors text-center group w-full cursor-pointer hover:scale-[1.03] active:scale-[0.98] ${colorMap[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`;
   const inner = (
     <>
       <div className="flex items-center gap-1.5 mb-0.5">

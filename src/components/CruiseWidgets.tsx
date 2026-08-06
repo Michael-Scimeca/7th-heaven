@@ -92,7 +92,7 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`w-full relative overflow-hidden  border text-left transition-all ${voted === opt.id
+              className={`w-full relative overflow-hidden  border text-left transition-colors ${voted === opt.id
                 ? 'border-emerald-500 bg-emerald-500/10'
                 : voted !== null
                   ? 'border-white/5 bg-white/5 cursor-default'
@@ -102,7 +102,7 @@ export function DailyPoll() {
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
                 <div
-                  className={`absolute top-0 left-0 bottom-0 transition-all duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : 'bg-white/5'}`}
+                  className={`absolute top-0 left-0 bottom-0 transition-colors duration-1000 ease-out ${isWinner ? 'bg-emerald-500/20' : 'bg-white/5'}`}
                   style={{ width: `${percent}%` }}
                 />
               )}
@@ -154,7 +154,7 @@ export function OriginStats() {
             </div>
             <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-white/5">
               <div
-                className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full opacity-80 group-hover:opacity-100 transition-all duration-1000 delay-100"
+                className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full opacity-80 group-hover:opacity-100 transition-colors duration-1000 delay-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
               />
             </div>
@@ -183,7 +183,7 @@ export function PhotoWall() {
           <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
-        <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-all uppercase tracking-widest">
+        <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
           + Upload
         </button>
       </div>
@@ -194,7 +194,7 @@ export function PhotoWall() {
             key={i}
             className="aspect-square bg-white/5 border border-white/10 overflow-hidden group cursor-pointer relative"
           >
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all z-10 flex items-center justify-center backdrop-blur-[2px]">
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-colors z-10 flex items-center justify-center backdrop-blur-[2px]">
               <span className="text-white text-2xl">📸</span>
             </div>
             <div
@@ -458,15 +458,15 @@ export function BookingManager({ email }: { email?: string }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
-            <input type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
+            <input type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
           </div>
           <div>
             <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
-            <input type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all" />
+            <input type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
           </div>
           <div>
             <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
-            <select value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-all cursor-pointer">
+            <select value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors cursor-pointer">
               <option value="group_n5">Ocean View</option>
               <option value="group_if">Infinite Central Park</option>
               <option value="group_d4">Ocean View Balcony</option>
@@ -478,7 +478,7 @@ export function BookingManager({ email }: { email?: string }) {
 
         {regError && <p className="text-rose-400 text-xs mt-1">{regError}</p>}
 
-        <button type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-all shadow-md shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+        <button type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-colors shadow-md shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
           {registering ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Complete Cruise Registration"}
         </button>
       </form>
@@ -599,10 +599,10 @@ export function BookingManager({ email }: { email?: string }) {
                 </div>
               </div>
               <div className="flex gap-2 mt-4 pt-2 border-t border-black/10">
-                <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-all cursor-pointer">
+                <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-colors cursor-pointer">
                   {saveStatus || 'Save'}
                 </button>
-                <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-all cursor-pointer">
+                <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors cursor-pointer">
                   Cancel
                 </button>
               </div>
@@ -735,7 +735,7 @@ export function BookingManager({ email }: { email?: string }) {
                     )}&body=${encodeURIComponent(
                       `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || 'Cruise Guest'} (${booking.cabin_preference || 'Cabin 9122'}):\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
                     )}`}
-                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
+                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer text-center"
                   >
                     <div className="flex items-center gap-1.5 font-black">
                       <span>✉️</span> Cruise Admin
@@ -750,7 +750,7 @@ export function BookingManager({ email }: { email?: string }) {
                     )}&body=${encodeURIComponent(
                       `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || 'Cruise Guest'}`
                     )}`}
-                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer text-center"
+                    className="flex flex-col items-center justify-center gap-0.5 py-3 px-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer text-center"
                   >
                     <div className="flex items-center gap-1.5 font-black">
                       <span>✉️</span> Support Agent (Mary)
@@ -890,11 +890,11 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-all"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-colors"
         onClick={processing || success ? undefined : onClose}
       />
 
-      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-all duration-300 text-left">
+      <div className="relative w-full max-w-md bg-[var(--color-bg-surface)] border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] overflow-hidden transition-colors duration-300 text-left">
         {success ? (
           <div className="p-8 text-center space-y-4">
             <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-[var(--color-accent)] mx-auto text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
@@ -906,7 +906,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
             </p>
             <button
               onClick={onClose}
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-all cursor-pointer shadow-emerald-500/15"
+              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-emerald-500/15"
             >
               Close
             </button>
@@ -938,14 +938,14 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                   <button
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>
@@ -975,7 +975,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                         placeholder="John Doe"
                         value={cardName}
                         onChange={e => setCardName(e.target.value)}
-                        className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all"
+                        className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-colors"
                       />
                     </div>
                     <div>
@@ -986,7 +986,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                           placeholder="4000 1234 5678 9010"
                           value={cardNumber}
                           onChange={e => handleCardNumberChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 pl-9 pr-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-colors font-mono"
                         />
                         <span className="absolute left-3 top-2.5 text-white/40 text-xs">💳</span>
                       </div>
@@ -999,7 +999,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={e => handleExpiryChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-colors font-mono"
                         />
                       </div>
                       <div>
@@ -1009,7 +1009,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                           placeholder="123"
                           value={cardCVC}
                           onChange={e => handleCVCChange(e.target.value)}
-                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-all font-mono"
+                          className="w-full bg-[var(--color-bg-card)] border border-white/10 px-3 py-2 text-xs text-white focus:border-cyan-400/50 outline-none transition-colors font-mono"
                         />
                       </div>
                     </div>
@@ -1020,13 +1020,13 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                   <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-all cursor-pointer"
+                    className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest transition-all cursor-pointer shadow-cyan-500/10"
+                    className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-cyan-500/10"
                   >
                     Pay {balanceDue}
                   </button>
@@ -1077,7 +1077,7 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3 bg-gray-50 border border-black/10 hover:bg-gray-100 hover:border-[var(--color-accent)]/40 transition-all text-left group/item"
+            className="w-full flex items-center justify-between p-3 bg-gray-50 border border-black/10 hover:bg-gray-100 hover:border-[var(--color-accent)]/40 transition-colors text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
@@ -1130,7 +1130,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button
               onClick={() => handleVote(song.id)}
-              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-all text-white/40"
+              className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
             >
               ▲
             </button>
@@ -1169,7 +1169,7 @@ export function CaptainsLog() {
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button
           onClick={() => setIsPlaying(!isPlaying)}
-          className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-all shadow-md"
+          className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-colors shadow-md"
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>

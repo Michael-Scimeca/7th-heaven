@@ -438,7 +438,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
-                        className={`relative w-16 h-16 rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-all duration-200 overflow-hidden group ${profilePic
+                        className={`relative w-16 h-16 rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-colors duration-200 overflow-hidden group ${profilePic
                           ? 'border-2 border-[var(--color-accent)]/30'
                           : name.trim()
                             ? 'bg-gradient-to-br from-[var(--color-accent)] to-[#6b21a8] border-2 border-white/[0.1]  shadow-[var(--color-accent)]/20'
@@ -477,7 +477,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       onChange={(e) => setName(e.target.value)}
                       required
                       placeholder="Full name"
-                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                     />
                     {/* Email */}
                     <input
@@ -486,7 +486,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       placeholder="Email"
-                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                     />
                     {/* Phone */}
                     <input
@@ -494,7 +494,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
                       placeholder="Phone number"
-                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                     />
                     {/* Zip + Radius */}
                     <div className="flex gap-3">
@@ -506,12 +506,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         placeholder="Zip code"
                         maxLength={5}
                         pattern="\d{5}"
-                        className="flex-1 bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-all duration-200"
+                        className="flex-1 bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                       />
                       <select
                         value={radius}
                         onChange={(e) => setRadius(e.target.value)}
-                        className="bg-white/[0.05] border border-white/[0.08] px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-all duration-200 appearance-none cursor-pointer text-center w-[110px]"
+                        className="bg-white/[0.05] border border-white/[0.08] px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-colors duration-200 appearance-none cursor-pointer text-center w-[110px]"
                       >
                         <option value="25" className="bg-[var(--color-bg-surface)]">25 mi</option>
                         <option value="50" className="bg-[var(--color-bg-surface)]">50 mi</option>
@@ -524,7 +524,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     <div className="pt-3 pb-2 border-t border-white/[0.05]">
                       <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2.5 text-left">Notification Preferences</p>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-all">
+                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
                           <input
                             type="checkbox"
                             checked={notifyAreaShows}
@@ -536,7 +536,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             <p className="text-[var(--font-size-3xs)] text-white/40">Within {radius} miles of {zip || "Zip"}</p>
                           </div>
                         </label>
-                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-all">
+                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
                           <input
                             type="checkbox"
                             checked={notifyNextShow}
@@ -548,7 +548,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             <p className="text-[var(--font-size-3xs)] text-white/40">General band alerts</p>
                           </div>
                         </label>
-                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-all">
+                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
                           <input
                             type="checkbox"
                             checked={notifyBrowser}
@@ -578,7 +578,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           return (
                             <label
                               key={type.id}
-                              className={`flex items-center gap-2 cursor-pointer px-3 py-2.5 border  transition-all duration-200 ${isChecked
+                              className={`flex items-center gap-2 cursor-pointer px-3 py-2.5 border  transition-colors duration-200 ${isChecked
                                 ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-white"
                                 : "bg-white/[0.02] border-white/[0.05] text-white/40 hover:border-white/10 hover:text-white/60"
                                 }`}
@@ -607,12 +607,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       <button
                         type="button"
                         onClick={() => setAgreeNotify(!agreeNotify)}
-                        className={`relative w-[42px] h-[24px] rounded-full transition-all duration-300 shrink-0 mt-0.5 ${agreeNotify
+                        className={`relative w-[42px] h-[24px] rounded-full transition-colors duration-300 shrink-0 mt-0.5 ${agreeNotify
                           ? "bg-[var(--color-accent)] shadow-[0_0_12px_rgba(255,10,61,0.3)]"
                           : "bg-white/[0.1]"
                           }`}
                       >
-                        <div className={`absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-all duration-300 ${agreeNotify ? "left-[21px]" : "left-[3px]"
+                        <div className={`absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-colors duration-300 ${agreeNotify ? "left-[21px]" : "left-[3px]"
                           }`} />
                       </button>
                       <span className="text-sm text-white/40 leading-snug">Enable proximity notifications &amp; SMS alerts for nearby shows. You can manage this anytime in your profile settings.</span>
@@ -622,7 +622,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     <label className="flex items-start gap-3 cursor-pointer pt-1">
                       <div
                         onClick={() => setAgreeTerms(!agreeTerms)}
-                        className={`w-[18px] h-[18px] rounded border-2 shrink-0 mt-0.5 flex items-center justify-center transition-all duration-200 cursor-pointer ${agreeTerms
+                        className={`w-[18px] h-[18px] rounded border-2 shrink-0 mt-0.5 flex items-center justify-center transition-colors duration-200 cursor-pointer ${agreeTerms
                           ? 'bg-[var(--color-accent)] border-[var(--color-accent)]'
                           : 'border-white/20 hover:border-white/30'
                           }`}
@@ -642,7 +642,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     <button
                       type="submit"
                       disabled={status === "loading" || !agreeNotify || !agreeTerms}
-                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 hover:shadow-[0_8px_30px_-5px_rgba(255,10,61,0.4)] text-white font-bold text-base uppercase tracking-[0.15em] py-4 transition-all duration-300 cursor-pointer disabled:opacity-50 mt-1"
+                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 hover:shadow-[0_8px_30px_-5px_rgba(255,10,61,0.4)] text-white font-bold text-base uppercase tracking-[0.15em] py-4 transition-colors duration-300 cursor-pointer disabled:opacity-50 mt-1"
                     >
                       {status === "loading" ? "Creating account..." : "Create Account"}
                     </button>

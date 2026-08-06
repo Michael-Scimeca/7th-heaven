@@ -334,7 +334,7 @@ export default function CursorFollower() {
         {!panelOpen ? (
           <button
             onClick={() => setPanelOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
             title="Cursor Settings"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 animate-pulse" />
@@ -394,7 +394,7 @@ export default function CursorFollower() {
                     <button
                       key={name}
                       onClick={() => set<string>(setPalette, "palette")(name)}
-                      className={`px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border transition-all text-left truncate ${palette === name
+                      className={`px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border transition-colors text-left truncate ${palette === name
                         ? "border-purple-400 bg-purple-600/30 text-white"
                         : "border-white/10 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white/70"
                         }`}
@@ -444,20 +444,20 @@ export default function CursorFollower() {
 
                     <button
                       onClick={handleGenerateGradient}
-                      className="px-2 py-1.5 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-all"
+                      className="px-2 py-1.5 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors"
                     >
                       Fill
                     </button>
                     <button
                       onClick={handleGenerateRainbow}
-                      className="px-1.5 py-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-all hover:scale-105"
+                      className="px-1.5 py-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors hover:scale-105"
                       title="Generate Rainbow Spectrum"
                     >
                       🌈 Rainbow
                     </button>
                     <button
                       onClick={handleReverseColors}
-                      className="px-2 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-all"
+                      className="px-2 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors"
                       title="Reverse Color Trail Order"
                     >
                       ⇄ Reverse
@@ -478,7 +478,7 @@ export default function CursorFollower() {
                         return (
                           <div
                             key={i}
-                            className="flex items-center gap-1.5 px-2 py-1 bg-white/5 border border-white/10 rounded-lg hover:border-purple-400/50 transition-all"
+                            className="flex items-center gap-1.5 px-2 py-1 bg-white/5 border border-white/10 rounded-lg hover:border-purple-400/50 transition-colors"
                           >
                             <input
                               type="color"
@@ -580,7 +580,7 @@ export default function CursorFollower() {
                 set<number>(setGooeyStrength, "gooeyStrength")(DEFAULTS.gooeyStrength);
                 set<string>(setPalette, "palette")(DEFAULTS.palette);
               }}
-              className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/60 hover:text-white font-extrabold text-[10px] uppercase tracking-widest transition-all cursor-pointer"
+              className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/60 hover:text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors cursor-pointer"
             >
               Reset to Defaults
             </button>

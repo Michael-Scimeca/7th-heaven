@@ -308,7 +308,7 @@ export default function CustomYTPlayer({
             {/* Progress Bar */}
             <div
               ref={progressRef}
-              className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-4 relative hover:h-1.5 transition-all"
+              className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-4 relative hover:h-1.5 transition-colors"
               onClick={handleProgressClick}
             >
               {/* Buffered */}
@@ -347,7 +347,7 @@ export default function CustomYTPlayer({
                 {/* Play/Pause */}
                 <button
                   onClick={togglePlay}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all cursor-pointer"
+                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -399,7 +399,7 @@ export default function CustomYTPlayer({
                       </svg>
                     )}
                   </button>
-                  <div className={`flex items-center transition-all duration-200 overflow-hidden ${showVolume ? 'w-20 opacity-100' : 'w-0 opacity-0'}`}>
+                  <div className={`flex items-center transition-colors duration-200 overflow-hidden ${showVolume ? 'w-20 opacity-100' : 'w-0 opacity-0'}`}>
                     <input
                       type="range"
                       min={0}

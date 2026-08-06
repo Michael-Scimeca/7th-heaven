@@ -89,7 +89,7 @@ export default function CruiseLayoutA() {
                     <option value="1">Just me (1)</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+ guests</option>
                   </select>
                   <button type="submit" disabled={signupStatus === "submitting"}
-                    className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
+                    className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
                     {signupStatus === "submitting" ? "Submitting..." : "Count Me In"}
                   </button>
                 </form>
@@ -112,7 +112,7 @@ export default function CruiseLayoutA() {
                 <span>Progress</span><span>{Math.round(progress)}%</span>
               </div>
               <div className="h-3 bg-white/5 rounded-full overflow-hidden mb-2">
-                <div className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
+                <div className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full transition-colors duration-1000" style={{ width: `${progress}%` }} />
               </div>
               <p className="text-xs text-white/25">{GOAL - totalGuests} more guests unlock the best group rate</p>
               <div className="mt-6 p-4 bg-white/[0.02] border border-white/5">
@@ -140,7 +140,7 @@ export default function CruiseLayoutA() {
           {ITINERARY.map(day => (
             <div key={day.day} className="flex gap-6 group">
               <div className="flex flex-col items-center shrink-0">
-                <div className="w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-xl group-hover:border-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]/10 transition-all">{day.icon}</div>
+                <div className="w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-xl group-hover:border-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]/10 transition-colors">{day.icon}</div>
                 {day.day < 7 && <div className="w-px flex-1 bg-gradient-to-b from-white/10 to-transparent mt-2" />}
               </div>
               <div className="pb-8">

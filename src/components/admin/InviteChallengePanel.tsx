@@ -67,14 +67,14 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const selectedShow = shows.find((s) => s._id === selectedShowId);
 
   return (
-    <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden transition-all duration-300">
+    <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden transition-colors duration-300">
       {/* Accent glow */}
       <div className="absolute top-0 left-0 w-64 h-32 bg-[var(--color-accent)]/10 blur-[60px] pointer-events-none" />
 
       {/* Accordion Toggle Header */}
       <div
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-all flex items-center justify-between group"
+        className="relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group"
       >
         <div>
           <p className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] mb-0.5">Show Promotions</p>
@@ -133,7 +133,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
                       className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
-                      <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${challenge.enabled ? "left-6" : "left-0.5"}`} />
+                      <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-colors ${challenge.enabled ? "left-6" : "left-0.5"}`} />
                     </button>
                   </div>
 
@@ -210,7 +210,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-all ${saved
+                    className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-colors ${saved
                       ? "bg-emerald-600 text-white"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
                       }`}

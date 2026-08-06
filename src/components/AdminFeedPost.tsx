@@ -157,7 +157,7 @@ export default function AdminFeedPost() {
          key={m.avatar}
          type="button"
          onClick={() => setSelectedMember(m)}
-         className={`p-3 border text-center transition-all duration-200 ${
+         className={`p-3 border text-center transition-colors duration-200 ${
           selectedMember.avatar === m.avatar
            ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10"
            : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
@@ -187,7 +187,7 @@ export default function AdminFeedPost() {
          key={t.value}
          type="button"
          onClick={() => setPostType(t.value)}
-         className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium border transition-all duration-200 ${
+         className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium border transition-colors duration-200 ${
           postType === t.value
            ? "border-white/20 bg-white/[0.06]"
            : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"
@@ -247,7 +247,7 @@ export default function AdminFeedPost() {
      <button
       type="submit"
       disabled={!content.trim() || isPosting}
-      className={`w-full py-3 text-sm font-bold uppercase tracking-[0.15em] transition-all duration-300 ${
+      className={`w-full py-3 text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${
        content.trim() && !isPosting
         ? "btn-primary btn-primary-hover"
         : "bg-white/[0.05] text-white/20 cursor-not-allowed"
@@ -267,7 +267,7 @@ export default function AdminFeedPost() {
     {/* Status Message */}
     {status && (
      <div
-      className={`mt-4 p-3 text-sm font-medium text-center border transition-all duration-300 ${
+      className={`mt-4 p-3 text-sm font-medium text-center border transition-colors duration-300 ${
        status.type === "success"
         ? "bg-green-500/10 border-green-500/30 text-green-400"
         : "bg-red-500/10 border-red-500/30 text-red-400"

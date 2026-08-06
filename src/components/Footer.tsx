@@ -189,7 +189,7 @@ export function Footer() {
               <button
                 type="submit"
                 disabled={smsStatus === 'sending'}
-                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap"
+                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap"
               >
                 {smsStatus === 'sending' ? '...' : '📱 Subscribe'}
               </button>
@@ -209,7 +209,7 @@ export function Footer() {
               key={brand.name}
               src={brand.logoPath}
               alt={brand.name}
-              className="h-6 md:h-7 w-auto object-contain transition-all duration-300 hover:opacity-100 opacity-50 shrink-0"
+              className="h-6 md:h-7 w-auto object-contain transition-colors duration-300 hover:opacity-100 opacity-50 shrink-0"
               style={{ filter: 'brightness(0)' }}
               loading="lazy"
             />

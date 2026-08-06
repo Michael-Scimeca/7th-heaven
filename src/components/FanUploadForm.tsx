@@ -254,7 +254,7 @@ export default function FanUploadForm() {
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full h-48 border border-black/15 cursor-pointer flex items-center justify-center overflow-hidden transition-all ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "hover:border-[var(--color-accent)]/50 bg-gray-50"
+                className={`relative w-full h-48 border border-black/15 cursor-pointer flex items-center justify-center overflow-hidden transition-colors ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "hover:border-[var(--color-accent)]/50 bg-gray-50"
                   }`}
               >
                 {previews.length > 0 ? (
@@ -310,19 +310,19 @@ export default function FanUploadForm() {
                 <div>
                   <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
                   <input type="text" name="venue" placeholder="e.g. Durty Nellies" required
-                    className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-all"
+                    className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
                   <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
                   <input type="date" name="date" required
-                    className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black focus:border-[var(--color-accent)] focus:outline-none transition-all [color-scheme:light]"
+                    className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black focus:border-[var(--color-accent)] focus:outline-none transition-colors [color-scheme:light]"
                   />
                 </div>
                 <div className="md:col-span-2">
                   <label className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Caption</label>
                   <input type="text" name="caption" placeholder="Short description..."
-                    className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-all"
+                    className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -338,7 +338,7 @@ export default function FanUploadForm() {
                 type={isLoggedIn ? "submit" : "button"}
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 hover:scale-[1.02] active:scale-95 text-white font-black text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg transition-all disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0"
+                className="w-full lg:w-32 shrink-0 flex items-center justify-center bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 hover:scale-[1.02] active:scale-95 text-white font-black text-sm uppercase tracking-[0.15em] h-[40px] px-4 rounded-lg transition-colors disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0"
               >
                 {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
               </button>

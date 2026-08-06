@@ -311,7 +311,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-colors duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                         `${style.border} hover:${style.activeBorder}`
                       } ${style.bg}`}
@@ -320,7 +320,7 @@ export default function VisualSitemapPage() {
                   >
                     {/* Screenshot thumbnail */}
                     <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
-                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" sizes="300px" />
+                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
@@ -353,7 +353,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-colors duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                         `${style.border} hover:${style.activeBorder}`
                       } ${style.bg}`}
@@ -361,7 +361,7 @@ export default function VisualSitemapPage() {
                     onMouseLeave={() => setHoveredId(null)}
                   >
                     <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
-                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" sizes="300px" />
+                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
@@ -393,7 +393,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-colors duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                         `${style.border} hover:${style.activeBorder}`
                       } ${style.bg}`}
@@ -401,7 +401,7 @@ export default function VisualSitemapPage() {
                     onMouseLeave={() => setHoveredId(null)}
                   >
                     <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
-                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" sizes="300px" />
+                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
@@ -433,7 +433,7 @@ export default function VisualSitemapPage() {
                   <div
                     key={page.id}
                     ref={(el) => { cardRefs.current[page.id] = el; }}
-                    className={`group relative  border overflow-hidden transition-all duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
+                    className={`group relative  border overflow-hidden transition-colors duration-300 cursor-pointer ${isHovered ? `${style.activeBorder} ${style.glow} scale-[1.02]` :
                       !connected ? "opacity-15 grayscale scale-[0.98]" :
                         `${style.border} hover:${style.activeBorder}`
                       } ${style.bg}`}
@@ -441,7 +441,7 @@ export default function VisualSitemapPage() {
                     onMouseLeave={() => setHoveredId(null)}
                   >
                     <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
-                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" sizes="300px" />
+                      <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
@@ -465,7 +465,7 @@ export default function VisualSitemapPage() {
         </div>
 
         {/* ═══════════ Detail Panel ═══════════ */}
-        <div className="mt-10 p-6 bg-white/[0.02] border border-white/5 min-h-[100px] transition-all duration-300">
+        <div className="mt-10 p-6 bg-white/[0.02] border border-white/5 min-h-[100px] transition-colors duration-300">
           {hoveredId ? (() => {
             const page = pages.find(p => p.id === hoveredId);
             if (!page) return null;

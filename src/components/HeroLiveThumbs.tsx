@@ -119,7 +119,7 @@ export default function HeroLiveThumbs() {
     return (
       <button
         onClick={handleOpen}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-surface)]/80 border border-white/10 hover:border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-all duration-300 backdrop-blur-md select-none group cursor-pointer"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-surface)]/80 border border-white/10 hover:border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-colors duration-300 backdrop-blur-md select-none group cursor-pointer"
       >
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
@@ -226,7 +226,7 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-all duration-300 flex flex-col"
+                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-colors duration-300 flex flex-col"
               >
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">

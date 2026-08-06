@@ -228,7 +228,7 @@ export default function FansPage() {
                   setShowUpload(!showUpload);
                 }
               }}
-              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
+              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-colors flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
             >
               <span className="text-lg">📸</span>
               <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>
@@ -329,7 +329,7 @@ export default function FansPage() {
                       <button
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 transition-all cursor-pointer shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 transition-colors cursor-pointer shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       >
                         Safe & Approve
                       </button>
@@ -402,7 +402,7 @@ export default function FansPage() {
               return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)] border-b border-r border-black/10 overflow-hidden hover:bg-white transition-all duration-300"
+                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)] border-b border-r border-black/10 overflow-hidden hover:bg-white transition-colors duration-300"
                 >
                   <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-black/5 bg-black/[0.02]">
                     <div className="flex items-center gap-3">

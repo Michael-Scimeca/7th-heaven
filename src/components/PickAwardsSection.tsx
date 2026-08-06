@@ -133,7 +133,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <button
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
-                className={`relative p-3 border  text-center transition-all ${pick.owned > 0
+                className={`relative p-3 border  text-center transition-colors ${pick.owned > 0
                   ? selectedPick === pick.id
                     ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)] scale-105"
                     : "border-black/10 bg-gray-50 hover:border-black/25 hover:scale-[1.02] cursor-pointer"
@@ -223,7 +223,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 {lotteries.map((lottery: any) => (
                   <div
                     key={lottery.id}
-                    className={`p-4 border rounded-lg transition-all ${lottery.isEntered
+                    className={`p-4 border rounded-lg transition-colors ${lottery.isEntered
                       ? "border-emerald-500/30 bg-emerald-500/5"
                       : lottery.isEligible
                         ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50"
@@ -242,7 +242,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                           <button
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-all cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]"
+                            className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]"
                           >
                             {enteringLottery === lottery.id ? "Entering..." : "Enter Lottery"}
                           </button>
@@ -265,7 +265,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         </div>
                         <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden">
                           <div
-                            className={`h-full rounded-full transition-all ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+                            className={`h-full rounded-full transition-colors ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
                             style={{ width: `${Math.min(100, lottery.progress)}%` }}
                           />
                         </div>

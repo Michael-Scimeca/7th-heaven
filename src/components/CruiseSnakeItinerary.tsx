@@ -681,7 +681,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               </div>
               <button
                 onClick={() => setShowSettings(false)}
-                className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-all"
+                className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
               >
                 ✕ Close
               </button>
@@ -869,7 +869,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         <button
                           key={act.id}
                           onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                          className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${(tuning.nodeAction ?? 'hide') === act.id
+                          className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
                             ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
                             : 'bg-white/5 text-white/60 hover:bg-white/10'
                             }`}
@@ -1000,7 +1000,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[var(--color-bg-deep)]/40 backdrop-blur-md pb-1 z-10">
               <button
                 onClick={handleResetTuning}
-                className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-all border border-white/10 cursor-pointer"
+                className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
               >
                 🔄 Reset to Defaults
               </button>
@@ -1013,7 +1013,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                 )}
                 <button
                   onClick={handleSaveTuning}
-                  className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                  className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
                 >
                   💾 Save Settings
                 </button>
@@ -1096,7 +1096,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-all duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
+                <div className="relative aspect-[21/9] w-full rounded-t-[28px] overflow-hidden mb-4 shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500 [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_25%,rgba(0,0,0,0)_100%)]">
                   <Image width={200} height={200} unoptimized
                     src={dayImage}
                     alt={day.theme}
@@ -1258,7 +1258,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   borderColor: `color-mix(in srgb, ${themeColor} 40%, transparent)`,
                   boxShadow: 'none',
                 }}
-                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
+                className={`whitespace-nowrap border text-[var(--font-size-2xs)] font-black uppercase tracking-widest px-4 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'
                   }`}
               >
                 <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}

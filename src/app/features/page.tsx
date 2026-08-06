@@ -1172,7 +1172,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
     <>
       <button
         onClick={() => setExpanded(true)}
-        className={`relative w-full aspect-video  overflow-hidden border-2 transition-all duration-300 cursor-pointer group ${isPurple
+        className={`relative w-full aspect-video  overflow-hidden border-2 transition-colors duration-300 cursor-pointer group ${isPurple
           ? "border-[#851DEF]/30 hover:border-[#851DEF]/60 hover:shadow-[0_0_30px_rgba(255,10,61,0.15)]"
           : "border-white/10 hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
           }`}
@@ -1188,7 +1188,7 @@ function DemoPreview({ src, title, isPurple }: { src: string; title: string; isP
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity" />
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${isPurple
+          <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-colors duration-300 group-hover:scale-110 ${isPurple
             ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]"
             : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"
             }`}>
@@ -1252,7 +1252,7 @@ function FeatureCardUI({ f }: { f: FeatureCard }) {
   const isPurple = !!f.highlight;
 
   return (
-    <div className={`group relative flex flex-col  border transition-all duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover:border-white/20"}`}>
+    <div className={`group relative flex flex-col  border transition-colors duration-300 overflow-hidden ${isPurple ? "border-[#851DEF]/25 bg-gradient-to-br from-[#851DEF]/8 via-black to-black hover:border-[#851DEF]/50" : "border-white/[0.07] bg-white/[0.02] hover:border-white/20"}`}>
       {/* accent top line */}
       <div className={`h-px w-full ${isPurple ? "bg-gradient-to-r from-[#851DEF]/70 via-[#c084fc]/40 to-transparent" : "bg-gradient-to-r from-white/10 to-transparent"}`} />
 
@@ -1377,12 +1377,12 @@ export default function FeaturesPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/live" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />Watch Live
             </Link>
-            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">Book The Band →</Link>
-            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">Fan Dashboard →</Link>
-            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-black text-base uppercase tracking-[0.12em] rounded-full transition-all">View All Pages ↓</a>
+            <Link href="/book" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Book The Band →</Link>
+            <Link href="/fans" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">Fan Dashboard →</Link>
+            <a href="#directory" className="inline-flex items-center gap-2 px-8 py-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500/60 text-[var(--color-accent)] font-black text-base uppercase tracking-[0.12em] rounded-full transition-colors">View All Pages ↓</a>
           </div>
         </div>
       </section>
@@ -1502,7 +1502,7 @@ export default function FeaturesPage() {
                   {/* Multi-room switcher */}
                   <div className="absolute top-24 right-4 flex flex-col gap-1.5">
                     {["Michael", "Ryan", "Sammy"].map((name, i) => (
-                      <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold cursor-pointer transition-all ${i === 0 ? "bg-[var(--color-accent)] text-white" : "bg-white/5 text-white/40 hover:bg-white/10"}`}>
+                      <div key={name} className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)] text-white" : "bg-white/5 text-white/40 hover:bg-white/10"}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${i === 0 ? "bg-white animate-pulse" : "bg-white/30"}`} />
                         {name}
                       </div>
@@ -1622,7 +1622,7 @@ export default function FeaturesPage() {
                       📹 Cam On
                     </button>
                   </div>
-                  <button className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-sm font-black uppercase tracking-widest transition-all cursor-pointer">
+                  <button className="w-full py-3 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-sm font-black uppercase tracking-widest transition-colors cursor-pointer">
                     ⏹ End Stream
                   </button>
                 </div>
@@ -1650,7 +1650,7 @@ export default function FeaturesPage() {
                             <span className="text-xs font-black" style={{ color: m.color }}>{m.user} </span>
                             <span className="text-xs text-white/50">{m.msg}</span>
                           </div>
-                          <button className="shrink-0 text-xs px-1.5 py-0.5 rounded bg-white/5 text-white/25 hover:bg-red-500/20 hover:text-red-400 transition-all cursor-pointer opacity-0 group-hover:opacity-100">Mute</button>
+                          <button className="shrink-0 text-xs px-1.5 py-0.5 rounded bg-white/5 text-white/25 hover:bg-red-500/20 hover:text-red-400 transition-colors cursor-pointer opacity-0 group-hover:opacity-100">Mute</button>
                         </div>
                       ))}
                     </div>
@@ -1674,7 +1674,7 @@ export default function FeaturesPage() {
                     <div className="text-white/30 text-xs mb-1.5 font-bold uppercase tracking-widest">💥 Trigger Batch Reaction</div>
                     <div className="flex gap-1.5">
                       {["🔥", "🎸", "🤘", "💜", "⚡"].map(e => (
-                        <button key={e} className="flex-1 py-2 bg-white/5 border border-white/[0.08] rounded-lg text-base hover:bg-[var(--color-accent)]/20 hover:border-[#851DEF]/40 transition-all cursor-pointer">{e}</button>
+                        <button key={e} className="flex-1 py-2 bg-white/5 border border-white/[0.08] rounded-lg text-base hover:bg-[var(--color-accent)]/20 hover:border-[#851DEF]/40 transition-colors cursor-pointer">{e}</button>
                       ))}
                     </div>
                   </div>
@@ -1705,10 +1705,10 @@ export default function FeaturesPage() {
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <button className="py-2 bg-[var(--color-accent)]/20 border border-[#851DEF]/30 rounded-lg text-[#c084fc] text-xs font-black uppercase cursor-pointer hover:bg-[var(--color-accent)]/30 transition-all">
+                      <button className="py-2 bg-[var(--color-accent)]/20 border border-[#851DEF]/30 rounded-lg text-[#c084fc] text-xs font-black uppercase cursor-pointer hover:bg-[var(--color-accent)]/30 transition-colors">
                         + New Raffle
                       </button>
-                      <button className="py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs font-black uppercase cursor-pointer hover:bg-red-500/20 transition-all">
+                      <button className="py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs font-black uppercase cursor-pointer hover:bg-red-500/20 transition-colors">
                         Draw Winner
                       </button>
                     </div>
@@ -1727,7 +1727,7 @@ export default function FeaturesPage() {
                       </div>
                       <input readOnly value="⏱ Countdown: 5:00" className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white/60 text-xs" />
                     </div>
-                    <button className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm font-black uppercase tracking-widest transition-all cursor-pointer">
+                    <button className="w-full py-2.5 bg-purple-600/80 hover:bg-purple-600 rounded-lg text-black text-sm font-black uppercase tracking-widest transition-colors cursor-pointer">
                       🔥 Launch Drop to All Viewers
                     </button>
                   </div>
@@ -1739,7 +1739,7 @@ export default function FeaturesPage() {
                       <span className="text-white/70 font-black text-sm uppercase tracking-wide">SMS Fan Alert</span>
                     </div>
                     <div className="text-white/30 text-xs mb-2">Blast to all subscribers within 50mi</div>
-                    <button className="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-white/50 text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-all cursor-pointer">
+                    <button className="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-white/50 text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
                       📲 Send Live Alert SMS
                     </button>
                   </div>
@@ -1804,7 +1804,7 @@ export default function FeaturesPage() {
                     { label: "🛒 Merch", active: false },
                     { label: "📣 Alerts", active: false },
                   ].map(t => (
-                    <div key={t.label} className={`px-5 py-2 rounded-lg text-sm font-black uppercase tracking-widest cursor-pointer transition-all ${t.active ? "bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
+                    <div key={t.label} className={`px-5 py-2 rounded-lg text-sm font-black uppercase tracking-widest cursor-pointer transition-colors ${t.active ? "bg-[var(--color-accent)]/20 border border-[#851DEF]/30 text-[#c084fc]" : "text-white/30 hover:text-white/50"}`}>
                       {t.label}
                     </div>
                   ))}
@@ -1892,7 +1892,7 @@ export default function FeaturesPage() {
                           { bg: "from-[#001a2a] via-[#002d3d] to-[#00080d]", label: "MelM · Wrig", ok: true, glow: "#3b82f6" },
                           { bg: "from-[#1a1500] via-[#2d2200] to-[#0d0900]", label: "superfan99", ok: true, glow: "#eab308" },
                         ].map((p, i) => (
-                          <div key={i} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? 'border-white/10 hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-all`}>
+                          <div key={i} className={`aspect-square rounded-lg bg-gradient-to-br ${p.bg} border ${p.ok ? 'border-white/10 hover:border-white/30' : 'border-red-500/50'} relative overflow-hidden group cursor-pointer transition-colors`}>
                             <div className="absolute inset-0">
                               <div className="absolute top-0 left-1/3 w-6 h-12 rounded-full opacity-50" style={{ background: p.glow, filter: 'blur(8px)' }} />
                               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40">
@@ -2091,7 +2091,7 @@ export default function FeaturesPage() {
 
           {/* CTA */}
           <div className="text-center mt-12">
-            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
+            <Link href="/fans" className="inline-flex items-center gap-3 px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">
               Try the Fan Dashboard →
             </Link>
           </div>
@@ -2250,7 +2250,7 @@ export default function FeaturesPage() {
                       key={page.path}
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
-                      className={`flex items-center gap-4 px-5 py-3 transition-all duration-150 group ${page.access === "dev" ? "bg-white/[0.01] hover:bg-white/[0.03]" : "hover:bg-white/[0.04]"
+                      className={`flex items-center gap-4 px-5 py-3 transition-colors duration-150 group ${page.access === "dev" ? "bg-white/[0.01] hover:bg-white/[0.03]" : "hover:bg-white/[0.04]"
                         } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
                     >
                       <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />
@@ -2311,7 +2311,7 @@ export default function FeaturesPage() {
               const count = cat.key === "all" ? FEATURES.length : FEATURES.filter(f => f.category.includes(cat.key as Category)).length;
               return (
                 <button key={cat.key} onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-all cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold uppercase tracking-[0.1em] border transition-colors cursor-pointer ${activeCategory === cat.key ? "bg-[var(--color-accent)] border-[#851DEF] text-white shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "bg-white/[0.03] border-white/10 text-white/50 hover:text-white hover:border-white/30"}`}>
                   {cat.icon} {cat.label}
                   <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-black ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-white/5 text-white/30"}`}>{count}</span>
                 </button>
@@ -2335,7 +2335,7 @@ export default function FeaturesPage() {
           <p className="text-white/35 mb-10">Best-in-class services and frameworks — each chosen for reliability, scalability, and fit-for-purpose performance.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {TECH.map((t, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-all cursor-default">
+              <div key={i} className="flex items-start gap-4 p-5 border border-white/[0.06] bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04] transition-colors cursor-default">
                 <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-2xl shrink-0">{t.icon}</div>
                 <div>
                   <div className="text-base font-black uppercase tracking-wide" style={{ color: t.color }}>{t.name}</div>
@@ -2497,7 +2497,7 @@ export default function FeaturesPage() {
                       key={page.path}
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
-                      className={`flex items-center gap-4 px-5 py-3.5 transition-all group ${pi !== group.pages.length - 1 ? "border-b border-white/[0.05]" : ""
+                      className={`flex items-center gap-4 px-5 py-3.5 transition-colors group ${pi !== group.pages.length - 1 ? "border-b border-white/[0.05]" : ""
                         } ${page.access === "dev"
                           ? "bg-black/20 hover:bg-white/[0.02]"
                           : "bg-black/10 hover:bg-white/[0.04]"
@@ -2553,11 +2553,11 @@ export default function FeaturesPage() {
           <p className="text-white/40 text-2xl mb-3 max-w-2xl mx-auto">Every feature on this page is live and ready. No demos, no mockups — the real thing.</p>
           <p className="text-white/20 text-base mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/fans" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">Join as a Fan →</Link>
-            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Watch Live</Link>
-            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">See Tour Dates</Link>
-            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Book the Band</Link>
-            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-all">Contact Us</Link>
+            <Link href="/fans" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors hover:scale-105 hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]">Join as a Fan →</Link>
+            <Link href="/live" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Watch Live</Link>
+            <Link href="/#tour" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">See Tour Dates</Link>
+            <Link href="/book" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Book the Band</Link>
+            <Link href="/contact" className="cursor-pointer inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/30 text-white font-black text-base uppercase tracking-[0.15em] rounded-full transition-colors">Contact Us</Link>
           </div>
         </div>
       </section>

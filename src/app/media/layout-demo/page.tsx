@@ -26,7 +26,7 @@ function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void })
       <div className="grid grid-cols-2 gap-1.5">
         {layouts.map(l => (
           <button key={l} onClick={() => set(l)}
-            className={`w-9 h-9 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30 scale-105" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
+            className={`w-9 h-9 rounded-lg text-xs font-black uppercase transition-colors cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30 scale-105" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
             {l}
           </button>
         ))}
@@ -52,8 +52,8 @@ function VideoCard({ v, style = "default" }: { v: typeof VIDEOS[0]; style?: stri
   return (
     <div className="group cursor-pointer">
       <div className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)]">
-        <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all" />
+        <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-colors duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="w-14 h-14 rounded-full bg-[var(--color-accent)]/90 flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.5)]">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="ml-1"><polygon points="5 3 19 12 5 21 5 3" /></svg>
@@ -185,9 +185,9 @@ export default function MediaLayoutDemo() {
             {VIDEOS.map((v, i) => (
               <div key={v.id + v.title} className="break-inside-avoid group cursor-pointer">
                 <div className={`relative overflow-hidden  bg-[var(--color-bg-card)] ${i % 3 === 0 ? "aspect-[4/5]" : i % 3 === 1 ? "aspect-video" : "aspect-[3/4]"}`}>
-                  <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                  <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-colors duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
+                  <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-colors">
                     <h3 className="text-sm font-bold text-white uppercase tracking-wide">{v.title}</h3>
                     <div className="flex items-center gap-2 text-xs text-white/40 mt-1"><span>{v.year}</span><span>{v.duration}</span></div>
                   </div>
@@ -215,7 +215,7 @@ export default function MediaLayoutDemo() {
             <CatNav active={cat} set={setCat} />
             <div className="mt-8 space-y-1">
               {VIDEOS.map((v, i) => (
-                <div key={v.id + v.title} className={`flex items-center gap-6 px-4 py-4  cursor-pointer transition-all hover:bg-white/[0.04] group ${i === 0 ? "bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20" : ""}`}>
+                <div key={v.id + v.title} className={`flex items-center gap-6 px-4 py-4  cursor-pointer transition-colors hover:bg-white/[0.04] group ${i === 0 ? "bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20" : ""}`}>
                   <span className="text-sm font-bold text-white/20 w-6 text-center tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                   <div className="relative w-28 aspect-video rounded-lg overflow-hidden shrink-0 bg-[var(--color-bg-card)]">
                     <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -261,7 +261,7 @@ export default function MediaLayoutDemo() {
                 <div className="grid grid-cols-2 gap-4">
                   {VIDEOS.slice(1, 5).map(v => (
                     <div key={v.id + v.title} className="relative aspect-video overflow-hidden bg-[var(--color-bg-card)] group cursor-pointer">
-                      <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
+                      <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-colors duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-3">
                         <p className="text-sm font-bold text-white truncate">{v.title}</p>
@@ -309,7 +309,7 @@ export default function MediaLayoutDemo() {
                 <CatNav active={cat} set={setCat} />
               </div>
               {VIDEOS.map((v, i) => (
-                <div key={v.id + v.title + "G"} className="flex gap-4 p-3 bg-white/[0.03] border border-white/5 hover:border-[var(--color-accent)]/40 hover:bg-white/[0.06] transition-all cursor-pointer group">
+                <div key={v.id + v.title + "G"} className="flex gap-4 p-3 bg-white/[0.03] border border-white/5 hover:border-[var(--color-accent)]/40 hover:bg-white/[0.06] transition-colors cursor-pointer group">
                   <div className="relative w-36 aspect-video rounded-lg overflow-hidden shrink-0 bg-black">
                     <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     <span className="absolute bottom-1 right-1 bg-black/80 text-[var(--font-size-2xs)] text-white px-1 rounded">{v.duration}</span>
@@ -338,7 +338,7 @@ export default function MediaLayoutDemo() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {VIDEOS.concat(VIDEOS).map((v, i) => (
-              <div key={v.id + i + "H"} className="group cursor-pointer bg-white/[0.02] border border-white/5 p-2 hover:border-[var(--color-accent)]/50 transition-all">
+              <div key={v.id + i + "H"} className="group cursor-pointer bg-white/[0.02] border border-white/5 p-2 hover:border-[var(--color-accent)]/50 transition-colors">
                 <div className="relative aspect-video rounded-lg overflow-hidden mb-2 bg-black">
                   <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <span className="absolute bottom-1 right-1 bg-black/80 text-[10px] text-white px-1 rounded font-mono">{v.duration}</span>
@@ -402,10 +402,10 @@ export default function MediaLayoutDemo() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {VIDEOS.map((v) => (
-              <div key={v.id + v.title + "J"} className="bg-white/[0.04] backdrop-blur-2xl border border-white/10 hover:border-[var(--color-accent)]/60 rounded-3xl p-4 transition-all duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group cursor-pointer">
+              <div key={v.id + v.title + "J"} className="bg-white/[0.04] backdrop-blur-2xl border border-white/10 hover:border-[var(--color-accent)]/60 rounded-3xl p-4 transition-colors duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group cursor-pointer">
                 <div className="relative aspect-video overflow-hidden mb-4 bg-black">
                   <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/80 backdrop-blur-md flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                   </div>
@@ -478,7 +478,7 @@ export default function MediaLayoutDemo() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {VIDEOS.slice(0, 4).map((v, i) => (
-                <div key={v.id + v.title + "L"} className={`p-2  border transition-all cursor-pointer ${i === 0 ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]" : "bg-white/5 border-white/10 hover:border-white/30"}`}>
+                <div key={v.id + v.title + "L"} className={`p-2  border transition-colors cursor-pointer ${i === 0 ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]" : "bg-white/5 border-white/10 hover:border-white/30"}`}>
                   <div className="relative aspect-video rounded-lg overflow-hidden mb-2">
                     <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover" />
                   </div>
@@ -498,7 +498,7 @@ export default function MediaLayoutDemo() {
               <h3 className="text-xs font-black uppercase tracking-widest  text-[var(--color-accent)] mb-3">Categories</h3>
               <div className="flex flex-col gap-1.5">
                 {CATS.map((c) => (
-                  <button key={c} onClick={() => setCat(c)} className={`text-left text-xs font-bold uppercase tracking-wider py-2 px-3 rounded-lg transition-all ${cat === c ? "bg-[var(--color-accent)] text-white" : "text-white/50 hover:bg-white/5 hover:text-white"}`}>
+                  <button key={c} onClick={() => setCat(c)} className={`text-left text-xs font-bold uppercase tracking-wider py-2 px-3 rounded-lg transition-colors ${cat === c ? "bg-[var(--color-accent)] text-white" : "text-white/50 hover:bg-white/5 hover:text-white"}`}>
                     {c}
                   </button>
                 ))}
@@ -537,7 +537,7 @@ export default function MediaLayoutDemo() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-black/90 p-4 border border-white/15 rounded-3xl">
             {VIDEOS.concat(VIDEOS.slice(0, 4)).map((v, i) => (
-              <div key={v.id + i + "N"} className="relative aspect-video overflow-hidden bg-black border border-white/15 group cursor-pointer hover:border-[var(--color-accent)] transition-all">
+              <div key={v.id + i + "N"} className="relative aspect-video overflow-hidden bg-black border border-white/15 group cursor-pointer hover:border-[var(--color-accent)] transition-colors">
                 <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                 <div className="absolute top-2 left-2 bg-black/80 text-[9px] font-mono text-white/80 px-1.5 py-0.5 rounded border border-white/20">CAM-0{i + 1}</div>
                 <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/80 backdrop-blur-sm">
@@ -586,7 +586,7 @@ export default function MediaLayoutDemo() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {CATS.map((c) => (
-                  <button key={c + "P"} onClick={() => setCat(c)} className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all ${cat === c ? "bg-black text-white border-black" : "bg-white text-black/60 border-black/10 hover:border-black/30"}`}>
+                  <button key={c + "P"} onClick={() => setCat(c)} className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${cat === c ? "bg-black text-white border-black" : "bg-white text-black/60 border-black/10 hover:border-black/30"}`}>
                     {c}
                   </button>
                 ))}
@@ -594,7 +594,7 @@ export default function MediaLayoutDemo() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {VIDEOS.map((v) => (
-                <div key={v.id + v.title + "P"} className="bg-white border border-black/10 p-3 shadow-sm hover:shadow-md transition-all group cursor-pointer">
+                <div key={v.id + v.title + "P"} className="bg-white border border-black/10 p-3 shadow-sm hover:shadow-md transition-colors group cursor-pointer">
                   <div className="relative aspect-video overflow-hidden mb-3 bg-black">
                     <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     <span className="absolute bottom-2 right-2 bg-black/80 text-white text-[var(--font-size-2xs)] font-bold px-2 py-0.5 rounded">{v.duration}</span>

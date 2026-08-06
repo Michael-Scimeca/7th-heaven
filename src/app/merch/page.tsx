@@ -299,7 +299,7 @@ function MerchDashboard() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-pink-500 hover:bg-pink-400 text-white font-black text-xs uppercase tracking-widest transition-all border-none cursor-pointer"
+                className="px-6 py-3 bg-pink-500 hover:bg-pink-400 text-white font-black text-xs uppercase tracking-widest transition-colors border-none cursor-pointer"
               >
                 Verify Code
               </button>
@@ -395,7 +395,7 @@ function MerchDashboard() {
                     <button
                       onClick={() => awardPrize(win.pin)}
                       disabled={awarded}
-                      className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest  transition-all ${awarded
+                      className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest  transition-colors ${awarded
                         ? 'bg-white/5 text-white/20 cursor-not-allowed'
                         : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:scale-[1.03] active:scale-[0.97]'
                         }`}

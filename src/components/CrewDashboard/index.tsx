@@ -2441,11 +2441,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <div className="site-container py-8 space-y-6">
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
-        <div className="transition-all duration-300 text-white">
+        <div className="transition-colors duration-300 text-white">
           {/* Accordion Toggle Header */}
           <div
             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-            className="py-4 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-all text-white group"
+            className="py-4 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group"
           >
             <div className="flex items-center gap-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -2496,7 +2496,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -2526,7 +2526,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-widest rounded border  border-[var(--color-accent)]/30 hover:border-emerald-500/50 transition-colors">
                       Open <span className="ml-0.5">→</span>
                     </Link>
-                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-all cursor-pointer">
+                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] text-xs font-black uppercase tracking-widest rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
                       Copy Link
                     </button>
                   </div>
@@ -2602,7 +2602,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="shrink-0 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-xl transition-all disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
+                        className="shrink-0 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-xl transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:text-black pointer-events-auto"
                       >
                         {toggling ? '...' : '● End Stream'}
                       </button>
@@ -2615,7 +2615,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-all disabled:opacity-50 bg-purple-600 text-white hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(147,51,234,0.7)] flex items-center gap-3"
+                        className="px-10 py-4 rounded-full text-sm font-black uppercase tracking-widest shadow-[0_0_30px_rgba(147,51,234,0.5)] transition-colors disabled:opacity-50 bg-purple-600 text-white hover:brightness-110 hover:scale-105 hover:shadow-[0_0_50px_rgba(147,51,234,0.7)] flex items-center gap-3"
                       >
                         <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '12px', height: '12px', borderRadius: '50%', display: 'inline-block' }} />
                         {toggling ? 'Starting...' : 'Go Live'}
@@ -2735,28 +2735,28 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               <button
                                 onClick={() => handleWarn(username)}
                                 title={isUserWarned ? "Unwarn User" : "Warn User"}
-                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15  text-[var(--color-accent)] hover:scale-105 transition-all cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15  text-[var(--color-accent)] hover:scale-105 transition-colors cursor-pointer"
                               >
                                 ⚠️
                               </button>
                               <button
                                 onClick={() => handleBan(username)}
                                 title={isUserBanned ? "Unban User" : "Ban User"}
-                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/15 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/15 text-red-500 hover:scale-105 transition-colors cursor-pointer"
                               >
                                 🚫
                               </button>
                               <button
                                 onClick={() => handleDeleteMsg(p.id)}
                                 title="Delete Message"
-                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-gray-100 text-black/40 hover:scale-105 transition-all cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-gray-100 text-black/40 hover:scale-105 transition-colors cursor-pointer"
                               >
                                 🗑
                               </button>
                               <button
                                 onClick={() => handleKick(username)}
                                 title="Remove Fan Completely"
-                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-all cursor-pointer"
+                                className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-colors cursor-pointer"
                               >
                                 🚪
                               </button>
@@ -2839,7 +2839,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </p>
                     <div className="w-full bg-white/5 h-1.5 rounded-full mt-3 overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-all duration-1000"
+                        className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-colors duration-1000"
                         style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
                       />
                     </div>
@@ -2867,7 +2867,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <button
                       type="button"
                       onClick={cancelFlashDrop}
-                      className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-black tracking-widest uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-black tracking-widest uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       Cancel Flash Drop
                     </button>
@@ -2983,7 +2983,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   <button
                     type="button"
                     onClick={launchFlashDrop}
-                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all"
+                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors"
                   >
                     Launch Flash Drop
                   </button>
@@ -2995,7 +2995,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       localStorage.setItem('7h_flash_drop', JSON.stringify({ ...testPayload, ts: Date.now() }));
                       try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
                     }}
-                    className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-all"
+                    className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
                   >
                     [TESTING] Simulate Sold Out Merch Drop
                   </button>
@@ -3087,7 +3087,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             type="button"
                             onClick={() => startSpecificRaffle(idx)}
                             disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                            className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-all ${(raffleStatus === 'idle' || raffleStatus === 'complete')
+                            className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
                               ? 'border-purple-500  text-[var(--color-accent)] hover:bg-purple-600/10'
                               : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                 ? 'border-purple-500/50 bg-purple-600/20  text-[var(--color-accent)]'
@@ -3101,7 +3101,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             type="button"
                             onClick={() => removeQueueItem(idx)}
                             disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
-                            className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all disabled:opacity-0 text-xs"
+                            className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors disabled:opacity-0 text-xs"
                           >
                             ✕
                           </button>
@@ -3133,7 +3133,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <button
                       type="button"
                       onClick={rigWinForMe}
-                      className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] transition-all"
+                      className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] transition-colors"
                     >
                       🧪 TEST: Rig Win for Me
                     </button>
@@ -3148,7 +3148,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     type="button"
                     onClick={drawWinner}
                     disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
-                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all disabled:opacity-30 disabled:grayscale"
+                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors disabled:opacity-30 disabled:grayscale"
                   >
                     {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
                   </button>
@@ -3203,7 +3203,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   />
                   <button
                     type="submit"
-                    className="px-5 py-2.5 bg-purple-600 hover:bg-purple-600 text-white font-black text-xs uppercase tracking-wider transition-all"
+                    className="px-5 py-2.5 bg-purple-600 hover:bg-purple-600 text-white font-black text-xs uppercase tracking-wider transition-colors"
                   >
                     Add Keyword
                   </button>
@@ -3260,7 +3260,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
               {/* store sales card */}
-              <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-[var(--color-accent)]/20 relative overflow-hidden group hover:border-[var(--color-accent)]/40 transition-all duration-300">
+              <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-[var(--color-accent)]/20 relative overflow-hidden group hover:border-[var(--color-accent)]/40 transition-colors duration-300">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-xl pointer-events-none" />
                 <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest  text-[var(--color-accent)]">Store Sales Revenue</p>
                 <p className="text-2xl font-black mt-2 text-white font-mono">
@@ -3272,7 +3272,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* flash drop sales card */}
-              <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 relative overflow-hidden group hover:border-pink-500/40 transition-all duration-300">
+              <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 relative overflow-hidden group hover:border-pink-500/40 transition-colors duration-300">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/5 rounded-full blur-xl pointer-events-none" />
                 <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-pink-400">Flash Drop Sales</p>
                 <p className="text-2xl font-black mt-2 text-white font-mono">
@@ -3284,7 +3284,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* raffle claims card */}
-              <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-purple-500/20 relative overflow-hidden group hover:border-purple-500/40 transition-all duration-300">
+              <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-purple-500/20 relative overflow-hidden group hover:border-purple-500/40 transition-colors duration-300">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600/5 rounded-full blur-xl pointer-events-none" />
                 <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest  text-[var(--color-accent)]">Raffle Claims</p>
                 <p className="text-2xl font-black mt-2 text-white font-mono">
@@ -3294,7 +3294,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* viewers card */}
-              <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border  border-[var(--color-accent)]/30 relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
+              <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border  border-[var(--color-accent)]/30 relative overflow-hidden group hover:border-emerald-500/40 transition-colors duration-300">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
                 <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">👁️ Live Viewers</p>
                 <p className="text-2xl font-black mt-2 text-black font-mono">{viewerCount}</p>
@@ -3342,7 +3342,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 {setlist.map((song) => (
                   <div
                     key={song.id}
-                    className={`flex items-center justify-between p-2 rounded-lg border transition-all ${song.isPlaying
+                    className={`flex items-center justify-between p-2 rounded-lg border transition-colors ${song.isPlaying
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_10px_rgba(255,10,61,0.12)]'
                       : 'bg-black/20 border-black/10 hover:border-black/10'
                       }`}
@@ -3364,7 +3364,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         onClick={() => toggleSongPlaying(song.id)}
-                        className={`px-2 py-1 rounded text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-all ${song.isPlaying
+                        className={`px-2 py-1 rounded text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${song.isPlaying
                           ? 'bg-[var(--color-accent)] text-black shadow-[0_0_8px_rgba(255,10,61,0.4)]'
                           : 'bg-gray-50 hover:bg-white/15 text-black/70 hover:text-black border border-black/10'
                           }`}
@@ -3523,7 +3523,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         type="button"
                         onClick={() => setActiveScheduleTab('my_schedule')}
-                        className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${activeScheduleTab === 'my_schedule'
+                        className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center gap-1.5 ${activeScheduleTab === 'my_schedule'
                           ? 'bg-purple-600 text-white shadow-sm font-bold'
                           : 'bg-transparent text-white/60 hover:text-white'
                           }`}
@@ -3533,7 +3533,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         type="button"
                         onClick={() => setActiveScheduleTab('tour_events')}
-                        className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 ${activeScheduleTab === 'tour_events'
+                        className={`py-2 text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center gap-1.5 ${activeScheduleTab === 'tour_events'
                           ? 'bg-purple-600 text-white shadow-sm font-bold'
                           : 'bg-transparent text-white/60 hover:text-white'
                           }`}
@@ -3558,7 +3558,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             return (
                               <div
                                 key={shift.id}
-                                className={`py-2 px-3  transition-all flex flex-col md:flex-row md:items-center justify-between gap-3 ${shift.approvalStatus === 'pending'
+                                className={`py-2 px-3  transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3 ${shift.approvalStatus === 'pending'
                                   ? 'bg-gradient-to-r from-yellow-500/[0.03] to-black/50 border border-yellow-500/40 shadow-[0_0_15px_rgba(147, 51, 234,0.05)] hover:border-yellow-500/60'
                                   : 'bg-black/40 border border-white/10 hover:border-white/20'
                                   }`}
@@ -3828,7 +3828,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(shift.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
                                       title="View show lineup acts and discuss details with crew"
                                     >
                                       💬 Lineup & Discuss
@@ -3923,7 +3923,7 @@ Reason for decline: ${shift.declineReason || ''}
                                             setDecliningShiftId(shift.id);
                                             setIsDeclineModalOpen(true);
                                           }}
-                                          className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer font-bold"
+                                          className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer font-bold"
                                         >
                                           Decline
                                         </button>
@@ -3989,7 +3989,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             return (
                               <div
                                 key={show.date + '_' + show.venue}
-                                className={`py-2 px-3 border  transition-all flex flex-col md:flex-row md:items-center justify-between gap-2.5 ${userShift
+                                className={`py-2 px-3 border  transition-colors flex flex-col md:flex-row md:items-center justify-between gap-2.5 ${userShift
                                   ? 'bg-gradient-to-r from-purple-500/[0.03] to-black/40 border-purple-500/25 hover:border-purple-500/40 animate-[fadeIn_0.2s_ease-out]'
                                   : 'bg-black/40 border border-white/10 hover:border-white/20'
                                   }`}
@@ -4041,7 +4041,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(show.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
                                     >
                                       💬 Lineup & Discuss
                                     </button>
@@ -4118,7 +4118,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 showToast('Failed to save availability', 'error', 'Error');
                                               }
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-white/15 hover:border-emerald-500/40"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:text-black text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-emerald-500/40"
                                           >
                                             🟢 Available
                                           </button>
@@ -4144,7 +4144,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                                 showToast('Failed to save availability', 'error', 'Error');
                                               }
                                             }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-all cursor-pointer border border-white/15 hover:border-purple-500/40"
+                                            className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border border-white/15 hover:border-purple-500/40"
                                           >
                                             🔴 Unavailable
                                           </button>
@@ -4188,7 +4188,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       return (
                         <div
                           key={shift.id}
-                          className="p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 hover:border-[var(--color-accent)]/40 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                          className="p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 hover:border-[var(--color-accent)]/40 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4"
                         >
                           {/* Date & Time */}
                           <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
@@ -4231,7 +4231,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               <button
                                 type="button"
                                 onClick={() => setActiveDiscussionDate(shift.date)}
-                                className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer select-none"
+                                className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[var(--font-size-4xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
                                 title="View show lineup acts and discuss details with crew"
                               >
                                 💬 Lineup & Discuss
@@ -4316,7 +4316,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 value={declineReason}
                 onChange={(e) => setDeclineReason(e.target.value)}
                 placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-                className="w-full min-h-[100px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 text-sm focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-all resize-none"
+                className="w-full min-h-[100px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 text-sm focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-colors resize-none"
               />
               <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
@@ -4326,7 +4326,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     setDecliningShiftId(null);
                     setDeclineReason('');
                   }}
-                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors"
                 >
                   Cancel
                 </button>
@@ -4341,7 +4341,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                     setDecliningShiftId(null);
                     setDeclineReason('');
                   }}
-                  className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg text-xs font-black uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30 text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
                 >
                   Submit Decline
                 </button>
@@ -4376,7 +4376,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   value={emailSubject}
                   onChange={(e) => setEmailSubject(e.target.value)}
                   placeholder="Subject of your message..."
-                  className="w-full bg-black/40 border border-black/10 text-black placeholder-white/30 px-3.5 py-2 text-xs focus:border-purple-500/50 outline-none transition-all"
+                  className="w-full bg-black/40 border border-black/10 text-black placeholder-white/30 px-3.5 py-2 text-xs focus:border-purple-500/50 outline-none transition-colors"
                 />
               </div>
 
@@ -4386,7 +4386,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   value={emailMessage}
                   onChange={(e) => setEmailMessage(e.target.value)}
                   placeholder="Type your message to the administrators here..."
-                  className="w-full min-h-[120px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 text-xs focus:border-purple-500/50 outline-none transition-all resize-none"
+                  className="w-full min-h-[120px] bg-black/40 border border-black/10 text-black placeholder-white/30 p-3 text-xs focus:border-purple-500/50 outline-none transition-colors resize-none"
                 />
               </div>
             </div>
@@ -4399,7 +4399,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setEmailSubject('');
                   setEmailMessage('');
                 }}
-                className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+                className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:text-black rounded-lg text-xs font-black uppercase tracking-wider transition-colors"
               >
                 Cancel
               </button>
@@ -4407,7 +4407,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 type="button"
                 disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
                 onClick={handleSendEmailToAdmins}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-all border-none cursor-pointer disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30 text-black font-black rounded-lg text-xs uppercase tracking-wider transition-colors border-none cursor-pointer disabled:cursor-not-allowed"
               >
                 {isSendingEmail ? 'Sending...' : 'Send Message'}
               </button>
@@ -4805,7 +4805,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('')}
-                  className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border-none ${!swapTargetColleagueId
+                  className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId
                     ? 'bg-[var(--color-accent)] text-black shadow-sm'
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
@@ -4815,7 +4815,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
-                  className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-all cursor-pointer border-none ${swapTargetColleagueId
+                  className={`py-2 text-[var(--font-size-3xs)] font-black uppercase tracking-wider rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId
                     ? 'bg-[var(--color-accent)] text-black shadow-sm'
                     : 'bg-transparent text-black/50 hover:text-black'
                     }`}
@@ -4882,7 +4882,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');
                 }}
-                className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border-none"
+                className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-xs font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none"
               >
                 Submit Request
               </button>

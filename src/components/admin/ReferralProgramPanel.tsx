@@ -163,7 +163,7 @@ export default function ReferralProgramPanel() {
               } ${toggling ? "opacity-50" : ""}`}
           >
             <span
-              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all ${enabled ? "left-6" : "left-0.5"
+              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-colors ${enabled ? "left-6" : "left-0.5"
                 }`}
             />
           </button>
@@ -271,7 +271,7 @@ export default function ReferralProgramPanel() {
                 <button
                   onClick={addMilestone}
                   disabled={!newReward || newThreshold < 1}
-                  className="self-end px-4 py-2 bg-purple-600 text-white text-xs font-black uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-all cursor-pointer"
+                  className="self-end px-4 py-2 bg-purple-600 text-white text-xs font-black uppercase tracking-widest disabled:opacity-40 hover:bg-purple-500 transition-colors cursor-pointer"
                 >
                   Add
                 </button>
@@ -283,7 +283,7 @@ export default function ReferralProgramPanel() {
           <button
             onClick={saveMilestones}
             disabled={saving}
-            className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-all cursor-pointer ${saved
+            className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-colors cursor-pointer ${saved
               ? "bg-emerald-600 text-white"
               : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
               }`}
@@ -355,7 +355,7 @@ export default function ReferralProgramPanel() {
                       className="w-full text-left cursor-pointer"
                     >
                       <div
-                        className={`flex items-center justify-between p-3 border transition-all hover:bg-white/[0.03] ${i === 0
+                        className={`flex items-center justify-between p-3 border transition-colors hover:bg-white/[0.03] ${i === 0
                           ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
                           : i === 1
                             ? "border-white/10 bg-white/[0.02]"
@@ -460,7 +460,7 @@ export default function ReferralProgramPanel() {
                             </div>
                             <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-purple-600 transition-all"
+                                className="h-full bg-purple-600 transition-colors"
                                 style={{
                                   width: `${Math.min(100, (entry.total / nextMilestone.threshold) * 100)}%`,
                                 }}
@@ -493,7 +493,7 @@ export default function ReferralProgramPanel() {
                           entry.signed_up > 0 && (
                             <button
                               onClick={() => markRewarded(entry.referrer_code)}
-                              className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-all cursor-pointer"
+                              className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
                             >
                               Mark Rewards as Claimed
                             </button>

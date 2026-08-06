@@ -301,7 +301,7 @@ export default function ClaimPage() {
                 ) : (
                   <button
                     onClick={handleClaimConfirm}
-                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-all cursor-pointer font-sans"
+                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer font-sans"
                   >
                     Confirm Prize Claim
                   </button>

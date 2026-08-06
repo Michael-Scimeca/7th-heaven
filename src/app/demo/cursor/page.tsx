@@ -225,7 +225,7 @@ export default function CursorTestingPage() {
               5-node cascade with <code className="text-[#C245AA] bg-black/40 px-1.5 py-0.5 rounded">feGaussianBlur</code> + <code className="text-white/60">feColorMatrix</code> — the pick shape is always on, not hover-triggered.
             </p>
           </div>
-          <Link href="/" className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider transition-all">
+          <Link href="/" className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider transition-colors">
             ← Back
           </Link>
         </div>
@@ -256,7 +256,7 @@ export default function CursorTestingPage() {
             <button
               key={p}
               onClick={() => setPreset(p)}
-              className={`flex-1 min-w-[140px] py-3 px-4  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${preset === p
+              className={`flex-1 min-w-[140px] py-3 px-4  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${preset === p
                 ? "bg-[#9C27B0] text-white shadow-[0_0_20px_#9C27B080]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
                 }`}

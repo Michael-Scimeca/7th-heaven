@@ -182,7 +182,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-all duration-300 pointer-events-none pt-2 ${scrolled
+      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-colors duration-300 pointer-events-none pt-2 ${scrolled
         ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}
@@ -320,7 +320,7 @@ export function Header() {
                     router.push("/");
                     router.refresh();
                   }}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-500/10 hover:bg-red-600 border border-red-500/30 hover:border-red-600 text-red-600 hover:text-white text-[11px] font-extrabold uppercase tracking-wider rounded-lg transition-all cursor-pointer shadow-sm ml-1"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-500/10 hover:bg-red-600 border border-red-500/30 hover:border-red-600 text-red-600 hover:text-white text-[11px] font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shadow-sm ml-1"
                   title="Sign Out of Account"
                   id="header-sign-out"
                 >
@@ -335,7 +335,7 @@ export function Header() {
             ) : (
               <button
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer shrink-0"
+                className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors shadow-md cursor-pointer shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN
@@ -365,7 +365,7 @@ export function Header() {
                   y1="6"
                   x2="22.5"
                   y2="6"
-                  className="transition-all duration-300 ease-in-out origin-[12px_12px]"
+                  className="transition-colors duration-300 ease-in-out origin-[12px_12px]"
                   style={{
                     transform: mobileOpen ? "translateY(6px) rotate(45deg)" : "translateY(0px) rotate(0deg)",
                   }}
@@ -375,7 +375,7 @@ export function Header() {
                   y1="12"
                   x2="22.5"
                   y2="12"
-                  className="transition-all duration-300 ease-in-out origin-[12px_12px]"
+                  className="transition-colors duration-300 ease-in-out origin-[12px_12px]"
                   style={{
                     opacity: mobileOpen ? 0 : 1,
                     transform: mobileOpen ? "scaleX(0)" : "scaleX(1)",
@@ -386,7 +386,7 @@ export function Header() {
                   y1="18"
                   x2="22.5"
                   y2="18"
-                  className="transition-all duration-300 ease-in-out origin-[12px_12px]"
+                  className="transition-colors duration-300 ease-in-out origin-[12px_12px]"
                   style={{
                     transform: mobileOpen ? "translateY(-6px) rotate(-45deg)" : "translateY(0px) rotate(0deg)",
                   }}

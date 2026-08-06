@@ -213,7 +213,7 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${isDragging
+            className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 ${isDragging
                 ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
                 : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
               }`}
@@ -248,7 +248,7 @@ export default function BulkInvitePanel() {
             <button
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-all border border-[var(--color-accent)] cursor-pointer disabled:opacity-30 shadow-sm"
+              className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-colors border border-[var(--color-accent)] cursor-pointer disabled:opacity-30 shadow-sm"
             >
               Parse & Import list
             </button>
@@ -280,7 +280,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-md transition-all border border-[var(--color-accent)] disabled:opacity-40 cursor-pointer"
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest rounded-lg shadow-md transition-colors border border-[var(--color-accent)] disabled:opacity-40 cursor-pointer"
               >
                 {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
               </button>

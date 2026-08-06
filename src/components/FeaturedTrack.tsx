@@ -334,7 +334,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                         setCurrentSongIndex(idx);
                         setIsPlaying(true);
                       }}
-                      className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-all cursor-pointer ${isActive
+                      className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-colors cursor-pointer ${isActive
                           ? 'bg-[var(--color-accent)]/15 text-white'
                           : 'text-white/40 hover:bg-white/[0.02] hover:text-white/70'
                         }`}
@@ -382,7 +382,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-all duration-300 hover:border-white/20">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 hover:border-white/20">
               <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-2xl shadow-inner  text-[var(--color-accent)] animate-pulse">
                 🔒
               </div>
@@ -396,14 +396,14 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 <button
                   type="button"
                   onClick={() => openModal('login')}
-                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
+                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
                 >
                   Log In
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal('signup')}
-                  className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   Join Fan Club
                 </button>
@@ -443,7 +443,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className={`w-[3px] rounded-full transition-all duration-300 ${isCompressorActive
+                      className={`w-[3px] rounded-full transition-colors duration-300 ${isCompressorActive
                           ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]'
                           : 'bg-[var(--color-accent)]/80'
                         }`}
@@ -497,7 +497,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <button
                     type="button"
                     onClick={togglePlay}
-                    className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl cursor-pointer"
+                    className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-colors shadow-xl cursor-pointer"
                   >
                     {isPlaying ? (
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
@@ -517,7 +517,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   <button
                     type="button"
                     onClick={toggleCompressor}
-                    className={`text-[0.65rem] uppercase font-bold tracking-widest flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-all duration-300 cursor-pointer select-none ${isCompressorActive
+                    className={`text-[0.65rem] uppercase font-bold tracking-widest flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive
                         ? 'bg-[var(--color-purple-glow)] text-white border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]'
                         : 'bg-white/[0.02] border-white/5 text-white/40 hover:text-white/70 hover:border-white/10'
                       }`}
@@ -572,7 +572,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
-                          className={`flex items-center justify-between p-3  border cursor-pointer select-none transition-all duration-300 ${isActive
+                          className={`flex items-center justify-between p-3  border cursor-pointer select-none transition-colors duration-300 ${isActive
                               ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 text-white shadow-[0_0_15px_rgba(255,10,61,0.08)]'
                               : 'bg-transparent border-transparent text-white/45 hover:bg-white/[0.02] hover:text-white/80 hover:border-white/5'
                             }`}

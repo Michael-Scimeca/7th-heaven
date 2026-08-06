@@ -194,7 +194,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-all duration-200 focus:outline-none hover:border-[var(--color-accent)]";
+const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-colors duration-200 focus:outline-none hover:border-[var(--color-accent)]";
 const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -1011,12 +1011,12 @@ ${filterLine}
                     />
                     <div className="flex gap-6 items-center flex-wrap">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 decoration-purple-500/50 hover: text-[var(--color-accent)] hover:decoration-purple-700 transition-all p-0 bg-transparent border-none" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 decoration-purple-500/50 hover: text-[var(--color-accent)] hover:decoration-purple-700 transition-colors p-0 bg-transparent border-none" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none" id="upnext-website">
                           Website
                         </a>
                       )}
@@ -1024,26 +1024,26 @@ ${filterLine}
                         <div className="relative calendar-dropdown-container">
                           <button
                             onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                            className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
+                            className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                             id="upnext-calendar-btn"
                           >
                             Add to Calendar
                           </button>
                           {activeCalDropdownId === 'upnext' && (
                             <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 shadow-xl z-50 min-w-[170px] text-[var(--text-color)]">
-                              <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Google Calendar</a>
-                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Apple / iCal</a>
-                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full">Outlook</a>
+                              <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Google Calendar</a>
+                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Apple / iCal</a>
+                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Outlook</a>
                               <button
                                 onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                                className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-all text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
+                                className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
                               >SMS / Text Alerts</button>
                             </div>
                           )}
                         </div>
                         <button
                           onClick={handlePrintTourList}
-                          className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-all p-0 bg-transparent border-none cursor-pointer"
+                          className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                         >
                           Print Tour List
                         </button>
@@ -1060,7 +1060,7 @@ ${filterLine}
               {member?.role === 'admin' && (
                 <button
                   onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-                  className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
+                  className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
                 >
                   ➕ Add Show
                 </button>
@@ -1069,7 +1069,7 @@ ${filterLine}
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-all duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
+                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
                 >Clear</button>
               )}
             </div>
@@ -1130,7 +1130,7 @@ ${filterLine}
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-all duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-colors duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="font-[var(--font-heading)] font-extrabold text-sm uppercase  text-[var(--color-accent)]">{show.day}</span>
@@ -1160,7 +1160,7 @@ ${filterLine}
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                              className={`w-6 h-6 flex items-center justify-center rounded-md transition-all duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIds.includes(show._id)
+                              className={`w-6 h-6 flex items-center justify-center rounded-md transition-colors duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIds.includes(show._id)
                                   ? "bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
                                   : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                                 }`}
@@ -1196,21 +1196,21 @@ ${filterLine}
                             </button>
                             {activeCalDropdownId === rowId && (
                               <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 shadow-xl z-50 min-w-[150px] text-black">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full font-sans">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Outlook</a>
                                 <button
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
+                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                                 >
                                   💬 SMS / Text Alerts
                                 </button>
                                 <button
                                   onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
-                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-all text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
+                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                                 >
                                   🖨️ Print Tour List
                                 </button>
@@ -1226,7 +1226,7 @@ ${filterLine}
                           href={show.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-all duration-300 rounded-sm h-6 min-w-[76px]"
+                          className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-colors duration-300 rounded-sm h-6 min-w-[76px]"
                           style={{ fontSize: websiteBtnFontSize }}
                         >
                           Website
@@ -1241,13 +1241,13 @@ ${filterLine}
                           <>
                             <button
                               onClick={() => handleEditClick(show)}
-                              className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
+                              className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
                             >
                               Edit
                             </button>
                             <button
                               onClick={() => handleDeleteShow(show._id)}
-                              className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-all cursor-pointer font-sans"
+                              className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
                             >
                               Del
                             </button>
@@ -1259,7 +1259,7 @@ ${filterLine}
 
                   {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-all duration-300  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(255,10,61,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-colors duration-300  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(255,10,61,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
@@ -1341,7 +1341,7 @@ ${filterLine}
                           const showType = getShowType(show.info || '');
                           const cfg = typeConfig[showType] || typeConfig.full;
                           return (
-                            <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-all duration-300 shrink-0">
+                            <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-colors duration-300 shrink-0">
                               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
                             </a>
                           );
@@ -1352,7 +1352,7 @@ ${filterLine}
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIds.includes(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 ${subscribedShowIds.includes(show._id)
+                            className={`w-9 h-9 flex items-center justify-center rounded-md transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIds.includes(show._id)
                                 ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40  text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
                                 : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
                               }`}
@@ -1374,20 +1374,20 @@ ${filterLine}
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer">
+                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-colors duration-300 cursor-pointer">
                               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
                               <div className="absolute left-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
-                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Google Cal</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">iCal / Apple</a>
-                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full">Outlook</a>
+                                <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
+                                <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
                                 <button
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-all text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
+                                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
                                 >
                                   💬 SMS / Text Alerts
                                 </button>
@@ -1409,7 +1409,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
-                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-all rounded-md text-center"
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-colors rounded-md text-center"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                               Directions{show.notes ? ' & Parking' : ''}
@@ -1422,8 +1422,8 @@ ${filterLine}
                     {/* Admin Actions */}
                     {member?.role === 'admin' && show._id && (
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Edit</button>
-                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-all cursor-pointer">Del</button>
+                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Edit</button>
+                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Del</button>
                       </div>
                     )}
                   </div>
@@ -1473,12 +1473,12 @@ ${filterLine}
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
                     <input type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
-                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
                     <input type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1486,12 +1486,12 @@ ${filterLine}
                   <div className="sm:col-span-2">
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
                     <input type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
-                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
                     <input type="text" required value={formState} onChange={e => setFormState(e.target.value)}
-                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1499,22 +1499,22 @@ ${filterLine}
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
                     <input type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
-                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
                     <input type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
-                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
                     <input type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
-                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
                     <input type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
-                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
@@ -1522,19 +1522,19 @@ ${filterLine}
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
                     <input type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
-                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
                     <input type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
-                      placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all" />
+                      placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div>
                   <label className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
                   <textarea rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
-                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-all resize-none" />
+                    placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
@@ -1577,11 +1577,11 @@ ${filterLine}
 
                 <div className="flex gap-3 pt-4 border-t border-white/5">
                   <button type="button" onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-all cursor-pointer">
+                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors cursor-pointer">
                     Cancel
                   </button>
                   <button type="submit" disabled={submitting}
-                    className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-all disabled:opacity-50 cursor-pointer">
+                    className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer">
                     {submitting ? "Saving..." : "Save Show"}
                   </button>
                 </div>
@@ -1612,7 +1612,7 @@ ${filterLine}
                     <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
-                <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all cursor-pointer">
+                <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -1631,14 +1631,14 @@ ${filterLine}
                 <button
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${notifyPrefs.thisShow
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${notifyPrefs.thisShow ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1651,14 +1651,14 @@ ${filterLine}
                 <button
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${notifyPrefs.proximity
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${notifyPrefs.proximity ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1671,14 +1671,14 @@ ${filterLine}
                 <button
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
-                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-all cursor-pointer ${notifyPrefs.newsletter
+                  className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
-                  <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                  <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                     }`}>
-                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
+                    <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${notifyPrefs.newsletter ? 'left-[14px]' : 'left-0.5'
                       }`} />
                   </span>
                   <div className="text-left">
@@ -1697,14 +1697,14 @@ ${filterLine}
               <div className="flex gap-2 mt-4">
                 <button
                   onClick={() => setNotifyPopupShow(null)}
-                  className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                  className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleNotifyConfirm}
                   disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                 >
                   {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
                 </button>
@@ -1717,7 +1717,7 @@ ${filterLine}
       {!isFontCustomizerOpen && (
         <button
           onClick={() => setIsFontCustomizerOpen(true)}
-          className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
+          className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
           title="Table Font & Style Settings"
         >
           <span className="text-[11px]">Aa</span>

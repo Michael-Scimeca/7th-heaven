@@ -102,7 +102,7 @@ function MemberVideoThumbnail({
       loop
       muted
       playsInline
-      className={`${className} transition-all duration-500 ${isActive ? "opacity-100 brightness-100" : "opacity-40 brightness-75 group-hover:opacity-80"}`}
+      className={`${className} transition-colors duration-500 ${isActive ? "opacity-100 brightness-100" : "opacity-40 brightness-75 group-hover:opacity-80"}`}
     />
   );
 }
@@ -504,12 +504,12 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-all duration-300 ${isActive ? "z-20" : ""
+                  className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                     }`}
                 >
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
-                    className="sm: overflow-hidden relative transition-all duration-300 shadow-xl shrink-0"
+                    className="sm: overflow-hidden relative transition-colors duration-300 shadow-xl shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -521,7 +521,7 @@ height: ${overlayHeight}vh`;
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-all duration-300 whitespace-nowrap block text-left ${isActive
+                  <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive
                       ? "opacity-100 translate-x-0"
                       : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
@@ -552,11 +552,11 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-all duration-300 ${isActive ? "z-20" : ""
+                  className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                     }`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
-                  <div className={`transition-all duration-300 whitespace-nowrap block text-right ${isActive
+                  <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive
                       ? "opacity-100 translate-x-0"
                       : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
@@ -570,7 +570,7 @@ height: ${overlayHeight}vh`;
 
                   {/* Video Card (Height & gap scale down dynamically with window height) */}
                   <div
-                    className="sm: overflow-hidden relative transition-all duration-300 shadow-xl shrink-0"
+                    className="sm: overflow-hidden relative transition-colors duration-300 shadow-xl shrink-0"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -628,7 +628,7 @@ height: ${overlayHeight}vh`;
 
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
-                        className="relative flex items-end justify-center overflow-visible bg-transparent transition-all duration-150 origin-bottom"
+                        className="relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom"
                         style={{
                           height: `${imageHeight}px`,
                           transform: `translateY(${imageOffsetY}px)`
@@ -750,11 +750,11 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-110" : "opacity-60 hover:opacity-100 hover:scale-105"
+                  className={`relative group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-110" : "opacity-60 hover:opacity-100 hover:scale-105"
                     }`}
                 >
                   <div
-                    className={`w-12 h-16 sm:w-16 sm:h-20  overflow-hidden relative transition-all duration-300 ${isActive
+                    className={`w-12 h-16 sm:w-16 sm:h-20  overflow-hidden relative transition-colors duration-300 ${isActive
                         ? "ring-2 ring-purple-500 shadow-[0_0_25px_rgba(255,10,61,0.9)] border border-[var(--color-accent)]"
                         : "border border-white/20 group-hover:border-white/50"
                       }`}
@@ -783,10 +783,10 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-115 z-10" : "opacity-50 hover:opacity-100 hover:scale-105"
+                  className={`relative group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-115 z-10" : "opacity-50 hover:opacity-100 hover:scale-105"
                     }`}
                 >
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden relative border-2 transition-all duration-300 ${isActive ? "border-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.9)]" : "border-white/20 group-hover:border-white/60"
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden relative border-2 transition-colors duration-300 ${isActive ? "border-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.9)]" : "border-white/20 group-hover:border-white/60"
                     }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     {isActive && <div className="absolute inset-0 border-2 border-[var(--color-accent)] rounded-full animate-ping opacity-40" />}
@@ -812,10 +812,10 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex flex-col items-center cursor-pointer transition-all duration-200 ${isActive ? "scale-105" : "opacity-60 hover:opacity-100"
+                  className={`relative flex flex-col items-center cursor-pointer transition-colors duration-200 ${isActive ? "scale-105" : "opacity-60 hover:opacity-100"
                     }`}
                 >
-                  <div className={`w-13 h-16 sm:w-15 sm:h-18 rounded-lg overflow-hidden relative border-2 transition-all ${isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-[var(--color-accent)]/40"
+                  <div className={`w-13 h-16 sm:w-15 sm:h-18 rounded-lg overflow-hidden relative border-2 transition-colors ${isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-[var(--color-accent)]/40"
                     }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
@@ -843,10 +843,10 @@ height: ${overlayHeight}vh`;
                     key={idx}
                     type="button"
                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                    className={`relative group flex flex-col items-center cursor-pointer transition-all ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
+                    className={`relative group flex flex-col items-center cursor-pointer transition-colors ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
                       }`}
                   >
-                    <div className={`w-14 h-18 sm:w-16 sm:h-20 rounded-md overflow-hidden relative border-2 transition-all ${isActive ? "border-purple-400 shadow-[0_0_25px_rgba(147, 51, 234,0.8)]" : "border-purple-500/30"
+                    <div className={`w-14 h-18 sm:w-16 sm:h-20 rounded-md overflow-hidden relative border-2 transition-colors ${isActive ? "border-purple-400 shadow-[0_0_25px_rgba(147, 51, 234,0.8)]" : "border-purple-500/30"
                       }`}>
                       <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
@@ -872,10 +872,10 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-110" : "opacity-50 hover:opacity-100"
+                  className={`relative flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-110" : "opacity-50 hover:opacity-100"
                     }`}
                 >
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden relative border transition-all ${isActive ? "border-white " : "border-transparent"
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden relative border transition-colors ${isActive ? "border-white " : "border-transparent"
                     }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                   </div>
@@ -899,10 +899,10 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-all duration-300 ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
+                  className={`relative group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
                     }`}
                 >
-                  <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-all ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_var(--color-purple-glow)]" : "border-white/20"
+                  <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-colors ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_var(--color-purple-glow)]" : "border-white/20"
                     }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -928,10 +928,10 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex items-center gap-2 cursor-pointer transition-all duration-300 ${isActive ? "bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/60 p-1.5 " : "opacity-60 hover:opacity-100"
+                  className={`relative flex items-center gap-2 cursor-pointer transition-colors duration-300 ${isActive ? "bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/60 p-1.5 " : "opacity-60 hover:opacity-100"
                     }`}
                 >
-                  <div className={`w-12 h-14 sm:w-14 sm:h-16  overflow-hidden relative border transition-all ${isActive ? "border-[var(--color-accent)] shadow-[0_0_20px_#a855f7]" : "border-white/20"
+                  <div className={`w-12 h-14 sm:w-14 sm:h-16  overflow-hidden relative border transition-colors ${isActive ? "border-[var(--color-accent)] shadow-[0_0_20px_#a855f7]" : "border-white/20"
                     }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                   </div>
@@ -958,10 +958,10 @@ height: ${overlayHeight}vh`;
                   key={idx}
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group cursor-pointer transition-all duration-300 ${isActive ? "scale-125 z-10" : "opacity-50 hover:opacity-100 hover:scale-110"
+                  className={`relative group cursor-pointer transition-colors duration-300 ${isActive ? "scale-125 z-10" : "opacity-50 hover:opacity-100 hover:scale-110"
                     }`}
                 >
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45  overflow-hidden relative border-2 transition-all ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/30"
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45  overflow-hidden relative border-2 transition-colors ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/30"
                     }`}>
                     <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover -rotate-45 scale-125" />
                   </div>

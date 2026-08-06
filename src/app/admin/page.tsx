@@ -155,7 +155,7 @@ export default function AdminGatewayPage() {
                     placeholder="admin@7thheaven.com"
                     autoComplete="off"
                     data-lpignore="true"
-                    className="w-full px-4 py-3 bg-black/50 border border-white/15 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-all"
+                    className="w-full px-4 py-3 bg-black/50 border border-white/15 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                     required
                   />
                 </div>
@@ -168,7 +168,7 @@ export default function AdminGatewayPage() {
                     placeholder="••••••••"
                     autoComplete="new-password"
                     data-lpignore="true"
-                    className="w-full px-4 py-3 bg-black/50 border border-white/15 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-all"
+                    className="w-full px-4 py-3 bg-black/50 border border-white/15 text-sm font-semibold text-white placeholder:text-white/30 outline-none focus:border-purple-500 focus:shadow-[0_0_12px_rgba(147,51,234,0.3)] transition-colors"
                     required
                   />
                 </div>
@@ -180,7 +180,7 @@ export default function AdminGatewayPage() {
                 <button
                   type="submit"
                   disabled={adminLoginLoading}
-                  className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.2em] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
+                  className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.2em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
                 >
                   {adminLoginLoading ? "Authenticating..." : "Sign In as Admin"}
                 </button>
@@ -194,7 +194,7 @@ export default function AdminGatewayPage() {
                         router.replace("/admin/admin");
                       }
                     }}
-                    className="w-full py-3 border border-purple-500/30 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-black text-xs uppercase tracking-[0.15em] transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-3 border border-purple-500/30 bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-black text-xs uppercase tracking-[0.15em] transition-colors cursor-pointer flex items-center justify-center gap-2"
                   >
                     <span>⚡</span> Instant Dev Access (Bypass Login)
                   </button>

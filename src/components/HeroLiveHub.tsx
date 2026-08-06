@@ -177,7 +177,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="bg-white/5 hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-full flex items-center gap-2 transition-all group"
+                  className="bg-white/5 hover:bg-white/15 border border-white/10 hover:border-[var(--color-accent)]/50 px-3 py-1.5 rounded-full flex items-center gap-2 transition-colors group"
                 >
                   <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
                   <span className="text-xs font-bold text-white/70 group-hover:text-white uppercase tracking-wider truncate max-w-[120px]">
@@ -253,7 +253,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   <button
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
-                    className={`relative aspect-square overflow-hidden border transition-all duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover:border-white/20"
+                    className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover:border-white/20"
                       }`}
                   >
                     {thumbSrc && <Image width={200} height={200} unoptimized src={thumbSrc} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
@@ -284,13 +284,13 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
 
           {/* Listen / Buy Links */}
           <div className="flex gap-2 mt-2">
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-all">
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-colors">
               Buy CD
             </a>
-            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-all">
+            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-colors">
               Spotify
             </a>
-            <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-all">
+            <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs text-center uppercase tracking-wider py-2.5 transition-colors">
               Apple Music
             </a>
           </div>

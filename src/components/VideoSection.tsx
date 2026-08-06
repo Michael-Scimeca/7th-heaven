@@ -67,8 +67,8 @@ export default function VideoSection() {
                     onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                   />
                   {/* YouTube-style hover overlay */}
-                  <div className="absolute inset-0 z-[2] bg-black/20 group-hover/thumb:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300 shadow-xl">
+                  <div className="absolute inset-0 z-[2] bg-black/20 group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300 shadow-xl">
                       <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
                     </div>
                   </div>
@@ -113,8 +113,8 @@ export default function VideoSection() {
                         loading="eager"
                         onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                       />
-                      <div className="absolute inset-0 z-[2] bg-black/20 group-hover/thumb:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                        <div className="w-20 h-20 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300">
+                      <div className="absolute inset-0 z-[2] bg-black/20 group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                        <div className="w-20 h-20 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300">
                           <svg width="24" height="28" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
                         </div>
                       </div>
@@ -157,7 +157,7 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 transition-all duration-300 mb-8 ${navStuck
+        className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck
             ? "backdrop-blur-lg border-b border-white/5 "
             : ""
           }`}
@@ -180,7 +180,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-full transition-all duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category
+                className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-full transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category
                     ? "bg-white text-black"
                     : "bg-white/[0.05] text-white/60 hover:bg-white/10 hover:text-white"
                   }`}
@@ -194,7 +194,7 @@ export default function VideoSection() {
 
       {/* Video Grid */}
       <div ref={gridRef} className="px-8 scroll-mt-[140px]">
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 gap-y-10 transition-all duration-300 ${gridVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 gap-y-10 transition-colors duration-300 ${gridVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
           {filteredVideos.slice(0, visibleCount).map((video, idx) => (
             <div key={video.id} className="group flex flex-col" style={{ animationDelay: gridVisible ? `${idx * 40}ms` : '0ms' }}>
               {/* Thumbnail */}
@@ -226,8 +226,8 @@ export default function VideoSection() {
                         e.currentTarget.src = '/images/video-placeholder.jpg';
                       }}
                     />
-                    <div className="absolute inset-0 z-[2] bg-black/10 group-hover/thumb:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                      <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-all duration-300">
+                    <div className="absolute inset-0 z-[2] bg-black/10 group-hover/thumb:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300">
                         <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
                       </div>
                     </div>
@@ -267,7 +267,7 @@ export default function VideoSection() {
           <div className="flex justify-center mt-16">
             <button
               onClick={() => setVisibleCount(prev => prev + 15)}
-              className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-[0.1em] py-3 px-8 transition-all"
+              className="inline-flex items-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-[0.1em] py-3 px-8 transition-colors"
             >
               Load More <span className="text-white/50 font-normal">({filteredVideos.length - visibleCount} remaining)</span>
             </button>

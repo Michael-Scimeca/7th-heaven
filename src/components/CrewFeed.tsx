@@ -272,7 +272,7 @@ export default function CrewFeed() {
        return (
         <article
          key={post.id}
-         className={`relative pl-16 pb-8 transition-all duration-700 ${
+         className={`relative pl-16 pb-8 transition-colors duration-700 ${
           isNew ? "animate-slide-in-feed" : ""
          }`}
          id={`crew-feed-${post.id}`}
@@ -280,7 +280,7 @@ export default function CrewFeed() {
         >
          {/* Timeline dot */}
          <div
-          className="absolute left-[18px] top-3 w-3 h-3 rounded-full border-2 z-10 transition-all duration-300"
+          className="absolute left-[18px] top-3 w-3 h-3 rounded-full border-2 z-10 transition-colors duration-300"
           style={{
            borderColor: config.color,
            background: isNew ? config.color : "var(--color-bg-primary)",
@@ -297,7 +297,7 @@ export default function CrewFeed() {
 
          {/* Post Card */}
          <div
-          className={`border bg-white/[0.02] p-6 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] ${
+          className={`border bg-white/[0.02] p-6 transition-colors duration-300 hover:border-white/10 hover:bg-white/[0.04] ${
            isNew ? "border-white/20" : "border-white/[0.06]"
           }`}
          >

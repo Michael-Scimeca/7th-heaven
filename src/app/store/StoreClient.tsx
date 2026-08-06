@@ -160,7 +160,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-sm font-bold uppercase tracking-[0.1em] px-5 py-2.5  border transition-all cursor-pointer ${
+              className={`text-sm font-bold uppercase tracking-[0.1em] px-5 py-2.5  border transition-colors cursor-pointer ${
                 activeCategory === cat
                   ? "border-purple-600 bg-purple-600 text-white shadow-md"
                   : "border-black/10 bg-white text-black/70 hover:text-black hover:border-black/20 shadow-xs"
@@ -180,7 +180,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
             const imageUrl = product.images?.edges?.[0]?.node?.url;
 
             return (
-              <div key={product.id} className="group border border-black/10 bg-white shadow-sm hover:shadow-md hover:border-black/20 transition-all duration-300 flex flex-col overflow-hidden text-black">
+              <div key={product.id} className="group border border-black/10 bg-white shadow-sm hover:shadow-md hover:border-black/20 transition-colors duration-300 flex flex-col overflow-hidden text-black">
                 <div className="relative aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
                   {imageUrl ? (
                     <Image width={200} height={200} unoptimized src={imageUrl} alt={product.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -208,7 +208,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                     <button
                       onClick={() => handleCheckoutClick(product)}
                       disabled={product.quantityAvailable === 0}
-                      className="w-full block text-center bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold text-sm uppercase tracking-[0.1em] py-2.5 transition-all cursor-pointer shadow-sm"
+                      className="w-full block text-center bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold text-sm uppercase tracking-[0.1em] py-2.5 transition-colors cursor-pointer shadow-sm"
                     >
                       {product.quantityAvailable === 0 ? 'Sold Out' : 'Buy Now'}
                     </button>
@@ -316,7 +316,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       <button
                         type="button"
                         onClick={() => setCheckoutDeliveryMethod('shipping')}
-                        className={`py-2 px-3  border text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                        className={`py-2 px-3  border text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
                           checkoutDeliveryMethod === 'shipping'
                             ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
                             : 'bg-white border-black/15 text-black/70 hover:bg-gray-50'
@@ -327,7 +327,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
                       <button
                         type="button"
                         onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                        className={`py-2 px-3  border text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                        className={`py-2 px-3  border text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
                           checkoutDeliveryMethod === 'merch_table'
                             ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
                             : 'bg-white border-black/15 text-black/70 hover:bg-gray-50'
@@ -418,7 +418,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                   <button
                     type="submit"
-                    className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all cursor-pointer border-none mt-2 font-sans shadow-md"
+                    className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-colors cursor-pointer border-none mt-2 font-sans shadow-md"
                   >
                     Authorize Payment
                   </button>
@@ -504,7 +504,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Shop
 
                     <button
                       onClick={() => setShowCheckoutModal(false)}
-                      className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all cursor-pointer border-none font-sans shadow-md"
+                      className="w-full py-3 bg-purple-600 text-white font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-colors cursor-pointer border-none font-sans shadow-md"
                     >
                       Close Gateway
                     </button>

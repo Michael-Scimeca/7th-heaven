@@ -58,7 +58,7 @@ export default function ProductDetailPage() {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`w-12 h-12 flex items-center justify-center font-bold text-sm border transition-all cursor-pointer ${selectedSize === size
+                    className={`w-12 h-12 flex items-center justify-center font-bold text-sm border transition-colors cursor-pointer ${selectedSize === size
                         ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-white"
                         : "border-white/10 text-white/40 hover:border-white/20 hover:text-white"
                       }`}
@@ -97,14 +97,14 @@ export default function ProductDetailPage() {
                   setAdded(true);
                   setTimeout(() => setAdded(false), 2000);
                 }}
-                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)] hover:scale-[1.01]"
+                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)] hover:scale-[1.01]"
               >
                 {added ? "✓ Added to Cart!" : "Add to Cart"}
               </button>
 
               <Link
                 href="/store"
-                className="w-full block text-center py-4 bg-white/5 hover:bg-white/10 text-white/70 font-bold uppercase tracking-widest text-sm transition-all border border-white/5"
+                className="w-full block text-center py-4 bg-white/5 hover:bg-white/10 text-white/70 font-bold uppercase tracking-widest text-sm transition-colors border border-white/5"
               >
                 Back to Store
               </Link>

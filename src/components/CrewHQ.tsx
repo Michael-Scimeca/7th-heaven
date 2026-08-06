@@ -492,7 +492,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2  font-black text-xs uppercase tracking-widest transition-all  ${isLive
+              className={`flex items-center gap-2 px-5 py-2  font-black text-xs uppercase tracking-widest transition-colors  ${isLive
                 ? "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]"
                 : "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
                 }`}
@@ -544,7 +544,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Launch CTA */}
             <Link
               href={studioPath}
-              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-all border ${isLive
+              className={`shrink-0 flex flex-col items-center justify-center gap-1 w-32 h-24  font-black text-xs uppercase tracking-widest text-center transition-colors border ${isLive
                 ? "bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 shadow-[0_0_20px_rgba(239,68,68,0.15)]"
                 : "bg-white/[0.04] border-white/10 text-white/60 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
                 }`}
@@ -573,7 +573,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live" />
                     <button
                       onClick={toggleSimulator}
-                      className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-all cursor-pointer border ${simActive
+                      className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-colors cursor-pointer border ${simActive
                         ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
                         : "bg-white/5 border border-white/10 text-white/40 hover:text-white/60"
                         }`}
@@ -607,7 +607,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
                   <button
                     onClick={() => setRoomFilter("all")}
-                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
+                    className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
                       }`}
                   >
                     All Rooms ({msgs.length})
@@ -616,7 +616,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <button
                       key={room.id}
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
-                      className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-all cursor-pointer border ${roomFilter === room.id
+                      className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id
                         ? "text-white border-opacity-100"
                         : "border-white/[0.08] text-white/30 hover:text-white/60"
                         }`}
@@ -753,7 +753,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         />
                         <button
                           type="submit"
-                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-all cursor-pointer"
+                          className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-colors cursor-pointer"
                         >
                           Add Keyword
                         </button>
@@ -796,7 +796,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="flex flex-col gap-5">
 
             {/* Live Stream Status Card */}
-            <div className={` border overflow-hidden transition-all ${isLive
+            <div className={` border overflow-hidden transition-colors ${isLive
               ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
               : "border-white/[0.07] bg-[var(--color-bg-deep)]"
               }`}>
@@ -829,7 +829,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`w-full flex items-center justify-center gap-2 py-3  font-black text-sm uppercase tracking-widest transition-all ${isLive
+                  className={`w-full flex items-center justify-center gap-2 py-3  font-black text-sm uppercase tracking-widest transition-colors ${isLive
                     ? "bg-red-500 hover:bg-red-400 text-white shadow-[0_0_16px_rgba(239,68,68,0.35)]"
                     : "bg-white text-black hover:bg-white/90"
                     }`}
@@ -841,7 +841,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <Link
                     href={`/live/${defaultMemberId || slug}`}
                     target="_blank"
-                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 text-xs font-bold border border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all"
+                    className="w-full mt-2 flex items-center justify-center gap-1 py-2 text-xs font-bold border border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-colors"
                   >
                     👁 View Fan Feed ↗
                   </Link>
@@ -876,7 +876,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </div>
                 <button
                   onClick={handleSaveNotes}
-                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-all ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-white/5 text-white/40 border border-white/[0.08] hover:text-white"
+                  className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-white/5 text-white/40 border border-white/[0.08] hover:text-white"
                     }`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}
@@ -902,7 +902,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3 bg-[var(--color-bg-deep)] border border-white/[0.07] hover:border-white/15 hover:bg-white/[0.02] transition-all group"
+                  className="flex items-center gap-2 p-3 bg-[var(--color-bg-deep)] border border-white/[0.07] hover:border-white/15 hover:bg-white/[0.02] transition-colors group"
                 >
                   <span className="text-lg">{icon}</span>
                   <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>

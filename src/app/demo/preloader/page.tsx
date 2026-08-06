@@ -137,14 +137,14 @@ export default function PreloaderDemo() {
             <div className="space-y-4">
               <button
                 onClick={() => setIsPlaying(true)}
-                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black uppercase tracking-widest text-sm transition-all rounded-lg shadow-md active:scale-[0.99]"
+                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black uppercase tracking-widest text-sm transition-colors rounded-lg shadow-md active:scale-[0.99]"
               >
                 ⚡ Trigger Preloader Live
               </button>
 
               <button
                 onClick={handleShuffleFrames}
-                className="w-full py-3 bg-purple-950/40 border border-purple-500/30 hover:border-purple-500/50 text-purple-200 font-bold uppercase tracking-wider text-xs transition-all rounded-lg active:scale-[0.99] flex items-center justify-center gap-2"
+                className="w-full py-3 bg-purple-950/40 border border-purple-500/30 hover:border-purple-500/50 text-purple-200 font-bold uppercase tracking-wider text-xs transition-colors rounded-lg active:scale-[0.99] flex items-center justify-center gap-2"
               >
                 🔀 Reshuffle Frame Sequence (Current Order: {selectedFrames.join(" → ")})
               </button>
@@ -152,13 +152,13 @@ export default function PreloaderDemo() {
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={handleResetSession}
-                  className="py-3 border border-white/10 hover:border-white/20 hover:bg-white/[0.02] text-white/80 font-bold uppercase tracking-wider text-xs transition-all rounded-lg active:scale-[0.99]"
+                  className="py-3 border border-white/10 hover:border-white/20 hover:bg-white/[0.02] text-white/80 font-bold uppercase tracking-wider text-xs transition-colors rounded-lg active:scale-[0.99]"
                 >
                   🧹 Reset Session State
                 </button>
                 <button
                   onClick={handleReload}
-                  className="py-3 border border-white/10 hover:border-white/20 hover:bg-white/[0.02] text-white/80 font-bold uppercase tracking-wider text-xs transition-all rounded-lg active:scale-[0.99]"
+                  className="py-3 border border-white/10 hover:border-white/20 hover:bg-white/[0.02] text-white/80 font-bold uppercase tracking-wider text-xs transition-colors rounded-lg active:scale-[0.99]"
                 >
                   🔄 Reload & Test Layout
                 </button>
@@ -256,7 +256,7 @@ export default function PreloaderDemo() {
               return (
                 <div
                   key={f.idx}
-                  className={`p-3 bg-white/[0.02] border transition-all rounded-lg flex flex-col items-center text-center ${manualFrameIndex === f.idx
+                  className={`p-3 bg-white/[0.02] border transition-colors rounded-lg flex flex-col items-center text-center ${manualFrameIndex === f.idx
                     ? "border-purple-500/50 bg-purple-950/10 shadow-[0_0_15px_rgba(255,10,61,0.1)]"
                     : isShuffled
                       ? "border-purple-500/20 bg-purple-950/5"

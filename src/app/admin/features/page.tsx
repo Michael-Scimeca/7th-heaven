@@ -226,7 +226,7 @@ export default function AdminFeaturesPage() {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`text-xs font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-all cursor-pointer ${filter === tab.key
+              className={`text-xs font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-colors cursor-pointer ${filter === tab.key
                   ? "border-[var(--color-accent)]  text-[var(--color-accent)] bg-[var(--color-accent)]/10"
                   : "border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
                 }`}

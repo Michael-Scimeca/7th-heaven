@@ -107,7 +107,7 @@ export function CalendarPicker({
             <button
               type="button"
               onClick={handlePrevMonth}
-              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-all cursor-pointer shadow-sm"
+              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-colors cursor-pointer shadow-sm"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
               <span>Prev</span>
@@ -149,7 +149,7 @@ export function CalendarPicker({
             <button
               type="button"
               onClick={handleNextMonth}
-              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-all cursor-pointer shadow-sm"
+              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-colors cursor-pointer shadow-sm"
             >
               <span>Next</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
@@ -203,7 +203,7 @@ export function CalendarPicker({
                     }
                   }}
                   title={isBlocked ? "This date is already booked" : undefined}
-                  className={`h-12 w-full flex items-center justify-center  font-bold text-base transition-all relative
+                  className={`h-12 w-full flex items-center justify-center  font-bold text-base transition-colors relative
                     ${(isPastDate || isBlocked) ? "cursor-not-allowed opacity-25" : "cursor-pointer"}
                     ${isBlocked
                       ? "bg-rose-500/10 border border-rose-500/20 text-rose-500 line-through"
@@ -239,7 +239,7 @@ export function CalendarPicker({
                 <select
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Show Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
@@ -259,7 +259,7 @@ export function CalendarPicker({
                 <select
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Show Finish Time</option>
                   {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
@@ -281,7 +281,7 @@ export function CalendarPicker({
                 <select
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Band Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
@@ -301,7 +301,7 @@ export function CalendarPicker({
                 <select
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-all appearance-none cursor-pointer"
+                  className="w-full bg-black/[0.04] border border-black/15 text-black font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
                 >
                   <option value="" disabled className="bg-white text-black">Select Band Finish Time</option>
                   {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
@@ -333,7 +333,7 @@ export function CalendarPicker({
                   <button
                     type="button"
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className={`w-full text-left p-4  border transition-all cursor-pointer flex gap-4 items-center group
+                    className={`w-full text-left p-4  border transition-colors cursor-pointer flex gap-4 items-center group
                        ${isSelected
                         ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-sm"
                         : "border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]"}
@@ -353,7 +353,7 @@ export function CalendarPicker({
                         value={customDetails || ""}
                         onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                         autoFocus
-                        className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] transition-all placeholder:text-black/40"
+                        className="w-full bg-black/[0.04] border border-[var(--color-accent)]/40 text-black text-sm px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-black/40"
                       />
                     </div>
                   )}

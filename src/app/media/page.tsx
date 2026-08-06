@@ -95,7 +95,7 @@ export default function MediaPage() {
                   className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
                   aria-label="Play featured video"
                 >
-                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-all duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
+                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-colors duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   </div>
                 </button>
@@ -124,7 +124,7 @@ export default function MediaPage() {
                 </div>
                 <button
                   onClick={() => setHeroPlaying(true)}
-                  className="flex items-center gap-2.5 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
+                  className="flex items-center gap-2.5 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   Watch Featured Video
@@ -138,7 +138,7 @@ export default function MediaPage() {
       {/* ── FLOATING LAYOUT OPTIONS LINK ── */}
       <Link
         href="/media/layout-demo"
-        className="fixed bottom-6 left-6 z-[999] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_30px_rgba(255,10,61,0.5)] transition-all hover:scale-105 flex items-center gap-2"
+        className="fixed bottom-6 left-6 z-[999] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_30px_rgba(255,10,61,0.5)] transition-colors hover:scale-105 flex items-center gap-2"
       >
         <span>🎨 Layout Options</span>
       </Link>
@@ -167,7 +167,7 @@ export default function MediaPage() {
               placeholder="SEARCH..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-black/5 border border-black/10 rounded-lg py-2 pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-black placeholder-black/40 focus:outline-none focus:border-[var(--color-accent)] transition-all"
+              className="w-full bg-black/5 border border-black/10 rounded-lg py-2 pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-black placeholder-black/40 focus:outline-none focus:border-[var(--color-accent)] transition-colors"
             />
           </div>
         </div>
@@ -189,7 +189,7 @@ export default function MediaPage() {
                   ) : (
                     <button className="absolute inset-0 w-full h-full cursor-pointer" onClick={() => setPlayingId(video.id)} aria-label={`Play ${video.title}`}>
                       <Image width={200} height={200} unoptimized src={thumbMax(video.id)} alt={video.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" onLoad={(e) => { const img = e.currentTarget; if (img.naturalWidth <= 120 && img.src.includes('maxresdefault')) img.src = thumb(video.id); }} onError={(e) => { const img = e.currentTarget; if (img.src.includes('maxresdefault')) img.src = thumb(video.id); }} />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-all" />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors" />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div></div>
                       {video.duration && <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[var(--font-size-2xs)] font-bold px-1.5 py-0.5 rounded">{video.duration}</span>}
                     </button>

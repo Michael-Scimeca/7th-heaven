@@ -183,18 +183,18 @@ export default function CruiseDashboardGate() {
                     maxLength={6}
                     value={pinInput}
                     onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg font-black tracking-[0.3em] text-white focus:border-cyan-400/50 outline-none transition-all"
+                    className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-center text-lg font-black tracking-[0.3em] text-white focus:border-cyan-400/50 outline-none transition-colors"
                   />
                 </div>
 
                 {authError && <p className="text-rose-400 text-xs mt-2 text-center">{authError}</p>}
 
-                <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                   {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
                 </button>
 
                 <div className="text-center mt-4">
-                  <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover:text-white/60 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-all cursor-pointer">
+                  <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-white/40 hover:text-white/60 text-[var(--font-size-2xs)] font-bold uppercase tracking-widest transition-colors cursor-pointer">
                     ← Cancel and Back
                   </button>
                 </div>
@@ -207,7 +207,7 @@ export default function CruiseDashboardGate() {
               <p className="text-white/60 text-sm leading-relaxed mb-6">
                 We've sent a verification link to <strong className="text-white">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
               </p>
-              <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs font-black uppercase tracking-widest transition-all cursor-pointer">
+              <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer">
                 Go to Log In
               </button>
             </div>
@@ -215,10 +215,10 @@ export default function CruiseDashboardGate() {
             <>
               {/* Tabs */}
               <div className="flex border-b border-white/10">
-                <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
                   Log In
                 </button>
-                <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
+                <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-cyan-400 text-white bg-white/[0.02]' : 'text-white/40 hover:text-white/70'}`}>
                   Register
                 </button>
               </div>
@@ -229,16 +229,16 @@ export default function CruiseDashboardGate() {
                     <p className="text-white/50 text-xs mb-4">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address</label>
-                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Password</label>
-                      <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
-                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-colors shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Access Cruise Hub →"}
                     </button>
                   </form>
@@ -247,24 +247,24 @@ export default function CruiseDashboardGate() {
                     <p className="text-white/50 text-xs mb-4">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Full Legal Name *</label>
-                      <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Email Address *</label>
-                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Phone Number *</label>
-                      <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Choose Password *</label>
-                      <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-all" />
+                      <input type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white focus:border-cyan-400/50 outline-none transition-colors" />
                     </div>
 
                     {authError && <p className="text-rose-400 text-xs mt-2">{authError}</p>}
 
-                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs transition-all shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                    <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 text-white font-black uppercase tracking-widest text-xs transition-colors shadow-[var(--color-accent)]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                       {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Register & Access Hub →"}
                     </button>
                   </form>
@@ -275,7 +275,7 @@ export default function CruiseDashboardGate() {
         </div>
         
         <div className="text-center mt-6">
-          <Link href="/cruise" className="text-white/40 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-all">
+          <Link href="/cruise" className="text-white/40 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">
             ← Back to Cruise Information
           </Link>
         </div>

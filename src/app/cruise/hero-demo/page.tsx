@@ -17,7 +17,7 @@ export default function HeroDemoPage() {
           <button
             key={l}
             onClick={() => setActive(l)}
-            className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-all cursor-pointer ${active === l
+            className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-colors cursor-pointer ${active === l
               ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30"
               : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
               }`}
@@ -71,10 +71,10 @@ export default function HeroDemoPage() {
                 </div>
 
                 <div className="flex gap-4 mt-8">
-                  <a href="#signup" className="px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
+                  <a href="#signup" className="px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Count Me In
                   </a>
-                  <a href="#itinerary" className="px-8 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm transition-all hover:bg-white/[0.1]">
+                  <a href="#itinerary" className="px-8 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm transition-colors hover:bg-white/[0.1]">
                     View Itinerary
                   </a>
                 </div>
@@ -172,7 +172,7 @@ export default function HeroDemoPage() {
                   <p className="text-white/40 text-xs">Free, non-binding signup</p>
                 </div>
               </div>
-              <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
+              <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                 Count Me In →
               </a>
             </div>
@@ -209,10 +209,10 @@ export default function HeroDemoPage() {
                   The ultimate 7th Heaven fan experience — 7 nights on the Caribbean with 6 live shows, 3 island stops, and the whole crew.
                 </p>
                 <div className="flex gap-4 mt-8">
-                  <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
+                  <a href="#signup" className="px-10 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     I&apos;m In
                   </a>
-                  <a href="#itinerary" className="px-10 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm transition-all hover:bg-white/[0.1]">
+                  <a href="#itinerary" className="px-10 py-4 bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] text-white font-bold uppercase tracking-widest text-sm transition-colors hover:bg-white/[0.1]">
                     See the Schedule
                   </a>
                 </div>
@@ -252,7 +252,7 @@ export default function HeroDemoPage() {
                     <p className="text-2xl font-black text-white">9</p>
                     <p className="text-[var(--font-size-2xs)] font-bold uppercase tracking-[0.2em] text-white/25">Total Guests</p>
                   </div>
-                  <a href="#signup" className="px-5 py-2.5 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs rounded-lg transition-all hover:bg-[var(--color-accent)]/30">
+                  <a href="#signup" className="px-5 py-2.5 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs rounded-lg transition-colors hover:bg-[var(--color-accent)]/30">
                     Join →
                   </a>
                 </div>
@@ -302,11 +302,11 @@ export default function HeroDemoPage() {
                 <span>4.5%</span>
               </div>
               <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden border border-white/[0.08]">
-                <div className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-full transition-all" style={{ width: "4.5%" }} />
+                <div className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-full transition-colors" style={{ width: "4.5%" }} />
               </div>
             </div>
 
-            <a href="#signup" className="inline-block px-12 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
+            <a href="#signup" className="inline-block px-12 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)]">
               Reserve My Spot
             </a>
           </div>
@@ -393,7 +393,7 @@ export default function HeroDemoPage() {
                     ))}
                     <div className="w-9 h-9 rounded-full bg-white/10 border-2 border-black/30 flex items-center justify-center text-[var(--font-size-2xs)] font-bold text-white/40">+4</div>
                   </div>
-                  <a href="#signup" className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
+                  <a href="#signup" className="px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-xs transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                     Board Now →
                   </a>
                 </div>
@@ -444,7 +444,7 @@ export default function HeroDemoPage() {
                     <p className="text-white/50 text-base max-w-sm leading-relaxed">
                       7 nights. 3 islands. The band. The fans. One unforgettable voyage.
                     </p>
-                    <a href="#signup" className="shrink-0 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)]">
+                    <a href="#signup" className="shrink-0 px-8 py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)]">
                       Join the Voyage
                     </a>
                   </div>
@@ -591,7 +591,7 @@ export default function HeroDemoPage() {
               </div>
 
               {/* CTA */}
-              <a href="#signup" className="block w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-all shadow-[0_0_30px_rgba(255,10,61,0.3)] text-center">
+              <a href="#signup" className="block w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)] text-center">
                 Count Me In →
               </a>
             </div>

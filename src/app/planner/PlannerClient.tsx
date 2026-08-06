@@ -118,7 +118,7 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => { setMode('login'); setLoginErr(''); }}
-                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${mode === 'login'
+                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 ${mode === 'login'
                     ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
                     : "text-black/60 hover:text-black hover:bg-gray-100"
                     }`}
@@ -128,7 +128,7 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => { setMode('signup'); setLoginErr(''); }}
-                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-all cursor-pointer flex items-center justify-center gap-2 ${mode === 'signup'
+                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 ${mode === 'signup'
                     ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
                     : "text-black/60 hover:text-black hover:bg-gray-100"
                     }`}
@@ -186,7 +186,7 @@ export default function PlannerClient() {
                     <button
                       type="submit"
                       disabled={loginLoading}
-                      className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-base uppercase tracking-[0.18em] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_25px_rgba(255,10,61,0.4)]"
+                      className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-base uppercase tracking-[0.18em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_25px_rgba(255,10,61,0.4)]"
                     >
                       {loginLoading ? 'Authenticating...' : mode === 'signup' ? 'CREATE ACCOUNT' : 'SIGN IN'}
                     </button>
@@ -205,7 +205,7 @@ export default function PlannerClient() {
               </div>
               <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className=" text-[var(--color-accent)]">7th Heaven</span></h2>
               <p className="text-black/50 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we&apos;ll get back to you within 24 hours.</p>
-              <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-all shadow-md">
+              <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-colors shadow-md">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                 Book Now
               </Link>
@@ -255,7 +255,7 @@ export default function PlannerClient() {
               </div>
               <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className=" text-[var(--color-accent)]">7th Heaven</span></h2>
               <p className="text-black/50 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we'll get back to you within 24 hours.</p>
-              <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-all shadow-md">
+              <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-colors shadow-md">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                 Book Now
               </Link>
@@ -348,7 +348,7 @@ export default function PlannerClient() {
                     <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${statusColor}`}>{statusLabel}</span>
                     <span className="text-xs text-black/30 font-mono">{booking.id}</span>
                   </div>
-                  <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-all">+ New Booking</Link>
+                  <Link href="/book" className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider transition-colors">+ New Booking</Link>
                 </div>
                 <div className="flex items-center gap-3 mb-1">
                   <h1 className="text-3xl font-black tracking-tight">{booking.eventName}</h1>
@@ -382,7 +382,7 @@ export default function PlannerClient() {
                 <textarea value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
                   className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-xs text-black placeholder:text-black/30 outline-none focus:border-purple-500/50 resize-none transition-colors" />
                 <button onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
-                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer disabled:opacity-50">
+                  className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
               </div>
@@ -394,7 +394,7 @@ export default function PlannerClient() {
                   <span className={`text-xs font-bold ${pct === 100 ? 'text-emerald-400' : 'text-black/50'}`}>{done}/{checklist.length}</span>
                 </div>
                 <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4">
-                  <div className={`h-full rounded-full transition-all ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
+                  <div className={`h-full rounded-full transition-colors ${pct === 100 ? 'bg-emerald-500' : pct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${pct}%` }} />
                 </div>
                 <div className="flex flex-col gap-2">
                   {checklist.map((item, i) => {
@@ -430,7 +430,7 @@ export default function PlannerClient() {
                           item.done ? (
                             <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-black/30 hover: text-[var(--color-accent)] uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
                           ) : (
-                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-all">NEEDED</button>
+                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
                           )
                         )}
                       </div>
@@ -438,7 +438,7 @@ export default function PlannerClient() {
                   })}
                   {done < checklist.length && (
                     <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}`}
-                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all">
+                      className="mt-2 text-center py-2 bg-purple-600/5 hover:bg-purple-600/10 border border-purple-500/15 text-purple-300/70 hover:text-purple-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors">
                       Fill Missing Details →
                     </Link>
                   )}
@@ -450,19 +450,19 @@ export default function PlannerClient() {
                 <div className="flex items-center gap-2 mb-4"><span className="text-base">⚡</span><h3 className="text-sm font-bold">Quick Actions</h3></div>
                 <div className="flex flex-col gap-3">
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-purple-600/10 border-purple-600/20  text-[var(--color-accent)] hover:bg-purple-600 hover:text-white">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-purple-600/10 border-purple-600/20  text-[var(--color-accent)] hover:bg-purple-600 hover:text-white">
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&startTime=${encodeURIComponent(booking.startTime)}&endTime=${encodeURIComponent(booking.endTime)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
                   <button onClick={() => { if (confirm('Cancel this booking?')) { fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, status: 'cancelled' }) }).then(() => { setBooking(prev => prev ? { ...prev, status: 'cancelled' } : prev); }); } }}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white">
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white">
                     <span>✕</span> Cancel Request
                   </button>
                 </div>
@@ -485,7 +485,7 @@ export default function PlannerClient() {
                         ? { dot: 'bg-emerald-500', text: 'text-emerald-400', bg: 'bg-emerald-500/5', border: 'border-emerald-500/15' }
                         : { dot: 'bg-purple-500', text: ' text-[var(--color-accent)]', bg: 'bg-purple-500/5', border: 'border-purple-500/15' };
                     return (
-                      <div key={i} className="bg-white border border-black/10 hover:border-black/10 p-4 flex items-center gap-4 transition-all group">
+                      <div key={i} className="bg-white border border-black/10 hover:border-black/10 p-4 flex items-center gap-4 transition-colors group">
                         <div className={`w-2.5 h-2.5 rounded-full ${sc.dot} shrink-0`} />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-sm font-bold text-black truncate">{pb.eventName}</h4>
@@ -495,7 +495,7 @@ export default function PlannerClient() {
                         </div>
                         <span className={`text-[var(--font-size-2xs)] font-bold uppercase tracking-widest ${sc.text} ${sc.bg} px-2 py-0.5 rounded border ${sc.border}`}>{pb.status}</span>
                         <Link href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
-                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer shrink-0">
+                          className="px-4 py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shrink-0">
                           Rebook →
                         </Link>
                       </div>

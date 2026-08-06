@@ -74,20 +74,20 @@ function SuccessContent() {
             {isLoggedIn && member?.role === "event_planner" && (
               <Link
                 href="/planner"
-                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
+                className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
               >
                 View in My Dashboard →
               </Link>
             )}
             <Link
               href="/book"
-              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-white/5"
+              className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border border-white/5"
             >
               Book Another Show
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold uppercase tracking-wider text-base py-3 px-8 transition-all"
+              className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold uppercase tracking-wider text-base py-3 px-8 transition-colors"
             >
               Return to Homepage
             </Link>

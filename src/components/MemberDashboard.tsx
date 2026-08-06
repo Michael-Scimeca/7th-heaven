@@ -192,7 +192,7 @@ export default function MemberDashboard() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] rounded hover:brightness-110 transition-all cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
@@ -202,10 +202,10 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/20 text-white flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-all cursor-pointer bg-white/[0.02]">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/20 text-white flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-all cursor-pointer bg-emerald-500/5">
+                  <button onClick={() => openModal("login")} className="flex-1 py-4 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -273,7 +273,7 @@ export default function MemberDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {(member?.role === 'crew' || member?.role === 'admin') && (
-              <Link href="/crew" className="px-4 py-2 text-xs uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border  border-[var(--color-accent)]/30 hover:border-emerald-500/40 transition-all cursor-pointer inline-flex items-center gap-1.5">
+              <Link href="/crew" className="px-4 py-2 text-xs uppercase tracking-[0.15em] text-[var(--color-accent)] hover:text-white bg-emerald-500/10 border  border-[var(--color-accent)]/30 hover:border-emerald-500/40 transition-colors cursor-pointer inline-flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                 Crew Dashboard
               </Link>
@@ -284,7 +284,7 @@ export default function MemberDashboard() {
         {/* Digital Tickets / Inbox moved to top */}
         <div className="mb-10 p-6 bg-[url('/images/card-glow.jpg')] bg-cover bg-center border border-[var(--color-accent)]/30 relative overflow-hidden shadow-[0_0_40px_rgba(255,10,61,0.15)] group">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
-          <div className="absolute top-0 right-0 p-4 opacity-30 blur-[2px] transition-all duration-500 group-hover:blur-0 group-hover:opacity-40 translate-x-4 -translate-y-4">
+          <div className="absolute top-0 right-0 p-4 opacity-30 blur-[2px] transition-colors duration-500 group-hover:blur-0 group-hover:opacity-40 translate-x-4 -translate-y-4">
             <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 22h20L12 2z" /></svg>
           </div>
 
@@ -345,7 +345,7 @@ export default function MemberDashboard() {
                                 <button onClick={() => setClaimConfirmId(null)} className="text-xs text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                              <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -384,7 +384,7 @@ export default function MemberDashboard() {
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative bg-black/40 border  overflow-hidden backdrop-blur-md transition-all ${photo.rejected
+                  className={`group relative bg-black/40 border  overflow-hidden backdrop-blur-md transition-colors ${photo.rejected
                     ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]"
                     : photo.approved
                       ? " border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.05)]"

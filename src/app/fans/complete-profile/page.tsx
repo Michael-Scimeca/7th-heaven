@@ -183,16 +183,16 @@ export default function CompleteProfilePage() {
                 <button
                   type="button"
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-all cursor-pointer ${
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${
                     wantNotifications
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                   }`}
                 >
-                  <span className={`w-9 h-5 rounded-full relative transition-all flex-shrink-0 ${
+                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${
                     wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                   }`}>
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${
                       wantNotifications ? 'left-[18px]' : 'left-0.5'
                     }`} />
                   </span>
@@ -219,16 +219,16 @@ export default function CompleteProfilePage() {
                 <button
                   type="button"
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-all cursor-pointer ${
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${
                     wantNewsletter
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                   }`}
                 >
-                  <span className={`w-9 h-5 rounded-full relative transition-all flex-shrink-0 ${
+                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${
                     wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
                   }`}>
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${
                       wantNewsletter ? 'left-[18px]' : 'left-0.5'
                     }`} />
                   </span>
@@ -252,7 +252,7 @@ export default function CompleteProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                className="w-full py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
               >
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>

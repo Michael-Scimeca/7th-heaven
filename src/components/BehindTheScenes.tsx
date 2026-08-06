@@ -91,7 +91,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               {/* Play CTA */}
               <button
                 onClick={() => setPlayingId(featured.id)}
-                className="group inline-flex items-center gap-3 bg-white text-black font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-all duration-300 cursor-pointer"
+                className="group inline-flex items-center gap-3 bg-white text-black font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-colors duration-300 cursor-pointer"
               >
                 <svg width="14" height="16" viewBox="0 0 20 22" fill="none" className="transition-colors">
                   <path d="M19 11L1 21V1L19 11Z" fill="currentColor" strokeLinejoin="round" />
@@ -141,13 +141,13 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       <Image width={200} height={200} unoptimized
                         src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                         alt={video.title}
-                        className="absolute inset-0 z-[1] w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                        className="absolute inset-0 z-[1] w-full h-full object-cover grayscale group-hover:grayscale-0 transition-colors duration-500"
                         loading="lazy"
                         onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
                       />
-                      <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10 transition-all duration-300" />
+                      <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10 transition-colors duration-300" />
                       <div className="absolute top-4 right-4 z-[3]">
-                        <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group-hover:bg-[var(--color-accent)]/80 group-hover:scale-110">
+                        <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center transition-colors duration-300 group-hover:bg-[var(--color-accent)]/80 group-hover:scale-110">
                           <svg width="12" height="14" viewBox="0 0 20 22" fill="none">
                             <path d="M19 11L1 21V1L19 11Z" fill="white" strokeLinejoin="round" />
                           </svg>

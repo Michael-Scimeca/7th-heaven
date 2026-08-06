@@ -40,7 +40,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               key={opt.id}
               type="button"
               onClick={() => setActiveLayout(opt.id)}
-              className={`px-3 py-1.5 text-xs font-black uppercase transition-all cursor-pointer border ${activeLayout === opt.id
+              className={`px-3 py-1.5 text-xs font-black uppercase transition-colors cursor-pointer border ${activeLayout === opt.id
                   ? "bg-cyan-500 text-black border-cyan-400 font-extrabold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
                   : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
@@ -109,7 +109,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </div>
                 <h2 className="text-2xl md:text-3xl font-black text-white mb-4">{featured.title}</h2>
                 <p className="text-white/80 text-sm leading-relaxed mb-6">{featured.content}</p>
-                <button type="button" className="px-5 py-2.5 bg-cyan-500 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all cursor-pointer">
+                <button type="button" className="px-5 py-2.5 bg-cyan-500 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-400 transition-colors cursor-pointer">
                   Read Full Story →
                 </button>
               </div>

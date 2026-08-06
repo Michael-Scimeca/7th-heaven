@@ -275,7 +275,7 @@ export default function LiveHubPage() {
             <div className="px-6 pt-3 pb-0 flex gap-2 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               {(["streams", "users", "policy"] as const).map(tab => (
                 <button key={tab} onClick={() => setAdminTab(tab)}
-                  className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-t-lg transition-all"
+                  className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-t-lg transition-colors"
                   style={{
                     background: adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
                     color: adminTab === tab ? "#c084fc" : "rgba(255,255,255,0.35)",
@@ -314,13 +314,13 @@ export default function LiveHubPage() {
                         <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>{getElapsed(room.creationTime)}</p>
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
-                            className="flex-1 text-center py-1.5 rounded-lg text-xs font-bold transition-all hover:scale-105"
+                            className="flex-1 text-center py-1.5 rounded-lg text-xs font-bold transition-colors hover:scale-105"
                             style={{ background: `rgba(${parseInt(room.color.slice(1,3),16)},${parseInt(room.color.slice(3,5),16)},${parseInt(room.color.slice(5,7),16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
                           <button
                             onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
-                            className="py-1.5 px-3 rounded-lg text-xs font-bold transition-all hover:scale-105"
+                            className="py-1.5 px-3 rounded-lg text-xs font-bold transition-colors hover:scale-105"
                             style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
                             🛑 End
                           </button>
@@ -446,7 +446,7 @@ export default function LiveHubPage() {
           {rooms.map((room, i) => (
             <div
               key={room.name}
-              className="group bg-black/40 border-none rounded-none overflow-hidden transition-all duration-300"
+              className="group bg-black/40 border-none rounded-none overflow-hidden transition-colors duration-300"
               style={{ "--room-color": room.color } as React.CSSProperties}
             >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
@@ -500,7 +500,7 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-all hover:scale-105 bg-black/5 border border-black/15 text-black hover:bg-black/10 cursor-pointer"
+                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-black/5 border border-black/15 text-black hover:bg-black/10 cursor-pointer"
                 >
                   COPY LINK
                 </button>
@@ -533,7 +533,7 @@ export default function LiveHubPage() {
                     />
                   </div>
                   <button type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
                     ALERT ME 🔔
                   </button>
                 </form>

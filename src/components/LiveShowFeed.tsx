@@ -252,7 +252,7 @@ export default function LiveShowFeed() {
               <button
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
-                className={`relative aspect-square overflow-hidden border transition-all duration-300 cursor-pointer group ${isActive
+                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive
                     ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50"
                     : isNew
                       ? "border-red-500/50"
@@ -300,7 +300,7 @@ export default function LiveShowFeed() {
             .map((post) => (
               <div
                 key={post.id}
-                className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-all hover:bg-white/[0.04]"
+                className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]"
               >
                 <div
                   className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-[var(--font-size-2xs)] font-bold border border-[var(--color-accent)]/40  text-[var(--color-accent)] bg-[var(--color-accent)]/10"

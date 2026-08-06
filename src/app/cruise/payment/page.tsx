@@ -231,7 +231,7 @@ export default function CruisePaymentPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#ff0000] hover:bg-[#cc0000] text-white text-sm font-black px-12 py-3.5 uppercase tracking-widest rounded-full transition-all shadow-[0_0_20px_rgba(255,0,0,0.3)] disabled:opacity-50 cursor-pointer text-center block mx-auto"
+                className="bg-[#ff0000] hover:bg-[#cc0000] text-white text-sm font-black px-12 py-3.5 uppercase tracking-widest rounded-full transition-colors shadow-[0_0_20px_rgba(255,0,0,0.3)] disabled:opacity-50 cursor-pointer text-center block mx-auto"
               >
                 {loading ? "Processing..." : "Submit"}
               </button>

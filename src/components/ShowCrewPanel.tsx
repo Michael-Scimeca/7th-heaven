@@ -155,7 +155,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <button
             key={tab.id}
             onClick={() => setActiveSection(tab.id)}
-            className={`flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-1.5
+            className={`flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer flex items-center justify-center gap-1.5
               ${activeSection === tab.id
                 ? ' text-[var(--color-accent)] bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]'
                 : 'text-white/25 hover:text-white/50 hover:bg-white/[0.02]'
@@ -183,7 +183,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
               <>
                 <div className="space-y-1.5 mb-3">
                   {data.crew.map((c, i) => (
-                    <div key={i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-all ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
+                    <div key={i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-colors ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
                       <button onClick={() => toggleConfirm(i)} className="cursor-pointer shrink-0" title={c.confirmed ? 'Confirmed' : 'Click to confirm'}>
                         {c.confirmed ? <span className="text-emerald-400 text-sm">✅</span> : <span className="text-white/15 text-sm">⬜</span>}
                       </button>
@@ -247,13 +247,13 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {/* Progress bar */}
             <div className="mb-3 flex items-center gap-3">
               <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                <div className={`h-full rounded-full transition-all ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
+                <div className={`h-full rounded-full transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
               </div>
               <span className={`text-xs font-bold ${gearPct === 100 ? 'text-emerald-400' : 'text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
               {data.gear.map((item, i) => (
-                <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-all ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
+                <div key={i} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-colors ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
                   <button onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
                     {item.loaded ? <span className="text-emerald-400 text-xs">✅</span> : <span className="text-white/15 text-xs">⬜</span>}
                   </button>

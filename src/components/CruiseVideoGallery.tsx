@@ -59,7 +59,7 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${
                   selectedCategory === cat
                     ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
                     : 'bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
@@ -89,7 +89,7 @@ export default function CruiseVideoGallery() {
             <div
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
-              className="group bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1 text-left"
+              className="group bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-400/50 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-500 cursor-pointer shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:-translate-y-1 text-left"
             >
               {/* Poster Thumbnail */}
               <div className="relative aspect-video bg-black/90 overflow-hidden">
@@ -99,7 +99,7 @@ export default function CruiseVideoGallery() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-cyan-500/90 text-black font-black text-xl flex items-center justify-center pl-1 shadow-[0_0_25px_rgba(6,182,212,0.8)] group-hover:scale-110 group-hover:bg-cyan-400 transition-all duration-300">
+                  <div className="w-14 h-14 rounded-full bg-cyan-500/90 text-black font-black text-xl flex items-center justify-center pl-1 shadow-[0_0_25px_rgba(6,182,212,0.8)] group-hover:scale-110 group-hover:bg-cyan-400 transition-colors duration-300">
                     ▶
                   </div>
                 </div>
@@ -155,7 +155,7 @@ export default function CruiseVideoGallery() {
               <button
                 type="button"
                 onClick={() => setActiveVideo(null)}
-                className="text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 transition-all cursor-pointer"
+                className="text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 transition-colors cursor-pointer"
               >
                 ✕ Close Player
               </button>

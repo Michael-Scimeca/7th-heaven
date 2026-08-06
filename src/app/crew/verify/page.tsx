@@ -161,7 +161,7 @@ export default function VerifyPage() {
           <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
           <button
             onClick={() => openModal()}
-            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
+            className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
           >
             Sign In
           </button>
@@ -219,7 +219,7 @@ export default function VerifyPage() {
                   value={digit}
                   onChange={e => handleDigit(i, e.target.value)}
                   onKeyDown={e => handleKeyDown(i, e)}
-                  className={`w-11 h-14 text-center text-2xl font-black  border-2 bg-black/50 outline-none transition-all tabular-nums
+                  className={`w-11 h-14 text-center text-2xl font-black  border-2 bg-black/50 outline-none transition-colors tabular-nums
                     ${digit ? 'border-purple-500 text-purple-300 shadow-[0_0_12px_rgba(147,51,234,0.3)]' : 'border-white/15 text-white/40'}
                     focus:border-purple-400 focus:shadow-[0_0_18px_rgba(147,51,234,0.6)]`}
                 />
@@ -229,7 +229,7 @@ export default function VerifyPage() {
             <button
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
-              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
+              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
             >
               {result === 'checking' ? 'Checking...' : 'Verify PIN'}
             </button>
@@ -276,7 +276,7 @@ export default function VerifyPage() {
 
               <p className="text-emerald-400/90 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
 
-              <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-all cursor-pointer">
+              <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
                 Verify Another PIN
               </button>
             </div>
@@ -294,7 +294,7 @@ export default function VerifyPage() {
             <p className="text-white/40 text-sm mb-5">
               This PIN doesn't match any raffle winner. Ask the fan to show the email or claim page.
             </p>
-            <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-all cursor-pointer">
+            <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
               Try Again
             </button>
           </div>

@@ -153,7 +153,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       {onClose && (
         <button
           onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 flex items-center justify-center transition-all duration-300 cursor-pointer ${
+          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${
             showControls ? "opacity-100" : "opacity-0"
           }`}
           aria-label="Close"
@@ -174,7 +174,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         {/* Progress Bar */}
         <div
           ref={progressRef}
-          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-all rounded-full"
+          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-colors rounded-full"
           onClick={handleProgressClick}
         >
           <div
@@ -197,7 +197,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             {/* Play/Pause */}
             <button
               onClick={togglePlay}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all cursor-pointer"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -232,7 +232,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
                   </svg>
                 )}
               </button>
-              <div className={`flex items-center transition-all duration-200 overflow-hidden ${showVolume ? 'w-16 opacity-100' : 'w-0 opacity-0'}`}>
+              <div className={`flex items-center transition-colors duration-200 overflow-hidden ${showVolume ? 'w-16 opacity-100' : 'w-0 opacity-0'}`}>
                 <input
                   type="range"
                   min={0}

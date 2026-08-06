@@ -264,7 +264,7 @@ function TokenBadge({ token }: { token: string }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}
-      className="text-[var(--font-size-4xs)] font-mono text-white/40 bg-white/5 px-1.5 py-0.5 rounded-md cursor-pointer hover:bg-white/10 hover:text-white/60 transition-all select-all"
+      className="text-[var(--font-size-4xs)] font-mono text-white/40 bg-white/5 px-1.5 py-0.5 rounded-md cursor-pointer hover:bg-white/10 hover:text-white/60 transition-colors select-all"
       title="Click to copy"
     >
       {copied ? '✓ Copied!' : token}
@@ -306,7 +306,7 @@ function EditableSwatch({
   return (
     <div className="flex flex-col gap-1.5 group relative">
       <div
-        className={`relative w-full h-20  border flex items-end p-3 cursor-pointer transition-all hover:scale-[1.02] hover: ${isChanged ? 'border-purple-500/60 ring-2 ring-amber-500/30' : 'border-white/10'
+        className={`relative w-full h-20  border flex items-end p-3 cursor-pointer transition-colors hover:scale-[1.02] hover: ${isChanged ? 'border-purple-500/60 ring-2 ring-amber-500/30' : 'border-white/10'
           }`}
         style={{ backgroundColor: displayHex }}
         onClick={() => inputRef.current?.click()}
@@ -502,7 +502,7 @@ export default function StyleGuidePage() {
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={() => setActiveNav(item.id)}
-                className={`px-3 py-1.5 text-[var(--font-size-3xs)] font-bold uppercase tracking-widest rounded-lg transition-all shrink-0 flex items-center gap-1.5 ${activeNav === item.id
+                className={`px-3 py-1.5 text-[var(--font-size-3xs)] font-bold uppercase tracking-widest rounded-lg transition-colors shrink-0 flex items-center gap-1.5 ${activeNav === item.id
                     ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                     : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
@@ -524,13 +524,13 @@ export default function StyleGuidePage() {
                   </span>
                   <button
                     onClick={() => setShowExportModal(true)}
-                    className="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                    className="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                   >
                     Export CSS
                   </button>
                   <button
                     onClick={handleResetAll}
-                    className="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/50 text-rose-300 text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                    className="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/50 text-rose-300 text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                   >
                     Reset All
                   </button>
@@ -607,7 +607,7 @@ export default function StyleGuidePage() {
             return (
               <div
                 key={f.token}
-                className={`flex items-center gap-4 py-3 border-b group px-4 -mx-4 rounded-lg transition-all ${isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5 hover:bg-white/[0.02]'
+                className={`flex items-center gap-4 py-3 border-b group px-4 -mx-4 rounded-lg transition-colors ${isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5 hover:bg-white/[0.02]'
                   }`}
               >
                 <div className="w-14 shrink-0">
@@ -731,7 +731,7 @@ export default function StyleGuidePage() {
             const isChanged = !!spacingOverrides[s.token];
             const currentValue = spacingOverrides[s.token] || s.defaultValue;
             return (
-              <div key={s.token} className={`flex items-center gap-4 py-3 px-4 -mx-4 rounded-lg transition-all border-b ${isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5'
+              <div key={s.token} className={`flex items-center gap-4 py-3 px-4 -mx-4 rounded-lg transition-colors border-b ${isChanged ? 'border-purple-500/30 bg-purple-600/5' : 'border-white/5'
                 }`}>
                 <div className="w-40 text-[var(--font-size-3xs)] text-white/70 font-bold shrink-0">{s.label}</div>
                 <div className="flex-1 flex items-center gap-3">
@@ -743,7 +743,7 @@ export default function StyleGuidePage() {
                     onChange={(e) => handleSpacingChange(s.token, e.target.value)}
                     className="flex-1 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                   />
-                  <div className="h-6 bg-[var(--color-accent)]/30 rounded-sm transition-all" style={{ width: `${currentValue}px` }} />
+                  <div className="h-6 bg-[var(--color-accent)]/30 rounded-sm transition-colors" style={{ width: `${currentValue}px` }} />
                 </div>
                 <input
                   type="number"
@@ -797,7 +797,7 @@ export default function StyleGuidePage() {
             const isChanged = !!shadowOverrides[s.token];
             const currentValue = shadowOverrides[s.token] || s.defaultValue;
             return (
-              <div key={s.token} className={` border p-6 transition-all ${isChanged ? 'border-purple-500/40 bg-purple-600/5' : 'border-white/5 bg-[var(--color-bg-surface)]'
+              <div key={s.token} className={` border p-6 transition-colors ${isChanged ? 'border-purple-500/40 bg-purple-600/5' : 'border-white/5 bg-[var(--color-bg-surface)]'
                 }`}>
                 <div
                   className="w-full h-20 bg-[var(--color-bg-card)] mb-4 border border-white/5"
@@ -870,7 +870,7 @@ export default function StyleGuidePage() {
 
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Nav Button (Sign In)</h3>
         <div className="flex flex-wrap items-center gap-4 mb-8">
-          <button className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-all shadow-md">
+          <button className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors shadow-md">
             SIGN IN
           </button>
           <FileBadge path="src/components/Header.tsx" />
@@ -878,7 +878,7 @@ export default function StyleGuidePage() {
 
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Pill / Book Us</h3>
         <div className="flex flex-wrap items-center gap-4">
-          <button className="px-6 py-2 border-2 border-white text-white text-sm font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+          <button className="px-6 py-2 border-2 border-white text-white text-sm font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
             BOOK US
           </button>
           <FileBadge path="src/components/Header.tsx" />
@@ -1517,7 +1517,7 @@ export default function StyleGuidePage() {
                     setExportCopied(true);
                     setTimeout(() => setExportCopied(false), 2000);
                   }}
-                  className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                  className="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                 >
                   {exportCopied ? '✓ Copied to Clipboard!' : '📋 Copy to Clipboard'}
                 </button>

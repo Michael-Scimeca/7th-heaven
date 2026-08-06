@@ -28,7 +28,7 @@ export default function DevGuideLine() {
     <>
       {/* Horizontal laser guide line */}
       <div
-        className="fixed left-0 right-0 z-[999999] pointer-events-none transition-all duration-150"
+        className="fixed left-0 right-0 z-[999999] pointer-events-none transition-colors duration-150"
         style={{ top: `${topPos}px` }}
       >
         {/* Bright laser line */}
@@ -56,7 +56,7 @@ export default function DevGuideLine() {
               e.preventDefault();
               setEnabled(false);
             }}
-            className="ml-1.5 px-2 py-1 text-cyan-400 hover:text-red-400 hover:bg-red-500/20 rounded font-bold transition-all cursor-pointer text-xs leading-none z-[9999999]"
+            className="ml-1.5 px-2 py-1 text-cyan-400 hover:text-red-400 hover:bg-red-500/20 rounded font-bold transition-colors cursor-pointer text-xs leading-none z-[9999999]"
             title="Hide guide overlay (Press Alt+G to restore)"
           >
             ✕

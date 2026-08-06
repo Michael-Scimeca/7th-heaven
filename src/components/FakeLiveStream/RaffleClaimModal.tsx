@@ -81,7 +81,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             <div className="space-y-2">
               <p className="text-xs text-black/30 uppercase tracking-widest text-center mb-2">Or choose how to receive your prize</p>
               <button onClick={() => setClaimMethod('shipping')}
-                className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-all text-left">
+                className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-colors text-left">
                 <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
                 </div>
@@ -91,7 +91,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
                 </div>
               </button>
               <button onClick={() => setClaimMethod('merch_table')}
-                className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-all text-left">
+                className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-colors text-left">
                 <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-[var(--color-accent)] flex items-center justify-center shrink-0">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
                 </div>

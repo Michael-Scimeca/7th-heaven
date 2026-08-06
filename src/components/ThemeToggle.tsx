@@ -30,7 +30,7 @@ export function ThemeToggle() {
       type="button"
       aria-label="Toggle Light and Dark Mode"
       title={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
-      className="relative flex items-center justify-between w-14 h-7 p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] transition-all duration-300 hover:scale-105 shadow-sm cursor-pointer"
+      className="relative flex items-center justify-between w-14 h-7 p-1 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] transition-colors duration-300 hover:scale-105 shadow-sm cursor-pointer"
     >
       <span className="text-[11px] leading-none select-none z-10 pl-0.5">☀️</span>
       <span className="text-[11px] leading-none select-none z-10 pr-0.5">🌙</span>

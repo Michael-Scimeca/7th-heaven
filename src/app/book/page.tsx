@@ -50,7 +50,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
       <button
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3  text-lg text-left transition-all hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
+        className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3  text-lg text-left transition-colors hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
       >
         {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -75,7 +75,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = new Date(year, i + 1, 0) < new Date();
                   return (
                     <button key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-all ${isPast ? 'text-black/20 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-black/60 hover:bg-black/5 cursor-pointer'}`}
+                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-colors ${isPast ? 'text-black/20 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-black/60 hover:bg-black/5 cursor-pointer'}`}
                     >{m}</button>
                   );
                 })}
@@ -97,7 +97,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-8 w-full rounded-lg text-xs font-bold transition-all ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
+                      className={`h-8 w-full rounded-lg text-xs font-bold transition-colors ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -119,7 +119,7 @@ const InputField = ({ label, required, ...props }: { label: string; required?: b
   <div>
     <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
     <input {...props} required={required}
-      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all"
+      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors"
     />
   </div>
 );
@@ -128,7 +128,7 @@ const SelectField = ({ label, options, required, ...props }: { label: string; op
   <div>
     <label className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
     <select {...props} required={required}
-      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-all appearance-none cursor-pointer"
+      className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors appearance-none cursor-pointer"
     >
       <option value="" className="bg-white text-black">Select</option>
       {options.map(o => <option key={o} value={o} className="bg-white text-black">{o}</option>)}
@@ -145,7 +145,7 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           key={o}
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
-          className={`py-2 px-4  text-lg font-bold tracking-wide transition-all border
+          className={`py-2 px-4  text-lg font-bold tracking-wide transition-colors border
             ${value === o
               ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-md"
               : "bg-black/[0.04] border-black/15 text-black/70 hover:bg-black/10 hover:border-black/30 hover:text-black"
@@ -597,7 +597,7 @@ function BookPageContent() {
           </p>
 
           <div className="flex flex-col gap-3 w-full">
-            <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
+            <Link href="/book" className="inline-flex items-center justify-center w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]">
               Book Another Show
             </Link>
             {!isLoggedIn && (
@@ -613,7 +613,7 @@ function BookPageContent() {
                           onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button type="button" onClick={() => setEditingEmail(false)} className="text-base  text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
@@ -636,13 +636,13 @@ function BookPageContent() {
                           value={accountPassword}
                           onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button
                           type="button"
                           disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
                           onClick={handleSendPin}
-                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
+                          className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-lg font-bold uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[70px]"
                         >
                           {pinLoading ? (
                             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -663,13 +663,13 @@ function BookPageContent() {
                           value={pinCode}
                           onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-all text-center tracking-[0.2em] font-mono disabled:opacity-50"
+                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center tracking-[0.2em] font-mono disabled:opacity-50"
                         />
                         <button
                           type="button"
                           disabled={pinCode.length !== 6 || pinLoading}
                           onClick={handleVerifyPin}
-                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
+                          className="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white text-lg font-bold uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shrink-0 flex items-center justify-center min-w-[140px]"
                         >
                           {pinLoading ? (
                             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -727,14 +727,14 @@ function BookPageContent() {
                   <button
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
-                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
+                    className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
                   >
                     Create Account
                   </button>
                 </div>
               )
             )}
-            <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-all border border-white/5">
+            <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border border-white/5">
               Return to Homepage
             </Link>
           </div>
@@ -794,7 +794,7 @@ function BookPageContent() {
                     <p className="text-black/50 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                   </div>
                 </div>
-                <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
+                <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md shrink-0">
                   My Dashboard →
                 </Link>
               </div>
@@ -809,7 +809,7 @@ function BookPageContent() {
                     <p className="text-black/50 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                   </div>
                 </div>
-                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all shadow-md shrink-0">
+                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md shrink-0">
                   Planner Portal →
                 </Link>
               </div>
@@ -841,7 +841,7 @@ function BookPageContent() {
                 <button
                   type="button"
                   onClick={handleLoadLastForm}
-                  className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
+                  className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
                 >
                   ⚡ Populate
                 </button>
@@ -940,7 +940,7 @@ function BookPageContent() {
                       return (
                         <div
                           key={slot.id}
-                          className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 p-6 relative group transition-all shadow-sm hover:shadow-md"
+                          className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 p-6 relative group transition-colors shadow-sm hover:shadow-md"
                         >
                           {/* Duplicate and Remove buttons */}
                           <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -1074,7 +1074,7 @@ function BookPageContent() {
                                     } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                                 >
                                   Share Main Info
                                 </button>
@@ -1093,7 +1093,7 @@ function BookPageContent() {
                                     } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-all cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                                 >
                                   Use Separate Info
                                 </button>
@@ -1443,7 +1443,7 @@ function BookPageContent() {
                           key={option.id}
                           type="button"
                           onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                          className={`w-full text-left p-4  border transition-all cursor-pointer flex items-start gap-3 group
+                          className={`w-full text-left p-4  border transition-colors cursor-pointer flex items-start gap-3 group
                         ${isActive
                               ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
                               : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
@@ -1489,7 +1489,7 @@ function BookPageContent() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 focus:border-[var(--color-accent)] outline-none transition-all resize-none placeholder:text-black/40"
+                    className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 focus:border-[var(--color-accent)] outline-none transition-colors resize-none placeholder:text-black/40"
                   />
                   {formData.details && (
                     <div className="mt-3 flex items-center gap-2 text-base text-emerald-700">
@@ -1588,7 +1588,7 @@ function BookPageContent() {
                     <button
                       type="submit"
                       disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-all flex items-center justify-center gap-2"
+                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-colors flex items-center justify-center gap-2"
                     >
                       {submitting ? (
                         <>

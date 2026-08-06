@@ -657,7 +657,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2027)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activePriceYear === 2027
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activePriceYear === 2027
                   ? "bg-cyan-600 text-white font-black shadow-md"
                   : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
                   }`}
@@ -667,7 +667,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActivePriceYear(2028)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activePriceYear === 2028
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activePriceYear === 2028
                   ? "bg-purple-700 text-white font-black shadow-md"
                   : "bg-black/5 text-black/60 border border-black/10 hover:text-black"
                   }`}
@@ -715,7 +715,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </ul>
               <div className="pt-3 border-t border-black/10 space-y-2">
                 <p className="text-base text-black/80">
-                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className=" text-[var(--color-accent)] hover:text-black underline font-bold transition-all">info@NTDVacations.com</a>
+                  📧 <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className=" text-[var(--color-accent)] hover:text-black underline font-bold transition-colors">info@NTDVacations.com</a>
                 </p>
                 <p className="text-base text-black/80">
                   💳 <strong>Deposit:</strong> $250 per person to secure cabin.
@@ -824,7 +824,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <div
                     key={idx}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="bg-black/[0.03] border border-black/10 overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
+                    className="bg-black/[0.03] border border-black/10 overflow-hidden flex flex-col justify-between transition-colors cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
                   >
                     <div>
                       {room.image && (
@@ -859,7 +859,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       )}
                       <button
                         type="button"
-                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
+                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -894,7 +894,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <div
                         key={idx}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={` overflow-hidden flex flex-col justify-between transition-all cursor-pointer group hover:scale-[1.02] relative shadow-sm ${isYo
+                        className={` overflow-hidden flex flex-col justify-between transition-colors cursor-pointer group hover:scale-[1.02] relative shadow-sm ${isYo
                           ? 'bg-purple-100 border-2 border-purple-600 shadow-md'
                           : 'bg-black/[0.03] border border-black/10 hover:border-black/20'
                           }`}
@@ -930,7 +930,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-[var(--font-size-4xs)] text-black/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                           <button
                             type="button"
-                            className={`mt-4 w-full py-2.5 px-4  font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
+                            className={`mt-4 w-full py-2.5 px-4  font-black text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
                               ? 'bg-purple-700 hover:bg-purple-800 text-white border border-purple-600'
                               : 'bg-purple-600 hover:bg-purple-700 text-white border border-purple-500'
                               }`}
@@ -976,7 +976,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         key={tab.id}
                         type="button"
                         onClick={() => setStateroomTab(tab.id as any)}
-                        className={`w-full p-4  text-left border transition-all cursor-pointer ${stateroomTab === tab.id
+                        className={`w-full p-4  text-left border transition-colors cursor-pointer ${stateroomTab === tab.id
                           ? "bg-[var(--color-accent)]/10 border-[var(--color-accent)]/50"
                           : "bg-white border-black/10 hover:border-black/20"
                           }`}
@@ -1040,7 +1040,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           key={perk}
                           type="button"
                           onClick={() => setSuiteTab(perk)}
-                          className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${suiteTab === perk
+                          className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk
                             ? "bg-[var(--color-accent)] text-white shadow-md"
                             : "bg-transparent text-black/60 hover:text-black"
                             }`}
@@ -1182,29 +1182,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
                         <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                           {/* Name */}
-                          <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
+                          <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                             <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
                             <input type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                           {/* Phone */}
-                          <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
                             <input type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                           {/* Email */}
-                          <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address *</label>
                             <input type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                           {/* T-Shirt Size */}
-                          <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
+                          <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors relative">
                             <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
                             <select value={formData.tshirtSize1} onChange={e => setFormData({ ...formData, tshirtSize1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
                               {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                             </select>
                           </div>
                           {/* Crown & Anchor */}
-                          <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
                             <input type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
@@ -1217,7 +1217,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <div className="flex gap-3">
                               {["yes", "no"].map(opt => (
                                 <button key={opt} type="button" onClick={() => setFormData(f => ({ ...f, insurance: opt }))}
-                                  className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
+                                  className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                   {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                                 </button>
                               ))}
@@ -1229,7 +1229,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <div className="flex gap-3">
                               {["yes", "no"].map(opt => (
                                 <button key={opt} type="button" onClick={() => setFormData(f => ({ ...f, prepaidGratuities: opt }))}
-                                  className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-all cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
+                                  className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                   {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                                 </button>
                               ))}
@@ -1242,7 +1242,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {guests.map((g, i) => {
                         const guestNum = i + 2;
                         return (
-                          <div key={i} className={`booking-section-container border-b border-black/10 transition-all duration-300 ${g.active ? "bg-black/[0.01] opacity-100" : "bg-black/[0.03] opacity-80 print:booking-inactive"}`}>
+                          <div key={i} className={`booking-section-container border-b border-black/10 transition-colors duration-300 ${g.active ? "bg-black/[0.01] opacity-100" : "bg-black/[0.03] opacity-80 print:booking-inactive"}`}>
                             {/* Section Header with checkbox activator */}
                             <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center gap-3">
                               <input
@@ -1260,29 +1260,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             {g.active ? (
                               <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                                 {/* Name */}
-                                <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all col-span-2">
+                                <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                                   <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
                                   <input type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 {/* Phone */}
-                                <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                                   <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
                                   <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 {/* Email */}
-                                <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                                   <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
                                   <input type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 {/* T-Shirt Size */}
-                                <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all relative">
+                                <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors relative">
                                   <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
                                   <select value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
                                     {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                                   </select>
                                 </div>
                                 {/* Crown & Anchor */}
-                                <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                                <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                                   <label className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
                                   <input type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
@@ -1301,7 +1301,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <div className="booking-section-header bg-black/[0.05] px-4 py-2 border-b border-black/10">
                           <span className="text-xs font-black uppercase tracking-wider text-black">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
                         </div>
-                        <div className="p-3.5 focus-within:bg-cyan-500/10 transition-all">
+                        <div className="p-3.5 focus-within:bg-cyan-500/10 transition-colors">
                           <select value={formData.cabinPreference} onChange={e => setFormData(f => ({ ...f, cabinPreference: e.target.value }))} required
                             className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
                             <option value="" disabled className="bg-white text-black">-- Select Cabin Category --</option>
@@ -1448,7 +1448,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {/* SIGNATURE FIELDS */}
                         <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-t border-black/10">
                           {/* E-Signature */}
-                          <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-3.5 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-all">
+                          <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-3.5 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
                             <input
                               type="text"
@@ -1492,12 +1492,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                         <button type="submit" disabled={signupStatus === "submitting"}
-                          className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md disabled:opacity-70 cursor-pointer">
+                          className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md disabled:opacity-70 cursor-pointer">
                           {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                         </button>
 
                         <button type="button" onClick={() => window.print()}
-                          className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-all shadow-md cursor-pointer text-center">
+                          className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
                           🖨️ Print / Save Booking Form
                         </button>
                       </div>
@@ -1523,7 +1523,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       href="https://www.chicagomusiccruise.com/payment.html"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-all shadow-md cursor-pointer"
+                      className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-colors shadow-md cursor-pointer"
                     >
                       Go to Payment Portal
                     </a>
@@ -1659,7 +1659,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </a>
                     <a
                       href="mailto:info@NTDVacations.com?subject=Join Band Lineup Request"
-                      className="text-[var(--font-size-3xs)] text-white/50 uppercase tracking-widest hover:text-white transition-all font-bold"
+                      className="text-[var(--font-size-3xs)] text-white/50 uppercase tracking-widest hover:text-white transition-colors font-bold"
                     >
                       Inquiries
                     </a>
@@ -1686,7 +1686,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activeItinYear === 2027
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activeItinYear === 2027
                   ? "bg-cyan-600 text-white font-black shadow-md"
                   : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
                   }`}
@@ -1696,7 +1696,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
-                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${activeItinYear === 2028
+                className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activeItinYear === 2028
                   ? "bg-purple-700 text-white font-black shadow-md"
                   : "bg-black/5 text-black/70 border border-black/10 hover:text-black"
                   }`}
@@ -1728,7 +1728,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "grid" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-black/[0.03] border border-black/10 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1 shadow-sm">
+                  <div key={idx} className="bg-black/[0.03] border border-black/10 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1 shadow-sm">
                     <div className="h-48 w-full relative overflow-hidden bg-black/60">
                       <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/30 z-10" />
                       {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
@@ -1770,7 +1770,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <button
                         type="button"
                         onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                        className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-all cursor-pointer border-none"
+                        className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-colors cursor-pointer border-none"
                       >
                         Book Cruise & Visit {PORTS_DATA[activeSpotlightPort].name.split(',')[0]}
                       </button>
@@ -1786,7 +1786,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       key={idx}
                       type="button"
                       onClick={() => setActiveSpotlightPort(idx)}
-                      className={`w-full p-4  border-none text-left transition-all cursor-pointer flex items-center gap-4 ${activeSpotlightPort === idx
+                      className={`w-full p-4  border-none text-left transition-colors cursor-pointer flex items-center gap-4 ${activeSpotlightPort === idx
                         ? "bg-cyan-500/10 shadow-md"
                         : "bg-[var(--color-bg-deep)] hover:bg-white/5"
                         }`}
@@ -1816,7 +1816,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
                     }}
-                    className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all"
+                    className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-colors"
                   >
                     ◀
                   </button>
@@ -1825,7 +1825,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
                     }}
-                    className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all"
+                    className="w-10 h-10 bg-white/5 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-colors"
                   >
                     ▶
                   </button>
@@ -1839,7 +1839,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   {PORTS_DATA.map((port, idx) => (
                     <div
                       key={idx}
-                      className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 group hover:-translate-y-1"
+                      className="w-[320px] md:w-[380px] shrink-0 snap-start bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/40 rounded-3xl overflow-hidden flex flex-col justify-between transition-colors duration-300 group hover:-translate-y-1"
                     >
                       <div className="h-52 w-full relative overflow-hidden bg-black/60">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30 z-10" />
@@ -1862,7 +1862,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "list" && (
               <div className="space-y-4 animate-fadeIn text-left max-w-5xl mx-auto">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={idx} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/30 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-all duration-300 hover:bg-white/[0.02]">
+                  <div key={idx} className="bg-[var(--color-bg-surface)] border border-white/10 hover:border-cyan-500/30 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6 transition-colors duration-300 hover:bg-white/[0.02]">
                     <div className="w-full md:w-48 h-32 md:h-28 overflow-hidden bg-black relative shrink-0">
                       {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover hover:scale-105 transition-transform" />}
                       <span className="absolute top-2 left-2 px-2 py-0.5 bg-black/80 rounded text-[var(--font-size-4xs)] font-black text-cyan-400 uppercase">
@@ -1878,7 +1878,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     <button
                       type="button"
                       onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
-                      className="shrink-0 px-4 py-2 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                      className="shrink-0 px-4 py-2 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
                     >
                       Book →
                     </button>
@@ -1929,7 +1929,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
-                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
+                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
                     }`}
                 >
                   Included (Free)
@@ -1937,7 +1937,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setFoodTypeTab("paid")}
-                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-all cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
+                  className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
                     }`}
                 >
                   Specialty (With Fee)
@@ -2017,7 +2017,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setBarTab("bars")}
-                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
+                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
                     }`}
                 >
                   <span>🍸 Bars & Clubs</span>
@@ -2026,7 +2026,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <button
                   type="button"
                   onClick={() => setBarTab("entertainment")}
-                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-all cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
+                  className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
                     }`}
                 >
                   <span>🎭 Entertainment</span>

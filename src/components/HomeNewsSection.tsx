@@ -53,7 +53,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <div className="lg:col-span-7 bg-[var(--bg-color)] border border-[var(--border-color)] p-8 md:p-10 relative overflow-hidden group hover:border-[var(--color-accent)] transition-all">
+            <div className="lg:col-span-7 bg-[var(--bg-color)] border border-[var(--border-color)] p-8 md:p-10 relative overflow-hidden group hover:border-[var(--color-accent)] transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-md">
                   ⭐ Featured Announcement
@@ -77,7 +77,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               <div
                 key={i}
                 onClick={() => setSelectedArticle(item)}
-                className="bg-[var(--bg-color)] border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md group"
+                className="bg-[var(--bg-color)] border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group"
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest  text-[var(--color-accent)]">

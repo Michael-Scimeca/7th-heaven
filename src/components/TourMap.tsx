@@ -703,7 +703,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         {!isMapGradUiOpen ? (
           <button
             onClick={() => setIsMapGradUiOpen(true)}
-            className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover: text-[var(--color-accent)] transition-all cursor-pointer"
+            className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover: text-[var(--color-accent)] transition-colors cursor-pointer"
             title="Configure Map Directional Black Gradient"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 animate-pulse" />
@@ -742,7 +742,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   <button
                     key={p.id}
                     onClick={() => selectPresetMode(p.id as any)}
-                    className="px-1.5 py-1 text-[8.5px] font-extrabold uppercase tracking-wider rounded border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-all text-center truncate cursor-pointer"
+                    className="px-1.5 py-1 text-[8.5px] font-extrabold uppercase tracking-wider rounded border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center truncate cursor-pointer"
                   >
                     {p.label}
                   </button>
@@ -763,7 +763,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   <button
                     key={d.label}
                     onClick={() => d.setter(!d.state)}
-                    className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-all cursor-pointer ${d.state
+                    className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-colors cursor-pointer ${d.state
                       ? "bg-purple-600/40 border-purple-400 text-white shadow-[0_0_8px_rgba(168,85,247,0.3)]"
                       : "bg-white/5 border-white/5 text-white/40 hover:bg-white/10"
                       }`}
@@ -859,7 +859,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             {/* Copy CSS Button */}
             <button
               onClick={copyMapGradCSS}
-              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-all shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
             >
               {mapGradCopied ? "✓ Copied Map Gradient CSS!" : "Copy Map Gradient CSS"}
             </button>
@@ -869,14 +869,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
 
       {/* Legend */}
-      <div className="group absolute bottom-4 left-8 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-all duration-300">
+      <div className="group absolute bottom-4 left-8 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
         {/* Header - always visible, click to toggle */}
         <button
           onClick={() => setLegendOpen(o => !o)}
           className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover: text-[var(--color-accent)] transition-colors"
         >
           <span className="text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
-          <svg className={`w-3.5 h-3.5 transition-all duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          <svg className={`w-3.5 h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
         </button>
         {/* Expandable content */}
         {legendOpen && (
@@ -899,7 +899,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         return next;
                       });
                     }}
-                    className={`flex items-center gap-1.5 transition-all duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
+                    className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
                       }`}
                   >
                     <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
@@ -930,7 +930,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           type="button"
           aria-label="Zoom In"
           title="Zoom In"
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
         >
           <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19" />
@@ -942,7 +942,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           type="button"
           aria-label="Zoom Out"
           title="Zoom Out"
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-all cursor-pointer active:scale-95 select-none"
+          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
         >
           <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />

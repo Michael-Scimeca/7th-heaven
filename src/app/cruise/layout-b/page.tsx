@@ -64,7 +64,7 @@ export default function CruiseLayoutB() {
                     <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option>
                   </select>
                   <button type="submit" disabled={signupStatus === "submitting"}
-                    className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer whitespace-nowrap">
+                    className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer whitespace-nowrap">
                     Count Me In
                   </button>
                 </div>
@@ -100,10 +100,10 @@ export default function CruiseLayoutB() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {ISLANDS.map(island => (
-            <div key={island.name} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-cyan-500/30 transition-all group">
+            <div key={island.name} className="bg-white/[0.02] border border-white/5 overflow-hidden hover:border-cyan-500/30 transition-colors group">
               {/* Island photo placeholder */}
               <div className="aspect-[4/3] bg-gradient-to-br from-cyan-900/30 to-blue-900/30 relative overflow-hidden">
-                <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt={island.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
+                <Image width={200} height={200} unoptimized src="/images/cruise-hero.png" alt={island.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-colors duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <span className="text-2xl">{island.icon}</span>
@@ -131,7 +131,7 @@ export default function CruiseLayoutB() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {STEPS.map((step, i) => (
-            <div key={step.n} className="relative text-center p-6 bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-all group">
+            <div key={step.n} className="relative text-center p-6 bg-white/[0.02] border border-white/5 hover:border-[var(--color-accent)]/30 transition-colors group">
               {i < 3 && <div className="hidden md:block absolute top-1/2 -right-3 w-6 text-white/10 text-xl">→</div>}
               <span className="text-3xl block mb-3">{step.icon}</span>
               <span className="text-xs font-black uppercase tracking-[0.2em]  text-[var(--color-accent)]">Step {step.n}</span>

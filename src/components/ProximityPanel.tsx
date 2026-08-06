@@ -167,7 +167,7 @@ export default function ProximityPanel() {
             onClick={() => setNotificationsEnabled(!notificationsEnabled)}
             className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${notificationsEnabled ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
           >
-            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${notificationsEnabled ? "left-7" : "left-1"}`} />
+            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-colors duration-300 ${notificationsEnabled ? "left-7" : "left-1"}`} />
           </button>
         </div>
 
@@ -201,7 +201,7 @@ export default function ProximityPanel() {
         <button
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
-          className="w-full px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+          className="w-full px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
         >
           {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
         </button>
@@ -236,7 +236,7 @@ export default function ProximityPanel() {
               {nearbyShows.map(show => (
                 <div
                   key={show.id}
-                  className="p-4 bg-white/5 border border-white/10 hover:border-blue-500/40 transition-all cursor-pointer group"
+                  className="p-4 bg-white/5 border border-white/10 hover:border-blue-500/40 transition-colors cursor-pointer group"
                   onClick={() => loadAttendees(show)}
                 >
                   <div className="flex items-center justify-between">
@@ -259,7 +259,7 @@ export default function ProximityPanel() {
                     </div>
                     <button
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-all border ${myStatus && selectedShow?.id === show.id
+                      className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id
                         ? "bg-blue-600 text-white border-blue-600"
                         : "bg-white/10 text-white border-white/15 hover:bg-blue-500 hover:text-black hover:border-blue-500"
                         }`}

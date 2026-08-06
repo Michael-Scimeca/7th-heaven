@@ -154,7 +154,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "cancellation"
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "cancellation"
               ? "bg-rose-600 border-rose-600 text-white shadow-md"
               : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
               }`}
@@ -165,7 +165,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "time_change"
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "time_change"
               ? "bg-purple-700 border-purple-600 text-white shadow-md"
               : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
               }`}
@@ -176,7 +176,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "venue_change"
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "venue_change"
               ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
               : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
               }`}
@@ -187,7 +187,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-all cursor-pointer ${alertType === "announcement"
+            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "announcement"
               ? "bg-cyan-600 border-cyan-600 text-white shadow-md"
               : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-black/50 hover:text-[var(--text-color)]"
               }`}
@@ -242,7 +242,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div
             onClick={() => setSendSms(!sendSms)}
-            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+            className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
               }`}
           >
             <div className="flex items-center gap-2">
@@ -256,7 +256,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
           <div
             onClick={() => setSendEmail(!sendEmail)}
-            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+            className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
               }`}
           >
             <div className="flex items-center gap-2">
@@ -270,7 +270,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
 
           <div
             onClick={() => setSendDashboardBanner(!sendDashboardBanner)}
-            className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${sendDashboardBanner ? "bg-cyan-500/15 border-cyan-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
+            className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendDashboardBanner ? "bg-cyan-500/15 border-cyan-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
               }`}
           >
             <div className="flex items-center gap-2">
@@ -353,7 +353,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           type="button"
           onClick={handleDispatch}
           disabled={isSending}
-          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-black text-[10px] uppercase tracking-widest rounded-lg transition-all shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-black text-[10px] uppercase tracking-widest rounded-lg transition-colors shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
         >
           {isSending ? (
             <>

@@ -432,7 +432,7 @@ export default function LoginModal() {
         {/* Close */}
         <button
           onClick={closeModal}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer z-20"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
         >
           ✕
         </button>
@@ -514,7 +514,7 @@ export default function LoginModal() {
               <div className="relative grid grid-cols-4 p-1 bg-white/10 backdrop-blur-md border border-white/20 shadow-inner select-none">
                 {/* Animated Sliding Highlight Pill */}
                 <div
-                  className="absolute top-1 bottom-1 left-1 w-[calc(25%-2px)] rounded-lg transition-all duration-300 ease-out pointer-events-none bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]"
+                  className="absolute top-1 bottom-1 left-1 w-[calc(25%-2px)] rounded-lg transition-colors duration-300 ease-out pointer-events-none bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]"
                   style={{
                     transform:
                       loginRole === 'crew'
@@ -613,7 +613,7 @@ export default function LoginModal() {
                   }
                   setAdminLoading(false);
                 }}
-                className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.2em] transition-all disabled:opacity-50 cursor-pointer rounded-lg shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:shadow-[0_0_28px_rgba(147,51,234,0.5)]"
+                className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.2em] transition-colors disabled:opacity-50 cursor-pointer rounded-lg shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:shadow-[0_0_28px_rgba(147,51,234,0.5)]"
               >
                 {adminLoading ? '...' : 'Sign In as Admin'}
               </button>
@@ -623,7 +623,7 @@ export default function LoginModal() {
                 <button
                   type="button"
                   onClick={() => { setAdminEmail('admin@7thheaven.com'); setAdminPassword('password123'); }}
-                  className="w-full py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-purple-300 transition-all cursor-pointer"
+                  className="w-full py-2 bg-purple-600/15 hover:bg-purple-600/25 border border-purple-500/30 rounded-lg text-[var(--font-size-3xs)] font-bold uppercase tracking-wider text-purple-300 transition-colors cursor-pointer"
                 >
                   Dev: Auto-fill Admin
                 </button>
@@ -654,7 +654,7 @@ export default function LoginModal() {
                   <button
                     type="button"
                     onClick={() => setPinCode(devUser.pin)}
-                    className="w-full py-2.5 bg-purple-600/10 hover:bg-purple-600/20 border border-purple-500/30 rounded-lg text-xs font-bold uppercase tracking-wider text-purple-200 hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-purple-600/10 hover:bg-purple-600/20 border border-purple-500/30 rounded-lg text-xs font-bold uppercase tracking-wider text-purple-200 hover:text-black transition-colors cursor-pointer flex items-center justify-center gap-2"
                   >
                     Dev: Auto-fill PIN ({devUser.pin})
                   </button>
@@ -681,7 +681,7 @@ export default function LoginModal() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
+                className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
               >
                 {loading ? "..." : "Verify Code"}
               </button>
@@ -738,7 +738,7 @@ export default function LoginModal() {
               </p>
               <button
                 onClick={closeModal}
-                className="w-full py-3 border border-black/10 text-black font-bold text-sm uppercase tracking-widest hover:bg-black/5 transition-all cursor-pointer"
+                className="w-full py-3 border border-black/10 text-black font-bold text-sm uppercase tracking-widest hover:bg-black/5 transition-colors cursor-pointer"
               >
                 Got it, thanks
               </button>
@@ -796,14 +796,14 @@ export default function LoginModal() {
                         <button
                           type="button"
                           onClick={() => setWantNotifications(!wantNotifications)}
-                          className={`flex items-center gap-2.5 w-full px-3.5 py-2.5  border transition-all cursor-pointer ${wantNotifications
+                          className={`flex items-center gap-2.5 w-full px-3.5 py-2.5  border transition-colors cursor-pointer ${wantNotifications
                             ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/50'
                             : 'bg-white/5 border-white/15 hover:border-white/30'
                             }`}
                         >
-                          <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/20'
+                          <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/20'
                             }`}>
-                            <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${wantNotifications ? 'left-[14px]' : 'left-0.5'
+                            <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${wantNotifications ? 'left-[14px]' : 'left-0.5'
                               }`} />
                           </span>
                           <span className={`text-[13px] font-bold leading-tight text-left ${wantNotifications ? '!text-white' : 'text-white/90'}`}>
@@ -813,14 +813,14 @@ export default function LoginModal() {
                         <button
                           type="button"
                           onClick={() => setWantNewsletter(!wantNewsletter)}
-                          className={`flex items-center gap-2.5 w-full px-3.5 py-2.5  border transition-all cursor-pointer ${wantNewsletter
+                          className={`flex items-center gap-2.5 w-full px-3.5 py-2.5  border transition-colors cursor-pointer ${wantNewsletter
                             ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/50'
                             : 'bg-white/5 border-white/15 hover:border-white/30'
                             }`}
                         >
-                          <span className={`w-8 h-4 rounded-full relative transition-all flex-shrink-0 ${wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/20'
+                          <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/20'
                             }`}>
-                            <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${wantNewsletter ? 'left-[14px]' : 'left-0.5'
+                            <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${wantNewsletter ? 'left-[14px]' : 'left-0.5'
                               }`} />
                           </span>
                           <span className={`text-[13px] font-bold leading-tight text-left ${wantNewsletter ? '!text-white' : 'text-white/90'}`}>
@@ -963,7 +963,7 @@ export default function LoginModal() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+                className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
               >
                 {loading ? "..." : modalMode === "forgot" ? (forgotPinSent ? "Reset Password" : "Send Reset PIN") : modalMode === "login" ? "SIGN IN" : "JOIN AS FAN MEMBER"}
               </button>
@@ -988,7 +988,7 @@ export default function LoginModal() {
                 <button
                   type="button"
                   onClick={() => handleOAuthLogin('google')}
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black/60 hover:bg-white/10 border border-white/25 hover:border-[var(--color-accent)] transition-all cursor-pointer shadow-sm text-white text-xs font-bold"
+                  className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black/60 hover:bg-white/10 border border-white/25 hover:border-[var(--color-accent)] transition-colors cursor-pointer shadow-sm text-white text-xs font-bold"
                   title="Sign in with Google"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.409 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" /><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.108c1.96 3.96 6.047 6.632 10.763 6.632 3.211 0 6.081-1.12 8.08-3.231l-4.04-2.764Z" /><path fill="#4A90E2" d="M23.606 12.276c0-.82-.07-1.536-.25-2.228H12v4.61h6.58c-.315 1.554-1.145 2.71-2.26 3.518l4.04 2.764c2.464-2.366 3.246-6.062 3.246-8.664Z" /><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.905 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z" /></svg>
@@ -997,7 +997,7 @@ export default function LoginModal() {
                 <button
                   type="button"
                   onClick={() => handleOAuthLogin('facebook')}
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black/60 hover:bg-white/10 border border-white/25 hover:border-[var(--color-accent)] transition-all cursor-pointer shadow-sm text-white text-xs font-bold"
+                  className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black/60 hover:bg-white/10 border border-white/25 hover:border-[var(--color-accent)] transition-colors cursor-pointer shadow-sm text-white text-xs font-bold"
                   title="Sign in with Facebook"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
@@ -1006,7 +1006,7 @@ export default function LoginModal() {
                 <button
                   type="button"
                   onClick={() => handleOAuthLogin('apple')}
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black/60 hover:bg-white/10 border border-white/25 hover:border-[var(--color-accent)] transition-all cursor-pointer shadow-sm text-white text-xs font-bold"
+                  className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black/60 hover:bg-white/10 border border-white/25 hover:border-[var(--color-accent)] transition-colors cursor-pointer shadow-sm text-white text-xs font-bold"
                   title="Sign in with Apple"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
@@ -1048,7 +1048,7 @@ export default function LoginModal() {
                   await login("admin@7thheaven.com", "password123");
                   window.location.href = "/admin";
                 }}
-                className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-all text-center cursor-pointer"
+                className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
               >
                 Admin
               </button>
@@ -1062,7 +1062,7 @@ export default function LoginModal() {
                   await login("crew@7thheaven.com", "password123");
                   window.location.href = "/crew";
                 }}
-                className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-emerald-200 hover:text-white transition-all text-center cursor-pointer"
+                className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
               >
                 Crew
               </button>
@@ -1076,7 +1076,7 @@ export default function LoginModal() {
                   await login("planner@7thheaven.com", "password123");
                   window.location.href = "/planner";
                 }}
-                className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-all text-center cursor-pointer"
+                className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
               >
                 Planner
               </button>
@@ -1090,7 +1090,7 @@ export default function LoginModal() {
                   await login("cruise@7thheaven.com", "password123");
                   window.location.href = "/cruise/cruise_guest";
                 }}
-                className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-sky-200 hover:text-white transition-all text-center cursor-pointer"
+                className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
               >
                 Cruise
               </button>
@@ -1104,7 +1104,7 @@ export default function LoginModal() {
                   await login("fan@7thheaven.com", "password123");
                   window.location.href = "/fans/super_fan";
                 }}
-                className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-blue-200 hover:text-white transition-all text-center cursor-pointer"
+                className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
               >
                 Fan
               </button>

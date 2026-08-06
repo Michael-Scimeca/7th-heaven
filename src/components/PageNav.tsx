@@ -190,7 +190,7 @@ export function PageNav() {
                           localStorage.setItem('7h_dev_bypass', 'true');
                         }
                       }}
-                      className={`px-3 py-2  transition-all flex items-center justify-between group ${isActive
+                      className={`px-3 py-2  transition-colors flex items-center justify-between group ${isActive
                           ? "bg-[var(--color-accent)] text-white font-black shadow-md"
                           : "text-[var(--text-color)] font-extrabold hover:bg-[var(--color-accent)]/10 hover: text-[var(--color-accent)]"
                         }`}
@@ -207,7 +207,7 @@ export function PageNav() {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-all duration-300 font-bold uppercase tracking-widest text-sm ${isOpen
+        className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-colors duration-300 font-bold uppercase tracking-widest text-sm ${isOpen
             ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
             : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
           }`}

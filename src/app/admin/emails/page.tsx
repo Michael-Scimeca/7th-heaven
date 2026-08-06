@@ -64,7 +64,7 @@ export default function EmailPreviewPage() {
           <div className="px-4 pt-4 flex gap-1.5 flex-wrap">
             {categories.map(c => (
               <button key={c} onClick={() => setActiveCategory(c)}
-                className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full transition-all cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover:text-white/60'
+                className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] text-white' : 'bg-white/[0.03] text-white/30 hover:text-white/60'
                   }`}
               >{c}</button>
             ))}
@@ -74,7 +74,7 @@ export default function EmailPreviewPage() {
           <CustomScrollbar className="p-4 space-y-1.5">
             {filtered.map(t => (
               <button key={t.id} onClick={() => setActiveId(t.id)}
-                className={`w-full text-left p-4  transition-all cursor-pointer group ${activeId === t.id
+                className={`w-full text-left p-4  transition-colors cursor-pointer group ${activeId === t.id
                   ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30'
                   : 'hover:bg-white/[0.03] border border-transparent'
                   }`}
@@ -111,7 +111,7 @@ export default function EmailPreviewPage() {
 
             <div className="flex items-center gap-4">
               {/* Test Email Form */}
-              <div className="flex items-center gap-2 bg-white/[0.03] border border-white/10 rounded-lg pl-3 pr-1 py-1 group focus-within:border-[var(--color-accent)]/50 transition-all">
+              <div className="flex items-center gap-2 bg-white/[0.03] border border-white/10 rounded-lg pl-3 pr-1 py-1 group focus-within:border-[var(--color-accent)]/50 transition-colors">
                 <input
                   type="email"
                   placeholder="test@example.com"
@@ -122,7 +122,7 @@ export default function EmailPreviewPage() {
                 <button
                   onClick={handleSendTest}
                   disabled={sending}
-                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-md transition-all cursor-pointer"
+                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-md transition-colors cursor-pointer"
                 >
                   {sending ? "Sending..." : "Send Test"}
                 </button>
@@ -132,11 +132,11 @@ export default function EmailPreviewPage() {
 
               <div className="flex items-center gap-2">
                 <button onClick={() => setViewMode("preview")}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
+                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
                     }`}
                 >Preview</button>
                 <button onClick={() => setViewMode("code")}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-all cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
+                  className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] text-white' : 'text-white/30 hover:text-white/60'
                     }`}
                 >HTML</button>
               </div>

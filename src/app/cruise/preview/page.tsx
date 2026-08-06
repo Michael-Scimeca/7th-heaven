@@ -20,7 +20,7 @@ function VersionA() {
       <div className="flex gap-2">
         {guests.map((guest, i) => (
           <button key={i} type="button" onClick={() => setActiveTab(i)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${activeTab === i
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-colors cursor-pointer ${activeTab === i
                 ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                 : "bg-white/[0.04] border border-white/10 text-white/40 hover:text-white/60"
               }`}>
@@ -55,7 +55,7 @@ function VersionB() {
         {labels.map((label, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center gap-1 cursor-pointer" onClick={() => setStep(i)}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${step === i ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                   : step > i ? "bg-[var(--color-accent)]/30 text-white"
                     : "bg-white/5 border border-white/10 text-white/30"
                 }`}>{step > i ? "✓" : i + 1}</div>
@@ -147,7 +147,7 @@ function VersionE() {
       {guests.map((g, i) => (
         <div key={i} className="overflow-hidden border border-white/5">
           <button type="button" onClick={() => setOpen(open === i ? -1 : i)}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-all ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
+            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"
               }`}>
             <span className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: COLORS[i] }}>
               {g.name ? g.name[0].toUpperCase() : (i + 1)}

@@ -146,7 +146,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-all cursor-pointer border flex items-center gap-2 ${activeTab === tab
+              className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer border flex items-center gap-2 ${activeTab === tab
                   ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
                   : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
                 }`}
@@ -166,7 +166,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
           <button
             type="button"
             onClick={handleCopyEmails}
-            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] border border-[var(--color-accent)] text-white text-xs font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] border border-[var(--color-accent)] text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
             title="Copy all email addresses for BCC email dispatch"
           >
             <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
@@ -175,7 +175,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
           <button
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-black/5 hover:bg-black/10 border border-black/15 text-black font-bold uppercase text-xs transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-3.5 py-2 bg-black/5 hover:bg-black/10 border border-black/15 text-black font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5"
           >
             <span></span> Export CSV
           </button>

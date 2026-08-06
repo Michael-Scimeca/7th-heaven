@@ -264,7 +264,7 @@ export default function AdminLegalPage() {
                 <button
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
-                  className={`w-full flex items-center gap-4 p-4 border  text-left transition-all duration-200 cursor-pointer ${isSelected
+                  className={`w-full flex items-center gap-4 p-4 border  text-left transition-colors duration-200 cursor-pointer ${isSelected
                     ? `border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_4px_20px_rgba(255,10,61,0.1)]`
                     : `border-black/10 bg-white hover:border-black/20 hover:bg-white/80`
                     }`}
@@ -290,7 +290,7 @@ export default function AdminLegalPage() {
           </div>
 
           {/* Right Detailed Panel */}
-          <div className={`border  p-8 lg:p-10 transition-all duration-300 bg-white ${active.borderColor}`}>
+          <div className={`border  p-8 lg:p-10 transition-colors duration-300 bg-white ${active.borderColor}`}>
 
             {/* Header info */}
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-black/10">

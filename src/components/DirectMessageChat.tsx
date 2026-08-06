@@ -118,7 +118,7 @@ export default function DirectMessageChat() {
       {/* Floating Chat Bubble Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative w-12 h-12 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] hover:scale-105 transition-all text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-[var(--color-accent)]/30 group"
+        className="relative w-12 h-12 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] hover:scale-105 transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-[var(--color-accent)]/30 group"
       >
         {open ? (
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
@@ -203,7 +203,7 @@ export default function DirectMessageChat() {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 !bg-white border border-black/15 outline-none px-3 py-1.5 text-xs !text-black placeholder:!text-black/50 transition-all font-medium focus:border-cyan-600"
+              className="flex-1 !bg-white border border-black/15 outline-none px-3 py-1.5 text-xs !text-black placeholder:!text-black/50 transition-colors font-medium focus:border-cyan-600"
             />
             <button
               type="submit"

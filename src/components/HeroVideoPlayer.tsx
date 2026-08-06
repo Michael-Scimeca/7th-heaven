@@ -236,7 +236,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         </video>
       )}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none transition-all duration-300"
+        className="absolute inset-0 z-[1] pointer-events-none transition-colors duration-300"
         style={{
           backgroundColor: tintColor,
           opacity: tintOpacity,
@@ -246,7 +246,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
       {/* ── Bottom-Up Black Gradient Overlay ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-all duration-150"
+        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-colors duration-150"
         style={{
           height: `${gradHeight}%`,
           background: `linear-gradient(to top, ${gradColor} 0%, ${hexToRgba(gradColor, gradOpacity * 0.75)} ${gradMidstop}%, transparent 100%)`,
@@ -258,7 +258,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         {!isGradUiOpen ? (
           <button
             onClick={() => setIsGradUiOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/90 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] cursor-pointer group"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/90 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] cursor-pointer group"
             title="Adjust Hero Bottom-Up Black Gradient"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-t from-purple-500 to-pink-500 animate-pulse" />
@@ -297,7 +297,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                       updateGradMidstop(p.midstop);
                       updateGradColor(p.color);
                     }}
-                    className="px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-all text-left truncate cursor-pointer"
+                    className="px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-left truncate cursor-pointer"
                   >
                     {p.name}
                   </button>
@@ -396,7 +396,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             {/* Copy CSS Button */}
             <button
               onClick={copyGradCSS}
-              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-all shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
             >
               {gradCopied ? "✓ Copied CSS to Clipboard!" : "Copy Gradient CSS"}
             </button>
@@ -410,7 +410,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           {!isCustomizerOpen ? (
             <button
               onClick={() => setIsCustomizerOpen(true)}
-              className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
+              className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
             >
               <svg
@@ -422,7 +422,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-white/80 group-hover: text-[var(--color-accent)] group-hover:rotate-45 transition-all duration-300"
+                className="text-white/80 group-hover: text-[var(--color-accent)] group-hover:rotate-45 transition-colors duration-300"
               >
                 <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
                 <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
@@ -466,7 +466,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     <button
                       key={preset.color}
                       onClick={() => updateColor(preset.color)}
-                      className={`w-6 h-6 rounded-full border transition-all hover:scale-115 relative cursor-pointer flex items-center justify-center`}
+                      className={`w-6 h-6 rounded-full border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
                       style={{
                         backgroundColor: preset.color,
                         borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
@@ -519,7 +519,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     <button
                       key={mode}
                       onClick={() => updateBlend(mode)}
-                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-all cursor-pointer ${mixBlendMode === mode
+                      className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode
                         ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] font-black"
                         : "bg-white/5 border-white/5 text-white/60 hover:bg-white/10 hover:border-white/10"
                         }`}
@@ -540,7 +540,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               {/* Copy CSS Button */}
               <button
                 onClick={copyCSS}
-                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest transition-all shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {copied ? (
                   <>

@@ -491,14 +491,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             <div className="bg-black/[0.03] border border-black/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button
                 onClick={() => setDashboardView('fan')}
-                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-black shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-black/40 hover:text-black'
+                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-black shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-black/40 hover:text-black'
                   }`}
               >
                 Fan Dashboard
               </button>
               <button
                 onClick={() => setDashboardView('cruise')}
-                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-black/40 hover:text-cyan-400'
+                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-black/40 hover:text-cyan-400'
                   }`}
               >
                 Cruise Hub
@@ -559,8 +559,8 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
-                        <div key={day.id} className="bg-white border border-black/10 p-6 relative overflow-hidden group transition-all duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
-                          <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-all duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
+                        <div key={day.id} className="bg-white border border-black/10 p-6 relative overflow-hidden group transition-colors duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
+                          <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-colors duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
                               <span className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
@@ -591,7 +591,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
                   <div className="bg-white border border-black/10 p-6 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-all duration-500 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-colors duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>
                         <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/40 mb-1">Community</h2>
@@ -633,7 +633,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
                     <Link key={feed.room} href={`/live/${feed.room}`} className="block relative overflow-hidden group">
-                      <div className="flex items-center justify-between px-6 py-4 bg-red-950/40 border border-red-500/40 hover:border-red-500/60 transition-all">
+                      <div className="flex items-center justify-between px-6 py-4 bg-red-950/40 border border-red-500/40 hover:border-red-500/60 transition-colors">
                         <div className="flex items-center gap-4">
                           <span className="relative flex h-4 w-4">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
@@ -646,14 +646,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             </p>
                           </div>
                         </div>
-                        <span className="px-4 py-2 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-red-400 transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)]">Watch Now →</span>
+                        <span className="px-4 py-2 bg-red-500 text-white text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.4)]">Watch Now →</span>
                       </div>
                     </Link>
                   ))}
                 </div>
               ) : (
                 <Link href="/live" className="block group">
-                  <div className="flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 hover:border-white/20 transition-all">
+                  <div className="flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
                     <div className="flex items-center gap-4">
                       <span className="relative flex h-4 w-4">
                         <span className="relative inline-flex rounded-full h-4 w-4 bg-white/30" />
@@ -663,7 +663,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-xs text-white/50 mt-0.5">No crew feeds are live right now — check back during the next show</p>
                       </div>
                     </div>
-                    <span className="px-4 py-2 bg-white/10 text-white/70 text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-all border border-white/15">Live Hub →</span>
+                    <span className="px-4 py-2 bg-white/10 text-white/70 text-xs font-black uppercase tracking-widest rounded-lg group-hover:bg-white/20 group-hover:text-white transition-colors border border-white/15">Live Hub →</span>
                   </div>
                 </Link>
               )}
@@ -841,7 +841,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([show.venue, show.city, show.state].filter(Boolean).join(' '))}`;
                               return (
                                 <a href={mapsHref} target="_blank" rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-all">
+                                  className="inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
                                   <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
                                   Directions
                                 </a>
@@ -852,7 +852,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               const pinIcon = (
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
                               );
-                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-all";
+                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
                               if (show.directionsLink && !show.notes) {
                                 return (
                                   <a href={show.directionsLink} target="_blank" rel="noopener noreferrer" className={btnClass}>
@@ -887,7 +887,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     {pinIcon} Parking
                                   </a>
                                   <div className="relative">
-                                    <button onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className="inline-flex items-center justify-center w-5 h-5 text-white/40 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:text-white transition-all" title="Parking notes">
+                                    <button onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className="inline-flex items-center justify-center w-5 h-5 text-white/40 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:text-white transition-colors" title="Parking notes">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                                     </button>
                                     {parkingNoteOpenIdx === i && (
@@ -943,7 +943,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 ) : subscribedShows.length > 0 ? (
                   <div className="space-y-3">
                     {subscribedShows.map((sub: any) => (
-                      <div key={sub.id} className="flex items-center justify-between gap-4 p-4 bg-white/5 border border-white/10 hover:border-purple-500/30 transition-all group">
+                      <div key={sub.id} className="flex items-center justify-between gap-4 p-4 bg-white/5 border border-white/10 hover:border-purple-500/30 transition-colors group">
                         <div className="flex items-center gap-4 min-w-0">
                           <div className="min-w-0">
                             <p className="text-sm font-bold text-white truncate">{sub.venueName}</p>
@@ -954,7 +954,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                         <button
                           onClick={() => handleUnsubscribeShow(sub.showId)}
-                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer"
+                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer"
                         >
                           Cancel Alert
                         </button>
@@ -974,7 +974,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {/* Cruise Promo Banner — only if cruise window is active and user hasn't signed up */}
             {!isCruiser && ((new Date().getTime() - new Date(CRUISE_END_DATE).getTime()) / (1000 * 60 * 60 * 24)) < 60 && (
               <Link href="/cruise" className="block mb-8 group">
-                <div className="relative overflow-hidden border border-cyan-500/20 p-6 md:p-8 hover:border-cyan-500/40 transition-all text-white">
+                <div className="relative overflow-hidden border border-cyan-500/20 p-6 md:p-8 hover:border-cyan-500/40 transition-colors text-white">
                   <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div className="flex items-start gap-4">
                       <div>
@@ -987,7 +987,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </p>
                       </div>
                     </div>
-                    <span className="shrink-0 px-6 py-3 bg-cyan-500 text-[#0a0a0f] text-xs font-black uppercase tracking-widest group-hover:bg-cyan-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+                    <span className="shrink-0 px-6 py-3 bg-cyan-500 text-[#0a0a0f] text-xs font-black uppercase tracking-widest group-hover:bg-cyan-400 transition-colors shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                       Learn More →
                     </span>
                   </div>
@@ -1018,7 +1018,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </div>
                   ) : (
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-sm">
-                      <div className="flex-1 flex items-center bg-white/5 border border-white/15 px-4 py-3 focus-within:border-rose-500/40 transition-all">
+                      <div className="flex-1 flex items-center bg-white/5 border border-white/15 px-4 py-3 focus-within:border-rose-500/40 transition-colors">
                         <input
                           type="tel"
                           placeholder="(312) 555-0199"
@@ -1030,7 +1030,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <button
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
-                        className="px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+                        className="px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
                       >
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
                       </button>
@@ -1187,17 +1187,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {merch.map((item: any) => (
-                    <div key={item.id} className="bg-white/5 border border-white/10 overflow-hidden hover:border-fuchsia-500/30 transition-all group">
+                    <div key={item.id} className="bg-white/5 border border-white/10 overflow-hidden hover:border-fuchsia-500/30 transition-colors group">
                       {item.image && (
                         <div className="aspect-square bg-black/40 overflow-hidden">
-                          <Image width={200} height={200} unoptimized src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                          <Image width={200} height={200} unoptimized src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" />
                         </div>
                       )}
                       <div className="p-4">
                         <p className="text-sm font-bold text-white truncate">{item.title}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-lg font-black text-fuchsia-400">${parseFloat(item.price).toFixed(0)}</span>
-                          <Link href={`/store`} className="text-xs font-black uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/15 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-all">Buy Now</Link>
+                          <Link href={`/store`} className="text-xs font-black uppercase tracking-widest text-white/70 bg-white/10 px-3 py-1.5 rounded border border-white/15 hover:bg-fuchsia-500 hover:text-black hover:border-fuchsia-500 transition-colors">Buy Now</Link>
                         </div>
                       </div>
                     </div>

@@ -135,7 +135,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/shows"
-              className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-xs font-black uppercase tracking-wider transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              className="px-5 py-3 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-xs font-black uppercase tracking-wider transition-colors shadow-md flex items-center gap-2 cursor-pointer"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -183,7 +183,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search venue, festival, city, date, or event name (e.g. Durty Nellies, Hard Rock, Halloween, Cruise)..."
-            className="w-full pl-12 pr-10 py-3.5 bg-[var(--bg-color)] border border-[var(--border-color)] text-sm font-semibold text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)] transition-all shadow-inner"
+            className="w-full pl-12 pr-10 py-3.5 bg-[var(--bg-color)] border border-[var(--border-color)] text-sm font-semibold text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)] transition-colors shadow-inner"
           />
           {searchQuery && (
             <button
@@ -205,7 +205,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-1.5  text-xs font-bold transition-all cursor-pointer ${selectedCategory === cat.id
+                className={`px-3.5 py-1.5  text-xs font-bold transition-colors cursor-pointer ${selectedCategory === cat.id
                   ? "bg-[var(--color-accent)] text-white shadow-md scale-105"
                   : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
                   }`}
@@ -224,7 +224,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-all cursor-pointer ${selectedYear === "ALL"
+              className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
                 ? "bg-[var(--color-accent)] text-white shadow-sm"
                 : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
                 }`}
@@ -238,7 +238,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                   setSelectedYear(y.year);
                   setOpenYears((prev) => ({ ...prev, [y.year]: true }));
                 }}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${selectedYear === y.year
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
                   ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
                   : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
                   }`}
@@ -287,7 +287,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
             }}
-            className="px-6 py-2.5 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#851de7] transition-all"
+            className="px-6 py-2.5 bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#851de7] transition-colors"
           >
             Reset Filters
           </button>
@@ -299,7 +299,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             return (
               <div
                 key={yGroup.year}
-                className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm transition-all"
+                className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm transition-colors"
               >
                 {/* Year Header Accordion Bar */}
                 <button
