@@ -12,11 +12,12 @@ export async function POST() {
   ];
 
   try {
-    const results = [];
-    for (const td of tourDates) {
-      const res = await sanityWriteClient.create(td as any);
-      results.push({ id: res._id, venue: td.venue });
-    }
+    const results = await Promise.all(
+      tourDates.map(async (td) => {
+        const res = await sanityWriteClient.create(td as any);
+        return { id: res._id, venue: td.venue };
+      })
+    );
     return NextResponse.json({ success: true, created: results });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

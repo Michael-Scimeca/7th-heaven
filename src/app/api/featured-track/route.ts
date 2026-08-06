@@ -109,20 +109,26 @@ export async function POST(request: Request) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    const processedSongs: { title: string; audioUrl: string }[] = [];
-
     // Parse sequential indexed tracks (audio_0, title_0, audio_1, title_1...)
+    const audioFiles: File[] = [];
+    const titles: string[] = [];
     for (let i = 0; i < 50; i++) {
       const file = formData.get(`audio_${i}`) as File | null;
       const songTitle = formData.get(`title_${i}`) as string | null;
-
-      if (!file || !songTitle) {
-        // If we hit a gap, check if there's any later index, or break
-        if (i > 0 && !formData.get(`audio_${i + 1}`)) {
-          break;
-        }
-        continue;
+      if (file && songTitle) {
+        audioFiles.push(file);
+        titles.push(songTitle);
+      } else if (i > 0 && !formData.get(`audio_${i + 1}`)) {
+        break;
       }
+    }
+
+    const fileBuffers = await Promise.all(audioFiles.map(f => f.arrayBuffer()));
+    const processedSongs: { title: string; audioUrl: string }[] = [];
+
+    for (let i = 0; i < audioFiles.length; i++) {
+      const file = audioFiles[i];
+      const songTitle = titles[i];
 
       // Validate file type
       const isAudio = file.type.startsWith('audio/') || 
@@ -141,7 +147,7 @@ export async function POST(request: Request) {
       const origExt = file.name.split('.').pop() || 'mp3';
       const tempFilename = `temp_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 8)}.${origExt}`;
       const tempPath = path.join(uploadDir, tempFilename);
-      const buffer = Buffer.from(await file.arrayBuffer());
+      const buffer = Buffer.from(fileBuffers[i]);
       fs.writeFileSync(tempPath, buffer);
 
       let finalFilename = '';

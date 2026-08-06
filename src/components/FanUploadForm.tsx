@@ -109,53 +109,49 @@ export default function FanUploadForm() {
     const newPreviews: string[] = [];
     const newFlags: Record<string, string> = {};
 
-    for (let fi = 0; fi < filesArray.length; fi++) {
-      const file = filesArray[fi];
-      const isVideo = file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov');
-      const isImage = file.type === 'image/jpeg' || file.type === 'image/png';
+    const results = await Promise.all(
+      filesArray.map(async (file) => {
+        const isVideo = file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov');
+        const isImage = file.type === 'image/jpeg' || file.type === 'image/png';
 
-      if (!isImage && !isVideo) {
-        alert(`"${file.name}" is not a valid image (JPG, PNG) or video (MP4, MOV). It was skipped.`);
-        continue;
-      }
+        if (!isImage && !isVideo) {
+          alert(`"${file.name}" is not a valid image (JPG, PNG) or video (MP4, MOV). It was skipped.`);
+          return null;
+        }
 
-      if (isVideo) {
-        // Videos are not scanned client-side — they go straight to admin review
-        const objectUrl = URL.createObjectURL(file);
-        compressedFiles.push(file);
-        newPreviews.push(objectUrl);
-        newFlags[file.name] = 'video_review';
-        continue;
-      }
-
-      setScanStatus(`Scanning ${fi + 1}/${filesArray.length}: ${file.name}`);
-      try {
-        const compressed = await compressImage(file, 1920);
-        const objectUrl = URL.createObjectURL(compressed);
+        if (isVideo) {
+          const objectUrl = URL.createObjectURL(file);
+          return { file, preview: objectUrl, flag: 'video_review' };
+        }
 
         try {
-          // ── Hive Moderation (server-side) ────────────────────────────
+          const compressed = await compressImage(file, 1920);
+          const objectUrl = URL.createObjectURL(compressed);
           const decision = await moderateImage(compressed);
 
           if (decision === "block") {
             alert(`⛔ "${file.name}" was blocked by our safety filter.\n\nThis image appears to contain explicit content and cannot be uploaded. All submissions must be concert/event-related photos.`);
             URL.revokeObjectURL(objectUrl);
-            continue;
+            return null;
           }
 
-          compressedFiles.push(compressed);
-          newPreviews.push(objectUrl);
-
-          if (decision === "flag") {
-            newFlags[compressed.name] = 'flagged_for_review';
-          }
+          return {
+            file: compressed,
+            preview: objectUrl,
+            flag: decision === "flag" ? 'flagged_for_review' : undefined,
+          };
         } catch (err) {
-          URL.revokeObjectURL(objectUrl);
-          throw err;
+          console.error("Compression or scanning failed", err);
+          return null;
         }
-      } catch (err) {
-        console.error("Compression or scanning failed", err);
-      }
+      })
+    );
+
+    for (const res of results) {
+      if (!res) continue;
+      compressedFiles.push(res.file);
+      newPreviews.push(res.preview);
+      if (res.flag) newFlags[res.file.name] = res.flag;
     }
 
     setSelectedFiles(prev => [...prev, ...compressedFiles]);
