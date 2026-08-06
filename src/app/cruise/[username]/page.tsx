@@ -289,7 +289,10 @@ export default function CruiseDashboard() {
     }
   }, [guidelines.content]);
 
+  const [isSavingGuidelines, setIsSavingGuidelines] = useState(false);
   const handleSaveGuidelines = async () => {
+    if (isSavingGuidelines) return;
+    setIsSavingGuidelines(true);
     try {
       const cleanContent = cleanWysiwygHtml(guidelinesContentInput);
       const res = await fetch('/api/cruise/guidelines', {
@@ -311,6 +314,8 @@ export default function CruiseDashboard() {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSavingGuidelines(false);
     }
   };
 
@@ -425,7 +430,10 @@ export default function CruiseDashboard() {
     }
   };
 
+  const [isSavingAnnouncement, setIsSavingAnnouncement] = useState(false);
   const handleSaveAnnouncement = async () => {
+    if (isSavingAnnouncement) return;
+    setIsSavingAnnouncement(true);
     try {
       const res = await fetch('/api/cruise/announcement', {
         method: 'POST',
@@ -439,6 +447,8 @@ export default function CruiseDashboard() {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSavingAnnouncement(false);
     }
   };
 

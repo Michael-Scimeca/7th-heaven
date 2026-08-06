@@ -13,6 +13,7 @@ function CancelContent() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleCancel = async () => {
+    if (status === "cancelling") return;
     if (!token) return;
     setStatus("cancelling");
     try {

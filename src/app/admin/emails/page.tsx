@@ -19,6 +19,7 @@ export default function EmailPreviewPage() {
   const html = active.render();
 
   const handleSendTest = async () => {
+    if (sending) return;
     if (!testEmail) {
       alert("Please enter a recipient email address.");
       return;
