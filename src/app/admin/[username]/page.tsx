@@ -299,12 +299,14 @@ export default function AdminDashboard({ params }: { params: Promise<{ username:
   const [savePermStatus, setSavePermStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
   useEffect(() => {
+    let active = true;
     fetch('/api/admin/permissions')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : null)
       .then(d => {
-        if (d?.permissions) setAdminPermissions(d.permissions);
+        if (d?.permissions && active) setAdminPermissions(d.permissions);
       })
       .catch(err => console.error(err));
+    return () => { active = false; };
   }, []);
 
   const savePermissionsToBackend = async (updated: Record<string, Record<string, boolean>>) => {
