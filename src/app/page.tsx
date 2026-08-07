@@ -161,7 +161,7 @@ export default async function Home() {
       <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden" id="hero">
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
         {/* Full-bleed Hero Section */}
-        <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-black flex flex-col justify-between p-0 m-0">
+        <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0">
           {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
           <HeroVideoPlayer>
             <HeroLiveThumbs />
@@ -180,12 +180,12 @@ export default async function Home() {
       )}
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
-      <section id="tour" className="bg-black py-[100px]">
+      <section id="tour" className="bg-transparent py-[100px]">
         <TourList initialShows={upcomingShows} />
       </section>
 
       {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
-      <section id="band" className="relative w-full bg-black overflow-hidden py-[100px]">
+      <section id="band" className="relative w-full bg-transparent overflow-hidden py-[100px]">
         <BioParallaxSlider />
       </section>
 

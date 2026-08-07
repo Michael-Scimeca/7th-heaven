@@ -160,7 +160,7 @@ export default function FansPage() {
   return (
     <div className="min-h-screen pt-[88px]">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center bg-black/30 backdrop-blur-xl" id="fan-wall">
+      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center " id="fan-wall">
 
         <div className="site-container relative z-10">
           {/* Header */}
@@ -237,7 +237,7 @@ export default function FansPage() {
 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {isModerator && pendingPhotos.length > 0 && (
-          <div className="site-container mx-auto mb-14 p-6 bg-purple-500/5 border border-purple-500/25">
+          <div className="site-container mx-auto mb-14 p-6">
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm">
                 🛡️

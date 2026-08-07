@@ -164,7 +164,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "right" | "right-glass" | "right-accent">("left");
 
   // 🎭 Bottom Clipping Mask & Gradient UI Control State
-  const [maskEnabled, setMaskEnabled] = useState<boolean>(true);
+  const [maskEnabled, setMaskEnabled] = useState<boolean>(false);
   const [gradientStart, setGradientStart] = useState<number>(16);  // % height where solid black stops
   const [gradientEnd, setGradientEnd] = useState<number>(58);      // % height where transparency occurs
   const [overlayWidth, setOverlayWidth] = useState<number>(100);    // vw
@@ -485,7 +485,7 @@ height: ${overlayHeight}vh`;
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-black pt-0 pb-0">
+    <div className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0">
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
