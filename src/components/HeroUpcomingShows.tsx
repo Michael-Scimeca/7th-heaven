@@ -239,7 +239,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
       {/* Remaining list shows */}
       <div className="flex flex-col gap-1">
         {remainingShows.map((show) => (
-          <Link key={show.id || show.date || show.venue} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]">
+          <Link key={show.id || `${show.venue}_${show.date}_${show.startDate || ''}`} href="/tour" className="flex items-center gap-2 px-2 py-1.5 rounded bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]">
             <div className="w-7 h-7 rounded flex flex-col items-center justify-center bg-white/[0.03] text-white/40 shrink-0 border border-white/5">
               <span className="text-[var(--font-size-5xs)] font-black uppercase tracking-wider leading-none">{show.date.split(' ')[0]?.slice(0, 3)}</span>
               <span className="text-[var(--font-size-2xs)] font-black leading-none mt-0.5">{show.date.split(' ')[1]}</span>

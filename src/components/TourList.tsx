@@ -1146,7 +1146,7 @@ ${filterLine}
               const isPast = todayStartTimestamp > 0 && parseShowDate(show.date, show.startDate).getTime() < todayStartTimestamp;
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
-                <div key={show.id || rowId} className="overflow-visible"
+                <div key={show.id || `${rowId}_${show.startDate || i}`} className="overflow-visible"
                   onMouseEnter={() => setHoveredRowIdx(i)}
                   onMouseLeave={() => setHoveredRowIdx(null)}
                 >
