@@ -175,7 +175,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   // 🎬 Video Pagination Layout Style Options (10 Designs)
   const [paginationStyle, setPaginationStyle] = useState<
     "glass-dock" | "circular" | "cyber-hud" | "film-strip" | "minimal" | "left-spine" | "right-spine" | "full-bottom" | "expanded-active" | "diamond"
-  >("left-spine");
+  >("minimal");
   const [spineTopOffset, setSpineTopOffset] = useState<number>(0); // px from top of slider section
 
 

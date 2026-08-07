@@ -277,6 +277,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
   const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
+  const [isSortBarStuck, setIsSortBarStuck] = useState(false);
 
   // Subscribed show IDs for custom specific notifications
   const [subscribedShowIds, setSubscribedShowIds] = useState<string[]>([]);
@@ -711,6 +712,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         // Only "stuck" if the sentinel has scrolled ABOVE the nav (top < nav height)
         // If sentinel is below the viewport (not yet reached), top will be positive/large — don't add class
         const isAboveNav = !entry.isIntersecting && entry.boundingClientRect.top < 89;
+        setIsSortBarStuck(isAboveNav);
         if (isAboveNav) {
           document.documentElement.classList.add('tour-sort-stuck');
         } else {
@@ -722,6 +724,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     observer.observe(sentinel);
     return () => {
       observer.disconnect();
+      setIsSortBarStuck(false);
       document.documentElement.classList.remove('tour-sort-stuck');
     };
   }, []);
@@ -1099,7 +1102,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 bg-[#000000]/95 backdrop-blur-md items-center relative text-white transition-colors duration-200`}>
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'bg-black/40 backdrop-blur-xl border-b border-white/10' : 'bg-transparent border-b border-transparent'} items-center relative text-white transition-all duration-300`}>
             <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
