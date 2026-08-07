@@ -207,11 +207,12 @@ export function Header() {
               href="/live"
               className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
             >
-              {/* Live / Offline badge — absolute above the text */}
-              <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full shadow-[0_0_4px_rgba(239,68,68,0.4)] whitespace-nowrap font-sans scale-90">
-                <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
-                {hasLiveStreams ? "LIVE" : "OFFLINE"}
-              </span>
+              {hasLiveStreams && (
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full whitespace-nowrap font-sans scale-90">
+                  <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                  LIVE
+                </span>
+              )}
               LIVE
             </Link>
           </nav>
