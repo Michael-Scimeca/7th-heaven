@@ -703,28 +703,25 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const tableRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // Detect when sticky sort bar locks in — toggle class on <html> for connected corner effect
+  // Detect when sticky sort bar locks in — activate glassmorphic blur immediately on scroll
   useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Only "stuck" if the sentinel has scrolled ABOVE the nav (top < nav height)
-        // If sentinel is below the viewport (not yet reached), top will be positive/large — don't add class
-        const isAboveNav = !entry.isIntersecting && entry.boundingClientRect.top < 89;
-        setIsSortBarStuck(isAboveNav);
-        if (isAboveNav) {
-          document.documentElement.classList.add('tour-sort-stuck');
-        } else {
-          document.documentElement.classList.remove('tour-sort-stuck');
-        }
-      },
-      { rootMargin: '-89px 0px 0px 0px', threshold: 0 }
-    );
-    observer.observe(sentinel);
+    const handleScroll = () => {
+      const sortBar = document.getElementById("tour-sort-bar");
+      if (!sortBar) return;
+      const rect = sortBar.getBoundingClientRect();
+      const stuck = rect.top <= 92;
+      setIsSortBarStuck(stuck);
+      if (stuck) {
+        document.documentElement.classList.add('tour-sort-stuck');
+      } else {
+        document.documentElement.classList.remove('tour-sort-stuck');
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => {
-      observer.disconnect();
-      setIsSortBarStuck(false);
+      window.removeEventListener("scroll", handleScroll);
       document.documentElement.classList.remove('tour-sort-stuck');
     };
   }, []);
@@ -1102,7 +1099,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'bg-black/40 backdrop-blur-xl border-b border-white/10' : 'bg-transparent border-b border-transparent'} items-center relative text-white transition-all duration-300`}>
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck bg-black/60 backdrop-blur-2xl border-b border-white/15' : 'bg-transparent border-b border-transparent'} items-center relative text-white transition-all duration-300`}>
             <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">

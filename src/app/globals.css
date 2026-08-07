@@ -93,10 +93,18 @@ html.lenis body {
 }
 
 [class*="shadow-"],
-[class*="drop-shadow"],
-[class*="blur-"] {
+[class*="drop-shadow"] {
   box-shadow: none !important;
   filter: none !important;
+}
+
+/* Sticky Tour Sort Bar Glassmorphic Blur when stuck on scroll */
+#tour-sort-bar.is-stuck,
+html.tour-sort-stuck #tour-sort-bar {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 /* =============================================
