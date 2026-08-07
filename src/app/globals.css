@@ -101,10 +101,34 @@ html.lenis body {
 /* Sticky Tour Sort Bar Glassmorphic Blur when stuck on scroll */
 #tour-sort-bar.is-stuck,
 html.tour-sort-stuck #tour-sort-bar {
+  width: 100vw !important;
+  position: sticky !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
   background-color: transparent !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
   border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+@media (min-width: 640px) {
+  #tour-sort-bar.is-stuck,
+  html.tour-sort-stuck #tour-sort-bar {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  #tour-sort-bar.is-stuck,
+  html.tour-sort-stuck #tour-sort-bar {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
 }
 
 /* =============================================
