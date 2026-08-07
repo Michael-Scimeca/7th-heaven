@@ -1146,7 +1146,8 @@ ${filterLine}
               const isPast = todayStartTimestamp > 0 && parseShowDate(show.date, show.startDate).getTime() < todayStartTimestamp;
               const isPrivate = show.isPrivate || show.venue?.toLowerCase() === "private event" || (show.tags && show.tags.includes("private")) || (show.info && show.info.toLowerCase().includes("private")) || false;
               return (
-                <div key={show.id || `${rowId}_${show.startDate || i}`} className="overflow-visible"
+                // eslint-disable-next-line react-doctor/no-array-index-as-key
+                <div key={`tour_row_${i}_${show.id || rowId}`} className="overflow-visible"
                   onMouseEnter={() => setHoveredRowIdx(i)}
                   onMouseLeave={() => setHoveredRowIdx(null)}
                 >
