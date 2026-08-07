@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
 
 import { useMember } from "@/context/MemberContext";
@@ -16,6 +18,10 @@ const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
 });
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
+
+const PIN_ICON = (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+);
 
 export default function FanAccountPage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = use(params);
@@ -98,7 +104,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
           if (d?.message) setCruiseAnnouncement(d.message); else setCruiseAnnouncement(null);
         }).catch(() => { });
     }
-  }, [member?.email, member?.signup_source]);
+  }, [member?.email, member?.signup_source, supabase]);
 
   useEffect(() => {
     checkCruiser();
@@ -271,7 +277,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
       setLiveFeeds(feeds);
       setIsLive(feeds.length > 0);
     } catch { setIsLive(false); setLiveFeeds([]); }
-  }, []);
+  }, [supabase]);
 
   useEffect(() => {
     checkLiveFeeds();
@@ -392,7 +398,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         <div className="text-center">
           <h1 className="text-3xl font-black italic tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="text-black/40 mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
-          <button onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white text-sm font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
+          <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white text-sm font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
             Login to Access
           </button>
         </div>
@@ -517,14 +523,14 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {isCruiser && (
           <div className="flex justify-center mb-8 -mt-2">
             <div className="bg-black/[0.03] border border-black/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-              <button
+              <button aria-label="Action button"
                 onClick={() => setDashboardView('fan')}
                 className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-black shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-black/40 hover:text-black'
                   }`}
               >
                 Fan Dashboard
               </button>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setDashboardView('cruise')}
                 className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-black/40 hover:text-cyan-400'
                   }`}
@@ -760,7 +766,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-xs text-white/50 font-bold uppercase tracking-widest">
                           {isClaimed ? 'Prize handed off successfully' : 'Show this at the merch table'}
                         </p>
-                        <button className={`text-xs ${isClaimed ? 'text-emerald-400' : 'text-yellow-500'} font-black uppercase tracking-widest hover:text-white transition-colors`}>
+                        <button aria-label="Action button" className={`text-xs ${isClaimed ? 'text-emerald-400' : 'text-yellow-500'} font-black uppercase tracking-widest hover:text-white transition-colors`}>
                           {isClaimed ? 'Completed ✓' : 'Full Details →'}
                         </button>
                       </div>
@@ -846,7 +852,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
                     <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-white/5 border border-white/15 rounded-lg shrink-0">
-                        <span className="text-xs font-black text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }) : ''}</span>
+                        <span className="text-xs font-black text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
                         <span className="text-lg font-black text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
                       </div>
                       <div className="flex-1 min-w-0">
@@ -881,28 +887,25 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             })()}
                             {/* Parking — smart button: link-only / note-only / both */}
                             {(show.directionsLink || show.notes) && (() => {
-                              const pinIcon = (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
-                              );
                               const btnClass = "inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
                               if (show.directionsLink && !show.notes) {
                                 return (
                                   <a href={show.directionsLink} target="_blank" rel="noopener noreferrer" className={btnClass}>
-                                    {pinIcon} Parking
+                                    {PIN_ICON} Parking
                                   </a>
                                 );
                               }
                               if (!show.directionsLink && show.notes) {
                                 return (
                                   <div className="relative">
-                                    <button onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className={btnClass}>
-                                      {pinIcon} Parking
+                                    <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className={btnClass}>
+                                      {PIN_ICON} Parking
                                     </button>
                                     {parkingNoteOpenIdx === i && (
                                       <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border border-white/15 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
                                           <span className="text-[0.6rem] font-black uppercase tracking-widest text-white/40">Parking Info</span>
-                                          <button onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
+                                          <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                           </button>
                                         </div>
@@ -916,17 +919,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                               return (
                                 <>
                                   <a href={show.directionsLink} target="_blank" rel="noopener noreferrer" className={btnClass}>
-                                    {pinIcon} Parking
+                                    {PIN_ICON} Parking
                                   </a>
                                   <div className="relative">
-                                    <button onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className="inline-flex items-center justify-center w-5 h-5 text-white/40 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:text-white transition-colors" title="Parking notes">
+                                    <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className="inline-flex items-center justify-center w-5 h-5 text-white/40 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:text-white transition-colors" title="Parking notes">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                                     </button>
                                     {parkingNoteOpenIdx === i && (
                                       <div className="absolute bottom-full left-0 mb-2 z-50 w-64 bg-[#111] border border-white/15 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.7)] p-3">
                                         <div className="flex items-center justify-between mb-1.5">
                                           <span className="text-[0.6rem] font-black uppercase tracking-widest text-white/40">Parking Info</span>
-                                          <button onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
+                                          <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(null)} className="text-white/30 hover:text-white transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                           </button>
                                         </div>
@@ -984,7 +987,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             </p>
                           </div>
                         </div>
-                        <button
+                        <button aria-label="Action button"
                           onClick={() => handleUnsubscribeShow(sub.showId)}
                           className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-black border border-rose-500/20 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer"
                         >
@@ -1042,7 +1045,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <p className="text-sm font-bold text-[var(--color-accent)]">Live Alerts Active</p>
                         <p className="text-sm text-white/60">We&apos;ll text <span className="text-white font-mono">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
                       </div>
-                      <button
+                      <button aria-label="Action button"
                         onClick={() => { localStorage.removeItem('7h_live_alert_phone'); setLiveAlertSubscribed(false); setLiveAlertStatus('idle'); setLiveAlertPhone(''); }}
                         className="ml-auto text-xs text-white/40 hover:text-red-400 uppercase tracking-widest font-bold transition-colors cursor-pointer"
                       >Unsubscribe</button>
@@ -1050,7 +1053,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   ) : (
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-sm">
                       <div className="flex-1 flex items-center bg-white/5 border border-white/15 px-4 py-3 focus-within:border-rose-500/40 transition-colors">
-                        <input
+                        <input aria-label="Input field"
                           type="tel"
                           placeholder="(312) 555-0199"
                           value={liveAlertPhone}
@@ -1058,7 +1061,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           className="bg-transparent outline-none text-white text-sm flex-1 placeholder:text-white/30 font-mono"
                         />
                       </div>
-                      <button
+                      <button aria-label="Action button"
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
                         className="px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"

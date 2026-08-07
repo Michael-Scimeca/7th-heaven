@@ -65,11 +65,10 @@ export default function CookieConsentBanner() {
   if (!visible) return null;
 
   return (
-    <div
-      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] transition-colors duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
+    <dialog
+      open
+      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100vw-2rem)] max-w-[640px] m-0 p-0 bg-transparent border-none text-inherit transition-colors duration-350 ease-out ${closing ? "opacity-0 translate-y-4 scale-[0.98] pointer-events-none" : "opacity-100 translate-y-0 scale-100"
         }`}
-      role="dialog"
-      aria-modal="true"
       aria-label="Cookie consent"
     >
       <div className="relative bg-[#0e0e1a]/95 backdrop-blur-xl border border-white/[0.08] shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] overflow-hidden">
@@ -119,7 +118,7 @@ export default function CookieConsentBanner() {
                   <p className="text-sm font-semibold text-white/80">Analytics</p>
                   <p className="text-xs text-white/30 mt-0.5">Helps us understand how fans use the site (Google Analytics).</p>
                 </div>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setAnalytics(!analytics)}
                   aria-checked={analytics}
@@ -137,7 +136,7 @@ export default function CookieConsentBanner() {
                   <p className="text-sm font-semibold text-white/80">Marketing</p>
                   <p className="text-xs text-white/30 mt-0.5">Personalised show recommendations and fan engagement.</p>
                 </div>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setMarketing(!marketing)}
                   aria-checked={marketing}
@@ -153,7 +152,7 @@ export default function CookieConsentBanner() {
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-2">
-            <button
+            <button aria-label="Action button"
               id="cookie-accept-all"
               onClick={acceptAll}
               className="flex-1 min-w-[120px] bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-sm font-bold uppercase tracking-[0.12em] px-5 py-2.5 transition-colors duration-200 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
@@ -162,14 +161,14 @@ export default function CookieConsentBanner() {
             </button>
             {!expanded ? (
               <>
-                <button
+                <button aria-label="Action button"
                   id="cookie-reject-all"
                   onClick={rejectAll}
                   className="flex-1 min-w-[100px] bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
                 >
                   Reject All
                 </button>
-                <button
+                <button aria-label="Action button"
                   id="cookie-customize"
                   onClick={() => setExpanded(true)}
                   className="text-white/30 hover:text-white/60 text-sm font-semibold underline underline-offset-2 transition-colors px-2 py-2.5 whitespace-nowrap"
@@ -178,7 +177,7 @@ export default function CookieConsentBanner() {
                 </button>
               </>
             ) : (
-              <button
+              <button aria-label="Action button"
                 id="cookie-save-custom"
                 onClick={saveCustom}
                 className="flex-1 min-w-[120px] bg-white/[0.06] hover:bg-white/[0.1] text-white/70 hover:text-white text-sm font-semibold px-5 py-2.5 border border-white/[0.06] transition-colors duration-200"
@@ -189,6 +188,6 @@ export default function CookieConsentBanner() {
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }

@@ -159,7 +159,7 @@ export default function CrewFeed() {
    setPosts(mockPosts);
   }
   setIsLoading(false);
- }, [isSupabaseConfigured]);
+ }, []);
 
  // ─── Real-time subscription ───
  useEffect(() => {
@@ -192,7 +192,7 @@ export default function CrewFeed() {
   return () => {
    supabase.removeChannel(channel);
   };
- }, [fetchPosts, isSupabaseConfigured]);
+ }, [fetchPosts]);
 
  // ─── LIVE NOW detection ───
  useEffect(() => {
@@ -372,7 +372,7 @@ export default function CrewFeed() {
 
     {/* Load More */}
     <div className="text-center mt-8">
-     <button className="btn-outline btn-outline-hover text-sm py-2.5 px-8">
+     <button aria-label="Action button" className="btn-outline btn-outline-hover text-sm py-2.5 px-8">
       Load More Posts
      </button>
     </div>

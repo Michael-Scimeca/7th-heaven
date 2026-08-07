@@ -3,6 +3,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+const PICK_SIZES = [23, 19, 15, 11, 7];
+const PICK_COLORS = ["#9C27B0", "#A92EAD", "#B83AAA", "#C845A8", "#D852A4"];
+const PICK_OPACITY = [1, 0.95, 0.88, 0.78, 0.6];
+
 type CursorPreset = "pick" | "neon" | "particles";
 
 export default function CursorTestingPage() {
@@ -133,11 +137,6 @@ export default function CursorTestingPage() {
     return () => window.removeEventListener("resize", resize);
   }, []);
 
-  // Bigger sizes = gooey blob is thick and rubbery; tail fades
-  const pickSizes = [23, 19, 15, 11, 7];
-  const pickColors = ["#9C27B0", "#A92EAD", "#B83AAA", "#C845A8", "#D852A4"];
-  const pickOpacity = [1, 0.95, 0.88, 0.78, 0.6];
-
   return (
     <div className="min-h-screen bg-[var(--color-bg-deep)] text-white relative overflow-hidden font-sans pt-24 pb-20">
 
@@ -172,7 +171,7 @@ export default function CursorTestingPage() {
           filter: preset !== "particles" ? "url(#gooey)" : "none",
         }}
       >
-        {Array.from(pickSizes, (size, i) => ({ size, i })).map(({ size, i }) => (
+        {Array.from(PICK_SIZES, (size, i) => ({ size, i })).map(({ size, i }) => (
           <svg
             key={i}
             ref={(el) => { picksRef.current[i] = el; }}
@@ -183,9 +182,9 @@ export default function CursorTestingPage() {
               height: size,
               marginLeft: -(size / 2),
               marginTop: -(size / 2),
-              opacity: preset === "particles" ? 0 : pickOpacity[i],
+              opacity: preset === "particles" ? 0 : PICK_OPACITY[i],
               filter: preset === "neon"
-                ? `drop-shadow(0 0 ${8 + i * 4}px ${pickColors[i]}cc)`
+                ? `drop-shadow(0 0 ${8 + i * 4}px ${PICK_COLORS[i]}cc)`
                 : "none",
             }}
           >
@@ -197,7 +196,7 @@ export default function CursorTestingPage() {
             */}
             <path
               d="M 50,4 C 22,4 4,20 4,42 C 4,68 26,92 50,116 C 74,92 96,68 96,42 C 96,20 78,4 50,4 Z"
-              fill={preset === "particles" ? "transparent" : pickColors[i]}
+              fill={preset === "particles" ? "transparent" : PICK_COLORS[i]}
             />
           </svg>
         ))}
@@ -253,7 +252,7 @@ export default function CursorTestingPage() {
             ["neon", "✨ Neon Glow"],
             ["particles", "🎨 Particle Trail"],
           ] as [CursorPreset, string][]).map(([p, label]) => (
-            <button
+            <button aria-label="Action button"
               key={p}
               onClick={() => setPreset(p)}
               className={`flex-1 min-w-[140px] py-3 px-4  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${preset === p

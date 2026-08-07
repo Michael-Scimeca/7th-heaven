@@ -252,7 +252,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   ? `https://img.youtube.com/vi/${extractYouTubeId(post.video_url!) || ""}/mqdefault.jpg`
                   : post.image_url;
                 return (
-                  <button
+                  <button aria-label="Action button"
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
                     className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/[0.06] hover:border-white/20"

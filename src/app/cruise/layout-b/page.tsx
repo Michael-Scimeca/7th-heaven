@@ -3,6 +3,19 @@ import Image from 'next/image';
 
 import React, { useState } from "react";
 
+const ISLANDS = [
+  { name: "Cozumel", country: "Mexico", desc: "Crystal reefs, Mayan ruins, and world-famous beach bars.", icon: "🏝️", highlights: ["Snorkeling", "Mayan Ruins", "Beach Clubs"] },
+  { name: "Grand Cayman", country: "Cayman Islands", desc: "Stingray City, Seven Mile Beach, and sunset cocktails.", icon: "🐢", highlights: ["Stingray City", "Seven Mile Beach", "Diving"] },
+  { name: "Roatán", country: "Honduras", desc: "Jungle zip-lines, world-class diving, and untouched nature.", icon: "🤿", highlights: ["Zip-lining", "Scuba Diving", "Jungle Tours"] },
+];
+
+const STEPS = [
+  { n: "01", title: "Sign Up Free", desc: "Tell us you're interested and how many you'd bring. No cost, no commitment.", icon: "✍️" },
+  { n: "02", title: "We Negotiate", desc: "We take the total headcount to cruise management and lock in the best group rate.", icon: "🤝" },
+  { n: "03", title: "You Get First Access", desc: "We email you the price before anyone else. Book at the locked-in rate.", icon: "🎟️" },
+  { n: "04", title: "Set Sail", desc: "Board the ship, meet the band, and have the time of your life.", icon: "🚢" },
+];
+
 export default function CruiseLayoutB() {
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [form, setForm] = useState({ name: "", email: "", guests: "2" });
@@ -13,18 +26,7 @@ export default function CruiseLayoutB() {
     setTimeout(() => setSignupStatus("success"), 1000);
   };
 
-  const ISLANDS = [
-    { name: "Cozumel", country: "Mexico", desc: "Crystal reefs, Mayan ruins, and world-famous beach bars.", icon: "🏝️", highlights: ["Snorkeling", "Mayan Ruins", "Beach Clubs"] },
-    { name: "Grand Cayman", country: "Cayman Islands", desc: "Stingray City, Seven Mile Beach, and sunset cocktails.", icon: "🐢", highlights: ["Stingray City", "Seven Mile Beach", "Diving"] },
-    { name: "Roatán", country: "Honduras", desc: "Jungle zip-lines, world-class diving, and untouched nature.", icon: "🤿", highlights: ["Zip-lining", "Scuba Diving", "Jungle Tours"] },
-  ];
 
-  const STEPS = [
-    { n: "01", title: "Sign Up Free", desc: "Tell us you're interested and how many you'd bring. No cost, no commitment.", icon: "✍️" },
-    { n: "02", title: "We Negotiate", desc: "We take the total headcount to cruise management and lock in the best group rate.", icon: "🤝" },
-    { n: "03", title: "You Get First Access", desc: "We email you the price before anyone else. Book at the locked-in rate.", icon: "🎟️" },
-    { n: "04", title: "Set Sail", desc: "Board the ship, meet the band, and have the time of your life.", icon: "🚢" },
-  ];
 
   return (
     <div className="min-h-screen pt-[72px]">
@@ -53,17 +55,17 @@ export default function CruiseLayoutB() {
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-3 max-w-md">
                 <div className="grid grid-cols-2 gap-3">
-                  <input type="text" required placeholder="Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                  <input aria-label="Input field" type="text" required placeholder="Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
-                  <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  <input aria-label="Input field" type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm" />
                 </div>
                 <div className="flex gap-3">
-                  <select value={form.guests} onChange={e => setForm(f => ({ ...f, guests: e.target.value }))}
+                  <select aria-label="Select option" value={form.guests} onChange={e => setForm(f => ({ ...f, guests: e.target.value }))}
                     className="bg-white/[0.03] border border-white/10 px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors text-sm appearance-none cursor-pointer flex-1">
                     <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option>
                   </select>
-                  <button type="submit" disabled={signupStatus === "submitting"}
+                  <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"}
                     className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-sm font-bold uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer whitespace-nowrap">
                     Count Me In
                   </button>

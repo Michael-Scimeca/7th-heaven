@@ -122,7 +122,7 @@ export async function seedMockData() {
     { email: `admin_${postfix}@seventhheaven.com`, name: "System Admin", role: "admin" }
   ];
 
-  for (const u of mockUsers) {
+  await Promise.all(mockUsers.map(async (u) => {
     // Generate secure random password
     const password = crypto.randomUUID().slice(0, 12) + "!A1";
     const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
@@ -141,7 +141,7 @@ export async function seedMockData() {
       const { error } = await supabaseAdmin.from("profiles").update({ role: u.role }).eq("id", authData.user.id);
       if (error) console.error("Profile update error:", error);
     }
-  }
+  }));
 
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
@@ -325,27 +325,23 @@ export async function seed20CrewMembers() {
     "Peter Walker", "Quinn Hall", "Ryan Allen", "Sophia Young", "Tyler King"
   ];
   
-  const createdCrew = [];
   const postfix = Math.floor(Math.random() * 1000);
-  
-  for (let i = 0; i < mockNames.length; i++) {
-    const name = mockNames[i];
+  const createdCrewResults = await Promise.all(mockNames.map(async (name, i) => {
     const email = `crew_${i}_${postfix}@seventhheaven.com`;
     const password = `tempPass123!A${i}`;
     const phone = `1555555${String(i + 1).padStart(4, '0')}`;
     const username = `crew_${i}_${postfix}`;
-    
+
     // Check if profile with this email or phone already exists to avoid auth error
     const { data: existing } = await supabaseAdmin.from('profiles').select('id, full_name').eq('email', email);
     if (existing && existing.length > 0) {
-      createdCrew.push({
+      return {
         id: existing[0].id,
         name: existing[0].full_name || name,
         phone
-      });
-      continue;
+      };
     }
-    
+
     // Create auth user
     const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
       email,
@@ -357,12 +353,12 @@ export async function seed20CrewMembers() {
         needs_password_reset: false
       }
     });
-    
+
     if (authErr) {
       console.error(`Auth error creating mock crew member ${name}:`, authErr);
-      continue;
+      return null;
     }
-    
+
     if (authData?.user) {
       // Set role and phone in profiles table
       const { error } = await supabaseAdmin
@@ -374,18 +370,22 @@ export async function seed20CrewMembers() {
           crew_duty: ['SOUND', 'EQUIPMENT SETUP', 'STAGE HAND', 'MERCH', 'LIGHTS'][i % 5]
         })
         .eq('id', authData.user.id);
-        
+
       if (error) {
         console.error(`Profile update error for mock crew member ${name}:`, error);
+        return null;
       } else {
-        createdCrew.push({
+        return {
           id: authData.user.id,
           name,
           phone
-        });
+        };
       }
     }
-  }
+    return null;
+  }));
+
+  const createdCrew = createdCrewResults.filter((c): c is { id: string; name: string; phone: string } => c !== null);
   
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");

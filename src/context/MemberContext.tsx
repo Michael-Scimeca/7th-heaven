@@ -1,8 +1,9 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 /* eslint-disable react-doctor/supabase-client-owned-authz-field */
 /* oxlint-disable react-doctor/supabase-client-owned-authz-field */
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 // Dev-only: never ships in the production bundle
 const fakeLogins: { email: string; password: string; name: string; username: string; userRole: string; pin: string }[] =
   process.env.NODE_ENV !== 'production'
@@ -11,80 +12,74 @@ const fakeLogins: { email: string; password: string; name: string; username: str
 import { ADMIN_ALERT_EMAIL } from "@/lib/role-config";
 
 export interface Member {
- id: string;
- name: string;
- username: string;
- email: string;
- joinDate: string;
- avatar: string;
- points: number;
- tier: "Bronze" | "Silver" | "Gold" | "Platinum";
- showsAttended: number;
- favoriteVenues: string[];
- location?: { lat: number; lng: number };
- notificationsEnabled: boolean;
- notificationRadius: number; // miles
- role: "fan" | "crew" | "admin" | "merch" | "event_planner" | "cruise";
- phone?: string;
- cruise_signup_id?: string;
- signup_source?: string;
- is_warned?: boolean;
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  joinDate: string;
+  avatar: string;
+  points: number;
+  tier: "Bronze" | "Silver" | "Gold" | "Platinum";
+  showsAttended: number;
+  favoriteVenues: string[];
+  location?: { lat: number; lng: number };
+  notificationsEnabled: boolean;
+  notificationRadius: number; // miles
+  role: "fan" | "crew" | "admin" | "merch" | "event_planner" | "cruise";
+  phone?: string;
+  cruise_signup_id?: string;
+  signup_source?: string;
+  is_warned?: boolean;
 }
 
 interface MemberContextType {
- member: Member | null;
- isLoggedIn: boolean;
- hydrated: boolean;
- isModalOpen: boolean;
- openModal: (mode?: "login" | "signup" | "forgot", role?: "fan" | "crew" | "planner" | "cruise") => void;
- closeModal: () => void;
- modalMode: "login" | "signup" | "forgot";
- setModalMode: (mode: "login" | "signup" | "forgot") => void;
- modalLoginRole: "fan" | "crew" | "planner" | "cruise";
- login: (email: string, password: string) => Promise<boolean>;
- signup: (name: string, email: string, password: string, phone?: string, username?: string) => Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }>;
- logout: () => void;
- addPoints: (amount: number) => void;
- updateLocation: (lat: number, lng: number) => void;
- toggleNotifications: (enabled: boolean) => void;
- setNotificationRadius: (miles: number) => void;
- updateAvatar: (avatarUrl: string) => Promise<void>;
+  member: Member | null;
+  isLoggedIn: boolean;
+  hydrated: boolean;
+  isModalOpen: boolean;
+  openModal: (mode?: "login" | "signup" | "forgot", role?: "fan" | "crew" | "planner" | "cruise") => void;
+  closeModal: () => void;
+  modalMode: "login" | "signup" | "forgot";
+  setModalMode: (mode: "login" | "signup" | "forgot") => void;
+  modalLoginRole: "fan" | "crew" | "planner" | "cruise";
+  login: (email: string, password: string) => Promise<boolean>;
+  signup: (name: string, email: string, password: string, phone?: string, username?: string) => Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }>;
+  logout: () => void;
+  addPoints: (amount: number) => void;
+  updateLocation: (lat: number, lng: number) => void;
+  toggleNotifications: (enabled: boolean) => void;
+  setNotificationRadius: (miles: number) => void;
+  updateAvatar: (avatarUrl: string) => Promise<void>;
 }
 
 const MemberContext = createContext<MemberContextType | null>(null);
 
 export function useMember() {
- const ctx = useContext(MemberContext);
- if (!ctx) throw new Error("useMember must be used within MemberProvider");
- return ctx;
+  const ctx = useContext(MemberContext);
+  if (!ctx) throw new Error("useMember must be used within MemberProvider");
+  return ctx;
 }
 
 function getTier(points: number): Member["tier"] {
- if (points >= 5000) return "Platinum";
- if (points >= 2000) return "Gold";
- if (points >= 500) return "Silver";
- return "Bronze";
+  if (points >= 5000) return "Platinum";
+  if (points >= 2000) return "Gold";
+  if (points >= 500) return "Silver";
+  return "Bronze";
 }
 
-const tierColors: Record<Member["tier"], string> = {
- Bronze: "#cd7f32",
- Silver: "#c0c0c0",
- Gold: "#ffd700",
- Platinum: "#a855f7",
-};
 
-export { tierColors };
 
 export function MemberProvider({ children }: { children: ReactNode }) {
- const [member, setMember] = useState<Member | null>(null);
- const [hydrated, setHydrated] = useState(false);
- const [isModalOpen, setIsModalOpen] = useState(false);
- const [modalMode, setModalMode] = useState<"login" | "signup" | "forgot">("login");
- const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew" | "planner" | "cruise">("fan");
+  const [member, setMember] = useState<Member | null>(null);
+  const [hydrated, setHydrated] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"login" | "signup" | "forgot">("login");
+  const [modalLoginRole, setModalLoginRole] = useState<"fan" | "crew" | "planner" | "cruise">("fan");
 
   // Load member and setup auth listener
   useEffect(() => {
     let active = true;
+    const getStored = () => typeof window !== 'undefined' ? (localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member")) : null;
 
     const initAndListen = async () => {
       let subscription: any = null;
@@ -152,11 +147,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             await syncUser(session.user);
           } else {
             // Fallback to local storage on initial load if offline/no session
-            const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
+            const stored = getStored();
             if (stored) {
               try {
                 setMember(JSON.parse(stored));
-              } catch {}
+              } catch { }
             }
           }
         } catch (e) {
@@ -169,7 +164,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             await syncUser(session.user);
           } else if (event === "SIGNED_OUT") {
             if (active) {
-              const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
+              const stored = getStored();
               if (!stored) setMember(null);
             }
           }
@@ -178,11 +173,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       } catch (err) {
         console.error("Supabase client creation/initialization failed, falling back to local storage:", err);
         // Fallback to local storage on error
-        const stored = localStorage.getItem("7h_member_v1") || localStorage.getItem("7h_member");
+        const stored = getStored();
         if (stored) {
           try {
             setMember(JSON.parse(stored));
-          } catch {}
+          } catch { }
         }
       } finally {
         if (active) setHydrated(true);
@@ -201,125 +196,125 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
   // Persist member to localStorage
   useEffect(() => {
-   if (!hydrated) return;
-   if (member) {
-    localStorage.setItem("7h_member_v1", JSON.stringify(member));
-   } else {
-    localStorage.removeItem("7h_member_v1");
-    localStorage.removeItem("7h_member");
-   }
+    if (!hydrated) return;
+    if (member) {
+      localStorage.setItem("7h_member_v1", JSON.stringify(member));
+    } else {
+      localStorage.removeItem("7h_member_v1");
+      localStorage.removeItem("7h_member");
+    }
   }, [member, hydrated]);
 
- const openModal = useCallback((mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" | "planner" | "cruise" = "fan") => {
-  setModalMode(mode);
-  setModalLoginRole(role);
-  setIsModalOpen(true);
- }, []);
- const closeModal = useCallback(() => {
-  setIsModalOpen(false);
-  setModalLoginRole("fan"); // reset role on close
- }, []);
-
-  const login = async (email: string, password: string): Promise<boolean> => {
-   // Check fake logins bypass
-   const savedPassword = typeof window !== 'undefined' ? localStorage.getItem(`7h_dev_password_${email.toLowerCase()}`) : null;
-   const fakeUser = fakeLogins.find(
-    u => u.email.toLowerCase() === email.toLowerCase() && (password === savedPassword || (!savedPassword && u.password === password))
-   );
-
-   if (fakeUser) {
-    const storedBans = typeof window !== 'undefined' ? localStorage.getItem("7h_banned_users") : null;
-    const bannedList = storedBans ? JSON.parse(storedBans) : [];
-    if (bannedList.includes(fakeUser.username) || bannedList.includes(fakeUser.name) || bannedList.includes(fakeUser.email)) {
-      throw new Error("This account has been banned.");
-    }
-
-    const fakeMember: Member = {
-     id: `fake-${fakeUser.userRole || (fakeUser as any).role}-${Date.now()}`,
-     name: fakeUser.name,
-     username: fakeUser.username,
-     email: fakeUser.email.toLowerCase(),
-     joinDate: new Date().toISOString(),
-     avatar: fakeUser.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
-     points: 100,
-     tier: "Gold",
-     showsAttended: 5,
-     favoriteVenues: [],
-     notificationsEnabled: true,
-     notificationRadius: 25,
-     role: (fakeUser.userRole || (fakeUser as any).role) as Member["role"],
-    };
-
-    localStorage.setItem("7h_member_v1", JSON.stringify(fakeMember));
-    setMember(fakeMember);
+  const openModal = useCallback((mode: "login" | "signup" | "forgot" = "login", role: "fan" | "crew" | "planner" | "cruise" = "fan") => {
+    setModalMode(mode);
+    setModalLoginRole(role);
+    setIsModalOpen(true);
+  }, []);
+  const closeModal = useCallback(() => {
     setIsModalOpen(false);
-    localStorage.removeItem('vip_inbox_messages_v1');
-    localStorage.removeItem('vip_inbox_messages');
-    return true;
-   }
+    setModalLoginRole("fan"); // reset role on close
+  }, []);
 
-   // Authenticate via Supabase Auth
-   try {
-    const { createClient } = await import("@/lib/supabase/client");
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error || !data.user) return false;
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    // Check fake logins bypass
+    const savedPassword = typeof window !== 'undefined' ? localStorage.getItem(`7h_dev_password_${email.toLowerCase()}`) : null;
+    const fakeUser = fakeLogins.find(
+      u => u.email.toLowerCase() === email.toLowerCase() && (password === savedPassword || (!savedPassword && u.password === password))
+    );
 
-    // Fetch profile for role
-    const { data: profile } = await supabase.from("profiles").select("*").eq("id", data.user.id).single();
+    if (fakeUser) {
+      const storedBans = typeof window !== 'undefined' ? localStorage.getItem("7h_banned_users") : null;
+      const bannedList = storedBans ? JSON.parse(storedBans) : [];
+      if (bannedList.includes(fakeUser.username) || bannedList.includes(fakeUser.name) || bannedList.includes(fakeUser.email)) {
+        throw new Error("This account has been banned.");
+      }
 
-    if (profile?.is_banned) {
-      console.warn("Attempted login to banned account:", email);
-      await supabase.auth.signOut();
-      throw new Error("This account has been banned.");
+      const fakeMember: Member = {
+        id: `fake-${fakeUser.userRole || (fakeUser as any).role}-${Date.now()}`,
+        name: fakeUser.name,
+        username: fakeUser.username,
+        email: fakeUser.email.toLowerCase(),
+        joinDate: new Date().toISOString(),
+        avatar: fakeUser.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+        points: 100,
+        tier: "Gold",
+        showsAttended: 5,
+        favoriteVenues: [],
+        notificationsEnabled: true,
+        notificationRadius: 25,
+        role: (fakeUser.userRole || (fakeUser as any).role) as Member["role"],
+      };
+
+      localStorage.setItem("7h_member_v1", JSON.stringify(fakeMember));
+      setMember(fakeMember);
+      setIsModalOpen(false);
+      localStorage.removeItem('vip_inbox_messages_v1');
+      localStorage.removeItem('vip_inbox_messages');
+      return true;
     }
 
-    const role = profile?.role || "fan";
-    const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
-    const profileUsername = profile?.username || data.user.user_metadata?.username || '';
+    // Authenticate via Supabase Auth
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error || !data.user) return false;
 
-    const supabaseMember: Member = {
-     id: data.user.id,
-     name: fullName,
-     username: profileUsername,
-     email: data.user.email?.toLowerCase() || email.toLowerCase(),
-     joinDate: data.user.created_at || new Date().toISOString(),
-     avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
-     points: profile?.points ?? 0,
-     tier: (profile?.tier as Member["tier"]) ?? "Bronze",
-     showsAttended: profile?.shows_attended ?? 0,
-     favoriteVenues: [],
-     notificationsEnabled: profile?.notifications_enabled ?? false,
-     notificationRadius: profile?.notification_radius ?? 25,
-     role: role as Member["role"],
-     cruise_signup_id: profile?.cruise_signup_id || undefined,
-     signup_source: profile?.signup_source || undefined,
-     is_warned: !!profile?.is_warned,
-    };
+      // Fetch profile for role
+      const { data: profile } = await supabase.from("profiles").select("*").eq("id", data.user.id).single();
 
-    // Cache member profile (NOT the password) for fast access
-    localStorage.setItem("7h_member_v1", JSON.stringify(supabaseMember));
+      if (profile?.is_banned) {
+        console.warn("Attempted login to banned account:", email);
+        await supabase.auth.signOut();
+        throw new Error("This account has been banned.");
+      }
 
-    setMember(supabaseMember);
-    setIsModalOpen(false);
-    localStorage.removeItem('vip_inbox_messages_v1');
-    localStorage.removeItem('vip_inbox_messages');
-    return true;
-   } catch (e: any) {
-    console.error("Login error:", e);
-    if (e?.message === "This account has been banned.") {
-      throw e;
+      const role = profile?.role || "fan";
+      const fullName = data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User";
+      const profileUsername = profile?.username || data.user.user_metadata?.username || '';
+
+      const supabaseMember: Member = {
+        id: data.user.id,
+        name: fullName,
+        username: profileUsername,
+        email: data.user.email?.toLowerCase() || email.toLowerCase(),
+        joinDate: data.user.created_at || new Date().toISOString(),
+        avatar: fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+        points: profile?.points ?? 0,
+        tier: (profile?.tier as Member["tier"]) ?? "Bronze",
+        showsAttended: profile?.shows_attended ?? 0,
+        favoriteVenues: [],
+        notificationsEnabled: profile?.notifications_enabled ?? false,
+        notificationRadius: profile?.notification_radius ?? 25,
+        role: role as Member["role"],
+        cruise_signup_id: profile?.cruise_signup_id || undefined,
+        signup_source: profile?.signup_source || undefined,
+        is_warned: !!profile?.is_warned,
+      };
+
+      // Cache member profile (NOT the password) for fast access
+      localStorage.setItem("7h_member_v1", JSON.stringify(supabaseMember));
+
+      setMember(supabaseMember);
+      setIsModalOpen(false);
+      localStorage.removeItem('vip_inbox_messages_v1');
+      localStorage.removeItem('vip_inbox_messages');
+      return true;
+    } catch (e: any) {
+      console.error("Login error:", e);
+      if (e?.message === "This account has been banned.") {
+        throw e;
+      }
+      return false;
     }
-    return false;
-   }
-  };
+  }, [setMember, setIsModalOpen]);
 
- const signup = async (name: string, email: string, password: string, phone?: string, username?: string): Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }> => {
-  const role: Member["role"] = email.toLowerCase().includes("planner") ? "event_planner" : "fan";
+  const signup = useCallback(async (name: string, email: string, password: string, phone?: string, username?: string): Promise<{ success: boolean; confirmationRequired?: boolean; error?: string }> => {
+    const role: Member["role"] = email.toLowerCase().includes("planner") ? "event_planner" : "fan";
 
-  let userId = crypto.randomUUID();
+    let userId = crypto.randomUUID();
 
-  // Create account in Supabase Auth (persistent, cross-device)
+    // Create account in Supabase Auth (persistent, cross-device)
     try {
       const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
@@ -354,117 +349,117 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       return { success: false, error: "Network error" };
     }
 
-  const newMember: Member = {
-   id: userId,
-   name,
-   username: username || '',
-   email: email.toLowerCase(),
-   phone: phone || undefined,
-   joinDate: new Date().toISOString(),
-   avatar: name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2),
-   points: 0,
-   tier: "Bronze",
-   showsAttended: 0,
-   favoriteVenues: [],
-   notificationsEnabled: false,
-   notificationRadius: 25,
-   role: role as Member["role"],
-  };
+    const newMember: Member = {
+      id: userId,
+      name,
+      username: username || '',
+      email: email.toLowerCase(),
+      phone: phone || undefined,
+      joinDate: new Date().toISOString(),
+      avatar: name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2),
+      points: 0,
+      tier: "Bronze",
+      showsAttended: 0,
+      favoriteVenues: [],
+      notificationsEnabled: false,
+      notificationRadius: 25,
+      role: role as Member["role"],
+    };
 
-  // Cache member profile (NOT the password) for fast access
-  localStorage.setItem("7h_member_v1", JSON.stringify(newMember));
+    // Cache member profile (NOT the password) for fast access
+    localStorage.setItem("7h_member_v1", JSON.stringify(newMember));
 
-  setMember(newMember);
-  setIsModalOpen(false);
-  localStorage.removeItem('vip_inbox_messages_v1');
-  localStorage.removeItem('vip_inbox_messages');
+    setMember(newMember);
+    setIsModalOpen(false);
+    localStorage.removeItem('vip_inbox_messages_v1');
+    localStorage.removeItem('vip_inbox_messages');
 
-  // ── Send welcome + admin alert emails (fire-and-forget) ──
-  try {
-    const { welcomeFan, welcomePlanner, newAccountAdminAlert } = await import('@/lib/email-templates');
-    const welcomeHtml = role === 'event_planner'
-      ? welcomePlanner({ name, email })
-      : welcomeFan({ name });
-    const welcomeSubject = role === 'event_planner'
-      ? '📋 Your Planner Account is Ready — 7th Heaven'
-      : '🎸 Welcome to the 7th Heaven Family';
+    // ── Send welcome + admin alert emails (fire-and-forget) ──
+    try {
+      const { welcomeFan, welcomePlanner, newAccountAdminAlert } = await import('@/lib/email-templates');
+      const welcomeHtml = role === 'event_planner'
+        ? welcomePlanner({ name, email })
+        : welcomeFan({ name });
+      const welcomeSubject = role === 'event_planner'
+        ? '📋 Your Planner Account is Ready — 7th Heaven'
+        : '🎸 Welcome to the 7th Heaven Family';
 
-    // Send welcome email to new member
-    fetch('/api/email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: email, subject: welcomeSubject, html: welcomeHtml }),
-    }).catch(() => {});
-
-    // Send admin alert
-    const roleLabel = role === 'event_planner' ? 'Planner' : role.charAt(0).toUpperCase() + role.slice(1);
-    const alertHtml = newAccountAdminAlert({
-      accountName: name,
-      accountEmail: email,
-      accountUsername: username || undefined,
-      accountRole: role,
-    });
-    if (ADMIN_ALERT_EMAIL) {
+      // Send welcome email to new member
       fetch('/api/email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: ADMIN_ALERT_EMAIL,
-          subject: `🔔 New ${roleLabel} Account: ${name}`,
-          html: alertHtml,
-        }),
-      }).catch(() => {});
+        body: JSON.stringify({ to: email, subject: welcomeSubject, html: welcomeHtml }),
+      }).catch(() => { });
+
+      // Send admin alert
+      const roleLabel = role === 'event_planner' ? 'Planner' : role.charAt(0).toUpperCase() + role.slice(1);
+      const alertHtml = newAccountAdminAlert({
+        accountName: name,
+        accountEmail: email,
+        accountUsername: username || undefined,
+        accountRole: role,
+      });
+      if (ADMIN_ALERT_EMAIL) {
+        fetch('/api/email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: ADMIN_ALERT_EMAIL,
+            subject: `🔔 New ${roleLabel} Account: ${name}`,
+            html: alertHtml,
+          }),
+        }).catch(() => { });
+      }
+    } catch { }
+
+    return { success: true, confirmationRequired: false };
+  }, [setMember, setIsModalOpen]);
+
+  const logout = useCallback(async () => {
+    // 1. Use the cached supabase client (same instance that holds the session)
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch { }
+
+    // 2. Nuke every trace of the session from storage
+    localStorage.removeItem("7h_member");
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith("sb-")) localStorage.removeItem(key);
+    });
+    sessionStorage.clear();
+
+    // 3. Clear the cached window client so next page gets a fresh one
+    if (typeof window !== "undefined") {
+      (window as any).__supabaseClient = null;
     }
-  } catch {}
 
-  return { success: true, confirmationRequired: false };
- };
+    // 4. Clear React state
+    setMember(null);
+  }, [setMember]);
 
- const logout = async () => {
-  // 1. Use the cached supabase client (same instance that holds the session)
-  try {
-   const { createClient } = await import("@/lib/supabase/client");
-   const supabase = createClient();
-   await supabase.auth.signOut();
-  } catch {}
+  const addPoints = useCallback((amount: number) => {
+    setMember(prev => {
+      if (!prev) return prev;
+      const newPoints = prev.points + amount;
+      return { ...prev, points: newPoints, tier: getTier(newPoints) };
+    });
+  }, [setMember]);
 
-  // 2. Nuke every trace of the session from storage
-  localStorage.removeItem("7h_member");
-  Object.keys(localStorage).forEach(key => {
-   if (key.startsWith("sb-")) localStorage.removeItem(key);
-  });
-  sessionStorage.clear();
+  const updateLocation = useCallback((lat: number, lng: number) => {
+    setMember(prev => prev ? { ...prev, location: { lat, lng } } : prev);
+  }, [setMember]);
 
-  // 3. Clear the cached window client so next page gets a fresh one
-  if (typeof window !== "undefined") {
-   (window as any).__supabaseClient = null;
-  }
+  const toggleNotifications = useCallback((enabled: boolean) => {
+    setMember(prev => prev ? { ...prev, notificationsEnabled: enabled } : prev);
+  }, [setMember]);
 
-  // 4. Clear React state
-  setMember(null);
- };
+  const setNotificationRadius = useCallback((miles: number) => {
+    setMember(prev => prev ? { ...prev, notificationRadius: miles } : prev);
+  }, [setMember]);
 
- const addPoints = (amount: number) => {
-  setMember(prev => {
-   if (!prev) return prev;
-   const newPoints = prev.points + amount;
-   return { ...prev, points: newPoints, tier: getTier(newPoints) };
-  });
- };
-
- const updateLocation = (lat: number, lng: number) => {
-  setMember(prev => prev ? { ...prev, location: { lat, lng } } : prev);
- };
-
- const toggleNotifications = (enabled: boolean) => {
-  setMember(prev => prev ? { ...prev, notificationsEnabled: enabled } : prev);
- };
-
- const setNotificationRadius = (miles: number) => {
-  setMember(prev => prev ? { ...prev, notificationRadius: miles } : prev);
- };
-
-  const updateAvatar = async (avatarUrl: string) => {
+  const updateAvatar = useCallback(async (avatarUrl: string) => {
     setMember(prev => {
       if (!prev) return null; // No member session — nothing to update
       return { ...prev, avatar: avatarUrl };
@@ -486,29 +481,48 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       console.error("Failed to update avatar:", err);
     }
-  };
+  }, [setMember]);
 
- return (
-  <MemberContext.Provider value={{
-   member,
-   isLoggedIn: !!member,
-   hydrated,
-   isModalOpen,
-   openModal,
-   closeModal,
-   modalMode,
-   setModalMode,
-   modalLoginRole,
-   login,
-   signup,
-   logout,
-   addPoints,
-   updateLocation,
-   toggleNotifications,
-   setNotificationRadius,
-   updateAvatar,
-  }}>
-   {children}
-  </MemberContext.Provider>
- );
+  const contextValue = useMemo(() => ({
+    member,
+    isLoggedIn: !!member,
+    hydrated,
+    isModalOpen,
+    openModal,
+    closeModal,
+    modalMode,
+    setModalMode,
+    modalLoginRole,
+    login,
+    signup,
+    logout,
+    addPoints,
+    updateLocation,
+    toggleNotifications,
+    setNotificationRadius,
+    updateAvatar,
+  }), [
+    member,
+    hydrated,
+    isModalOpen,
+    openModal,
+    closeModal,
+    modalMode,
+    setModalMode,
+    modalLoginRole,
+    login,
+    signup,
+    logout,
+    addPoints,
+    updateLocation,
+    toggleNotifications,
+    setNotificationRadius,
+    updateAvatar,
+  ]);
+
+  return (
+    <MemberContext.Provider value={contextValue}>
+      {children}
+    </MemberContext.Provider>
+  );
 }

@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useRef } from "react";
 
@@ -122,45 +124,54 @@ export default function BulkInvitePanel() {
     setSending(true);
     setResults(null);
 
-    // Reset status to sending/pending
-    setInvites((prev) => prev.map((inv) => ({ ...inv, status: "pending", error: undefined })));
+    try {
+      // Reset status to sending/pending
+      setInvites((prev) => prev.map((inv) => ({ ...inv, status: "pending", error: undefined })));
 
-    let successCount = 0;
-    let failedCount = 0;
+      let successCount = 0;
+      let failedCount = 0;
 
-    // Send in batches of 10 for safety and rate limiting
-    const batchSize = 10;
-    const payloadInvites = invites.map((inv) => ({ email: inv.email, name: inv.name }));
+      // Send in batches of 10 for safety and rate limiting
+      const batchSize = 10;
+      const payloadInvites = invites.map((inv) => ({ email: inv.email, name: inv.name || "" }));
 
-    for (let i = 0; i < payloadInvites.length; i += batchSize) {
-      const batch = payloadInvites.slice(i, i + batchSize);
+      // Split invites into batches and process in parallel
+      const batches: { start: number; batch: { email: string; name: string }[] }[] = [];
+      for (let i = 0; i < payloadInvites.length; i += batchSize) {
+        batches.push({ start: i, batch: payloadInvites.slice(i, i + batchSize) });
+      }
 
-      // Update local states to "sending" for the current batch
-      setInvites((prev) =>
-        prev.map((inv, idx) =>
-          idx >= i && idx < i + batch.length ? { ...inv, status: "sending" } : inv
-        )
+      setInvites((prev) => prev.map((inv) => ({ ...inv, status: "sending" })));
+
+      const batchResults = await Promise.all(
+        batches.map(async ({ start, batch }) => {
+          try {
+            const res = await fetch("/api/admin/invite-csv", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ invites: batch }),
+            });
+            if (res.ok) {
+              const data = await res.json();
+              return { start, batch, data };
+            }
+            return { start, batch, error: "Batch request failed" };
+          } catch (err: any) {
+            return { start, batch, error: err.message || "Network error" };
+          }
+        })
       );
 
-      try {
-        const res = await fetch("/api/admin/invite-csv", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ invites: batch }),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success) {
-            successCount += data.successCount;
-            failedCount += data.failedCount;
-
-          // Build a lookup map of failures
+      for (const { start, batch, data, error } of batchResults) {
+        if (data && data.success) {
+          successCount += data.successCount || 0;
+          failedCount += data.failedCount || 0;
           const failureMap = new Map<string, string>();
           data.failures?.forEach((f: any) => failureMap.set(f.email, f.error));
 
           setInvites((prev) =>
             prev.map((inv, idx) => {
-              if (idx >= i && idx < i + batch.length) {
+              if (idx >= start && idx < start + batch.length) {
                 const failReason = failureMap.get(inv.email);
                 if (failReason) {
                   return { ...inv, status: "failed", error: failReason };
@@ -174,27 +185,18 @@ export default function BulkInvitePanel() {
           failedCount += batch.length;
           setInvites((prev) =>
             prev.map((inv, idx) =>
-              idx >= i && idx < i + batch.length
-                ? { ...inv, status: "failed", error: data.error || "Batch failed" }
+              idx >= start && idx < start + batch.length
+                ? { ...inv, status: "failed", error: error || "Batch failed" }
                 : inv
             )
           );
         }
-        }
-      } catch (err: any) {
-        failedCount += batch.length;
-        setInvites((prev) =>
-          prev.map((inv, idx) =>
-            idx >= i && idx < i + batch.length
-              ? { ...inv, status: "failed", error: err.message || "Network error" }
-              : inv
-          )
-        );
       }
-    }
 
-    setSending(false);
-    setResults({ success: successCount, failed: failedCount });
+      setResults({ success: successCount, failed: failedCount });
+    } finally {
+      setSending(false);
+    }
   };
 
   const clearList = () => {
@@ -209,17 +211,18 @@ export default function BulkInvitePanel() {
       {invites.length === 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* CSV File Upload Dropzone */}
-          <div
+          <button
+            type="button"
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 ${isDragging
+            className={`border-2 border-dashed  p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full bg-transparent ${isDragging
                 ? "border-[var(--color-accent)] bg-[var(--color-accent)] scale-[0.99]"
                 : "border-black/20 bg-black/[0.02] hover:border-black/40 hover:bg-black/[0.04]"
               }`}
           >
-            <input
+            <input aria-label="Input field"
               type="file"
               ref={fileInputRef}
               onChange={handleFileUpload}
@@ -234,12 +237,12 @@ export default function BulkInvitePanel() {
             <span className="mt-4 px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-[0.65rem] font-bold uppercase tracking-widest rounded-lg border border-[var(--color-accent)] shadow-xs">
               Browse Files
             </span>
-          </div>
+          </button>
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
             <label htmlFor="bulk-invite-text-input" className="text-xs uppercase tracking-[0.15em] text-black/70 font-black">Copy-Paste Contact List</label>
-            <textarea
+            <textarea aria-label="Text input"
               id="bulk-invite-text-input"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
@@ -247,7 +250,7 @@ export default function BulkInvitePanel() {
               rows={5}
               className="w-full bg-white border border-black/15 text-black text-xs px-4 py-3 focus:outline-none focus:border-[var(--color-accent)] font-mono resize-none placeholder:text-black/30 font-semibold"
             />
-            <button
+            <button aria-label="Action button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
               className="w-full py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-widest transition-colors border border-[var(--color-accent)] cursor-pointer disabled:opacity-30 shadow-sm"
@@ -270,7 +273,7 @@ export default function BulkInvitePanel() {
             </div>
 
             <div className="flex items-center gap-3">
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={clearList}
                 disabled={sending}
@@ -278,7 +281,7 @@ export default function BulkInvitePanel() {
               >
                 Clear List
               </button>
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}

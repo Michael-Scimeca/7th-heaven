@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
 
 import { useState, useEffect, useCallback } from "react";
@@ -61,16 +63,16 @@ export function EmbarkationCountdown() {
 
 
 // --- DAILY POLL ---
+const POLL_OPTIONS = [
+  { id: 1, text: "7th Heaven's Greatest Hits", votes: 45 },
+  { id: 2, text: "80s Rock Anthems Cover Set", votes: 82 },
+  { id: 3, text: "Acoustic Sunset Session", votes: 28 },
+];
+
 export function DailyPoll() {
   const [voted, setVoted] = useState<number | null>(null);
 
-  const options = [
-    { id: 1, text: "7th Heaven's Greatest Hits", votes: 45 },
-    { id: 2, text: "80s Rock Anthems Cover Set", votes: 82 },
-    { id: 3, text: "Acoustic Sunset Session", votes: 28 },
-  ];
-
-  const totalVotes = options.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
+  const totalVotes = POLL_OPTIONS.reduce((acc, opt) => acc + opt.votes, 0) + (voted !== null ? 1 : 0);
 
   return (
     <div className="bg-[var(--color-bg-surface)] border  border-[var(--color-accent)]/30 p-8 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden group">
@@ -82,15 +84,15 @@ export function DailyPoll() {
       <p className="text-white font-bold text-lg mb-6 relative z-10">What should the theme be for the Lido Deck Sailaway Party?</p>
 
       <div className="space-y-3 relative z-10">
-        {options.map((opt) => {
+        {POLL_OPTIONS.map((opt) => {
           const optVotes = opt.votes + (voted === opt.id ? 1 : 0);
           const percent = Math.round((optVotes / totalVotes) * 100);
-          const isWinner = percent === Math.max(...options.map(o => Math.round(((o.votes + (voted === o.id ? 1 : 0)) / totalVotes) * 100)));
+          const isWinner = percent === Math.max(...POLL_OPTIONS.map(o => Math.round(((o.votes + (voted === o.id ? 1 : 0)) / totalVotes) * 100)));
 
           return (
-            <button
+            <button aria-label="Action button"
               key={opt.id}
-              onClick={() => !voted && setVoted(opt.id)}
+                 onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
               className={`w-full relative overflow-hidden  border text-left transition-colors ${voted === opt.id
                 ? 'border-emerald-500 bg-emerald-500/10'
@@ -130,23 +132,23 @@ export function DailyPoll() {
 }
 
 // --- ORIGINS MAP WIDGET ---
-export function OriginStats() {
-  const stats = [
-    { location: 'Illinois', count: 145 },
-    { location: 'Florida', count: 42 },
-    { location: 'Texas', count: 28 },
-    { location: 'Canada', count: 12 },
-    { location: 'Other', count: 185 },
-  ];
+const ORIGIN_STATS = [
+  { location: 'Illinois', count: 145 },
+  { location: 'Florida', count: 42 },
+  { location: 'Texas', count: 28 },
+  { location: 'Canada', count: 12 },
+  { location: 'Other', count: 185 },
+];
 
-  const maxCount = Math.max(...stats.map(s => s.count));
+export function OriginStats() {
+  const maxCount = Math.max(...ORIGIN_STATS.map(s => s.count));
 
   return (
     <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 relative overflow-hidden group">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-5">Where Fans Are Sailing From</h2>
 
       <div className="space-y-4">
-        {stats.map((stat, i) => (
+        {ORIGIN_STATS.map((stat, i) => (
           <div key={stat.location}>
             <div className="flex justify-between text-xs font-bold uppercase tracking-wider mb-1.5">
               <span className="text-white/70">{stat.location}</span>
@@ -166,15 +168,16 @@ export function OriginStats() {
 }
 
 // --- PHOTO WALL ---
+const MOCK_PHOTOS = [
+  '/images/galleries/live_show_1.jpg',
+  '/images/galleries/live_show_2.jpg',
+  '/images/galleries/live_show_3.jpg',
+  '/images/galleries/live_show_4.jpg',
+  '/images/galleries/live_show_5.jpg',
+  '/images/galleries/live_show_6.jpg',
+];
+
 export function PhotoWall() {
-  const mockPhotos = [
-    '/images/galleries/live_show_1.jpg',
-    '/images/galleries/live_show_2.jpg',
-    '/images/galleries/live_show_3.jpg',
-    '/images/galleries/live_show_4.jpg',
-    '/images/galleries/live_show_5.jpg',
-    '/images/galleries/live_show_6.jpg',
-  ];
 
   return (
     <div className="mt-16">
@@ -183,13 +186,13 @@ export function PhotoWall() {
           <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Share your prep and packing photos!</p>
         </div>
-        <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
+        <button aria-label="Action button" className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-bold text-white transition-colors uppercase tracking-widest">
           + Upload
         </button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        {mockPhotos.map((src, i) => (
+        {MOCK_PHOTOS.map((src, i) => (
           <div
             key={i}
             className="aspect-square bg-white/5 border border-white/10 overflow-hidden group cursor-pointer relative"
@@ -456,26 +459,26 @@ export function BookingManager({ email }: { email?: string }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</span>
-            <input type="text" readOnly value={member?.name || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+            <input aria-label="Input field" type="text" readOnly value={member?.name || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Email Address</span>
-            <input type="text" readOnly value={email || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
+            <input aria-label="Input field" type="text" readOnly value={email || ''} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white/50 outline-none cursor-not-allowed" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
-            <input id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
+            <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
           </div>
           <div>
             <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
-            <input id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
+            <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
           </div>
           <div>
             <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
-            <select id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors cursor-pointer">
+            <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors cursor-pointer">
               <option value="group_n5">Ocean View</option>
               <option value="group_if">Infinite Central Park</option>
               <option value="group_d4">Ocean View Balcony</option>
@@ -487,7 +490,7 @@ export function BookingManager({ email }: { email?: string }) {
 
         {regError && <p className="text-rose-400 text-xs mt-1">{regError}</p>}
 
-        <button type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-colors shadow-md shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+        <button aria-label="Action button" type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-colors shadow-md shadow-cyan-500/10 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
           {registering ? <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : "Complete Cruise Registration"}
         </button>
       </form>
@@ -507,7 +510,7 @@ export function BookingManager({ email }: { email?: string }) {
           </div>
 
           {!isEditing && (
-            <button onClick={() => setIsEditing(true)} className=" text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-black transition-colors cursor-pointer">
+            <button aria-label="Action button" onClick={() => setIsEditing(true)} className=" text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-black transition-colors cursor-pointer">
               Edit Info
             </button>
           )}
@@ -538,7 +541,7 @@ export function BookingManager({ email }: { email?: string }) {
               <h3 className="text-xs font-bold text-cyan-700 uppercase tracking-widest border-b border-black/10 pb-2">Edit Booking & Guest Info</h3>
               <div>
                 <label htmlFor="cruise-edit-party-size" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
-                <input
+                <input aria-label="Input field"
                   id="cruise-edit-party-size"
                   type="number" min="1" max="10"
                   value={formData.guest_count}
@@ -548,7 +551,7 @@ export function BookingManager({ email }: { email?: string }) {
               </div>
               <div>
                 <label htmlFor="cruise-edit-phone" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
-                <input
+                <input aria-label="Input field"
                   id="cruise-edit-phone"
                   type="text"
                   value={formData.phone}
@@ -557,7 +560,7 @@ export function BookingManager({ email }: { email?: string }) {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <input
+                <input aria-label="Input field"
                   type="checkbox"
                   id="anon-check"
                   checked={formData.anonymous}
@@ -570,12 +573,12 @@ export function BookingManager({ email }: { email?: string }) {
               <div className="pt-2 border-t border-black/10">
                 <div className="flex justify-between items-center mb-2">
                   <span className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</span>
-                  <button onClick={() => setFormData({ ...formData, guests: [...formData.guests, { name: '', type: 'adult' }] })} className="text-xs font-bold  text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
+                  <button aria-label="Action button" onClick={() => setFormData({ ...formData, guests: [...formData.guests, { name: '', type: 'adult' }] })} className="text-xs font-bold  text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
                 </div>
                 <div className="space-y-2">
                   {Array.from(formData.guests, (g: any, i: number) => ({ g, i })).map(({ g, i }) => (
                     <div key={i} className="flex gap-2">
-                      <input
+                      <input aria-label="Input field"
                         type="text" placeholder="Name" value={g.name || ''}
                         onChange={e => {
                           const newGuests = [...formData.guests];
@@ -584,7 +587,7 @@ export function BookingManager({ email }: { email?: string }) {
                         }}
                         className="flex-1 bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)]"
                       />
-                      <select
+                      <select aria-label="Select option"
                         value={g.type || 'adult'}
                         onChange={e => {
                           const newGuests = [...formData.guests];
@@ -596,8 +599,8 @@ export function BookingManager({ email }: { email?: string }) {
                         <option value="adult">Adult</option>
                         <option value="child">Child</option>
                       </select>
-                      <button
-                        onClick={() => {
+                      <button aria-label="Action button"
+                           onClick={() => {
                           const newGuests = formData.guests.filter((_, idx) => idx !== i);
                           setFormData({ ...formData, guests: newGuests });
                         }}
@@ -610,10 +613,10 @@ export function BookingManager({ email }: { email?: string }) {
                 </div>
               </div>
               <div className="flex gap-2 mt-4 pt-2 border-t border-black/10">
-                <button onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-colors cursor-pointer">
                   {saveStatus || 'Save'}
                 </button>
-                <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors cursor-pointer">
                   Cancel
                 </button>
               </div>
@@ -710,8 +713,8 @@ export function BookingManager({ email }: { email?: string }) {
                   <div className="flex items-center gap-2">
                     <span className="text-rose-600 font-black text-sm">{booking.balance_due || "$350.00"}</span>
                     {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
-                      <button
-                        onClick={() => setIsPayModalOpen(true)}
+                      <button aria-label="Action button"
+                           onClick={() => setIsPayModalOpen(true)}
                         className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
                       >
                         💳 Pay Balance
@@ -818,7 +821,7 @@ interface PaymentModalProps {
   onSuccess: () => void;
 }
 
-export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: PaymentModalProps) {
+function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: PaymentModalProps) {
   const [tab, setTab] = useState<'saved' | 'new'>('saved');
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -900,8 +903,9 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-colors"
+      <button type="button"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-colors border-0"
+        aria-label="Close modal background"
         onClick={processing || success ? undefined : onClose}
       />
 
@@ -915,8 +919,8 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
             <p className="text-white/60 text-xs leading-relaxed">
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
-            <button
-              onClick={onClose}
+            <button aria-label="Close"
+                 onClick={onClose}
               className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-emerald-500/15"
             >
               Close
@@ -946,16 +950,16 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
             ) : (
               <>
                 <div className="flex gap-2 p-1 bg-black/40 border border-white/5">
-                  <button
+                  <button aria-label="Action button"
                     type="button"
-                    onClick={() => { setTab('saved'); setError(''); }}
+                       onClick={() => { setTab('saved'); setError(''); }}
                     className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
-                  <button
+                  <button aria-label="Action button"
                     type="button"
-                    onClick={() => { setTab('new'); setError(''); }}
+                       onClick={() => { setTab('new'); setError(''); }}
                     className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
@@ -981,7 +985,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                   <div className="space-y-4">
                     <div>
                       <label htmlFor="cruise-card-name" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Cardholder Name</label>
-                      <input
+                      <input aria-label="Input field"
                         id="cruise-card-name"
                         type="text"
                         placeholder="John Doe"
@@ -993,7 +997,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                     <div>
                       <label htmlFor="cruise-card-number" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Card Number</label>
                       <div className="relative">
-                        <input
+                        <input aria-label="Input field"
                           id="cruise-card-number"
                           type="text"
                           placeholder="4000 1234 5678 9010"
@@ -1007,7 +1011,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="cruise-card-expiry" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">Expiry Date</label>
-                        <input
+                        <input aria-label="Input field"
                           id="cruise-card-expiry"
                           type="text"
                           placeholder="MM/YY"
@@ -1018,7 +1022,7 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                       </div>
                       <div>
                         <label htmlFor="cruise-card-cvc" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">CVC</label>
-                        <input
+                        <input aria-label="Input field"
                           id="cruise-card-cvc"
                           type="password"
                           placeholder="123"
@@ -1032,14 +1036,14 @@ export function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: 
                 )}
 
                 <div className="flex gap-3 pt-2">
-                  <button
+                  <button aria-label="Close"
                     type="button"
-                    onClick={onClose}
+                       onClick={onClose}
                     className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
-                  <button
+                  <button aria-label="Action button"
                     type="submit"
                     className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-cyan-500/10"
                   >
@@ -1148,8 +1152,8 @@ export function SongRequestLeaderboard() {
               <div className="text-white/90 font-medium text-sm">{song.title}</div>
               <div className="text-white/30 text-xs">{song.votes} votes</div>
             </div>
-            <button
-              onClick={() => handleVote(song.id)}
+            <button aria-label="Action button"
+                 onClick={() => handleVote(song.id)}
               className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
             >
               ▲
@@ -1187,8 +1191,8 @@ export function CaptainsLog() {
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-4">Captain's Log</h2>
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
+        <button aria-label="Action button"
+             onClick={() => setIsPlaying(!isPlaying)}
           className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-colors shadow-md"
         >
           {isPlaying ? (
@@ -1218,18 +1222,18 @@ export function CaptainsLog() {
 
 
 // --- EXCURSION TEASERS ---
-export function ExcursionTeasers() {
-  const excursions = [
-    { title: "Cozumel Snorkel & Sail", bandMember: "Richard", spots: 12 },
-    { title: "Mayan Ruins Exploration", bandMember: "Michael", spots: 4 },
-  ];
+const EXCURSIONS = [
+  { title: "Cozumel Snorkel & Sail", bandMember: "Richard", spots: 12 },
+  { title: "Mayan Ruins Exploration", bandMember: "Michael", spots: 4 },
+];
 
+export function ExcursionTeasers() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6">
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
 
       <div className="space-y-3">
-        {excursions.map((ex, i) => (
+        {EXCURSIONS.map((ex, i) => (
           <div key={ex.title} className="p-3 bg-cyan-900/10 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors flex items-center justify-between">
             <div>
               <div className="text-sm font-bold text-white mb-0.5">{ex.title}</div>

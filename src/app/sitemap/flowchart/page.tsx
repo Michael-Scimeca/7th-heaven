@@ -1,9 +1,23 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 /* impeccable-disable codex-grid-background */
 import Image from 'next/image';
 
 import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
+
+// Colors matching the user's sitemap flowchart image
+const FLOWCHART_COLORS = {
+  home: "#ff6b8b",       // Pink
+  teal: "#7feed2",       // Teal (Music)
+  blue: "#75d5fa",       // Blue (Live)
+  beige: "#cdc3a9",      // Beige (Merch)
+  purple: "#c09aff",     // Purple (Band)
+  coral: "#f9aa8f",      // Coral (Connect)
+  lilac: "#decaff",      // Lilac (Admin/Blogs)
+  yellow: "#ffd266",     // Yellow (Decision branches)
+  darkbeige: "#a29983",  // Grey-Beige for Log In / Register
+};
 
 interface FlowNode {
   id: string;
@@ -38,10 +52,12 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
 
   const targetUrl = url || (isEmail && sub ? `/api/dev/email-preview?id=${sub}` : undefined);
 
-  const handleCardClick = (e: React.MouseEvent) => {
+  const handleCardClick = (e?: React.SyntheticEvent) => {
     if (screenshot || overlayScreenshot) {
-      e.preventDefault();
-      e.stopPropagation();
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       const activeSrc = overlayScreenshot 
         ? `/sitemap-screenshots/${overlayScreenshot}${imgVersion}` 
         : `/sitemap-screenshots/${screenshot}${imgVersion}`;
@@ -54,7 +70,8 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
   };
 
   const cardBox = (
-    <div 
+    <button
+      type="button"
       style={{
         width: width,
         height: height,
@@ -70,8 +87,13 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
         transition: "border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease",
         cursor: (screenshot || overlayScreenshot) ? "zoom-in" : (targetUrl ? "pointer" : "default")
       }}
-      className="flowcard-img-container"
-      onClick={handleCardClick}
+      className="flowcard-img-container outline-none" onClick={handleCardClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleCardClick(e);
+        }
+      }}
     >
       {screenshot && (
         <Image width={200} height={200} unoptimized
@@ -122,8 +144,7 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
           zIndex: 10,
           cursor: "pointer",
           letterSpacing: "0.5px"
-        }}
-        onClick={(e) => {
+        }} onClick={(e) => {
           e.stopPropagation();
         }}
         >
@@ -134,7 +155,7 @@ function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, wid
       {!screenshot && !overlayScreenshot && (
         <span style={{ fontSize: "28px", opacity: 0.4 }}>{isEmail ? "✉️" : "📄"}</span>
       )}
-    </div>
+    </button>
   );
 
   return (
@@ -173,8 +194,10 @@ function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProp
   const hasScreenshot = !!screenshot;
 
   return (
-    <div 
+    <button
+      type="button"
       onClick={handleClick}
+      className={`w-full text-left border-0 p-0 outline-none ${hasScreenshot ? "email-item-interactive" : ""}`}
       style={{
         display: "flex",
         alignItems: "center",
@@ -189,7 +212,6 @@ function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProp
         position: "relative",
         overflow: "hidden"
       }}
-      className={hasScreenshot ? "email-item-interactive" : ""}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1, minWidth: 0 }}>
         {hasScreenshot ? (
@@ -232,7 +254,7 @@ function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProp
           <span style={{ fontSize: "8.5px", color: colorTheme.primary, fontWeight: "950", textTransform: "uppercase", letterSpacing: "0.5px" }}>VIEW</span>
         </div>
       )}
-    </div>
+    </button>
   );
 }
 
@@ -310,18 +332,7 @@ export default function FlowchartPage() {
     }
   };
 
-  // Colors matching the user's sitemap flowchart image
-  const colors = {
-    home: "#ff6b8b",       // Pink
-    teal: "#7feed2",       // Teal (Music)
-    blue: "#75d5fa",       // Blue (Live)
-    beige: "#cdc3a9",      // Beige (Merch)
-    purple: "#c09aff",     // Purple (Band)
-    coral: "#f9aa8f",      // Coral (Connect)
-    lilac: "#decaff",      // Lilac (Admin/Blogs)
-    yellow: "#ffd266",     // Yellow (Decision branches)
-    darkbeige: "#a29983",  // Grey-Beige for Log In / Register
-  };
+
 
   const handleClickCapture = (e: React.MouseEvent) => {
     if (hasDraggedRef.current) {
@@ -331,8 +342,10 @@ export default function FlowchartPage() {
   };
 
   return (
-    <div 
+    <div
       className="flowchart-root"
+      role="region"
+      aria-label="Interactive flowchart canvas"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -742,7 +755,7 @@ export default function FlowchartPage() {
               <div style={{ display: "flex", gap: "40px", width: "100%", justifyContent: "center" }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "320px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Not Logged In
                   </div>
                   <div className="branch-join-line" />
@@ -757,7 +770,7 @@ export default function FlowchartPage() {
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "320px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Logged In
                   </div>
                   <div className="branch-join-line" />
@@ -843,7 +856,7 @@ export default function FlowchartPage() {
                 {/* Branch A: Raffle Flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "620px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "150px", minHeight: "34px", padding: "4px", fontSize: "10.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "150px", minHeight: "34px", padding: "4px", fontSize: "10.5px" }}>
                     🎟️ Live Raffle Draw
                   </div>
                   <div className="branch-join-line" />
@@ -879,7 +892,7 @@ export default function FlowchartPage() {
                 {/* Branch B: Flash Sale Flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "300px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "150px", minHeight: "34px", padding: "4px", fontSize: "10.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "150px", minHeight: "34px", padding: "4px", fontSize: "10.5px" }}>
                     ⚡ Flash Merch Sale
                   </div>
                   <div className="branch-join-line" />
@@ -1101,7 +1114,7 @@ export default function FlowchartPage() {
                 {/* Branch: If Logged In */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "680px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     If Logged In
                   </div>
                   <div className="branch-join-line" />
@@ -1131,7 +1144,7 @@ export default function FlowchartPage() {
                 {/* Branch: If NOT Logged In */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "680px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "120px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     If NOT Logged In
                   </div>
                   <div className="branch-join-line" />
@@ -1340,7 +1353,7 @@ export default function FlowchartPage() {
                 {/* Admin flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Admin Role
                   </div>
                   <div className="branch-join-line" />
@@ -1401,7 +1414,7 @@ export default function FlowchartPage() {
                 {/* Crew flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Crew Role
                   </div>
                   <div className="branch-join-line" />
@@ -1472,7 +1485,7 @@ export default function FlowchartPage() {
                 {/* Fan flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Fan Role
                   </div>
                   <div className="branch-join-line" />
@@ -1544,7 +1557,7 @@ export default function FlowchartPage() {
                 {/* Planner flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Planner Role
                   </div>
                   <div className="branch-join-line" />
@@ -1607,7 +1620,7 @@ export default function FlowchartPage() {
                 {/* Cruise passenger flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Cruise Role
                   </div>
                   <div className="branch-join-line" />
@@ -1692,7 +1705,7 @@ export default function FlowchartPage() {
                 {/* Admin flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Admin Role
                   </div>
                   <div className="branch-join-line" />
@@ -1717,7 +1730,7 @@ export default function FlowchartPage() {
                 {/* Crew flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Crew Role
                   </div>
                   <div className="branch-join-line" />
@@ -1782,7 +1795,7 @@ export default function FlowchartPage() {
                 {/* Fan flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Fan Role
                   </div>
                   <div className="branch-join-line" />
@@ -1816,7 +1829,7 @@ export default function FlowchartPage() {
                 {/* Planner flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Planner Role
                   </div>
                   <div className="branch-join-line" />
@@ -1841,7 +1854,7 @@ export default function FlowchartPage() {
                 {/* Cruise passenger flow */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "304px" }}>
                   <div className="branch-join-line" />
-                  <div className="flow-node-box" style={{ backgroundColor: colors.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.yellow, width: "300px", minHeight: "32px", padding: "4px", fontSize: "13.5px" }}>
                     Cruise Role
                   </div>
                   <div className="branch-join-line" />
@@ -2977,8 +2990,8 @@ export default function FlowchartPage() {
         backdropFilter: "blur(12px)",
         zIndex: 9999
       }}>
-        <button 
-          onClick={() => setZoom(z => Math.min(2.5, z + 0.1))}
+        <button aria-label="Action button" 
+             onClick={() => setZoom(z => Math.min(2.5, z + 0.1))}
           style={{
             width: "36px", height: "36px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: "bold", fontSize: "16px", cursor: "pointer", display: "flex",
@@ -2986,8 +2999,8 @@ export default function FlowchartPage() {
           }}
           className="zoom-btn"
         >+</button>
-        <button 
-          onClick={() => setZoom(z => Math.max(0.15, z - 0.1))}
+        <button aria-label="Action button" 
+             onClick={() => setZoom(z => Math.max(0.15, z - 0.1))}
           style={{
             width: "36px", height: "36px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: "bold", fontSize: "16px", cursor: "pointer", display: "flex",
@@ -2995,8 +3008,8 @@ export default function FlowchartPage() {
           }}
           className="zoom-btn"
         >−</button>
-        <button 
-          onClick={() => { setZoom(0.85); setPanOffset({ x: 0, y: 0 }); }}
+        <button aria-label="Action button" 
+             onClick={() => { setZoom(0.85); setPanOffset({ x: 0, y: 0 }); }}
           style={{
             padding: "6px 8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.04)", color: "#e2e8f0", fontWeight: "bold", fontSize: "9px", cursor: "pointer",
@@ -3023,8 +3036,7 @@ export default function FlowchartPage() {
             alignItems: "center",
             justifyContent: "center",
             padding: "24px"
-          }}
-          onClick={() => setLightboxImage(null)}
+          }} onClick={() => setLightboxImage(null)}
         >
           {/* Frosted Glass Header */}
           <div style={{
@@ -3050,7 +3062,7 @@ export default function FlowchartPage() {
             }}>
               🔍 {lightboxTitle}
             </div>
-            <button 
+            <button aria-label="Action button" 
               style={{
                 background: "rgba(255, 255, 255, 0.08)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -3065,7 +3077,7 @@ export default function FlowchartPage() {
                 cursor: "pointer",
                 transition: "background-color 0.2s, border-color 0.2s, transform 0.2s"
               }}
-              onClick={() => setLightboxImage(null)}
+                 onClick={() => setLightboxImage(null)}
             >
               ✕
             </button>

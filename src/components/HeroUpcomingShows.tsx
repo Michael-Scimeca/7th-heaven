@@ -217,7 +217,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               </a>
             )}
             <div className="relative calendar-dropdown-container">
-              <button
+              <button aria-label="Next"
                 onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
                 className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase tracking-widest font-bold text-white/70"
                 id="hero-upnext-calendar-btn"

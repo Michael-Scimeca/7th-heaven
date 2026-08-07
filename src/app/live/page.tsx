@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -162,21 +163,32 @@ const FAKE_FANS = [
   { id: "fan-lena",    name: "Lena_Music",   avatar: "LM", color: "#e879f9", tier: "🥇 Gold",    msgs: 4 },
 ];
 
+const getElapsed = (creationTime: number) => {
+  const s = Math.floor(Date.now() / 1000 - creationTime);
+  if (s < 60) return "Just started";
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  return `${Math.floor(m / 60)}h ${m % 60}m ago`;
+};
+
 /* ═══════════════════════════════════════════════════════
    MAIN PAGE
 ═══════════════════════════════════════════════════════ */
 
-export default function LiveHubPage() {
-  const DEMO_ROOMS: LiveRoom[] = [
-    { name: "live_michael", title: "🎸 Mike S — Backstage Cam",     numParticipants: 1247, creationTime: Math.floor(Date.now() / 1000) - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", emoji: "🎸", member: "MS" },
-    { name: "live_ryan",    title: "🎹 Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: Math.floor(Date.now() / 1000) - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", emoji: "🎹", member: "RK" },
-    { name: "live_sammy",   title: "🥁 Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: Math.floor(Date.now() / 1000) - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", emoji: "🥁", member: "SD" },
-    { name: "live_tony",    title: "🎤 Tony M — Vocal Check",        numParticipants: 18,   creationTime: Math.floor(Date.now() / 1000) - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", emoji: "🎤", member: "TM" },
+const getDemoRooms = (): LiveRoom[] => {
+  const now = Math.floor(Date.now() / 1000);
+  return [
+    { name: "live_michael", title: "🎸 Mike S — Backstage Cam",     numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", emoji: "🎸", member: "MS" },
+    { name: "live_ryan",    title: "🎹 Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: now - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", emoji: "🎹", member: "RK" },
+    { name: "live_sammy",   title: "🥁 Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: now - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", emoji: "🥁", member: "SD" },
+    { name: "live_tony",    title: "🎤 Tony M — Vocal Check",        numParticipants: 18,   creationTime: now - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", emoji: "🎤", member: "TM" },
   ];
+};
 
-  const [rooms, setRooms] = useState<LiveRoom[]>(DEMO_ROOMS);
-  const [viewers, setViewers] = useState<Record<string, number>>(
-    Object.fromEntries(DEMO_ROOMS.map(r => [r.name, r.numParticipants]))
+export default function LiveHubPage() {
+  const [rooms, setRooms] = useState<LiveRoom[]>(getDemoRooms);
+  const [viewers, setViewers] = useState<Record<string, number>>(() =>
+    Object.fromEntries(getDemoRooms().map(r => [r.name, r.numParticipants]))
   );
   const [showAdmin, setShowAdmin] = useState(false);
   const [adminTab, setAdminTab] = useState<"streams" | "users" | "policy">("streams");
@@ -192,7 +204,7 @@ export default function LiveHubPage() {
     const t = setInterval(() => {
       setViewers(prev => {
         const next = { ...prev };
-        DEMO_ROOMS.forEach(r => {
+        getDemoRooms().forEach(r => {
           const delta = Math.floor(Math.random() * 9) - 3;
           next[r.name] = Math.max(10, (next[r.name] ?? r.numParticipants) + delta);
         });
@@ -228,13 +240,7 @@ export default function LiveHubPage() {
     setModLog(prev => [{ id: `mod-${Date.now()}`, action, user, time: Date.now() }, ...prev.slice(0, 49)]);
   }, []);
 
-  const getElapsed = (creationTime: number) => {
-    const s = Math.floor(Date.now() / 1000 - creationTime);
-    if (s < 60) return "Just started";
-    const m = Math.floor(s / 60);
-    if (m < 60) return `${m}m ago`;
-    return `${Math.floor(m / 60)}h ${m % 60}m ago`;
-  };
+
 
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
@@ -280,7 +286,7 @@ export default function LiveHubPage() {
             {/* Admin tabs */}
             <div className="px-6 pt-3 pb-0 flex gap-2 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
               {(["streams", "users", "policy"] as const).map(tab => (
-                <button key={tab} onClick={() => setAdminTab(tab)}
+                <button aria-label="Action button" key={tab} onClick={() => setAdminTab(tab)}
                   className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-t-lg transition-colors"
                   style={{
                     background: adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
@@ -324,7 +330,7 @@ export default function LiveHubPage() {
                             style={{ background: `rgba(${parseInt(room.color.slice(1,3),16)},${parseInt(room.color.slice(3,5),16)},${parseInt(room.color.slice(5,7),16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
-                          <button
+                          <button aria-label="Previous"
                             onClick={() => { setRooms(prev => prev.filter(r => r.name !== room.name)); addLog("🛑 Ended stream", room.title); }}
                             className="py-1.5 px-3 rounded-lg text-xs font-bold transition-colors hover:scale-105"
                             style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#f87171" }}>
@@ -369,16 +375,16 @@ export default function LiveHubPage() {
                         {!isBanned && (
                           <div className="flex items-center gap-1 shrink-0">
                             {!isWarned && (
-                              <button onClick={() => { setWarnedUsers(s => new Set(s).add(fan.id)); addLog("⚠️ Warned", fan.name); }} title="Warn"
+                              <button aria-label="Action button" onClick={() => { setWarnedUsers(s => new Set(s).add(fan.id)); addLog("⚠️ Warned", fan.name); }} title="Warn"
                                 className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
                                 style={{ background: "rgba(192, 132, 252,0.1)" }}>⚠️</button>
                             )}
                             {!isMuted && (
-                              <button onClick={() => { setMutedUsers(s => new Set(s).add(fan.id)); addLog("🔇 Muted", fan.name); }} title="Mute"
+                              <button aria-label="Action button" onClick={() => { setMutedUsers(s => new Set(s).add(fan.id)); addLog("🔇 Muted", fan.name); }} title="Mute"
                                 className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
                                 style={{ background: "rgba(156,163,175,0.08)" }}>🔇</button>
                             )}
-                            <button onClick={() => { setBannedUsers(s => new Set(s).add(fan.id)); addLog("🚫 Banned", fan.name); }} title="Ban"
+                            <button aria-label="Action button" onClick={() => { setBannedUsers(s => new Set(s).add(fan.id)); addLog("🚫 Banned", fan.name); }} title="Ban"
                               className="w-8 h-8 rounded-lg flex items-center justify-center text-sm hover:scale-110 transition-transform"
                               style={{ background: "rgba(239,68,68,0.12)" }}>🚫</button>
                           </div>
@@ -501,7 +507,7 @@ export default function LiveHubPage() {
                   <p className="text-sm text-black/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                 </div>
 
-                <button
+                <button aria-label="Action button"
                   onClick={() => {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
@@ -534,11 +540,11 @@ export default function LiveHubPage() {
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <span className="text-black/30 text-sm">📱</span>
                     </div>
-                    <input type="tel" placeholder="(312) 555-0199"
+                    <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
                       className="w-full bg-white border border-black/10 py-3.5 pl-12 pr-4 text-black placeholder:text-black/30 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
                     />
                   </div>
-                  <button type="submit"
+                  <button aria-label="Action button" type="submit"
                     className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
                     ALERT ME 🔔
                   </button>

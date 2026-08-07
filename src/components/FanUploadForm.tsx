@@ -1,7 +1,64 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
+
+const fileToDataUrl = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target?.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+};
+
+const compressImage = async (file: File, maxWidth = 1920): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+    const outputExt = file.type === "image/png" ? ".png" : ".jpg";
+    const quality = outputType === "image/jpeg" ? 0.8 : undefined;
+
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          if (blob) resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + outputExt, { type: outputType }));
+          else reject(new Error('Canvas compression failed'));
+        }, outputType, quality);
+      };
+      img.onerror = reject;
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
+const moderateImage = async (file: File): Promise<"allow" | "flag" | "block"> => {
+  try {
+    const fd = new FormData();
+    fd.append("image", file);
+    const res = await fetch("/api/fans/moderate", { method: "POST", body: fd });
+    if (!res.ok) return "allow";
+    const data = await res.json();
+    return data.action ?? "allow";
+  } catch {
+    return "allow";
+  }
+};
 
 export default function FanUploadForm() {
   const { member, isLoggedIn, openModal } = useMember();
@@ -35,57 +92,7 @@ export default function FanUploadForm() {
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const compressImage = async (file: File, maxWidth = 1920): Promise<File> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
-      const outputExt = file.type === "image/png" ? ".png" : ".jpg";
-      const quality = outputType === "image/jpeg" ? 0.8 : undefined;
 
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          if (width > maxWidth) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
-          }
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx?.drawImage(img, 0, 0, width, height);
-          canvas.toBlob((blob) => {
-            if (blob) resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + outputExt, { type: outputType }));
-            else reject(new Error('Canvas compression failed'));
-          }, outputType, quality);
-        };
-        img.onerror = reject;
-        img.src = e.target?.result as string;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  /**
-   * Sends a single image file to the server-side Hive Moderation proxy.
-   * Returns "allow" | "flag" | "block".
-   * Never throws — fails open ("allow") if the endpoint is unreachable.
-   */
-  const moderateImage = async (file: File): Promise<"allow" | "flag" | "block"> => {
-    try {
-      const fd = new FormData();
-      fd.append("image", file);
-      const res = await fetch("/api/fans/moderate", { method: "POST", body: fd });
-      if (!res.ok) return "allow";
-      const data = await res.json();
-      return data.action ?? "allow";
-    } catch {
-      return "allow";
-    }
-  };
 
   const handleFilesChange = async (files: FileList | null | File[]) => {
     if (!isLoggedIn) {
@@ -120,24 +127,23 @@ export default function FanUploadForm() {
         }
 
         if (isVideo) {
-          const objectUrl = URL.createObjectURL(file);
-          return { file, preview: objectUrl, flag: 'video_review' };
+          const previewUrl = await fileToDataUrl(file);
+          return { file, preview: previewUrl, flag: 'video_review' };
         }
 
         try {
           const compressed = await compressImage(file, 1920);
-          const objectUrl = URL.createObjectURL(compressed);
+          const previewUrl = await fileToDataUrl(compressed);
           const decision = await moderateImage(compressed);
 
           if (decision === "block") {
             alert(`⛔ "${file.name}" was blocked by our safety filter.\n\nThis image appears to contain explicit content and cannot be uploaded. All submissions must be concert/event-related photos.`);
-            URL.revokeObjectURL(objectUrl);
             return null;
           }
 
           return {
             file: compressed,
-            preview: objectUrl,
+            preview: previewUrl,
             flag: decision === "flag" ? 'flagged_for_review' : undefined,
           };
         } catch (err) {
@@ -161,11 +167,6 @@ export default function FanUploadForm() {
     setScanStatus('');
   };
 
-  useEffect(() => {
-    return () => {
-      previews.forEach(url => URL.revokeObjectURL(url));
-    };
-  }, [previews]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -239,7 +240,7 @@ export default function FanUploadForm() {
           </div>
           <h3 className="text-xl font-bold text-black mb-2">Moments Submitted!</h3>
           <p className="text-black/60 text-base mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
-          <button onClick={() => setUploadSuccess(false)} className=" text-[var(--color-accent)] text-sm font-bold hover:text-black transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
+          <button aria-label="Action button" onClick={() => setUploadSuccess(false)} className=" text-[var(--color-accent)] text-sm font-bold hover:text-black transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
             Upload Another
           </button>
         </div>
@@ -248,14 +249,15 @@ export default function FanUploadForm() {
           <div className="flex flex-col gap-6">
             <div>
               <div
-                role="button"
-                tabIndex={0}
+                role={previews.length === 0 ? "button" : undefined}
+                tabIndex={previews.length === 0 ? 0 : undefined}
                 onClick={(e) => {
                   if ((e.target as HTMLElement).closest('.plus-button')) return;
                   if (!isLoggedIn) { openModal('login'); return; }
                   fileRef.current?.click();
                 }}
                 onKeyDown={(e) => {
+                  if (previews.length > 0) return;
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     if (!isLoggedIn) { openModal('login'); return; }
@@ -276,16 +278,19 @@ export default function FanUploadForm() {
                       return (
                         <div key={src} className="relative aspect-square rounded-lg overflow-hidden border border-black/10 group">
                           {isVideo ? (
-                            <video src={src} className="w-full h-full object-cover" muted playsInline />
+                            <video src={src} className="w-full h-full object-cover" muted playsInline>
+                              <track kind="captions" />
+                            </video>
                           ) : (
                             <img src={src} alt={`Preview ${i}`} className="w-full h-full object-cover" />
                           )}
                         </div>
                       );
                     })}
-                    <button
-                      type="button"
-                      onClick={() => {
+                    <button type="button"
+                      aria-label="Add more files"
+                      onClick={(e) => {
+                        e.stopPropagation();
                         if (!isLoggedIn) { openModal('login'); return; }
                         fileRef.current?.click();
                       }}
@@ -313,7 +318,7 @@ export default function FanUploadForm() {
                     <p className="text-emerald-600 text-xs uppercase tracking-widest mt-1">{scanStatus}</p>
                   </div>
                 )}
-                <input ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />
+                <input aria-label="Input field" ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />
               </div>
             </div>
 
@@ -321,19 +326,19 @@ export default function FanUploadForm() {
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label htmlFor="fan-upload-venue" className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
-                  <input id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
+                  <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
                     className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
                   <label htmlFor="fan-upload-date" className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
-                  <input id="fan-upload-date" type="date" name="date" required
+                  <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
                     className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black focus:border-[var(--color-accent)] focus:outline-none transition-colors [color-scheme:light]"
                   />
                 </div>
                 <div className="md:col-span-2">
                   <label htmlFor="fan-upload-caption" className="text-xs font-bold uppercase tracking-[0.15em] text-black/70 block mb-1.5 px-1">Caption</label>
-                  <input id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
+                  <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
                     className="w-full bg-white border border-black/15 rounded-lg px-4 py-2.5 text-sm text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:outline-none transition-colors"
                   />
                 </div>
@@ -346,7 +351,7 @@ export default function FanUploadForm() {
                 </p>
               </div>
 
-              <button
+              <button aria-label="Action button"
                 type={isLoggedIn ? "submit" : "button"}
                 onClick={() => !isLoggedIn && openModal('login')}
                 disabled={uploading || isScanning}

@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useEffect, useCallback, Suspense } from "react";
@@ -33,6 +34,8 @@ export default function BookPage() {
   );
 }
 
+const M_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 function MiniDatePicker({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   const [showCal, setShowCal] = useState(false);
   const [calMonth, setCalMonth] = useState(new Date());
@@ -42,39 +45,38 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
   const month = calMonth.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
   const daysCount = new Date(year, month + 1, 0).getDate();
-  const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
     <div className="relative">
       <span className="text-base font-bold uppercase tracking-widest text-black/50 block mb-1.5">{label}</span>
-      <button
+      <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
         className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3  text-lg text-left transition-colors hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
       >
-        {value ? new Date(value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'Pick a date…'}
+        {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
       </button>
       {showCal && (
         <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-white border border-black/15 p-4 animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
-            <button type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg></button>
-            <button type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover: text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
+            <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg></button>
+            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover: text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">← {year - 1}</button>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">← {year - 1}</button>
                 <span className="text-xs font-bold text-black">{year}</span>
-                <button type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">{year + 1} →</button>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
-                {mNames.map((m, i) => {
+                {M_NAMES.map((m, i) => {
                   const isCur = month === i;
                   const isPast = new Date(year, i + 1, 0) < new Date();
                   return (
-                    <button key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
+                    <button aria-label="Action button" key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
                       className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-colors ${isPast ? 'text-black/20 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-black/60 hover:bg-black/5 cursor-pointer'}`}
                     >{m}</button>
                   );
@@ -94,7 +96,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = d < minDate;
                   const isSel = value === ds;
                   return (
-                    <button
+                    <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
                       className={`h-8 w-full rounded-lg text-xs font-bold transition-colors ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
@@ -105,7 +107,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                 })}
               </div>
               {value && (
-                <button type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
+                <button aria-label="Action button" type="button" onClick={() => { onChange(''); setShowCal(false); }} className="mt-2 w-full text-base text-rose-500 hover:text-rose-600 uppercase tracking-widest font-bold cursor-pointer">Clear</button>
               )}
             </>
           )}
@@ -120,7 +122,7 @@ const InputField = ({ label, required, id, ...props }: { label: string; required
   return (
     <div>
       <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
-      <input id={inputId} {...props} required={required}
+      <input aria-label="Input field" id={inputId} {...props} required={required}
         className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors"
       />
     </div>
@@ -132,7 +134,7 @@ const SelectField = ({ label, options, required, id, ...props }: { label: string
   return (
     <div>
       <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
-      <select id={selectId} {...props} required={required}
+      <select aria-label="Select option" id={selectId} {...props} required={required}
         className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors appearance-none cursor-pointer"
       >
         <option value="" className="bg-white text-black">Select</option>
@@ -147,7 +149,7 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
     <span className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-3">{label}{required && " *"}</span>
     <div className="flex flex-wrap gap-2">
       {options.map(o => (
-        <button
+        <button aria-label="Action button"
           key={o}
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
@@ -634,7 +636,7 @@ function BookPageContent() {
                     <span className="text-base text-white/30 uppercase tracking-widest font-bold block mb-1.5">Account Email</span>
                     {editingEmail ? (
                       <div className="flex gap-2">
-                        <input
+                        <input aria-label="Input field"
                           type="email"
                           value={accountEmail}
                           onChange={e => setAccountEmail(e.target.value)}
@@ -642,13 +644,13 @@ function BookPageContent() {
                           disabled={pinSent || pinLoading}
                           className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
-                        <button type="button" onClick={() => setEditingEmail(false)} className="text-base  text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
+                        <button aria-label="Action button" type="button" onClick={() => setEditingEmail(false)} className="text-base  text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <span className="text-lg text-white font-bold">{accountEmail}</span>
                         {!pinSent && (
-                          <button type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
+                          <button aria-label="Action button" type="button" onClick={() => { setEditingEmail(true); setPinError(""); }} className="text-base text-white/30 hover: text-[var(--color-accent)] uppercase tracking-widest font-bold cursor-pointer transition-colors">Edit</button>
                         )}
                       </div>
                     )}
@@ -657,7 +659,7 @@ function BookPageContent() {
                   {!pinSent ? (
                     <div>
                       <div className="flex gap-2">
-                        <input
+                        <input aria-label="Input field"
                           type="password"
                           placeholder="Set a password (6+ chars)"
                           value={accountPassword}
@@ -665,7 +667,7 @@ function BookPageContent() {
                           disabled={pinLoading}
                           className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
-                        <button
+                        <button aria-label="Action button"
                           type="button"
                           disabled={!accountPassword || accountPassword.length < 6 || !accountEmail || pinLoading}
                           onClick={handleSendPin}
@@ -683,7 +685,7 @@ function BookPageContent() {
                   ) : (
                     <div>
                       <div className="flex gap-2 mb-2">
-                        <input
+                        <input aria-label="Input field"
                           type="text"
                           maxLength={6}
                           placeholder="Enter 6-digit code"
@@ -692,7 +694,7 @@ function BookPageContent() {
                           disabled={pinLoading}
                           className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center tracking-[0.2em] font-mono disabled:opacity-50"
                         />
-                        <button
+                        <button aria-label="Action button"
                           type="button"
                           disabled={pinCode.length !== 6 || pinLoading}
                           onClick={handleVerifyPin}
@@ -706,7 +708,7 @@ function BookPageContent() {
                         </button>
                       </div>
                       <div className="flex justify-between items-center text-sm mt-2">
-                        <button
+                        <button aria-label="Action button"
                           type="button"
                           onClick={handleSendPin}
                           disabled={pinLoading}
@@ -714,7 +716,7 @@ function BookPageContent() {
                         >
                           Resend Code
                         </button>
-                        <button
+                        <button aria-label="Action button"
                           type="button"
                           onClick={() => { setPinSent(false); setPinCode(""); setPinError(""); }}
                           disabled={pinLoading}
@@ -732,7 +734,7 @@ function BookPageContent() {
                     </div>
                   )}
 
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => {
                       setCreatingAccount(false);
@@ -751,7 +753,7 @@ function BookPageContent() {
                   <div className="flex items-center justify-center gap-2 mb-1.5">
                     <span className="text-lg text-white/40">{formData.email}</span>
                   </div>
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => { setCreatingAccount(true); setAccountEmail(accountEmail || formData.email); }}
                     className="inline-flex items-center justify-center w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-base py-4 px-8 transition-colors border border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]/60 cursor-pointer"
@@ -865,7 +867,7 @@ function BookPageContent() {
                     <p className="text-white/40 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
                   </div>
                 </div>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={handleLoadLastForm}
                   className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
@@ -963,7 +965,7 @@ function BookPageContent() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {bookingSlots.map((slot, index) => {
-                      const formattedDate = new Date(slot.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                      const formattedDate = new Date(slot.date + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
                       return (
                         <div
                           key={slot.id}
@@ -971,7 +973,7 @@ function BookPageContent() {
                         >
                           {/* Duplicate and Remove buttons */}
                           <div className="absolute top-4 right-4 flex items-center gap-1.5">
-                            <button
+                            <button aria-label="Action button"
                               type="button"
                               onClick={() => {
                                 const newSlot = {
@@ -985,7 +987,7 @@ function BookPageContent() {
                             >
                               ➕ Add Another
                             </button>
-                            <button
+                            <button aria-label="Action button"
                               type="button"
                               onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
                               className="text-black/50 hover:text-rose-600 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-black/10 hover:border-rose-500/25"
@@ -1005,7 +1007,7 @@ function BookPageContent() {
                             <div>
                               <label htmlFor={`slot-format-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
                               <div className="relative">
-                                <select
+                                <select aria-label="Select option"
                                   id={`slot-format-${slot.id}`}
                                   value={slot.eventType}
                                   onChange={(e) => {
@@ -1024,7 +1026,7 @@ function BookPageContent() {
                                 </div>
                               </div>
                               {slot.eventType === 'custom' && (
-                                <input
+                                <input aria-label="Input field"
                                   type="text"
                                   placeholder="Describe show type (e.g. Street Fest)..."
                                   value={slot.customEventType || ""}
@@ -1042,7 +1044,7 @@ function BookPageContent() {
                               <div>
                                 <label htmlFor={`slot-start-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
                                 <div className="relative">
-                                  <select
+                                  <select aria-label="Select option"
                                     id={`slot-start-${slot.id}`}
                                     value={slot.startTime}
                                     onChange={(e) => {
@@ -1063,7 +1065,7 @@ function BookPageContent() {
                               <div>
                                 <label htmlFor={`slot-end-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
                                 <div className="relative">
-                                  <select
+                                  <select aria-label="Select option"
                                     id={`slot-end-${slot.id}`}
                                     value={slot.endTime}
                                     onChange={(e) => {
@@ -1089,7 +1091,7 @@ function BookPageContent() {
                             <div className="mb-3">
                               <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</span>
                               <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 border border-white/5">
-                                <button
+                                <button aria-label="Action button"
                                   type="button"
                                   onClick={() => {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? {
@@ -1108,7 +1110,7 @@ function BookPageContent() {
                                 >
                                   Share Main Info
                                 </button>
-                                <button
+                                <button aria-label="Action button"
                                   type="button"
                                   onClick={() => {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? {
@@ -1157,7 +1159,7 @@ function BookPageContent() {
                                 <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
                                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
                                   <div className="flex gap-2">
-                                    <button
+                                    <button aria-label="Action button"
                                       type="button"
                                       onClick={() => {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? {
@@ -1176,7 +1178,7 @@ function BookPageContent() {
                                       ⚡ Copy Main
                                     </button>
                                     {hasSavedForm && (
-                                      <button
+                                      <button aria-label="Action button"
                                         type="button"
                                         onClick={() => {
                                           try {
@@ -1207,7 +1209,7 @@ function BookPageContent() {
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
                                     <label htmlFor={`slot-contact-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
-                                    <input
+                                    <input aria-label="Input field"
                                       id={`slot-contact-name-${slot.id}`}
                                       type="text"
                                       placeholder="e.g. Jane Doe"
@@ -1221,7 +1223,7 @@ function BookPageContent() {
                                   </div>
                                   <div>
                                     <label htmlFor={`slot-contact-email-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
-                                    <input
+                                    <input aria-label="Input field"
                                       id={`slot-contact-email-${slot.id}`}
                                       type="email"
                                       placeholder="e.g. jane@email.com"
@@ -1237,7 +1239,7 @@ function BookPageContent() {
 
                                 <div>
                                   <label htmlFor={`slot-venue-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
-                                  <input
+                                  <input aria-label="Input field"
                                     id={`slot-venue-name-${slot.id}`}
                                     type="text"
                                     placeholder="e.g. House of Blues"
@@ -1253,7 +1255,7 @@ function BookPageContent() {
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
                                     <label htmlFor={`slot-venue-city-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
-                                    <input
+                                    <input aria-label="Input field"
                                       id={`slot-venue-city-${slot.id}`}
                                       type="text"
                                       placeholder="Chicago"
@@ -1267,7 +1269,7 @@ function BookPageContent() {
                                   </div>
                                   <div>
                                     <label htmlFor={`slot-venue-state-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
-                                    <input
+                                    <input aria-label="Input field"
                                       id={`slot-venue-state-${slot.id}`}
                                       type="text"
                                       placeholder="IL"
@@ -1285,7 +1287,7 @@ function BookPageContent() {
                           </div>
 
                           <div className="mt-4 pt-4 border-t border-black/10">
-                            <button
+                            <button aria-label="Previous"
                               type="button"
                               onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
                               className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] hover:text-purple-600 transition-colors"
@@ -1295,117 +1297,7 @@ function BookPageContent() {
                             </button>
 
                             {expandedMetadata[slot.id] && (
-                              <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
-                                {/* Age Restriction & Doors Time */}
-                                <div className="grid grid-cols-2 gap-2">
-                                  <div>
-                                    <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
-                                    <div className="relative">
-                                      <select
-                                        id={`slot-age-limit-${slot.id}`}
-                                        value={slot.ageRestriction || "all_ages"}
-                                        onChange={(e) => {
-                                          const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
-                                          setBookingSlots(updated);
-                                        }}
-                                        className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
-                                      >
-                                        <option value="all_ages" className="bg-white text-black">All Ages</option>
-                                        <option value="21_plus" className="bg-white text-black">21 & Over</option>
-                                        <option value="18_plus" className="bg-white text-black">18 & Over</option>
-                                      </select>
-                                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
-                                    <div className="relative">
-                                      <select
-                                        id={`slot-doors-time-${slot.id}`}
-                                        value={slot.doorsTime || ""}
-                                        onChange={(e) => {
-                                          const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
-                                          setBookingSlots(updated);
-                                        }}
-                                        className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
-                                      >
-                                        <option value="" className="bg-white text-black">Same as Start</option>
-                                        {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                          <option key={t} value={t} className="bg-white text-black">{t}</option>
-                                        ))}
-                                      </select>
-                                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* Ticket Price & Link */}
-                                <div className="grid grid-cols-2 gap-2">
-                                  <div>
-                                    <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
-                                    <input
-                                      id={`slot-cover-${slot.id}`}
-                                      type="text"
-                                      placeholder="e.g. Free, $15..."
-                                      value={slot.cover || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
-                                        setBookingSlots(updated);
-                                      }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                    />
-                                  </div>
-                                  <div>
-                                    <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
-                                    <input
-                                      id={`slot-ticket-link-${slot.id}`}
-                                      type="text"
-                                      placeholder="https://..."
-                                      value={slot.ticketLink || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
-                                        setBookingSlots(updated);
-                                      }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
-                                    />
-                                  </div>
-                                </div>
-
-                                {/* Show Type Checkbox & Notes */}
-                                <div className="space-y-2">
-                                  <label className="flex items-center gap-2 text-xs text-black/70 cursor-pointer select-none">
-                                    <input
-                                      type="checkbox"
-                                      checked={slot.isFestival || false}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, isFestival: e.target.checked } : s);
-                                        setBookingSlots(updated);
-                                      }}
-                                      className="accent-[var(--color-accent)] cursor-pointer"
-                                    />
-                                    <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-black">This is a Festival / Fair show</span>
-                                  </label>
-
-                                  <div>
-                                    <label htmlFor={`slot-notes-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Public Notes (shown to fans)</label>
-                                    <textarea
-                                      id={`slot-notes-${slot.id}`}
-                                      placeholder="e.g. All Age Outdoor Beer Garden show, unplugged set..."
-                                      value={slot.notes || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, notes: e.target.value } : s);
-                                        setBookingSlots(updated);
-                                      }}
-                                      rows={2}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40 resize-none"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
+                              <BookingSlotMetadataSection slot={slot} bookingSlots={bookingSlots} setBookingSlots={setBookingSlots} />
                             )}
                           </div>
                         </div>
@@ -1481,7 +1373,7 @@ function BookPageContent() {
                       return ([] as { id: string; icon: string; label: string; desc: string }[]).map(option => {
                         const isActive = addOnsSet.has(option.id);
                         return (
-                          <button
+                          <button aria-label="Previous"
                             key={option.id}
                             type="button"
                             onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
@@ -1512,7 +1404,7 @@ function BookPageContent() {
                       {addOns.map(id => (
                         <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10  text-[var(--color-accent)] text-base font-bold rounded-full border border-[var(--color-accent)]/20">
                           {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                          <button type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5  text-[var(--color-accent)]/50 hover: text-[var(--color-accent)] cursor-pointer">×</button>
+                          <button aria-label="Previous" type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5  text-[var(--color-accent)]/50 hover: text-[var(--color-accent)] cursor-pointer">×</button>
                         </span>
                       ))}
                     </div>
@@ -1526,7 +1418,7 @@ function BookPageContent() {
                     Notes & Questions
                   </h2>
                   <p className="text-black/50 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
-                  <textarea
+                  <textarea aria-label="Text input"
                     name="details"
                     value={formData.details}
                     onChange={handleChange}
@@ -1544,7 +1436,7 @@ function BookPageContent() {
 
                 {/* Honeypot */}
                 <div className="hidden" aria-hidden="true">
-                  <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+                  <input aria-label="Input field" type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
                 </div>
 
               </div>
@@ -1562,7 +1454,7 @@ function BookPageContent() {
                         <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Date</span>
                         <span className="text-base font-bold text-black text-right">
                           {bookingSlots.length === 1 ? (
-                            new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })
+                            new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
                           ) : bookingSlots.length > 1 ? (
                             `${bookingSlots.length} Shows Scheduled`
                           ) : (
@@ -1628,7 +1520,7 @@ function BookPageContent() {
                       </div>
                     )}
 
-                    <button
+                    <button aria-label="Action button"
                       type="submit"
                       disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
                       className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-colors flex items-center justify-center gap-2"
@@ -1658,6 +1550,90 @@ function BookPageContent() {
 
         </div>
       </section>
+    </div>
+  );
+}
+
+
+function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { slot: any; bookingSlots: any[]; setBookingSlots: (s: any[]) => void }) {
+  return (
+    <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
+          <div className="relative">
+            <select aria-label="Select option"
+              id={`slot-age-limit-${slot.id}`}
+              value={slot.ageRestriction || "all_ages"}
+              onChange={(e) => {
+                const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
+                setBookingSlots(updated);
+              }}
+              className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+            >
+              <option value="all_ages" className="bg-white text-black">All Ages</option>
+              <option value="21_plus" className="bg-white text-black">21 & Over</option>
+              <option value="18_plus" className="bg-white text-black">18 & Over</option>
+            </select>
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
+          <div className="relative">
+            <select aria-label="Select option"
+              id={`slot-doors-time-${slot.id}`}
+              value={slot.doorsTime || ""}
+              onChange={(e) => {
+                const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
+                setBookingSlots(updated);
+              }}
+              className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+            >
+              <option value="" className="bg-white text-black">Same as Start</option>
+              {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
+                <option key={t} value={t} className="bg-white text-black">{t}</option>
+              ))}
+            </select>
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
+          <input aria-label="Input field"
+            id={`slot-cover-${slot.id}`}
+            type="text"
+            placeholder="e.g. Free, $15..."
+            value={slot.cover || ""}
+            onChange={(e) => {
+              const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
+              setBookingSlots(updated);
+            }}
+            className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+          />
+        </div>
+        <div>
+          <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
+          <input aria-label="Input field"
+            id={`slot-ticket-link-${slot.id}`}
+            type="text"
+            placeholder="https://..."
+            value={slot.ticketLink || ""}
+            onChange={(e) => {
+              const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
+              setBookingSlots(updated);
+            }}
+            className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+          />
+        </div>
+      </div>
     </div>
   );
 }

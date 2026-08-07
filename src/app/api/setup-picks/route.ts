@@ -7,55 +7,53 @@ export async function POST() {
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // 1. Fan pick inventory
-    const { error: e1 } = await supabase.rpc("exec_sql", {
-      query: `
-        CREATE TABLE IF NOT EXISTS fan_picks (
-          id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-          user_id UUID NOT NULL,
-          pick_type TEXT NOT NULL,
-          awarded_by TEXT DEFAULT 'system',
-          awarded_reason TEXT DEFAULT 'manual',
-          show_id TEXT,
-          is_used BOOLEAN DEFAULT false,
-          created_at TIMESTAMPTZ DEFAULT NOW()
-        );
-        CREATE INDEX IF NOT EXISTS idx_fan_picks_user ON fan_picks(user_id);
-      `,
-    });
-
-    // 2. Lotteries
-    const { error: e2 } = await supabase.rpc("exec_sql", {
-      query: `
-        CREATE TABLE IF NOT EXISTS lotteries (
-          id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-          name TEXT NOT NULL,
-          prize TEXT NOT NULL,
-          requirement_type TEXT NOT NULL DEFAULT 'min_picks',
-          requirement_value INT DEFAULT 1,
-          status TEXT DEFAULT 'active',
-          ends_at TIMESTAMPTZ,
-          winner_user_id UUID,
-          created_at TIMESTAMPTZ DEFAULT NOW()
-        );
-      `,
-    });
-
-    // 3. Lottery entries
-    const { error: e3 } = await supabase.rpc("exec_sql", {
-      query: `
-        CREATE TABLE IF NOT EXISTS lottery_entries (
-          id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-          lottery_id UUID NOT NULL,
-          user_id UUID NOT NULL,
-          pick_ids UUID[] NOT NULL DEFAULT '{}',
-          entered_at TIMESTAMPTZ DEFAULT NOW(),
-          UNIQUE(lottery_id, user_id)
-        );
-        CREATE INDEX IF NOT EXISTS idx_lottery_entries_user ON lottery_entries(user_id);
-        CREATE INDEX IF NOT EXISTS idx_lottery_entries_lottery ON lottery_entries(lottery_id);
-      `,
-    });
+    // Execute table setups in parallel
+    const [{ error: e1 }, { error: e2 }, { error: e3 }] = await Promise.all([
+      supabase.rpc("exec_sql", {
+        query: `
+          CREATE TABLE IF NOT EXISTS fan_picks (
+            id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+            user_id UUID NOT NULL,
+            pick_type TEXT NOT NULL,
+            awarded_by TEXT DEFAULT 'system',
+            awarded_reason TEXT DEFAULT 'manual',
+            show_id TEXT,
+            is_used BOOLEAN DEFAULT false,
+            created_at TIMESTAMPTZ DEFAULT NOW()
+          );
+          CREATE INDEX IF NOT EXISTS idx_fan_picks_user ON fan_picks(user_id);
+        `,
+      }),
+      supabase.rpc("exec_sql", {
+        query: `
+          CREATE TABLE IF NOT EXISTS lotteries (
+            id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+            name TEXT NOT NULL,
+            prize TEXT NOT NULL,
+            requirement_type TEXT NOT NULL DEFAULT 'min_picks',
+            requirement_value INT DEFAULT 1,
+            status TEXT DEFAULT 'active',
+            ends_at TIMESTAMPTZ,
+            winner_user_id UUID,
+            created_at TIMESTAMPTZ DEFAULT NOW()
+          );
+        `,
+      }),
+      supabase.rpc("exec_sql", {
+        query: `
+          CREATE TABLE IF NOT EXISTS lottery_entries (
+            id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+            lottery_id UUID NOT NULL,
+            user_id UUID NOT NULL,
+            pick_ids UUID[] NOT NULL DEFAULT '{}',
+            entered_at TIMESTAMPTZ DEFAULT NOW(),
+            UNIQUE(lottery_id, user_id)
+          );
+          CREATE INDEX IF NOT EXISTS idx_lottery_entries_user ON lottery_entries(user_id);
+          CREATE INDEX IF NOT EXISTS idx_lottery_entries_lottery ON lottery_entries(lottery_id);
+        `,
+      })
+    ]);
 
     // If exec_sql doesn't exist, fallback to direct table creation
     if (e1 || e2 || e3) {

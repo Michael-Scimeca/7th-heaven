@@ -116,7 +116,7 @@ export default function DirectMessageChat() {
   return (
     <div className="fixed bottom-20 right-6 z-[9999] font-sans select-none">
       {/* Floating Chat Bubble Button */}
-      <button
+      <button aria-label="Action button"
         onClick={() => setOpen(!open)}
         className="relative w-12 h-12 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] hover:scale-105 transition-colors text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-[var(--color-accent)]/30 group"
       >
@@ -198,14 +198,14 @@ export default function DirectMessageChat() {
             onSubmit={handleSendMessage}
             className="p-2 border-t border-black/10 bg-white flex items-center gap-1.5"
           >
-            <input
+            <input aria-label="Input field"
               type="text"
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               placeholder="Type your message..."
               className="flex-1 !bg-white border border-black/15 outline-none px-3 py-1.5 text-xs !text-black placeholder:!text-black/50 transition-colors font-medium focus:border-cyan-600"
             />
-            <button
+            <button aria-label="Action button"
               type="submit"
               className="p-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center cursor-pointer transition-colors shadow"
             >

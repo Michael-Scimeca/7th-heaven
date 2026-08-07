@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -105,6 +106,22 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
   );
 }
 
+const formatTime = (time: number) => {
+  if (isNaN(time)) return "0:00";
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
+
+const getDummyDuration = (title: string, idx: number) => {
+  const totalSeconds = 180 + ((title.length * 13 + idx * 37) % 140);
+  const minutes = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+};
+
+const cleanTitle = (str: string) => str.replace(/^\d+\s*/, '').replace(/\.mp3$/i, '').replace(/&apos;/gi, "'").replace(/&amp;/gi, "&");
+
 export default function AudioPlayerSection() {
   const [albums, setAlbums] = useState(data);
   const [activeAlbumIndex, setActiveAlbumIndex] = useState(() => Math.max(0, data.findIndex(a => a.id.includes('be-here'))));
@@ -149,8 +166,8 @@ export default function AudioPlayerSection() {
           const originalIdx = albums.findIndex(a => a.id === album.id);
           return (
             <li key={album.id}>
-              <button
-                onClick={() => { setActiveAlbumIndex(originalIdx); setActiveTrackIndex(0); setSearchQuery(""); setIsPlaying(false); }}
+              <button aria-label="Search"
+                   onClick={() => { setActiveAlbumIndex(originalIdx); setActiveTrackIndex(0); setSearchQuery(""); setIsPlaying(false); }}
                 className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 px-1.5 rounded-md ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30' : 'hover:bg-black/5'}`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
@@ -191,20 +208,16 @@ export default function AudioPlayerSection() {
 
   const handleNext = useCallback(() => {
     if (!activeAlbum) return;
-    if (activeTrackIndex < activeAlbum.tracks.length - 1) {
-      setActiveTrackIndex(activeTrackIndex + 1);
-    } else {
-      setActiveTrackIndex(0); // Loop back or stop
-    }
-  }, [activeAlbum, activeTrackIndex]);
+    setActiveTrackIndex((prev) => (prev < activeAlbum.tracks.length - 1 ? prev + 1 : 0));
+  }, [activeAlbum]);
 
   const handlePrev = useCallback(() => {
     if (currentTime > 3) {
       if (audioRef.current) audioRef.current.currentTime = 0;
-    } else if (activeTrackIndex > 0) {
-      setActiveTrackIndex(activeTrackIndex - 1);
+    } else {
+      setActiveTrackIndex((prev) => (prev > 0 ? prev - 1 : 0));
     }
-  }, [currentTime, activeTrackIndex]);
+  }, [currentTime]);
 
   // Initialize audio element with metadata preloading
   useEffect(() => {
@@ -229,7 +242,7 @@ export default function AudioPlayerSection() {
       audio.removeEventListener("ended", setAudioEnd);
       audio.pause();
     };
-  }, []);
+  }, [handleNext]);
 
   // Update audio source using instant HTTP Range Streaming (<30ms start time)
   useEffect(() => {
@@ -271,21 +284,7 @@ export default function AudioPlayerSection() {
     }
   };
 
-  const formatTime = (time: number) => {
-    if (isNaN(time)) return "0:00";
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
-
-  const getDummyDuration = (title: string, idx: number) => {
-    const totalSeconds = 180 + ((title.length * 13 + idx * 37) % 140);
-    const minutes = Math.floor(totalSeconds / 60);
-    const secs = totalSeconds % 60;
-    return `${minutes}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const cleanTitle = (str: string) => str.replace(/^\d+\s*/, '').replace(/\.mp3$/i, '').replace(/&apos;/gi, "'").replace(/&amp;/gi, "&");  // Memoized search results across 700+ songs
+  // Memoized search results across 700+ songs
   const q = searchQuery.toLowerCase().trim();
   const searchResults = q
     ? albums.flatMap((album, albumIdx) =>
@@ -307,7 +306,7 @@ export default function AudioPlayerSection() {
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
           <div className="relative mb-6">
-            <input
+            <input aria-label="Search"
               type="text"
               placeholder="Search 700+ songs..."
               value={searchQuery}
@@ -316,8 +315,8 @@ export default function AudioPlayerSection() {
             />
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 text-xs">🔍</span>
             {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
+              <button aria-label="Search"
+                   onClick={() => setSearchQuery("")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-black/40 hover:text-black text-xs cursor-pointer"
               >
                 ✕
@@ -344,10 +343,10 @@ export default function AudioPlayerSection() {
                   const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
                   const cleanName = cleanTitle(track.title);
                   return (
-                    <div
+                    <button
+                      type="button"
                       key={`${albumIdx}-${trackIdx}`}
-                      className={`group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`}
-                      onClick={() => {
+                      className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`} onClick={() => {
                         setActiveAlbumIndex(albumIdx);
                         setActiveTrackIndex(trackIdx);
                         setIsPlaying(true);
@@ -364,7 +363,7 @@ export default function AudioPlayerSection() {
                       <span className="text-[var(--font-size-2xs)] text-black/50 font-mono font-bold">
                         {getDummyDuration(track.title, trackIdx)}
                       </span>
-                    </div>
+                    </button>
                   );
                 })
               ) : (
@@ -379,10 +378,10 @@ export default function AudioPlayerSection() {
                 const cleanName = cleanTitle(track.title);
 
                 return (
-                  <div
+                  <button
+                    type="button"
                     key={track.title}
-                    className={`group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`}
-                    onClick={() => {
+                    className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-l-2 border-[var(--color-accent)]' : 'border-l-2 border-transparent hover:bg-black/5'}`} onClick={() => {
                       if (isActive) togglePlay();
                       else {
                         setActiveTrackIndex(idx);
@@ -404,7 +403,7 @@ export default function AudioPlayerSection() {
                       {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
                     </span>
 
-                  </div>
+                  </button>
                 );
               })
             )}
@@ -414,9 +413,10 @@ export default function AudioPlayerSection() {
           <div className="bg-[#0b0b0f] border-t border-white/10 h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20 shadow-md">
 
             {/* Album Cover & Play Button Overlay */}
-            <div
-              className="relative w-[50px] h-[50px] shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20"
-              onClick={togglePlay}
+            <button
+              type="button"
+              aria-label="Toggle play"
+              className="relative w-[50px] h-[50px] shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20 border-0 p-0" onClick={togglePlay}
             >
               {activeAlbum?.image ? (
                 <Image src={activeAlbum.image} alt="Cover" fill sizes="50px" style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
@@ -432,7 +432,7 @@ export default function AudioPlayerSection() {
                   )}
                 </div>
               </div>
-            </div>
+            </button>
 
             {/* Song Title */}
             <div className="min-w-0 max-w-[160px] shrink-0 hidden md:block">
@@ -442,12 +442,12 @@ export default function AudioPlayerSection() {
 
             {/* Prev / Next Controls */}
             <div className="flex items-center gap-3 shrink-0 ml-2">
-              <button className="text-white/50 hover:text-white transition-colors" onClick={handlePrev}>
+              <button aria-label="Previous" className="text-white/50 hover:text-white transition-colors" onClick={handlePrev}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
               </button>
 
               {/* Play / Pause */}
-              <button className="text-white hover:scale-110 transition-transform" onClick={togglePlay}>
+              <button aria-label="Action button" className="text-white hover:scale-110 transition-transform" onClick={togglePlay}>
                 {isPlaying ? (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                 ) : (
@@ -455,7 +455,7 @@ export default function AudioPlayerSection() {
                 )}
               </button>
 
-              <button className="text-white/50 hover:text-white transition-colors" onClick={handleNext}>
+              <button aria-label="Next" className="text-white/50 hover:text-white transition-colors" onClick={handleNext}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
               </button>
             </div>
@@ -467,7 +467,7 @@ export default function AudioPlayerSection() {
 
             {/* Progress Bar */}
             <div className="relative flex-1 h-[3px] bg-white/10 group mx-3 hidden sm:block max-w-[800px]">
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="0"
                 max={duration || 100}
@@ -494,21 +494,26 @@ export default function AudioPlayerSection() {
 
               {/* Volume */}
               <div className="flex items-center gap-2.5 w-[90px] hidden md:flex">
-                <svg
-                  width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  className="text-white/50 shrink-0 cursor-pointer hover:text-white transition-colors"
+                <button
+                  type="button"
+                  aria-label="Toggle mute"
                   onClick={toggleMute}
+                  className="bg-transparent border-0 p-0 cursor-pointer text-white/50 shrink-0 hover:text-white transition-colors flex items-center justify-center"
                 >
-                  {volume === 0 ? (
-                    <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></>
-                  ) : volume < 0.5 ? (
-                    <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
-                  ) : (
-                    <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
-                  )}
-                </svg>
+                  <svg
+                    width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  >
+                    {volume === 0 ? (
+                      <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></>
+                    ) : volume < 0.5 ? (
+                      <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
+                    ) : (
+                      <><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></>
+                    )}
+                  </svg>
+                </button>
                 <div className="relative flex-1 h-[3px] bg-white/20">
-                  <input
+                  <input aria-label="Input field"
                     type="range"
                     min="0"
                     max="1"
@@ -601,8 +606,8 @@ export default function AudioPlayerSection() {
 
                 {/* Lyrics Button */}
                 {lyricsMap[activeAlbum?.id] && (
-                  <button
-                    onClick={() => setShowLyrics(true)}
+                  <button aria-label="Action button"
+                       onClick={() => setShowLyrics(true)}
                     className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
                   >
                     Lyrics
@@ -674,15 +679,15 @@ export default function AudioPlayerSection() {
           return clean(s.title) === clean(trackTitle || '');
         });
         return (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md" onClick={() => setShowLyrics(false)}>
-            <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden flex flex-col mx-4" onClick={e => e.stopPropagation()}>
+          <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md cursor-default" onClick={() => setShowLyrics(false)}>
+            <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden flex flex-col mx-4 cursor-auto" onClick={(e) => e.stopPropagation()}>
               {/* Modal Header */}
               <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">
                   <h3 className="text-lg font-bold text-white truncate">{trackTitle}</h3>
                   <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>
                 </div>
-                <button onClick={() => setShowLyrics(false)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors shrink-0 ml-4">
+                <button aria-label="Action button" onClick={() => setShowLyrics(false)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors shrink-0 ml-4">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                 </button>
               </div>

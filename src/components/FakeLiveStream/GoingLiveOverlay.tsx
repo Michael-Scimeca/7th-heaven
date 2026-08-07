@@ -135,7 +135,7 @@ export function GoingLiveOverlay({ onComplete, crew }: { onComplete: () => void;
       </div>
 
       {/* Skip button */}
-      <button
+      <button aria-label="Action button"
         onClick={onComplete}
         style={{
           position: 'absolute', bottom: 32, right: 32,

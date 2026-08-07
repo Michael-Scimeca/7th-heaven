@@ -5,6 +5,13 @@ import Link from "next/link";
 import { useRouter, redirect } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
+const MODAL_GLASS_STYLE: React.CSSProperties = {
+  background: "var(--color-bg-glass)",
+  backdropFilter: "blur(32px) saturate(180%)",
+  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+  border: "1px solid var(--color-border-main)",
+};
+
 export default function AdminGatewayPage() {
   const router = useRouter();
   const { member, isLoggedIn, login, logout, hydrated } = useMember();
@@ -34,13 +41,14 @@ export default function AdminGatewayPage() {
     setAdminLoginError('');
     setAdminLoginLoading(true);
 
-    const ok = await login(adminEmail, adminPassword);
-    if (!ok) {
-      setAdminLoginError('Invalid credentials. Please check your email and password.');
+    try {
+      const ok = await login(adminEmail, adminPassword);
+      if (!ok) {
+        setAdminLoginError('Invalid credentials. Please check your email and password.');
+      }
+    } finally {
       setAdminLoginLoading(false);
-      return;
     }
-    setAdminLoginLoading(false);
   };
 
   // Support local storage dev bypass
@@ -70,13 +78,6 @@ export default function AdminGatewayPage() {
   }
 
   const isWrongRole = isLoggedIn && member?.role !== 'admin';
-
-  const modalGlassStyle: React.CSSProperties = {
-    background: "var(--color-bg-glass)",
-    backdropFilter: "blur(32px) saturate(180%)",
-    WebkitBackdropFilter: "blur(32px) saturate(180%)",
-    border: "1px solid var(--color-border-main)",
-  };
 
   return (
     <div className="fixed inset-0 h-screen w-screen bg-[#030305] text-white flex items-center justify-center px-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -108,7 +109,7 @@ export default function AdminGatewayPage() {
       <div className="w-full max-w-md relative z-10">
         <div
           className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-          style={modalGlassStyle}
+          style={MODAL_GLASS_STYLE}
         >
           <div className="p-8 sm:p-10">
             <div className="text-center mb-8">
@@ -136,7 +137,7 @@ export default function AdminGatewayPage() {
                   <Link href="/fans" className="text-[0.65rem]  text-[var(--color-accent)] hover:text-purple-300 uppercase tracking-[0.15em] font-black transition-colors">
                     ← Back to Fan Dashboard
                   </Link>
-                  <button
+                  <button aria-label="Action button"
                     onClick={() => logout()}
                     className="text-[0.65rem] text-rose-400 hover:text-rose-300 uppercase tracking-[0.15em] font-black transition-colors cursor-pointer"
                   >
@@ -148,7 +149,7 @@ export default function AdminGatewayPage() {
               <form onSubmit={handleAdminLogin} className="flex flex-col gap-4" autoComplete="off" data-form-type="other">
                 <div>
                   <label htmlFor="root-admin-login-email" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block font-bold">Email</label>
-                  <input
+                  <input aria-label="Input field"
                     id="root-admin-login-email"
                     type="email"
                     value={adminEmail}
@@ -162,7 +163,7 @@ export default function AdminGatewayPage() {
                 </div>
                 <div>
                   <label htmlFor="root-admin-login-password" className="text-[0.65rem] uppercase tracking-[0.15em] text-white/50 mb-1.5 block font-bold">Password</label>
-                  <input
+                  <input aria-label="Input field"
                     id="root-admin-login-password"
                     type="password"
                     value={adminPassword}
@@ -179,7 +180,7 @@ export default function AdminGatewayPage() {
                   <p className="text-xs text-rose-400 bg-rose-500/10 px-3 py-2 border border-rose-500/20 font-bold rounded-lg text-center">{adminLoginError}</p>
                 )}
 
-                <button
+                <button aria-label="Action button"
                   type="submit"
                   disabled={adminLoginLoading}
                   className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.2em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)]"
@@ -188,7 +189,7 @@ export default function AdminGatewayPage() {
                 </button>
 
                 {process.env.NODE_ENV === "development" && (
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => {
                       if (typeof window !== "undefined") {

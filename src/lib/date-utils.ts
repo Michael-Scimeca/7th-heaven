@@ -35,7 +35,7 @@ export function getShowDateTime(startDateStr?: string, dateStr?: string, timeStr
   return d;
 }
 
-export function isShowOver(show: { startDate?: string; date: string; time: string }): boolean {
+function isShowOver(show: { startDate?: string; date: string; time: string }): boolean {
   const showDateTime = getShowDateTime(show.startDate, show.date, show.time);
   // Keep the show active on the map and list for 4 hours after its start time
   return showDateTime.getTime() + (4 * 60 * 60 * 1000) < Date.now();

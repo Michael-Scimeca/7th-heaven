@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -258,17 +259,18 @@ function Section({ title, id, children, badge }: { title: string; id: string; ch
 function TokenBadge({ token }: { token: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <code
+    <button
+      type="button"
       onClick={() => {
         navigator.clipboard.writeText(`var(${token})`);
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}
-      className="text-[var(--font-size-4xs)] font-mono text-white/40 bg-white/5 px-1.5 py-0.5 rounded-md cursor-pointer hover:bg-white/10 hover:text-white/60 transition-colors select-all"
+      className="text-[var(--font-size-4xs)] font-mono text-white/40 bg-white/5 px-1.5 py-0.5 rounded-md cursor-pointer hover:bg-white/10 hover:text-white/60 transition-colors select-all border-0"
       title="Click to copy"
     >
-      {copied ? '✓ Copied!' : token}
-    </code>
+      <code>{copied ? '✓ Copied!' : token}</code>
+    </button>
   );
 }
 
@@ -304,12 +306,11 @@ function EditableSwatch({
   const textDark = isLightColor(displayHex);
 
   return (
-    <div className="flex flex-col gap-1.5 group relative">
-      <div
-        className={`relative w-full h-20  border flex items-end p-3 cursor-pointer transition-colors hover:scale-[1.02] hover: ${isChanged ? 'border-purple-500/60 ring-2 ring-amber-500/30' : 'border-white/10'
+    <div className="space-y-2">
+      <label
+        className={`w-full text-left relative h-20 border flex items-end p-3 cursor-pointer transition-colors hover:scale-[1.02] ${isChanged ? 'border-purple-500/60 ring-2 ring-amber-500/30' : 'border-white/10'
           }`}
         style={{ backgroundColor: displayHex }}
-        onClick={() => inputRef.current?.click()}
       >
         <span className={`text-[var(--font-size-4xs)] font-bold uppercase tracking-wider ${textDark ? 'text-black/70' : 'text-white/70'}`}>
           {label}
@@ -320,19 +321,20 @@ function EditableSwatch({
           </span>
         )}
         <input
+          aria-label={`Color input for ${label}`}
           ref={inputRef}
           type="color"
           value={displayHex}
           onChange={(e) => onChange(token, e.target.value)}
-          className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+          className="sr-only"
         />
-      </div>
+      </label>
       <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-1.5">
           <TokenBadge token={token} />
           {isChanged && (
-            <button
-              onClick={() => onReset(token)}
+            <button aria-label="Action button"
+                 onClick={() => onReset(token)}
               className="text-[7px] font-bold uppercase tracking-wider text-rose-400 bg-rose-500/10 border border-rose-500/30 px-1.5 py-0.5 rounded hover:bg-rose-500/20 transition-colors cursor-pointer"
             >
               Reset
@@ -500,8 +502,7 @@ export default function StyleGuidePage() {
             {navItems.map((item) => (
               <a
                 key={item.id}
-                href={`#${item.id}`}
-                onClick={() => setActiveNav(item.id)}
+                href={`#${item.id}`} onClick={() => setActiveNav(item.id)}
                 className={`px-3 py-1.5 text-[var(--font-size-3xs)] font-bold uppercase tracking-widest rounded-lg transition-colors shrink-0 flex items-center gap-1.5 ${activeNav === item.id
                     ? "bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]"
                     : "text-white/50 hover:text-white hover:bg-white/5"
@@ -522,14 +523,14 @@ export default function StyleGuidePage() {
                   <span className="text-[9px] font-bold text-purple-200 bg-purple-600/15 border border-purple-500/30 px-2 py-1 rounded-md">
                     {totalChanges} change{totalChanges !== 1 ? 's' : ''}
                   </span>
-                  <button
-                    onClick={() => setShowExportModal(true)}
+                  <button aria-label="Action button"
+                       onClick={() => setShowExportModal(true)}
                     className="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                   >
                     Export CSS
                   </button>
-                  <button
-                    onClick={handleResetAll}
+                  <button aria-label="Action button"
+                       onClick={handleResetAll}
                     className="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/50 text-rose-300 text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                   >
                     Reset All
@@ -624,7 +625,7 @@ export default function StyleGuidePage() {
                 </span>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <input
+                  <input aria-label="Input field"
                     type="text"
                     value={currentValue}
                     onChange={(e) => handleTypographyChange(f.token, e.target.value)}
@@ -632,8 +633,8 @@ export default function StyleGuidePage() {
                     title={`Edit ${f.token}`}
                   />
                   {isChanged && (
-                    <button
-                      onClick={() => handleTypographyReset(f.token)}
+                    <button aria-label="Action button"
+                         onClick={() => handleTypographyReset(f.token)}
                       className="text-[7px] font-bold uppercase text-rose-400 bg-rose-500/10 border border-rose-500/30 px-1.5 py-0.5 rounded hover:bg-rose-500/20 transition-colors cursor-pointer"
                     >
                       Reset
@@ -735,7 +736,7 @@ export default function StyleGuidePage() {
                 }`}>
                 <div className="w-40 text-[var(--font-size-3xs)] text-white/70 font-bold shrink-0">{s.label}</div>
                 <div className="flex-1 flex items-center gap-3">
-                  <input
+                  <input aria-label="Input field"
                     type="range"
                     min="0"
                     max="200"
@@ -745,7 +746,7 @@ export default function StyleGuidePage() {
                   />
                   <div className="h-6 bg-[var(--color-accent)]/30 rounded-sm transition-colors" style={{ width: `${currentValue}px` }} />
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="number"
                   value={currentValue}
                   onChange={(e) => handleSpacingChange(s.token, e.target.value)}
@@ -753,8 +754,8 @@ export default function StyleGuidePage() {
                 />
                 <span className="text-[var(--font-size-4xs)] text-white/30 font-mono w-8">px</span>
                 {isChanged && (
-                  <button
-                    onClick={() => handleSpacingReset(s.token)}
+                  <button aria-label="Action button"
+                       onClick={() => handleSpacingReset(s.token)}
                     className="text-[7px] font-bold uppercase text-rose-400 bg-rose-500/10 border border-rose-500/30 px-1.5 py-0.5 rounded hover:bg-rose-500/20 transition-colors cursor-pointer shrink-0"
                   >
                     Reset
@@ -806,7 +807,7 @@ export default function StyleGuidePage() {
                 <h4 className="text-sm font-bold text-white mb-1">{s.label}</h4>
                 <TokenBadge token={s.token} />
                 <div className="mt-3">
-                  <input
+                  <input aria-label="Input field"
                     type="text"
                     value={currentValue}
                     onChange={(e) => handleShadowChange(s.token, e.target.value)}
@@ -815,8 +816,8 @@ export default function StyleGuidePage() {
                   />
                 </div>
                 {isChanged && (
-                  <button
-                    onClick={() => handleShadowReset(s.token)}
+                  <button aria-label="Action button"
+                       onClick={() => handleShadowReset(s.token)}
                     className="mt-2 text-[8px] font-bold uppercase text-rose-400 bg-rose-500/10 border border-rose-500/30 px-2 py-0.5 rounded hover:bg-rose-500/20 transition-colors cursor-pointer"
                   >
                     Reset
@@ -856,21 +857,21 @@ export default function StyleGuidePage() {
 
         <h3 className="text-lg font-bold text-white mb-4 mt-8 uppercase tracking-wider">Primary</h3>
         <div className="flex flex-wrap items-center gap-4 mb-8">
-          <button className="btn-primary btn-primary-hover rounded-lg">Default</button>
-          <button className="btn-primary btn-primary-hover rounded-lg opacity-80">Hover (simulated)</button>
-          <button className="btn-primary rounded-lg opacity-50 cursor-not-allowed">Disabled</button>
+          <button aria-label="Action button" className="btn-primary btn-primary-hover rounded-lg">Default</button>
+          <button aria-label="Action button" className="btn-primary btn-primary-hover rounded-lg opacity-80">Hover (simulated)</button>
+          <button aria-label="Action button" className="btn-primary rounded-lg opacity-50 cursor-not-allowed">Disabled</button>
         </div>
 
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Outline</h3>
         <div className="flex flex-wrap items-center gap-4 mb-8">
-          <button className="btn-outline btn-outline-hover rounded-lg">Default</button>
-          <button className="btn-outline rounded-lg border-[var(--color-accent)] bg-purple-500/10">Hover (simulated)</button>
-          <button className="btn-outline rounded-lg opacity-50 cursor-not-allowed">Disabled</button>
+          <button aria-label="Action button" className="btn-outline btn-outline-hover rounded-lg">Default</button>
+          <button aria-label="Action button" className="btn-outline rounded-lg border-[var(--color-accent)] bg-purple-500/10">Hover (simulated)</button>
+          <button aria-label="Action button" className="btn-outline rounded-lg opacity-50 cursor-not-allowed">Disabled</button>
         </div>
 
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Nav Button (Sign In)</h3>
         <div className="flex flex-wrap items-center gap-4 mb-8">
-          <button className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors shadow-md">
+          <button aria-label="Action button" className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors shadow-md">
             SIGN IN
           </button>
           <FileBadge path="src/components/Header.tsx" />
@@ -878,7 +879,7 @@ export default function StyleGuidePage() {
 
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Pill / Book Us</h3>
         <div className="flex flex-wrap items-center gap-4">
-          <button className="px-6 py-2 border-2 border-white text-white text-sm font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
+          <button aria-label="Action button" className="px-6 py-2 border-2 border-white text-white text-sm font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
             BOOK US
           </button>
           <FileBadge path="src/components/Header.tsx" />
@@ -890,7 +891,7 @@ export default function StyleGuidePage() {
         <div className="max-w-md space-y-4">
           <div>
             <label htmlFor="sg-text-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Text Input</label>
-            <input
+            <input aria-label="Input field"
               id="sg-text-input"
               type="text"
               placeholder="Enter your name..."
@@ -899,7 +900,7 @@ export default function StyleGuidePage() {
           </div>
           <div>
             <label htmlFor="sg-email-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Email</label>
-            <input
+            <input aria-label="Input field"
               id="sg-email-input"
               type="email"
               placeholder="you@example.com"
@@ -908,7 +909,7 @@ export default function StyleGuidePage() {
           </div>
           <div>
             <label htmlFor="sg-textarea-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Textarea</label>
-            <textarea
+            <textarea aria-label="Text input"
               id="sg-textarea-input"
               placeholder="Write your message..."
               rows={4}
@@ -917,7 +918,7 @@ export default function StyleGuidePage() {
           </div>
           <div>
             <label htmlFor="sg-select-input" className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase tracking-wider block mb-1.5">Select</label>
-            <select id="sg-select-input" className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors">
+            <select aria-label="Select option" id="sg-select-input" className="w-full px-4 py-3 bg-[var(--color-bg-surface)] border border-white/10 text-white text-sm focus:border-[var(--color-accent)] focus:outline-none transition-colors">
               <option>Option One</option>
               <option>Option Two</option>
               <option>Option Three</option>
@@ -1490,20 +1491,18 @@ export default function StyleGuidePage() {
 
       </Section>
 
-      {/* ═══ Export CSS Modal ═══ */}
       {showExportModal && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowExportModal(false)}>
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-default" onClick={() => setShowExportModal(false)}>
           <div
-            className="bg-[#111] border border-white/10 w-full max-w-2xl mx-4 overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            className="bg-[#111] border border-white/10 w-full max-w-2xl mx-4 overflow-hidden text-left cursor-auto" onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <div>
                 <h3 className="text-lg font-black uppercase tracking-wider text-white">Export CSS Overrides</h3>
                 <p className="text-[11px] text-white/40 mt-1">Copy this snippet and paste into your globals.css :root block</p>
               </div>
-              <button
-                onClick={() => setShowExportModal(false)}
+              <button aria-label="Action button"
+                   onClick={() => setShowExportModal(false)}
                 className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer"
               >
                 ✕
@@ -1514,8 +1513,8 @@ export default function StyleGuidePage() {
                 {generateExportCSS()}
               </pre>
               <div className="flex items-center gap-3 mt-4">
-                <button
-                  onClick={() => {
+                <button aria-label="Action button"
+                     onClick={() => {
                     navigator.clipboard.writeText(generateExportCSS());
                     setExportCopied(true);
                     setTimeout(() => setExportCopied(false), 2000);

@@ -9,7 +9,6 @@ export const signupSchema = z.object({
   .max(100, "Name must be under 100 characters")
   .transform((val) => val.trim()),
  email: z
-  .string()
   .email("Invalid email address")
   .max(254, "Email too long")
   .transform((val) => val.toLowerCase().trim()),

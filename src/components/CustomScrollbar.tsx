@@ -177,6 +177,8 @@ export default function CustomScrollbar({
       {/* Custom purple scrollbar track — always visible */}
       {isScrollable && (
         <div
+          role="region"
+          aria-label="Scrollbar track"
           onClick={onTrackClick}
           onMouseDown={(e) => e.stopPropagation()}
           style={{
@@ -193,7 +195,9 @@ export default function CustomScrollbar({
           }}
         >
           {/* Glowing purple thumb */}
-          <div
+          <button
+            type="button"
+            aria-label="Scrollbar thumb"
             onMouseDown={onThumbMouseDown}
             style={{
               position: "absolute",

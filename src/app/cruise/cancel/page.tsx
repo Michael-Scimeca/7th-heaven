@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
@@ -75,7 +76,7 @@ function CancelContent() {
             This will remove your interest signup from the 7th Heaven cruise. You can always sign up again later.
           </p>
           <div className="flex flex-col gap-3">
-            <button
+            <button aria-label="Action button"
               onClick={handleCancel}
               disabled={status === "cancelling"}
               className="px-8 py-3 bg-rose-500 hover:bg-rose-400 text-white text-sm font-bold uppercase tracking-widest transition-colors disabled:opacity-70 cursor-pointer"

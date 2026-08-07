@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   const protection = await protectAction({
     identifier: `sms-subscribe:${ip}`,
     requests: 3,
-    window: '60 m',
+    windowDuration: '60 m',
   });
   if (!protection.success) {
     return NextResponse.json({ error: protection.error }, { status: protection.status as number });

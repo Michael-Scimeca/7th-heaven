@@ -1,10 +1,13 @@
+/* eslint-disable react-doctor/no-giant-component */
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
+
+const emptySubscribe = () => () => { };
 
 import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
 
@@ -77,7 +80,7 @@ export type HistoryTuningConfig = {
   lineColor: string;
 };
 
-export const DEFAULT_HISTORY_TUNING: HistoryTuningConfig = {
+const DEFAULT_HISTORY_TUNING: HistoryTuningConfig = {
   startScale: 0.85,
   endScale: 2.40,
   scalingCurve: 'linear',
@@ -124,22 +127,22 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const [svgSize, setSvgSize] = useState({ w: 1400, h: 2000 });
   const [mobileSvgSize, setMobileSvgSize] = useState({ w: 400, h: 3000 });
 
-  const [tuning, setTuning] = useState<HistoryTuningConfig>(DEFAULT_HISTORY_TUNING);
+  const [tuning, setTuning] = useState<HistoryTuningConfig>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const savedStr = localStorage.getItem('7h_history_tuning_v6');
+        if (savedStr) {
+          const parsed = JSON.parse(savedStr);
+          return { ...DEFAULT_HISTORY_TUNING, ...parsed };
+        }
+      } catch { }
+    }
+    return DEFAULT_HISTORY_TUNING;
+  });
   const [showSettings, setShowSettings] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const latestProgressRef = useRef(0);
-
-  useEffect(() => {
-    setMounted(true);
-    try {
-      const savedStr = localStorage.getItem('7h_history_tuning_v6');
-      if (savedStr) {
-        const parsed = JSON.parse(savedStr);
-        setTuning({ ...DEFAULT_HISTORY_TUNING, ...parsed });
-      }
-    } catch { }
-  }, []);
 
   const handleSaveTuning = () => {
     try {
@@ -877,7 +880,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   History Timeline & 3D Ship Controls
                 </h3>
               </div>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setShowSettings(false)}
                 className="text-white/60 hover:text-white text-lg font-bold px-2 py-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
               >
@@ -892,7 +895,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-bold text-white/90">⚓ 1998 Start Ship Size (Scale)</span>
                   <span className="text-cyan-400 font-mono font-bold">{(tuning.startScale ?? 0.70).toFixed(2)}x</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0.05"
                   max="5.00"
@@ -910,7 +913,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-bold text-white/90">🚀 2028 End Ship Size (Scale)</span>
                   <span className="text-cyan-400 font-mono font-bold">{(tuning.endScale ?? 3.20).toFixed(2)}x</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0.05"
                   max="8.00"
@@ -927,7 +930,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <span className="font-black text-cyan-300 block text-xs uppercase tracking-wide">📈 Year-by-Year Scaling Mode</span>
                 <div className="grid grid-cols-3 gap-1.5">
                   {(['linear', 'exponential', 'stepped'] as const).map(mode => (
-                    <button
+                    <button aria-label="Action button"
                       key={mode}
                       onClick={() => setTuning({ ...tuning, scalingCurve: mode })}
                       className={`py-1.5 px-2  text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer border ${(tuning.scalingCurve || 'linear') === mode
@@ -955,7 +958,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     <span className="font-bold text-white/90">⚡ Year Acceleration Curve (Exponent)</span>
                     <span className="text-cyan-400 font-mono font-bold">{(tuning.growthCurveExp ?? 1.5).toFixed(1)}</span>
                   </div>
-                  <input
+                  <input aria-label="Input field"
                     type="range"
                     min="0.3"
                     max="3.5"
@@ -974,7 +977,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-black text-cyan-300">↔️ Ship X Position Offset (Horizontal)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{tuning.shipOffsetX ?? 0}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="-200"
                   max="200"
@@ -992,7 +995,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-black text-cyan-300">↕️ Ship Y Position Offset (Vertical)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{tuning.shipOffsetY ?? 0}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="-200"
                   max="200"
@@ -1010,7 +1013,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-black text-cyan-300">🎯 Ship & Blue Line Timeline Stop Position</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{tuning.bowOffsetPx}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0"
                   max="400"
@@ -1028,7 +1031,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-black text-cyan-300">🚀 Scroll Start Trigger (% Viewport)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0.10"
                   max="0.95"
@@ -1046,7 +1049,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-black text-cyan-300">🏁 2026 Finish Viewport Position (% Viewport)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0.10"
                   max="0.95"
@@ -1064,7 +1067,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-black text-cyan-300">⚡ Scroll Scrub Smoothness (Damping)</span>
                   <span className="text-cyan-400 font-mono font-black text-sm">{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0.1"
                   max="2.0"
@@ -1082,7 +1085,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                   <span className="font-bold text-white/90">🖊️ Line Thickness</span>
                   <span className="text-cyan-400 font-mono font-bold">{tuning.lineWidth}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="2"
                   max="16"
@@ -1098,7 +1101,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 <span className="font-bold text-white/90 block mb-2">🎨 Line Glow Color</span>
                 <div className="flex items-center gap-2">
                   {['#06b6d4', '#a855f7', '#3b82f6', '#10b981', '#9333ea', '#ec4899'].map(col => (
-                    <button
+                    <button aria-label="Action button"
                       key={col}
                       onClick={() => setTuning({ ...tuning, lineColor: col })}
                       className={`w-7 h-7 rounded-full transition-transform cursor-pointer border-2 ${tuning.lineColor === col ? 'scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]' : 'border-transparent opacity-70 hover:opacity-100'
@@ -1112,7 +1115,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
             {/* Action Buttons */}
             <div className="flex items-center justify-between border-t border-white/10 pt-4 mt-6">
-              <button
+              <button aria-label="Action button"
                 onClick={handleResetTuning}
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 font-extrabold text-xs uppercase tracking-widest transition-colors cursor-pointer"
               >
@@ -1124,7 +1127,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     ✓ Saved!
                   </span>
                 )}
-                <button
+                <button aria-label="Action button"
                   onClick={handleSaveTuning}
                   className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
                 >

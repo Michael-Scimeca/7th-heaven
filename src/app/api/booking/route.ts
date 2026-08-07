@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+
+const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const STATUS_LABELS: Record<string, string> = {
+  approved: '✅ Booking Approved',
+  cancelled: '❌ Booking Cancelled',
+  completed: '🎉 Show Complete',
+};
 import { bookingStatusUpdate } from "@/lib/email-templates";
 import { protectAction, sanitize as securitySanitize } from "@/lib/security";
 import { isValidEmail } from "@/lib/validation";
@@ -344,7 +351,7 @@ export async function POST(request: Request) {
       identifier: `booking:${ip}`,
       honeypotValue: data.website,
       requests: 3,
-      window: '60 m',
+      windowDuration: '60 m',
     });
     if (!protection.success) {
       return NextResponse.json({ error: protection.error }, { status: protection.status });
@@ -569,8 +576,7 @@ export async function PATCH(request: Request) {
         if (data.event_date) {
           try {
             const dateObj = new Date(data.event_date + 'T12:00:00');
-            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            day = dayNames[dateObj.getDay()];
+            day = DAY_NAMES[dateObj.getDay()];
           } catch {}
         }
 
@@ -656,11 +662,7 @@ export async function PATCH(request: Request) {
         venueState: data.venue_state || '',
       });
 
-      const statusLabels: Record<string, string> = {
-        approved: '✅ Booking Approved',
-        cancelled: '❌ Booking Cancelled',
-        completed: '🎉 Show Complete',
-      };
+      const statusLabels = STATUS_LABELS;
 
       fetch(`${emailBaseUrl}/api/email`, {
         method: 'POST',

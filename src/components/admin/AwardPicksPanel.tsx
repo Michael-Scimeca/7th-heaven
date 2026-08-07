@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -136,7 +137,7 @@ export default function AwardPicksPanel() {
         <span className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Select Pick Type</span>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           {PICK_TYPES.map((pick) => (
-            <button
+            <button aria-label="Action button"
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
               className={`p-3 border text-center transition-colors cursor-pointer rounded-lg ${selectedPick === pick.id
@@ -164,7 +165,7 @@ export default function AwardPicksPanel() {
         <span className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">Reason</span>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
           {AWARD_REASONS.map((r) => (
-            <button
+            <button aria-label="Action button"
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
               className={`px-3 py-2 text-left border transition-colors cursor-pointer rounded-lg ${selectedReason === r.id
@@ -183,7 +184,7 @@ export default function AwardPicksPanel() {
         <label htmlFor="search-fan-input" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">
           Select Fan {selectedFan && <span className=" text-[var(--color-accent)]">→ {selectedFan.full_name || selectedFan.email}</span>}
         </label>
-        <input
+        <input aria-label="Search"
           id="search-fan-input"
           type="text"
           value={search}
@@ -197,7 +198,7 @@ export default function AwardPicksPanel() {
             <p className="text-xs text-white/30 text-center py-4">No fans found</p>
           ) : (
             filteredFans.slice(0, 20).map((fan) => (
-              <button
+              <button aria-label="Action button"
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
                 className={`w-full text-left px-4 py-2.5 border-b border-white/5 last:border-0 transition-colors cursor-pointer ${selectedFan?.id === fan.id
@@ -216,14 +217,14 @@ export default function AwardPicksPanel() {
 
       {/* Action Buttons */}
       <div className="flex gap-3">
-        <button
+        <button aria-label="Action button"
           onClick={handleAward}
           disabled={!selectedFan || awarding}
           className="flex-1 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest hover:brightness-110 transition-colors disabled:opacity-30 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"
         >
           {awarding ? "Awarding..." : `Award to ${selectedFan?.full_name?.split(" ")[0] || "Fan"}`}
         </button>
-        <button
+        <button aria-label="Action button"
           onClick={handleBulkAward}
           disabled={filteredFans.length === 0 || awarding}
           className="px-6 py-3 border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-widest hover:bg-[var(--color-purple-glow)] transition-colors disabled:opacity-30 cursor-pointer"

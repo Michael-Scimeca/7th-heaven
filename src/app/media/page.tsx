@@ -98,8 +98,7 @@ export default function MediaPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
                 {/* Centered round play button */}
-                <button
-                  onClick={() => setHeroPlaying(true)}
+                <button onClick={() => setHeroPlaying(true)}
                   className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
                   aria-label="Play featured video"
                 >
@@ -130,7 +129,7 @@ export default function MediaPage() {
                   {featuredVideo.duration && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.duration}</span></>}
                   {featuredVideo.viewCount && <><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featuredVideo.viewCount} views</span></>}
                 </div>
-                <button
+                <button aria-label="Action button"
                   onClick={() => setHeroPlaying(true)}
                   className="flex items-center gap-2.5 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
                 >
@@ -156,7 +155,7 @@ export default function MediaPage() {
         <div className="site-container flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex-1 min-w-0 flex flex-wrap gap-x-6 gap-y-1 py-2">
             {categories.map(cat => (
-              <button
+              <button aria-label="Action button"
                 key={cat.category}
                 onClick={() => handleFilterClick(cat.category)}
                 className={`relative text-sm font-extrabold uppercase tracking-[0.12em] py-2 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${activeFilter === cat.category ? "text-black font-black" : "text-black/60 hover:text-black"
@@ -170,7 +169,7 @@ export default function MediaPage() {
           </div>
           <div className="relative w-full md:w-56 shrink-0 self-center">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40 w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-            <input
+            <input aria-label="Search"
               type="text"
               placeholder="SEARCH..."
               value={searchQuery}

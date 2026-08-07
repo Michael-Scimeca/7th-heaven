@@ -25,6 +25,40 @@ function findRaffleByPin(pin: string) {
   return null;
 }
 
+const renderBackground = () => (
+  <>
+    <style jsx global>{`
+      html, body {
+        overflow: hidden !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        touch-action: none !important;
+      }
+    `}</style>
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        backgroundImage: "url('/images/hero-band-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        filter: "brightness(0.35) blur(10px)",
+        transform: "scale(1.08)",
+        zIndex: 0,
+        pointerEvents: "none"
+      }}
+    />
+    <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
+  </>
+);
+
+const MODAL_GLASS_STYLE: React.CSSProperties = {
+  background: "var(--color-bg-glass)",
+  backdropFilter: "blur(32px) saturate(180%)",
+  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+  border: "1px solid var(--color-border-main)",
+};
+
 export default function VerifyPage() {
   const { member, isLoggedIn, openModal } = useMember();
   const [pin, setPin] = useState(['', '', '', '', '', '']);
@@ -112,40 +146,9 @@ export default function VerifyPage() {
     };
   }, []);
 
-  // Shared background overlay
-  const renderBackground = () => (
-    <>
-      <style jsx global>{`
-        html, body {
-          overflow: hidden !important;
-          height: 100vh !important;
-          max-height: 100vh !important;
-          touch-action: none !important;
-        }
-      `}</style>
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundImage: "url('/images/hero-band-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.35) blur(10px)",
-          transform: "scale(1.08)",
-          zIndex: 0,
-          pointerEvents: "none"
-        }}
-      />
-      <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
-    </>
-  );
 
-  const modalGlassStyle: React.CSSProperties = {
-    background: "var(--color-bg-glass)",
-    backdropFilter: "blur(32px) saturate(180%)",
-    WebkitBackdropFilter: "blur(32px) saturate(180%)",
-    border: "1px solid var(--color-border-main)",
-  };
+
+
 
   if (!isLoggedIn || !member) {
     return (
@@ -154,12 +157,12 @@ export default function VerifyPage() {
 
         <div
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-          style={modalGlassStyle}
+          style={MODAL_GLASS_STYLE}
         >
           <span className="text-5xl block mb-4">🔐</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
-          <button
+          <button aria-label="Action button"
             onClick={() => openModal()}
             className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
           >
@@ -177,7 +180,7 @@ export default function VerifyPage() {
 
         <div
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-          style={modalGlassStyle}
+          style={MODAL_GLASS_STYLE}
         >
           <span className="text-5xl block mb-4">🚫</span>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Only</h2>
@@ -204,13 +207,13 @@ export default function VerifyPage() {
         {result !== 'valid' && (
           <div
             className="rounded-3xl p-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={modalGlassStyle}
+            style={MODAL_GLASS_STYLE}
           >
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
             <div className="flex items-center justify-center gap-2 mb-6" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
-                <input
+                <input aria-label="Input field"
                   key={i}
                   ref={el => { inputRefs.current[i] = el; }}
                   type="text"
@@ -226,7 +229,7 @@ export default function VerifyPage() {
               ))}
             </div>
 
-            <button
+            <button aria-label="Action button"
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
               className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
@@ -247,7 +250,7 @@ export default function VerifyPage() {
         {result === 'valid' && winnerData && (
           <div
             className="rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={modalGlassStyle}
+            style={MODAL_GLASS_STYLE}
           >
             <div className="bg-purple-600 px-6 py-4 text-center shadow-[0_0_25px_rgba(147,51,234,0.5)]">
               <p className="text-white font-black text-lg uppercase tracking-widest">✓ Valid Win</p>
@@ -276,7 +279,7 @@ export default function VerifyPage() {
 
               <p className="text-emerald-400/90 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
 
-              <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
+              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
                 Verify Another PIN
               </button>
             </div>
@@ -287,14 +290,14 @@ export default function VerifyPage() {
         {result === 'invalid' && (
           <div
             className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
-            style={modalGlassStyle}
+            style={MODAL_GLASS_STYLE}
           >
             <span className="text-5xl block mb-3">❌</span>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="text-white/40 text-sm mb-5">
               This PIN doesn't match any raffle winner. Ask the fan to show the email or claim page.
             </p>
-            <button onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
+            <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
               Try Again
             </button>
           </div>

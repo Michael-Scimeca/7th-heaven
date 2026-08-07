@@ -47,7 +47,7 @@ class LiveKitErrorBoundary extends React.Component<
         <div className="h-full flex items-center justify-center bg-black/40">
           <div className="text-center">
             <p className="text-white/40 text-sm">Stream connection interrupted</p>
-            <button
+            <button aria-label="Action button"
               onClick={() => this.setState({ hasError: false, error: null })}
               className="mt-2 text-xs  text-[var(--color-accent)] underline hover: text-[var(--color-accent)]"
             >
@@ -73,45 +73,48 @@ export function LiveKitStream({
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    let active = true;
+  const fetchToken = useCallback(async (activeRef: { current: boolean }) => {
+    try {
+      const tokenVal = typeof window !== 'undefined' ? localStorage.getItem('7h_crew_token') : null;
+      const headers: Record<string, string> = {};
+      if (tokenVal) headers['Authorization'] = `Bearer ${tokenVal}`;
 
-    const timerId = setTimeout(async () => {
-      try {
-        const tokenVal = typeof window !== 'undefined' ? localStorage.getItem('7h_crew_token') : null;
-        const headers: Record<string, string> = {};
-        if (tokenVal) headers['Authorization'] = `Bearer ${tokenVal}`;
+      const res = await fetch(
+        `/api/livekit?room=${encodeURIComponent(room)}&username=${encodeURIComponent(username)}&publish=${isPublisher}`,
+        { headers }
+      );
 
-        const res = await fetch(
-          `/api/livekit?room=${encodeURIComponent(room)}&username=${encodeURIComponent(username)}&publish=${isPublisher}`,
-          { headers }
-        );
-
-        if (!active) return;
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          setError(data.error || `HTTP ${res.status}`);
-          return;
-        }
-        const data = await res.json();
-        if (!active) return;
-        if (data.error) {
-          setError(data.error);
-          return;
-        }
-        setToken(data.token);
-        setUrl(data.url);
-      } catch (err) {
-        if (!active) return;
-        setError('Failed to connect to stream server');
+      if (!activeRef.current) return;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || `HTTP ${res.status}`);
+        return;
       }
+      const data = await res.json();
+      if (!activeRef.current) return;
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      setToken(data.token);
+      setUrl(data.url);
+    } catch {
+      if (!activeRef.current) return;
+      setError('Failed to connect to stream server');
+    }
+  }, [room, username, isPublisher]);
+
+  useEffect(() => {
+    const activeRef = { current: true };
+    const timerId = setTimeout(() => {
+      fetchToken(activeRef);
     }, 0);
 
     return () => {
-      active = false;
+      activeRef.current = false;
       clearTimeout(timerId);
     };
-  }, [room, username, isPublisher]);
+  }, [fetchToken]);
 
   if (error) {
     return (

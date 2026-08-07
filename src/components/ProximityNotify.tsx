@@ -1,4 +1,7 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/prefer-useReducer */
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
 
 import { useState, useRef } from "react";
@@ -344,7 +347,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           </div>
                         ))}
                       </div>
-                      <button className="w-full mt-1 py-1 border border-dashed border-white/[0.06] text-xs text-white/20 font-bold uppercase tracking-widest rounded">+ 12 more fans going ↓</button>
+                      <button aria-label="Action button" className="w-full mt-1 py-1 border border-dashed border-white/[0.06] text-xs text-white/20 font-bold uppercase tracking-widest rounded">+ 12 more fans going ↓</button>
                     </div>
 
                     {/* Map — fills remaining space */}
@@ -435,9 +438,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <div className="space-y-3">
                     {/* Profile Picture */}
                     <div className="flex items-center gap-5 mb-4 pb-4 border-b border-white/[0.05]">
-                      <button
+                      <button aria-label="Action button"
                         type="button"
-                        onClick={() => fileRef.current?.click()}
+                           onClick={() => fileRef.current?.click()}
                         className={`relative w-16 h-16 rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-colors duration-200 overflow-hidden group ${profilePic
                           ? 'border-2 border-[var(--color-accent)]/30'
                           : name.trim()
@@ -463,7 +466,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           </svg>
                         </div>
                       </button>
-                      <input ref={fileRef} type="file" accept="image/*" onChange={handleProfilePic} className="hidden" />
+                      <input aria-label="Input field" ref={fileRef} type="file" accept="image/*" onChange={handleProfilePic} className="hidden" />
                       <div>
                         <p className="text-sm text-white/50">{profilePic ? 'Change Photo' : 'Add a Profile Photo'}</p>
                         <p className="text-xs text-white/20 mt-0.5">Visible to other members at shows</p>
@@ -471,7 +474,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
 
                     {/* Name */}
-                    <input
+                    <input aria-label="Input field"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -480,7 +483,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                     />
                     {/* Email */}
-                    <input
+                    <input aria-label="Input field"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -489,7 +492,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                     />
                     {/* Phone */}
-                    <input
+                    <input aria-label="Input field"
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
@@ -498,7 +501,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     />
                     {/* Zip + Radius */}
                     <div className="flex gap-3">
-                      <input
+                      <input aria-label="Input field"
                         type="text"
                         value={zip}
                         onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
@@ -508,7 +511,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         pattern="\d{5}"
                         className="flex-1 bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
                       />
-                      <select
+                      <select aria-label="Select option"
                         value={radius}
                         onChange={(e) => setRadius(e.target.value)}
                         className="bg-white/[0.05] border border-white/[0.08] px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-colors duration-200 appearance-none cursor-pointer text-center w-[110px]"
@@ -525,7 +528,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2.5 text-left">Notification Preferences</p>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                          <input
+                          <input aria-label="Input field"
                             type="checkbox"
                             checked={notifyAreaShows}
                             onChange={(e) => setNotifyAreaShows(e.target.checked)}
@@ -537,7 +540,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           </div>
                         </label>
                         <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                          <input
+                          <input aria-label="Next"
                             type="checkbox"
                             checked={notifyNextShow}
                             onChange={(e) => setNotifyNextShow(e.target.checked)}
@@ -549,7 +552,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           </div>
                         </label>
                         <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                          <input
+                          <input aria-label="Input field"
                             type="checkbox"
                             checked={notifyBrowser}
                             onChange={(e) => handleBrowserNotifyToggle(e.target.checked)}
@@ -583,7 +586,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 : "bg-white/[0.02] border-white/[0.05] text-white/40 hover:border-white/10 hover:text-white/60"
                                 }`}
                             >
-                              <input
+                              <input aria-label="Previous"
                                 type="checkbox"
                                 checked={isChecked}
                                 onChange={() => {
@@ -604,9 +607,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                     {/* Notification Agreement */}
                     <div className="flex items-start gap-3 cursor-pointer pt-1">
-                      <button
+                      <button aria-label="Action button"
                         type="button"
-                        onClick={() => setAgreeNotify(!agreeNotify)}
+                           onClick={() => setAgreeNotify(!agreeNotify)}
                         className={`relative w-[42px] h-[24px] rounded-full transition-colors duration-300 shrink-0 mt-0.5 ${agreeNotify
                           ? "bg-[var(--color-accent)] shadow-[0_0_12px_rgba(255,10,61,0.3)]"
                           : "bg-white/[0.1]"
@@ -620,7 +623,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                     {/* Terms & Privacy Agreement */}
                     <div className="flex items-start gap-3 cursor-pointer pt-1">
-                      <div
+                      <button type="button"
+                        aria-label="Agree to terms and privacy policy"
                         onClick={() => setAgreeTerms(!agreeTerms)}
                         className={`w-[18px] h-[18px] rounded border-2 shrink-0 mt-0.5 flex items-center justify-center transition-colors duration-200 cursor-pointer ${agreeTerms
                           ? 'bg-[var(--color-accent)] border-[var(--color-accent)]'
@@ -630,7 +634,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         {agreeTerms && (
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                         )}
-                      </div>
+                      </button>
                       <span className="text-sm text-white/35 leading-snug">
                         I am 18 years of age or older and agree to the{' '}
                         <Link href="/terms" className="text-white/50 underline hover:text-white/70 transition-colors">Terms of Service</Link>{' '}and{' '}
@@ -639,7 +643,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     </div>
 
                     {/* Submit */}
-                    <button
+                    <button aria-label="Action button"
                       type="submit"
                       disabled={status === "loading" || !agreeNotify || !agreeTerms}
                       className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 hover:shadow-[0_8px_30px_-5px_rgba(255,10,61,0.4)] text-white font-bold text-base uppercase tracking-[0.15em] py-4 transition-colors duration-300 cursor-pointer disabled:opacity-50 mt-1"

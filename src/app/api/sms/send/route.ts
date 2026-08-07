@@ -157,21 +157,21 @@ export async function POST(request: Request) {
     if (accountSid && authToken && twilioPhone) {
       const twilio = (await import("twilio")).default;
       const client = twilio(accountSid, authToken);
-      let sent = 0,
-        failed = 0;
-
-      for (const sub of nearbySubscribers) {
+      const smsResults = await Promise.all(nearbySubscribers.map(async (sub) => {
         try {
           await client.messages.create({
             body: smsBody,
             from: twilioPhone,
             to: sub.phone,
           });
-          sent++;
+          return true;
         } catch {
-          failed++;
+          return false;
         }
-      }
+      }));
+
+      let sent = smsResults.filter(Boolean).length;
+      let failed = smsResults.length - sent;
 
       return NextResponse.json({
         success: true,

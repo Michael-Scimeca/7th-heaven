@@ -29,6 +29,30 @@ function isOnSpecial(product: ShopifyProduct): boolean {
   return false;
 }
 
+const DEMO_PRODUCTS: ShopifyProduct[] = [
+  {
+    id: 'demo-1', title: '7H Classic Logo Tee', handle: 'classic-logo-tee',
+    description: 'The must-have 7th Heaven tee for every real fan.',
+    quantityAvailable: 24, tags: ['homepage', 'featured'],
+    images: { edges: [{ node: { url: 'https://img.youtube.com/vi/wDEXG3kHjqk/hqdefault.jpg', altText: 'Classic Logo Tee' } }] },
+    variants: { edges: [{ node: { id: 'v1', price: { amount: '35.00', currencyCode: 'USD' }, compareAtPrice: { amount: '45.00', currencyCode: 'USD' }, quantityAvailable: 24 } }] }
+  },
+  {
+    id: 'demo-2', title: 'Tour Hoodie (Black)', handle: 'tour-hoodie-black',
+    description: 'Heavyweight fleece with the 7H tour logo.',
+    quantityAvailable: 12, tags: ['featured'],
+    images: { edges: [{ node: { url: 'https://img.youtube.com/vi/C0PQYmyaTFk/hqdefault.jpg', altText: 'Tour Hoodie' } }] },
+    variants: { edges: [{ node: { id: 'v2', price: { amount: '65.00', currencyCode: 'USD' }, compareAtPrice: { amount: '80.00', currencyCode: 'USD' }, quantityAvailable: 12 } }] }
+  },
+  {
+    id: 'demo-3', title: 'Signed Drumstick Set', handle: 'signed-drumstick-set',
+    description: 'Drumsticks used & signed by Frankie Harchut. Limited stock!',
+    quantityAvailable: 5, tags: ['homepage', 'sale'],
+    images: { edges: [{ node: { url: 'https://img.youtube.com/vi/UQBvl_wZ0ak/hqdefault.jpg', altText: 'Signed Drumsticks' } }] },
+    variants: { edges: [{ node: { id: 'v3', price: { amount: '28.00', currencyCode: 'USD' }, compareAtPrice: { amount: '40.00', currencyCode: 'USD' }, quantityAvailable: 5 } }] }
+  },
+];
+
 export default function HomeMerch() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -89,32 +113,6 @@ export default function HomeMerch() {
     );
   }
 
-  // ── DEMO DATA — DELETE BEFORE GO-LIVE ─────────────────────────────────────
-  // These 4 fake products show the client how the homepage merch section looks
-  // when Shopify has items on sale. Remove this constant once Shopify is stocked.
-  const DEMO_PRODUCTS: ShopifyProduct[] = [
-    {
-      id: 'demo-1', title: '7H Classic Logo Tee', handle: 'classic-logo-tee',
-      description: 'The must-have 7th Heaven tee for every real fan.',
-      quantityAvailable: 24, tags: ['homepage', 'featured'],
-      images: { edges: [{ node: { url: 'https://img.youtube.com/vi/wDEXG3kHjqk/hqdefault.jpg', altText: 'Classic Logo Tee' } }] },
-      variants: { edges: [{ node: { id: 'v1', price: { amount: '35.00', currencyCode: 'USD' }, compareAtPrice: { amount: '45.00', currencyCode: 'USD' }, quantityAvailable: 24 } }] }
-    },
-    {
-      id: 'demo-2', title: 'Tour Hoodie (Black)', handle: 'tour-hoodie-black',
-      description: 'Heavyweight fleece with the 7H tour logo.',
-      quantityAvailable: 12, tags: ['featured'],
-      images: { edges: [{ node: { url: 'https://img.youtube.com/vi/C0PQYmyaTFk/hqdefault.jpg', altText: 'Tour Hoodie' } }] },
-      variants: { edges: [{ node: { id: 'v2', price: { amount: '65.00', currencyCode: 'USD' }, compareAtPrice: { amount: '80.00', currencyCode: 'USD' }, quantityAvailable: 12 } }] }
-    },
-    {
-      id: 'demo-3', title: 'Signed Drumstick Set', handle: 'signed-drumstick-set',
-      description: 'Drumsticks used & signed by Frankie Harchut. Limited stock!',
-      quantityAvailable: 5, tags: ['homepage', 'sale'],
-      images: { edges: [{ node: { url: 'https://img.youtube.com/vi/UQBvl_wZ0ak/hqdefault.jpg', altText: 'Signed Drumsticks' } }] },
-      variants: { edges: [{ node: { id: 'v3', price: { amount: '28.00', currencyCode: 'USD' }, compareAtPrice: { amount: '40.00', currencyCode: 'USD' }, quantityAvailable: 5 } }] }
-    },
-  ];
   // ── END DEMO DATA ──────────────────────────────────────────────────────────
 
   // If no specials from Shopify, fall back to demo products
@@ -193,7 +191,7 @@ export default function HomeMerch() {
                     {soldOut ? (
                       <span className="text-[var(--font-size-2xs)] text-white/15 uppercase tracking-widest">Sold Out</span>
                     ) : (
-                      <button
+                      <button aria-label="Action button"
                         onClick={() => handleBuy(product)}
                         className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors cursor-pointer"
                       >

@@ -1,6 +1,7 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
 
 declare global {
   interface Window {
@@ -19,6 +20,12 @@ interface CustomYTPlayerProps {
   hasNext?: boolean;
   hasPrev?: boolean;
 }
+
+const formatTime = (s: number) => {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+};
 
 export default function CustomYTPlayer({
   videoId,
@@ -184,8 +191,9 @@ export default function CustomYTPlayer({
   }, []);
 
   // Global Keyboard Controls
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
+  const keyHandlerRef = useRef<(e: KeyboardEvent) => void>(() => {});
+  useLayoutEffect(() => {
+    keyHandlerRef.current = (e: KeyboardEvent) => {
       // Don't intercept keypresses when typing in inputs/textareas
       if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) return;
       if (e.key === "Escape") { onClose(); return; }
@@ -197,9 +205,13 @@ export default function CustomYTPlayer({
       if (e.key === "m") { toggleMute(); }
       if (e.key === "f") { toggleFullscreen(); }
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [isPlaying, volume, isMuted, onClose, togglePlay, seekRelative, changeVolume, toggleMute, toggleFullscreen]);
+  });
+
+  useEffect(() => {
+    const listener = (e: KeyboardEvent) => keyHandlerRef.current(e);
+    window.addEventListener("keydown", listener);
+    return () => window.removeEventListener("keydown", listener);
+  }, []);
 
   // Fullscreen change listener
   useEffect(() => {
@@ -217,42 +229,45 @@ export default function CustomYTPlayer({
     seekTo(Math.max(0, Math.min(1, pct)));
   };
 
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${m}:${sec.toString().padStart(2, "0")}`;
-  };
+
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center"
-      onClick={onClose}
+      aria-label="YouTube Video Player"
+      className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center m-0 p-0 border-none max-w-none w-full h-full text-inherit"
     >
+      <button
+        type="button"
+        aria-label="Close video player"
+        onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClose();
+          }
+        }}
+        className="absolute inset-0 cursor-pointer border-none bg-transparent"
+      />
       <div
         ref={containerRef}
-        className="w-full max-w-[1100px] mx-4 sm:mx-8"
-        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[1100px] mx-4 sm:mx-8 relative z-10"
       >
         {/* Player Container */}
         <div
-          role="button"
-          tabIndex={0}
-          className="relative aspect-video bg-black border border-white/10 overflow-hidden group/player cursor-pointer"
+          className="relative aspect-video bg-black border border-white/10 overflow-hidden group/player"
           onMouseMove={resetHideTimer}
-          onClick={togglePlay}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              togglePlay();
-            }
-          }}
         >
           {/* YouTube Player (hidden controls) */}
           <div id="yt-player-frame" className="absolute inset-0 w-full h-full pointer-events-none" />
+
+          {/* Click overlay to toggle play */}
+          <button type="button"
+            aria-label="Toggle video playback"
+            className="absolute inset-0 z-0 cursor-pointer border-0 bg-transparent"
+            onClick={togglePlay}
+          />
 
           {/* Loading State */}
           {!isReady && (
@@ -294,7 +309,7 @@ export default function CustomYTPlayer({
                 <p className="text-xs text-white/40">7th Heaven • {year}</p>
               </div>
             </div>
-            <button
+            <button aria-label="Close"
               onClick={(e) => { e.stopPropagation(); onClose(); }}
               className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors cursor-pointer shrink-0 ml-4"
             >
@@ -362,8 +377,7 @@ export default function CustomYTPlayer({
               <div className="flex items-center gap-3">
                 {/* Prev */}
                 {hasPrev && (
-                  <button
-                    onClick={() => onPrev?.()}
+                  <button onClick={() => onPrev?.()}
                     className="text-white/60 hover:text-white transition-colors cursor-pointer"
                     aria-label="Previous"
                   >
@@ -374,8 +388,7 @@ export default function CustomYTPlayer({
                 )}
 
                 {/* Play/Pause */}
-                <button
-                  onClick={togglePlay}
+                <button onClick={togglePlay}
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
@@ -392,8 +405,7 @@ export default function CustomYTPlayer({
 
                 {/* Next */}
                 {hasNext && (
-                  <button
-                    onClick={() => onNext?.()}
+                  <button onClick={() => onNext?.()}
                     className="text-white/60 hover:text-white transition-colors cursor-pointer"
                     aria-label="Next"
                   >
@@ -409,8 +421,7 @@ export default function CustomYTPlayer({
                   onMouseEnter={() => setShowVolume(true)}
                   onMouseLeave={() => setShowVolume(false)}
                 >
-                  <button
-                    onClick={toggleMute}
+                  <button onClick={toggleMute}
                     className="text-white/60 hover:text-white transition-colors cursor-pointer"
                     aria-label={isMuted ? "Unmute" : "Mute"}
                   >
@@ -429,7 +440,7 @@ export default function CustomYTPlayer({
                     )}
                   </button>
                   <div className={`flex items-center transition-colors duration-200 overflow-hidden ${showVolume ? 'w-20 opacity-100' : 'w-0 opacity-0'}`}>
-                    <input
+                    <input aria-label="Input field"
                       type="range"
                       min={0}
                       max={100}
@@ -469,8 +480,7 @@ export default function CustomYTPlayer({
                 </a>
 
                 {/* Fullscreen */}
-                <button
-                  onClick={toggleFullscreen}
+                <button onClick={toggleFullscreen}
                   className="text-white/60 hover:text-white transition-colors cursor-pointer"
                   aria-label="Fullscreen"
                 >

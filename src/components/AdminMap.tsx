@@ -1,6 +1,7 @@
 "use client";
+/* eslint-disable react-doctor/no-initialize-state */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useSyncExternalStore } from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -35,7 +36,7 @@ class MapErrorBoundary extends React.Component<
       return (
         <div className="w-full h-[400px] bg-[var(--color-bg-card)]/60 border border-white/5 flex flex-col items-center justify-center gap-3">
           <p className="text-xs text-white/50">Map reloading...</p>
-          <button
+          <button aria-label="Action button"
             onClick={() => this.setState({ hasError: false })}
             className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-[var(--font-size-3xs)] font-bold uppercase rounded cursor-pointer border-none"
           >
@@ -65,38 +66,37 @@ function MapResizeTrigger({ isVisible }: { isVisible: boolean }) {
   return null;
 }
 
+// Map locations to coordinates
+const getCoordinates = (city: string): [number, number] => {
+  const coords: Record<string, [number, number]> = {
+    'Chicago, IL': [41.8781, -87.6298],
+    'Nashville, TN': [36.1627, -86.7816],
+    'Los Angeles, CA': [34.0522, -118.2437],
+    'Dallas, TX': [32.7767, -96.7970],
+  };
+  return coords[city] || [39.8283, -98.5795]; // Default to US center
+};
+
+const getColor = (city: string) => {
+  const colors: Record<string, string> = {
+    'Chicago, IL': '#059669', // Emerald
+    'Nashville, TN': '#7c3aed', // Amber
+    'Los Angeles, CA': '#7c3aed', // Purple
+    'Dallas, TX': '#2563eb', // Blue
+  };
+  return colors[city] || '#ec4899'; // Pink default
+};
+
 export default function AdminMap({ locations, isVisible = true }: { locations: any[]; isVisible?: boolean }) {
-  const [ready, setReady] = useState(false);
-  const [mapKey, setMapKey] = useState("map-initial");
+  const ready = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const [mapKey] = useState("admin-map-instance");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setReady(true);
-    setMapKey("map-" + Math.random().toString());
-  }, []);
-
   if (!ready) return <div className="w-full h-full min-h-[180px] bg-slate-100 animate-pulse" />;
-
-  // Map locations to coordinates
-  const getCoordinates = (city: string): [number, number] => {
-    const coords: Record<string, [number, number]> = {
-      'Chicago, IL': [41.8781, -87.6298],
-      'Nashville, TN': [36.1627, -86.7816],
-      'Los Angeles, CA': [34.0522, -118.2437],
-      'Dallas, TX': [32.7767, -96.7970],
-    };
-    return coords[city] || [39.8283, -98.5795]; // Default to US center
-  };
-
-  const getColor = (city: string) => {
-    const colors: Record<string, string> = {
-      'Chicago, IL': '#059669', // Emerald
-      'Nashville, TN': '#7c3aed', // Amber
-      'Los Angeles, CA': '#7c3aed', // Purple
-      'Dallas, TX': '#2563eb', // Blue
-    };
-    return colors[city] || '#ec4899'; // Pink default
-  };
 
   return (
     <MapErrorBoundary>

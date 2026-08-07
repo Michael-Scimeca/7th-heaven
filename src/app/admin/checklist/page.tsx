@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
@@ -149,13 +150,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.resend_domain} onChange={() => handleToggle("resend_domain")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.resend_domain} onChange={() => handleToggle("resend_domain")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.resend_domain ? "line-through text-black/30" : ""}>
                     Add and verify your domain in the Resend Dashboard (Domains section)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.resend_env} onChange={() => handleToggle("resend_env")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.resend_env} onChange={() => handleToggle("resend_env")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.resend_env ? "line-through text-black/30" : ""}>
                     Add `RESEND_FROM_EMAIL=noreply@yourdomain.com` in `.env.local`
                   </span>
@@ -203,13 +204,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.twilio_upgrade} onChange={() => handleToggle("twilio_upgrade")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.twilio_upgrade} onChange={() => handleToggle("twilio_upgrade")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.twilio_upgrade ? "line-through text-black/30" : ""}>
                     Upgrade Twilio account from trial to active status (remove trial banners)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.twilio_prod_keys} onChange={() => handleToggle("twilio_prod_keys")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.twilio_prod_keys} onChange={() => handleToggle("twilio_prod_keys")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.twilio_prod_keys ? "line-through text-black/30" : ""}>
                     Replace Test SID/Token with Production keys in `.env.local`
                   </span>
@@ -251,7 +252,7 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.ga_id} onChange={() => handleToggle("ga_id")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.ga_id} onChange={() => handleToggle("ga_id")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.ga_id ? "line-through text-black/30" : ""}>
                     Provide your Measurement ID (looks like `G-XXXXXXXXXX`) in your Google Analytics dashboard
                   </span>
@@ -293,13 +294,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stripe_keys} onChange={() => handleToggle("stripe_keys")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stripe_keys} onChange={() => handleToggle("stripe_keys")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stripe_keys ? "line-through text-black/30" : ""}>
                     Provide your keys: uncomment and add `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` in `.env.local`
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stripe_webhooks} onChange={() => handleToggle("stripe_webhooks")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stripe_webhooks} onChange={() => handleToggle("stripe_webhooks")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stripe_webhooks ? "line-through text-black/30" : ""}>
                     Configure Stripe Webhook Listener URL on your server & add `STRIPE_WEBHOOK_SECRET`
                   </span>
@@ -341,13 +342,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.livekit_env} onChange={() => handleToggle("livekit_env")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.livekit_env} onChange={() => handleToggle("livekit_env")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.livekit_env ? "line-through text-black/30" : ""}>
                     Provide your LiveKit Cloud tokens (`LIVEKIT_API_KEY` and `LIVEKIT_API_SECRET`)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.mux_env} onChange={() => handleToggle("mux_env")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.mux_env} onChange={() => handleToggle("mux_env")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.mux_env ? "line-through text-black/30" : ""}>
                     Provide Mux API secret and token keys in `.env.local`
                   </span>
@@ -389,13 +390,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.shopify_domain} onChange={() => handleToggle("shopify_domain")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.shopify_domain} onChange={() => handleToggle("shopify_domain")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.shopify_domain ? "line-through text-black/30" : ""}>
                     Ensure your custom Shopify storefront domain is correct in `.env.local`
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.shopify_token} onChange={() => handleToggle("shopify_token")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.shopify_token} onChange={() => handleToggle("shopify_token")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.shopify_token ? "line-through text-black/30" : ""}>
                     Generate a Storefront Access Token inside Shopify App Settings
                   </span>
@@ -437,13 +438,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.supabase_rls} onChange={() => handleToggle("supabase_rls")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.supabase_rls} onChange={() => handleToggle("supabase_rls")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.supabase_rls ? "line-through text-black/30" : ""}>
                     Verify Row Level Security (RLS) policies on critical tables (e.g. `client_notes`, `bookings`)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.supabase_setup_db} onChange={() => handleToggle("supabase_setup_db")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.supabase_setup_db} onChange={() => handleToggle("supabase_setup_db")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.supabase_setup_db ? "line-through text-black/30" : ""}>
                     Run the database setup script to initialize the schemas `/api/setup-db`
                   </span>
@@ -485,13 +486,13 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.sanity_api_token} onChange={() => handleToggle("sanity_api_token")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.sanity_api_token} onChange={() => handleToggle("sanity_api_token")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.sanity_api_token ? "line-through text-black/30" : ""}>
                     Provide the read/write Sanity token (`SANITY_API_TOKEN`) in `.env.local`
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.sanity_webhook} onChange={() => handleToggle("sanity_webhook")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.sanity_webhook} onChange={() => handleToggle("sanity_webhook")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.sanity_webhook ? "line-through text-black/30" : ""}>
                     Configure dynamic Sanity content revalidation hooks in your deployment settings
                   </span>
@@ -527,25 +528,25 @@ export default function SetupChecklistPage() {
               {/* Tasks */}
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.oauth_google_credentials} onChange={() => handleToggle("oauth_google_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.oauth_google_credentials} onChange={() => handleToggle("oauth_google_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_google_credentials ? "line-through text-black/30" : ""}>
                     Create an OAuth 2.0 Client ID at <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" className="underline  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)]">Google Cloud Console</a> → paste Client ID &amp; Secret into Supabase → Auth → Providers → Google
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.oauth_facebook_credentials} onChange={() => handleToggle("oauth_facebook_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.oauth_facebook_credentials} onChange={() => handleToggle("oauth_facebook_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_facebook_credentials ? "line-through text-black/30" : ""}>
                     Create an app at <a href="https://developers.facebook.com/" target="_blank" rel="noopener" className="underline  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)]">Meta Developers</a> → add Facebook Login product → paste App ID &amp; Secret into Supabase → Auth → Providers → Facebook
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.oauth_apple_credentials} onChange={() => handleToggle("oauth_apple_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.oauth_apple_credentials} onChange={() => handleToggle("oauth_apple_credentials")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_apple_credentials ? "line-through text-black/30" : ""}>
                     Create a Services ID at <a href="https://developer.apple.com/" target="_blank" rel="noopener" className="underline  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)]">Apple Developer</a> → enable Sign in with Apple → paste Service ID, Team ID, Key ID &amp; private key into Supabase → Auth → Providers → Apple
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.oauth_redirect_uri} onChange={() => handleToggle("oauth_redirect_uri")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.oauth_redirect_uri} onChange={() => handleToggle("oauth_redirect_uri")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.oauth_redirect_uri ? "line-through text-black/30" : ""}>
                     Add <code className="font-mono  text-[var(--color-accent)]/60">https://YOUR-PROJECT.supabase.co/auth/v1/callback</code> as the authorized redirect URI for all three providers
                   </span>
@@ -594,37 +595,37 @@ export default function SetupChecklistPage() {
 
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.canspam_unsubscribe} onChange={() => handleToggle("canspam_unsubscribe")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.canspam_unsubscribe} onChange={() => handleToggle("canspam_unsubscribe")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_unsubscribe ? "line-through text-black/30" : ""}>
                     Add a working one-click <strong>Unsubscribe</strong> link to every marketing email (show alerts, newsletters, promo blasts). Must process opt-outs within 10 business days.
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.canspam_physical_address} onChange={() => handleToggle("canspam_physical_address")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.canspam_physical_address} onChange={() => handleToggle("canspam_physical_address")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_physical_address ? "line-through text-black/30" : ""}>
                     Include a valid <strong>physical mailing address</strong> (or PO Box) in every marketing email footer
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.canspam_subject_lines} onChange={() => handleToggle("canspam_subject_lines")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.canspam_subject_lines} onChange={() => handleToggle("canspam_subject_lines")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_subject_lines ? "line-through text-black/30" : ""}>
                     Ensure email subject lines are not deceptive and clearly indicate promotional content
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.canspam_from_address} onChange={() => handleToggle("canspam_from_address")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.canspam_from_address} onChange={() => handleToggle("canspam_from_address")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_from_address ? "line-through text-black/30" : ""}>
                     Use a clear &ldquo;From&rdquo; name and a real reply-to address (not a no-reply that bounces)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.canspam_opt_in_records} onChange={() => handleToggle("canspam_opt_in_records")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.canspam_opt_in_records} onChange={() => handleToggle("canspam_opt_in_records")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_opt_in_records ? "line-through text-black/30" : ""}>
                     Store opt-in consent records in Supabase (timestamp, email, IP, source page) for audit trail
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.canspam_email_templates} onChange={() => handleToggle("canspam_email_templates")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.canspam_email_templates} onChange={() => handleToggle("canspam_email_templates")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.canspam_email_templates ? "line-through text-black/30" : ""}>
                     Audit all email templates in <code className="font-mono  text-[var(--color-accent)]/60">/admin/emails</code> to include unsubscribe footer and physical address
                   </span>
@@ -659,37 +660,37 @@ export default function SetupChecklistPage() {
 
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.chat_age_gate} onChange={() => handleToggle("chat_age_gate")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.chat_age_gate} onChange={() => handleToggle("chat_age_gate")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.chat_age_gate ? "line-through text-black/30" : ""}>
                     Enforce <strong>13+ age requirement</strong> at signup — block chat access for users who don&apos;t confirm age (COPPA)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.chat_profanity_filter} onChange={() => handleToggle("chat_profanity_filter")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.chat_profanity_filter} onChange={() => handleToggle("chat_profanity_filter")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.chat_profanity_filter ? "line-through text-black/30" : ""}>
                     Verify the <strong>PG-13 content filter</strong> is active on all chat messages (profanity, slurs, explicit content)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.chat_report_system} onChange={() => handleToggle("chat_report_system")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.chat_report_system} onChange={() => handleToggle("chat_report_system")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.chat_report_system ? "line-through text-black/30" : ""}>
                     Implement a <strong>report/flag system</strong> so users can report abusive messages, and crew/admins can ban users
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.chat_rate_limiting} onChange={() => handleToggle("chat_rate_limiting")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.chat_rate_limiting} onChange={() => handleToggle("chat_rate_limiting")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.chat_rate_limiting ? "line-through text-black/30" : ""}>
                     Enable <strong>rate limiting</strong> on chat messages (prevent spam floods — max 1 msg per second per user)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.chat_terms_acceptance} onChange={() => handleToggle("chat_terms_acceptance")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.chat_terms_acceptance} onChange={() => handleToggle("chat_terms_acceptance")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.chat_terms_acceptance ? "line-through text-black/30" : ""}>
                     Require users to accept <strong>Community Guidelines</strong> before first chat message
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.chat_data_retention} onChange={() => handleToggle("chat_data_retention")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.chat_data_retention} onChange={() => handleToggle("chat_data_retention")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.chat_data_retention ? "line-through text-black/30" : ""}>
                     Define a <strong>data retention policy</strong> for chat logs (auto-purge after 30/90 days) in Privacy Policy
                   </span>
@@ -724,31 +725,31 @@ export default function SetupChecklistPage() {
 
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stream_music_license} onChange={() => handleToggle("stream_music_license")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stream_music_license} onChange={() => handleToggle("stream_music_license")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stream_music_license ? "line-through text-black/30" : ""}>
                     Obtain <strong>digital performance licenses</strong> for webcasting cover songs (contact SoundExchange, ASCAP/BMI for streaming-specific licenses beyond venue PRO coverage)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stream_sync_license} onChange={() => handleToggle("stream_sync_license")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stream_sync_license} onChange={() => handleToggle("stream_sync_license")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stream_sync_license ? "line-through text-black/30" : ""}>
                     Secure <strong>sync/mechanical licenses</strong> before archiving any recorded live streams to the Gallery (covers are copyrighted compositions)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stream_venue_consent} onChange={() => handleToggle("stream_venue_consent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stream_venue_consent} onChange={() => handleToggle("stream_venue_consent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stream_venue_consent ? "line-through text-black/30" : ""}>
                     Get <strong>written venue permission</strong> to live stream from each venue (some venues restrict streaming rights)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stream_audience_notice} onChange={() => handleToggle("stream_audience_notice")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stream_audience_notice} onChange={() => handleToggle("stream_audience_notice")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stream_audience_notice ? "line-through text-black/30" : ""}>
                     Post <strong>recording notice signage</strong> at venues (&ldquo;This event is being live streamed&rdquo;) for audience consent
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.stream_dmca_agent} onChange={() => handleToggle("stream_dmca_agent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.stream_dmca_agent} onChange={() => handleToggle("stream_dmca_agent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.stream_dmca_agent ? "line-through text-black/30" : ""}>
                     Register a <strong>DMCA designated agent</strong> with the U.S. Copyright Office for takedown requests (Section 512 safe harbor)
                   </span>
@@ -783,49 +784,49 @@ export default function SetupChecklistPage() {
 
               <div className="space-y-3 mb-6">
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_privacy_audit} onChange={() => handleToggle("legal_privacy_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_privacy_audit} onChange={() => handleToggle("legal_privacy_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_privacy_audit ? "line-through text-black/30" : ""}>
                     Audit <strong>/privacy</strong> page — must list all data collected (email, phone, IP, zip, cookies), all third-party processors (Supabase, Resend, Twilio, Shopify, LiveKit, Mux, Sanity), and data retention periods
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_terms_audit} onChange={() => handleToggle("legal_terms_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_terms_audit} onChange={() => handleToggle("legal_terms_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_terms_audit ? "line-through text-black/30" : ""}>
                     Audit <strong>/terms</strong> page — must include 13+ age restriction, fan content license grants, chat community guidelines, and dispute resolution
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_cookie_consent} onChange={() => handleToggle("legal_cookie_consent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_cookie_consent} onChange={() => handleToggle("legal_cookie_consent")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_cookie_consent ? "line-through text-black/30" : ""}>
                     Verify <strong>Cookie Consent Banner</strong> displays on first visit and respects opt-out choices (GDPR/CCPA for international visitors)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_dmca_page} onChange={() => handleToggle("legal_dmca_page")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_dmca_page} onChange={() => handleToggle("legal_dmca_page")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_dmca_page ? "line-through text-black/30" : ""}>
                     Add a <strong>DMCA policy page</strong> or section with designated agent contact info for copyright takedown requests
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_ada_audit} onChange={() => handleToggle("legal_ada_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_ada_audit} onChange={() => handleToggle("legal_ada_audit")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_ada_audit ? "line-through text-black/30" : ""}>
                     Run an <strong>ADA/WCAG 2.1 accessibility audit</strong> — alt text on images, 4.5:1 color contrast, keyboard navigation, screen reader labels
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_refund_policy} onChange={() => handleToggle("legal_refund_policy")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_refund_policy} onChange={() => handleToggle("legal_refund_policy")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_refund_policy ? "line-through text-black/30" : ""}>
                     Add visible <strong>Refund &amp; Shipping Policy</strong> links for any merchandise/ticket purchases (FTC requirement)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_delete_account} onChange={() => handleToggle("legal_delete_account")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_delete_account} onChange={() => handleToggle("legal_delete_account")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_delete_account ? "line-through text-black/30" : ""}>
                     Implement <strong>account deletion</strong> flow — users must be able to delete their profile and all associated data (GDPR &ldquo;right to erasure&rdquo;)
                   </span>
                 </label>
                 <label className="flex items-start gap-3 cursor-pointer group text-xs text-black/60 hover:text-black">
-                  <input type="checkbox" checked={!!checkedItems.legal_data_export} onChange={() => handleToggle("legal_data_export")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
+                  <input aria-label="Input field" type="checkbox" checked={!!checkedItems.legal_data_export} onChange={() => handleToggle("legal_data_export")} className="mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer" />
                   <span className={checkedItems.legal_data_export ? "line-through text-black/30" : ""}>
                     Add <strong>data export</strong> option for users to download their personal data (GDPR &ldquo;right to portability&rdquo;)
                   </span>

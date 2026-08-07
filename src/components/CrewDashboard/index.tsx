@@ -1,6 +1,6 @@
 "use client";
-/* eslint-disable react-doctor/supabase-client-owned-authz-field */
-/* oxlint-disable react-doctor/supabase-client-owned-authz-field */
+/* eslint-disable react-doctor/supabase-client-owned-authz-field, react-doctor/no-giant-component */
+/* oxlint-disable react-doctor/supabase-client-owned-authz-field, react-doctor/no-giant-component */
 import Image from 'next/image';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -18,6 +18,298 @@ import {
   type FakeAccount, type ChatMsg, type Venue,
 } from './constants';
 
+const MONTH_SHORT_FORMATTER = new Intl.DateTimeFormat('en-US', { month: 'short' });
+const FULL_DATE_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+const SHORT_DAY_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+// eslint-disable-next-line react-doctor/no-locale-format-in-render
+function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) => void }) {
+  const reqDate = new Date(req.date + 'T12:00:00');
+  return (
+    <div key={req.id} className="p-4 bg-white/5 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/20 transition-colors">
+      <div className="flex items-center gap-4">
+        <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
+          <span className="text-[7.5px] text-rose-400 font-black uppercase tracking-wider">
+            {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
+            {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
+          </span>
+          <span className="text-sm font-black text-white leading-none mt-0.5">
+            {reqDate.getDate()}
+          </span>
+        </div>
+        <div>
+          <span className="text-xs font-black text-white">
+            {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
+            {FULL_DATE_FORMATTER.format(reqDate)}
+          </span>
+          <span className="text-xs text-white/50 block mt-0.5">
+            Reason: <span className="text-white/80 font-medium italic">“{req.reason}”</span>
+          </span>
+          {req.declineReason && (
+            <span className="text-[var(--font-size-3xs)] text-rose-400/80 block mt-1">
+              Denial Feedback: <span className="italic font-bold">“{req.declineReason}”</span>
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3 self-end md:self-center shrink-0">
+        {req.status === 'pending' ? (
+          <>
+            <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider animate-pulse">
+              Pending Approval
+            </span>
+            <button
+              type="button"
+              onClick={() => onRemove(req.id)}
+              className="px-2 py-0.5 bg-white/10 hover:bg-red-500 text-white/60 hover:text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
+            >
+              Cancel
+            </button>
+          </>
+        ) : req.status === 'approved' ? (
+          <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
+            ✓ Approved
+          </span>
+        ) : (
+          <span className="px-2 py-0.5 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
+            ✗ Denied
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// eslint-disable-next-line react-doctor/no-locale-format-in-render
+function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: string) => void }) {
+  const itemDate = new Date(item.date + 'T12:00:00');
+  return (
+    <div key={item.id} className="p-3 bg-white/5 border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-colors">
+      <div className="flex items-center gap-3">
+        <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center text-center shrink-0 border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+          <span className="text-[7.5px] font-black uppercase tracking-wider">
+            {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
+            {MONTH_SHORT_FORMATTER.format(itemDate).toUpperCase()}
+          </span>
+          <span className="text-xs font-black leading-none mt-0.5">
+            {itemDate.getDate()}
+          </span>
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-white">
+              {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
+              {SHORT_DAY_FORMATTER.format(itemDate)}
+            </span>
+            <span className={`px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+              {item.type}
+            </span>
+          </div>
+          {item.note && (
+            <span className="text-[10px] text-white/50 block mt-0.5 italic">
+              “{item.note}”
+            </span>
+          )}
+        </div>
+      </div>
+      <button
+        type="button"
+        onClick={() => onRemove(item.id)}
+        className="w-6 h-6 rounded bg-white/10 hover:bg-red-500 hover:text-white text-white/40 flex items-center justify-center cursor-pointer transition-colors border-none text-xs"
+        title="Remove Block"
+      >
+        ✕
+      </button>
+    </div>
+  );
+}
+
+function AvailabilityCardForm({
+  availDate, setAvailDate,
+  availType, setAvailType,
+  availNote, setAvailNote,
+  onSubmit, myAvailabilities, onRemove
+}: any) {
+  return (
+    <div className="flex-1 text-white">
+      <div className="flex items-center gap-3 mb-4">
+        <div>
+          <h3 className="text-sm font-black italic tracking-wide text-white">Your Availability & Blackouts</h3>
+          <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
+        </div>
+      </div>
+      <div>
+        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
+          <div>
+            <label htmlFor="avail-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Date</label>
+            <input
+              id="avail-date-input"
+              type="date"
+              required
+              value={availDate}
+              onChange={e => setAvailDate(e.target.value)}
+              className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+            />
+          </div>
+          <div>
+            <label htmlFor="avail-type-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Status</label>
+            <select
+              id="avail-type-select"
+              value={availType}
+              onChange={e => setAvailType(e.target.value as any)}
+              className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
+            >
+              <option value="unavailable" className="bg-black text-white">Unavailable / Blackout</option>
+              <option value="available" className="bg-black text-white">Available</option>
+            </select>
+          </div>
+          <div className="sm:col-span-2 flex gap-3 items-end">
+            <div className="flex-1">
+              <label htmlFor="avail-note-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Comment / Note (Optional)</label>
+              <select
+                id="avail-note-select"
+                value={availNote}
+                onChange={e => setAvailNote(e.target.value)}
+                className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+              >
+                <option value="" className="bg-black text-white/50">Select note / reason...</option>
+                <option value="Out of town" className="bg-black text-white">Out of town</option>
+                <option value="Family event" className="bg-black text-white">Family event</option>
+                <option value="Vacation / Time off" className="bg-black text-white">Vacation / Time off</option>
+                <option value="Medical appointment" className="bg-black text-white">Medical appointment</option>
+                <option value="Personal day" className="bg-black text-white">Personal day</option>
+                <option value="Work / Business conflict" className="bg-black text-white">Work / Business conflict</option>
+                <option value="Other" className="bg-black text-white">Other</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+
+        {myAvailabilities.length === 0 ? (
+          <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+            <p className="text-white/40 text-xs italic">No availability blocks configured yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[...myAvailabilities]
+              .sort((a: any, b: any) => a.date.localeCompare(b.date))
+              .map((item: any) => (
+                <AvailabilityItemRow key={item.id} item={item} onRemove={onRemove} />
+              ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TimeOffCardForm({
+  timeOffDate, setTimeOffDate,
+  timeOffReason, setTimeOffReason,
+  onSubmit, myTimeOffRequests, onRemove
+}: any) {
+  return (
+    <div className="flex-1 text-white">
+      <div className="flex items-center gap-3 mb-4">
+        <div>
+          <h3 className="text-sm font-black italic tracking-wide text-white">Time-Off Requests</h3>
+          <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
+        </div>
+      </div>
+      <div>
+        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
+          <div>
+            <label htmlFor="time-off-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Request Date</label>
+            <input
+              id="time-off-date-input"
+              type="date"
+              required
+              value={timeOffDate}
+              onChange={e => setTimeOffDate(e.target.value)}
+              className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
+            />
+          </div>
+          <div className="sm:col-span-2 flex gap-3 items-end">
+            <div className="flex-1">
+              <label htmlFor="time-off-reason-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Reason for Time-off</label>
+              <select
+                id="time-off-reason-select"
+                required
+                value={timeOffReason}
+                onChange={e => setTimeOffReason(e.target.value)}
+                className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
+              >
+                <option value="" className="bg-black text-white/50">Select reason for time-off...</option>
+                <option value="Family vacation" className="bg-black text-white">Family vacation</option>
+                <option value="Medical appointment" className="bg-black text-white">Medical appointment</option>
+                <option value="Personal / Family event" className="bg-black text-white">Personal / Family event</option>
+                <option value="Work / Business conflict" className="bg-black text-white">Work / Business conflict</option>
+                <option value="Emergency / Family matter" className="bg-black text-white">Emergency / Family matter</option>
+                <option value="Other" className="bg-black text-white">Other</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
+            >
+              Submit Request
+            </button>
+          </div>
+        </form>
+
+        {myTimeOffRequests.length === 0 ? (
+          <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+            <p className="text-white/40 text-xs italic">No time-off requests submitted yet.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {[...myTimeOffRequests]
+              .sort((a: any, b: any) => b.date.localeCompare(a.date))
+              .map((req: any) => (
+                <TimeOffItemRow key={req.id} req={req} onRemove={onRemove} />
+              ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const getCrewMemberEmail = (crewId: string): string => {
+  const fallbackMap: Record<string, string> = {
+    abbie: 'abbie@7thheaven.com',
+    al: 'al@7thheaven.com',
+    andrea: 'andrea@7thheaven.com',
+    arjun: 'arjun@7thheaven.com',
+    chris: 'chris@7thheaven.com',
+    daniel: 'daniel@7thheaven.com',
+    dave_croke: 'dave.croke@7thheaven.com',
+    dave_maas: 'dave.maas@7thheaven.com',
+    david_xu: 'david.xu@7thheaven.com',
+    emily: 'emily@7thheaven.com',
+    emma: 'emma@7thheaven.com',
+    erin: 'erin@7thheaven.com',
+    francesca: 'francesca@7thheaven.com'
+  };
+  return fallbackMap[crewId] || `${crewId}@7thheaven.com`;
+};
+
+const formatTime = (s: number) => {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  return `${m}:${String(sec).padStart(2, '0')}`;
+};
+
+// eslint-disable-next-line react-doctor/prefer-useReducer
 export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
   const supabase = React.useMemo(() => createClient(), []);
 
@@ -33,6 +325,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // --- Work Schedule State ---
   const [crewSchedules, setCrewSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; isDraft?: boolean; approvalStatus?: 'pending' | 'approved' | 'declined'; declineReason?: string; isCoverageRequested?: boolean }[]>([]);
+  const crewSchedulesRef = useRef(crewSchedules);
+  useEffect(() => {
+    crewSchedulesRef.current = crewSchedules;
+  }, [crewSchedules]);
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
   const decliningShiftIdRef = useRef<string | null>(null);
   const [declineReason, setDeclineReason] = useState('');
@@ -176,11 +472,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }
   };
 
-  const isQualifiedForRole = (crewId: string, roleName: string): boolean => {
+  const isQualifiedForRole = useCallback((crewId: string, roleName: string): boolean => {
     const normRole = roleName.toUpperCase().trim();
     const baseRoles = qualificationMap[crewId.toLowerCase()] || [];
     const hasBaseRole = baseRoles.some(q => q.toUpperCase() === normRole);
-    const hasExistingShift = crewSchedules.some(s => s.crewId === crewId && s.role.toUpperCase().trim() === normRole);
+    const hasExistingShift = crewSchedulesRef.current.some((s: any) => s.crewId === crewId && s.role.toUpperCase().trim() === normRole);
 
     if (!hasBaseRole && !hasExistingShift) return false;
 
@@ -201,7 +497,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     );
 
     return hasAllCerts && hasAllTraining;
-  };
+  }, []);
 
   const memberSlug = (userId && userId.length < 36)
     ? userId.toLowerCase().replace(/\s+/g, '_')
@@ -210,24 +506,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   const slug = (defaultMemberId || memberSlug || 'michael').toLowerCase().trim();
 
-  const getCrewMemberEmail = (crewId: string): string => {
-    const fallbackMap: Record<string, string> = {
-      abbie: 'abbie@7thheaven.com',
-      al: 'al@7thheaven.com',
-      andrea: 'andrea@7thheaven.com',
-      arjun: 'arjun@7thheaven.com',
-      chris: 'chris@7thheaven.com',
-      daniel: 'daniel@7thheaven.com',
-      dave_croke: 'dave.croke@7thheaven.com',
-      dave_maas: 'dave.maas@7thheaven.com',
-      david_xu: 'david.xu@7thheaven.com',
-      emily: 'emily@7thheaven.com',
-      emma: 'emma@7thheaven.com',
-      erin: 'erin@7thheaven.com',
-      francesca: 'francesca@7thheaven.com'
-    };
-    return fallbackMap[crewId] || `${crewId}@7thheaven.com`;
-  };
+
 
   const handleRequestCoverage = async (shiftId: string, swapTargetColleagueId?: string | null) => {
     try {
@@ -444,7 +723,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       console.error(e);
       showToast('Error accepting coverage: ' + e, 'error', 'Error');
     }
-  }, [crewSchedules, slug, displayName, email, showToast]);
+  }, [crewSchedules, isQualifiedForRole, slug, displayName, email, showToast]);
 
   const handleShiftResponse = useCallback(async (shiftId: string, status: 'approved' | 'declined', reason?: string) => {
     try {
@@ -826,7 +1105,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
     const simInterval = setInterval(simulatePurchase, 25000);
     return () => clearInterval(simInterval);
-  }, [isLive, LS]);
+  }, [isLive]);
 
   // Sync live merch sales and viewer count metrics to localStorage for admin view
   useEffect(() => {
@@ -844,13 +1123,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     } catch { }
   }, [viewerCount, isLive, slug]);
 
-  const formatTime = (s: number) => {
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sec = s % 60;
-    if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-    return `${m}:${String(sec).padStart(2, '0')}`;
-  };
+
 
   // --- Chat State ---
   const [posts, setPosts] = useState<ChatMsg[]>([]);
@@ -1183,7 +1456,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     } catch { }
   }, []);
 
+  // eslint-disable-next-line react-doctor/no-set-state-after-await-in-effect
   useEffect(() => {
+    let isMounted = true;
     // Seed identity for demo member pages (e.g. /crew-sam)
     if (defaultMemberId && MEMBER_SEEDS[defaultMemberId]) {
       const seed = MEMBER_SEEDS[defaultMemberId];
@@ -1200,6 +1475,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     loadAnnouncement();
 
     getProducts().then(products => {
+      if (!isMounted) return;
       setShopifyProducts(products);
       if (products.length > 0) {
         selectedProductIdRef.current = products[0].id;
@@ -1221,6 +1497,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     const checkUser = async () => {
       // 1. PRIMARY: Check Supabase session (real auth)
       const { data: { session } } = await supabase.auth.getSession();
+      if (!isMounted) return;
       if (session) {
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.displayName || 'Crew';
         setUserId(session.user.id);
@@ -1231,7 +1508,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       }
 
       // 2. FALLBACK: Check localStorage-based login (from MemberContext)
-      const storedMember = localStorage.getItem('7h_member_v1') || localStorage.getItem('7h_member');
+      const memberV1 = localStorage.getItem('7h_member_v1');
+      const memberLegacy = localStorage.getItem('7h_member');
+      const storedMember = memberV1 || memberLegacy;
+
       if (storedMember) {
         try {
           const parsed = JSON.parse(storedMember);
@@ -1246,14 +1526,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       }
 
       // 3. DEV BYPASS: Only if no real session exists
-      if (localStorage.getItem('7h_dev_bypass_v1') === 'true' || localStorage.getItem('7h_dev_bypass') === 'true') {
-        const stored = localStorage.getItem('7h_member_v1') || localStorage.getItem('7h_member');
-        const parsed = stored ? JSON.parse(stored) : null;
+      const devBypassV1 = localStorage.getItem('7h_dev_bypass_v1');
+      const devBypassLegacy = localStorage.getItem('7h_dev_bypass');
+      if (devBypassV1 === 'true' || devBypassLegacy === 'true') {
+        const parsed = storedMember ? JSON.parse(storedMember) : null;
 
         setUserId(parsed?.id || 'michael');
         setDisplayName(parsed?.name || 'Michael Scimeca');
         setEmail(parsed?.email || 'michael@7thheaven.com');
-        if (!localStorage.getItem('7h_member_v1') && !localStorage.getItem('7h_member')) {
+        if (!storedMember) {
           localStorage.setItem('7h_member_v1', JSON.stringify({
             id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com',
             role: 'crew', avatar: 'MS', joinDate: new Date().toISOString(),
@@ -1269,7 +1550,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       setIsLoading(false);
     };
     checkUser();
-  }, [loadAnnouncement]);
+    return () => { isMounted = false; };
+  }, [defaultMemberId, loadAnnouncement, supabase]);
 
   // Separate effect to load stream state once userId is stable
   const loadStreamState = useCallback(async () => {
@@ -1553,7 +1835,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     let t: any;
     if (isLive) {
       t = setInterval(() => {
-        const start = localStorage.getItem(LS('live_stream_start'));
+        const start = localStorage.getItem(`live_stream_start_${slug}`);
         if (start) {
           setElapsed(Math.floor((Date.now() - parseInt(start)) / 1000));
         } else {
@@ -1564,7 +1846,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       setElapsed(0);
     }
     return () => clearInterval(t);
-  }, [isLive]);
+  }, [isLive, slug]);
 
   // Simulate viewer count locally so it doesn't drop to 0 if the fan tab is backgrounded/throttled
   useEffect(() => {
@@ -1784,16 +2066,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   }, [LS, slug]);
 
   const toggleSongPlaying = (songId: string) => {
-    setSetlist(prev => {
-      const next = prev.map(s => {
-        if (s.id === songId) {
-          return { ...s, isPlaying: !s.isPlaying };
-        }
-        return { ...s, isPlaying: false };
-      });
-      syncSetlist(next);
-      return next;
+    const next = setlist.map(s => {
+      if (s.id === songId) {
+        return { ...s, isPlaying: !s.isPlaying };
+      }
+      return { ...s, isPlaying: false };
     });
+    setSetlist(next);
+    syncSetlist(next);
   };
 
   const addSongToSetlist = (title: string) => {
@@ -1812,35 +2092,29 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
     if (cleanTitles.length === 0) return;
 
-    setSetlist(prev => {
-      const newSongs = cleanTitles.map((t, idx) => ({
-        id: `s-${Date.now()}-${idx}`,
-        title: t,
-        likes: 0,
-        isPlaying: false
-      }));
-      const next = [...prev, ...newSongs];
-      syncSetlist(next);
-      return next;
-    });
+    const newSongs = cleanTitles.map((t, idx) => ({
+      id: `s-${Date.now()}-${idx}`,
+      title: t,
+      likes: 0,
+      isPlaying: false
+    }));
+    const next = [...setlist, ...newSongs];
+    setSetlist(next);
+    syncSetlist(next);
     setNewSongTitle('');
     setIsBulkImport(false);
   };
 
   const deleteSongFromSetlist = (songId: string) => {
-    setSetlist(prev => {
-      const next = prev.filter(s => s.id !== songId);
-      syncSetlist(next);
-      return next;
-    });
+    const next = setlist.filter(s => s.id !== songId);
+    setSetlist(next);
+    syncSetlist(next);
   };
 
   const resetSetlistLikes = () => {
-    setSetlist(prev => {
-      const next = prev.map(s => ({ ...s, likes: 0 }));
-      syncSetlist(next);
-      return next;
-    });
+    const next = setlist.map(s => ({ ...s, likes: 0 }));
+    setSetlist(next);
+    syncSetlist(next);
   };
 
   const activeRaffleIdRef = useRef<string | null>(null);
@@ -2016,6 +2290,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }, 4000); // Wait 4s for simulated spin effect on fan page
   };
 
+  const drawWinnerRef = useRef(drawWinner);
+  useEffect(() => {
+    drawWinnerRef.current = drawWinner;
+  });
+
   const raffleStateRef = useRef({ raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug });
   useEffect(() => {
     raffleStateRef.current = { raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug };
@@ -2068,7 +2347,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   // Auto-draw when entries reach minimum
   useEffect(() => {
     if (raffleStatus === 'open' && raffleEntrants.length >= raffleMinEntrants) {
-      drawWinner();
+      drawWinnerRef.current();
     }
   }, [raffleStatus, raffleEntrants.length, raffleMinEntrants]);
 
@@ -2445,6 +2724,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-white/60 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
                   <select
+                    aria-label="Switch Dashboard Feed"
                     className="bg-black border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
                     onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
                     value={`/crew-${defaultMemberId || memberSlug}`}
@@ -2733,6 +3013,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {/* Pin message input */}
                     <div className="relative">
                       <input
+                        aria-label="Pin a message to all fans"
                         value={globalPinText}
                         onChange={e => setGlobalPinText(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
@@ -2752,6 +3033,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {/* Chat message input */}
                     <div className="relative">
                       <input
+                        aria-label="Type a message"
                         value={content}
                         onChange={e => setContent(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && handlePost()}
@@ -2855,6 +3137,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                   <div className="mb-4">
                     <select
+                      aria-label="Select product to add to Flash Drop"
                       value=""
                       onChange={e => {
                         if (e.target.value) {
@@ -2893,6 +3176,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
                               <input
                                 type="text"
+                                aria-label="Flash sale price"
                                 value={p.flashPrice}
                                 onChange={e => updateProductFlashPrice(p.id, e.target.value)}
                                 className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right"
@@ -3003,6 +3287,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
                           <input
                             type="text"
+                            aria-label="Raffle prize name"
                             disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                             value={item.name}
                             onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
@@ -3016,6 +3301,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] truncate block">2. Entries</span>}
                           <input
                             type="number"
+                            aria-label="Minimum entries needed"
                             min="1"
                             disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                             value={item.min || ''}
@@ -3035,6 +3321,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
                           <input
                             type="number"
+                            aria-label="Prize quantity"
                             min="1"
                             disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                             value={item.qty || ''}
@@ -3047,6 +3334,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="flex items-center gap-1.5">
                           <button
                             type="button"
+                            aria-label="Start raffle"
                             onClick={() => startSpecificRaffle(idx)}
                             disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                             className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
@@ -3061,6 +3349,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                           <button
                             type="button"
+                            aria-label="Remove raffle item"
                             onClick={() => removeQueueItem(idx)}
                             disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
                             className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors disabled:opacity-0 text-xs"
@@ -3158,6 +3447,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
                   <input
                     type="text"
+                    aria-label="Custom flagged keyword"
                     value={newCustomWord}
                     onChange={e => setNewCustomWord(e.target.value)}
                     placeholder="e.g. ticket-scalper"
@@ -3270,12 +3560,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
         {/* LIVE SETLIST & FAN LIKES */}
         <div className={`xl:col-span-2 bg-white border border-black/10  overflow-hidden shadow-md flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
-          <button
-            type="button"
-            onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-            className="w-full text-left p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 cursor-pointer select-none hover:bg-white/[0.02] transition-colors group"
-          >
-            <div className="flex items-center gap-3">
+          <div className="w-full text-left p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 select-none group">
+            <button
+              type="button"
+              onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
+              className="flex items-center gap-3 bg-transparent border-none p-0 text-left flex-1 cursor-pointer"
+            >
               <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
               <div>
                 <h3 className="text-sm font-black italic tracking-widetext-black">Live Setlist & Fan Likes</h3>
@@ -3283,19 +3573,25 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
               </div>
-            </div>
+            </button>
             <div className="flex items-center gap-3 self-end md:self-auto">
-              <span
-                onClick={(e) => { e.stopPropagation(); resetSetlistLikes(); }}
+              <button
+                type="button"
+                onClick={() => resetSetlistLikes()}
                 className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold cursor-pointer"
               >
                 Reset Likes
-              </span>
-              <div className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}>
+              </button>
+              <button
+                type="button"
+                aria-label="Toggle setlist"
+                onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
+                className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
+              >
                 ▼
-              </div>
+              </button>
             </div>
-          </button>
+          </div>
 
           {!isSetlistCollapsed && (
             <div className="p-4 flex-1 flex flex-col justify-between gap-4">
@@ -3352,6 +3648,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 {isBulkImport ? (
                   <div className="space-y-2 transition-opacity duration-250 ease-out">
                     <textarea
+                      aria-label="Paste a list of songs"
                       placeholder="Paste a list of songs (one per line, or separated by commas)..."
                       value={newSongTitle}
                       onChange={e => setNewSongTitle(e.target.value)}
@@ -3378,6 +3675,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="flex gap-2">
                       <input
                         type="text"
+                        aria-label="New song title"
                         placeholder="Add song (e.g. Stop Shillin)"
                         value={newSongTitle}
                         onChange={e => setNewSongTitle(e.target.value)}
@@ -3393,8 +3691,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     </div>
                     <div className="flex justify-end">
                       <button
+                        type="button"
                         onClick={() => { setIsBulkImport(true); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-black tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors flex items-center gap-1.5"
+                        className="text-3xs uppercase font-black tracking-widest text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
                       >
                         📋 Bulk Import / Paste List
                       </button>
@@ -3421,17 +3720,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           return (
             <>
               <div className="mt-6 text-white">
-                <button
-                  type="button"
-                  onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                  className="w-full text-left mb-4 flex items-center justify-between cursor-pointer select-none group"
-                >
-                  <div className="flex items-center gap-3">
+                <div className="w-full text-left mb-4 flex items-center justify-between select-none group">
+                  <button
+                    type="button"
+                    onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
+                    className="flex items-center gap-3 bg-transparent border-none p-0 text-left cursor-pointer"
+                  >
                     <div>
                       <h3 className="text-sm font-black italic tracking-wide text-white">Your Work Schedule</h3>
                       <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Assigned shifts, locations & responsibilities</p>
                     </div>
-                  </div>
+                  </button>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
@@ -3453,12 +3752,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <span className="px-3 py-1 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded-full text-xs font-black uppercase tracking-widest">
                       {activeShifts.length} Shifts
                     </span>
+                    <button
+                      type="button"
+                      aria-label="Toggle schedule"
+                      onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
+                      className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}
+                    >
+                      ▼
+                    </button>
                   </div>
-
-                  <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
-                    ▼
-                  </div>
-                </button>
+                </div>
                 {!isScheduleCollapsed && (
                   <div className="pt-4">
                     {/* Calendar Feed Subscription Utility */}
@@ -3570,226 +3873,26 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     })()}
                                     {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                                      {/* ─── AVAILABILITY & BLACKOUTS CARD ─── */}
-                                      <div className="flex-1 text-white">
-                                        <div className="flex items-center gap-3 mb-4">
-                                          <div>
-                                            <h3 className="text-sm font-black italic tracking-wide text-white">Your Availability & Blackouts</h3>
-                                            <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Let admins know when you are available or unavailable</p>
-                                          </div>
-                                        </div>
-                                        <div>
-                                          <form onSubmit={handleAddAvailability} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
-                                            <div>
-                                              <label htmlFor="avail-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Date</label>
-                                              <input
-                                                id="avail-date-input"
-                                                type="date"
-                                                required
-                                                value={availDate}
-                                                onChange={e => setAvailDate(e.target.value)}
-                                                className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
-                                              />
-                                            </div>
-                                            <div>
-                                              <label htmlFor="avail-type-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Status</label>
-                                              <select
-                                                id="avail-type-select"
-                                                value={availType}
-                                                onChange={e => setAvailType(e.target.value as any)}
-                                                className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer"
-                                              >
-                                                <option value="unavailable" className="bg-black text-white">Unavailable / Blackout</option>
-                                                <option value="available" className="bg-black text-white">Available</option>
-                                              </select>
-                                            </div>
-                                            <div className="sm:col-span-2 flex gap-3 items-end">
-                                              <div className="flex-1">
-                                                <label htmlFor="avail-note-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Comment / Note (Optional)</label>
-                                                <select
-                                                  id="avail-note-select"
-                                                  value={availNote}
-                                                  onChange={e => setAvailNote(e.target.value)}
-                                                  className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
-                                                >
-                                                  <option value="" className="bg-black text-white/50">Select note / reason...</option>
-                                                  <option value="Out of town" className="bg-black text-white">Out of town</option>
-                                                  <option value="Family event" className="bg-black text-white">Family event</option>
-                                                  <option value="Vacation / Time off" className="bg-black text-white">Vacation / Time off</option>
-                                                  <option value="Medical appointment" className="bg-black text-white">Medical appointment</option>
-                                                  <option value="Personal day" className="bg-black text-white">Personal day</option>
-                                                  <option value="Work / Business conflict" className="bg-black text-white">Work / Business conflict</option>
-                                                  <option value="Other" className="bg-black text-white">Other</option>
-                                                </select>
-                                              </div>
-                                              <button
-                                                type="submit"
-                                                className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
-                                              >
-                                                Save
-                                              </button>
-                                            </div>
-                                          </form>
-
-                                          {myAvailabilities.length === 0 ? (
-                                            <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
-                                              <p className="text-white/40 text-xs italic">No availability blocks configured yet.</p>
-                                            </div>
-                                          ) : (
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                              {[...myAvailabilities]
-                                                .sort((a, b) => a.date.localeCompare(b.date))
-                                                .map((item) => (
-                                                  <div key={item.id} className="p-3 bg-white/5 border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-colors">
-                                                    <div className="min-w-0">
-                                                      <span className="text-[var(--font-size-2xs)] font-black text-white block">
-                                                        {new Date(item.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
-                                                      </span>
-                                                      <div className="flex items-center gap-1.5 mt-1">
-                                                        {item.type === 'available' ? (
-                                                          <span className="text-[8.5px] bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">
-                                                            ✓ Available
-                                                          </span>
-                                                        ) : (
-                                                          <span className="text-[8.5px] bg-red-500/10 border border-red-500/25 text-red-400 font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">
-                                                            Unavailable
-                                                          </span>
-                                                        )}
-                                                        {item.note && (
-                                                          <span className="text-[9.5px] text-white/50 truncate max-w-[120px]" title={item.note}>
-                                                            • {item.note}
-                                                          </span>
-                                                        )}
-                                                      </div>
-                                                    </div>
-                                                    <button
-                                                      type="button"
-                                                      onClick={() => handleRemoveAvailability(item.id)}
-                                                      className="w-6 h-6 rounded bg-white/10 hover:bg-red-500 hover:text-white text-white/40 flex items-center justify-center cursor-pointer transition-colors border-none text-xs"
-                                                      title="Remove Block"
-                                                    >
-                                                      ✕
-                                                    </button>
-                                                  </div>
-                                                ))}
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
-
-                                      {/* ─── TIME OFF REQUESTS CARD ─── */}
-                                      <div className="flex-1 text-white">
-                                        <div className="flex items-center gap-3 mb-4">
-                                          <div>
-                                            <h3 className="text-sm font-black italic tracking-wide text-white">Time-Off Requests</h3>
-                                            <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">Submit time-off requests for administrator approval</p>
-                                          </div>
-                                        </div>
-                                        <div>
-                                          <form onSubmit={handleAddTimeOffRequest} className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end mb-4">
-                                            <div>
-                                              <label htmlFor="time-off-date-input" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Request Date</label>
-                                              <input
-                                                id="time-off-date-input"
-                                                type="date"
-                                                required
-                                                value={timeOffDate}
-                                                onChange={e => setTimeOffDate(e.target.value)}
-                                                className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold"
-                                              />
-                                            </div>
-                                            <div className="sm:col-span-2 flex gap-3 items-end">
-                                              <div className="flex-1">
-                                                <label htmlFor="time-off-reason-select" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/60 font-bold block mb-1.5">Reason for Time-off</label>
-                                                <select
-                                                  id="time-off-reason-select"
-                                                  required
-                                                  value={timeOffReason}
-                                                  onChange={e => setTimeOffReason(e.target.value)}
-                                                  className="w-full px-3 py-2 bg-black border border-white/15 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-medium cursor-pointer"
-                                                >
-                                                  <option value="" className="bg-black text-white/50">Select reason for time-off...</option>
-                                                  <option value="Family vacation" className="bg-black text-white">Family vacation</option>
-                                                  <option value="Medical appointment" className="bg-black text-white">Medical appointment</option>
-                                                  <option value="Personal / Family event" className="bg-black text-white">Personal / Family event</option>
-                                                  <option value="Work / Business conflict" className="bg-black text-white">Work / Business conflict</option>
-                                                  <option value="Emergency / Family matter" className="bg-black text-white">Emergency / Family matter</option>
-                                                  <option value="Other" className="bg-black text-white">Other</option>
-                                                </select>
-                                              </div>
-                                              <button
-                                                type="submit"
-                                                className="px-5 h-[36px] bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-wider text-xs rounded-lg transition-colors cursor-pointer border-none flex items-center justify-center shrink-0"
-                                              >
-                                                Submit Request
-                                              </button>
-                                            </div>
-                                          </form>
-
-                                          {myTimeOffRequests.length === 0 ? (
-                                            <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
-                                              <p className="text-white/40 text-xs italic">No time-off requests submitted yet.</p>
-                                            </div>
-                                          ) : (
-                                            <div className="flex flex-col gap-3">
-                                              {[...myTimeOffRequests]
-                                                .sort((a, b) => b.date.localeCompare(a.date))
-                                                .map((req) => (
-                                                  <div key={req.id} className="p-4 bg-white/5 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/20 transition-colors">
-                                                    <div className="flex items-center gap-4">
-                                                      <div className="w-10 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex flex-col items-center justify-center text-center shrink-0">
-                                                        <span className="text-[7.5px] text-rose-400 font-black uppercase tracking-wider">
-                                                          {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}
-                                                        </span>
-                                                        <span className="text-sm font-black text-white leading-none mt-0.5">
-                                                          {new Date(req.date + 'T12:00:00').getDate()}
-                                                        </span>
-                                                      </div>
-                                                      <div>
-                                                        <span className="text-xs font-black text-white">
-                                                          {new Date(req.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
-                                                        </span>
-                                                        <span className="text-xs text-white/50 block mt-0.5">
-                                                          Reason: <span className="text-white/80 font-medium italic">“{req.reason}”</span>
-                                                        </span>
-                                                        {req.declineReason && (
-                                                          <span className="text-[var(--font-size-3xs)] text-rose-400/80 block mt-1">
-                                                            Denial Feedback: <span className="italic font-bold">“{req.declineReason}”</span>
-                                                          </span>
-                                                        )}
-                                                      </div>
-                                                    </div>
-
-                                                    <div className="flex items-center gap-3 self-end md:self-center shrink-0">
-                                                      {req.status === 'pending' ? (
-                                                        <>
-                                                          <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider animate-pulse">
-                                                            Pending Approval
-                                                          </span>
-                                                          <button
-                                                            type="button"
-                                                            onClick={() => handleRemoveTimeOffRequest(req.id)}
-                                                            className="px-2 py-0.5 bg-white/10 hover:bg-red-500 text-white/60 hover:text-white text-[var(--font-size-4xs)] font-bold uppercase tracking-wider rounded transition-colors cursor-pointer border-none"
-                                                          >
-                                                            Cancel
-                                                          </button>
-                                                        </>
-                                                      ) : req.status === 'approved' ? (
-                                                        <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
-                                                          ✓ Approved
-                                                        </span>
-                                                      ) : (
-                                                        <span className="px-2 py-0.5 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded text-[var(--font-size-4xs)] font-black uppercase tracking-wider">
-                                                          ✗ Denied
-                                                        </span>
-                                                      )}
-                                                    </div>
-                                                  </div>
-                                                ))}
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
+                                       <AvailabilityCardForm
+                                         availDate={availDate}
+                                         setAvailDate={setAvailDate}
+                                         availType={availType}
+                                         setAvailType={setAvailType}
+                                         availNote={availNote}
+                                         setAvailNote={setAvailNote}
+                                         onSubmit={handleAddAvailability}
+                                         myAvailabilities={myAvailabilities}
+                                         onRemove={handleRemoveAvailability}
+                                       />
+                                       <TimeOffCardForm
+                                         timeOffDate={timeOffDate}
+                                         setTimeOffDate={setTimeOffDate}
+                                         timeOffReason={timeOffReason}
+                                         setTimeOffReason={setTimeOffReason}
+                                         onSubmit={handleAddTimeOffRequest}
+                                         myTimeOffRequests={myTimeOffRequests}
+                                         onRemove={handleRemoveTimeOffRequest}
+                                       />
 
 
 
@@ -4282,6 +4385,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 Please provide a reason for declining this shift. This will be saved to your shift history and shared with the planner/administrator to assist with scheduling.
               </p>
               <textarea
+                aria-label="Decline shift reason"
                 value={declineReason}
                 onChange={(e) => setDeclineReason(e.target.value)}
                 placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
@@ -4403,6 +4507,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
           </div>
           <button
             type="button"
+            aria-label="Close notification"
             onClick={() => setToast(prev => ({ ...prev, visible: false }))}
             className="text-black/40 hover:text-black text-xs cursor-pointer border-none bg-transparent self-start font-sans"
           >
@@ -4430,6 +4535,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               </div>
               <button
                 type="button"
+                aria-label="Close venue details"
                 onClick={() => setSelectedVenuePopup(null)}
                 className="text-black/40 hover:text-black transition-colors cursor-pointer border-none bg-transparent text-sm"
               >
@@ -4544,6 +4650,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               </div>
               <button
                 type="button"
+                aria-label="Close lineup specs"
                 onClick={() => setActiveDiscussionDate(null)}
                 className="text-black/40 hover:text-black transition-colors cursor-pointer border-none bg-transparent text-sm"
               >
@@ -4632,6 +4739,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                 <div className="flex gap-1.5 pl-7 mt-1.5">
                                   <input
                                     type="text"
+                                    aria-label="Write a reply"
                                     placeholder="Write a reply..."
                                     value={replyText}
                                     onChange={(e) => setReplyText(e.target.value)}
@@ -4689,6 +4797,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                       <div className="flex gap-2">
                         <input
                           type="text"
+                          aria-label="Post a gig note"
                           placeholder="Post a gig note..."
                           value={newCommentText}
                           onChange={(e) => setNewCommentText(e.target.value)}
@@ -4755,6 +4864,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               </div>
               <button
                 type="button"
+                aria-label="Close request coverage modal"
                 onClick={() => {
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId('');

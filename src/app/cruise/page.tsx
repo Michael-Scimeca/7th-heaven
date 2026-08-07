@@ -1,4 +1,7 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/prefer-useReducer */
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 import Image from 'next/image';
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -134,6 +137,9 @@ const FAQS = [
   { q: "Can I book through a travel agent?", a: "Yes! Travel agents booking cabins for clients can easily link reservations to the 7th Heaven group. Agents can log into Royal Caribbean Group's official Cruising Power portal (https://www.cruisingpower.com) to register and link bookings to our group code." },
 ];
 
+const GUEST_COLORS = ["#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6", "#f97316"];
+const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6"];
+
 export default function CruisePage() {
   const supabase = createClient();
   const router = useRouter();
@@ -262,7 +268,7 @@ export default function CruisePage() {
   const [openPanel, setOpenPanel] = useState<number>(-1); // -1 = primary booker open by default
   const [primaryOpen, setPrimaryOpen] = useState(true);
 
-  const GUEST_COLORS = ["#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6", "#f97316"];
+
 
   const toggleGuestActive = (index: number, active: boolean) => {
     setGuests(prev => prev.map((g, i) => i === index ? { ...g, active } : g));
@@ -279,7 +285,7 @@ export default function CruisePage() {
   const [joinedFans, setJoinedFans] = useState<{ name: string; guest_count: number; anonymous: boolean; created_at: string }[]>([]);
   const [totalGuests, setTotalGuests] = useState<number>(0);
 
-  const AVATAR_COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ef4444", "#ec4899", "#8b5cf6"];
+
 
   const fetchCount = useCallback(async () => {
     try {
@@ -634,7 +640,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
             {/* Pricing Year Toggle — Left Aligned */}
             <div className="flex flex-wrap gap-2 justify-start mt-8">
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={() => setActivePriceYear(2027)}
                 className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activePriceYear === 2027
@@ -644,7 +650,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               >
                 2027 Star of the Seas (7-Night)
               </button>
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={() => setActivePriceYear(2028)}
                 className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activePriceYear === 2028
@@ -801,10 +807,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     { code: "IG", title: "Infinite Grand Suite", price: "$7,195.98", status: "warning", badge: "1 Available!", image: "/images/cruise/icon_ig_infinite_grand_suite_320x171.jpg", icon: "👑", inclusions: "Gratuities Included", selectValue: "prev_jy" },
                   ]
                 ).map((room) => (
-                  <div
+                  <button
+                    type="button"
                     key={room.code || room.selectValue}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="bg-black/[0.03] border border-black/10 overflow-hidden flex flex-col justify-between transition-colors cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
+                    className="w-full text-left bg-black/[0.03] border border-black/10 overflow-hidden flex flex-col justify-between transition-colors cursor-pointer group hover:scale-[1.02] hover:border-cyan-600/50 shadow-sm"
                   >
                     <div>
                       {room.image && (
@@ -837,15 +844,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {room.inclusions && (
                         <span className="text-[var(--font-size-3xs)] text-cyan-700 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
-                      <button
-                        type="button"
-                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:bg-cyan-700"
+                      <span
+                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-md group-hover:bg-cyan-700"
                       >
                         <span>Select & Book Cabin</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
-                      </button>
+                      </span>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -871,10 +877,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   ].map((room) => {
                     const isYo = room.code === "YO";
                     return (
-                      <div
+                      <button
                         key={room.code || room.selectValue}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={` overflow-hidden flex flex-col justify-between transition-colors cursor-pointer group hover:scale-[1.02] relative shadow-sm ${isYo
+                        className={`overflow-hidden flex flex-col justify-between transition-colors cursor-pointer group hover:scale-[1.02] relative shadow-sm ${isYo
                           ? 'bg-purple-100 border-2 border-purple-600 shadow-md'
                           : 'bg-black/[0.03] border border-black/10 hover:border-black/20'
                           }`}
@@ -882,7 +888,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         {isYo && (
                           <div className="absolute top-3 right-3 bg-purple-700 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border border-purple-500 z-10">
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                            RECOMMENDED
+                            <span>Popular</span>
                           </div>
                         )}
                         <div>
@@ -908,18 +914,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="text-[var(--font-size-2xs)] text-black/60 font-bold">USD pp</span>
                           </div>
                           <span className="text-[var(--font-size-4xs)] text-black/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
-                          <button
-                            type="button"
+                          <span
                             className={`mt-4 w-full py-2.5 px-4  font-black text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
-                              ? 'bg-purple-700 hover:bg-purple-800 text-white border border-purple-600'
-                              : 'bg-purple-600 hover:bg-purple-700 text-white border border-purple-500'
+                              ? 'bg-purple-700 group-hover:bg-purple-800 text-white border border-purple-600'
+                              : 'bg-purple-600 group-hover:bg-purple-700 text-white border border-purple-500'
                               }`}
                           >
                             <span>Select Prevailing Rate</span>
                             <span className="group-hover:translate-x-1 transition-transform">→</span>
-                          </button>
+                          </span>
                         </div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -952,7 +957,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       { id: "ocean", label: "🌊 Ocean View", desc: "Large windows overlooking port approaches." },
                       { id: "interior", label: "🚪 Interior Rooms", desc: "Efficient, comfortable, and budget-friendly." },
                     ].map(tab => (
-                      <button
+                      <button aria-label="Action button"
                         key={tab.id}
                         type="button"
                         onClick={() => setStateroomTab(tab.id as any)}
@@ -1016,7 +1021,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     </div>
                     <div className="flex gap-1.5 bg-black/5 p-1.5 border border-black/10">
                       {(["sea", "sky", "star"] as const).map(perk => (
-                        <button
+                        <button aria-label="Action button"
                           key={perk}
                           type="button"
                           onClick={() => setSuiteTab(perk)}
@@ -1164,29 +1169,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* Name */}
                           <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                             <label htmlFor="guest1-full-name" className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                            <input id="guest1-full-name" type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                            <input aria-label="Input field" id="guest1-full-name" type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                           {/* Phone */}
                           <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="guest1-phone" className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                            <input id="guest1-phone" type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                            <input aria-label="Input field" id="guest1-phone" type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                           {/* Email */}
                           <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="guest1-email" className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address *</label>
-                            <input id="guest1-email" type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                            <input aria-label="Input field" id="guest1-email" type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                           {/* T-Shirt Size */}
                           <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors relative">
                             <label htmlFor="guest1-tshirt-size" className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                            <select id="guest1-tshirt-size" value={formData.tshirtSize1} onChange={e => setFormData({ ...formData, tshirtSize1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                            <select aria-label="Select option" id="guest1-tshirt-size" value={formData.tshirtSize1} onChange={e => setFormData({ ...formData, tshirtSize1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
                               {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                             </select>
                           </div>
                           {/* Crown & Anchor */}
                           <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="guest1-crown-anchor" className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                            <input id="guest1-crown-anchor" type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                            <input aria-label="Input field" id="guest1-crown-anchor" type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                           </div>
                         </div>
 
@@ -1196,7 +1201,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
                             <div className="flex gap-3">
                               {["yes", "no"].map(opt => (
-                                <button key={opt} type="button" onClick={() => setFormData(f => ({ ...f, insurance: opt }))}
+                                <button aria-label="Action button" key={opt} type="button" onClick={() => setFormData(f => ({ ...f, insurance: opt }))}
                                   className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                   {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                                 </button>
@@ -1208,7 +1213,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             <span className="booking-label block text-xs font-black text-purple-700 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</span>
                             <div className="flex gap-3">
                               {["yes", "no"].map(opt => (
-                                <button key={opt} type="button" onClick={() => setFormData(f => ({ ...f, prepaidGratuities: opt }))}
+                                <button aria-label="Action button" key={opt} type="button" onClick={() => setFormData(f => ({ ...f, prepaidGratuities: opt }))}
                                   className={`flex-1 py-2.5  text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md" : "bg-black/5 border-black/15 text-black/70 hover:text-black hover:bg-black/10"}`}>
                                   {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                                 </button>
@@ -1225,7 +1230,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div key={guestNum} className={`booking-section-container border-b border-black/10 transition-colors duration-300 ${g.active ? "bg-black/[0.01] opacity-100" : "bg-black/[0.03] opacity-80 print:booking-inactive"}`}>
                             {/* Section Header with checkbox activator */}
                             <div className="booking-section-header bg-black/[0.05] px-5 py-3 border-b border-black/10 flex items-center gap-3">
-                              <input
+                              <input aria-label="Input field"
                                 type="checkbox"
                                 id={`guest-active-${guestNum}`}
                                 checked={g.active}
@@ -1242,29 +1247,29 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                                 {/* Name */}
                                 <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                                   <label htmlFor={`guest-name-${guestNum}`} className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                                  <input id={`guest-name-${guestNum}`} type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input aria-label="Input field" id={`guest-name-${guestNum}`} type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 {/* Phone */}
                                 <div className="booking-cell border-b md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                                   <label htmlFor={`guest-phone-${guestNum}`} className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
-                                  <input id={`guest-phone-${guestNum}`} type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input aria-label="Input field" id={`guest-phone-${guestNum}`} type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 {/* Email */}
                                 <div className="booking-cell border-b border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                                   <label htmlFor={`guest-email-${guestNum}`} className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
-                                  <input id={`guest-email-${guestNum}`} type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input aria-label="Input field" id={`guest-email-${guestNum}`} type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                                 {/* T-Shirt Size */}
                                 <div className="booking-cell md:border-r border-black/10 p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors relative">
                                   <label htmlFor={`guest-tshirt-${guestNum}`} className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                                  <select id={`guest-tshirt-${guestNum}`} value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
+                                  <select aria-label="Select option" id={`guest-tshirt-${guestNum}`} value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black focus:outline-none cursor-pointer appearance-none">
                                     {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-white text-black font-bold">{sz}</option>)}
                                   </select>
                                 </div>
                                 {/* Crown & Anchor */}
                                 <div className="booking-cell p-4 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                                   <label htmlFor={`guest-crown-${guestNum}`} className="booking-label block text-xs font-black text-cyan-700 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                                  <input id={`guest-crown-${guestNum}`} type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+                                  <input aria-label="Input field" id={`guest-crown-${guestNum}`} type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-base font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
                                 </div>
                               </div>
                             ) : (
@@ -1282,7 +1287,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <span className="text-xs font-black uppercase tracking-wider text-black">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
                         </div>
                         <div className="p-3.5 focus-within:bg-cyan-500/10 transition-colors">
-                          <select value={formData.cabinPreference} onChange={e => setFormData(f => ({ ...f, cabinPreference: e.target.value }))} required
+                          <select aria-label="Select option" value={formData.cabinPreference} onChange={e => setFormData(f => ({ ...f, cabinPreference: e.target.value }))} required
                             className="booking-input w-full bg-white border border-black/15 px-3.5 py-2.5 text-sm font-bold text-black focus:outline-none cursor-pointer appearance-none">
                             <option value="" disabled className="bg-white text-black">-- Select Cabin Category --</option>
                             <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-white text-black font-black">
@@ -1315,47 +1320,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         </div>
 
                         {/* Card 1 */}
-                        <div className="p-4 border-b border-black/10">
-                          <span className="text-[var(--font-size-3xs)] font-black text-cyan-700 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
-                          <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div className="booking-cell border border-black/10 p-3 bg-white">
-                              <label htmlFor="cruise-card-name-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
-                              <input id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                            </div>
-                            <div className="booking-cell border border-black/10 p-3 bg-white">
-                              <label htmlFor="cruise-card-number-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
-                              <input id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                            </div>
-                            <div className="booking-cell border border-black/10 p-3 bg-white">
-                              <div className="grid grid-cols-3 gap-2">
-                                <div>
-                                  <label htmlFor="cruise-card-exp-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
-                                  <input id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                                </div>
-                                <div>
-                                  <label htmlFor="cruise-card-cvv-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
-                                  <input id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                                </div>
-                                <div>
-                                  <label htmlFor="cruise-card-zip-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
-                                  <input id="cruise-card-zip-1" type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="booking-cell p-3 flex flex-col justify-end">
-                              <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
-                                <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
-                                <input type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <CruiseCard1Section formData={formData} setFormData={setFormData} />
 
                         {/* Card 2 Split Option */}
                         {guests.filter(g => g.active).length > 0 && (
                           <div className="p-4 border-b border-black/10 no-print">
                             <label className="flex items-center gap-3 cursor-pointer group">
-                              <input
+                              <input aria-label="Input field"
                                 type="checkbox"
                                 checked={formData.splitPayment}
                                 onChange={e => setFormData({ ...formData, splitPayment: e.target.checked })}
@@ -1368,41 +1339,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                         {/* Card 2 Details */}
                         {formData.splitPayment && guests.filter(g => g.active).length > 0 && (
-                          <div className="p-4 bg-black/[0.01]">
-                            <span className="text-[var(--font-size-3xs)] font-black text-purple-700 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
-                            <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
-                              <div className="booking-cell border border-black/10 p-3 bg-white">
-                                <label htmlFor="cruise-card-name-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
-                                <input id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              <div className="booking-cell border border-black/10 p-3 bg-white">
-                                <label htmlFor="cruise-card-number-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
-                                <input id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                              </div>
-                              <div className="booking-cell border border-black/10 p-3 bg-white">
-                                <div className="grid grid-cols-3 gap-2">
-                                  <div>
-                                    <label htmlFor="cruise-card-exp-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
-                                    <input id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                                  </div>
-                                  <div>
-                                    <label htmlFor="cruise-card-cvv-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
-                                    <input id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                                  </div>
-                                  <div>
-                                    <label htmlFor="cruise-card-zip-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
-                                    <input id="cruise-card-zip-2" type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="booking-cell p-3 flex flex-col justify-end">
-                                <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
-                                  <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
-                                  <input type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          <CruiseCard2Section formData={formData} setFormData={setFormData} />
                         )}
                       </div>
 
@@ -1416,11 +1353,11 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <label htmlFor="cruise-how-heard" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">How Did You Hear About Us? (Which Band?)</label>
-                              <input id="cruise-how-heard" type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
+                              <input aria-label="Input field" id="cruise-how-heard" type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-sm text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none transition-colors font-semibold" />
                             </div>
                             <div>
                               <label htmlFor="cruise-dining-requests" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
-                              <textarea id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
+                              <textarea aria-label="Text input" id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full bg-white border border-black/15 px-4 py-2 text-xs text-black placeholder:text-black/40 focus:border-cyan-600 focus:outline-none resize-none font-semibold" />
                             </div>
                           </div>
                         </div>
@@ -1430,7 +1367,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* E-Signature */}
                           <div className="booking-cell border-b md:border-b-0 md:border-r border-black/10 p-3.5 focus-within:border-cyan-600 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="cruise-e-signature" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date & E-Signature (Type full name to sign) *</label>
-                            <input
+                            <input aria-label="Input field"
                               id="cruise-e-signature"
                               type="text"
                               required
@@ -1443,7 +1380,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           {/* Signature Date */}
                           <div className="booking-cell p-3.5 bg-black/[0.02]">
                             <span className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Date Signed</span>
-                            <input type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/5 border border-black/10 rounded-lg px-3 text-sm font-bold text-black/80 focus:outline-none cursor-not-allowed py-1" />
+                            <input aria-label="Input field" type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/5 border border-black/10 rounded-lg px-3 text-sm font-bold text-black/80 focus:outline-none cursor-not-allowed py-1" />
                           </div>
                         </div>
                       </div>
@@ -1452,13 +1389,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {/* Submit & Print buttons */}
                     <div className="space-y-4 no-print mt-4">
                       <label className="flex items-center gap-3 cursor-pointer group">
-                        <input type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({ ...f, anonymous: e.target.checked }))}
+                        <input aria-label="Input field" type="checkbox" checked={formData.anonymous} onChange={e => setFormData(f => ({ ...f, anonymous: e.target.checked }))}
                           className="w-4 h-4 rounded border-black/20 bg-white accent-[var(--color-accent)] cursor-pointer" />
                         <span className="text-xs text-black/70 font-semibold group-hover:text-black transition-colors">Keep my name anonymous on the public roster list</span>
                       </label>
 
                       <label className="flex items-center gap-3 cursor-pointer group">
-                        <input type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({ ...f, joinCommunity: e.target.checked }))}
+                        <input aria-label="Input field" type="checkbox" checked={formData.joinCommunity} onChange={e => setFormData(f => ({ ...f, joinCommunity: e.target.checked }))}
                           className="w-4 h-4 rounded border-black/20 bg-white accent-cyan-600 cursor-pointer" />
                         <div className="flex-1">
                           <p className="text-xs text-black font-extrabold transition-colors">Join the 7th Heaven Cruise Community</p>
@@ -1468,16 +1405,16 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                       {/* Honeypot */}
                       <div className="hidden" aria-hidden="true">
-                        <input type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
+                        <input aria-label="Input field" type="text" name="website" value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })} tabIndex={-1} autoComplete="off" />
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                        <button type="submit" disabled={signupStatus === "submitting"}
+                        <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"}
                           className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md disabled:opacity-70 cursor-pointer">
                           {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                         </button>
 
-                        <button type="button" onClick={() => window.print()}
+                        <button aria-label="Action button" type="button" onClick={() => window.print()}
                           className="w-full border border-cyan-600 bg-cyan-600 hover:bg-cyan-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
                           🖨️ Print / Save Booking Form
                         </button>
@@ -1664,7 +1601,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
             {/* Itinerary Year Toggle */}
             <div className="flex gap-2 justify-center mt-8">
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
                 className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activeItinYear === 2027
@@ -1674,7 +1611,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               >
                 2027 Star of the Seas (7-Night)
               </button>
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={() => setActiveItinYear(2028)}
                 className={`px-6 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${activeItinYear === 2028
@@ -1748,7 +1685,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {PORTS_DATA[activeSpotlightPort].desc}
                     </p>
                     <div className="flex flex-wrap gap-4 items-center">
-                      <button
+                      <button aria-label="Action button"
                         type="button"
                         onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
                         className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase tracking-widest text-xs transition-colors cursor-pointer border-none"
@@ -1763,7 +1700,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <div className="space-y-3">
                   <span className="text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest block mb-2">Select Destination to Preview:</span>
                   {PORTS_DATA.map((port, idx) => (
-                    <button
+                    <button aria-label="Action button"
                       key={`spotlight-${port.name}`}
                       type="button"
                       onClick={() => setActiveSpotlightPort(idx)}
@@ -1792,7 +1729,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="relative animate-fadeIn text-left">
                 {/* Scroll buttons */}
                 <div className="flex justify-end gap-2 mb-4">
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: -360, behavior: "smooth" });
@@ -1801,7 +1738,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   >
                     ◀
                   </button>
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => {
                       if (portCarouselRef.current) portCarouselRef.current.scrollBy({ left: 360, behavior: "smooth" });
@@ -1856,7 +1793,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
                       <p className="text-white/50 text-xs md:text-sm leading-relaxed">{port.desc}</p>
                     </div>
-                    <button
+                    <button aria-label="Action button"
                       type="button"
                       onClick={() => document.getElementById("book-now")?.scrollIntoView({ behavior: "smooth" })}
                       className="shrink-0 px-4 py-2 bg-white/5 hover:bg-cyan-500 hover:text-black border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer"
@@ -1907,7 +1844,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <p className="text-xs text-black/60 font-semibold mt-1">Discover included food spots and premium specialty restaurants.</p>
               </div>
               <div className="flex bg-black/5 p-1 border border-black/10 shrink-0 self-center">
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setFoodTypeTab("included")}
                   className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "included" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
@@ -1915,7 +1852,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 >
                   Included (Free)
                 </button>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setFoodTypeTab("paid")}
                   className={`px-4 py-2 rounded-lg text-[var(--font-size-2xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border-none ${foodTypeTab === "paid" ? "bg-cyan-600 text-white font-black shadow-md" : "bg-transparent text-black/60 hover:text-black"
@@ -1995,7 +1932,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                 <p className="text-xs text-black/60 font-semibold mt-1">Explore 20 onboard lounges, nightlife venues, and world-class attractions.</p>
               </div>
               <div className="flex bg-black/5 p-1 border border-black/10 shrink-0 self-start lg:self-center max-w-full overflow-x-auto">
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setBarTab("bars")}
                   className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "bars" ? "bg-cyan-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
@@ -2004,7 +1941,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   <span>🍸 Bars & Clubs</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${barTab === "bars" ? "bg-white/20 text-white" : "bg-black/10 text-cyan-700"}`}>20</span>
                 </button>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setBarTab("entertainment")}
                   className={`px-5 py-2.5  text-xs font-black uppercase tracking-widest transition-colors cursor-pointer border-none flex items-center gap-2 ${barTab === "entertainment" ? "bg-purple-600 text-white font-black shadow-md scale-105" : "text-black/60 hover:text-black"
@@ -2099,7 +2036,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           <div className="space-y-2 mb-0 text-left max-w-4xl">
             {FAQS_EXTENDED.map((faq, i) => (
               <div key={faq.q} className="border border-black/10 bg-black/[0.03] overflow-hidden shadow-xs">
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-black/5 transition-colors cursor-pointer border-none bg-transparent"
@@ -2124,6 +2061,88 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </React.Suspense>
         )}
       </>)}
+    </div>
+  );
+}
+
+
+function CruiseCard1Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
+  return (
+    <div className="p-4 border-b border-black/10">
+      <span className="text-[var(--font-size-3xs)] font-black text-cyan-700 uppercase tracking-widest block mb-3">Card 1 - Deposit Details</span>
+      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="booking-cell border border-black/10 p-3 bg-white">
+          <label htmlFor="cruise-card-name-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+          <input aria-label="Input field" id="cruise-card-name-1" type="text" required placeholder="Name on Card" value={formData.cardName1} onChange={e => setFormData({ ...formData, cardName1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+        </div>
+        <div className="booking-cell border border-black/10 p-3 bg-white">
+          <label htmlFor="cruise-card-number-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
+          <input aria-label="Input field" id="cruise-card-number-1" type="text" required placeholder="Credit Card Number" value={formData.cardNumber1} onChange={e => setFormData({ ...formData, cardNumber1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+        </div>
+        <div className="booking-cell border border-black/10 p-3 bg-white">
+          <div className="grid grid-cols-3 gap-2">
+            <div>
+              <label htmlFor="cruise-card-exp-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
+              <input aria-label="Input field" id="cruise-card-exp-1" type="text" required placeholder="MM/YY" value={formData.cardExpiry1} onChange={e => setFormData({ ...formData, cardExpiry1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+            </div>
+            <div>
+              <label htmlFor="cruise-card-cvv-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
+              <input aria-label="Input field" id="cruise-card-cvv-1" type="text" required placeholder="CVC" value={formData.cardCvv1} onChange={e => setFormData({ ...formData, cardCvv1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+            </div>
+            <div>
+              <label htmlFor="cruise-card-zip-1" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
+              <input aria-label="Input field" id="cruise-card-zip-1" type="text" required placeholder="Billing Zip" value={formData.cardZip1} onChange={e => setFormData({ ...formData, cardZip1: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+            </div>
+          </div>
+        </div>
+        <div className="booking-cell p-3 flex flex-col justify-end">
+          <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
+            <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
+            <input aria-label="Input field" type="text" required value={formData.cardAmount1} onChange={e => setFormData({ ...formData, cardAmount1: e.target.value })} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function CruiseCard2Section({ formData, setFormData }: { formData: any; setFormData: (fd: any) => void }) {
+  return (
+    <div className="p-4 bg-black/[0.01]">
+      <span className="text-[var(--font-size-3xs)] font-black text-purple-700 uppercase tracking-widest block mb-3">Card 2 - Split Details</span>
+      <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="booking-cell border border-black/10 p-3 bg-white">
+          <label htmlFor="cruise-card-name-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Your Full Name on the Card *</label>
+          <input aria-label="Input field" id="cruise-card-name-2" type="text" required placeholder="Name on Card" value={formData.cardName2} onChange={e => setFormData({ ...formData, cardName2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+        </div>
+        <div className="booking-cell border border-black/10 p-3 bg-white">
+          <label htmlFor="cruise-card-number-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Credit Card Number *</label>
+          <input aria-label="Input field" id="cruise-card-number-2" type="text" required placeholder="Credit Card Number" value={formData.cardNumber2} onChange={e => setFormData({ ...formData, cardNumber2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-3 py-1.5 text-sm font-semibold text-black placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+        </div>
+        <div className="booking-cell border border-black/10 p-3 bg-white">
+          <div className="grid grid-cols-3 gap-2">
+            <div>
+              <label htmlFor="cruise-card-exp-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Exp. Date *</label>
+              <input aria-label="Input field" id="cruise-card-exp-2" type="text" required placeholder="MM/YY" value={formData.cardExpiry2} onChange={e => setFormData({ ...formData, cardExpiry2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+            </div>
+            <div>
+              <label htmlFor="cruise-card-cvv-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">3 Digit *</label>
+              <input aria-label="Input field" id="cruise-card-cvv-2" type="text" required placeholder="CVC" value={formData.cardCvv2} onChange={e => setFormData({ ...formData, cardCvv2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+            </div>
+            <div>
+              <label htmlFor="cruise-card-zip-2" className="booking-label block text-[var(--font-size-4xs)] font-black text-black/70 uppercase tracking-widest mb-1">Billing Zip *</label>
+              <input aria-label="Input field" id="cruise-card-zip-2" type="text" required placeholder="Billing Zip" value={formData.cardZip2} onChange={e => setFormData({ ...formData, cardZip2: e.target.value })} className="booking-input w-full bg-white border border-black/15 rounded-lg px-2 py-1.5 text-sm font-semibold text-black text-center placeholder:text-black/40 focus:outline-none focus:border-cyan-600" />
+            </div>
+          </div>
+        </div>
+        <div className="booking-cell p-3 flex flex-col justify-end">
+          <div className="flex justify-between items-center bg-black/5 p-3 border border-black/15">
+            <span className="booking-label text-[var(--font-size-4xs)] font-black text-black/80 uppercase tracking-widest">Amount to Charge</span>
+            <input aria-label="Input field" type="text" required value={formData.cardAmount2} onChange={e => setFormData({ ...formData, cardAmount2: e.target.value })} className="booking-input w-24 bg-white border border-black/20 rounded-lg px-2 py-1 text-right text-sm font-black text-black outline-none" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

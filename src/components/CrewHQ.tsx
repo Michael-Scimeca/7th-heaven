@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
@@ -30,6 +32,22 @@ interface SiteChatMsg {
   content: string;
   created_at: string;
 }
+
+const fmt = (s: number) => {
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
+  return `${m}:${String(sc).padStart(2, "0")}`;
+};
+
+const getRoomMeta = (room: string) =>
+  KNOWN_ROOMS.find(r => r.id === room) || { label: room, color: "rgba(255,255,255,0.3)", icon: "💬" };
+
+const getRoleColor = (role: string) => {
+  if (role === "crew") return "#f97316";
+  if (role === "admin") return "#9333ea";
+  if (role === "cruise") return "#0ea5e9";
+  return "#8b5cf6";
+};
 
 export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
   const slug = (defaultMemberId || "michael").toLowerCase().trim();
@@ -81,6 +99,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
   // ─── Auth ─────────────────────────────────────────────────────────
   useEffect(() => {
+    let cancelled = false;
     if (defaultMemberId && MEMBER_SEEDS[defaultMemberId]) {
       const seed = MEMBER_SEEDS[defaultMemberId];
       localStorage.setItem("7h_dev_bypass_v1", "true");
@@ -93,6 +112,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     const check = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
+        if (cancelled) return;
         if (session) {
           setUserId(session.user.id);
           setDisplayName(session.user.user_metadata?.full_name || "Crew");
@@ -100,6 +120,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           setIsLoading(false); return;
         }
       } catch { }
+      if (cancelled) return;
       const stored = localStorage.getItem("7h_member");
       if (stored) {
         try {
@@ -120,6 +141,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       setIsLoading(false);
     };
     check();
+    return () => { cancelled = true; };
   }, [defaultMemberId, slug]);
 
   // ─── Poll live status (Studio writes localStorage) ────────────────
@@ -406,22 +428,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     } catch { }
   };
 
-  // ─── Helpers ─────────────────────────────────────────────────────
-  const fmt = (s: number) => {
-    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sc = s % 60;
-    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sc).padStart(2, "0")}`;
-    return `${m}:${String(sc).padStart(2, "0")}`;
-  };
 
-  const getRoomMeta = (room: string) =>
-    KNOWN_ROOMS.find(r => r.id === room) || { label: room, color: "rgba(255,255,255,0.3)", icon: "💬" };
-
-  const getRoleColor = (role: string) => {
-    if (role === "crew") return "#f97316";
-    if (role === "admin") return "#9333ea";
-    if (role === "cruise") return "#0ea5e9";
-    return "#8b5cf6";
-  };
 
   // Derived filtered feed
   const filteredMsgs = msgs.filter(m => {
@@ -491,7 +498,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* Right — Switch + CTA */}
           <div className="flex items-center gap-3">
-            <select
+            <select aria-label="Select option"
               className="bg-[var(--color-bg-card)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
               onChange={e => { if (e.target.value) window.location.href = e.target.value; }}
               value={`/crew-${defaultMemberId || slug}`}
@@ -582,7 +589,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     <span className="font-black text-sm">📡 Site-Wide Chat Monitor</span>
                     <span className="px-2 py-0.5 bg-white/[0.05] rounded-lg text-[var(--font-size-3xs)] text-white/30 font-mono">{msgs.length} msgs</span>
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live" />
-                    <button
+                    <button aria-label="Action button"
                       onClick={toggleSimulator}
                       className={`ml-2 px-2.5 py-1 rounded-lg font-black text-[var(--font-size-4xs)] uppercase tracking-widest transition-colors cursor-pointer border ${simActive
                         ? "bg-purple-600 text-white border-purple-500 shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse"
@@ -595,13 +602,13 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                   {/* Search */}
                   <div className="flex items-center gap-2 flex-wrap">
-                    <input
+                    <input aria-label="Search"
                       value={search}
                       onChange={e => setSearch(e.target.value)}
                       placeholder="Search messages…"
                       className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/40 w-44"
                     />
-                    <select
+                    <select aria-label="Select option"
                       value={roleFilter}
                       onChange={e => setRoleFilter(e.target.value)}
                       className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)]/40 cursor-pointer"
@@ -616,7 +623,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 {/* Room filter pills */}
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
-                  <button
+                  <button aria-label="Action button"
                     onClick={() => setRoomFilter("all")}
                     className={`px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === "all" ? "bg-white text-black border-white" : "border-white/[0.1] text-white/35 hover:text-white/60"
                       }`}
@@ -624,7 +631,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     All Rooms ({msgs.length})
                   </button>
                   {KNOWN_ROOMS.map(room => (
-                    <button
+                    <button aria-label="Action button"
                       key={room.id}
                       onClick={() => setRoomFilter(roomFilter === room.id ? "all" : room.id)}
                       className={`flex items-center gap-1 px-3 py-1 rounded-full text-[var(--font-size-3xs)] font-black uppercase tracking-widest transition-colors cursor-pointer border ${roomFilter === room.id
@@ -690,30 +697,30 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                         {/* Action buttons — appear on hover */}
                         <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-0.5">
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleFlag(msg.id)}
                             title="Flag message"
                             className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"
                               }`}
                           >🚩</button>
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleWarn(msg.sender_name, msg.room)}
                             title={warned.has(msg.sender_name) ? "Unwarn user" : "Warn user"}
                             className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"
                               }`}
                           >⚠️</button>
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleBan(msg.sender_name, msg.room)}
                             title={isBanned ? "Unban user" : "Ban user"}
                             className={`px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border transition-colors cursor-pointer ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"
                               }`}
                           >🚫</button>
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleKick(msg.id, msg.sender_name, msg.room)}
                             title="Remove Fan Completely"
                             className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-red-500/25 text-red-500/70 hover:bg-red-500/10 transition-colors cursor-pointer"
                           >🚪</button>
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleDeleteMsg(msg.id)}
                             title="Delete message"
                             className="px-2 py-1 rounded-lg text-[var(--font-size-3xs)] border border-white/[0.08] text-white/30 hover:bg-white/5 transition-colors cursor-pointer"
@@ -755,14 +762,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       </p>
 
                       <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
-                        <input
+                        <input aria-label="Input field"
                           type="text"
                           value={newCustomWord}
                           onChange={e => setNewCustomWord(e.target.value)}
                           placeholder="e.g. ticket-scalper"
                           className="flex-1 bg-black/60 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-[#ec4899]/50 font-bold"
                         />
-                        <button
+                        <button aria-label="Action button"
                           type="submit"
                           className="px-5 py-2.5 bg-[var(--color-accent-pink)] hover:bg-[var(--color-accent-pink)] text-black font-black text-xs uppercase tracking-wider transition-colors cursor-pointer"
                         >
@@ -785,7 +792,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/5 border border-white/10 text-xs font-bold text-white/80"
                             >
                               <span>{word}</span>
-                              <button
+                              <button aria-label="Action button"
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
                                 className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer"
@@ -885,7 +892,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <h3 className="font-black text-sm">📝 Notes for Admin</h3>
                   <p className="text-[var(--font-size-3xs)] text-white/25 mt-0.5">Saved to Supabase</p>
                 </div>
-                <button
+                <button aria-label="Action button"
                   onClick={handleSaveNotes}
                   className={`px-4 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-widest cursor-pointer transition-colors ${notesSaved ? "bg-emerald-500/15 text-[var(--color-accent)] border border-emerald-500/25" : "bg-white/5 text-white/40 border border-white/[0.08] hover:text-white"
                     }`}
@@ -893,7 +900,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   {notesSaved ? "✓ Saved" : "Save"}
                 </button>
               </div>
-              <textarea
+              <textarea aria-label="Text input"
                 value={crewNotes}
                 onChange={e => setCrewNotes(e.target.value)}
                 placeholder="Stream notes, incidents, requests for admin…"

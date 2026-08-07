@@ -40,7 +40,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm pointer-events-auto">
       <div className="bg-gray-50/98 backdrop-blur-xl border border-purple-500/40 p-6 w-full max-w-sm shadow-md relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto text-black">
-        <button
+        <button aria-label="Close"
           onClick={handleClose}
           className="absolute top-3 right-3 text-black/50 hover:text-black transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-full"
         >
@@ -80,7 +80,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
 
             <div className="space-y-2">
               <p className="text-xs text-black/30 uppercase tracking-widest text-center mb-2">Or choose how to receive your prize</p>
-              <button onClick={() => setClaimMethod('shipping')}
+              <button aria-label="Action button" onClick={() => setClaimMethod('shipping')}
                 className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-colors text-left">
                 <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
@@ -90,7 +90,7 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
                   <p className="text-xs text-black/30 mt-0.5">100% off Shopify checkout link</p>
                 </div>
               </button>
-              <button onClick={() => setClaimMethod('merch_table')}
+              <button aria-label="Action button" onClick={() => setClaimMethod('merch_table')}
                 className="w-full p-3 border border-black/10 hover:border-purple-500/30 bg-gray-50 flex items-center gap-3 transition-colors text-left">
                 <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-[var(--color-accent)] flex items-center justify-center shrink-0">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
@@ -109,13 +109,13 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
             </div>
             <h3 className="text-lg font-black text-black uppercase tracking-wider mb-2">Shipping Claim</h3>
             <p className="text-sm text-black/50 mb-6 px-4">Your 100% off voucher is being generated. You'll be transferred to Shopify to enter your shipping details.</p>
-            <button
+            <button aria-label="Close"
               onClick={() => { alert('In production, this opens a Shopify Cart with discount applied!'); handleClose(); }}
               className="w-full py-3 bg-blue-500 hover:bg-blue-400 text-black font-black text-xs uppercase tracking-widest transition-colors"
             >
               Open Secure Checkout
             </button>
-            <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-black/30 hover:text-black/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
+            <button aria-label="Action button" onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-black/30 hover:text-black/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
           </div>
         ) : (
           <div className="text-center py-4">
@@ -133,8 +133,8 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
                 <a href={claimUrl} target="_blank" rel="noreferrer" className=" text-[var(--color-accent)]/60 text-xs underline">Open full claim page →</a>
               </div>
             )}
-            <button onClick={handleClose} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest transition-colors">Done</button>
-            <button onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-black/30 hover:text-black/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
+            <button aria-label="Close" onClick={handleClose} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest transition-colors">Done</button>
+            <button aria-label="Action button" onClick={() => setClaimMethod(null)} className="w-full mt-2 py-2 text-black/30 hover:text-black/60 text-xs font-bold uppercase tracking-widest transition-colors">Back</button>
           </div>
         )}
       </div>

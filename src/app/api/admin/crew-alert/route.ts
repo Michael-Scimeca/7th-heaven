@@ -12,6 +12,14 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const isNotBandOnlyMember = (name?: string, email?: string) => {
+  const lowerN = (name || '').toLowerCase();
+  const lowerE = (email || '').toLowerCase();
+  if (lowerN.includes('richard') || lowerN.includes('hofherr')) return false;
+  if (lowerE.includes('richard') || lowerE.includes('hofherr')) return false;
+  return true;
+};
+
 export async function POST(request: Request) {
   try {
     // Verify caller is an authenticated admin
@@ -113,19 +121,21 @@ export async function POST(request: Request) {
           ? `\n\nGroup: ${targets.map(t => t.name).join(', ')}`
           : '';
 
-        for (const target of targets) {
+        const smsResults = await Promise.all(targets.map(async (target) => {
           try {
             await client.messages.create({
               body: `🛡️ 7th Heaven CREW ALERT:\n\n${message}${recipientListStr}\n\n— Band Management`,
               from: twilioPhone,
               to: target.phone,
             });
-            sent++;
+            return true;
           } catch (err) {
             console.error(`Failed to send to ${target.phone}:`, err);
-            failed++;
+            return false;
           }
-        }
+        }));
+        sent = smsResults.filter(Boolean).length;
+        failed = smsResults.length - sent;
 
         // Resolve detailed recipients (with avatars, roles, and hours)
         const recipientsDetail = await resolveRecipientsDetails(targets, showDate || '');
@@ -252,7 +262,7 @@ async function notifyCrewOfAlert({
     const { crewSmsAlertReceived } = await import('@/lib/email-templates');
 
     const emailTargets = recipients.filter(t => t.email);
-    for (const target of emailTargets) {
+    await Promise.all(emailTargets.map(async (target) => {
       try {
         const html = crewSmsAlertReceived({
           memberName: target.name || 'Crew Member',
@@ -271,7 +281,7 @@ async function notifyCrewOfAlert({
       } catch (err) {
         console.error(`[Crew Alert Email] Failed to send email to crew member ${target.email}:`, err);
       }
-    }
+    }));
   } catch (err) {
     console.error('[Crew Alert Email] Error inside notifyCrewOfAlert:', err);
   }
@@ -318,28 +328,22 @@ async function resolveRecipientsDetails(
 // GET — return crew count and full recipient list for the UI
 export async function GET() {
   try {
-    const { count: crewCount } = await supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .eq('role', 'crew');
+    const [{ count: crewCount }, { count: adminCount }, { data: allProfiles }] = await Promise.all([
+      supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('role', 'crew'),
+      supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('role', 'admin'),
+      supabase
+        .from('profiles')
+        .select('id, full_name, email, phone, role, avatar_url, profile_photo_url, crew_duty')
+        .in('role', ['crew', 'admin'])
+    ]);
 
-    const { count: adminCount } = await supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .eq('role', 'admin');
 
-    const { data: allProfiles } = await supabase
-      .from('profiles')
-      .select('id, full_name, email, phone, role, avatar_url, profile_photo_url, crew_duty')
-      .in('role', ['crew', 'admin']);
-
-    const isNotBandOnlyMember = (name?: string, email?: string) => {
-      const lowerN = (name || '').toLowerCase();
-      const lowerE = (email || '').toLowerCase();
-      if (lowerN.includes('richard') || lowerN.includes('hofherr')) return false;
-      if (lowerE.includes('richard') || lowerE.includes('hofherr')) return false;
-      return true;
-    };
 
     const recipients = (allProfiles || []).flatMap(p => {
       if (!isNotBandOnlyMember(p.full_name, p.email)) return [];

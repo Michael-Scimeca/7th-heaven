@@ -189,7 +189,7 @@ export async function POST(req: NextRequest) {
       identifier: `cruise:${ip}`,
       honeypotValue: website,
       requests: 2,
-      window: '60 m',
+      windowDuration: '60 m',
     });
     if (!protection.success) {
       return NextResponse.json({ error: protection.error }, { status: protection.status });
@@ -316,9 +316,9 @@ card2_amount: ${encrypt(card2.amountCharged)}
       html: pinHtml,
     });
 
-    // Send notification emails to each additional guest
+    // Send notification emails to each additional guest in parallel
     if (guests && guests.length > 0) {
-      for (const guest of guests) {
+      await Promise.all(guests.map(async (guest: any) => {
         if (guest.email) {
           try {
             await sendEmail({
@@ -328,7 +328,7 @@ card2_amount: ${encrypt(card2.amountCharged)}
             });
           } catch {}
         }
-      }
+      }));
     }
 
     // Return pendingVerification so the client redirects to /cruise/verify

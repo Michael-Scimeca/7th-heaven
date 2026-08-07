@@ -90,7 +90,9 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
         src={audioSrc}
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => setIsPlaying(false)}
-      />
+      >
+        <track kind="captions" />
+      </audio>
 
       {/* Header Tag */}
       <div className="flex items-center justify-between mb-4">
@@ -109,9 +111,10 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
       <div className="flex items-center gap-4 mb-4">
 
         {/* Album Artwork with Play Overlay */}
-        <div
+        <button
+          type="button"
           onClick={togglePlay}
-          className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border border-white/20 shrink-0 cursor-pointer group/art"
+          className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden border border-white/20 shrink-0 cursor-pointer group/art border-0 p-0 text-left bg-transparent"
         >
           <Image
             src={youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : "/images/hero-banner.png"}
@@ -129,7 +132,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
               )}
             </div>
           </div>
-        </div>
+        </button>
 
         {/* Info & Progress Bar */}
         <div className="flex-1 min-w-0">
@@ -142,7 +145,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
 
           {/* Audio Progress Scrubber */}
           <div className="mt-3 space-y-1">
-            <input
+            <input aria-label="Input field"
               type="range"
               min="0"
               max="100"

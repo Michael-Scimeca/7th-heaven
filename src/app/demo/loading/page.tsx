@@ -91,10 +91,10 @@ export default function LoadingDemo() {
 
         {/* Done — click anywhere to restart */}
         {done && (
-          <div onClick={restart} style={{
+          <button type="button" onClick={restart} style={{
             position: "absolute", inset: 0,
             display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer",
+            cursor: "pointer", border: "none", background: "transparent"
           }}>
             <span style={{
               color: "rgba(255,255,255,0.4)",
@@ -105,7 +105,7 @@ export default function LoadingDemo() {
             }}>
               Click to restart
             </span>
-          </div>
+          </button>
         )}
 
         {/* ── Floating controls top-right ── */}
@@ -114,7 +114,7 @@ export default function LoadingDemo() {
           display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8,
           zIndex: 10001,
         }}>
-          <button onClick={restart} style={{
+          <button aria-label="Action button" onClick={restart} style={{
             background: "rgba(255,255,255,0.08)",
             border: "1px solid rgba(255,255,255,0.18)",
             color: "#fff", fontSize: 10, fontWeight: 900,
@@ -125,7 +125,7 @@ export default function LoadingDemo() {
             ↺ Restart
           </button>
 
-          <button onClick={() => setShowPicker(p => !p)} style={{
+          <button aria-label="Action button" onClick={() => setShowPicker(p => !p)} style={{
             background: "rgba(255,255,255,0.08)",
             border: "1px solid rgba(255,255,255,0.18)",
             color: "#fff", fontSize: 10, fontWeight: 900,
@@ -147,7 +147,7 @@ export default function LoadingDemo() {
               minWidth: 170,
             }}>
               {COLORS.map((c) => (
-                <button
+                <button aria-label="Action button"
                   key={c.value}
                   onClick={() => { setBg(c.value); setShowPicker(false); restart(); }}
                   style={{

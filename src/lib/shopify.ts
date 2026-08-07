@@ -94,7 +94,7 @@ export async function getProducts() {
  * Create a new checkout session (For physical 'Buy Now' buttons)
  * This passes the product variant ID and immediately returns a secure checkout URL.
  */
-export async function createCheckout(variantId: string) {
+async function createCheckout(variantId: string) {
   const query = `
     mutation cartCreate($input: CartInput) {
       cartCreate(input: $input) {

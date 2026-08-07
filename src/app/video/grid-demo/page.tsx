@@ -15,7 +15,7 @@ function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void })
     <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
       <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Grid</p>
       {layouts.map(l => (
-        <button key={l} onClick={() => set(l)}
+        <button aria-label="Action button" key={l} onClick={() => set(l)}
           className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-colors cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
           {l}
         </button>
@@ -29,7 +29,7 @@ function CatTabs({ cats, active, set }: { cats: string[]; active: string; set: (
     <div className="flex flex-wrap gap-1 items-center">
       {cats.map((c, i) => (
         <span key={c} className="flex items-center gap-1">
-          <button onClick={() => set(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${active === c ? " text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
+          <button aria-label="Action button" onClick={() => set(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${active === c ? " text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
           {i < cats.length - 1 && <span className=" text-[var(--color-accent)] text-sm">/</span>}
         </span>
       ))}

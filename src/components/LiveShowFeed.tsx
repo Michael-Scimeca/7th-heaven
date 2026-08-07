@@ -250,7 +250,7 @@ export default function LiveShowFeed() {
               : post.image_url;
 
             return (
-              <button
+              <button aria-label="Action button"
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
                 className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive

@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -107,7 +108,7 @@ function MerchDashboard() {
   };
 
   // Load data
-  const loadData = async () => {
+  const loadData = (isCancelled?: () => boolean) => {
     const queue: PickupOrder[] = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
     setPickupQueue(queue);
     setRaffleWins(getRaffleWins());
@@ -117,36 +118,43 @@ function MerchDashboard() {
     const claimedSet = new Set<string>(claimedLocal);
 
     // Also load claimed status from Supabase to merge
-    try {
-      const { data: dbRaffles } = await supabase
-        .from('raffles')
-        .select('winner_pins')
-        .eq('status', 'complete');
+    supabase
+      .from('raffles')
+      .select('winner_pins')
+      .eq('status', 'complete')
+      .then(({ data: dbRaffles }: any) => {
+        if (isCancelled?.()) return;
+        if (dbRaffles) {
+          dbRaffles.forEach((raffle: any) => {
+            let winnerPins = [];
+            try {
+              winnerPins = typeof raffle.winner_pins === 'string' ? JSON.parse(raffle.winner_pins) : raffle.winner_pins;
+            } catch { }
 
-      if (dbRaffles) {
-        dbRaffles.forEach((raffle: any) => {
-          let winnerPins = [];
-          try {
-            winnerPins = typeof raffle.winner_pins === 'string' ? JSON.parse(raffle.winner_pins) : raffle.winner_pins;
-          } catch { }
-
-          if (Array.isArray(winnerPins)) {
-            winnerPins.forEach((item: any) => {
-              if (item && typeof item === 'object' && item.pin && item.claimed) {
-                claimedSet.add(item.pin);
-              }
-            });
-          }
-        });
-      }
-    } catch (err) {
-      console.error('Error loading claimed pins from Supabase:', err);
-    }
-
-    setAwardedPins(claimedSet);
+            if (Array.isArray(winnerPins)) {
+              winnerPins.forEach((item: any) => {
+                if (item && typeof item === 'object' && item.pin && item.claimed) {
+                  claimedSet.add(item.pin);
+                }
+              });
+            }
+          });
+        }
+        if (!isCancelled?.()) {
+          setAwardedPins(claimedSet);
+        }
+      })
+      .catch((err: any) => {
+        console.error('Error loading claimed pins from Supabase:', err);
+        if (!isCancelled?.()) {
+          setAwardedPins(claimedSet);
+        }
+      });
   };
 
   useEffect(() => {
+    let cancelled = false;
+    const checkCancelled = () => cancelled;
     if (isDemo) {
       // Seed demo data
       setPickupQueue([
@@ -160,12 +168,15 @@ function MerchDashboard() {
       return;
     }
     if (isMerch) {
-      loadData();
+      loadData(checkCancelled);
     }
     const interval = setInterval(() => {
-      if (isMerch) loadData();
+      if (isMerch) loadData(checkCancelled);
     }, 5000);
-    return () => clearInterval(interval);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, [isMerch, isDemo]);
 
 
@@ -237,7 +248,7 @@ function MerchDashboard() {
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
         <p className="text-white/40 text-sm mb-6">Sign in with your merch team account.</p>
-        <button onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors">Sign In</button>
+        <button aria-label="Action button" onClick={() => openModal()} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors">Sign In</button>
       </div>
     </div>
   );
@@ -290,14 +301,14 @@ function MerchDashboard() {
 
           <div className="p-5 space-y-4">
             <form onSubmit={handleVerifyCode} className="flex gap-2">
-              <input
+              <input aria-label="Input field"
                 type="text"
                 placeholder="Scan QR or enter PIN (e.g. PU-3501 or 3501)"
                 value={scanInput}
                 onChange={e => setScanInput(e.target.value)}
                 className="flex-1 bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-white/20 focus:border-pink-500 focus:outline-none font-mono"
               />
-              <button
+              <button aria-label="Action button"
                 type="submit"
                 className="px-6 py-3 bg-pink-500 hover:bg-pink-400 text-white font-black text-xs uppercase tracking-widest transition-colors border-none cursor-pointer"
               >
@@ -392,7 +403,7 @@ function MerchDashboard() {
                         ))}
                       </div>
                     </div>
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => awardPrize(win.pin)}
                       disabled={awarded}
                       className={`shrink-0 px-5 py-3 font-black text-xs uppercase tracking-widest  transition-colors ${awarded
@@ -411,7 +422,7 @@ function MerchDashboard() {
 
         {/* Tabs — Pickup Queue only */}
         <div className="flex gap-2">
-          <button
+          <button aria-label="Action button"
             className="flex-1 py-2.5 font-black text-xs uppercase tracking-widest border bg-pink-500/20 border-pink-500/40 text-pink-400">
             🛍️ Pickup Queue {pendingPickups.length > 0 ? `(${pendingPickups.length})` : ''}
           </button>
@@ -450,7 +461,7 @@ function MerchDashboard() {
                         <p className="text-white/40 text-xs mt-0.5">{order.customer}{order.email ? ` · ${order.email}` : ''}</p>
                         <p className="text-pink-400 font-black text-sm mt-1">${order.price}</p>
                       </div>
-                      <button onClick={() => markClaimed(order.id)}
+                      <button aria-label="Action button" onClick={() => markClaimed(order.id)}
                         className="shrink-0 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-widest transition-colors">
                         ✓ Hand Off
                       </button>

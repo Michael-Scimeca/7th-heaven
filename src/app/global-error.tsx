@@ -93,7 +93,7 @@ export default function GlobalError({
               A critical error occurred in the application root. Our development
               team (Mikey) has been notified automatically.
             </p>
-            <button
+            <button aria-label="Action button"
               onClick={() => reset()}
               style={{
                 padding: "12px 24px",

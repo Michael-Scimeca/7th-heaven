@@ -3,6 +3,16 @@ import Image from 'next/image';
 
 import React, { useState } from "react";
 
+const ITINERARY = [
+  { day: 1, port: "Miami, FL", label: "Embarkation", icon: "🚢", desc: "Board the ship and join the Sail-Away Party with 7th Heaven on the pool deck." },
+  { day: 2, port: "At Sea", label: "Sea Day", icon: "🌊", desc: "Acoustic set by the pool. Meet & Greet. Full electric show in the main theater." },
+  { day: 3, port: "Cozumel, Mexico", label: "Port Day", icon: "🏝️", desc: "Explore Mayan ruins, snorkel crystal reefs, or chill on the beach." },
+  { day: 4, port: "Grand Cayman", label: "Port Day", icon: "🐢", desc: "Stingray City, Seven Mile Beach. Sunset deck session with the band." },
+  { day: 5, port: "Roatán, Honduras", label: "Port Day", icon: "🤿", desc: "World-class diving and zip-lining through the jungle canopy." },
+  { day: 6, port: "At Sea", label: "Sea Day", icon: "🎸", desc: "Grand Finale — full 2-hour concert, fan-request setlist, after-party." },
+  { day: 7, port: "Miami, FL", label: "Disembarkation", icon: "⚓", desc: "Farewell breakfast and group photo before heading home." },
+];
+
 export default function CruiseLayoutA() {
   const [signupStatus, setSignupStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [form, setForm] = useState({ name: "", email: "", guests: "2" });
@@ -18,15 +28,7 @@ export default function CruiseLayoutA() {
     setTimeout(() => setSignupStatus("success"), 1000);
   };
 
-  const ITINERARY = [
-    { day: 1, port: "Miami, FL", label: "Embarkation", icon: "🚢", desc: "Board the ship and join the Sail-Away Party with 7th Heaven on the pool deck." },
-    { day: 2, port: "At Sea", label: "Sea Day", icon: "🌊", desc: "Acoustic set by the pool. Meet & Greet. Full electric show in the main theater." },
-    { day: 3, port: "Cozumel, Mexico", label: "Port Day", icon: "🏝️", desc: "Explore Mayan ruins, snorkel crystal reefs, or chill on the beach." },
-    { day: 4, port: "Grand Cayman", label: "Port Day", icon: "🐢", desc: "Stingray City, Seven Mile Beach. Sunset deck session with the band." },
-    { day: 5, port: "Roatán, Honduras", label: "Port Day", icon: "🤿", desc: "World-class diving and zip-lining through the jungle canopy." },
-    { day: 6, port: "At Sea", label: "Sea Day", icon: "🎸", desc: "Grand Finale — full 2-hour concert, fan-request setlist, after-party." },
-    { day: 7, port: "Miami, FL", label: "Disembarkation", icon: "⚓", desc: "Farewell breakfast and group photo before heading home." },
-  ];
+
 
   return (
     <div className="min-h-screen">
@@ -80,15 +82,15 @@ export default function CruiseLayoutA() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                  <input aria-label="Input field" type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                  <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  <input aria-label="Input field" type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white placeholder:text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors" />
-                  <select value={form.guests} onChange={e => setForm(f => ({ ...f, guests: e.target.value }))}
+                  <select aria-label="Select option" value={form.guests} onChange={e => setForm(f => ({ ...f, guests: e.target.value }))}
                     className="w-full bg-white/[0.03] border border-white/10 px-4 py-3 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors appearance-none cursor-pointer">
                     <option value="1">Just me (1)</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+ guests</option>
                   </select>
-                  <button type="submit" disabled={signupStatus === "submitting"}
+                  <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"}
                     className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm py-4 transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
                     {signupStatus === "submitting" ? "Submitting..." : "Count Me In"}
                   </button>

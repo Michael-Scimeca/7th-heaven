@@ -46,8 +46,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
           )}
           
           {/* Close Button */}
-          <button
-            onClick={handleClose}
+          <button onClick={handleClose}
             className="absolute right-4 top-4 text-white/50 hover:text-white transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-lg cursor-pointer flex items-center justify-center sm:relative sm:right-0 sm:top-0"
             aria-label="Close Announcement"
             title="Close Banner"
@@ -79,8 +78,7 @@ export default function AnnouncementBanner({ text, link, linkText, inline }: Ann
         )}
         
         {/* Close Button */}
-        <button
-          onClick={handleClose}
+        <button onClick={handleClose}
           className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors p-1 bg-white/5 hover:bg-white/10 rounded-lg cursor-pointer flex items-center justify-center"
           aria-label="Close Announcement"
           title="Close Banner"

@@ -77,12 +77,14 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
   }, [userId]);
 
   useEffect(() => {
+    let cancelled = false;
     const load = async () => {
       setLoading(true);
       await Promise.all([fetchPicks(), fetchLotteries()]);
-      setLoading(false);
+      if (!cancelled) setLoading(false);
     };
     load();
+    return () => { cancelled = true; };
   }, [fetchPicks, fetchLotteries]);
 
   const handleEnterLottery = async (lotteryId: string) => {
@@ -139,7 +141,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Pick Collection Grid */}
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-6">
             {pickTypes.map((pick) => (
-              <button
+              <button aria-label="Action button"
                 key={pick.id}
                 onClick={() => pick.owned > 0 ? setSelectedPick(selectedPick === pick.id ? null : pick.id) : null}
                 className={`relative p-3 border  text-center transition-colors ${pick.owned > 0
@@ -182,7 +184,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       <p className={`text-xs font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
                     </div>
                   </div>
-                  <button onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black text-sm cursor-pointer">✕</button>
+                  <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black text-sm cursor-pointer">✕</button>
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-xs text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
@@ -248,7 +250,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         {lottery.isEntered ? (
                           <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30">✓ Entered</span>
                         ) : lottery.isEligible ? (
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
                             className="px-4 py-2 bg-[var(--color-purple-glow)] border border-[var(--color-border-purple)] text-[var(--color-purple-light)] font-bold text-[var(--font-size-xs)] uppercase tracking-[0.15em] rounded-lg hover:bg-[var(--color-purple-glow)] transition-colors cursor-pointer disabled:opacity-50 shadow-[0_0_10px_var(--color-purple-glow)]"

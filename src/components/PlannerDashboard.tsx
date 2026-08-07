@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -41,6 +42,22 @@ const defaultBooking: BookingData = {
   status: "pending",
 };
 
+const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; text: string; bar: string }> = {
+  pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: " text-[var(--color-accent)]", bar: "bg-purple-600" },
+  confirmed: { label: "Confirmed", color: "emerald", bg: "bg-emerald-500/10", border: " border-[var(--color-accent)]/30", text: "text-emerald-500", bar: "bg-emerald-500" },
+  cancelled: { label: "Cancelled", color: "rose", bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500", bar: "bg-rose-500" },
+};
+
+const rebookUrl = (b: BookingData) => {
+  const p = new URLSearchParams();
+  p.set("from", "rebook"); p.set("organization", b.organization);
+  p.set("venueName", b.venueName); p.set("venueCity", b.venueCity);
+  p.set("venueState", b.venueState); p.set("eventType", b.eventType);
+  p.set("startTime", b.startTime); p.set("endTime", b.endTime);
+  p.set("indoorOutdoor", b.indoorOutdoor); p.set("expectedAttendance", b.expectedAttendance);
+  return `/book?${p.toString()}`;
+};
+
 const eventTypeLabels: Record<string, string> = {
   full_band: "Full Band Show",
   unplugged: "Unplugged Acoustic Set",
@@ -72,40 +89,39 @@ export default function PlannerDashboard() {
   const [plannerMode, setPlannerMode] = useState<'login' | 'signup'>('login');
 
   const handlePlannerLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setPlannerLoginError('');
-    setPlannerLoginLoading(true);
-
-    if (plannerMode === 'signup') {
-      // Create planner account in localStorage
-      if (!plannerName.trim()) { setPlannerLoginError('Name is required.'); setPlannerLoginLoading(false); return; }
-      if (!plannerAgeConfirmed) { setPlannerLoginError('You must confirm you are over 18 years old to sign up.'); setPlannerLoginLoading(false); return; }
-      const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
-      if (accounts[plannerEmail.toLowerCase()]) {
-        setPlannerLoginError('An account with this email already exists. Try signing in.');
-        setPlannerLoginLoading(false);
-        return;
+    e.preventDefault(); setPlannerLoginError(''); setPlannerLoginLoading(true);
+    try {
+      const storedAccountsStr = localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts');
+      const accounts = JSON.parse(storedAccountsStr || '{}');
+      if (plannerMode === 'signup') {
+        // Create planner account in localStorage
+        if (!plannerName.trim()) { setPlannerLoginError('Name is required.'); return; }
+        if (!plannerAgeConfirmed) { setPlannerLoginError('You must confirm you are over 18 years old to sign up.'); return; }
+        if (accounts[plannerEmail.toLowerCase()]) {
+          setPlannerLoginError('An account with this email already exists. Try signing in.');
+          return;
+        }
+        accounts[plannerEmail.toLowerCase()] = {
+          id: crypto.randomUUID(), name: plannerName.trim(), email: plannerEmail.toLowerCase(),
+          joinDate: new Date().toISOString(), avatar: plannerName.trim().split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase(),
+          points: 0, tier: 'Bronze', showsAttended: 0, favoriteVenues: [], notificationsEnabled: false, notificationRadius: 25, role: 'event_planner',
+        };
+        localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
       }
-      accounts[plannerEmail.toLowerCase()] = {
-        id: crypto.randomUUID(), name: plannerName.trim(), email: plannerEmail.toLowerCase(),
-        joinDate: new Date().toISOString(), avatar: plannerName.trim().split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase(),
-        points: 0, tier: 'Bronze', showsAttended: 0, favoriteVenues: [], notificationsEnabled: false, notificationRadius: 25, role: 'event_planner',
-      };
-      localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
-    }
 
-    const ok = await login(plannerEmail, plannerPassword);
-    if (!ok) {
-      setPlannerLoginError(plannerMode === 'signup' ? 'Account created but login failed. Try signing in.' : 'No account found. Create one below.');
-    } else {
-      // Verify they have the right role
-      const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
-      const acct = accounts[plannerEmail.toLowerCase()];
-      if (acct && acct.role !== 'event_planner') {
-        setPlannerLoginError('This account is not an Event Planner account.');
+      const ok = await login(plannerEmail, plannerPassword);
+      if (!ok) {
+        setPlannerLoginError(plannerMode === 'signup' ? 'Account created but login failed. Try signing in.' : 'No account found. Create one below.');
+      } else {
+        // Verify they have the right role
+        const acct = accounts[plannerEmail.toLowerCase()];
+        if (acct && acct.role !== 'event_planner') {
+          setPlannerLoginError('This account is not an Event Planner account.');
+        }
       }
+    } finally {
+      setPlannerLoginLoading(false);
     }
-    setPlannerLoginLoading(false);
   };
 
   const fetchBookings = useCallback(async () => {
@@ -220,42 +236,42 @@ export default function PlannerDashboard() {
                 {plannerMode === 'signup' && (
                   <div>
                     <label htmlFor="planner-full-name" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
-                    <input id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
+                    <input aria-label="Input field" id="planner-full-name" type="text" value={plannerName} onChange={e => setPlannerName(e.target.value)}
                       placeholder="e.g. Sarah Mitchell" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                   </div>
                 )}
                 <div>
                   <label htmlFor="planner-login-email" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Email</label>
-                  <input id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
+                  <input aria-label="Input field" id="planner-login-email" type="email" value={plannerEmail} onChange={e => setPlannerEmail(e.target.value)}
                     placeholder="planner@company.com" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
                 <div>
                   <label htmlFor="planner-login-password" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Password</label>
-                  <input id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
+                  <input aria-label="Input field" id="planner-login-password" type="password" value={plannerPassword} onChange={e => setPlannerPassword(e.target.value)}
                     placeholder="••••••••" className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors" required />
                 </div>
 
                 {plannerMode === 'signup' && (
-                  <div className="flex items-start gap-2.5 my-1.5 select-none cursor-pointer" onClick={() => setPlannerAgeConfirmed(p => !p)}>
-                    <input type="checkbox" checked={plannerAgeConfirmed} onChange={e => setPlannerAgeConfirmed(e.target.checked)}
+                  <label className="flex items-start gap-2.5 my-1.5 select-none cursor-pointer">
+                    <input aria-label="Input field" type="checkbox" checked={plannerAgeConfirmed} onChange={e => setPlannerAgeConfirmed(e.target.checked)}
                       className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03]  text-[var(--color-accent)] focus:ring-0 cursor-pointer accent-fuchsia-600"
                       onClick={(e) => e.stopPropagation()} />
                     <span className="text-[var(--font-size-2xs)] font-semibold text-white/70 leading-tight">
                       I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
                     </span>
-                  </div>
+                  </label>
                 )}
 
                 {plannerLoginError && (
                   <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{plannerLoginError}</p>
                 )}
 
-                <button type="submit" disabled={plannerLoginLoading}
+                <button aria-label="Action button" type="submit" disabled={plannerLoginLoading}
                   className="w-full py-3.5 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:bg-[var(--color-accent)] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.2)]">
                   {plannerLoginLoading ? 'Authenticating...' : plannerMode === 'signup' ? 'Create Planner Account' : 'Sign In as Planner'}
                 </button>
 
-                <button type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
+                <button aria-label="Action button" type="button" onClick={() => { setPlannerMode(m => m === 'login' ? 'signup' : 'login'); setPlannerLoginError(''); }}
                   className="text-xs  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] uppercase tracking-[0.15em] font-bold transition-colors cursor-pointer">
                   {plannerMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Sign in'}
                 </button>
@@ -298,23 +314,7 @@ export default function PlannerDashboard() {
     } catch { }
   };
 
-  const statusConfig = {
-    pending: { label: "Pending Review", color: "purple", bg: "bg-purple-600/10", border: "border-purple-500/20", text: " text-[var(--color-accent)]", bar: "bg-purple-600" },
-    confirmed: { label: "Confirmed", color: "emerald", bg: "bg-emerald-500/10", border: " border-[var(--color-accent)]/30", text: "text-emerald-500", bar: "bg-emerald-500" },
-    cancelled: { label: "Cancelled", color: "rose", bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500", bar: "bg-rose-500" },
-  };
-
-  const s = statusConfig[booking.status];
-
-  const rebookUrl = (b: BookingData) => {
-    const p = new URLSearchParams();
-    p.set("from", "rebook"); p.set("organization", b.organization);
-    p.set("venueName", b.venueName); p.set("venueCity", b.venueCity);
-    p.set("venueState", b.venueState); p.set("eventType", b.eventType);
-    p.set("startTime", b.startTime); p.set("endTime", b.endTime);
-    p.set("indoorOutdoor", b.indoorOutdoor); p.set("expectedAttendance", b.expectedAttendance);
-    return `/book?${p.toString()}`;
-  };
+  const s = STATUS_CONFIG[booking.status];
 
   const done = [!!booking.date, !!(booking.startTime && booking.endTime), !!booking.venueName, !!booking.indoorOutdoor, !!booking.soundSystem, !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance].filter(Boolean).length;
   const checklistItems = [
@@ -380,8 +380,8 @@ export default function PlannerDashboard() {
 
         {/* Cancel Confirmation Modal */}
         {showCancelConfirm && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowCancelConfirm(false)}>
-            <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-3xl shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full" onClick={e => e.stopPropagation()}>
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
+            <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-3xl shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
               <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
               </div>
@@ -389,13 +389,13 @@ export default function PlannerDashboard() {
               <p className="text-white/40 text-base text-center mb-2">{booking.eventName}</p>
               <p className="text-white/30 text-sm text-center mb-8">This will send a cancellation request to 7th Heaven. You can always rebook later.</p>
               <div className="flex gap-3">
-                <button
+                <button aria-label="Action button"
                   onClick={() => setShowCancelConfirm(false)}
                   className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors"
                 >
                   Keep Booking
                 </button>
-                <button
+                <button aria-label="Action button"
                   onClick={handleCancelRequest}
                   className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm uppercase tracking-wider transition-colors"
                 >
@@ -447,40 +447,40 @@ export default function PlannerDashboard() {
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="planner-edit-event-name" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Event Name</label>
-                    <input id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
+                    <input aria-label="Input field" id="planner-edit-event-name" value={editDraft.eventName} onChange={e => setEditDraft(d => ({ ...d, eventName: e.target.value }))}
                       className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-base text-white focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors" />
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                       <label htmlFor="planner-edit-start-time" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Start Time</label>
-                      <input id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
+                      <input aria-label="Input field" id="planner-edit-start-time" value={editDraft.startTime} onChange={e => setEditDraft(d => ({ ...d, startTime: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="planner-edit-end-time" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">End Time</label>
-                      <input id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
+                      <input aria-label="Input field" id="planner-edit-end-time" value={editDraft.endTime} onChange={e => setEditDraft(d => ({ ...d, endTime: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="planner-edit-venue" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Venue</label>
-                      <input id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
+                      <input aria-label="Input field" id="planner-edit-venue" value={editDraft.venueName} onChange={e => setEditDraft(d => ({ ...d, venueName: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="planner-edit-attendance" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">Attendance</label>
-                      <input id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
+                      <input aria-label="Input field" id="planner-edit-attendance" value={editDraft.expectedAttendance} onChange={e => setEditDraft(d => ({ ...d, expectedAttendance: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="planner-edit-city" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">City</label>
-                      <input id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
+                      <input aria-label="Input field" id="planner-edit-city" value={editDraft.venueCity} onChange={e => setEditDraft(d => ({ ...d, venueCity: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                     <div>
                       <label htmlFor="planner-edit-state" className="text-xs text-white/30 uppercase tracking-[0.15em] font-bold block mb-1">State</label>
-                      <input id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
+                      <input aria-label="Input field" id="planner-edit-state" value={editDraft.venueState} onChange={e => setEditDraft(d => ({ ...d, venueState: e.target.value }))}
                         className="w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 text-base text-white focus:border-[var(--color-accent)] outline-none transition-colors" />
                     </div>
                   </div>
@@ -495,11 +495,11 @@ export default function PlannerDashboard() {
                   {isEditing ? (
                     /* Edit mode actions */
                     <>
-                      <button onClick={handleEditSave}
+                      <button aria-label="Action button" onClick={handleEditSave}
                         className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
                         Save Changes
                       </button>
-                      <button onClick={handleEditCancel}
+                      <button aria-label="Action button" onClick={handleEditCancel}
                         className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
                         Discard
                       </button>
@@ -528,7 +528,7 @@ export default function PlannerDashboard() {
                       </a>
                       {reviveTimeLeft && (
                         <>
-                          <button onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
+                          <button aria-label="Previous" onClick={() => setBooking(prev => ({ ...prev, status: "pending", cancelledAt: undefined }))}
                             className="w-full py-3 bg-emerald-500/10 hover:bg-emerald-500 border border-emerald-500/30 hover:border-transparent text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors">
                             Revive Booking
                           </button>
@@ -560,11 +560,11 @@ export default function PlannerDashboard() {
                       >
                         Rebook This Event
                       </a>
-                      <button onClick={handleEditStart}
+                      <button aria-label="Action button" onClick={handleEditStart}
                         className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white font-bold text-sm uppercase tracking-wider transition-colors border border-white/5">
                         Edit Logistics
                       </button>
-                      <button onClick={() => setShowCancelConfirm(true)}
+                      <button aria-label="Action button" onClick={() => setShowCancelConfirm(true)}
                         className="w-full py-3 text-rose-400 font-bold text-sm uppercase tracking-wider hover:bg-rose-500/10 transition-colors">
                         Cancel Request
                       </button>
@@ -607,7 +607,7 @@ export default function PlannerDashboard() {
                 <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30 animate-[fade-in-up_0.3s_ease-out]">✓ Saved</span>
               )}
             </div>
-            <textarea
+            <textarea aria-label="Text input"
               value={plannerNotes}
               onChange={e => { setPlannerNotes(e.target.value); setNotesSaved(false); }}
               placeholder="Add notes about your event... (e.g. parking instructions, green room needs, special requests, AV contact info)"
@@ -616,7 +616,7 @@ export default function PlannerDashboard() {
             />
             <div className="flex items-center justify-between">
               <p className="text-xs text-white/20">{plannerNotes.length}/2000 characters</p>
-              <button
+              <button aria-label="Action button"
                 onClick={async () => {
                   setNotesSaving(true);
                   try {
@@ -728,7 +728,7 @@ export default function PlannerDashboard() {
                     <span className="text-purple-300 text-sm">💡</span>
                     <p className="text-sm text-white/40">
                       {missing} item{missing !== 1 ? 's' : ''} still needed.{' '}
-                      <button onClick={handleEditStart} className=" text-[var(--color-accent)] hover:text-white font-bold underline transition-colors cursor-pointer">
+                      <button aria-label="Action button" onClick={handleEditStart} className=" text-[var(--color-accent)] hover:text-white font-bold underline transition-colors cursor-pointer">
                         Edit logistics
                       </button>{' '}
                       to fill them in, or contact us for help.
@@ -772,7 +772,7 @@ export default function PlannerDashboard() {
                       </div>
 
                       {/* Card */}
-                      <button
+                      <button aria-label="Action button"
                         onClick={() => { setBooking(b); setEditDraft(b); }}
                         className={`flex-1 text-left px-5 py-4  border transition-colors cursor-pointer ${isActive
                           ? `${sc.bg} ${sc.border} border `

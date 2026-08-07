@@ -42,16 +42,16 @@ export async function POST(request: Request) {
 
     let photos = await readPhotos();
 
-    for (const file of files) {
+    const newEntries = await Promise.all(files.map(async (file) => {
       // Validate file type (allow images and videos)
       const isVideo = file.type.startsWith("video/") || file.name.endsWith(".mp4") || file.name.endsWith(".mov");
       const isImage = ["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type);
       
-      if (!isImage && !isVideo) continue;
+      if (!isImage && !isVideo) return null;
 
       // Max 15MB for videos, 10MB for images
       const maxSize = isVideo ? 15 * 1024 * 1024 : 10 * 1024 * 1024;
-      if (file.size > maxSize) continue;
+      if (file.size > maxSize) return null;
 
       let finalFilename = '';
       let fileTypeField: 'image' | 'video' = 'image';
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
         fs.writeFileSync(filePath, buffer);
       }
 
-      const entry = {
+      return {
         id: `fp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
         filename: finalFilename,
         src: `/uploads/fans/${finalFilename}`,
@@ -123,9 +123,10 @@ export async function POST(request: Request) {
         // Safety metadata — flagged photos appear with a warning in admin moderation
         ...(flag ? { safety_flag: flag } : {}),
       };
+    }));
 
-      photos.push(entry);
-    }
+    const validEntries = newEntries.filter((e): e is NonNullable<typeof e> => e !== null);
+    photos.push(...validEntries);
 
     await fs.promises.writeFile(META_PATH, JSON.stringify(photos, null, 2));
 

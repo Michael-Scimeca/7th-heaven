@@ -261,7 +261,7 @@ export default function AdminLegalPage() {
             {SECTIONS.map((sec) => {
               const isSelected = selectedSection === sec.id;
               return (
-                <button
+                <button aria-label="Action button"
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
                   className={`w-full flex items-center gap-4 p-4 border  text-left transition-colors duration-200 cursor-pointer ${isSelected

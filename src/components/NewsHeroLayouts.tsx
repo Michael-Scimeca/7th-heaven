@@ -8,6 +8,15 @@ export interface NewsItem {
   content: string;
 }
 
+const OPTION_2_VARIATIONS = [
+  { id: "2A", name: "2A. Classic Dark Glass" },
+  { id: "2B", name: "2B. Photo Box Right" },
+  { id: "2C", name: "2C. Reversed Left Card" },
+  { id: "2D", name: "2D. Neon Line Divider" },
+  { id: "2E", name: "2E. Stacked Badge Card" },
+  { id: "2F", name: "2F. Borderless Editorial" }
+];
+
 export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
   const [activeLayout, setActiveLayout] = useState<string>("2A");
   const featured = newsItems[0] || {
@@ -15,15 +24,6 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
     title: "2026 Tour Dates Announced",
     content: "It's winter time, and besides our annual cruise we do every year, we are working in the studio on numerous things."
   };
-
-  const option2Variations = [
-    { id: "2A", name: "2A. Classic Dark Glass" },
-    { id: "2B", name: "2B. Photo Box Right" },
-    { id: "2C", name: "2C. Reversed Left Card" },
-    { id: "2D", name: "2D. Neon Line Divider" },
-    { id: "2E", name: "2E. Stacked Badge Card" },
-    { id: "2F", name: "2F. Borderless Editorial" }
-  ];
 
   return (
     <div className="relative">
@@ -35,8 +35,8 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           </span>
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
-          {option2Variations.map(opt => (
-            <button
+          {OPTION_2_VARIATIONS.map((opt) => (
+            <button aria-label="Action button"
               key={opt.id}
               type="button"
               onClick={() => setActiveLayout(opt.id)}
@@ -109,7 +109,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </div>
                 <h2 className="text-2xl md:text-3xl font-black text-white mb-4">{featured.title}</h2>
                 <p className="text-white/80 text-sm leading-relaxed mb-6">{featured.content}</p>
-                <button type="button" className="px-5 py-2.5 bg-cyan-500 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-400 transition-colors cursor-pointer">
+                <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-cyan-500 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-400 transition-colors cursor-pointer">
                   Read Full Story →
                 </button>
               </div>

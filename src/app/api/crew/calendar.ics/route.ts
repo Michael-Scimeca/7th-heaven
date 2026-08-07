@@ -84,13 +84,18 @@ export async function GET(request: NextRequest) {
 
     const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
 
+    const tourDatesByDate = new Map<string, any>();
+    for (const show of (tourDates || [])) {
+      if (show && show.date) tourDatesByDate.set(show.date, show);
+    }
+
     for (const shift of filtered) {
       const dtStart = formatICalDate(shift.date, shift.startHour);
       const dtEnd = formatICalDate(shift.date, shift.endHour);
       
       if (!dtStart || !dtEnd) continue;
       
-      const matchingShow = tourDates.find((show: any) => show.date === shift.date);
+      const matchingShow = tourDatesByDate.get(shift.date);
       
       const uid = `${shift.id || Math.random().toString(36).substring(2)}@7thheavenband.com`;
       

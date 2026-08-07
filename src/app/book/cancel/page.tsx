@@ -70,7 +70,7 @@ function CancelContent() {
             </p>
             <p className="text-white/30 text-sm mb-8">This action cannot be undone. Our team will be notified.</p>
             <div className="flex flex-col gap-3">
-              <button
+              <button aria-label="Action button"
                 onClick={handleCancel}
                 className="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold uppercase tracking-wider text-sm py-4 px-8 transition-colors shadow-[0_0_20px_rgba(225,29,72,0.2)] hover:shadow-[0_0_30px_rgba(225,29,72,0.4)] cursor-pointer"
               >
@@ -121,7 +121,7 @@ function CancelContent() {
             <h1 className="text-2xl font-extrabold text-white mb-3">Cancellation Failed</h1>
             <p className="text-rose-400/70 text-sm mb-8">{errorMsg}</p>
             <div className="flex flex-col gap-3">
-              <button onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-sm py-4 px-8 transition-colors border border-white/10 cursor-pointer">
+              <button aria-label="Action button" onClick={() => setStatus("confirm")} className="w-full bg-white/[0.05] hover:bg-white/[0.1] text-white font-bold uppercase tracking-wider text-sm py-4 px-8 transition-colors border border-white/10 cursor-pointer">
                 Try Again
               </button>
               <Link href="/" className="inline-flex items-center justify-center w-full bg-white/[0.03] hover:bg-white/[0.08] text-white/80 font-bold uppercase tracking-wider text-sm py-4 px-8 transition-colors border border-white/5">

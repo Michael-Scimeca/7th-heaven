@@ -27,6 +27,15 @@ const getImageStyle = (idx: number) => {
   }
 };
 
+const PRELOADER_FRAMES = [
+  { idx: 1, desc: "Guitarist 1 (Member A)" },
+  { idx: 2, desc: "Singer 1 Alt (Member B)" },
+  { idx: 3, desc: "Singer 1 Main (Member B)" },
+  { idx: 4, desc: "Guitarist 2 Main (Member C)" },
+  { idx: 5, desc: "Guitarist 2 Alt (Member C)" },
+  { idx: 6, desc: "Singer 2 Main (Member D)" },
+];
+
 export default function PreloaderDemo() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [manualPercent, setManualPercent] = useState(0);
@@ -84,15 +93,7 @@ export default function PreloaderDemo() {
     return `${start}% – ${end}%`;
   };
 
-  // Details for the 6 frames
-  const frames = [
-    { idx: 1, desc: "Guitarist 1 (Member A)" },
-    { idx: 2, desc: "Singer 1 Alt (Member B)" },
-    { idx: 3, desc: "Singer 1 Main (Member B)" },
-    { idx: 4, desc: "Guitarist 2 Main (Member C)" },
-    { idx: 5, desc: "Guitarist 2 Alt (Member C)" },
-    { idx: 6, desc: "Singer 2 Main (Member D)" },
-  ];
+
 
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-[72px] font-[family-name:var(--font-barlow)]">
@@ -135,14 +136,14 @@ export default function PreloaderDemo() {
             </div>
 
             <div className="space-y-4">
-              <button
+              <button aria-label="Action button"
                 onClick={() => setIsPlaying(true)}
                 className="w-full py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-black uppercase tracking-widest text-sm transition-colors rounded-lg shadow-md active:scale-[0.99]"
               >
                 ⚡ Trigger Preloader Live
               </button>
 
-              <button
+              <button aria-label="Action button"
                 onClick={handleShuffleFrames}
                 className="w-full py-3 bg-purple-950/40 border border-purple-500/30 hover:border-purple-500/50 text-purple-200 font-bold uppercase tracking-wider text-xs transition-colors rounded-lg active:scale-[0.99] flex items-center justify-center gap-2"
               >
@@ -150,13 +151,13 @@ export default function PreloaderDemo() {
               </button>
 
               <div className="grid grid-cols-2 gap-4">
-                <button
+                <button aria-label="Action button"
                   onClick={handleResetSession}
                   className="py-3 border border-white/10 hover:border-white/20 hover:bg-white/[0.02] text-white/80 font-bold uppercase tracking-wider text-xs transition-colors rounded-lg active:scale-[0.99]"
                 >
                   🧹 Reset Session State
                 </button>
-                <button
+                <button aria-label="Action button"
                   onClick={handleReload}
                   className="py-3 border border-white/10 hover:border-white/20 hover:bg-white/[0.02] text-white/80 font-bold uppercase tracking-wider text-xs transition-colors rounded-lg active:scale-[0.99]"
                 >
@@ -220,7 +221,7 @@ export default function PreloaderDemo() {
                   </span>
                 </div>
 
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0"
                   max="100"
@@ -251,7 +252,7 @@ export default function PreloaderDemo() {
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-            {frames.map((f) => {
+            {PRELOADER_FRAMES.map((f) => {
               const isShuffled = selectedFrames.includes(f.idx);
               return (
                 <div

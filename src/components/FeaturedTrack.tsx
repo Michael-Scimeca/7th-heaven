@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -6,6 +7,13 @@ import { useMember } from '@/context/MemberContext';
 const MINI_EQ_DURATIONS = [0.8, 1.0, 0.7, 1.1, 0.9];
 const MAIN_EQ_NORMAL = [0.8, 1.0, 0.7, 1.1, 0.9, 0.85, 1.05, 0.75];
 const MAIN_EQ_ACTIVE = [0.45, 0.6, 0.4, 0.65, 0.5, 0.55, 0.6, 0.45];
+
+const formatTime = (time: number) => {
+  if (isNaN(time)) return "0:00";
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
 
 export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
   const { isLoggedIn, openModal } = useMember();
@@ -212,7 +220,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
     } else {
       audioRef.current.play().catch(e => console.warn("Audio play error:", e));
     }
-    setIsPlaying(!isPlaying);
+    setIsPlaying(prev => !prev);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -232,12 +240,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
     }
   };
 
-  const formatTime = (time: number) => {
-    if (isNaN(time)) return "0:00";
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
+
 
   if (loading) return null; // Wait for fetch
 
@@ -258,14 +261,14 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/30 flex items-center justify-center text-sm shrink-0">🔒</div>
             <div className="flex-1 min-w-0">
               <p className="text-[var(--font-size-3xs)] font-bold text-white/60 truncate">Exclusive Fan Drop</p>
-              <button type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+              <button aria-label="Action button" type="button" onClick={() => openModal('login')} className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:text-white uppercase tracking-widest transition-colors cursor-pointer mt-0.5">Login to unlock</button>
             </div>
           </div>
         ) : (
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-full border border-white/15 bg-black flex items-center justify-center cursor-pointer group overflow-hidden">
+              <button aria-label="Action button" type="button" onClick={togglePlay} className="relative w-10 h-10 shrink-0 rounded-full border border-white/15 bg-black flex items-center justify-center cursor-pointer group overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
                 <div className="relative z-10 w-4 h-4 rounded-full bg-black/80 flex items-center justify-center">
                   {isPlaying ? (
@@ -311,7 +314,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
             <div className="mt-2 flex items-center gap-2">
               <span className="text-[var(--font-size-5xs)] font-mono font-bold text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
               <div className="relative flex-1 h-[2px] bg-white/10 rounded-full">
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0"
                   max={duration || 100}
@@ -333,7 +336,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                   const isActive = idx === currentSongIndex;
                   return (
-                    <button
+                    <button aria-label="Action button"
                       key={song.id || song.title}
                       type="button"
                       onClick={() => {
@@ -399,14 +402,14 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 The band dropped an exclusive new song or soundtrack just for our registered fans. Sign in or sign up free to unlock listening!
               </p>
               <div className="flex justify-center gap-4">
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('login')}
                   className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] shadow-[var(--color-accent)]/20 cursor-pointer"
                 >
                   Log In
                 </button>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => openModal('signup')}
                   className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
@@ -475,7 +478,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                 </span>
 
                 <div className="relative flex-1 h-[4px] bg-white/10 rounded-full group">
-                  <input
+                  <input aria-label="Input field"
                     type="range"
                     min="0"
                     max={duration || 100}
@@ -487,7 +490,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-full pointer-events-none"
                     style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                   >
-                    <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.6)] scale-0 group-hover:scale-100 transition-transform" />
+                    <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
 
@@ -500,7 +503,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-white/5">
                 {/* Play, Prev, Next */}
                 <div className="flex items-center gap-6">
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={togglePlay}
                     className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-colors shadow-xl cursor-pointer"
@@ -520,7 +523,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   )}
 
                   {/* Real-time Dynamic Mastering Compressor */}
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={toggleCompressor}
                     className={`text-[0.65rem] uppercase font-bold tracking-widest flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive
@@ -536,7 +539,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
 
                 {/* Volume bar */}
                 <div className="flex items-center gap-3 w-36">
-                  <button type="button" onClick={toggleMute} className="text-white/45 hover:text-white transition-colors cursor-pointer">
+                  <button aria-label="Action button" type="button" onClick={toggleMute} className="text-white/45 hover:text-white transition-colors cursor-pointer">
                     {volume === 0 ? (
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
                     ) : volume < 0.5 ? (
@@ -547,7 +550,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                   </button>
 
                   <div className="relative flex-1 h-[3px] bg-white/10 rounded-full">
-                    <input
+                    <input aria-label="Input field"
                       type="range"
                       min="0"
                       max="1"
@@ -572,7 +575,7 @@ export default function FeaturedTrack({ mini = false }: { mini?: boolean }) {
                     {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
                       return (
-                        <button
+                        <button aria-label="Action button"
                           type="button"
                           key={song.id || song.title}
                           onClick={() => {

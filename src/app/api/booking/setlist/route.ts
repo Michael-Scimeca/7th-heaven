@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     const protection = await protectAction({
       identifier: `setlist:${ip}`,
       requests: 5,
-      window: '60 m',
+      windowDuration: '60 m',
     });
     if (!protection.success) {
       return NextResponse.json({ error: protection.error }, { status: protection.status as number });

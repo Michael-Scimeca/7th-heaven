@@ -13,6 +13,8 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+const AUDIO_BITRATES: Record<string, string> = { superb: '320k', standard: '192k', high: '128k' };
+
 /**
  * GET /api/featured-track
  * Retrieves the currently active, non-expired featured drop (Album/EP) and its songs.
@@ -183,8 +185,7 @@ export async function POST(request: Request) {
 
           let codecOption = '';
           if (compression !== 'none') {
-            const bitrates = { superb: '320k', standard: '192k', high: '128k' };
-            const br = bitrates[compression] || '192k';
+            const br = AUDIO_BITRATES[compression] || '192k';
             codecOption = `-codec:a libmp3lame -b:a ${br}`;
           }
 

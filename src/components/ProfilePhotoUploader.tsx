@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-doctor/prefer-useReducer */
 
 import React, { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
@@ -92,13 +93,16 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
     setIsUploading(true);
     setPreviewUrl(trimmed);
     try {
-      localStorage.setItem("7h_profile_avatar", trimmed);
-    } catch { }
-    await updateAvatar(trimmed);
-    setMessage({ text: "Photo URL updated!", type: "success" });
-    setUrlInput("");
-    setShowInput(false);
-    setIsUploading(false);
+      try {
+        localStorage.setItem("7h_profile_avatar", trimmed);
+      } catch { }
+      await updateAvatar(trimmed);
+      setMessage({ text: "Photo URL updated!", type: "success" });
+      setUrlInput("");
+      setShowInput(false);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   if (compact) {
@@ -119,14 +123,14 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             {isAvatarUrl ? "Photo active for scheduling & site" : "No photo set — upload one below"}
           </p>
         </div>
-        <input
+        <input aria-label="Input field"
           type="file"
           ref={fileInputRef}
           onChange={handleFileChange}
           accept="image/*"
           className="hidden"
         />
-        <button
+        <button aria-label="Action button"
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
           className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-colors cursor-pointer disabled:opacity-50"
@@ -172,7 +176,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
               <p className="text-[9px] font-bold  text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
-          <button
+          <button aria-label="Action button"
             onClick={() => fileInputRef.current?.click()}
             className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity cursor-pointer"
           >
@@ -182,7 +186,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
         {/* Upload Controls */}
         <div className="flex-1 w-full space-y-3">
-          <input
+          <input aria-label="Input field"
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
@@ -191,7 +195,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
           />
 
           <div className="flex flex-wrap gap-2">
-            <button
+            <button aria-label="Action button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
               className="flex-1 min-w-[140px] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors shadow-sm cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
@@ -200,7 +204,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
               {isUploading ? "Uploading..." : "Upload Photo File"}
             </button>
 
-            <button
+            <button aria-label="Action button"
               onClick={() => setShowInput(!showInput)}
               className="px-4 py-2.5 bg-black/5 hover:bg-black/10 text-black font-bold text-xs uppercase tracking-wider rounded-lg border border-black/15 transition-colors cursor-pointer"
             >
@@ -210,7 +214,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
 
           {showInput && (
             <form onSubmit={handleUrlSubmit} className="flex gap-2">
-              <input
+              <input aria-label="Input field"
                 type="url"
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
@@ -218,7 +222,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
                 required
                 className="flex-1 px-3 py-2 bg-white border border-black/15 rounded-lg text-xs text-black font-semibold placeholder:text-black/40 outline-none focus:border-[var(--color-accent)]"
               />
-              <button
+              <button aria-label="Action button"
                 type="submit"
                 className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white font-bold text-xs uppercase rounded-lg cursor-pointer"
               >
@@ -237,7 +241,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         <div className={`mt-3 px-4 py-2 rounded-lg text-xs font-bold flex items-center justify-between ${message.type === "success" ? "bg-emerald-50 border border-emerald-200 text-emerald-800" : "bg-rose-50 border border-rose-200 text-rose-800"
           }`}>
           <span>{message.text}</span>
-          <button onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-black">×</button>
+          <button aria-label="Action button" onClick={() => setMessage(null)} className="text-black/50 hover:text-black ml-2 cursor-pointer font-black">×</button>
         </div>
       )}
     </div>

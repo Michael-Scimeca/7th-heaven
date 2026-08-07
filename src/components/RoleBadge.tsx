@@ -90,7 +90,13 @@ export default function RoleBadge({ role, size = 'sm', showLabel = false, classN
 }
 
 /* ── Avatar wrapper with role indicator ── */
-export function RoleAvatar({
+const BORDER_COLOR: Record<UserRole, string> = {
+ fan: 'border-white/[0.15]',
+ crew: 'border-emerald-400/50',
+ admin: 'border-purple-400/50',
+};
+
+function RoleAvatar({
  initials,
  role,
  gradient,
@@ -103,16 +109,10 @@ export function RoleAvatar({
  size?: number;
  className?: string;
 }) {
- const borderColor = {
-  fan: 'border-white/[0.15]',
-  crew: 'border-emerald-400/50',
-  admin: 'border-purple-400/50',
- };
-
  return (
   <div className={`relative ${className}`}>
    <div
-    className={`rounded-full bg-gradient-to-br ${gradient} ${borderColor[role]} border-2 flex items-center justify-center`}
+    className={`rounded-full bg-gradient-to-br ${gradient} ${BORDER_COLOR[role]} border-2 flex items-center justify-center`}
     style={{ width: size, height: size }}
    >
     <span className="font-bold text-white leading-none" style={{ fontSize: size * 0.33 }}>

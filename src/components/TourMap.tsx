@@ -1,32 +1,11 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
 // IMPORT LEAFLET CSS - CRITICAL for correct tile rendering
 import "leaflet/dist/leaflet.css";
 
-import { VENUE_COORDS } from "@/lib/venue-coords";
-export { VENUE_COORDS };
-
-export const typeConfig: Record<string, { color: string; label: string }> = {
-  full: { color: "#a855f7", label: "Full Band" },
-  unplugged: { color: "#9333ea", label: "Unplugged" },
-  outdoor: { color: "#22c55e", label: "Outdoor" },
-  casino: { color: "#eab308", label: "Casino" },
-  tv: { color: "#06b6d4", label: "TV" },
-  fundraiser: { color: "#f43f5e", label: "Fundraiser" },
-  special: { color: "#ec4899", label: "Special" },
-};
-
-export function getShowType(info: string): string {
-  const lower = info.toLowerCase();
-  if (lower.includes("unplugged")) return "unplugged";
-  if (lower.includes("outdoor") || lower.includes("beer garden") || lower.includes("fest")) return "outdoor";
-  if (lower.includes("casino")) return "casino";
-  if (lower.includes("tv") || lower.includes("wgn") || lower.includes("news")) return "tv";
-  if (lower.includes("fundraiser") || lower.includes("gala") || lower.includes("rescue")) return "fundraiser";
-  if (lower.includes("cruise")) return "special";
-  return "full";
-}
+import { VENUE_COORDS, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
 
 // Haversine distance in miles
 function distanceMiles(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -37,7 +16,8 @@ function distanceMiles(lat1: number, lon1: number, lat2: number, lon2: number): 
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-export interface ShowData {
+export type { ShowData };
+interface ShowData {
   venue: string;
   city: string;
   state: string;
@@ -51,48 +31,6 @@ export interface ShowData {
   lat?: number;
   lng?: number;
   startDate?: string;
-}
-
-export function getShowDateTime(startDateStr?: string, dateStr?: string, timeStr?: string): Date {
-  let d: Date;
-  if (startDateStr && /^\d{4}-\d{2}-\d{2}/.test(startDateStr)) {
-    d = new Date(startDateStr + 'T00:00:00');
-  } else if (dateStr) {
-    if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
-      d = new Date(dateStr + 'T00:00:00');
-    } else if (/\b\d{4}\b/.test(dateStr)) {
-      d = new Date(dateStr);
-    } else {
-      const currentYear = new Date().getFullYear();
-      d = new Date(`${dateStr}, ${currentYear}`);
-    }
-  } else {
-    return new Date(0);
-  }
-
-  if (isNaN(d.getTime())) return new Date(0);
-
-  if (timeStr) {
-    const cleaned = timeStr.toLowerCase().replace(/\s+/g, '');
-    const match = cleaned.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);
-    if (match) {
-      let h = parseInt(match[1]);
-      const m = parseInt(match[2] || '0');
-      const ampm = match[3].toLowerCase();
-      if (ampm === 'pm' && h !== 12) h += 12;
-      if (ampm === 'am' && h === 12) h = 0;
-      d.setHours(h, m, 0, 0);
-      return d;
-    }
-  }
-  // Default to end of day
-  d.setHours(23, 59, 59, 999);
-  return d;
-}
-
-export function isShowOver(show: { startDate?: string; date: string; time: string }): boolean {
-  const showDateTime = getShowDateTime(show.startDate, show.date, show.time);
-  return showDateTime.getTime() + (4 * 60 * 60 * 1000) < Date.now();
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -645,7 +583,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       {/* ── Map Gradient UI Control Button + Drawer ── */}
       <div className="absolute top-4 left-8 z-[5] flex flex-col items-start gap-2">
         {!isMapGradUiOpen ? (
-          <button
+          <button aria-label="Action button"
             onClick={() => setIsMapGradUiOpen(true)}
             className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover: text-[var(--color-accent)] transition-colors cursor-pointer"
             title="Configure Map Directional Black Gradient"
@@ -665,7 +603,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   Custom Edge Darkening
                 </span>
               </div>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setIsMapGradUiOpen(false)}
                 className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
               >
@@ -683,7 +621,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   { id: "lr", label: "Left & Rgt" },
                   { id: "none", label: "None" },
                 ].map((p) => (
-                  <button
+                  <button aria-label="Action button"
                     key={p.id}
                     onClick={() => selectPresetMode(p.id as any)}
                     className="px-1.5 py-1 text-[8.5px] font-extrabold uppercase tracking-wider rounded border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center truncate cursor-pointer"
@@ -704,7 +642,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   { label: "Left ⬅️", state: mapGradLeft, setter: toggleLeft },
                   { label: "Right ➡️", state: mapGradRight, setter: toggleRight },
                 ].map((d) => (
-                  <button
+                  <button aria-label="Action button"
                     key={d.label}
                     onClick={() => d.setter(!d.state)}
                     className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-colors cursor-pointer ${d.state
@@ -724,7 +662,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <span>Gradient Depth / Size</span>
                 <span className=" text-[var(--color-accent)] font-mono font-black">{mapGradSize}%</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="5"
                 max="60"
@@ -741,7 +679,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <span>Edge Black Opacity</span>
                 <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(mapGradOpacity * 100)}%</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="0"
                 max="1"
@@ -758,7 +696,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <span>Fade Midpoint Stop</span>
                 <span className=" text-[var(--color-accent)] font-mono font-black">{mapGradMidstop}%</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="0"
                 max="80"
@@ -777,7 +715,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               </div>
               <div className="flex items-center gap-2">
                 {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
-                  <button
+                  <button aria-label="Action button"
                     key={c}
                     onClick={() => updateColor(c)}
                     className="w-5 h-5 rounded-full border transition-transform cursor-pointer"
@@ -789,7 +727,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                   />
                 ))}
                 <div className="relative w-5 h-5 rounded-full border border-white/30 overflow-hidden cursor-pointer bg-purple-600/30 flex items-center justify-center">
-                  <input
+                  <input aria-label="Input field"
                     type="color"
                     value={mapGradColor}
                     onChange={(e) => updateColor(e.target.value)}
@@ -801,7 +739,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             </div>
 
             {/* Copy CSS Button */}
-            <button
+            <button aria-label="Action button"
               onClick={copyMapGradCSS}
               className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
             >
@@ -815,7 +753,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       {/* Legend */}
       <div className="group absolute bottom-4 left-8 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
         {/* Header - always visible, click to toggle */}
-        <button
+        <button aria-label="Action button"
           onClick={() => setLegendOpen(o => !o)}
           className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover: text-[var(--color-accent)] transition-colors"
         >
@@ -834,7 +772,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 const textColor = isLightColor ? '#000000' : '#ffffff';
                 const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
                 return (
-                  <button
+                  <button aria-label="Next"
                     key={key}
                     onClick={() => {
                       setSelectedTypes(prev => {
@@ -858,7 +796,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/40">Active</span>
               <div className="flex items-center gap-2">
                 {selectedTypes.size > 0 && (
-                  <button onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                  <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
                 )}
                 <span className="text-[var(--font-size-4xs)] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
               </div>
@@ -869,8 +807,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
       {/* ── Custom Big Zoom Controls (+ / -) ── */}
       <div className="absolute bottom-4 right-8 z-[4] flex flex-col gap-2">
-        <button
-          onClick={handleZoomIn}
+        <button onClick={handleZoomIn}
           type="button"
           aria-label="Zoom In"
           title="Zoom In"
@@ -881,8 +818,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             <line x1="5" y1="12" x2="19" y2="12" />
           </svg>
         </button>
-        <button
-          onClick={handleZoomOut}
+        <button onClick={handleZoomOut}
           type="button"
           aria-label="Zoom Out"
           title="Zoom Out"

@@ -152,7 +152,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
       {/* Tabs */}
       <div className="flex border-b border-white/5">
         {tabs.map(tab => (
-          <button
+          <button aria-label="Action button"
             key={tab.id}
             onClick={() => setActiveSection(tab.id)}
             className={`flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer flex items-center justify-center gap-1.5
@@ -177,21 +177,21 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             {data.crew.length === 0 && !addingCrew ? (
               <div className="text-center py-8">
                 <p className="text-white/20 text-sm mb-3">No crew assigned yet</p>
-                <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
               </div>
             ) : (
               <>
                 <div className="space-y-1.5 mb-3">
                   {Array.from(data.crew, (c, i) => ({ c, i })).map(({ c, i }) => (
                     <div key={c.name || i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-colors ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
-                      <button onClick={() => toggleConfirm(i)} className="cursor-pointer shrink-0" title={c.confirmed ? 'Confirmed' : 'Click to confirm'}>
+                      <button aria-label="Action button" onClick={() => toggleConfirm(i)} className="cursor-pointer shrink-0" title={c.confirmed ? 'Confirmed' : 'Click to confirm'}>
                         {c.confirmed ? <span className="text-emerald-400 text-sm">✅</span> : <span className="text-white/15 text-sm">⬜</span>}
                       </button>
                       <div className="flex-1 min-w-0">
                         <span className={`text-sm font-bold ${c.confirmed ? 'text-white/70' : 'text-white/40'}`}>{c.name}</span>
                       </div>
                       <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] font-bold uppercase tracking-wider shrink-0 ${c.confirmed ? 'bg-emerald-500/15 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10  text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
-                      <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 text-xs cursor-pointer transition-colors shrink-0">✕</button>
+                      <button aria-label="Action button" onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 text-xs cursor-pointer transition-colors shrink-0">✕</button>
                     </div>
                   ))}
                 </div>
@@ -200,19 +200,19 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
                     <div className="flex-1">
                       <label htmlFor="show-crew-new-name" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
-                      <input id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
+                      <input aria-label="Input field" id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
                     </div>
                     <div>
                       <label htmlFor="show-crew-new-role" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
-                      <select id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
+                      <select aria-label="Select option" id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
-                    <button onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
-                    <button onClick={() => setAddingCrew(false)} className="text-xs text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2">✕</button>
+                    <button aria-label="Action button" onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
+                    <button aria-label="Action button" onClick={() => setAddingCrew(false)} className="text-xs text-white/30 hover:text-white/50 cursor-pointer shrink-0 py-2">✕</button>
                   </div>
                 ) : (
-                  <button onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
+                  <button aria-label="Action button" onClick={() => setAddingCrew(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Crew</button>
                 )}
               </>
             )}
@@ -229,7 +229,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   {i < data.timeline.length - 1 && <div className="w-px h-6 bg-white/5 absolute top-3.5" />}
                 </div>
                 <span className="text-sm font-bold text-white/50 w-24 shrink-0">{event.label}</span>
-                <input
+                <input aria-label="Input field"
                   type="text"
                   value={event.time}
                   onChange={e => updateTimeline(i, e.target.value)}
@@ -254,23 +254,23 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             <div className="grid grid-cols-2 gap-1.5">
               {Array.from(data.gear, (item, i) => ({ item, i })).map(({ item, i }) => (
                 <div key={item.name} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-colors ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
-                  <button onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
+                  <button aria-label="Action button" onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
                     {item.loaded ? <span className="text-emerald-400 text-xs">✅</span> : <span className="text-white/15 text-xs">⬜</span>}
                   </button>
                   <span className={`text-xs flex-1 truncate ${item.loaded ? 'text-white/50 line-through' : 'text-white/60'}`}>{item.name}</span>
-                  <button onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-[var(--font-size-2xs)] cursor-pointer transition-colors shrink-0">✕</button>
+                  <button aria-label="Action button" onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-[var(--font-size-2xs)] cursor-pointer transition-colors shrink-0">✕</button>
                 </div>
               ))}
             </div>
             <div className="mt-3">
               {addingGear ? (
                 <div className="flex gap-2">
-                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
-                  <button onClick={addGearItem} className="text-xs text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
-                  <button onClick={() => setAddingGear(false)} className="text-xs text-white/30 cursor-pointer px-1">✕</button>
+                  <input aria-label="Input field" value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
+                  <button aria-label="Action button" onClick={addGearItem} className="text-xs text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
+                  <button aria-label="Action button" onClick={() => setAddingGear(false)} className="text-xs text-white/30 cursor-pointer px-1">✕</button>
                 </div>
               ) : (
-                <button onClick={() => setAddingGear(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
+                <button aria-label="Action button" onClick={() => setAddingGear(true)} className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)]/60 hover: text-[var(--color-accent)] cursor-pointer transition-colors">+ Add Gear</button>
               )}
             </div>
           </div>
@@ -280,14 +280,14 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         {activeSection === "notes" && (
           <div>
             <div className="flex gap-2 mb-3">
-              <input
+              <input aria-label="Input field"
                 value={newNote}
                 onChange={e => setNewNote(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
                 className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]"
               />
-              <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
+              <button aria-label="Action button" onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
             </div>
             {data.notes.length === 0 ? (
               <div className="text-center py-6 text-white/15 text-sm">No notes yet — add logistics info for the crew</div>

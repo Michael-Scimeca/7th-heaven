@@ -252,8 +252,7 @@ export default function CircleCarouselPage() {
         </button>
         <div className="cc-dots">
           {Array.from(ITEMS, (item, i) => ({ item, i })).map(({ item, i }) => (
-            <button
-              key={item.id || item.label}
+            <button key={item.id || item.label}
               className={`cc-dot${i === activeIndex ? " cc-dot--on" : ""}`}
               onClick={() => goTo(i)}
               aria-label={ITEMS[i].label}

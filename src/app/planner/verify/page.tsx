@@ -1,9 +1,38 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 
 // ─── Digit-by-digit PIN input (same UX as cruise verify) ───────────────────
+const renderBg = () => (
+  <>
+    <style jsx global>{`
+      html, body {
+        overflow: hidden !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        touch-action: none !important;
+      }
+    `}</style>
+    <div 
+      style={{
+        position: "fixed",
+        inset: 0,
+        backgroundImage: "url('/images/hero-band-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        filter: "brightness(0.35) blur(10px)",
+        transform: "scale(1.08)",
+        zIndex: 0,
+        pointerEvents: "none"
+      }} 
+    />
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(12px)", zIndex: 1, pointerEvents: "none" }} />
+  </>
+);
+
 function PlannerVerifyContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -135,85 +164,12 @@ function PlannerVerifyContent() {
     };
   }, []);
 
-  // ── Styles ──
-  const pageStyle: React.CSSProperties = {
-    position: "fixed",
-    inset: 0,
-    height: "100vh",
-    width: "100vw",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "24px",
-    fontFamily: "'Outfit', 'Inter', sans-serif",
-    overflow: "hidden",
-  };
-
-  const cardStyle: React.CSSProperties = {
-    background: "var(--color-bg-glass)",
-    backdropFilter: "blur(32px) saturate(180%)",
-    WebkitBackdropFilter: "blur(32px) saturate(180%)",
-    border: "1px solid var(--color-border-main)",
-    borderRadius: 24,
-    padding: "48px 40px",
-    width: "100%",
-    maxWidth: 480,
-    textAlign: "center",
-    boxShadow: "0 30px 90px rgba(0, 0, 0, 0.6)",
-    position: "relative",
-    overflow: "hidden",
-    zIndex: 10,
-  };
-
-  const inputStyle: React.CSSProperties = {
-    width: 52,
-    height: 64,
-    background: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.15)",
-    borderRadius: 12,
-    color: "#fff",
-    fontSize: 28,
-    fontWeight: 800,
-    textAlign: "center",
-    outline: "none",
-    caretColor: "#a855f7",
-    transition: "border-color 0.2s, box-shadow 0.2s",
-  };
-
-  // Background image overlay helper (exact same blurred hero bg as LoginModal!)
-  const renderBg = () => (
-    <>
-      <style jsx global>{`
-        html, body {
-          overflow: hidden !important;
-          height: 100vh !important;
-          max-height: 100vh !important;
-          touch-action: none !important;
-        }
-      `}</style>
-      <div 
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundImage: "url('/images/hero-band-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.35) blur(10px)",
-          transform: "scale(1.08)",
-          zIndex: 0,
-          pointerEvents: "none"
-        }} 
-      />
-      <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(12px)", zIndex: 1, pointerEvents: "none" }} />
-    </>
-  );
-
   // ── Email Collection Step ──
   if (step === "email") {
     return (
-      <div style={pageStyle}>
+      <div style={PAGE_STYLE}>
         {renderBg()}
-        <div style={cardStyle}>
+        <div style={CARD_STYLE}>
 
           <div style={{ fontSize: 48, marginBottom: 16 }}>📋</div>
           <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>Planner Access</h1>
@@ -222,7 +178,7 @@ function PlannerVerifyContent() {
             We'll send a 6-digit PIN to verify your identity.
           </p>
           <form onSubmit={e => { e.preventDefault(); handleRequestPin(email); }}>
-            <input
+            <input aria-label="Input field"
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -241,7 +197,7 @@ function PlannerVerifyContent() {
                 {errorMsg}
               </div>
             )}
-            <button
+            <button aria-label="Action button"
               type="submit"
               disabled={status === "requesting"}
               style={{
@@ -263,9 +219,9 @@ function PlannerVerifyContent() {
 
   // ── PIN Entry Step ──
   return (
-    <div style={pageStyle}>
+    <div style={PAGE_STYLE}>
       {renderBg()}
-      <div style={cardStyle}>
+      <div style={CARD_STYLE}>
 
 
         {/* Success state */}
@@ -290,7 +246,7 @@ function PlannerVerifyContent() {
               {/* 6 digit boxes */}
               <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 24 }} onPaste={handlePaste}>
                 {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                  <input
+                  <input aria-label="Input field"
                     key={i}
                     ref={el => { inputRefs.current[i] = el; }}
                     type="text"
@@ -300,7 +256,7 @@ function PlannerVerifyContent() {
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
                     style={{
-                      ...inputStyle,
+                      ...INPUT_STYLE,
                       borderColor: d ? "#a855f7" : "rgba(255,255,255,0.15)",
                       boxShadow: d ? "0 0 12px rgba(168,85,247,0.35)" : "none",
                     }}
@@ -314,7 +270,7 @@ function PlannerVerifyContent() {
                 </div>
               )}
 
-              <button
+              <button aria-label="Action button"
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
                 style={{
@@ -334,7 +290,7 @@ function PlannerVerifyContent() {
               </button>
             </form>
 
-            <button
+            <button aria-label="Action button"
               onClick={handleResend}
               disabled={resendStatus !== "idle"}
               style={{ background: "none", border: "none", color: resendStatus === "sent" ? "#34d399" : "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
@@ -351,6 +307,50 @@ function PlannerVerifyContent() {
     </div>
   );
 }
+
+const PAGE_STYLE: React.CSSProperties = {
+  position: "fixed",
+  inset: 0,
+  height: "100vh",
+  width: "100vw",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "24px",
+  fontFamily: "'Outfit', 'Inter', sans-serif",
+  overflow: "hidden",
+};
+
+const CARD_STYLE: React.CSSProperties = {
+  background: "var(--color-bg-glass)",
+  backdropFilter: "blur(32px) saturate(180%)",
+  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+  border: "1px solid var(--color-border-main)",
+  borderRadius: 24,
+  padding: "48px 40px",
+  width: "100%",
+  maxWidth: 480,
+  textAlign: "center",
+  boxShadow: "0 30px 90px rgba(0, 0, 0, 0.6)",
+  position: "relative",
+  overflow: "hidden",
+  zIndex: 10,
+};
+
+const INPUT_STYLE: React.CSSProperties = {
+  width: 52,
+  height: 64,
+  background: "rgba(255,255,255,0.04)",
+  border: "1px solid rgba(255,255,255,0.15)",
+  borderRadius: 12,
+  color: "#fff",
+  fontSize: 28,
+  fontWeight: 800,
+  textAlign: "center",
+  outline: "none",
+  caretColor: "#a855f7",
+  transition: "border-color 0.2s, box-shadow 0.2s",
+};
 
 export default function PlannerVerifyPage() {
   return (

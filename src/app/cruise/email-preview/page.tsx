@@ -1,18 +1,19 @@
 "use client";
 
+const SAMPLE_GUESTS = [
+  { name: "Sarah Johnson", email: "sarah@example.com", phone: "(312) 555-0102", type: "adult" },
+  { name: "Jake Johnson", email: "jake@example.com", phone: "(312) 555-0103", type: "adult" },
+  { name: "Lily Johnson", email: "", phone: "", age: "8", type: "child" },
+  { name: "Max Johnson", email: "", phone: "", age: "5", type: "child" },
+];
+
 export default function EmailPreviewPage() {
-  const sampleGuests = [
-    { name: "Sarah Johnson", email: "sarah@example.com", phone: "(312) 555-0102", type: "adult" },
-    { name: "Jake Johnson", email: "jake@example.com", phone: "(312) 555-0103", type: "adult" },
-    { name: "Lily Johnson", email: "", phone: "", age: "8", type: "child" },
-    { name: "Max Johnson", email: "", phone: "", age: "5", type: "child" },
-  ];
 
   const primaryName = "Michael Scimeca";
   const guestCount = 5;
 
   // Build guest roster
-  const guestRows = sampleGuests.map((g, i) => {
+  const guestRows = SAMPLE_GUESTS.map((g, i) => {
     const isChild = g.type === 'child';
     const badge = isChild
       ? `<span style="display:inline-block;padding:2px 8px;background:rgba(6,182,212,0.15);color:#06b6d4;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">🧒 Child${g.age ? ' · Age ' + g.age : ''}</span>`

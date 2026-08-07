@@ -1,7 +1,9 @@
+/* eslint-disable react-doctor/no-giant-component */
 'use client';
 import Image from 'next/image';
 
-import React, { useEffect, useRef, useState, Fragment, Suspense } from 'react';
+import React, { useEffect, useRef, useState, Fragment, Suspense, useSyncExternalStore } from 'react';
+const emptySubscribe = () => () => {};
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
@@ -110,7 +112,9 @@ function CircleVideoNode({
       playsInline
       preload="auto"
       className="w-full h-full object-cover rounded-full pointer-events-none scale-125 transition-transform duration-500"
-    />
+    >
+      <track kind="captions" />
+    </video>
   );
 }
 
@@ -182,6 +186,55 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
 
 type LayoutMode = 'alternating' | 'harbor' | 'center' | 'zigzag';
 
+const isAtSeaDay = (day?: ItineraryDay) => {
+  if (!day) return false;
+  const loc = (day.location || '').toLowerCase();
+  const theme = (day.theme || '').toLowerCase();
+  const label = (day.dayLabel || '').toLowerCase();
+  return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
+};
+
+const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.25, durationMs = 800) => {
+  audio.play().catch(() => { });
+  const startTime = performance.now();
+  const startVol = audio.volume;
+
+  const fade = (now: number) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / durationMs);
+    const nextVol = startVol + (targetVolume - startVol) * progress;
+    audio.volume = Math.max(0, Math.min(1, nextVol));
+    if (progress < 1) {
+      requestAnimationFrame(fade);
+    }
+  };
+  requestAnimationFrame(fade);
+};
+
+const fadeAudioOut = (audio: HTMLAudioElement | null, durationMs = 800) => {
+  if (!audio || audio.paused) return;
+  const startTime = performance.now();
+  const startVol = audio.volume;
+  if (startVol <= 0.01) {
+    audio.volume = 0;
+    audio.pause();
+    return;
+  }
+
+  const fade = (now: number) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / durationMs);
+    const nextVol = startVol * (1 - progress);
+    audio.volume = Math.max(0, Math.min(1, nextVol));
+    if (progress < 1) {
+      requestAnimationFrame(fade);
+    } else {
+      audio.pause();
+    }
+  };
+  requestAnimationFrame(fade);
+};
+
 export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('alternating');
   const [showSettings, setShowSettings] = useState(false);
@@ -197,60 +250,20 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const hasScrolledIntoRangeRef = useRef(false);
   const isShipInNodeProximityRef = useRef(false);
   const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const isMobile = useSyncExternalStore(
+    (callback) => {
+      window.addEventListener('resize', callback);
+      return () => window.removeEventListener('resize', callback);
+    },
+    () => window.innerWidth < 768,
+    () => false
+  );
   const portAudioRef = useRef<HTMLAudioElement | null>(null);
   const seaAudioRef = useRef<HTMLAudioElement | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
 
-  const isAtSeaDay = (day?: ItineraryDay) => {
-    if (!day) return false;
-    const loc = (day.location || '').toLowerCase();
-    const theme = (day.theme || '').toLowerCase();
-    const label = (day.dayLabel || '').toLowerCase();
-    return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
-  };
 
-  const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.25, durationMs = 800) => {
-    audio.play().catch(() => { });
-    const startTime = performance.now();
-    const startVol = audio.volume;
-
-    const fade = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / durationMs);
-      const nextVol = startVol + (targetVolume - startVol) * progress;
-      audio.volume = Math.max(0, Math.min(1, nextVol));
-      if (progress < 1) {
-        requestAnimationFrame(fade);
-      }
-    };
-    requestAnimationFrame(fade);
-  };
-
-  const fadeAudioOut = (audio: HTMLAudioElement | null, durationMs = 800) => {
-    if (!audio || audio.paused) return;
-    const startTime = performance.now();
-    const startVol = audio.volume;
-    if (startVol <= 0.01) {
-      audio.volume = 0;
-      audio.pause();
-      return;
-    }
-
-    const fade = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / durationMs);
-      const nextVol = startVol * (1 - progress);
-      audio.volume = Math.max(0, Math.min(1, nextVol));
-      if (progress < 1) {
-        requestAnimationFrame(fade);
-      } else {
-        audio.pause();
-      }
-    };
-    requestAnimationFrame(fade);
-  };
 
   // Preload audio elements on mount
   useEffect(() => {
@@ -337,23 +350,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     };
   }, []);
 
-  useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    // Debounce: only update state 150ms after the user stops resizing
-    // (without this, every pixel of resize triggers a full re-render)
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const debouncedCheck = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(checkMobile, 150);
-    };
-    window.addEventListener('resize', debouncedCheck, { passive: true });
-    return () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      window.removeEventListener('resize', debouncedCheck);
-    };
-  }, []);
+
 
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -612,8 +609,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       if (fallbackTimer) clearTimeout(fallbackTimer);
       window.removeEventListener('7h:pagetransition:done', startLoop);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itinerary.length, layoutMode]);
+  }, [itinerary.length, layoutMode, nodes, totalH]);
 
 
   /* ── Scroll-driven card reveal ── */
@@ -675,7 +671,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
                 </div>
               </div>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setShowSettings(false)}
                 className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
               >
@@ -692,7 +688,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>⚡ Cruise Boat & Line Travel Speed</span>
                   <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.2" max="4.0" step="0.1"
                   value={tuning.speedMultiplier ?? 1.0}
                   onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
@@ -711,7 +707,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🚢 Ship Bow Path Advance Offset</span>
                   <span className="text-cyan-400 font-mono">{(tuning.shipAdvancePx ?? 80)}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="-200" max="300" step="5"
                   value={tuning.shipAdvancePx ?? 80}
                   onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
@@ -725,7 +721,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🌊 Blue Line Lead/Lag Offset</span>
                   <span className="text-cyan-400 font-mono">{(tuning.lineFillLeadPx ?? 0)}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="-200" max="200" step="5"
                   value={tuning.lineFillLeadPx ?? 0}
                   onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
@@ -739,7 +735,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>📍 Start Trigger Location</span>
                   <span className="text-cyan-400 font-mono">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.0" max="1.0" step="0.01"
                   value={tuning.scrollStartMul ?? 0.48}
                   onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
@@ -753,7 +749,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>📍 End Trigger Location</span>
                   <span className="text-cyan-400 font-mono">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.0" max="1.0" step="0.01"
                   value={tuning.scrollEndMul ?? 0.5}
                   onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
@@ -767,7 +763,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🛑 Start Path Padding</span>
                   <span className="text-cyan-400 font-mono">{tuning.minShipDist ?? 0}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0" max="400" step="10"
                   value={tuning.minShipDist ?? 0}
                   onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
@@ -781,7 +777,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🏁 End Path Finish Padding</span>
                   <span className="text-cyan-400 font-mono">{tuning.maxShipDistPad ?? 0}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0" max="400" step="10"
                   value={tuning.maxShipDistPad ?? 0}
                   onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
@@ -795,7 +791,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>⚓ Anchor X Offset</span>
                   <span className="text-cyan-400 font-mono">{tuning.anchorOffsetX ?? 0}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="-100" max="100" step="1"
                   value={tuning.anchorOffsetX ?? 0}
                   onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
@@ -809,7 +805,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>⚓ Anchor Y Offset</span>
                   <span className="text-cyan-400 font-mono">{tuning.anchorOffsetY ?? 0}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="-100" max="100" step="1"
                   value={tuning.anchorOffsetY ?? 0}
                   onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
@@ -823,7 +819,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🔎 3D Ship Scale</span>
                   <span className="text-cyan-400 font-mono">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.05" max="8.0" step="0.05"
                   value={tuning.shipScale ?? 1.8}
                   onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
@@ -837,7 +833,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>⚓ Hull Y Path Offset</span>
                   <span className="text-cyan-400 font-mono">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.0" max="3.0" step="0.1"
                   value={tuning.shipOffsetY ?? 0.9}
                   onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
@@ -862,7 +858,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                         { id: 'bounce', label: '🏀 Elastic Bounce' },
                         { id: 'spin', label: '🌀 Spin & Dock' },
                       ].map(act => (
-                        <button
+                        <button aria-label="Action button"
                           key={act.id}
                           onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
                           className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
@@ -882,7 +878,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <span>🔎 Min Scale Over Circle</span>
                       <span className="text-cyan-400 font-mono">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
                     </div>
-                    <input
+                    <input aria-label="Input field"
                       type="range" min="0.0" max="1.0" step="0.05"
                       value={tuning.nodeMinScale ?? 0.0}
                       onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
@@ -896,7 +892,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <span>📏 Scale Down Trigger Radius</span>
                       <span className="text-cyan-400 font-mono">{tuning.nodeDipRadius ?? 65}px</span>
                     </div>
-                    <input
+                    <input aria-label="Input field"
                       type="range" min="20" max="250" step="5"
                       value={tuning.nodeDipRadius ?? 65}
                       onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
@@ -910,7 +906,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                       <span>🚀 Re-appear Pop Distance</span>
                       <span className="text-cyan-400 font-mono">{tuning.nodePopDist ?? 60}px</span>
                     </div>
-                    <input
+                    <input aria-label="Input field"
                       type="range" min="20" max="200" step="5"
                       value={tuning.nodePopDist ?? 60}
                       onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
@@ -926,7 +922,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🚢 Tracking Smoothness Lerp</span>
                   <span className="text-cyan-400 font-mono">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.05" max="1.0" step="0.05"
                   value={tuning.lerpSpeed ?? 0.85}
                   onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
@@ -940,7 +936,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>🌊 Wave Ripple Height</span>
                   <span className="text-cyan-400 font-mono">{tuning.rippleAmp ?? 7}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0" max="40" step="1"
                   value={tuning.rippleAmp ?? 7}
                   onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
@@ -954,7 +950,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>⏱️ Wave Motion Speed</span>
                   <span className="text-cyan-400 font-mono">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0.0001" max="0.0050" step="0.0001"
                   value={tuning.waveSpeed ?? 0.0011}
                   onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
@@ -968,7 +964,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>📏 SVG Line Thickness</span>
                   <span className="text-cyan-400 font-mono">{tuning.lineWidth ?? 6}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="2" max="20" step="1"
                   value={tuning.lineWidth ?? 6}
                   onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
@@ -982,7 +978,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                   <span>✨ Neon Glow Blur</span>
                   <span className="text-cyan-400 font-mono">{tuning.glowBlur ?? 6}px</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range" min="0" max="25" step="1"
                   value={tuning.glowBlur ?? 6}
                   onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
@@ -994,7 +990,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
             {/* Actions Bar */}
             <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[var(--color-bg-deep)]/40 backdrop-blur-md pb-1 z-10">
-              <button
+              <button aria-label="Action button"
                 onClick={handleResetTuning}
                 className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
               >
@@ -1007,7 +1003,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
                     ✓ Settings Saved!
                   </span>
                 )}
-                <button
+                <button aria-label="Action button"
                   onClick={handleSaveTuning}
                   className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
                 >

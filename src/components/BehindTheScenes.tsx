@@ -89,7 +89,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
               </p>
 
               {/* Play CTA */}
-              <button
+              <button aria-label="Action button"
                 onClick={() => setPlayingId(featured.id)}
                 className="group inline-flex items-center gap-3 bg-white text-black font-bold text-sm uppercase tracking-[0.15em] px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white transition-colors duration-300 cursor-pointer"
               >
@@ -133,8 +133,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
                       onClose={() => setPlayingId(null)}
                     />
                   ) : (
-                    <button
-                      className="absolute inset-0 w-full h-full cursor-pointer"
+                    <button className="absolute inset-0 w-full h-full cursor-pointer"
                       onClick={() => setPlayingId(`bts-${video.id}`)}
                       aria-label={`Play ${video.title}`}
                     >

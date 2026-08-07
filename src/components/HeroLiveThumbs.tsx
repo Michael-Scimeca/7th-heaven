@@ -117,7 +117,7 @@ export default function HeroLiveThumbs() {
 
   if (!isOpen) {
     return (
-      <button
+      <button aria-label="Action button"
         onClick={handleOpen}
         className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-surface)]/80 border border-white/10 hover:border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] active:scale-95 transition-colors duration-300 backdrop-blur-md select-none group cursor-pointer"
       >
@@ -197,8 +197,7 @@ export default function HeroLiveThumbs() {
               </Link>
             )}
           </div>
-          <button
-            onClick={handleClose}
+          <button onClick={handleClose}
             className="text-white/40 hover:text-white transition-colors duration-200 p-0.5 rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
             aria-label="Hide Live Streams"
           >

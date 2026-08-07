@@ -26,85 +26,90 @@ export default function CompleteProfilePage() {
   const [zipCode, setZipCode] = useState("");
 
   useEffect(() => {
-    const loadProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+    let isMounted = true;
+
+    supabase.auth.getUser().then((res: any) => {
+      const user = res.data?.user;
       if (!user) {
         window.location.replace("/");
         return;
       }
 
-      const { data: profileData } = await supabase
+      supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
-        .single();
+        .single()
+        .then((profileRes: any) => {
+          const profileData = profileRes.data;
+          if (!profileData) {
+            window.location.replace("/");
+            return;
+          }
 
-      if (!profileData) {
-        window.location.replace("/");
-        return;
-      }
+          if (profileData.profile_completed) {
+            window.location.replace(`/fans/${profileData.username}`);
+            return;
+          }
 
-      // If profile is already completed, redirect to dashboard
-      if (profileData.profile_completed) {
-        window.location.replace(`/fans/${profileData.username}`);
-        return;
-      }
+          if (!isMounted) return;
+          setProfile(profileData);
+          setUsername(profileData.username || nameToUsername(profileData.full_name || ""));
+          setLoading(false);
+        });
+    });
 
-      setProfile(profileData);
-      setUsername(profileData.username || nameToUsername(profileData.full_name || ""));
-      setLoading(false);
-    };
-
-    loadProfile();
-  }, []);
+    return () => { isMounted = false; };
+  }, [router, supabase]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setSaving(true);
 
     const trimmedUsername = username.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
     if (!trimmedUsername || trimmedUsername.length < 2) {
       setError("Username must be at least 2 characters.");
-      setSaving(false);
       return;
     }
 
-    // Check username availability
-    const { data: existing } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("username", trimmedUsername)
-      .neq("id", profile.id)
-      .single();
+    setSaving(true);
+    try {
+      // Check username availability
+      const { data: existing } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("username", trimmedUsername)
+        .neq("id", profile.id)
+        .single();
 
-    if (existing) {
-      setError(`Username "${trimmedUsername}" is already taken. Try another.`);
+      if (existing) {
+        setError(`Username "${trimmedUsername}" is already taken. Try another.`);
+        return;
+      }
+
+      // Update profile
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({
+          username: trimmedUsername,
+          notifications_enabled: wantNotifications,
+          newsletter_subscribed: wantNewsletter,
+          zip_code: zipCode || null,
+          notification_radius: wantNotifications ? 50 : 25,
+          profile_completed: true,
+        })
+        .eq("id", profile.id);
+
+      if (updateError) {
+        setError("Failed to save profile. Please try again.");
+        return;
+      }
+
+      // Redirect to their new dashboard
+      router.push(`/fans/${trimmedUsername}`);
+    } finally {
       setSaving(false);
-      return;
     }
-
-    // Update profile
-    const { error: updateError } = await supabase
-      .from("profiles")
-      .update({
-        username: trimmedUsername,
-        notifications_enabled: wantNotifications,
-        newsletter_subscribed: wantNewsletter,
-        zip_code: zipCode || null,
-        notification_radius: wantNotifications ? 50 : 25,
-        profile_completed: true,
-      })
-      .eq("id", profile.id);
-
-    if (updateError) {
-      setError("Failed to save profile. Please try again.");
-      setSaving(false);
-      return;
-    }
-
-    // Redirect to their new dashboard
-    router.push(`/fans/${trimmedUsername}`);
   };
 
   if (loading) {
@@ -160,7 +165,7 @@ export default function CompleteProfilePage() {
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-sm">@</span>
-                  <input
+                  <input aria-label="Input field"
                     id="complete-profile-username"
                     type="text"
                     value={username}
@@ -181,7 +186,7 @@ export default function CompleteProfilePage() {
                 </span>
 
                 {/* Proximity alerts */}
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setWantNotifications(!wantNotifications)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${
@@ -206,7 +211,7 @@ export default function CompleteProfilePage() {
                 {wantNotifications && (
                   <div className="ml-1">
                     <label htmlFor="complete-profile-zip" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
-                    <input
+                    <input aria-label="Input field"
                       id="complete-profile-zip"
                       type="text"
                       value={zipCode}
@@ -218,7 +223,7 @@ export default function CompleteProfilePage() {
                 )}
 
                 {/* Newsletter */}
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setWantNewsletter(!wantNewsletter)}
                   className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${
@@ -251,7 +256,7 @@ export default function CompleteProfilePage() {
                 <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
               )}
 
-              <button
+              <button aria-label="Action button"
                 type="submit"
                 disabled={saving}
                 className="w-full py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] hover:brightness-110 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.3)]"

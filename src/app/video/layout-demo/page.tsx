@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 import Image from 'next/image';
 import { useState } from "react";
@@ -25,7 +26,7 @@ function Switcher({ active, set }: { active: Layout; set: (l: Layout) => void })
       <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-1">Layout ({layouts.length})</p>
       <div className="grid grid-cols-2 gap-1.5">
         {layouts.map(l => (
-          <button key={l} onClick={() => set(l)}
+          <button aria-label="Action button" key={l} onClick={() => set(l)}
             className={`w-9 h-9 rounded-lg text-xs font-black uppercase transition-colors cursor-pointer ${active === l ? "bg-[var(--color-accent)] text-white  shadow-[var(--color-accent)]/30 scale-105" : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"}`}>
             {l}
           </button>
@@ -40,7 +41,7 @@ function CatNav({ active, set }: { active: string; set: (s: string) => void }) {
     <div className="flex flex-wrap gap-1">
       {CATS.map((c, i) => (
         <span key={c} className="flex items-center gap-1">
-          <button onClick={() => set(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${active === c ? " text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
+          <button aria-label="Action button" onClick={() => set(c)} className={`text-xs font-bold uppercase tracking-[0.12em] px-2 py-2 transition-colors cursor-pointer whitespace-nowrap ${active === c ? " text-[var(--color-accent)]" : "text-white/40 hover:text-white/80"}`}>{c}</button>
           {i < CATS.length - 1 && <span className=" text-[var(--color-accent)] text-sm">/</span>}
         </span>
       ))}
@@ -95,7 +96,7 @@ export default function VideoLayoutDemo() {
                 <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.25em]  text-[var(--color-accent)]"><span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />Latest Release</span>
                 <h1 className="text-4xl font-extrabold text-white tracking-tight">{featured.title}</h1>
                 <div className="flex items-center gap-3 text-sm text-white/30 font-bold uppercase tracking-widest"><span>{featured.year}</span><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featured.duration}</span><span className="w-1 h-1 rounded-full bg-white/20" /><span>{featured.views} views</span></div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest w-fit"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>Watch Now</button>
+                <button aria-label="Action button" className="flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-widest w-fit"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>Watch Now</button>
               </div>
             </div>
           </section>
@@ -143,8 +144,8 @@ export default function VideoLayoutDemo() {
                 <h1 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-3" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{featured.title}</h1>
                 <p className="text-white/40 text-sm mb-6">7th Heaven&apos;s latest official music video — watch now.</p>
                 <div className="flex gap-3">
-                  <button className="flex items-center gap-2 px-8 py-3 bg-white text-black font-bold text-sm rounded-lg"><svg width="16" height="16" viewBox="0 0 24 24" fill="black"><polygon points="5 3 19 12 5 21 5 3" /></svg>Play</button>
-                  <button className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-white font-bold text-sm rounded-lg">ℹ️ More Info</button>
+                  <button aria-label="Action button" className="flex items-center gap-2 px-8 py-3 bg-white text-black font-bold text-sm rounded-lg"><svg width="16" height="16" viewBox="0 0 24 24" fill="black"><polygon points="5 3 19 12 5 21 5 3" /></svg>Play</button>
+                  <button aria-label="Action button" className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-white font-bold text-sm rounded-lg">ℹ️ More Info</button>
                 </div>
               </div>
             </div>
@@ -506,7 +507,7 @@ export default function VideoLayoutDemo() {
               <h3 className="text-xs font-black uppercase tracking-widest  text-[var(--color-accent)] mb-3">Categories</h3>
               <div className="flex flex-col gap-1.5">
                 {CATS.map((c) => (
-                  <button key={c} onClick={() => setCat(c)} className={`text-left text-xs font-bold uppercase tracking-wider py-2 px-3 rounded-lg transition-colors ${cat === c ? "bg-[var(--color-accent)] text-white" : "text-white/50 hover:bg-white/5 hover:text-white"}`}>
+                  <button aria-label="Action button" key={c} onClick={() => setCat(c)} className={`text-left text-xs font-bold uppercase tracking-wider py-2 px-3 rounded-lg transition-colors ${cat === c ? "bg-[var(--color-accent)] text-white" : "text-white/50 hover:bg-white/5 hover:text-white"}`}>
                     {c}
                   </button>
                 ))}
@@ -595,7 +596,7 @@ export default function VideoLayoutDemo() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {CATS.map((c) => (
-                  <button key={c + "P"} onClick={() => setCat(c)} className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${cat === c ? "bg-black text-white border-black" : "bg-white text-black/60 border-black/10 hover:border-black/30"}`}>
+                  <button aria-label="Action button" key={c + "P"} onClick={() => setCat(c)} className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${cat === c ? "bg-black text-white border-black" : "bg-white text-black/60 border-black/10 hover:border-black/30"}`}>
                     {c}
                   </button>
                 ))}

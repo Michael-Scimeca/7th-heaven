@@ -3,6 +3,27 @@ import Image from 'next/image';
 
 import React, { useState } from "react";
 
+const SECTIONS = [
+  {
+    title: "The Voyage",
+    subtitle: "7 Nights on the Caribbean",
+    desc: "Departing from Miami, we'll cruise through crystal waters to three incredible islands — Cozumel, Grand Cayman, and Roatán. Between ports, catch intimate acoustic sets by the pool and full-production concerts in the main theater.",
+    align: "right" as const,
+  },
+  {
+    title: "The Shows",
+    subtitle: "6 Live Performances",
+    desc: "From poolside acoustic jams at sunset to a blow-the-roof-off grand finale, 7th Heaven is playing six shows across the week. Request your favorite songs and experience the band like never before — 50 feet away, on a boat, in paradise.",
+    align: "left" as const,
+  },
+  {
+    title: "The Fans",
+    subtitle: "A Band Family Reunion",
+    desc: "Hundreds of 7th Heaven fans sailing together. Meet-and-greets, pool parties, group excursions, and late-night karaoke with band members. It's not just a cruise — it's an unforgettable week with your favorite community.",
+    align: "right" as const,
+  },
+];
+
 export default function CruiseLayoutC() {
   const [signupStatus, setSignupStatus] = useState<"idle"|"submitting"|"success">("idle");
   const [form, setForm] = useState({ name: "", email: "", guests: "2", phone: "" });
@@ -14,26 +35,7 @@ export default function CruiseLayoutC() {
     setTimeout(() => setSignupStatus("success"), 1000);
   };
 
-  const SECTIONS = [
-    {
-      title: "The Voyage",
-      subtitle: "7 Nights on the Caribbean",
-      desc: "Departing from Miami, we'll cruise through crystal waters to three incredible islands — Cozumel, Grand Cayman, and Roatán. Between ports, catch intimate acoustic sets by the pool and full-production concerts in the main theater.",
-      align: "right" as const,
-    },
-    {
-      title: "The Shows",
-      subtitle: "6 Live Performances",
-      desc: "From poolside acoustic jams at sunset to a blow-the-roof-off grand finale, 7th Heaven is playing six shows across the week. Request your favorite songs and experience the band like never before — 50 feet away, on a boat, in paradise.",
-      align: "left" as const,
-    },
-    {
-      title: "The Islands",
-      subtitle: "Cozumel · Grand Cayman · Roatán",
-      desc: "Snorkel crystal reefs in Cozumel. Swim with stingrays in Grand Cayman. Zip-line through jungle canopy in Roatán. Or just grab a beach chair and a cocktail — your call. Each port day is yours to explore.",
-      align: "right" as const,
-    },
-  ];
+
 
   return (
     <div className="min-h-screen">
@@ -89,7 +91,7 @@ export default function CruiseLayoutC() {
       ))}
 
       {/* ── SIGNUP SECTION ── */}
-      <section className="py-20 border-t border-white/5">
+      <section id="signup-section" className="py-20 border-t border-white/5">
         <div className="site-container max-w-3xl">
           <div className="text-center mb-10">
             <h2 className="text-4xl font-black uppercase italic tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
@@ -107,20 +109,20 @@ export default function CruiseLayoutC() {
           ) : (
             <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <input type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
+                <input aria-label="Input field" type="text" required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))}
                   className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white placeholder:text-white/20 focus:border-purple-500 focus:outline-none transition-colors" />
-                <input type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
+                <input aria-label="Input field" type="email" required placeholder="Email" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))}
                   className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white placeholder:text-white/20 focus:border-purple-500 focus:outline-none transition-colors" />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <input type="tel" placeholder="Phone (optional)" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
+                <input aria-label="Input field" type="tel" placeholder="Phone (optional)" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))}
                   className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white placeholder:text-white/20 focus:border-purple-500 focus:outline-none transition-colors" />
-                <select value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
+                <select aria-label="Select option" value={form.guests} onChange={e => setForm(f => ({...f, guests: e.target.value}))}
                   className="bg-white/[0.03] border border-white/10 px-4 py-3.5 text-white focus:border-purple-500 focus:outline-none transition-colors appearance-none cursor-pointer">
                   <option value="1">1 guest</option><option value="2">2 guests</option><option value="4">4 guests</option><option value="6">6+</option><option value="10">10+</option>
                 </select>
               </div>
-                <button type="submit" disabled={signupStatus === "submitting"} className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
+                <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"} className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] disabled:opacity-70 cursor-pointer">
                 {signupStatus === "submitting" ? "Submitting..." : "Count Me In — It's Free"}
                 </button>
             </form>
@@ -151,7 +153,7 @@ export default function CruiseLayoutC() {
                 className="flex-1 md:flex-none px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors text-center">
                 Sign Up Now
               </a>
-              <button onClick={() => setStickyVisible(false)} className="text-white/30 hover:text-white text-xl cursor-pointer px-2">×</button>
+              <button aria-label="Action button" onClick={() => setStickyVisible(false)} className="text-white/30 hover:text-white text-xl cursor-pointer px-2">×</button>
             </div>
           </div>
         </div>

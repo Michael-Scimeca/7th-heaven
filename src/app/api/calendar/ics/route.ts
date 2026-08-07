@@ -1,5 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const parseTime = (timeStr: string, defaultHour: number) => {
+  try {
+    const clean = timeStr.trim().toUpperCase();
+    const isPM = clean.includes('PM');
+    const isAM = clean.includes('AM');
+    const numbers = clean.replace(/[A-Z\s]/g, '').split(':');
+    let hour = parseInt(numbers[0], 10);
+    let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
+    if (isPM && hour !== 12) hour += 12;
+    if (isAM && hour === 12) hour = 0;
+    return { hour, minute };
+  } catch {
+    return { hour: defaultHour, minute: 0 };
+  }
+};
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -27,27 +45,8 @@ export async function GET(request: NextRequest) {
       }
     } catch {}
 
-    // Helper to parse time string like "7:00 PM" into { hour, minute }
-    const parseTime = (timeStr: string, defaultHour: number) => {
-      try {
-        const clean = timeStr.trim().toUpperCase();
-        const isPM = clean.includes('PM');
-        const isAM = clean.includes('AM');
-        const numbers = clean.replace(/[A-Z\s]/g, '').split(':');
-        let hour = parseInt(numbers[0], 10);
-        let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
-        if (isPM && hour !== 12) hour += 12;
-        if (isAM && hour === 12) hour = 0;
-        return { hour, minute };
-      } catch {
-        return { hour: defaultHour, minute: 0 };
-      }
-    };
-
     const start = parseTime(startTime, 19);
     const end = parseTime(endTime, 22);
-
-    const pad = (n: number) => String(n).padStart(2, '0');
 
     // Format for ICS (YYYYMMDDTHHMMSS)
     const icsDateStart = `${year}${pad(month)}${pad(day)}T${pad(start.hour)}${pad(start.minute)}00`;

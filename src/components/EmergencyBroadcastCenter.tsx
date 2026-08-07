@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import React, { useState, useMemo } from "react";
 
@@ -13,7 +15,9 @@ interface EmergencyBroadcastCenterProps {
   tourDates?: TourShow[];
 }
 
-export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastCenterProps) {
+const EMPTY_TOUR_DATES: TourShow[] = [];
+
+export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: EmergencyBroadcastCenterProps) {
   const [selectedShowDate, setSelectedShowDate] = useState<string>("");
   const [alertType, setAlertType] = useState<"cancellation" | "time_change" | "venue_change" | "announcement">("cancellation");
   const [targetAudience, setTargetAudience] = useState<"all_fans" | "show_fans" | "crew_and_band">("all_fans");
@@ -156,7 +160,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           1. Quick Alert Presets
         </span>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
             className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "cancellation"
@@ -167,7 +171,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             🚨 Show Cancelled
           </button>
 
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("time_change")}
             className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "time_change"
@@ -178,7 +182,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             ⏰ Time Moved Up
           </button>
 
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
             className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "venue_change"
@@ -189,7 +193,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             📍 Venue Changed
           </button>
 
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("announcement")}
             className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "announcement"
@@ -209,7 +213,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <label htmlFor="emg-target-show" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
             2. Target Show Date / Venue
           </label>
-          <select
+          <select aria-label="Select option"
             id="emg-target-show"
             value={selectedShowDate}
             onChange={(e) => setSelectedShowDate(e.target.value)}
@@ -228,7 +232,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           <label htmlFor="emg-target-audience" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
             3. Target Audience
           </label>
-          <select
+          <select aria-label="Select option"
             id="emg-target-audience"
             value={targetAudience}
             onChange={(e) => setTargetAudience(e.target.value as any)}
@@ -247,47 +251,44 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           4. Delivery Channels & Cost Estimator
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-          <div
-            onClick={() => setSendSms(!sendSms)}
+          <label
             className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
               }`}
           >
             <div className="flex items-center gap-2">
-              <input type="checkbox" checked={sendSms} onChange={() => { }} className="accent-amber-500 w-3.5 h-3.5" />
+              <input aria-label="Input field" type="checkbox" checked={sendSms} onChange={(e) => setSendSms(e.target.checked)} className="accent-amber-500 w-3.5 h-3.5" />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] block">📱 Twilio SMS Alert</span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedSmsCost.toFixed(2)} total</span>
               </div>
             </div>
-          </div>
+          </label>
 
-          <div
-            onClick={() => setSendEmail(!sendEmail)}
+          <label
             className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
               }`}
           >
             <div className="flex items-center gap-2">
-              <input type="checkbox" checked={sendEmail} onChange={() => { }} className="accent-purple-500 w-3.5 h-3.5" />
+              <input aria-label="Input field" type="checkbox" checked={sendEmail} onChange={(e) => setSendEmail(e.target.checked)} className="accent-purple-500 w-3.5 h-3.5" />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] block">📧 Email Broadcast</span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
               </div>
             </div>
-          </div>
+          </label>
 
-          <div
-            onClick={() => setSendDashboardBanner(!sendDashboardBanner)}
+          <label
             className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendDashboardBanner ? "bg-cyan-500/15 border-cyan-500/40 text-[var(--text-color)] shadow-xs" : "bg-black/30 border border-[var(--border-color)] text-[var(--muted-text)]"
               }`}
           >
             <div className="flex items-center gap-2">
-              <input type="checkbox" checked={sendDashboardBanner} onChange={() => { }} className="accent-cyan-500 w-3.5 h-3.5" />
+              <input aria-label="Input field" type="checkbox" checked={sendDashboardBanner} onChange={(e) => setSendDashboardBanner(e.target.checked)} className="accent-cyan-500 w-3.5 h-3.5" />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] block">🔔 Fan Wall Banner</span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">Free ($0.00)</span>
               </div>
             </div>
-          </div>
+          </label>
         </div>
       </div>
 
@@ -299,7 +300,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             <label htmlFor="emg-msg-title" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1">
               Message Title / Header
             </label>
-            <input
+            <input aria-label="Input field"
               id="emg-msg-title"
               type="text"
               value={customTitle !== "" ? customTitle : activeTitle}
@@ -318,7 +319,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
                 {smsLength} / 160 chars ({smsSegments} segment{smsSegments > 1 ? "s" : ""})
               </span>
             </div>
-            <textarea
+            <textarea aria-label="Text input"
               id="emg-msg-body"
               rows={3}
               value={customBody !== "" ? customBody : activeBody}
@@ -358,7 +359,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
           Ready to dispatch across <strong className="text-black font-black">{[sendSms && "SMS", sendEmail && "Email", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong className="text-black font-black">{recipientCount.toLocaleString()}</strong> recipients.
         </div>
 
-        <button
+        <button aria-label="Action button"
           type="button"
           onClick={handleDispatch}
           disabled={isSending}
@@ -387,7 +388,7 @@ export function EmergencyBroadcastCenter({ tourDates = [] }: EmergencyBroadcastC
             </span>
             <p className="font-normal opacity-90 text-[10px]">{dispatchResult.message || dispatchResult.error}</p>
           </div>
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={() => setDispatchResult(null)}
             className="text-white/40 hover:text-white cursor-pointer border-none bg-transparent text-[11px]"

@@ -104,61 +104,66 @@ export const metadata: Metadata = {
   },
 };
 
+// MusicGroup Structured Data for Google
+const BAND_LD = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "7th Heaven",
+  "description": "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years.",
+  "genre": "Rock",
+  "url": "https://7thheavenband.com",
+  "logo": "https://7thheavenband.com/images/7thheavenlogo.jpg",
+  "image": "https://7thheavenband.com/images/hero-banner.png",
+  "sameAs": [
+    "https://www.facebook.com/7thheavenband",
+    "https://twitter.com/7thheavenband",
+    "https://www.instagram.com/7thheavenband",
+    "https://www.youtube.com/user/7thheavenband"
+  ],
+  "track": [
+    {
+      "@type": "MusicRecording",
+      "name": "Ain't That Just Beautiful",
+      "url": "https://www.youtube.com/watch?v=BzHUNTZ66zY",
+      "duration": "PT3M35S"
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Be Here",
+      "inAlbum": "Be Here"
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Sing",
+      "inAlbum": "Luminous"
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Better This Way",
+      "inAlbum": "Color In Motion"
+    },
+    {
+       "@type": "MusicRecording",
+       "name": "30 Songs in 30 Minutes",
+       "description": "The world-famous medley of 70s and 80s hits."
+    }
+  ]
+};
+
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { isEnabled: isDraftMode } = await draftMode();
-  // MusicGroup Structured Data for Google
-  const bandLd = {
-    "@context": "https://schema.org",
-    "@type": "MusicGroup",
-    "name": "7th Heaven",
-    "description": "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years.",
-    "genre": "Rock",
-    "url": "https://7thheavenband.com",
-    "logo": "https://7thheavenband.com/images/7thheavenlogo.jpg",
-    "image": "https://7thheavenband.com/images/hero-banner.png",
-    "sameAs": [
-      "https://www.facebook.com/7thheavenband",
-      "https://twitter.com/7thheavenband",
-      "https://www.instagram.com/7thheavenband",
-      "https://www.youtube.com/user/7thheavenband"
-    ],
-    "track": [
-      {
-        "@type": "MusicRecording",
-        "name": "Ain't That Just Beautiful",
-        "url": "https://www.youtube.com/watch?v=BzHUNTZ66zY",
-        "duration": "PT3M35S"
-      },
-      {
-        "@type": "MusicRecording",
-        "name": "Be Here",
-        "inAlbum": "Be Here"
-      },
-      {
-        "@type": "MusicRecording",
-        "name": "Sing",
-        "inAlbum": "Luminous"
-      },
-      {
-        "@type": "MusicRecording",
-        "name": "Better This Way",
-        "inAlbum": "Color In Motion"
-      },
-      {
-         "@type": "MusicRecording",
-         "name": "30 Songs in 30 Minutes",
-         "description": "The world-famous medley of 70s and 80s hits."
-      }
-    ]
-  };
 
   return (
     <html lang="en" className={`${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(BAND_LD).replace(/</g, '\\u003c') }}
+        />
         <Script
           id="theme-init"
           strategy="beforeInteractive"
@@ -177,7 +182,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             // Escape <, > and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
-            __html: JSON.stringify(bandLd)
+            __html: JSON.stringify(BAND_LD)
               .replace(/</g, '\\u003c')
               .replace(/>/g, '\\u003e')
               .replace(/&/g, '\\u0026'),

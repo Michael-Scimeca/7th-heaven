@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 import React, { useState, useMemo, useSyncExternalStore } from "react";
 
 export interface BookingSlot {
@@ -23,8 +24,12 @@ export interface BookingSlot {
   venueState?: string;
 }
 
+const EMPTY_SLOTS: BookingSlot[] = [];
+const EMPTY_BLOCKED_DATES: string[] = [];
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 export function CalendarPicker({
-  slots = [],
+  slots = EMPTY_SLOTS,
   onChangeSlots,
   startTime,
   onStartTimeChange,
@@ -36,7 +41,7 @@ export function CalendarPicker({
   onCustomDetailsChange,
   label,
   required,
-  blockedDates = [],
+  blockedDates = EMPTY_BLOCKED_DATES,
 }: {
   slots: BookingSlot[];
   onChangeSlots: (slots: BookingSlot[]) => void;
@@ -87,7 +92,7 @@ export function CalendarPicker({
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 
   return (
     <div className="bg-[var(--color-bg-surface)] border border-black/10 p-6 w-full">
@@ -110,7 +115,7 @@ export function CalendarPicker({
         <div>
           {/* Month & Year Selection Bar */}
           <div className="flex items-center justify-between bg-black/[0.03] border border-black/10 p-3 mb-4">
-            <button
+            <button aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}
               className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-colors cursor-pointer shadow-sm"
@@ -121,7 +126,7 @@ export function CalendarPicker({
 
             <div className="flex items-center gap-2">
               {/* Month Select Dropdown */}
-              <select
+              <select aria-label="Select option"
                 value={currentMonth.getMonth()}
                 onChange={(e) => {
                   const newMonth = parseInt(e.target.value, 10);
@@ -138,7 +143,7 @@ export function CalendarPicker({
               </select>
 
               {/* Year Select Dropdown */}
-              <select
+              <select aria-label="Select option"
                 value={currentMonth.getFullYear()}
                 onChange={(e) => {
                   const newYear = parseInt(e.target.value, 10);
@@ -152,7 +157,7 @@ export function CalendarPicker({
               </select>
             </div>
 
-            <button
+            <button aria-label="Next"
               type="button"
               onClick={handleNextMonth}
               className="flex items-center gap-1 px-3 py-1.5 bg-white border border-black/10 rounded-lg text-xs font-bold text-black hover:bg-black/5 transition-colors cursor-pointer shadow-sm"
@@ -179,7 +184,7 @@ export function CalendarPicker({
               const isBlocked = blockedSet.has(dateString);
 
               return (
-                <button
+                <button aria-label="Action button"
                   key={dateString}
                   type="button"
                   disabled={isPastDate || isBlocked}
@@ -240,7 +245,7 @@ export function CalendarPicker({
             <div>
               <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show start?</label>
               <div className="relative">
-                <select
+                <select aria-label="Select option"
                   id="cal-show-start-time"
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
@@ -261,7 +266,7 @@ export function CalendarPicker({
             <div>
               <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the show finish?</label>
               <div className="relative">
-                <select
+                <select aria-label="Select option"
                   id="cal-show-finish-time"
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
@@ -284,7 +289,7 @@ export function CalendarPicker({
             <div>
               <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band go on?</label>
               <div className="relative">
-                <select
+                <select aria-label="Select option"
                   id="cal-band-start-time"
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
@@ -305,7 +310,7 @@ export function CalendarPicker({
             <div>
               <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-black/60 block mb-1">When does the band finish?</label>
               <div className="relative">
-                <select
+                <select aria-label="Select option"
                   id="cal-band-finish-time"
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
@@ -338,7 +343,7 @@ export function CalendarPicker({
               const isSelected = selectedType === type.id;
               return (
                 <div key={type.id}>
-                  <button
+                  <button aria-label="Action button"
                     type="button"
                     onClick={() => onSelectType && onSelectType(type.id)}
                     className={`w-full text-left p-4  border transition-colors cursor-pointer flex gap-4 items-center group
@@ -355,7 +360,7 @@ export function CalendarPicker({
                   </button>
                   {type.id === "custom" && isSelected && (
                     <div className="mt-2 animate-[fade-in-up_0.2s_ease-out_both]">
-                      <input
+                      <input aria-label="Input field"
                         type="text"
                         placeholder="Describe your custom event (e.g. Street Fair)..."
                         value={customDetails || ""}

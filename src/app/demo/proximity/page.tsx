@@ -22,6 +22,14 @@ const DEMO_SHOW = {
 
 type Step = "signup" | "sms" | "show";
 
+const DEMO_STEPS = [
+  { id: "signup", label: "1. Sign Up", icon: "👤" },
+  { id: "sms", label: "2. SMS Alert", icon: "📱" },
+  { id: "show", label: "3. Show Page", icon: "🎸" },
+];
+
+const DEMO_FILTER_TAB_LABELS = ["All (12)", "Going (11)", "Here Now (1)"];
+
 export default function ProximityDemoPage() {
   const { member, isLoggedIn, openModal } = useMember();
   const [step, setStep] = useState<Step>("signup");
@@ -79,13 +87,9 @@ export default function ProximityDemoPage() {
 
         {/* Step indicators */}
         <div className="flex items-center gap-0 mb-14">
-          {[
-            { id: "signup", label: "1. Sign Up", icon: "👤" },
-            { id: "sms", label: "2. SMS Alert", icon: "📱" },
-            { id: "show", label: "3. Show Page", icon: "🎸" },
-          ].map((s, i) => (
+          {DEMO_STEPS.map((s, i) => (
             <div key={s.id} className="flex items-center flex-1">
-              <button
+              <button aria-label="Action button"
                 onClick={() => setStep(s.id as Step)}
                 className={`flex flex-col items-center gap-1.5 flex-1 py-3 transition-colors border-b-2 ${step === s.id
                   ? "border-purple-500 text-white"
@@ -138,9 +142,9 @@ export default function ProximityDemoPage() {
                     <div className="px-4 py-3 bg-white/[0.04] border border-purple-500/30 text-sm text-purple-300 font-mono">60016</div>
                   </div>
 
-                  <div className="px-4 py-3.5 bg-purple-600 text-white text-center text-sm font-black uppercase tracking-[0.15em] mt-2 cursor-pointer hover:bg-purple-500 transition-colors" onClick={() => setStep("sms")}>
+                  <button type="button" className="w-full px-4 py-3.5 bg-purple-600 text-white text-center text-sm font-black uppercase tracking-[0.15em] mt-2 cursor-pointer hover:bg-purple-500 transition-colors" onClick={() => setStep("sms")}>
                     Create Account →
-                  </div>
+                  </button>
                   <p className="text-xs text-white/20 text-center">
                     Zip code is geocoded to match nearby shows within your radius
                   </p>
@@ -158,7 +162,7 @@ export default function ProximityDemoPage() {
               </ul>
             </div>
 
-            <button onClick={() => setStep("sms")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors">
+            <button aria-label="Action button" onClick={() => setStep("sms")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors">
               Next: See the SMS Alert →
             </button>
           </div>
@@ -225,13 +229,13 @@ export default function ProximityDemoPage() {
                             </p>
                             {/* Going / There quick actions */}
                             <div className="flex gap-2 mt-2 pt-2 border-t border-white/10">
-                              <button
+                              <button aria-label="Action button"
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
                                 className="flex-1 py-1 rounded bg-purple-500/30 border border-purple-400/30 text-purple-200 text-xs font-black uppercase tracking-widest hover:bg-purple-500/50 transition-colors"
                               >
                                 🎸 Going
                               </button>
-                              <button
+                              <button aria-label="Action button"
                                 onClick={(e) => { e.stopPropagation(); setNotificationDismissed(true); setTimeout(() => setStep("show"), 200); }}
                                 className="flex-1 py-1 rounded bg-emerald-500/30 border  border-[var(--color-accent)]/30 text-emerald-200 text-xs font-black uppercase tracking-widest hover:bg-emerald-500/50 transition-colors"
                               >
@@ -293,14 +297,14 @@ export default function ProximityDemoPage() {
                   </div>
                 ) : (
                   <div className="flex gap-2">
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleRsvp("going")}
                       disabled={rsvpStatus === "loading"}
                       className="flex-1 py-3 bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black uppercase tracking-widest hover:bg-purple-600/40 transition-colors disabled:opacity-50 rounded-lg cursor-pointer"
                     >
                       {rsvpStatus === "loading" ? "…" : "🎸 I'm Going"}
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleRsvp("there")}
                       disabled={rsvpStatus === "loading"}
                       className="flex-1 py-3 bg-emerald-600/20 border border-emerald-500/30 text-emerald-300 text-xs font-black uppercase tracking-widest hover:bg-emerald-600/40 transition-colors disabled:opacity-50 rounded-lg cursor-pointer"
@@ -313,12 +317,12 @@ export default function ProximityDemoPage() {
             </div>
 
             {!notificationVisible && (
-              <button onClick={() => setNotificationVisible(true)} className="w-full py-3 border border-white/10 text-white/50 text-sm font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={() => setNotificationVisible(true)} className="w-full py-3 border border-white/10 text-white/50 text-sm font-bold uppercase tracking-widest hover:border-white/30 hover:text-white transition-colors">
                 Show Notification Again
               </button>
             )}
 
-            <button onClick={() => setStep("show")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors">
+            <button aria-label="Action button" onClick={() => setStep("show")} className="w-full py-4 bg-purple-600 text-white font-black uppercase tracking-widest text-sm hover:bg-purple-500 transition-colors">
               Next: Open the Show Page →
             </button>
           </div>
@@ -375,7 +379,7 @@ export default function ProximityDemoPage() {
 
                   {/* Action buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleRsvp("going")}
                       disabled={rsvpStatus === "loading"}
                       className={`px-8 py-4 text-sm font-black uppercase tracking-widest text-white text-center transition-colors ${rsvpStatus === "going"
@@ -386,7 +390,7 @@ export default function ProximityDemoPage() {
                       {rsvpStatus === "loading" ? "…" : rsvpStatus === "going" ? "✓ You're Going!" : "🎸 I'm Going"}
                     </button>
 
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => setAnonToggle((v) => !v)}
                       className="flex items-center gap-2 px-4 py-2 border border-white/[0.06] text-xs font-bold uppercase tracking-widest text-white/50 hover:border-white/20 transition-colors cursor-pointer"
                     >
@@ -496,7 +500,7 @@ export default function ProximityDemoPage() {
               <div className="border border-white/[0.06] border-t-0 bg-white/[0.01] p-5">
                 {/* Filter tabs */}
                 <div className="flex items-center gap-1 mb-5 bg-white/[0.03] border border-white/5 p-1 w-fit">
-                  {["All (12)", "Going (11)", "Here Now (1)"].map((label, i) => (
+                  {DEMO_FILTER_TAB_LABELS.map((label, i) => (
                     <div key={label} className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest ${i === 0 ? "bg-white/10 text-white" : "text-white/30"}`}>{label}</div>
                   ))}
                 </div>
@@ -547,7 +551,7 @@ export default function ProximityDemoPage() {
 
                   {/* +8 more pill */}
                   {!showAllAttendees ? (
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => setShowAllAttendees(true)}
                       className="flex items-center justify-center p-4 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 hover:bg-white/[0.02] transition-colors group w-full"
                     >
@@ -578,7 +582,7 @@ export default function ProximityDemoPage() {
                           </div>
                         </div>
                       ))}
-                      <button
+                      <button aria-label="Action button"
                         onClick={() => setShowAllAttendees(false)}
                         className="flex items-center justify-center p-3 border border-dashed border-white/[0.06] sm:col-span-2 hover:border-white/20 transition-colors group w-full"
                       >
@@ -606,7 +610,7 @@ export default function ProximityDemoPage() {
 
         {/* Bottom nav */}
         <div className="flex justify-between mt-12 pt-8 border-t border-white/5">
-          <button
+          <button aria-label="Action button"
             onClick={() => setStep(step === "show" ? "sms" : "signup")}
             className={`text-sm text-white/30 hover:text-white/60 font-bold uppercase tracking-widest transition-colors ${step === "signup" ? "invisible" : ""}`}
           >

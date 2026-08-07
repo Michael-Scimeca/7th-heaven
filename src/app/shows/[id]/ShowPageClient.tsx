@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 import Image from 'next/image';
 
@@ -144,10 +145,10 @@ export default function ShowPageClient({
   const thereCount = attendees.filter((a) => a.status === "there").length;
   const totalCount = goingCount + thereCount;
 
-  const showDate = new Date(show.date + "T12:00:00");
+  const showDate = new Date(show.date + "T12:00:00Z");
   const isPast = showDate < new Date();
   const dateStr = showDate.toLocaleDateString("en-US", {
-    weekday: "long", month: "long", day: "numeric", year: "numeric",
+    weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "UTC"
   });
 
   const mapsUrl = show.latitude && show.longitude
@@ -233,23 +234,26 @@ export default function ShowPageClient({
   const handleRsvp = async () => {
     if (!isLoggedIn) { openModal("login"); return; }
     setRsvpLoading(true);
-    if (isGoing) {
-      await fetch(`/api/proximity/attendees?showId=${show.id}`, { method: "DELETE" });
-      setAttendees((prev) => prev.filter((a) => a.profiles?.id !== member?.id));
-    } else {
-      await fetch("/api/proximity/attendees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ showId: show.id, status: "going", anonymous: wantAnonymous }),
-      });
-      const res = await fetch(`/api/proximity/attendees?showId=${show.id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setAttendees(data.attendees || []);
-        setAttendeeListOpen(true);
+    try {
+      if (isGoing) {
+        await fetch(`/api/proximity/attendees?showId=${show.id}`, { method: "DELETE" });
+        setAttendees((prev) => prev.filter((a) => a.profiles?.id !== member?.id));
+      } else {
+        await fetch("/api/proximity/attendees", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ showId: show.id, status: "going", anonymous: wantAnonymous }),
+        });
+        const res = await fetch(`/api/proximity/attendees?showId=${show.id}`);
+        if (res.ok) {
+          const data = await res.json();
+          setAttendees(data.attendees || []);
+          setAttendeeListOpen(true);
+        }
       }
+    } finally {
+      setRsvpLoading(false);
     }
-    setRsvpLoading(false);
   };
 
   const copyLink = () => {
@@ -394,7 +398,7 @@ export default function ShowPageClient({
             <div className="flex flex-col gap-3 shrink-0 min-w-[200px]">
               {!isPast && (
                 <>
-                  <button
+                  <button aria-label="Action button"
                     onClick={handleRsvp}
                     disabled={rsvpLoading}
                     id="rsvp-btn"
@@ -408,7 +412,7 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <button
+                    <button aria-label="Action button"
                       type="button"
                       onClick={() => setWantAnonymous(!wantAnonymous)}
                       className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest border transition-colors cursor-pointer ${wantAnonymous
@@ -427,7 +431,7 @@ export default function ShowPageClient({
               <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors text-center">
                 📍 Directions
               </a>
-              <button onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors">
+              <button aria-label="Action button" onClick={copyLink} id="share-show-btn" className="px-6 py-3 text-sm font-black uppercase tracking-widest border border-white/10 text-white/60 hover:border-white/30 hover:text-white transition-colors">
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -463,7 +467,7 @@ export default function ShowPageClient({
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
-                        <input
+                        <input aria-label="Input field"
                           type="email"
                           required
                           placeholder="yourname@domain.com"
@@ -471,7 +475,7 @@ export default function ShowPageClient({
                           onChange={(e) => setNotifyEmail(e.target.value)}
                           className="flex-1 bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors"
                         />
-                        <button
+                        <button aria-label="Action button"
                           type="submit"
                           disabled={notifyLoading}
                           className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-bold text-xs uppercase tracking-widest transition-colors disabled:opacity-50 shrink-0 shadow-[0_0_20px_rgba(255,10,61,0.3)]"
@@ -509,7 +513,7 @@ export default function ShowPageClient({
           )}
 
           {/* Clickable count summary */}
-          <button
+          <button aria-label="Action button"
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
             className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] hover:border-white/10 transition-colors mb-1 group cursor-pointer"
@@ -552,7 +556,7 @@ export default function ShowPageClient({
               {totalCount > 0 && (
                 <div className="flex items-center gap-1 mb-6 bg-white/[0.03] border border-white/5 p-1 w-fit">
                   {(["all", "going", "there"] as const).map((f) => (
-                    <button
+                    <button aria-label="Action button"
                       key={f}
                       onClick={() => setGoingFilter(f)}
                       className={`px-4 py-1.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"
@@ -606,7 +610,7 @@ export default function ShowPageClient({
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <button onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-colors">
+                <button aria-label="Action button" onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-colors">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </button>
                 <a

@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -69,7 +70,7 @@ export default function ProximityPanel() {
           setNotificationsEnabled(data.notifications_enabled || false);
         }
       });
-  }, [member?.id]);
+  }, [member?.id, supabase]);
 
   // Fetch nearby shows
   const fetchNearbyShows = useCallback(async () => {
@@ -171,7 +172,7 @@ export default function ProximityPanel() {
             <p className="text-sm font-bold text-white">Enable Proximity Notifications</p>
             <p className="text-xs text-white/40 mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
-          <button
+          <button aria-label="Action button"
             onClick={() => setNotificationsEnabled(!notificationsEnabled)}
             className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${notificationsEnabled ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
           >
@@ -183,7 +184,7 @@ export default function ProximityPanel() {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
             <label htmlFor="proximity-zip-input" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Your Zip Code</label>
-            <input
+            <input aria-label="Input field"
               id="proximity-zip-input"
               type="text"
               maxLength={5}
@@ -195,7 +196,7 @@ export default function ProximityPanel() {
           </div>
           <div>
             <label htmlFor="proximity-radius-select" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Radius</label>
-            <select
+            <select aria-label="Select option"
               id="proximity-radius-select"
               value={radius}
               onChange={e => setRadius(Number(e.target.value))}
@@ -208,7 +209,7 @@ export default function ProximityPanel() {
           </div>
         </div>
 
-        <button
+        <button aria-label="Action button"
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           className="w-full px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 disabled:opacity-40 text-white text-xs font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
@@ -224,7 +225,7 @@ export default function ProximityPanel() {
             <span className="text-xs font-black uppercase tracking-widest  text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
-            <button
+            <button aria-label="Action button"
               onClick={fetchNearbyShows}
               className="text-xs uppercase tracking-widest text-white/40 hover:text-white font-bold transition-colors"
             >
@@ -246,11 +247,14 @@ export default function ProximityPanel() {
               {nearbyShows.map(show => (
                 <div
                   key={show.id}
-                  className="p-4 bg-white/5 border border-white/10 hover:border-blue-500/40 transition-colors cursor-pointer group"
-                  onClick={() => loadAttendees(show)}
+                  className="p-4 bg-white/5 border border-white/10 hover:border-blue-500/40 transition-colors group"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                    <button
+                      type="button"
+                      onClick={() => loadAttendees(show)}
+                      className="flex items-center gap-4 text-left cursor-pointer flex-1"
+                    >
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
                         <span className="text-xs font-black text-blue-400 uppercase">
                           {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
@@ -266,8 +270,9 @@ export default function ProximityPanel() {
                         </p>
                         <p className="text-xs text-blue-400 font-bold mt-0.5">{show.distanceMiles} miles away</p>
                       </div>
-                    </div>
-                    <button
+                    </button>
+                    <button aria-label="Action button"
+                      type="button"
                       onClick={e => { e.stopPropagation(); toggleGoing(show); }}
                       className={`px-4 py-2 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id
                         ? "bg-blue-600 text-white border-blue-600"

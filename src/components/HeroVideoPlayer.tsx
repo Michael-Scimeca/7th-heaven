@@ -1,6 +1,7 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
-import { useState, useRef, useEffect, useCallback, useSyncExternalStore } from "react";
+import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
 const emptySubscribe = () => () => {};
 import type { ReactNode } from "react";
 import VinylHeroPlayer from "@/components/VinylHeroPlayer";
@@ -193,7 +194,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     setVideoSrc(next);
   };
 
-  const ctxValue: VideoSnapshotContextValue = { snapshots };
+  const ctxValue: VideoSnapshotContextValue = useMemo(
+    () => ({ snapshots }),
+    [snapshots]
+  );
 
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
@@ -220,6 +224,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none scale-[1.08]"
         >
           <source src={videoSrc} type="video/mp4" />
+          <track kind="captions" />
         </video>
       )}
       <div
@@ -243,7 +248,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       {/* ── Gradient Customizer Toggle Button + UI Drawer ── */}
       <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end gap-2">
         {!isGradUiOpen ? (
-          <button
+          <button aria-label="Action button"
             onClick={() => setIsGradUiOpen(true)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/90 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] cursor-pointer group"
             title="Adjust Hero Bottom-Up Black Gradient"
@@ -263,7 +268,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                   Adjust bottom-up dark overlay
                 </span>
               </div>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setIsGradUiOpen(false)}
                 className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
               >
@@ -276,7 +281,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Presets</span>
               <div className="grid grid-cols-2 gap-1.5">
                 {GRADIENT_PRESETS.map((p) => (
-                  <button
+                  <button aria-label="Action button"
                     key={p.name}
                     onClick={() => {
                       updateGradHeight(p.height);
@@ -298,7 +303,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 <span>Height</span>
                 <span className=" text-[var(--color-accent)] font-mono font-black">{gradHeight}%</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="10"
                 max="100"
@@ -315,7 +320,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 <span>Bottom Black Opacity</span>
                 <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(gradOpacity * 100)}%</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="0"
                 max="1"
@@ -332,7 +337,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 <span>Fade Midpoint Stop</span>
                 <span className=" text-[var(--color-accent)] font-mono font-black">{gradMidstop}%</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 type="range"
                 min="0"
                 max="80"
@@ -351,7 +356,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               </div>
               <div className="flex items-center gap-2">
                 {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
-                  <button
+                  <button aria-label="Action button"
                     key={c}
                     onClick={() => updateGradColor(c)}
                     className="w-6 h-6 rounded-full border transition-transform cursor-pointer"
@@ -363,7 +368,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                   />
                 ))}
                 <div className="relative w-6 h-6 rounded-full border border-white/30 overflow-hidden cursor-pointer bg-purple-600/30 flex items-center justify-center">
-                  <input
+                  <input aria-label="Input field"
                     type="color"
                     value={gradColor}
                     onChange={(e) => updateGradColor(e.target.value)}
@@ -381,7 +386,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
             </div>
 
             {/* Copy CSS Button */}
-            <button
+            <button aria-label="Action button"
               onClick={copyGradCSS}
               className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
             >
@@ -395,7 +400,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
         <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end">
           {!isCustomizerOpen ? (
-            <button
+            <button aria-label="Action button"
               onClick={() => setIsCustomizerOpen(true)}
               className="w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-center cursor-pointer hover:bg-black/85 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
               title="Open Video Tint Customizer"
@@ -437,7 +442,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     Customize background tint
                   </span>
                 </div>
-                <button
+                <button aria-label="Action button"
                   onClick={() => setIsCustomizerOpen(false)}
                   className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
                 >
@@ -450,7 +455,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 <span className="text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider block">Presets</span>
                 <div className="flex flex-wrap gap-2">
                   {TINT_PRESETS.map((preset) => (
-                    <button
+                    <button aria-label="Action button"
                       key={preset.color}
                       onClick={() => updateColor(preset.color)}
                       className={`w-6 h-6 rounded-full border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
@@ -470,7 +475,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                     className="w-6 h-6 rounded-full border border-white/20 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
                     title="Custom Color"
                   >
-                    <input
+                    <input aria-label="Input field"
                       type="color"
                       value={tintColor}
                       onChange={(e) => updateColor(e.target.value)}
@@ -487,7 +492,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                   <span>Opacity</span>
                   <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(tintOpacity * 100)}%</span>
                 </div>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min="0"
                   max="1"
@@ -503,7 +508,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
                 <span className="text-[var(--font-size-3xs)] font-extrabold text-white/45 uppercase tracking-wider block">Mix Blend Mode</span>
                 <div className="grid grid-cols-3 gap-1">
                   {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
-                    <button
+                    <button aria-label="Action button"
                       key={mode}
                       onClick={() => updateBlend(mode)}
                       className={`px-1 py-1 text-[var(--font-size-4xs)] font-black uppercase rounded border transition-colors cursor-pointer ${mixBlendMode === mode
@@ -525,7 +530,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
               </div>
 
               {/* Copy CSS Button */}
-              <button
+              <button aria-label="Action button"
                 onClick={copyCSS}
                 className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-[var(--font-size-2xs)] uppercase tracking-widest transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer"
               >

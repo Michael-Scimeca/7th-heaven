@@ -46,6 +46,13 @@ const FALLBACK_SOCIAL_LINKS = [
   { name: "Instagram", url: "https://www.instagram.com" },
 ];
 
+const formatPhone = (value: string) => {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+};
+
 export function Footer() {
   const { member, openModal } = useMember();
   const router = useRouter();
@@ -60,12 +67,7 @@ export function Footer() {
   const [smsDistance, setSmsDistance] = useState('50');
   const [smsStatus, setSmsStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-  const formatPhone = (value: string) => {
-    const digits = value.replace(/\D/g, '').slice(0, 10);
-    if (digits.length <= 3) return digits;
-    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-  };
+
 
   const [endorsements, setEndorsements] = useState(FALLBACK_ENDORSEMENTS);
   const [socialLinks, setSocialLinks] = useState(FALLBACK_SOCIAL_LINKS);
@@ -158,7 +160,7 @@ export function Footer() {
               }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
             >
-              <input
+              <input aria-label="Input field"
                 type="tel"
                 value={smsPhone}
                 onChange={e => setSmsPhone(formatPhone(e.target.value))}
@@ -168,7 +170,7 @@ export function Footer() {
                 className="flex-1 min-w-[175px] sm:min-w-[190px] px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
               />
               <div className="flex gap-2 w-full sm:w-auto shrink-0">
-                <input
+                <input aria-label="Input field"
                   type="text"
                   value={smsZip}
                   onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
@@ -178,7 +180,7 @@ export function Footer() {
                   suppressHydrationWarning
                   className="w-24 sm:w-28 px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
                 />
-                <select
+                <select aria-label="Select option"
                   value={smsDistance}
                   onChange={e => setSmsDistance(e.target.value)}
                   className="w-24 sm:w-24 px-2.5 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none shrink-0"
@@ -190,7 +192,7 @@ export function Footer() {
                   <option value="200" className="bg-[var(--card-bg)] text-[var(--text-color)]">200 mi</option>
                 </select>
               </div>
-              <button
+              <button aria-label="Action button"
                 type="submit"
                 disabled={smsStatus === 'sending'}
                 className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap"
@@ -231,7 +233,7 @@ export function Footer() {
                 {link.label}
               </Link>
             ))}
-            <button
+            <button aria-label="Action button"
               onClick={() => {
                 if (member?.role === 'crew') {
                   router.push('/crew');

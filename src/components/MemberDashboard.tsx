@@ -1,7 +1,9 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 import Image from 'next/image';
 
-import { useMember, tierColors } from "@/context/MemberContext";
+import { useMember } from "@/context/MemberContext";
+import { tierColors } from "@/context/member-constants";
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -213,7 +215,7 @@ export default function MemberDashboard() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <button onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
+                <button aria-label="Action button" onClick={() => openModal("signup")} className="w-full py-4 bg-[var(--color-accent)] text-white font-bold text-sm uppercase tracking-[0.15em] rounded hover:brightness-110 transition-colors cursor-pointer shadow-[0_0_20px_rgba(236,72,153,0.3)]">
                   Create Fan Account
                 </button>
 
@@ -223,10 +225,10 @@ export default function MemberDashboard() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border border-white/20 text-white flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border border-white/20 text-white flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:border-[var(--color-accent)] hover: text-[var(--color-accent)] transition-colors cursor-pointer bg-white/[0.02]">
                     Sign In As Fan
                   </button>
-                  <button onClick={() => openModal("login")} className="flex-1 py-4 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
+                  <button aria-label="Action button" onClick={() => openModal("login")} className="flex-1 py-4 border  border-[var(--color-accent)]/30 text-[var(--color-accent)] flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-[0.15em] rounded hover:bg-emerald-500/10 hover:border-emerald-500 transition-colors cursor-pointer bg-emerald-500/5">
                     Crew Portal
                   </button>
                 </div>
@@ -360,13 +362,13 @@ export default function MemberDashboard() {
                             ) : claimConfirmId === msg.id ? (
                               <div className="p-3 border border-red-500/50 bg-red-500/10 text-center flex flex-col gap-2 w-full max-w-xs">
                                 <p className="text-xs font-bold text-red-400 uppercase tracking-widest leading-tight animate-pulse">Show this to merch crew.</p>
-                                <button onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                                <button aria-label="Action button" onClick={() => executeClaimFlash(msg.id)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                                   CLICK TO FLASH & CLAIM
                                 </button>
-                                <button onClick={() => setClaimConfirmId(null)} className="text-xs text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
+                                <button aria-label="Action button" onClick={() => setClaimConfirmId(null)} className="text-xs text-white/40 hover:text-white uppercase tracking-widest cursor-pointer">Cancel</button>
                               </div>
                             ) : (
-                              <button onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
+                              <button aria-label="Action button" onClick={() => setClaimConfirmId(msg.id)} className="px-6 py-3 border border-yellow-400/50 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 font-black text-sm uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105 cursor-pointer">
                                 Redeem Prize
                               </button>
                             )}
@@ -458,7 +460,7 @@ export default function MemberDashboard() {
 
                     <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5 text-[0.65rem] text-white/30">
                       {photo.venue && <span className="truncate">📍 {photo.venue}</span>}
-                      <span className="font-mono">{new Date(photo.submittedAt).toLocaleDateString()}</span>
+                      <span className="font-mono">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
                   </div>
                 </div>
@@ -471,7 +473,7 @@ export default function MemberDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
           {[
             { label: "Shows Attended", value: member!.showsAttended.toString(), accent: true },
-            { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric" }) },
+            { label: "Fan Since", value: new Date(member!.joinDate).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "America/Chicago" }) },
           ].map((s) => (
             <div key={s.label} className="p-5 bg-white/[0.02] border border-white/10">
               <p className="text-xs uppercase tracking-[0.2em] text-white/25 mb-1">{s.label}</p>

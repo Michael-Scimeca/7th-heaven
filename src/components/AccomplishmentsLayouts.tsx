@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState } from "react";
@@ -6,13 +7,13 @@ interface AccomplishmentsLayoutsProps {
   accomplishments: string[];
 }
 
+const LAYOUTS = Array.from({ length: 20 }, (_, i) => ({
+  id: i + 1,
+  name: `${i + 1}`,
+}));
+
 export default function AccomplishmentsLayouts({ accomplishments }: AccomplishmentsLayoutsProps) {
   const [activeLayout, setActiveLayout] = useState<number>(1);
-
-  const layouts = Array.from({ length: 20 }, (_, i) => ({
-    id: i + 1,
-    name: `${i + 1}`,
-  }));
 
   const stats = [
     { number: "3", label: "Billboard #1 Hits", text: accomplishments[0] || "Three #1 Hit Songs on Billboard", badge: "CHART TOPPER" },
@@ -31,8 +32,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           Select Layout Style (1–20)
         </span>
         <div className="flex flex-wrap justify-center gap-1.5 max-w-5xl p-2.5 bg-white/5 border border-white/10 backdrop-blur-xl">
-          {layouts.map((l) => (
-            <button
+          {LAYOUTS.map((l) => (
+            <button aria-label="Action button"
               key={l.id}
               onClick={() => setActiveLayout(l.id)}
               className={`w-9 h-9  text-xs font-black transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id

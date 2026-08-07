@@ -38,19 +38,19 @@ export default function DevGuideLine() {
         <div className="absolute right-6 top-1 pointer-events-auto flex items-center gap-2 bg-black/95 border border-cyan-400/60 text-cyan-300 px-3 py-1 text-[11px] font-mono font-bold rounded-full shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-md select-none z-[9999999]">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
           <span>DEV GUIDE: {topPos}PX</span>
-          <button
+          <button aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); setTopPos((prev) => (prev === 122 ? 120 : 122)); }}
             className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-200 border border-cyan-400/40 rounded text-[10px] uppercase font-bold tracking-wider transition-colors cursor-pointer"
           >
             Toggle {topPos === 122 ? "120px" : "122px"}
           </button>
-          <button
+          <button aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
             className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40  text-[var(--color-accent)] border border-[var(--color-accent)]/40 rounded text-[10px] uppercase font-bold tracking-wider transition-colors cursor-pointer"
           >
             Guides: {showVerticalGuides ? "ON" : "OFF"}
           </button>
-          <button
+          <button aria-label="Previous"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();

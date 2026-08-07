@@ -51,20 +51,18 @@ export async function POST(request: Request) {
     // Send real SMS via Twilio
     const twilio = (await import('twilio')).default;
     const client = twilio(accountSid, authToken);
-    const results: { phone: string; status: string; error?: string }[] = [];
-
-    for (const sub of targets) {
+    const results = await Promise.all(targets.map(async (sub) => {
       try {
         await client.messages.create({
           body: message,
           from: twilioPhone,
           to: sub.phone,
         });
-        results.push({ phone: maskPhone(sub.phone), status: "sent" });
+        return { phone: maskPhone(sub.phone), status: "sent" };
       } catch (err: any) {
-        results.push({ phone: maskPhone(sub.phone), status: "failed", error: err.message });
+        return { phone: maskPhone(sub.phone), status: "failed", error: err.message };
       }
-    }
+    }));
 
     const sentCount = results.filter((r) => r.status === "sent").length;
     return NextResponse.json({

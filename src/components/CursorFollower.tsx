@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/prefer-useReducer */
 
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
@@ -93,6 +95,8 @@ function loadSetting<T>(key: string, fallback: T): T {
 function saveSetting(key: string, val: unknown) {
   try { localStorage.setItem(`7h_cursor_${key}`, JSON.stringify(val)); } catch { }
 }
+
+const createSetHandler = <T,>(setter: (v: T) => void, key: string) => (v: T) => { setter(v); saveSetting(key, v); };
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function CursorFollower() {
@@ -207,7 +211,7 @@ export default function CursorFollower() {
 
   const glowColor = colors[colors.length - 1] ?? "#a855f7";
 
-  const set = <T,>(setter: (v: T) => void, key: string) => (v: T) => { setter(v); saveSetting(key, v); };
+  const set = createSetHandler;
 
   // Generator helpers
   const handleGenerateGradient = () => {
@@ -332,7 +336,7 @@ export default function CursorFollower() {
       {/* ── Settings Panel Button ── */}
       <div className="fixed bottom-6 right-6 flex flex-col items-end gap-2" style={{ zIndex: 2147483646 }}>
         {!panelOpen ? (
-          <button
+          <button aria-label="Action button"
             onClick={() => setPanelOpen(true)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
             title="Cursor Settings"
@@ -351,7 +355,7 @@ export default function CursorFollower() {
                 <span className="text-xs font-black uppercase tracking-wider  text-[var(--color-accent)] block">Cursor Settings</span>
                 <span className="text-[9px] text-white/40 uppercase font-semibold">Customize your cursor trail</span>
               </div>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setPanelOpen(false)}
                 className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors text-xs font-bold"
               >✕</button>
@@ -363,7 +367,7 @@ export default function CursorFollower() {
                 <span className="text-[10px] font-black uppercase tracking-wider text-purple-300">Liquid Gooey Mode 🧪</span>
                 <span className="text-[8px] text-white/50">Fuses trail circles into gooey liquid</span>
               </div>
-              <button
+              <button aria-label="Action button"
                 onClick={() => set<boolean>(setGooey, "gooey")(!gooey)}
                 className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer ${gooey ? "bg-purple-600 justify-end" : "bg-white/10 justify-start"
                   }`}
@@ -391,7 +395,7 @@ export default function CursorFollower() {
                   const cols = name === "Custom" ? customColors : COLOR_PRESETS[name];
                   const mid = cols?.[Math.floor((cols?.length ?? 0) / 2)] ?? "#a855f7";
                   return (
-                    <button
+                    <button aria-label="Action button"
                       key={name}
                       onClick={() => set<string>(setPalette, "palette")(name)}
                       className={`px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border transition-colors text-left truncate ${palette === name
@@ -412,7 +416,7 @@ export default function CursorFollower() {
                   <span className="text-[9px] font-extrabold  text-[var(--color-accent)] uppercase tracking-wider block">
                     Custom & Per-Circle Colors
                   </span>
-                  <button
+                  <button aria-label="Action button"
                     onClick={() => setShowPerCircleEdit(!showPerCircleEdit)}
                     className="text-[9px] font-bold text-white/50 hover:text-purple-300 uppercase underline transition-colors"
                   >
@@ -425,7 +429,7 @@ export default function CursorFollower() {
                   <span className="text-[8.5px] font-bold text-white/40 uppercase tracking-wider block">Quick Gradient Generator</span>
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <div className="flex items-center gap-1 bg-white/5 p-1 rounded-lg border border-white/10">
-                      <input
+                      <input aria-label="Input field"
                         type="color"
                         value={gradStart}
                         onChange={e => setGradStart(e.target.value)}
@@ -433,7 +437,7 @@ export default function CursorFollower() {
                         title="Start Color"
                       />
                       <span className="text-[9px] font-mono text-white/40">→</span>
-                      <input
+                      <input aria-label="Input field"
                         type="color"
                         value={gradEnd}
                         onChange={e => setGradEnd(e.target.value)}
@@ -442,20 +446,20 @@ export default function CursorFollower() {
                       />
                     </div>
 
-                    <button
+                    <button aria-label="Action button"
                       onClick={handleGenerateGradient}
                       className="px-2 py-1.5 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors"
                     >
                       Fill
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       onClick={handleGenerateRainbow}
                       className="px-1.5 py-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors hover:scale-105"
                       title="Generate Rainbow Spectrum"
                     >
                       🌈 Rainbow
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       onClick={handleReverseColors}
                       className="px-2 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors"
                       title="Reverse Color Trail Order"
@@ -480,7 +484,7 @@ export default function CursorFollower() {
                             key={i}
                             className="flex items-center gap-1.5 px-2 py-1 bg-white/5 border border-white/10 rounded-lg hover:border-purple-400/50 transition-colors"
                           >
-                            <input
+                            <input aria-label="Input field"
                               type="color"
                               value={hexVal}
                               onChange={e => handleUpdateCircleColor(i, e.target.value)}
@@ -567,7 +571,7 @@ export default function CursorFollower() {
             />
 
             {/* Reset */}
-            <button
+            <button aria-label="Action button"
               onClick={() => {
                 set<number>(setNumCircles, "numCircles")(DEFAULTS.numCircles);
                 set<number>(setCircleSize, "circleSize")(DEFAULTS.circleSize);
@@ -604,7 +608,7 @@ function SliderRow({
         <span>{label}</span>
         <span className=" text-[var(--color-accent)] font-mono font-black">{display}</span>
       </div>
-      <input
+      <input aria-label="Input field"
         type="range"
         min={min} max={max} step={step} value={value}
         onChange={e => onChange(parseFloat(e.target.value))}

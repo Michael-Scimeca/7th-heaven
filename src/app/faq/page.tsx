@@ -189,7 +189,7 @@ export default function FAQPage() {
             <div className="pl-4 pr-2 text-[var(--muted-text)]">
               <SearchIcon />
             </div>
-            <input
+            <input aria-label="Search"
               type="text"
               placeholder="Search questions, keywords, or topics..."
               value={searchQuery}
@@ -197,7 +197,7 @@ export default function FAQPage() {
               className="bg-transparent border-none outline-none w-full text-[var(--text-color)] placeholder:text-[var(--muted-text)] py-3 text-sm focus:ring-0 focus:outline-none"
             />
             {searchQuery && (
-              <button 
+              <button aria-label="Search" 
                 onClick={() => setSearchQuery("")}
                 className="text-[var(--muted-text)] hover:text-[var(--text-color)] px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--card-bg)] transition"
               >
@@ -213,7 +213,7 @@ export default function FAQPage() {
             const Icon = cat.icon;
             const isActive = activeTab === cat.id;
             return (
-              <button
+              <button aria-label="Action button"
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition duration-200 border ${
@@ -245,7 +245,7 @@ export default function FAQPage() {
                       : "border-black/10 hover:border-black/20"
                   }`}
                 >
-                  <button
+                  <button aria-label="Action button"
                     onClick={() => toggleExpand(faq.id)}
                     className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none"
                   >

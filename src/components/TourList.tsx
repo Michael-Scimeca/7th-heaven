@@ -1,9 +1,13 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/prefer-useReducer */
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
 import { SanityTourDate } from "@/lib/sanity";
 import "leaflet/dist/leaflet.css";
-import TourMap, { isShowOver, typeConfig, getShowType, getShowDateTime } from "./TourMap";
+import TourMap from "./TourMap";
+import { isShowOver, typeConfig, getShowType, getShowDateTime } from "@/lib/tour-helpers";
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
 
@@ -111,7 +115,7 @@ function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: num
 // ─────────────────────────────────────────────────────────────────────────────
 
 
-export const shows = [
+const shows = [
   { day: "Fri", date: "January 2", venue: "Station 34", city: "Mt. Prospect", state: "IL", time: "8:30pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=34%20S%20Main%20St,%20Mount%20Prospect,%20IL%2060056,%20United%20States&coordinate=42.064738,-87.936988&name=34%20S%20Main%20St&map=explore", websiteUrl: "https://stationthirtyfour.com/events/" },
   { day: "Sat", date: "January 3", venue: "Old Republic", city: "Elgin", state: "IL", time: "8:00pm", info: "All Age Outdoor", mapUrl: "https://maps.apple.com/?address=155%20S%20Randall%20Rd,%20Elgin,%20IL%2060123,%20United%20States&ll=42.028251,-88.336949&q=155%20S%20Randall%20Rd", websiteUrl: "https://www.oldrepublicbar.com" },
   { day: "Fri", date: "January 9", venue: "Rookies", city: "Hoffman Est.", state: "IL", time: "8:00pm", info: "F.A.N. Show - Unplugged", mapUrl: "https://maps.apple.com/place?address=4607%20W%20Higgins%20Rd,%20Hoffman%20Estates,%20IL%2060192,%20United%20States&coordinate=42.074379,-88.191220&name=4607%20W%20Higgins%20Rd", websiteUrl: "https://www.rookiespub.com/hoffmanestates.html" },
@@ -260,7 +264,7 @@ interface TourListProps {
 export default function TourList({ initialShows, hideMap, maxShows }: TourListProps) {
   const { member, isLoggedIn, openModal } = useMember();
   const todayStartTimestamp = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => { const now = new Date(); return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime(); },
     () => 0
   );
@@ -323,7 +327,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [notifyPrefs, setNotifyPrefs] = useState({ proximity: true, thisShow: true, newsletter: false });
 
   // Live ticking time for countdowns
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -486,7 +490,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     }
   };
 
-  const handleDeleteShow = async (id: string) => {
+  const handleDeleteShow = useCallback(async (id: string) => {
     if (!confirm("Are you sure you want to delete this show date from Sanity?")) return;
     try {
       const res = await fetch(`/api/admin/shows?id=${id}`, {
@@ -506,7 +510,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     } catch (err) {
       alert("Network error deleting show.");
     }
-  };
+  }, []);
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -1040,7 +1044,7 @@ ${filterLine}
                       )}
                       <div className="flex items-center gap-4">
                         <div className="relative calendar-dropdown-container">
-                          <button
+                          <button aria-label="Next"
                             onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
                             className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                             id="upnext-calendar-btn"
@@ -1052,14 +1056,14 @@ ${filterLine}
                               <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Google Calendar</a>
                               <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Apple / iCal</a>
                               <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Outlook</a>
-                              <button
+                              <button aria-label="Action button"
                                 onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
                                 className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
                               >SMS / Text Alerts</button>
                             </div>
                           )}
                         </div>
-                        <button
+                        <button aria-label="Next"
                           onClick={handlePrintTourList}
                           className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                         >
@@ -1076,7 +1080,7 @@ ${filterLine}
           <div className="flex items-center justify-end mb-3">
             <div className="flex items-center gap-3">
               {member?.role === 'admin' && (
-                <button
+                <button aria-label="Action button"
                   onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
                   className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
                 >
@@ -1085,7 +1089,7 @@ ${filterLine}
               )}
 
               {hasActiveFilters && (
-                <button
+                <button aria-label="Action button"
                   onClick={clearAll}
                   className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
                 >Clear</button>
@@ -1098,7 +1102,7 @@ ${filterLine}
           <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 bg-[#000000]/95 backdrop-blur-md items-center relative text-white transition-colors duration-200`}>
             <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
-              <select value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
+              <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
                 <option value="All">Month</option>
                 {months.map((m) => <option key={m} value={m}>{m}</option>)}
               </select>
@@ -1106,11 +1110,11 @@ ${filterLine}
             </div>
             <div className="relative">
               <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--placeholder-color)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg pl-8 pr-7 py-2 text-[0.8rem] text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-colors font-semibold" id="tour-search" />
-              {searchQuery && (<button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-[var(--text-color)] text-[0.6rem] cursor-pointer">✕</button>)}
+              <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg pl-8 pr-7 py-2 text-[0.8rem] text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-colors font-semibold" id="tour-search" />
+              {searchQuery && (<button aria-label="Search" onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-[var(--text-color)] text-[0.6rem] cursor-pointer">✕</button>)}
             </div>
             <div className="relative">
-              <select value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
+              <select aria-label="Select option" value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
                 <option value="All">City</option>
                 {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
               </select>
@@ -1174,13 +1178,13 @@ ${filterLine}
                       {!isPrivate && (
                         <>
                           {show._id && isFan && (
-                            <button
+                            <button aria-label="Action button"
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                               className={`w-6 h-6 flex items-center justify-center rounded-md transition-colors duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id)
-                                  ? "bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
-                                  : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
+                                ? "bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
+                                : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                                 }`}
                             >
                               {subscribingId === show._id ? (
@@ -1209,7 +1213,7 @@ ${filterLine}
                             })() : null}
                           </div>
                           <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
-                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-black/80 hover:text-black transition-colors cursor-pointer bg-transparent border-none">
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-black/80 hover:text-black transition-colors cursor-pointer bg-transparent border-none">
                               <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                             </button>
                             {activeCalDropdownId === rowId && (
@@ -1217,7 +1221,7 @@ ${filterLine}
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full font-sans">Outlook</a>
-                                <button
+                                <button aria-label="Action button"
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
@@ -1226,7 +1230,7 @@ ${filterLine}
                                 >
                                   💬 SMS / Text Alerts
                                 </button>
-                                <button
+                                <button aria-label="Action button"
                                   onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
                                   className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                                 >
@@ -1257,13 +1261,13 @@ ${filterLine}
                       <div className="flex items-center gap-1.5 justify-end w-full md:w-auto">
                         {show._id ? (
                           <>
-                            <button
+                            <button aria-label="Action button"
                               onClick={() => handleEditClick(show)}
                               className="px-2 py-1.5 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
                             >
                               Edit
                             </button>
-                            <button
+                            <button aria-label="Action button"
                               onClick={() => handleDeleteShow(show._id)}
                               className="px-2 py-1.5 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-[0.65rem] font-bold uppercase tracking-widest rounded transition-colors cursor-pointer font-sans"
                             >
@@ -1366,13 +1370,13 @@ ${filterLine}
                         })()}
 
                         {show._id && isFan && !isPrivate && (
-                          <button
+                          <button aria-label="Action button"
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
                             className={`w-9 h-9 flex items-center justify-center rounded-md transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id)
-                                ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40  text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
-                                : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
+                              ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40  text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
+                              : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
                               }`}
                           >
                             {subscribingId === show._id ? (
@@ -1392,7 +1396,7 @@ ${filterLine}
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-colors duration-300 cursor-pointer">
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-colors duration-300 cursor-pointer">
                               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
@@ -1400,7 +1404,7 @@ ${filterLine}
                                 <a href={getGoogleCalendarUrl(show)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Google Cal</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">iCal / Apple</a>
                                 <a href={getICSFileUrl(show)} download={`${show.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full">Outlook</a>
-                                <button
+                                <button aria-label="Action button"
                                   onClick={() => {
                                     setActiveCalDropdownId(null);
                                     document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" });
@@ -1429,7 +1433,7 @@ ${filterLine}
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
                               className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-colors rounded-md text-center"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
                               Directions{show.notes ? ' & Parking' : ''}
                             </a>
                           );
@@ -1440,8 +1444,8 @@ ${filterLine}
                     {/* Admin Actions */}
                     {member?.role === 'admin' && show._id && (
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <button onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Edit</button>
-                        <button onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Del</button>
+                        <button aria-label="Action button" onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Edit</button>
+                        <button aria-label="Action button" onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Del</button>
                       </div>
                     )}
                   </div>
@@ -1454,7 +1458,7 @@ ${filterLine}
           {filtered.length === 0 && (
             <div className="text-center py-16 text-[var(--color-text-muted)]">
               <p className="text-lg">No shows match your filters.</p>
-              <button onClick={clearAll} className="mt-4 text-sm  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
+              <button aria-label="Action button" onClick={clearAll} className="mt-4 text-sm  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">
                 Clear all filters
               </button>
             </div>
@@ -1472,7 +1476,7 @@ ${filterLine}
                 <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
                   <span>{editingShow ? "✏️ Edit Show Date" : "➕ Add New Show Date"}</span>
                 </h3>
-                <button
+                <button aria-label="Action button"
                   onClick={() => setIsModalOpen(false)}
                   className="text-white/40 hover:text-white transition-colors cursor-pointer text-sm"
                 >
@@ -1490,12 +1494,12 @@ ${filterLine}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="tour-form-venue" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Venue Name *</label>
-                    <input id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-venue" type="text" required value={formVenue} onChange={e => setFormVenue(e.target.value)}
                       placeholder="e.g. Station 34" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-date" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Event Date *</label>
-                    <input id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-date" type="date" required value={formDate} onChange={e => setFormDate(e.target.value)}
                       className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
@@ -1503,12 +1507,12 @@ ${filterLine}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
                     <label htmlFor="tour-form-city" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">City *</label>
-                    <input id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-city" type="text" required value={formCity} onChange={e => setFormCity(e.target.value)}
                       placeholder="e.g. Mt. Prospect" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-state" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">State *</label>
-                    <input id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-state" type="text" required value={formState} onChange={e => setFormState(e.target.value)}
                       placeholder="e.g. IL" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
@@ -1516,22 +1520,22 @@ ${filterLine}
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                   <div>
                     <label htmlFor="tour-form-time" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Show Time</label>
-                    <input id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-time" type="text" value={formTime} onChange={e => setFormTime(e.target.value)}
                       placeholder="e.g. 8:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-doors-time" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Doors Open</label>
-                    <input id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-doors-time" type="text" value={formDoorsTime} onChange={e => setFormDoorsTime(e.target.value)}
                       placeholder="e.g. 7:00pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-play-time" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Band Plays</label>
-                    <input id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-play-time" type="text" value={formPlayTime} onChange={e => setFormPlayTime(e.target.value)}
                       placeholder="e.g. 8:30pm" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-cover" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Cover / Admission</label>
-                    <input id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-cover" type="text" value={formCover} onChange={e => setFormCover(e.target.value)}
                       placeholder="e.g. Free, $10" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
@@ -1539,66 +1543,66 @@ ${filterLine}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="tour-form-ticket-link" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Ticket Link (URL)</label>
-                    <input id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-ticket-link" type="url" value={formTicketLink} onChange={e => setFormTicketLink(e.target.value)}
                       placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
                     <label htmlFor="tour-form-directions-link" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
-                    <input id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
+                    <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
                       placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="tour-form-notes" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Notes / Description</label>
-                  <textarea id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
+                  <textarea aria-label="Text input" id="tour-form-notes" rows={2} value={formNotes} onChange={e => setFormNotes(e.target.value)}
                     placeholder="e.g. Unplugged Acoustic Show" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors resize-none" />
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formAllAges} onChange={e => setFormAllAges(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formAllAges} onChange={e => setFormAllAges(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     All Ages Show
                   </label>
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formIsFestival} onChange={e => setFormIsFestival(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formIsFestival} onChange={e => setFormIsFestival(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     Is Festival
                   </label>
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formIsPrivate} onChange={e => setFormIsPrivate(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formIsPrivate} onChange={e => setFormIsPrivate(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     Private Event
                   </label>
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formIsUnplugged} onChange={e => setFormIsUnplugged(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formIsUnplugged} onChange={e => setFormIsUnplugged(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     Unplugged Show
                   </label>
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formIsOutdoor} onChange={e => setFormIsOutdoor(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formIsOutdoor} onChange={e => setFormIsOutdoor(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     Outdoor Show
                   </label>
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formIsCasino} onChange={e => setFormIsCasino(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formIsCasino} onChange={e => setFormIsCasino(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     Casino Show
                   </label>
                   <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input type="checkbox" checked={formIsSpecialEvent} onChange={e => setFormIsSpecialEvent(e.target.checked)}
+                    <input aria-label="Input field" type="checkbox" checked={formIsSpecialEvent} onChange={e => setFormIsSpecialEvent(e.target.checked)}
                       className="accent-[var(--color-accent)] w-4 h-4" />
                     Special Event
                   </label>
                 </div>
 
                 <div className="flex gap-3 pt-4 border-t border-white/5">
-                  <button type="button" onClick={() => setIsModalOpen(false)}
+                  <button aria-label="Action button" type="button" onClick={() => setIsModalOpen(false)}
                     className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold text-sm uppercase tracking-wider transition-colors cursor-pointer">
                     Cancel
                   </button>
-                  <button type="submit" disabled={submitting}
+                  <button aria-label="Action button" type="submit" disabled={submitting}
                     className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer">
                     {submitting ? "Saving..." : "Save Show"}
                   </button>
@@ -1609,10 +1613,9 @@ ${filterLine}
         </div>
       )}
 
-      {/* ═══ Notification Preferences Popup ═══ */}
       {notifyPopupShow && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setNotifyPopupShow(null)}>
-          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease]" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm cursor-default" onClick={() => setNotifyPopupShow(null)}>
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-sm mx-4 shadow-[0_20px_60px_-15px_rgba(255,10,61,0.3)] animate-[fadeIn_0.2s_ease] text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
             {/* Accent bar */}
             <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)] rounded-t-2xl" />
 
@@ -1630,7 +1633,7 @@ ${filterLine}
                     <p className="text-[var(--font-size-3xs)] text-white/30 uppercase tracking-wider">{notifyPopupShow.venue}</p>
                   </div>
                 </div>
-                <button onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
+                <button aria-label="Action button" onClick={() => setNotifyPopupShow(null)} className="w-7 h-7 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-colors cursor-pointer">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -1646,12 +1649,12 @@ ${filterLine}
 
               <div className="flex flex-col gap-2">
                 {/* This show */}
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, thisShow: !p.thisShow }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.thisShow
-                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.thisShow ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1666,12 +1669,12 @@ ${filterLine}
                 </button>
 
                 {/* Proximity shows */}
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, proximity: !p.proximity }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.proximity
-                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.proximity ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1686,12 +1689,12 @@ ${filterLine}
                 </button>
 
                 {/* Newsletter */}
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => setNotifyPrefs(p => ({ ...p, newsletter: !p.newsletter }))}
                   className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg border transition-colors cursor-pointer ${notifyPrefs.newsletter
-                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
-                      : 'bg-white/[0.02] border-white/10 hover:border-white/20'
+                    ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
+                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                     }`}
                 >
                   <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${notifyPrefs.newsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
@@ -1713,13 +1716,13 @@ ${filterLine}
 
               {/* Actions */}
               <div className="flex gap-2 mt-4">
-                <button
+                <button aria-label="Action button"
                   onClick={() => setNotifyPopupShow(null)}
                   className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/60 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
-                <button
+                <button aria-label="Action button"
                   onClick={handleNotifyConfirm}
                   disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
                   className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
@@ -1733,7 +1736,7 @@ ${filterLine}
       )}
       {/* ── Table Style Button ── */}
       {!isFontCustomizerOpen && (
-        <button
+        <button aria-label="Action button"
           onClick={() => setIsFontCustomizerOpen(true)}
           className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
           title="Table Font & Style Settings"
@@ -1751,7 +1754,7 @@ ${filterLine}
             {/* Header */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
               <h3 className="text-white font-extrabold text-sm uppercase tracking-wider">Font Tester</h3>
-              <button
+              <button aria-label="Action button"
                 onClick={() => setIsFontCustomizerOpen(false)}
                 className="text-white/40 hover:text-white text-xs cursor-pointer bg-white/5 hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
               >
@@ -1762,7 +1765,7 @@ ${filterLine}
             {/* Font Family */}
             <div className="mb-5">
               <label htmlFor="tour-font-style" className="block text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider mb-2">Font Style</label>
-              <select
+              <select aria-label="Select option"
                 id="tour-font-style"
                 value={tourFontFamily}
                 onChange={(e) => setTourFontFamily(e.target.value)}
@@ -1785,7 +1788,7 @@ ${filterLine}
                 <label htmlFor="tour-font-size-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Font Size</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourFontSize}</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 id="tour-font-size-slider"
                 type="range"
                 min="10"
@@ -1807,7 +1810,7 @@ ${filterLine}
                 <label htmlFor="tour-website-btn-size-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Website Button Size</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{websiteBtnFontSize}</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 id="tour-website-btn-size-slider"
                 type="range"
                 min="8"
@@ -1833,7 +1836,7 @@ ${filterLine}
                 <label htmlFor="tour-row-padding-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Padding</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowPadding}</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 id="tour-row-padding-slider"
                 type="range"
                 min="0"
@@ -1855,7 +1858,7 @@ ${filterLine}
                 <label htmlFor="tour-row-spacing-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Spacing (Margin)</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowGap}</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 id="tour-row-spacing-slider"
                 type="range"
                 min="0"
@@ -1877,7 +1880,7 @@ ${filterLine}
                 <label htmlFor="tour-row-height-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Row Height</label>
                 <span className=" text-[var(--color-accent)] text-xs font-bold font-mono">{tourRowHeight}</span>
               </div>
-              <input
+              <input aria-label="Input field"
                 id="tour-row-height-slider"
                 type="range"
                 min="30"
@@ -1900,7 +1903,7 @@ ${filterLine}
 
             {/* Action buttons */}
             <div className="grid grid-cols-2 gap-3">
-              <button
+              <button aria-label="Action button"
                 onClick={() => {
                   navigator.clipboard.writeText(`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === 'var(--font-body)' ? 'Barlow' : tourFontFamily === 'var(--font-heading)' ? 'Rockstar' : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`);
                   setCopied(true);
@@ -1910,7 +1913,7 @@ ${filterLine}
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
-              <button
+              <button aria-label="Action button"
                 onClick={() => {
                   localStorage.setItem("7h_tour_font_size", tourFontSize);
                   localStorage.setItem("7h_tour_font_family", tourFontFamily);

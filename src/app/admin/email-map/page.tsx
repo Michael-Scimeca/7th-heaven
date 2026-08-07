@@ -4,6 +4,24 @@ import React from "react";
 
 // --- Components ---
 
+const COLORS = {
+  blue: "border-blue-500/30 bg-blue-500/5 text-blue-300",
+  purple: "border-purple-500/30 bg-purple-500/5 text-purple-300",
+  red: "border-red-500/30 bg-red-500/5 text-red-300",
+  amber: "border-purple-500/30 bg-purple-600/5 text-purple-200",
+  cyan: "border-cyan-500/30 bg-cyan-500/5 text-cyan-300",
+  emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
+};
+
+const DOTS = {
+  blue: "bg-blue-500",
+  purple: "bg-purple-500",
+  red: "bg-red-500",
+  amber: "bg-purple-600",
+  cyan: "bg-cyan-500",
+  emerald: "bg-emerald-500",
+};
+
 function Node({
   label,
   sub,
@@ -19,28 +37,10 @@ function Node({
   wide?: boolean;
   small?: boolean;
 }) {
-  const colors = {
-    blue: "border-blue-500/30 bg-blue-500/5 text-blue-300",
-    purple: "border-purple-500/30 bg-purple-500/5 text-purple-300",
-    red: "border-red-500/30 bg-red-500/5 text-red-300",
-    amber: "border-purple-500/30 bg-purple-600/5 text-purple-200",
-    cyan: "border-cyan-500/30 bg-cyan-500/5 text-cyan-300",
-    emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
-  };
-
-  const dots = {
-    blue: "bg-blue-500",
-    purple: "bg-purple-500",
-    red: "bg-red-500",
-    amber: "bg-purple-600",
-    cyan: "bg-cyan-500",
-    emerald: "bg-emerald-500",
-  };
-
   return (
-    <div className={`border transition-colors flex flex-col items-center justify-center text-center w-full ${colors[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
+    <div className={`border transition-colors flex flex-col items-center justify-center text-center w-full ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}>
       <div className="flex items-center gap-1.5 mb-0.5">
-        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dots[color]}`} />
+        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${DOTS[color]}`} />
         <span className="text-xs font-black uppercase tracking-widest leading-tight">
           {icon && <span className="mr-1">{icon}</span>}
           {label}

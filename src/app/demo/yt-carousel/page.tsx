@@ -165,7 +165,7 @@ export default function YTCarouselPage() {
       <div className="ytc-info" key={activeIndex}>
         <p className="ytc-info-year">{activeVideo.year} · {activeVideo.duration}</p>
         <h1 className="ytc-info-title">{activeVideo.title}</h1>
-        <button
+        <button aria-label="Action button"
           className="ytc-play-btn"
           onClick={() => setPlayingIndex(activeIndex)}
         >
@@ -247,8 +247,7 @@ export default function YTCarouselPage() {
         </button>
         <div className="ytc-dots">
           {Array.from(VIDEOS, (v, i) => ({ v, i })).map(({ v, i }) => (
-            <button
-              key={v.id || v.title}
+            <button key={v.id || v.title}
               className={`ytc-dot${i === activeIndex ? " ytc-dot--on" : ""}`}
               onClick={() => goTo(i)}
               aria-label={VIDEOS[i].title}

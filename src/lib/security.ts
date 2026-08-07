@@ -26,7 +26,7 @@ interface ProtectActionOptions {
   /** Max requests allowed in the window. Defaults to 5. */
   requests?: number;
   /** Sliding window duration, e.g. '60 m', '1 h'. Defaults to '60 m'. */
-  window?: string;
+  windowDuration?: string;
 }
 
 /**
@@ -53,7 +53,7 @@ export async function protectAction(
       opts.identifier,
       opts.identifier,
       opts.requests ?? 5,
-      opts.window ?? '60 m'
+      opts.windowDuration ?? '60 m'
     );
     if (rateLimited) {
       return { success: false, error: 'Too many requests. Please try again later.', status: 429 };

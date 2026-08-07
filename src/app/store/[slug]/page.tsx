@@ -55,7 +55,7 @@ export default function ProductDetailPage() {
               </span>
               <div className="flex gap-2">
                 {["S", "M", "L", "XL", "XXL"].map((size) => (
-                  <button
+                  <button aria-label="Action button"
                     key={size}
                     onClick={() => setSelectedSize(size)}
                     className={`w-12 h-12 flex items-center justify-center font-bold text-sm border transition-colors cursor-pointer ${selectedSize === size
@@ -75,14 +75,14 @@ export default function ProductDetailPage() {
                 Quantity
               </span>
               <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 w-fit px-2 py-1 rounded-lg">
-                <button
+                <button aria-label="Action button"
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
                   className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer text-lg font-bold"
                 >
                   -
                 </button>
                 <span className="w-8 text-center font-bold text-sm">{quantity}</span>
-                <button
+                <button aria-label="Action button"
                   onClick={() => setQuantity(q => q + 1)}
                   className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer text-lg font-bold"
                 >
@@ -92,7 +92,7 @@ export default function ProductDetailPage() {
             </div>
 
             <div className="pt-4 space-y-3">
-              <button
+              <button aria-label="Action button"
                 onClick={() => {
                   setAdded(true);
                   setTimeout(() => setAdded(false), 2000);

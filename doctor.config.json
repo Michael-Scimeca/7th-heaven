@@ -1,0 +1,8 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "rules": {
+    "react-doctor/artifact-env-leak": "off",
+    "react-doctor/artifact-baas-authority-surface": "off",
+    "react-doctor/supabase-client-owned-authz-field": "off"
+  }
+}

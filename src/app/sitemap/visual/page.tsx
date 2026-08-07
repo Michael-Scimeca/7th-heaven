@@ -1,8 +1,24 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+
+// Group pages by category for the legend
+const VISUAL_CATEGORIES = [
+  { key: "public", label: "Public Pages", icon: "🌐" },
+  { key: "dashboard", label: "Dashboards", icon: "📊" },
+  { key: "admin", label: "Admin Tools", icon: "🔧" },
+  { key: "email", label: "Email Templates", icon: "📧" },
+];
+
+const VISUAL_CONN_TYPES = [
+  { key: "navigation", label: "Page Navigation", color: "bg-cyan-400" },
+  { key: "auth", label: "Auth / Signup Flow", color: "bg-violet-400" },
+  { key: "data", label: "Data Pipeline", color: "bg-emerald-400" },
+  { key: "email", label: "Email Trigger", color: "bg-purple-500" },
+];
 
 /* ─────────── Type Definitions ─────────── */
 interface PageNode {
@@ -170,20 +186,7 @@ export default function VisualSitemapPage() {
 
   const lightboxPage = lightboxId ? pages.find(p => p.id === lightboxId) : null;
 
-  // Group pages by category for the legend
-  const categories = [
-    { key: "public", label: "Public Pages", icon: "🌐" },
-    { key: "dashboard", label: "Dashboards", icon: "📊" },
-    { key: "admin", label: "Admin Tools", icon: "🔧" },
-    { key: "email", label: "Email Templates", icon: "📧" },
-  ];
 
-  const connTypes = [
-    { key: "navigation", label: "Page Navigation", color: "bg-cyan-400" },
-    { key: "auth", label: "Auth / Signup Flow", color: "bg-violet-400" },
-    { key: "data", label: "Data Pipeline", color: "bg-emerald-400" },
-    { key: "email", label: "Email Trigger", color: "bg-purple-500" },
-  ];
 
   return (
     <main className="min-h-screen bg-[rgb(8,8,12)] pt-28 pb-24 px-6 md:px-12 lg:px-20 relative overflow-hidden">
@@ -228,7 +231,7 @@ export default function VisualSitemapPage() {
         {/* Legend */}
         <div className="flex flex-wrap justify-center gap-6 mb-10">
           <div className="flex flex-wrap gap-3 items-center">
-            {categories.map(cat => (
+            {VISUAL_CATEGORIES.map(cat => (
               <span key={cat.key} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.6rem] font-bold uppercase tracking-wider border ${categoryStyles[cat.key].border} ${categoryStyles[cat.key].bg} ${categoryStyles[cat.key].text}`}>
                 {cat.icon} {cat.label}
               </span>
@@ -236,7 +239,7 @@ export default function VisualSitemapPage() {
           </div>
           <div className="w-px h-6 bg-white/10 self-center hidden md:block" />
           <div className="flex flex-wrap gap-3 items-center">
-            {connTypes.map(ct => (
+            {VISUAL_CONN_TYPES.map(ct => (
               <span key={ct.key} className="inline-flex items-center gap-1.5 text-[0.6rem] font-bold uppercase tracking-wider text-white/40">
                 <span className={`w-3 h-0.5 rounded-full ${ct.color}`} />
                 {ct.label}
@@ -320,14 +323,14 @@ export default function VisualSitemapPage() {
                     onMouseLeave={() => setHoveredId(null)}
                   >
                     {/* Screenshot thumbnail */}
-                    <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
+                    <button type="button" className="w-full text-left relative h-[120px] overflow-hidden bg-black/40 cursor-zoom-in p-0 border-0" onClick={() => setLightboxId(page.id)}>
                       <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
                         <span className="text-[0.5rem] font-mono px-1.5 py-0.5 rounded bg-black/50 text-white/50">{page.route}</span>
                       </div>
-                    </div>
+                    </button>
                     {/* Info */}
                     <div className="p-3">
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
@@ -362,14 +365,14 @@ export default function VisualSitemapPage() {
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
+                    <button type="button" className="w-full text-left relative h-[120px] overflow-hidden bg-black/40 cursor-zoom-in p-0 border-0" onClick={() => setLightboxId(page.id)}>
                       <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
                         <span className="text-[0.5rem] font-mono px-1.5 py-0.5 rounded bg-black/50 text-white/50">{page.route}</span>
                       </div>
-                    </div>
+                    </button>
                     <div className="p-3">
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
@@ -403,14 +406,14 @@ export default function VisualSitemapPage() {
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
+                    <button type="button" className="w-full text-left relative h-[120px] overflow-hidden bg-black/40 cursor-zoom-in p-0 border-0" onClick={() => setLightboxId(page.id)}>
                       <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
                         <span className="text-[0.5rem] font-mono px-1.5 py-0.5 rounded bg-black/50 text-white/50">{page.route}</span>
                       </div>
-                    </div>
+                    </button>
                     <div className="p-3">
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
@@ -444,14 +447,14 @@ export default function VisualSitemapPage() {
                     onMouseEnter={() => setHoveredId(page.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    <div className="relative w-full h-[120px] overflow-hidden bg-black/40 cursor-zoom-in" onClick={() => setLightboxId(page.id)}>
+                    <button type="button" className="w-full text-left relative h-[120px] overflow-hidden bg-black/40 cursor-zoom-in p-0 border-0" onClick={() => setLightboxId(page.id)}>
                       <Image src={page.screenshot} alt={page.name} fill className="object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-colors duration-500" sizes="300px" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <h3 className={`text-sm font-black uppercase tracking-wide ${style.text}`}>{page.name}</h3>
                         <span className="text-[0.5rem] font-mono px-1.5 py-0.5 rounded bg-black/50 text-white/50">{page.route}</span>
                       </div>
-                    </div>
+                    </button>
                     <div className="p-3">
                       <p className="text-[0.6rem] text-white/40 leading-relaxed line-clamp-2">{page.desc}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
@@ -546,9 +549,9 @@ export default function VisualSitemapPage() {
 
       {/* ═══════════ Lightbox Modal ═══════════ */}
       {lightboxPage && (
-        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6" onClick={() => setLightboxId(null)}>
-          <div className="max-w-5xl w-full max-h-[90vh] relative" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setLightboxId(null)} className="absolute -top-10 right-0 text-white/40 hover:text-white text-sm uppercase tracking-widest font-bold cursor-pointer">✕ Close</button>
+        <div className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6 cursor-default" onClick={() => setLightboxId(null)}>
+          <div className="max-w-5xl w-full max-h-[90vh] relative cursor-auto" onClick={(e) => e.stopPropagation()}>
+            <button aria-label="Action button" onClick={() => setLightboxId(null)} className="absolute -top-10 right-0 text-white/40 hover:text-white text-sm uppercase tracking-widest font-bold cursor-pointer">✕ Close</button>
             <div className="bg-[rgb(12,12,18)] border border-white/10 overflow-hidden">
               <div className="p-4 border-b border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-3">

@@ -62,14 +62,17 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const save = async () => {
     if (!selectedShowId || !challenge.reward_name) return;
     setSaving(true);
-    await fetch("/api/admin/invite-challenge", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ show_id: selectedShowId, ...challenge }),
-    });
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+    try {
+      await fetch("/api/admin/invite-challenge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ show_id: selectedShowId, ...challenge }),
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const selectedShow = shows.find((s) => s._id === selectedShowId);
@@ -80,9 +83,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       <div className="absolute top-0 left-0 w-64 h-32 bg-[var(--color-accent)]/10 blur-[60px] pointer-events-none" />
 
       {/* Accordion Toggle Header */}
-      <div
+      <button
+        type="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group"
+        className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0 bg-transparent"
       >
         <div>
           <p className="text-xs uppercase tracking-[0.2em] font-bold  text-[var(--color-accent)] mb-0.5">Show Promotions</p>
@@ -104,14 +108,14 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
           </div>
         </div>
-      </div>
+      </button>
 
       {!isCollapsed && (
         <div className="relative p-6 pt-0 border-t border-white/[0.04] mt-1 space-y-5 animate-[fadeIn_0.2s_ease-out]">
           {/* Show picker */}
           <div className="mb-4 mt-4">
             <label htmlFor="invite-challenge-show-select" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">Select Show</label>
-            <select
+            <select aria-label="Select option"
               id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
@@ -138,8 +142,8 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       <p className="text-sm font-bold text-white">Enable challenge for this show</p>
                       <p className="text-xs text-white/30 mt-0.5">Fans will see this on the show page</p>
                     </div>
-                    <button
-                      onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
+                    <button aria-label="Action button"
+                         onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
                       className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-colors ${challenge.enabled ? "left-6" : "left-0.5"}`} />
@@ -154,7 +158,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                           Invite Threshold
                         </label>
                         <div className="flex items-center gap-3">
-                          <input
+                          <input aria-label="Input field"
                             id="invite-challenge-threshold"
                             type="number"
                             min={1}
@@ -172,7 +176,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                         <label htmlFor="invite-challenge-reward-name" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Reward Name
                         </label>
-                        <input
+                        <input aria-label="Input field"
                           id="invite-challenge-reward-name"
                           type="text"
                           value={challenge.reward_name}
@@ -187,7 +191,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                         <label htmlFor="invite-challenge-claim-instructions" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-1.5 block font-bold">
                           Claim Instructions
                         </label>
-                        <textarea
+                        <textarea aria-label="Text input"
                           id="invite-challenge-claim-instructions"
                           value={challenge.reward_description}
                           onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
@@ -219,8 +223,8 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   )}
 
                   {/* Save */}
-                  <button
-                    onClick={save}
+                  <button aria-label="Action button"
+                       onClick={save}
                     disabled={saving || !challenge.reward_name}
                     className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-colors ${saved
                       ? "bg-emerald-600 text-white"

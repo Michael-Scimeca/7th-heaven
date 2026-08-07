@@ -58,7 +58,7 @@ export default function CruiseVideoGallery() {
         {categories.length > 1 && (
           <div className="flex flex-wrap gap-2 justify-center mt-8">
             {categories.map(cat => (
-              <button
+              <button aria-label="Action button"
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
@@ -89,7 +89,7 @@ export default function CruiseVideoGallery() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredVideos.map(vid => (
-            <button
+            <button aria-label="Action button"
               type="button"
               key={vid.id}
               onClick={() => setActiveVideo(vid)}
@@ -156,7 +156,7 @@ export default function CruiseVideoGallery() {
                 </h3>
               </div>
 
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={() => setActiveVideo(null)}
                 className="text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 transition-colors cursor-pointer"
@@ -172,7 +172,9 @@ export default function CruiseVideoGallery() {
                 autoPlay
                 muted
                 className="w-full h-full object-contain"
-              />
+              >
+                <track kind="captions" />
+              </video>
             </div>
           </div>
         </div>

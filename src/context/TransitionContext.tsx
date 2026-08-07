@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useRef, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect, useMemo, ReactNode } from "react";
 
 // ── Mode ─────────────────────────────────────────────────────────────────────
 // idle       → no transition
@@ -65,18 +65,21 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
   const clearPendingHref = useCallback(() => setPendingHref(null), []);
 
+  const value = useMemo(
+    () => ({
+      mode,
+      setMode,
+      pendingHref,
+      requestTransition,
+      clearPendingHref,
+      isTransitioning: mode !== "idle",
+      isCovered: mode === "covered" || mode === "uncovering",
+    }),
+    [mode, setMode, pendingHref, requestTransition, clearPendingHref]
+  );
+
   return (
-    <TransitionContext.Provider
-      value={{
-        mode,
-        setMode,
-        pendingHref,
-        requestTransition,
-        clearPendingHref,
-        isTransitioning: mode !== "idle",
-        isCovered: mode === "covered" || mode === "uncovering",
-      }}
-    >
+    <TransitionContext.Provider value={value}>
       {children}
     </TransitionContext.Provider>
   );

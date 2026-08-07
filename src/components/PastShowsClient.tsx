@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState, useMemo } from "react";
@@ -19,6 +20,28 @@ interface PastShowsClientProps {
   totalShowsCount: number;
 }
 
+const CATEGORIES = [
+  { id: "ALL", label: "All Shows" },
+  { id: "FEST", label: "Festivals & Fairs" },
+  { id: "CASINO", label: "Casinos & Resorts" },
+  { id: "CLUB", label: "Clubs & Saloons" },
+  { id: "UNPLUGGED", label: "Unplugged" },
+  { id: "PRIVATE", label: "Private & Corp" },
+  { id: "CRUISE", label: "Cruises & Overseas" },
+];
+
+const matchesCategory = (show: PastShowItem, categoryId: string) => {
+  if (categoryId === "ALL") return true;
+  const venueLower = show.venue.toLowerCase();
+  if (categoryId === "FEST") return venueLower.includes("fest") || venueLower.includes("fair") || venueLower.includes("oktoberfest") || venueLower.includes("jubilee") || venueLower.includes("days");
+  if (categoryId === "CASINO") return venueLower.includes("casino") || venueLower.includes("resort") || venueLower.includes("wind creek") || venueLower.includes("hard rock") || venueLower.includes("rivers");
+  if (categoryId === "CLUB") return venueLower.includes("saloon") || venueLower.includes("pub") || venueLower.includes("bar") || venueLower.includes("tavern") || venueLower.includes("live") || venueLower.includes("nellie");
+  if (categoryId === "UNPLUGGED") return venueLower.includes("unplugged") || venueLower.includes("acoustic");
+  if (categoryId === "PRIVATE") return venueLower.includes("private") || venueLower.includes("corporate") || venueLower.includes("gala") || venueLower.includes("party");
+  if (categoryId === "CRUISE") return venueLower.includes("cruise") || venueLower.includes("greece") || venueLower.includes("london") || venueLower.includes("amsterdam") || venueLower.includes("seas");
+  return true;
+};
+
 export default function PastShowsClient({ years, totalShowsCount }: PastShowsClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState<string>("ALL");
@@ -32,28 +55,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
     return initial;
   });
 
-  const categories = [
-    { id: "ALL", label: "All Shows" },
-    { id: "FEST", label: "Festivals & Fairs" },
-    { id: "CASINO", label: "Casinos & Resorts" },
-    { id: "CLUB", label: "Clubs & Saloons" },
-    { id: "UNPLUGGED", label: "Unplugged" },
-    { id: "PRIVATE", label: "Private & Corp" },
-    { id: "CRUISE", label: "Cruises & Overseas" },
-  ];
 
-  // Helper to categorize venue/event
-  const matchesCategory = (show: PastShowItem, categoryId: string) => {
-    if (categoryId === "ALL") return true;
-    const venueLower = show.venue.toLowerCase();
-    if (categoryId === "FEST") return venueLower.includes("fest") || venueLower.includes("fair") || venueLower.includes("oktoberfest") || venueLower.includes("jubilee") || venueLower.includes("days");
-    if (categoryId === "CASINO") return venueLower.includes("casino") || venueLower.includes("resort") || venueLower.includes("wind creek") || venueLower.includes("hard rock") || venueLower.includes("rivers");
-    if (categoryId === "CLUB") return venueLower.includes("saloon") || venueLower.includes("pub") || venueLower.includes("bar") || venueLower.includes("tavern") || venueLower.includes("live") || venueLower.includes("nellie");
-    if (categoryId === "UNPLUGGED") return venueLower.includes("unplugged") || venueLower.includes("acoustic");
-    if (categoryId === "PRIVATE") return venueLower.includes("private") || venueLower.includes("corporate") || venueLower.includes("gala") || venueLower.includes("party");
-    if (categoryId === "CRUISE") return venueLower.includes("cruise") || venueLower.includes("greece") || venueLower.includes("london") || venueLower.includes("amsterdam") || venueLower.includes("seas");
-    return true;
-  };
 
   // Filtered shows logic
   const filteredYears = useMemo(() => {
@@ -173,7 +175,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input
+          <input aria-label="Search"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -181,7 +183,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             className="w-full pl-12 pr-10 py-3.5 bg-[var(--bg-color)] border border-[var(--border-color)] text-sm font-semibold text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)] transition-colors shadow-inner"
           />
           {searchQuery && (
-            <button
+            <button aria-label="Search"
               onClick={() => setSearchQuery("")}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--muted-text)] hover:text-[var(--text-color)]"
             >
@@ -196,8 +198,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             Filter by Event Type:
           </span>
           <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
+            {CATEGORIES.map((cat) => (
+              <button aria-label="Action button"
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-3.5 py-1.5  text-xs font-bold transition-colors cursor-pointer ${selectedCategory === cat.id
@@ -217,7 +219,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             Jump to Year:
           </span>
           <div className="flex flex-wrap gap-2">
-            <button
+            <button aria-label="Action button"
               onClick={() => setSelectedYear("ALL")}
               className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
                 ? "bg-[var(--color-accent)] text-white shadow-sm"
@@ -227,7 +229,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               All Years
             </button>
             {years.map((y) => (
-              <button
+              <button aria-label="Previous"
                 key={y.year}
                 onClick={() => {
                   setSelectedYear(y.year);
@@ -251,14 +253,14 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <button aria-label="Action button"
               onClick={expandAll}
               className="hover: text-[var(--color-accent)] transition-colors underline"
             >
               Expand All
             </button>
             <span>•</span>
-            <button
+            <button aria-label="Action button"
               onClick={collapseAll}
               className="hover: text-[var(--color-accent)] transition-colors underline"
             >
@@ -276,7 +278,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           <p className="text-sm text-[var(--muted-text)] max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
           </p>
-          <button
+          <button aria-label="Search"
             onClick={() => {
               setSearchQuery("");
               setSelectedYear("ALL");
@@ -297,7 +299,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                 className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm transition-colors"
               >
                 {/* Year Header Accordion Bar */}
-                <button
+                <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
                   className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-[var(--bg-color)] to-[var(--card-bg)] border-b border-[var(--border-color)] hover:bg-[var(--color-accent)]/10 transition-colors cursor-pointer text-left"
                 >

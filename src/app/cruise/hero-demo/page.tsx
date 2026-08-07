@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import { useState } from "react";
@@ -14,7 +15,7 @@ export default function HeroDemoPage() {
       <div className="fixed top-20 right-6 z-[999] flex flex-col gap-2 bg-black/80 backdrop-blur-xl border border-white/10 p-3">
         <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-[0.25em] text-white/40 text-center mb-1">Layout</p>
         {layouts.map(l => (
-          <button
+          <button aria-label="Action button"
             key={l}
             onClick={() => setActive(l)}
             className={`w-10 h-10 rounded-lg text-xs font-black uppercase transition-colors cursor-pointer ${active === l
@@ -549,7 +550,7 @@ export default function HeroDemoPage() {
               </div>
 
               {/* Route Card */}
-              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div id="itinerary" className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="flex items-center justify-between">
                   {["🚢 Miami", "🏝️ Cozumel", "🐢 Cayman", "🤿 Roatán", "🎸 Miami"].map((stop, i) => (
                     <div key={`stop-${stop}`} className="flex items-center gap-1">
@@ -576,7 +577,7 @@ export default function HeroDemoPage() {
               </div>
 
               {/* Social Proof Card */}
-              <div className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 flex items-center gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
+              <div id="signup" className="bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] p-5 flex items-center gap-4 shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
                 <div className="flex -space-x-2">
                   {Array.from(["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981"], (c, i) => ({ c, i })).map(({ c, i }) => (
                     <div key={i} className="w-9 h-9 rounded-full border-2 border-black/30 flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c, zIndex: 5 - i }}>

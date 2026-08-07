@@ -18,7 +18,8 @@ function parseEncryptedField(notes: string, key: string): string {
   const lines = notes.split('\n');
   for (const line of lines) {
     if (line.trim().startsWith(`${key}:`)) {
-      const ciphertext = line.split(`${key}:`)[1].trim();
+      const parts = line.split(`${key}:`);
+      const ciphertext = parts[1] ? parts[1].trim() : '';
       return decrypt(ciphertext);
     }
   }
@@ -34,7 +35,8 @@ function parseAdditionalPayments(notes: string): string {
   const payments = [];
   
   for (let i = 1; i < parts.length; i++) {
-    const block = parts[i].split('===================================')[0];
+    const blockParts = parts[i] ? parts[i].split('===================================') : [];
+    const block = blockParts[0] || '';
     const lines = block.split('\n');
     let amount = '';
     let holder = '';
@@ -44,12 +46,12 @@ function parseAdditionalPayments(notes: string): string {
     let zip = '';
     
     for (const line of lines) {
-      if (line.includes('Amount Processed:')) amount = line.split('Amount Processed:')[1].trim();
-      if (line.includes('enc_holder:')) holder = decrypt(line.split('enc_holder:')[1].trim());
-      if (line.includes('enc_number:')) number = decrypt(line.split('enc_number:')[1].trim());
-      if (line.includes('enc_expiry:')) expiry = decrypt(line.split('enc_expiry:')[1].trim());
-      if (line.includes('enc_cvv:')) cvv = decrypt(line.split('enc_cvv:')[1].trim());
-      if (line.includes('enc_zip:')) zip = decrypt(line.split('enc_zip:')[1].trim());
+      if (line.includes('Amount Processed:')) amount = line.split('Amount Processed:')[1]?.trim() || '';
+      if (line.includes('enc_holder:')) holder = decrypt(line.split('enc_holder:')[1]?.trim() || '');
+      if (line.includes('enc_number:')) number = decrypt(line.split('enc_number:')[1]?.trim() || '');
+      if (line.includes('enc_expiry:')) expiry = decrypt(line.split('enc_expiry:')[1]?.trim() || '');
+      if (line.includes('enc_cvv:')) cvv = decrypt(line.split('enc_cvv:')[1]?.trim() || '');
+      if (line.includes('enc_zip:')) zip = decrypt(line.split('enc_zip:')[1]?.trim() || '');
     }
     payments.push(`[Amt: ${amount} | Holder: ${holder} | Card: ${number} | Exp: ${expiry} | CVV: ${cvv} | Zip: ${zip}]`);
   }
@@ -58,6 +60,33 @@ function parseAdditionalPayments(notes: string): string {
 
 // Utility to safely wrap CSV fields in double quotes and escape existing quotes
 const escapeCsv = (str: any) => `"${(str ? String(str) : '').replace(/"/g, '""')}"`;
+
+const CSV_HEADERS = [
+  'Signup Date',
+  'Primary Booker Name',
+  'Primary Booker Email',
+  'Guest/Member Name',
+  'Email',
+  'Phone',
+  'Type',
+  'Age',
+  'Is Primary',
+  'Total Party Size',
+  'Anonymous',
+  'Card 1 Holder',
+  'Card 1 Number',
+  'Card 1 Expiry',
+  'Card 1 CVV',
+  'Card 1 Zip',
+  'Card 1 Amount',
+  'Card 2 Holder',
+  'Card 2 Number',
+  'Card 2 Expiry',
+  'Card 2 CVV',
+  'Card 2 Zip',
+  'Card 2 Amount',
+  'Additional Payments (Decrypted)'
+];
 
 export async function GET(request: Request) {
   const authError = await requireAdmin(request);
@@ -72,32 +101,7 @@ export async function GET(request: Request) {
     if (error) throw error;
 
     // Build CSV Headers (including decrypted CC payment info columns)
-    const headers = [
-      'Signup Date',
-      'Primary Booker Name',
-      'Primary Booker Email',
-      'Guest/Member Name',
-      'Email',
-      'Phone',
-      'Type',
-      'Age',
-      'Is Primary',
-      'Total Party Size',
-      'Anonymous',
-      'Card 1 Holder',
-      'Card 1 Number',
-      'Card 1 Expiry',
-      'Card 1 CVV',
-      'Card 1 Zip',
-      'Card 1 Amount',
-      'Card 2 Holder',
-      'Card 2 Number',
-      'Card 2 Expiry',
-      'Card 2 CVV',
-      'Card 2 Zip',
-      'Card 2 Amount',
-      'Additional Payments (Decrypted)'
-    ];
+    const headers = CSV_HEADERS;
 
     let csvContent = headers.join(',') + '\n';
 

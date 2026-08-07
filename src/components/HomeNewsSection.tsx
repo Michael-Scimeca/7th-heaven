@@ -72,12 +72,12 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           )}
 
           {/* Remaining Articles List (Right - 5 Cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="lg:col-span-5 space-y-4">
             {newsItems.slice(1).map((item) => (
-              <div
-                key={item.title}
-                onClick={() => setSelectedArticle(item)}
-                className="bg-[var(--bg-color)] border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group"
+              <button
+                type="button"
+                key={item.title} onClick={() => setSelectedArticle(item)}
+                className="w-full text-left bg-[var(--bg-color)] border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group font-sans font-normal"
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest  text-[var(--color-accent)]">
@@ -93,7 +93,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
                 <p className="text-[var(--muted-text)] text-xs leading-relaxed line-clamp-2 mt-1">
                   {item.content}
                 </p>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -102,19 +102,17 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
       {/* Article Detail Modal */}
       {selectedArticle && (
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-          onClick={() => setSelectedArticle(null)}
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setSelectedArticle(null)}
         >
           <div
-            className="bg-[var(--card-bg)] border border-[var(--border-color)] max-w-xl w-full p-8 relative"
-            onClick={(e) => e.stopPropagation()}
+            className="bg-[var(--card-bg)] border border-[var(--border-color)] max-w-xl w-full p-8 relative" onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs font-mono font-bold  text-[var(--color-accent)] uppercase tracking-wider">
                 {selectedArticle.date}
               </span>
-              <button
-                onClick={() => setSelectedArticle(null)}
+              <button aria-label="Action button"
+                   onClick={() => setSelectedArticle(null)}
                 className="text-[var(--muted-text)] hover:text-[var(--text-color)] text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
               >
                 ✕

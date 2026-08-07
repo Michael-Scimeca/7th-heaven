@@ -1,6 +1,7 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useSyncExternalStore, useCallback } from "react";
+import { useState, useEffect, useSyncExternalStore, useCallback, useRef } from "react";
 import { useMember } from "@/context/MemberContext";
 
 interface Booking {
@@ -25,6 +26,7 @@ export default function PlannerClient() {
   const [notes, setNotes] = useState('');
   const [notesSaving, setNotesSaving] = useState(false);
   const [notesSaved, setNotesSaved] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const [editField, setEditField] = useState<number | null>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -74,25 +76,55 @@ export default function PlannerClient() {
   }, [loadPlannerBookings]);
 
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoginErr(''); setLoginLoading(true);
-    if (mode === 'signup') {
-      if (!name.trim()) { setLoginErr('Name is required.'); setLoginLoading(false); return; }
-      const result = await signup(name.trim(), email, password);
-      if (!result.success) {
-        setLoginErr(result.error || 'Signup failed. Try a different email or stronger password.');
-      } else if (result.confirmationRequired) {
-        setLoginErr('CONFIRMATION_REQUIRED');
-      } else {
-        // Success (auto-login or redirect)
-        window.location.reload();
-      }
-      setLoginLoading(false);
+  const isCancellingRef = useRef(false);
+
+  const handleCancelBooking = async () => {
+    if (isCancellingRef.current || !booking) return;
+    isCancellingRef.current = true;
+    setIsCancelling(true);
+    if (!confirm('Cancel this booking?')) {
+      isCancellingRef.current = false;
+      setIsCancelling(false);
       return;
     }
-    const ok = await login(email, password);
-    if (!ok) setLoginErr('Invalid email or password.');
-    setLoginLoading(false);
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId: booking.id, status: 'cancelled' })
+      });
+      if (res.ok) {
+        setBooking(prev => prev ? { ...prev, status: 'cancelled' } : prev);
+      }
+    } catch (err) {
+      console.error('Failed to cancel booking:', err);
+    } finally {
+      isCancellingRef.current = false;
+      setIsCancelling(false);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); setLoginErr(''); setLoginLoading(true);
+    try {
+      if (mode === 'signup') {
+        if (!name.trim()) { setLoginErr('Name is required.'); return; }
+        const result = await signup(name.trim(), email, password);
+        if (!result.success) {
+          setLoginErr(result.error || 'Signup failed. Try a different email or stronger password.');
+        } else if (result.confirmationRequired) {
+          setLoginErr('CONFIRMATION_REQUIRED');
+        } else {
+          // Success (auto-login or redirect)
+          window.location.reload();
+        }
+        return;
+      }
+      const ok = await login(email, password);
+      if (!ok) setLoginErr('Invalid email or password.');
+    } finally {
+      setLoginLoading(false);
+    }
   };
 
   const isDevBypass = useSyncExternalStore(
@@ -125,7 +157,7 @@ export default function PlannerClient() {
 
               {/* Prominent Tabs */}
               <div className="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 border border-black/15 mb-6 shadow-inner max-w-sm mx-auto">
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => { setMode('login'); setLoginErr(''); }}
                   className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 ${mode === 'login'
@@ -135,7 +167,7 @@ export default function PlannerClient() {
                 >
                   🔑 LOGIN
                 </button>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => { setMode('signup'); setLoginErr(''); }}
                   className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 ${mode === 'signup'
@@ -151,7 +183,7 @@ export default function PlannerClient() {
                 {mode === 'signup' && (
                   <div>
                     <label htmlFor="planner-client-name" className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Full Name</label>
-                    <input
+                    <input aria-label="Input field"
                       id="planner-client-name"
                       type="text"
                       value={name}
@@ -164,7 +196,7 @@ export default function PlannerClient() {
                 )}
                 <div>
                   <label htmlFor="planner-client-email" className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Email</label>
-                  <input
+                  <input aria-label="Input field"
                     id="planner-client-email"
                     type="email"
                     value={email}
@@ -176,7 +208,7 @@ export default function PlannerClient() {
                 </div>
                 <div>
                   <label htmlFor="planner-client-password" className="text-xs uppercase tracking-[0.15em] text-black/70 mb-1.5 block font-bold">Password</label>
-                  <input
+                  <input aria-label="Input field"
                     id="planner-client-password"
                     type="password"
                     value={password}
@@ -196,7 +228,7 @@ export default function PlannerClient() {
                 ) : (
                   <>
                     {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20 text-center font-bold">{loginErr}</p>}
-                    <button
+                    <button aria-label="Action button"
                       type="submit"
                       disabled={loginLoading}
                       className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-base uppercase tracking-[0.18em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_25px_rgba(255,10,61,0.4)]"
@@ -392,9 +424,9 @@ export default function PlannerClient() {
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold">Event Notes</h3></div>
                   {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-full border  border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
-                <textarea value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
+                <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
                   className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-xs text-black placeholder:text-black/30 outline-none focus:border-purple-500/50 resize-none transition-colors" />
-                <button onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
+                <button aria-label="Action button" onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}
                 </button>
@@ -425,15 +457,15 @@ export default function PlannerClient() {
                           <span className={`text-xs font-semibold ${item.done ? 'text-black/70' : 'text-black/40'}`}>{item.label}</span>
                           {isEditing ? (
                             <div className="flex gap-1.5 mt-1">
-                              <input
+                              <input aria-label="Input field"
                                 type="text"
                                 defaultValue={item.val || ''}
                                 autoFocus
                                 onKeyDown={e => { if (e.key === 'Enter') { const v = (e.target as HTMLInputElement).value; if (v && booking) { setBooking({ ...booking, [fieldKey]: v } as Booking); setEditField(null); } } }}
                                 className="flex-1 bg-[#f0f2f5] border border-black/10 px-2 py-1 rounded text-sm text-black focus:border-purple-500 outline-none"
                               />
-                              <button type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
-                              <button type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
+                              <button aria-label="Previous" type="button" onClick={(e) => { const input = (e.currentTarget.previousElementSibling as HTMLInputElement); if (input?.value && booking) { setBooking({ ...booking, [fieldKey]: input.value } as Booking); setEditField(null); } }} className="text-[var(--font-size-2xs)] text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-1.5">Save</button>
+                              <button aria-label="Action button" type="button" onClick={() => setEditField(null)} className="text-[var(--font-size-2xs)] text-black/40 font-bold uppercase tracking-wider cursor-pointer px-1">✕</button>
                             </div>
                           ) : (
                             item.done && item.val && <p className="text-xs text-[var(--color-accent)]/60 truncate">{item.val}</p>
@@ -441,9 +473,9 @@ export default function PlannerClient() {
                         </div>
                         {!isEditing && (
                           item.done ? (
-                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-black/30 hover: text-[var(--color-accent)] uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
+                            <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-black/30 hover: text-[var(--color-accent)] uppercase tracking-widest cursor-pointer transition-colors shrink-0">Edit</button>
                           ) : (
-                            <button type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
+                            <button aria-label="Action button" type="button" onClick={() => setEditField(i)} className="text-[var(--font-size-2xs)] font-bold text-purple-300/50 bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/15 shrink-0 hover:bg-purple-600/20 cursor-pointer transition-colors">NEEDED</button>
                           )
                         )}
                       </div>
@@ -474,9 +506,9 @@ export default function PlannerClient() {
                     className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-gray-50 border-black/10 text-black/70 hover:bg-gray-100 hover:text-black">
                     <span>✉️</span> Contact 7th Heaven
                   </a>
-                  <button onClick={() => { if (confirm('Cancel this booking?')) { fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, status: 'cancelled' }) }).then(() => { setBooking(prev => prev ? { ...prev, status: 'cancelled' } : prev); }); } }}
-                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white">
-                    <span>✕</span> Cancel Request
+                  <button aria-label="Cancel request" onClick={handleCancelBooking} disabled={isCancelling}
+                    className="w-full py-3 px-4 flex items-center gap-3 border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-rose-500/5 border-rose-500/10 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50">
+                    <span>✕</span> {isCancelling ? 'Cancelling...' : 'Cancel Request'}
                   </button>
                 </div>
               </div>

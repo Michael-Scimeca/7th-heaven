@@ -123,8 +123,8 @@ export async function POST(request: Request) {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const results: any[] = [];
 
-    for (const show of showsToBlast) {
-      if (!show.lat || !show.lng) continue; // Skip shows without coordinates
+    const blastResults = await Promise.all(showsToBlast.map(async (show: any) => {
+      if (!show.lat || !show.lng) return null; // Skip shows without coordinates
 
       const d = new Date(show.date + "T12:00:00");
       const body: any = {
@@ -148,7 +148,7 @@ export async function POST(request: Request) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-        if (!res.ok) continue;
+        if (!res.ok) return { showId: show._id, venue: show.venue, city: show.city, error: "HTTP " + res.status, success: false };
         const data = await res.json();
 
         // Log the blast
@@ -160,10 +160,14 @@ export async function POST(request: Request) {
           blasted_at: new Date().toISOString(),
         });
 
-        results.push({ showId: show._id, venue: show.venue, city: show.city, sent: data.sent || 0, success: true });
+        return { showId: show._id, venue: show.venue, city: show.city, sent: data.sent || 0, success: true };
       } catch (err: any) {
-        results.push({ showId: show._id, venue: show.venue, city: show.city, error: err.message, success: false });
+        return { showId: show._id, venue: show.venue, city: show.city, error: err.message, success: false };
       }
+    }));
+
+    for (const r of blastResults) {
+      if (r) results.push(r);
     }
 
     return NextResponse.json({

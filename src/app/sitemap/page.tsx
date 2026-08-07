@@ -1,3 +1,4 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
 
 import Link from "next/link";
@@ -357,110 +358,130 @@ const siteStructure = [
   },
 ];
 
+const getNodeColor = (type: string) => {
+  switch (type) {
+    case 'page': return {
+      text: 'text-cyan-400', border: 'border-cyan-500/20', activeBorder: 'border-cyan-500', bg: 'bg-cyan-500/5', activeBg: 'bg-cyan-500/10', glow: 'shadow-[0_0_15px_rgba(34,211,238,0.15)]', icon: '🌐'
+    };
+    case 'module': return {
+      text: 'text-pink-400', border: 'border-pink-500/20', activeBorder: 'border-pink-500', bg: 'bg-pink-500/5', activeBg: 'bg-pink-500/10', glow: 'shadow-[0_0_15px_rgba(244,63,94,0.15)]', icon: '⚙️'
+    };
+    case 'email': return {
+      text: 'text-purple-300', border: 'border-purple-500/20', activeBorder: 'border-purple-500', bg: 'bg-purple-600/5', activeBg: 'bg-purple-600/10', glow: 'shadow-[0_0_15px_rgba(147, 51, 234,0.15)]', icon: '📧'
+    };
+    case 'db': return {
+      text: 'text-emerald-400', border: ' border-[var(--color-accent)]/30', activeBorder: 'border-emerald-500', bg: 'bg-emerald-500/5', activeBg: 'bg-emerald-500/10', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.15)]', icon: '💾'
+    };
+    default: return {
+      text: 'text-white', border: 'border-white/10', activeBorder: 'border-white', bg: 'bg-white/5', activeBg: 'bg-white/10', glow: 'shadow-[0_0_15px_rgba(255,255,255,0.1)]', icon: '📄'
+    };
+  }
+};
+
+// Nodes & Connections data
+const FLOW_NODES = [
+  // Column 0: Entry Interfaces
+  { id: 'home', label: 'Home Page (/)', type: 'page', desc: 'Cinematic band hero hub, active stream indicator, news items, and music player.', col: 0, row: 0 },
+  { id: 'shows', label: 'Show Details (/shows/[id])', type: 'page', desc: 'Venue details, RSVP deep link alerts, map directions, and referral sharing.', col: 0, row: 1 },
+  { id: 'live', label: 'Live Stream (/live)', type: 'page', desc: 'Real-time LiveKit streaming feed, chat room widget, and interactive raffles.', col: 0, row: 2 },
+  { id: 'store', label: 'Merch Store (/store)', type: 'page', desc: 'Browse store catalog dynamically populated by Shopify storefront APIs.', col: 0, row: 3 },
+  { id: 'book', label: 'Book Band (/book)', type: 'page', desc: 'Scheduling form that inserts requested event dates and creates client planner profiles.', col: 0, row: 4 },
+  { id: 'cruise', label: 'Cruise Booking (/cruise)', type: 'page', desc: 'Caribbean cruise travel notice board, boarding itinerary details, and cabin signup form.', col: 0, row: 5 },
+
+  // Column 1: User Dashboards
+  { id: 'fan_dash', label: 'Fan Dashboard (/fans)', type: 'page', desc: 'Alert inbox, raffle prize claims, concert proximity ZIP alerts, and profile username settings.', col: 1, row: 0 },
+  { id: 'planner_dash', label: 'Planner Dashboard (/planner)', type: 'page', desc: 'Edit booking checklists, verify status, and trigger event cancellations.', col: 1, row: 1 },
+  { id: 'passenger_dash', label: 'Cruiser Dashboard (/cruise/dashboard)', type: 'page', desc: 'Lounge notice board, passenger listings, chat channels, and interactive itinerary view.', col: 1, row: 2 },
+  { id: 'crew_dash', label: 'Crew Dashboard (/crew)', type: 'page', desc: 'Live broadcast studio tools, stream triggers, chat mod, and raffle prize launcher.', col: 1, row: 3 },
+  { id: 'admin_dash', label: 'Admin Command (/admin)', type: 'page', desc: 'Master approval checklist, announcements editor, photo wall moderation, and SMS blasts.', col: 1, row: 4 },
+
+  // Column 2: Processing APIs
+  { id: 'api_sms', label: 'SMS Alerts (/api/sms/*)', type: 'module', desc: 'Twilio webhook for SMS text notifications, live stream alarms, and directions.', col: 2, row: 0 },
+  { id: 'api_booking', label: 'Booking Logic (/api/booking)', type: 'module', desc: 'Supabase booking row verification and scheduling handler.', col: 2, row: 1 },
+  { id: 'api_cruise', label: 'Cruise Registration (/api/cruise/*)', type: 'module', desc: 'Registers interest and emails cruiser welcome letters.', col: 2, row: 2 },
+  { id: 'api_raffle', label: 'Raffle Engine (/api/picks)', type: 'module', desc: 'Random picker that generates one-time PIN claiming tokens.', col: 2, row: 3 },
+  { id: 'api_photo_mod', label: 'Image Moderation (/api/fans/*)', type: 'module', desc: 'Client-side TensorFlow.js nsfwjs image moderation filter for photo uploads.', col: 2, row: 4 },
+  { id: 'shopify_cart', label: 'Shopify Cart Tunnel', type: 'module', desc: 'Compiles cart items and redirects to Shopify headless checkout pages.', col: 2, row: 5 },
+  { id: 'api_tour_sync', label: 'Tour Date Sync (/api/sync-shows)', type: 'module', desc: 'Scrapes legacy tour dates and writes documents to Sanity CMS.', col: 2, row: 6 },
+  { id: 'api_newsletter', label: 'Newsletter API (/api/newsletter/*)', type: 'module', desc: 'Validates email registrations and pushes subscription lists to Resend.', col: 2, row: 7 },
+
+  // Column 3: Alerts & Emails
+  { id: 'email_fan_welcome', label: 'Welcome Fan Email', type: 'email', desc: 'HTML greeting dispatched when a fan registers a new account.', col: 3, row: 0 },
+  { id: 'email_planner_welcome', label: 'Welcome Planner Email', type: 'email', desc: 'Sent to booking clients containing client credentials.', col: 3, row: 1 },
+  { id: 'email_booking_confirm', label: 'Booking Confirmation Email', type: 'email', desc: 'Sends booking event itineraries to the planner.', col: 3, row: 2 },
+  { id: 'email_booking_admin', label: 'Booking Admin Alert Email', type: 'email', desc: 'Alerts band administrators of incoming booking applications.', col: 3, row: 3 },
+  { id: 'email_cruise_invite', label: 'Passenger Invite Link', type: 'email', desc: 'Sends cruiser passengers dynamic invite setup links.', col: 3, row: 4 },
+  { id: 'email_general_news', label: 'Newsletter Blast Template', type: 'email', desc: 'Formatted HTML email template for Resend newsletter integrations.', col: 3, row: 5 },
+  { id: 'sms_template_alert', label: 'SMS Notification Broadcasts', type: 'email', desc: 'Outbound texts notifying fans of streaming alarms and directions.', col: 3, row: 6 },
+
+  // Column 4: Database & State
+  { id: 'db_members', label: 'profiles / auth', type: 'db', desc: 'Supabase table storing user credentials, role permissions, and active statuses.', col: 4, row: 0 },
+  { id: 'db_bookings', label: 'bookings table', type: 'db', desc: 'Supabase storage holding active booking request forms and checklists.', col: 4, row: 1 },
+  { id: 'db_planners', label: 'planners table', type: 'db', desc: 'Supabase details table mapping planners to auth ids.', col: 4, row: 2 },
+  { id: 'db_cruise', label: 'cruise_interest table', type: 'db', desc: 'Supabase logs tracking cabin selections, cruiser status, and passenger payments.', col: 4, row: 3 },
+  { id: 'db_sms', label: 'sms_subscribers table', type: 'db', desc: 'Supabase data linking active phone numbers and ZIP coordinates.', col: 4, row: 4 },
+  { id: 'db_claims', label: 'claims table', type: 'db', desc: 'Supabase table tracking generated raffle prizes and claim pins.', col: 4, row: 5 },
+  { id: 'db_memories', label: 'fan_memories table', type: 'db', desc: 'Supabase logs tracking concert photo wall submissions.', col: 4, row: 6 },
+  { id: 'db_cms', label: 'Sanity Studio CMS', type: 'db', desc: 'CMS documents holding show schedules, member biographies, and homepage news.', col: 4, row: 7 }
+];
+
+const FLOW_CONNECTIONS = [
+  { from: 'home', to: 'api_newsletter' },
+  { from: 'home', to: 'api_sms' },
+  { from: 'home', to: 'api_photo_mod' },
+  { from: 'home', to: 'store' },
+  { from: 'store', to: 'shopify_cart' },
+  { from: 'shows', to: 'api_sms' },
+  { from: 'live', to: 'fan_dash' },
+  { from: 'book', to: 'api_booking' },
+  { from: 'cruise', to: 'api_cruise' },
+
+  { from: 'fan_dash', to: 'api_newsletter' },
+  { from: 'fan_dash', to: 'api_raffle' },
+  { from: 'planner_dash', to: 'api_booking' },
+  { from: 'passenger_dash', to: 'api_cruise' },
+  { from: 'crew_dash', to: 'api_raffle' },
+  { from: 'crew_dash', to: 'api_live_alert' },
+  { from: 'admin_dash', to: 'api_tour_sync' },
+  { from: 'admin_dash', to: 'api_booking' },
+  { from: 'admin_dash', to: 'api_cruise' },
+
+  { from: 'api_newsletter', to: 'email_general_news' },
+  { from: 'api_sms', to: 'sms_template_alert' },
+  { from: 'api_live_alert', to: 'sms_template_alert' },
+  { from: 'api_booking', to: 'email_planner_welcome' },
+  { from: 'api_booking', to: 'email_booking_confirm' },
+  { from: 'api_booking', to: 'email_booking_admin' },
+  { from: 'api_cruise', to: 'email_cruise_invite' },
+  { from: 'api_cruise', to: 'email_fan_welcome' },
+
+  { from: 'api_newsletter', to: 'db_sms' },
+  { from: 'api_sms', to: 'db_sms' },
+  { from: 'api_booking', to: 'db_bookings' },
+  { from: 'api_booking', to: 'db_planners' },
+  { from: 'api_cruise', to: 'db_cruise' },
+  { from: 'api_raffle', to: 'db_claims' },
+  { from: 'api_photo_mod', to: 'db_memories' },
+  { from: 'api_tour_sync', to: 'db_cms' },
+
+  { from: 'db_members', to: 'fan_dash' },
+  { from: 'db_bookings', to: 'planner_dash' },
+  { from: 'db_cruise', to: 'passenger_dash' },
+  { from: 'db_sms', to: 'admin_dash' },
+  { from: 'db_cms', to: 'home' },
+  { from: 'db_cms', to: 'shows' },
+  { from: 'db_claims', to: 'fan_dash' }
+];
+
 export default function SitemapPage() {
   const [activeView, setActiveView] = useState<'flow' | 'directory'>('flow');
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
-
-  // Nodes & Connections data
-  const flowNodes = [
-    // Column 0: Entry Interfaces
-    { id: 'home', label: 'Home Page (/)', type: 'page', desc: 'Cinematic band hero hub, active stream indicator, news items, and music player.', col: 0, row: 0 },
-    { id: 'shows', label: 'Show Details (/shows/[id])', type: 'page', desc: 'Venue details, RSVP deep link alerts, map directions, and referral sharing.', col: 0, row: 1 },
-    { id: 'live', label: 'Live Stream (/live)', type: 'page', desc: 'Real-time LiveKit streaming feed, chat room widget, and interactive raffles.', col: 0, row: 2 },
-    { id: 'store', label: 'Merch Store (/store)', type: 'page', desc: 'Browse store catalog dynamically populated by Shopify storefront APIs.', col: 0, row: 3 },
-    { id: 'book', label: 'Book Band (/book)', type: 'page', desc: 'Scheduling form that inserts requested event dates and creates client planner profiles.', col: 0, row: 4 },
-    { id: 'cruise', label: 'Cruise Booking (/cruise)', type: 'page', desc: 'Caribbean cruise travel notice board, boarding itinerary details, and cabin signup form.', col: 0, row: 5 },
-
-    // Column 1: User Dashboards
-    { id: 'fan_dash', label: 'Fan Dashboard (/fans)', type: 'page', desc: 'Alert inbox, raffle prize claims, concert proximity ZIP alerts, and profile username settings.', col: 1, row: 0 },
-    { id: 'planner_dash', label: 'Planner Dashboard (/planner)', type: 'page', desc: 'Edit booking checklists, verify status, and trigger event cancellations.', col: 1, row: 1 },
-    { id: 'passenger_dash', label: 'Cruiser Dashboard (/cruise/dashboard)', type: 'page', desc: 'Lounge notice board, passenger listings, chat channels, and interactive itinerary view.', col: 1, row: 2 },
-    { id: 'crew_dash', label: 'Crew Dashboard (/crew)', type: 'page', desc: 'Live broadcast studio tools, stream triggers, chat mod, and raffle prize launcher.', col: 1, row: 3 },
-    { id: 'admin_dash', label: 'Admin Command (/admin)', type: 'page', desc: 'Master approval checklist, announcements editor, photo wall moderation, and SMS blasts.', col: 1, row: 4 },
-
-    // Column 2: Processing APIs
-    { id: 'api_sms', label: 'SMS Alerts (/api/sms/*)', type: 'module', desc: 'Twilio webhook for SMS text notifications, live stream alarms, and directions.', col: 2, row: 0 },
-    { id: 'api_booking', label: 'Booking Logic (/api/booking)', type: 'module', desc: 'Supabase booking row verification and scheduling handler.', col: 2, row: 1 },
-    { id: 'api_cruise', label: 'Cruise Registration (/api/cruise/*)', type: 'module', desc: 'Registers interest and emails cruiser welcome letters.', col: 2, row: 2 },
-    { id: 'api_raffle', label: 'Raffle Engine (/api/picks)', type: 'module', desc: 'Random picker that generates one-time PIN claiming tokens.', col: 2, row: 3 },
-    { id: 'api_photo_mod', label: 'Image Moderation (/api/fans/*)', type: 'module', desc: 'Client-side TensorFlow.js nsfwjs image moderation filter for photo uploads.', col: 2, row: 4 },
-    { id: 'shopify_cart', label: 'Shopify Cart Tunnel', type: 'module', desc: 'Compiles cart items and redirects to Shopify headless checkout pages.', col: 2, row: 5 },
-    { id: 'api_tour_sync', label: 'Tour Date Sync (/api/sync-shows)', type: 'module', desc: 'Scrapes legacy tour dates and writes documents to Sanity CMS.', col: 2, row: 6 },
-    { id: 'api_newsletter', label: 'Newsletter API (/api/newsletter/*)', type: 'module', desc: 'Validates email registrations and pushes subscription lists to Resend.', col: 2, row: 7 },
-
-    // Column 3: Alerts & Emails
-    { id: 'email_fan_welcome', label: 'Welcome Fan Email', type: 'email', desc: 'HTML greeting dispatched when a fan registers a new account.', col: 3, row: 0 },
-    { id: 'email_planner_welcome', label: 'Welcome Planner Email', type: 'email', desc: 'Sent to booking clients containing client credentials.', col: 3, row: 1 },
-    { id: 'email_booking_confirm', label: 'Booking Confirmation Email', type: 'email', desc: 'Sends booking event itineraries to the planner.', col: 3, row: 2 },
-    { id: 'email_booking_admin', label: 'Booking Admin Alert Email', type: 'email', desc: 'Alerts band administrators of incoming booking applications.', col: 3, row: 3 },
-    { id: 'email_cruise_invite', label: 'Passenger Invite Link', type: 'email', desc: 'Sends cruiser passengers dynamic invite setup links.', col: 3, row: 4 },
-    { id: 'email_general_news', label: 'Newsletter Blast Template', type: 'email', desc: 'Formatted HTML email template for Resend newsletter integrations.', col: 3, row: 5 },
-    { id: 'sms_template_alert', label: 'SMS Notification Broadcasts', type: 'email', desc: 'Outbound texts notifying fans of streaming alarms and directions.', col: 3, row: 6 },
-
-    // Column 4: Database & State
-    { id: 'db_members', label: 'profiles / auth', type: 'db', desc: 'Supabase table storing user credentials, role permissions, and active statuses.', col: 4, row: 0 },
-    { id: 'db_bookings', label: 'bookings table', type: 'db', desc: 'Supabase storage holding active booking request forms and checklists.', col: 4, row: 1 },
-    { id: 'db_planners', label: 'planners table', type: 'db', desc: 'Supabase details table mapping planners to auth ids.', col: 4, row: 2 },
-    { id: 'db_cruise', label: 'cruise_interest table', type: 'db', desc: 'Supabase logs tracking cabin selections, cruiser status, and passenger payments.', col: 4, row: 3 },
-    { id: 'db_sms', label: 'sms_subscribers table', type: 'db', desc: 'Supabase data linking active phone numbers and ZIP coordinates.', col: 4, row: 4 },
-    { id: 'db_claims', label: 'claims table', type: 'db', desc: 'Supabase table tracking generated raffle prizes and claim pins.', col: 4, row: 5 },
-    { id: 'db_memories', label: 'fan_memories table', type: 'db', desc: 'Supabase logs tracking concert photo wall submissions.', col: 4, row: 6 },
-    { id: 'db_cms', label: 'Sanity Studio CMS', type: 'db', desc: 'CMS documents holding show schedules, member biographies, and homepage news.', col: 4, row: 7 }
-  ];
-
-  const flowConnections = [
-    { from: 'home', to: 'api_newsletter' },
-    { from: 'home', to: 'api_sms' },
-    { from: 'home', to: 'api_photo_mod' },
-    { from: 'home', to: 'store' },
-    { from: 'store', to: 'shopify_cart' },
-    { from: 'shows', to: 'api_sms' },
-    { from: 'live', to: 'fan_dash' },
-    { from: 'book', to: 'api_booking' },
-    { from: 'cruise', to: 'api_cruise' },
-
-    { from: 'fan_dash', to: 'api_newsletter' },
-    { from: 'fan_dash', to: 'api_raffle' },
-    { from: 'planner_dash', to: 'api_booking' },
-    { from: 'passenger_dash', to: 'api_cruise' },
-    { from: 'crew_dash', to: 'api_raffle' },
-    { from: 'crew_dash', to: 'api_live_alert' },
-    { from: 'admin_dash', to: 'api_tour_sync' },
-    { from: 'admin_dash', to: 'api_booking' },
-    { from: 'admin_dash', to: 'api_cruise' },
-
-    { from: 'api_newsletter', to: 'email_general_news' },
-    { from: 'api_sms', to: 'sms_template_alert' },
-    { from: 'api_live_alert', to: 'sms_template_alert' },
-    { from: 'api_booking', to: 'email_planner_welcome' },
-    { from: 'api_booking', to: 'email_booking_confirm' },
-    { from: 'api_booking', to: 'email_booking_admin' },
-    { from: 'api_cruise', to: 'email_cruise_invite' },
-    { from: 'api_cruise', to: 'email_fan_welcome' },
-
-    { from: 'api_newsletter', to: 'db_sms' },
-    { from: 'api_sms', to: 'db_sms' },
-    { from: 'api_booking', to: 'db_bookings' },
-    { from: 'api_booking', to: 'db_planners' },
-    { from: 'api_cruise', to: 'db_cruise' },
-    { from: 'api_raffle', to: 'db_claims' },
-    { from: 'api_photo_mod', to: 'db_memories' },
-    { from: 'api_tour_sync', to: 'db_cms' },
-
-    { from: 'db_members', to: 'fan_dash' },
-    { from: 'db_bookings', to: 'planner_dash' },
-    { from: 'db_cruise', to: 'passenger_dash' },
-    { from: 'db_sms', to: 'admin_dash' },
-    { from: 'db_cms', to: 'home' },
-    { from: 'db_cms', to: 'shows' },
-    { from: 'db_claims', to: 'fan_dash' }
-  ];
 
   // Helper check: Is a node connected to the hovered node?
   const isNodeConnected = (nodeId: string) => {
     if (!hoveredNodeId) return true;
     if (nodeId === hoveredNodeId) return true;
-    return flowConnections.some(
+    return FLOW_CONNECTIONS.some(
       conn => (conn.from === hoveredNodeId && conn.to === nodeId) || (conn.to === hoveredNodeId && conn.from === nodeId)
     );
   };
@@ -485,31 +506,11 @@ export default function SitemapPage() {
   };
 
   const nodeCoords: Record<string, { x: number; y: number; type: string }> = {};
-  flowNodes.forEach(node => {
-    const totalInCol = flowNodes.filter(n => n.col === node.col).length;
+  FLOW_NODES.forEach(node => {
+    const totalInCol = FLOW_NODES.filter(n => n.col === node.col).length;
     const coords = getCoords(node.col, node.row, totalInCol);
     nodeCoords[node.id] = { ...coords, type: node.type };
   });
-
-  const getNodeColor = (type: string) => {
-    switch (type) {
-      case 'page': return {
-        text: 'text-cyan-400', border: 'border-cyan-500/20', activeBorder: 'border-cyan-500', bg: 'bg-cyan-500/5', activeBg: 'bg-cyan-500/10', glow: 'shadow-[0_0_15px_rgba(34,211,238,0.15)]', icon: '🌐'
-      };
-      case 'module': return {
-        text: 'text-pink-400', border: 'border-pink-500/20', activeBorder: 'border-pink-500', bg: 'bg-pink-500/5', activeBg: 'bg-pink-500/10', glow: 'shadow-[0_0_15px_rgba(244,63,94,0.15)]', icon: '⚙️'
-      };
-      case 'email': return {
-        text: 'text-purple-300', border: 'border-purple-500/20', activeBorder: 'border-purple-500', bg: 'bg-purple-600/5', activeBg: 'bg-purple-600/10', glow: 'shadow-[0_0_15px_rgba(147, 51, 234,0.15)]', icon: '📧'
-      };
-      case 'db': return {
-        text: 'text-emerald-400', border: ' border-[var(--color-accent)]/30', activeBorder: 'border-emerald-500', bg: 'bg-emerald-500/5', activeBg: 'bg-emerald-500/10', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.15)]', icon: '💾'
-      };
-      default: return {
-        text: 'text-white', border: 'border-white/10', activeBorder: 'border-white', bg: 'bg-white/5', activeBg: 'bg-white/10', glow: 'shadow-[0_0_15px_rgba(255,255,255,0.1)]', icon: '📄'
-      };
-    }
-  };
 
   return (
     <main className="min-h-screen bg-[rgb(10,10,15)] pt-32 pb-24 px-8 md:px-16 lg:px-24 relative overflow-hidden">
@@ -540,7 +541,7 @@ export default function SitemapPage() {
 
         {/* Tab Toggle */}
         <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-20">
-          <button
+          <button aria-label="Action button"
             onClick={() => setActiveView('flow')}
             className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-colors cursor-pointer ${activeView === 'flow'
               ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10  text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
@@ -549,7 +550,7 @@ export default function SitemapPage() {
           >
             🗺️ Ecosystem Flow Map
           </button>
-          <button
+          <button aria-label="Action button"
             onClick={() => setActiveView('directory')}
             className={`px-6 py-3 border text-xs font-black uppercase tracking-widest  transition-colors cursor-pointer ${activeView === 'directory'
               ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10  text-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.15)]"
@@ -607,7 +608,7 @@ export default function SitemapPage() {
               <div className="w-[1200px] h-[900px] relative bg-black/40 border border-white/5 p-6 overflow-hidden">
                 {/* SVG Connections overlay */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-                  {flowConnections.map((conn, idx) => {
+                  {FLOW_CONNECTIONS.map((conn, idx) => {
                     const fromNode = nodeCoords[conn.from];
                     const toNode = nodeCoords[conn.to];
                     if (!fromNode || !toNode) return null;
@@ -656,7 +657,7 @@ export default function SitemapPage() {
                 </svg>
 
                 {/* Nodes list */}
-                {flowNodes.map(node => {
+                {FLOW_NODES.map(node => {
                   const style = getNodeColor(node.type);
                   const isHovered = hoveredNodeId === node.id;
                   const isDimmed = hoveredNodeId && !isNodeConnected(node.id);
@@ -695,16 +696,16 @@ export default function SitemapPage() {
               {hoveredNodeId ? (
                 <div>
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-lg">{getNodeColor(flowNodes.find(n => n.id === hoveredNodeId)?.type || '').icon}</span>
-                    <h4 className={`text-sm font-black uppercase tracking-widest ${getNodeColor(flowNodes.find(n => n.id === hoveredNodeId)?.type || '').text}`}>
-                      {flowNodes.find(n => n.id === hoveredNodeId)?.label}
+                    <span className="text-lg">{getNodeColor(FLOW_NODES.find(n => n.id === hoveredNodeId)?.type || '').icon}</span>
+                    <h4 className={`text-sm font-black uppercase tracking-widest ${getNodeColor(FLOW_NODES.find(n => n.id === hoveredNodeId)?.type || '').text}`}>
+                      {FLOW_NODES.find(n => n.id === hoveredNodeId)?.label}
                     </h4>
                     <span className="text-[0.55rem] font-mono px-2 py-0.5 rounded bg-white/5 uppercase text-white/40 border border-white/5">
-                      {flowNodes.find(n => n.id === hoveredNodeId)?.type}
+                      {FLOW_NODES.find(n => n.id === hoveredNodeId)?.type}
                     </span>
                   </div>
                   <p className="text-xs text-white/60 leading-relaxed">
-                    {flowNodes.find(n => n.id === hoveredNodeId)?.desc}
+                    {FLOW_NODES.find(n => n.id === hoveredNodeId)?.desc}
                   </p>
                 </div>
               ) : (
@@ -1861,7 +1862,7 @@ export default function SitemapPage() {
                     <span className="text-xs text-white/30 ml-1">{s.unit}</span>
                   </div>
                   {s.link && (
-                    <a href={s.link} target="_blank" rel="noopener noreferrer" className={`text-xs font-bold uppercase tracking-widest ${s.color} hover:text-white transition-colors`}>
+                    <a aria-label="View service details" href={s.link} target="_blank" rel="noopener noreferrer" className={`text-xs font-bold uppercase tracking-widest ${s.color} hover:text-white transition-colors`}>
                       →
                     </a>
                   )}
@@ -1928,6 +1929,18 @@ export default function SitemapPage() {
 
 // ── Tree sub-components ─────────────────────────────────────────────────────
 
+const NODE_COLOR_MAP: Record<string, string> = {
+  white: "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
+  purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
+  red: "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
+  amber: "border-purple-500/30 bg-purple-600/5 hover:border-purple-400/50 hover:bg-purple-600/10",
+  cyan: "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
+  teal: "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
+  blue: "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
+};
+const NODE_DOT_MAP: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-purple-600", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
+const NODE_TEXT_MAP: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-purple-200", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
+
 function SiteNode({
   href, label, sub, color = "white", wide = false, small = false, desc,
 }: {
@@ -1935,24 +1948,13 @@ function SiteNode({
   color?: "white" | "purple" | "red" | "amber" | "cyan" | "teal" | "blue";
   wide?: boolean; small?: boolean;
 }) {
-  const colorMap: Record<string, string> = {
-    white: "border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
-    purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
-    red: "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
-    amber: "border-purple-500/30 bg-purple-600/5 hover:border-purple-400/50 hover:bg-purple-600/10",
-    cyan: "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
-    teal: "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
-    blue: "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
-  };
-  const dotMap: Record<string, string> = { white: "bg-white/20", purple: "bg-purple-500", red: "bg-red-500", amber: "bg-purple-600", cyan: "bg-cyan-500", teal: "bg-teal-500", blue: "bg-blue-500" };
-  const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-purple-200", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
   const isLinkable = !href.includes('[') && href !== '#';
-  const cls = `flex flex-col items-center justify-center border rounded-lg transition-colors text-center group w-full cursor-pointer hover:scale-[1.03] active:scale-[0.98] ${colorMap[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`;
+  const cls = `flex flex-col items-center justify-center border rounded-lg transition-colors text-center group w-full cursor-pointer hover:scale-[1.03] active:scale-[0.98] ${NODE_COLOR_MAP[color]} ${wide ? "px-6 py-3" : small ? "px-2 py-2" : "px-3 py-3"}`;
   const inner = (
     <>
       <div className="flex items-center gap-1.5 mb-0.5">
-        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotMap[color]}`} />
-        <span className={`text-xs font-black uppercase tracking-widest leading-tight ${textMap[color]}`}>{label}</span>
+        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${NODE_DOT_MAP[color]}`} />
+        <span className={`text-xs font-black uppercase tracking-widest leading-tight ${NODE_TEXT_MAP[color]}`}>{label}</span>
       </div>
       {sub && <span className="text-[var(--font-size-2xs)] text-white/20 font-mono mt-0.5">{sub}</span>}
       {desc && <span className="text-[var(--font-size-2xs)] text-white/15 leading-snug mt-1 max-w-[140px]">{desc}</span>}

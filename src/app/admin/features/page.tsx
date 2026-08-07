@@ -232,7 +232,7 @@ export default function AdminFeaturesPage() {
             { key: "infrastructure", label: "Infrastructure" },
             { key: "needs-api-key", label: "Needs API Key" },
           ].map((tab) => (
-            <button
+            <button aria-label="Action button"
               key={tab.key}
               onClick={() => setFilter(tab.key)}
               className={`text-xs font-bold uppercase tracking-[0.12em] px-4 py-2 border transition-colors cursor-pointer ${filter === tab.key

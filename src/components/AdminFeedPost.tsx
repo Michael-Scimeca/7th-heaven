@@ -146,7 +146,7 @@ export default function AdminFeedPost() {
       <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">I am</span>
       <div className="grid grid-cols-3 gap-2">
        {crewMembers.map((m) => (
-        <button
+        <button aria-label="Action button"
          key={m.avatar}
          type="button"
          onClick={() => setSelectedMember(m)}
@@ -176,7 +176,7 @@ export default function AdminFeedPost() {
       <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Post Type</span>
       <div className="flex flex-wrap gap-2">
        {postTypes.map((t) => (
-        <button
+        <button aria-label="Action button"
          key={t.value}
          type="button"
          onClick={() => setPostType(t.value)}
@@ -199,7 +199,7 @@ export default function AdminFeedPost() {
       <label htmlFor="admin-feed-post-content" className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">
        What&apos;s happening?
       </label>
-      <textarea
+      <textarea aria-label="Text input"
        id="admin-feed-post-content"
        ref={textareaRef}
        value={content}
@@ -227,7 +227,7 @@ export default function AdminFeedPost() {
      {(postType === "photo" || postType === "crowd") && (
       <div>
        <label htmlFor="admin-feed-post-image-url" className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Image URL</label>
-       <input
+       <input aria-label="Input field"
         id="admin-feed-post-image-url"
         type="url"
         value={imageUrl}
@@ -239,7 +239,7 @@ export default function AdminFeedPost() {
      )}
 
      {/* Submit */}
-     <button
+     <button aria-label="Action button"
       type="submit"
       disabled={!content.trim() || isPosting}
       className={`w-full py-3 text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-300 ${

@@ -42,12 +42,8 @@ export async function POST(req: NextRequest) {
 
     const html = cruiseCommunityBlast({ subject, body: cleanBody });
 
-    // Send to all signups
-    let sent = 0;
-    let failed = 0;
-    const errors: string[] = [];
-
-    for (const signup of eligibleSignups) {
+    // Send to all signups in parallel
+    const blastResults = await Promise.all(eligibleSignups.map(async (signup) => {
       try {
         // Replace {{email}} placeholder for unsubscribe link
         const personalizedHtml = html.replace(/\{\{email\}\}/g, encodeURIComponent(signup.email));
@@ -56,10 +52,22 @@ export async function POST(req: NextRequest) {
           subject,
           html: personalizedHtml,
         });
-        sent++;
+        return { success: true };
       } catch (err: any) {
+        return { success: false, error: `${maskEmail(signup.email)}: ${err.message}` };
+      }
+    }));
+
+    let sent = 0;
+    let failed = 0;
+    const errors: string[] = [];
+
+    for (const res of blastResults) {
+      if (res.success) {
+        sent++;
+      } else {
         failed++;
-        errors.push(`${maskEmail(signup.email)}: ${err.message}`);
+        if (res.error) errors.push(res.error);
       }
     }
 

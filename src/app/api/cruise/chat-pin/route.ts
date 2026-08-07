@@ -7,6 +7,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
+const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
+
 export async function GET() {
   // Fetch pin + chat enabled state + announcement in parallel
   const [pinResult, enabledResult, annResult] = await Promise.all([
@@ -14,8 +16,6 @@ export async function GET() {
     supabaseAdmin.from('site_settings').select('value').eq('key', 'cruise_chat_enabled').single(),
     supabaseAdmin.from('site_settings').select('value').eq('key', 'cruise_announcement').single(),
   ]);
-
-  const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
 
   let effectivePin = pinResult.data?.value || null;
   if (!effectivePin && annResult.data?.value) {
@@ -39,7 +39,6 @@ export async function POST(req: Request) {
 
   // Handle pin update
   if (body.pin !== undefined) {
-    const stripHtml = (str: string | null) => str ? str.replace(/<[^>]*>/g, '').trim() : null;
     const cleanPin = stripHtml(body.pin) || '';
 
     await supabaseAdmin.from('site_settings').upsert(

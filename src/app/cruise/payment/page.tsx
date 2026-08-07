@@ -104,7 +104,7 @@ export default function CruisePaymentPage() {
               <label htmlFor="cruise-pay-booking-number" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Booking Number: *
               </label>
-              <input
+              <input aria-label="Input field"
                 id="cruise-pay-booking-number"
                 type="text"
                 required
@@ -119,7 +119,7 @@ export default function CruisePaymentPage() {
               <label htmlFor="cruise-pay-email" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Email: *
               </label>
-              <input
+              <input aria-label="Input field"
                 id="cruise-pay-email"
                 type="email"
                 required
@@ -134,7 +134,7 @@ export default function CruisePaymentPage() {
               <label htmlFor="cruise-pay-phone" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Cell Phone:
               </label>
-              <input
+              <input aria-label="Input field"
                 id="cruise-pay-phone"
                 type="tel"
                 placeholder="Enter Cell Phone"
@@ -148,7 +148,7 @@ export default function CruisePaymentPage() {
               <label htmlFor="cruise-pay-card-name" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Your Name on Credit Card: *
               </label>
-              <input
+              <input aria-label="Input field"
                 id="cruise-pay-card-name"
                 type="text"
                 required
@@ -163,7 +163,7 @@ export default function CruisePaymentPage() {
               <label htmlFor="cruise-pay-card-number" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Credit Card Number: *
               </label>
-              <input
+              <input aria-label="Input field"
                 id="cruise-pay-card-number"
                 type="text"
                 required
@@ -179,7 +179,7 @@ export default function CruisePaymentPage() {
                 <label htmlFor="cruise-pay-card-expiry" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   Exp. Date: *
                 </label>
-                <input
+                <input aria-label="Input field"
                   id="cruise-pay-card-expiry"
                   type="text"
                   required
@@ -194,7 +194,7 @@ export default function CruisePaymentPage() {
                 <label htmlFor="cruise-pay-card-cvv" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   CVC/CVV: *
                 </label>
-                <input
+                <input aria-label="Input field"
                   id="cruise-pay-card-cvv"
                   type="text"
                   required
@@ -209,7 +209,7 @@ export default function CruisePaymentPage() {
                 <label htmlFor="cruise-pay-card-zip" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                   Zip Code: *
                 </label>
-                <input
+                <input aria-label="Input field"
                   id="cruise-pay-card-zip"
                   type="text"
                   required
@@ -225,7 +225,7 @@ export default function CruisePaymentPage() {
               <label htmlFor="cruise-pay-amount" className="block text-[var(--font-size-2xs)] font-bold text-white/40 uppercase tracking-widest mb-1.5">
                 Amount to Charge: *
               </label>
-              <input
+              <input aria-label="Input field"
                 id="cruise-pay-amount"
                 type="text"
                 required
@@ -238,7 +238,7 @@ export default function CruisePaymentPage() {
 
             {/* Premium red oval submit button from legacy site */}
             <div className="pt-4">
-              <button
+              <button aria-label="Action button"
                 type="submit"
                 disabled={loading}
                 className="bg-[#ff0000] hover:bg-[#cc0000] text-white text-sm font-black px-12 py-3.5 uppercase tracking-widest rounded-full transition-colors shadow-[0_0_20px_rgba(255,0,0,0.3)] disabled:opacity-50 cursor-pointer text-center block mx-auto"

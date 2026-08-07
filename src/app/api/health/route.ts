@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-export async function GET() {
-  // 1. Check Environment Variables (Return booleans, NEVER the actual keys)
-  const envStatus = {
+function getEnvStatus() {
+  return {
     supabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     supabaseAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     supabaseServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -11,6 +10,11 @@ export async function GET() {
     adminEmail: !!process.env.ADMIN_EMAIL,
     siteUrl: !!process.env.NEXT_PUBLIC_SITE_URL,
   };
+}
+
+export async function GET() {
+  // 1. Check Environment Variables (Return booleans, NEVER the actual keys)
+  const envStatus = getEnvStatus();
 
   let dbConnected = false;
   let dbError = null;

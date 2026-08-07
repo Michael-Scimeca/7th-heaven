@@ -70,6 +70,13 @@ const fetchWithTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 1200
   ]);
 };
 
+const formatShowDate = (isoDate: string) => {
+  try {
+    const d = new Date(isoDate + 'T12:00:00');
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+  } catch { return isoDate; }
+};
+
 export default async function Home() {
   // Use sanityClient.fetch with 1.2s max timeout — guarantees fast render even if Sanity API is slow
   const [membersData, showsData, settings] = await Promise.all([
@@ -86,12 +93,6 @@ export default async function Home() {
     }))
     : FALLBACK_MEMBERS;
 
-  const formatShowDate = (isoDate: string) => {
-    try {
-      const d = new Date(isoDate + 'T12:00:00');
-      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-    } catch { return isoDate; }
-  };
 
   const now = new Date();
   const allShows = (showsData as SanityTourDate[]);

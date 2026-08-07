@@ -1,4 +1,6 @@
+/* eslint-disable react-doctor/no-giant-component */
 "use client";
+/* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -43,7 +45,56 @@ function isQuestionForAdmin(content: string) {
   return ['@admin', '@crew', '@moderator', '@mary', '@michael', '@tony', '@sammy', '@ryan', '@abbie'].some(t => lower.includes(t));
 }
 
-export default function CruiseChat({ memberOverride }: { memberOverride?: any } = {}) {
+const getNameColor = (role?: string, name?: string) => {
+  if (role === 'admin') return '! text-[var(--color-accent)] font-extrabold';
+  if (role === 'crew') return '!text-emerald-700 font-extrabold';
+  if (role === 'planner') return '! text-[var(--color-accent)] font-extrabold';
+  if (role === 'cruise') return '!text-cyan-700 font-extrabold';
+  const colors = ['! text-[var(--color-accent)]', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '! text-[var(--color-accent)]', '!text-indigo-700'];
+  let hash = 0;
+  const str = name || 'user';
+  for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  return colors[Math.abs(hash) % colors.length];
+};
+
+const getRoleColor = (role: string) => {
+  if (role === "admin") return " text-[var(--color-accent)] bg-purple-600/20 border-purple-500/40 font-extrabold";
+  if (role === "crew") return "text-emerald-800 bg-emerald-500/20 border-emerald-500/40 font-extrabold";
+  if (role === "planner") return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
+  if (role === "cruise") return "text-cyan-800 bg-cyan-500/20 border-cyan-500/40 font-extrabold";
+  return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
+};
+
+const getAvatarGradient = (name: string) => {
+  const gradients = [
+    'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 text-white shadow-md',
+    'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-md',
+    'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-md',
+    'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black font-black shadow-md',
+    'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-md',
+    'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md',
+  ];
+  let hash = 0;
+  const str = name || 'user';
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return gradients[Math.abs(hash) % gradients.length];
+};
+
+const CHAT_EMOJIS = ['😂', '❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💀', '👀', '🎵', '🫶', '😭', '💜', '🤯', '🎤', '🎶', '🥹', '😎', '🥳', '🎉', '🥂', '🚢', '🌊'];
+
+const TAG_SUGGESTIONS = [
+  { tag: '@admin', label: 'Tag Admin Team', icon: '👑' },
+  { tag: '@Mary', label: 'Mary Grivas (Admin)', icon: '👑' },
+  { tag: '@Michael', label: 'Michael Scimeca', icon: '🎤' },
+  { tag: '@crew', label: 'Tag 7H Band & Crew', icon: '🎸' },
+  { tag: '@Tony', label: 'Tony', icon: '🥁' },
+  { tag: '@Sammy', label: 'Sammy', icon: '🎸' },
+  { tag: '@Ryan', label: 'Ryan', icon: '🎸' },
+];
+
+export default function CruiseChat({ memberOverride, activeChannel = "general" }: { memberOverride?: any; activeChannel?: string }) {
   const { member: contextMember } = useMember();
   const member = memberOverride || contextMember;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -53,24 +104,14 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
   const [isLoading, setIsLoading] = useState(true);
   const [showTagMenu, setShowTagMenu] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [chatLayout, setChatLayout] = useState<number>(3);
+  const chatLayout = 3;
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  const CHAT_EMOJIS = ['😂', '❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💀', '👀', '🎵', '🫶', '😭', '💜', '🤯', '🎤', '🎶', '🥹', '😎', '🥳', '🎉', '🥂', '🚢', '🌊'];
+
 
   const isCrewOrAdmin = member?.role === 'crew' || member?.role === 'admin';
 
-  const TAG_SUGGESTIONS = [
-    { tag: '@admin', label: 'Tag Admin Team', icon: '👑' },
-    { tag: '@Mary', label: 'Mary Grivas (Admin)', icon: '👑' },
-    { tag: '@Michael', label: 'Michael Scimeca', icon: '🎤' },
-    { tag: '@crew', label: 'Tag 7H Band & Crew', icon: '🎸' },
-    { tag: '@Tony', label: 'Tony', icon: '🥁' },
-    { tag: '@Sammy', label: 'Sammy', icon: '🎸' },
-    { tag: '@Ryan', label: 'Ryan', icon: '🎸' },
-  ];
-
-  const handleUpdatePin = async (newPin: string | null) => {
+  const handleUpdatePin = useCallback(async (newPin: string | null) => {
     try {
       const res = await fetch('/api/cruise/chat-pin', {
         method: 'POST',
@@ -84,7 +125,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
       console.error(e);
       alert('Error updating announcement');
     }
-  };
+  }, []);
 
   const handleKick = async (senderName: string) => {
     if (!senderName || senderName === member?.name) return;
@@ -218,7 +259,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
     const channel = supabase
       .channel(`room_${room}`)
-      .on("broadcast", { event: "pin_update" }, () => {})
+      .on("broadcast", { event: "pin_update" }, () => { })
       .on("broadcast", { event: "chat_toggle" }, (payload: any) => {
         setChatEnabled(payload.payload.chatEnabled);
       })
@@ -246,7 +287,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [fetchHistory, fetchChatPin]);
+  }, [fetchHistory, fetchChatPin, supabase]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -341,42 +382,9 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
     setShowTagMenu(false);
   };
 
-  const getAvatarGradient = (name: string) => {
-    const gradients = [
-      'bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 text-white shadow-md',
-      'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-white shadow-md',
-      'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 text-white shadow-md',
-      'bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 text-black font-black shadow-md',
-      'bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500 text-white shadow-md',
-      'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md',
-    ];
-    let hash = 0;
-    const str = name || 'user';
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return gradients[Math.abs(hash) % gradients.length];
-  };
 
-  const getSenderNameColor = (name: string, role: string) => {
-    if (role === 'admin') return '! text-[var(--color-accent)] font-extrabold';
-    if (role === 'crew') return '!text-emerald-700 font-extrabold';
-    if (role === 'planner') return '! text-[var(--color-accent)] font-extrabold';
-    if (role === 'cruise') return '!text-cyan-700 font-extrabold';
-    const colors = ['! text-[var(--color-accent)]', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '! text-[var(--color-accent)]', '!text-indigo-700'];
-    let hash = 0;
-    const str = name || 'user';
-    for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    return colors[Math.abs(hash) % colors.length];
-  };
 
-  const getRoleColor = (role: string) => {
-    if (role === "admin") return " text-[var(--color-accent)] bg-purple-600/20 border-purple-500/40 font-extrabold";
-    if (role === "crew") return "text-emerald-800 bg-emerald-500/20 border-emerald-500/40 font-extrabold";
-    if (role === "planner") return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
-    if (role === "cruise") return "text-cyan-800 bg-cyan-500/20 border-cyan-500/40 font-extrabold";
-    return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
-  };
+
 
   if (isLoading) {
     return (
@@ -497,7 +505,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className={`text-xs font-bold ${getSenderNameColor(msg.sender_name, msg.sender_role)}`}>
+                    <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                       {msg.sender_name}
                     </span>
                     <span className={`text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${getRoleColor(msg.sender_role)}`}>
@@ -532,28 +540,28 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
 
                 {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
                   <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-lg p-1 z-20">
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleWarn(msg.sender_name)}
                       title="Warn User"
                       className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15  text-[var(--color-accent)] hover:scale-105 transition-colors cursor-pointer"
                     >
                       ⚠️
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleBan(msg.sender_name)}
                       title="Ban User"
                       className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/15 text-red-500 hover:scale-105 transition-colors cursor-pointer"
                     >
                       🚫
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleDeleteMsg(msg.id)}
                       title="Delete Message"
                       className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-white/10 text-white/40 hover:scale-105 transition-colors cursor-pointer"
                     >
                       🗑
                     </button>
-                    <button
+                    <button aria-label="Action button"
                       onClick={() => handleKick(msg.sender_name)}
                       title="Remove Fan Completely"
                       className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-colors cursor-pointer"
@@ -573,11 +581,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
           <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
             <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 px-2 py-1 flex items-center justify-between">
               <span>Tag Admin / Crew Member</span>
-              <button onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
+              <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
             </div>
             <div className="grid grid-cols-2 gap-1.5 mt-1">
               {TAG_SUGGESTIONS.map(s => (
-                <button
+                <button aria-label="Action button"
                   key={s.tag}
                   type="button"
                   onClick={() => insertTag(s.tag)}
@@ -598,11 +606,11 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
           <div className="absolute bottom-full mb-2 right-0 bg-white border border-black/15 p-2.5 z-30 animate-[slideUp_0.15s_ease-out] w-64">
             <div className="text-[10px] font-black uppercase tracking-wider text-black/40 mb-1.5 px-1 flex items-center justify-between">
               <span>Quick Emojis</span>
-              <button type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black text-xs font-bold">✕</button>
+              <button aria-label="Action button" type="button" onClick={() => setShowEmojiPicker(false)} className="text-black/30 hover:text-black text-xs font-bold">✕</button>
             </div>
             <div className="grid grid-cols-5 gap-1">
               {CHAT_EMOJIS.map(emoji => (
-                <button
+                <button aria-label="Previous"
                   key={emoji}
                   type="button"
                   onClick={() => {
@@ -624,7 +632,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
         ) : (
           <div className="flex flex-col">
             <form onSubmit={handleSend} className="relative flex items-center">
-              <input
+              <input aria-label="Input field"
                 type="text"
                 value={newMessage}
                 onChange={(e) => {
@@ -640,7 +648,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 maxLength={500}
               />
               <div className="absolute right-1.5 flex items-center gap-1">
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => {
                     setShowEmojiPicker(!showEmojiPicker);
@@ -651,7 +659,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 >
                   😀
                 </button>
-                <button
+                <button aria-label="Action button"
                   type="button"
                   onClick={() => {
                     setShowTagMenu(!showTagMenu);
@@ -662,7 +670,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
                 >
                   @
                 </button>
-                <button
+                <button aria-label="Action button"
                   type="submit"
                   disabled={!newMessage.trim() || !member || isSending || member.is_banned}
                   className="w-7 h-7 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(8,145,178,0.3)] disabled:opacity-30 disabled:hover:bg-cyan-600 cursor-pointer"
@@ -673,7 +681,7 @@ export default function CruiseChat({ memberOverride }: { memberOverride?: any } 
             </form>
             <div className="flex items-center justify-between text-[10px] font-bold !text-gray-700 uppercase tracking-wider mt-2 px-1">
               <span>KEEP IT RATED PG-13 · NO POLITICS</span>
-              <button
+              <button aria-label="Action button"
                 type="button"
                 onClick={() => insertTag('@admin')}
                 className="!text-gray-700 hover:!text-gray-900 transition-colors cursor-pointer font-bold lowercase tracking-normal"

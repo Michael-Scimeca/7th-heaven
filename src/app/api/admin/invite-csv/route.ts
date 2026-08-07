@@ -24,15 +24,13 @@ export async function POST(request: Request) {
       failures: [] as { email: string; error: string }[],
     };
 
-    // 2. Loop over invites and process sequentially
-    for (const invite of invites) {
+    // 2. Loop over invites in parallel
+    const inviteResults = await Promise.all(invites.map(async (invite) => {
       const email = invite.email?.toLowerCase().trim();
       const name = invite.name?.trim();
 
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        results.failedCount++;
-        results.failures.push({ email: email || 'N/A', error: 'Invalid email address format' });
-        continue;
+        return { success: false, email: email || 'N/A', error: 'Invalid email address format' };
       }
 
       // Generate verification PIN (6 digits)
@@ -53,14 +51,21 @@ export async function POST(request: Request) {
       });
 
       if (emailResult.success) {
-        results.successCount++;
         if (emailResult.mock) {
-          // Write to console in development
           console.log(`[CSV Invite] Verification code for ${email} is ${pin}`);
         }
+        return { success: true, email };
+      } else {
+        return { success: false, email, error: (emailResult.error as any)?.message || 'Email delivery failed' };
+      }
+    }));
+
+    for (const res of inviteResults) {
+      if (res.success) {
+        results.successCount++;
       } else {
         results.failedCount++;
-        results.failures.push({ email, error: (emailResult.error as any)?.message || 'Email delivery failed' });
+        results.failures.push({ email: res.email, error: res.error || 'Failed' });
       }
     }
 

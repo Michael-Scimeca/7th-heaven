@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { User, Session } from '@supabase/supabase-js';
 import type { Profile, UserRole } from '@/lib/supabase/types';
@@ -61,12 +61,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
  }, [state.user, fetchProfile]);
 
  useEffect(() => {
+  let cancelled = false;
   // Get initial session
    const initAuth = async () => {
     try {
      const { data: { session } } = await supabase.auth.getSession();
+     if (cancelled) return;
      if (session?.user) {
       const profile = await fetchProfile(session.user.id);
+      if (cancelled) return;
       setState({
        user: session.user,
        profile,
@@ -76,10 +79,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
        role: profile?.role ?? 'fan',
       });
      } else {
+      if (cancelled) return;
       setState(prev => ({ ...prev, isLoading: false }));
      }
     } catch (err) {
      console.warn('AuthContext getSession failed:', err);
+     if (cancelled) return;
      setState(prev => ({ ...prev, isLoading: false }));
     }
    };
@@ -88,14 +93,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Safety timeout — don't stay loading forever behind tunnel/proxy
   const authTimeout = setTimeout(() => {
+   if (cancelled) return;
    setState(prev => prev.isLoading ? { ...prev, isLoading: false } : prev);
   }, 3000);
 
   // Listen for auth changes
   const { data: { subscription } } = supabase.auth.onAuthStateChange(
    async (event: any, session: any) => {
+    if (cancelled) return;
     if (event === 'SIGNED_IN' && session?.user) {
      const profile = await fetchProfile(session.user.id);
+     if (cancelled) return;
      setState({
       user: session.user,
       profile,
@@ -117,10 +125,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    }
   );
 
-  return () => { subscription.unsubscribe(); clearTimeout(authTimeout); };
+  return () => {
+   cancelled = true;
+   clearTimeout(authTimeout);
+   subscription.unsubscribe();
+  };
  }, [supabase, fetchProfile]);
 
- const signUp = async (
+ const signUp = useCallback(async (
   email: string,
   password: string,
   metadata: SignUpMetadata
@@ -152,26 +164,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   if (error) return { error: error.message };
   return { error: null };
- };
+ }, [supabase]);
 
- const signIn = async (email: string, password: string): Promise<{ error: string | null }> => {
+ const signIn = useCallback(async (email: string, password: string): Promise<{ error: string | null }> => {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return { error: error.message };
   return { error: null };
- };
+ }, [supabase]);
 
- const signOut = async () => {
+ const signOut = useCallback(async () => {
   await supabase.auth.signOut();
- };
+ }, [supabase]);
+
+ const contextValue = useMemo(() => ({
+  ...state,
+  signUp,
+  signIn,
+  signOut,
+  refreshProfile,
+ }), [state, signUp, signIn, signOut, refreshProfile]);
 
  return (
-  <AuthContext.Provider value={{ ...state, signUp, signIn, signOut, refreshProfile }}>
+  <AuthContext.Provider value={contextValue}>
    {children}
   </AuthContext.Provider>
  );
 }
 
-export function useAuth() {
+function useAuth() {
  const ctx = useContext(AuthContext);
  if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
  return ctx;

@@ -9,6 +9,12 @@ interface InlineYTPlayerProps {
   onClose?: () => void;
 }
 
+const formatTime = (s: number) => {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+};
+
 export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlayerProps) {
   const reactId = useId();
   const playerRef = useRef<any>(null);
@@ -114,7 +120,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
     else { playerRef.current.mute(); setIsMuted(true); }
   };
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleProgressClick = (e: React.MouseEvent<HTMLElement>) => {
     if (!progressRef.current || !playerRef.current) return;
     const rect = progressRef.current.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
@@ -127,20 +133,15 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
     else containerRef.current.requestFullscreen();
   };
 
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${m}:${sec.toString().padStart(2, "0")}`;
-  };
+
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full bg-black"
+      className="relative w-full h-full bg-black outline-none"
       onMouseMove={resetHideTimer}
-      onClick={togglePlay}
     >
       {/* YouTube Player */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -149,10 +150,17 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         <div className="absolute bottom-0 left-0 w-40 h-14 z-10" />
       </div>
 
+      {/* Video playback toggle button */}
+      <button
+        type="button"
+        aria-label="Toggle video playback"
+        onClick={togglePlay}
+        className="absolute inset-0 w-full h-full z-0 border-0 bg-transparent cursor-pointer"
+      />
+
       {/* Close button */}
       {onClose && (
-        <button
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
+        <button onClick={(e) => { e.stopPropagation(); onClose(); }}
           className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${
             showControls ? "opacity-100" : "opacity-0"
           }`}
@@ -169,12 +177,15 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         className={`absolute bottom-0 inset-x-0 z-20 px-4 pb-3 pt-8 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${
           showControls ? "opacity-100" : "opacity-0"
         }`}
+        aria-label="Player controls container"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Progress Bar */}
-        <div
-          ref={progressRef}
-          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-colors rounded-full"
+        <button
+          type="button"
+          ref={progressRef as any}
+          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-colors rounded-full outline-none border-0 p-0 text-left"
+          aria-label="Seek progress bar"
           onClick={handleProgressClick}
         >
           <div
@@ -189,14 +200,13 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
             style={{ left: `calc(${progress}% - 6px)` }}
           />
-        </div>
+        </button>
 
         {/* Control Row */}
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             {/* Play/Pause */}
-            <button
-              onClick={togglePlay}
+            <button onClick={togglePlay}
               className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
@@ -217,8 +227,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
               onMouseEnter={() => setShowVolume(true)}
               onMouseLeave={() => setShowVolume(false)}
             >
-              <button
-                onClick={toggleMute}
+              <button onClick={toggleMute}
                 className="text-white/60 hover:text-white transition-colors cursor-pointer"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
@@ -233,7 +242,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
                 )}
               </button>
               <div className={`flex items-center transition-colors duration-200 overflow-hidden ${showVolume ? 'w-16 opacity-100' : 'w-0 opacity-0'}`}>
-                <input
+                <input aria-label="Input field"
                   type="range"
                   min={0}
                   max={100}
@@ -257,8 +266,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
           </div>
 
           {/* Fullscreen */}
-          <button
-            onClick={toggleFullscreen}
+          <button onClick={toggleFullscreen}
             className="text-white/60 hover:text-white transition-colors cursor-pointer"
             aria-label="Fullscreen"
           >

@@ -39,7 +39,20 @@ const STATIC_DIRECTORY: RoleUser[] = [
   { id: "fan-3", name: "Amanda Seyfried", email: "amanda.s@example.com", role: "fan", phone: "847-555-2244", status: "Silver Fan", joinedDate: "2025-10-02" },
 ];
 
-export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[] }) {
+const getRoleBadgeStyle = (role: string) => {
+  switch (role) {
+    case "admin": return "bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)]";
+    case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+    case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
+    case "planner":
+    case "event_planner": return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
+    default: return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
+  }
+};
+
+const EMPTY_DYNAMIC_USERS: any[] = [];
+
+export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dynamicUsers?: any[] }) {
   const [activeTab, setActiveTab] = useState<"all" | "crew" | "fan" | "cruise" | "planner" | "admin">("all");
   const [search, setSearch] = useState("");
   const [copiedSuccess, setCopiedSuccess] = useState(false);
@@ -123,16 +136,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
     URL.revokeObjectURL(url);
   };
 
-  const getRoleBadgeStyle = (role: string) => {
-    switch (role) {
-      case "admin": return "bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)]";
-      case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
-      case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
-      case "planner":
-      case "event_planner": return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
-      default: return "bg-[var(--color-accent)]  text-[var(--color-accent)] border-[var(--color-accent)]";
-    }
-  };
+
 
   return (
     <div className="p-6 bg-white border-t border-black/10 space-y-6 text-black font-sans">
@@ -142,7 +146,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
         {/* Role Tabs */}
         <div className="flex items-center gap-1.5 flex-wrap">
           {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(tab => (
-            <button
+            <button aria-label="Action button"
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
@@ -163,7 +167,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={handleCopyEmails}
             className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] border border-[var(--color-accent)] text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
@@ -172,7 +176,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
             <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
           </button>
 
-          <button
+          <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
             className="px-3.5 py-2 bg-black/5 hover:bg-black/10 border border-black/15 text-black font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5"
@@ -184,7 +188,7 @@ export function RoleEmailDirectory({ dynamicUsers = [] }: { dynamicUsers?: any[]
 
       {/* Search Input */}
       <div>
-        <input
+        <input aria-label="Search"
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
