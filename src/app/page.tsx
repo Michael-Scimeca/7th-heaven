@@ -26,7 +26,6 @@ const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"));
 const AudioPlayerSection = dynamic(() => import("@/components/AudioPlayer"));
 const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
 const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
-const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
 
 
 
@@ -156,7 +155,6 @@ export default async function Home() {
 
   return (
     <>
-      <HomeShaderGradient />
       <LiveStatusSign />
 
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
