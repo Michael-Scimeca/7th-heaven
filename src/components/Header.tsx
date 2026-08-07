@@ -217,7 +217,7 @@ export function Header() {
             </Link>
           </nav>
 
-          {/* ── LOGO (Left aligned on tablet/mobile, 100% dead-centered & optically aligned vertically on desktop) ── */}
+          {/* ── LOGO (Left aligned on tablet/mobile, 100% dead-centered on desktop) ── */}
           <Link
             href="/"
             id="header-logo"
@@ -228,16 +228,16 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 max-[1400px]:-ml-[25px] min-[1401px]:absolute min-[1401px]:left-1/2 min-[1401px]:-translate-x-1/2 min-[1401px]:top-1/2 min-[1401px]:-translate-y-[calc(50%+3px)] cursor-pointer ${mobileOpen ? "z-[10001]" : "z-20"}`}
+            className={`shrink-0 min-w-0 max-[1400px]:-ml-[25px] min-[1401px]:absolute min-[1401px]:left-1/2 min-[1401px]:-translate-x-1/2 min-[1401px]:top-1/2 min-[1401px]:-translate-y-1/2 cursor-pointer ${mobileOpen ? "z-[10001]" : "z-20"}`}
             title="7th Heaven — Go to Home Page"
           >
-            <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden flex items-center justify-center">
-              <Logo className="w-full h-full text-black drop-shadow-sm hover:opacity-85 transition-opacity" />
+            <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden flex items-center justify-center pt-1">
+              <Logo className="w-full h-full text-black drop-shadow-sm hover:opacity-85 transition-opacity translate-y-[2px]" />
             </div>
           </Link>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-3 min-[1401px]:gap-4 min-[1401px]:flex-1 min-[1401px]:ml-0 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-10"}`}>
+          <div className={`flex items-center justify-end gap-3 min-[1401px]:gap-4 min-[1401px]:flex-1 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-10"}`}>
 
             {/* Cruise link */}
             <Link

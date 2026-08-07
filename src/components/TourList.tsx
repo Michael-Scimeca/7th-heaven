@@ -200,7 +200,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-colors duration-200 focus:outline-none hover:border-[var(--color-accent)]";
+const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-colors duration-200 focus:outline-none";
 const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -950,9 +950,6 @@ ${filterLine}
         font-size: ${tourFontSize} !important;
         font-family: ${tourFontFamily} !important;
       }
-      #tour-table-container .upnext-link {
-        font-size: 10px !important;
-      }
       #tour-table-container .tour-row-item {
         padding-top: ${tourRowPadding} !important;
         padding-bottom: ${tourRowPadding} !important;
@@ -1007,12 +1004,6 @@ ${filterLine}
                       <span className={daysLabel === "Happening Now" ? "text-red-600 font-extrabold" : " text-[var(--color-accent)] font-extrabold"}>
                         {daysLabel === "Happening Now" ? "Happening Now" : "Up Next"}
                       </span>
-                      {daysLabel && daysLabel !== "Happening Now" && (
-                        <>
-                          <span className="text-black/30">·</span>
-                          <span className=" text-[var(--color-accent)] font-extrabold">{daysLabel}</span>
-                        </>
-                      )}
                     </div>
 
                     {/* Venue name */}
@@ -1064,45 +1055,43 @@ ${filterLine}
                       targetTime={upNext.playTime || upNext.time}
                       className="justify-start md:justify-end gap-4 md:gap-5"
                     />
-                    <div className="flex gap-6 items-center flex-wrap">
+                    <div className="flex gap-5 sm:gap-6 items-center flex-wrap">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 decoration-purple-500/50 hover: text-[var(--color-accent)] hover:decoration-purple-700 transition-colors p-0 bg-transparent border-none" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[0.75rem] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
                           Website
                         </a>
                       )}
-                      <div className="flex items-center gap-4">
-                        <div className="relative calendar-dropdown-container">
-                          <button aria-label="Next"
-                            onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                            className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
-                            id="upnext-calendar-btn"
-                          >
-                            Add to Calendar
-                          </button>
-                          {activeCalDropdownId === 'upnext' && (
-                            <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 shadow-xl z-50 min-w-[170px] text-[var(--text-color)]">
-                              <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Google Calendar</a>
-                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Apple / iCal</a>
-                              <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Outlook</a>
-                              <button aria-label="Action button"
-                                onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
-                                className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
-                              >SMS / Text Alerts</button>
-                            </div>
-                          )}
-                        </div>
+                      <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
-                          onClick={handlePrintTourList}
-                          className="upnext-link text-[10px] font-black uppercase tracking-wider  text-[var(--color-accent)] underline underline-offset-4 hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                          onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
+                          className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                          id="upnext-calendar-btn"
                         >
-                          Print Tour List
+                          Add to Calendar
                         </button>
+                        {activeCalDropdownId === 'upnext' && (
+                          <div className="absolute left-0 bottom-full mb-2 bg-[var(--card-bg)] border border-[var(--border-color)] py-2 shadow-xl z-50 min-w-[170px] text-[var(--text-color)]">
+                            <a href={getGoogleCalendarUrl(upNext)} target="_blank" rel="noopener noreferrer" onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Google Calendar</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Apple / iCal</a>
+                            <a href={getICSFileUrl(upNext)} download={`${upNext.venue.replace(/\s+/g, '_')}_show.ics`} onClick={() => setActiveCalDropdownId(null)} className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full">Outlook</a>
+                            <button aria-label="Action button"
+                              onClick={() => { setActiveCalDropdownId(null); document.getElementById("proximity-notify")?.scrollIntoView({ behavior: "smooth" }); }}
+                              className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)] transition-colors text-left w-full border-t border-[var(--border-color)] mt-1 pt-2.5 cursor-pointer"
+                            >SMS / Text Alerts</button>
+                          </div>
+                        )}
                       </div>
+                      <button aria-label="Next"
+                        onClick={handlePrintTourList}
+                        className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                      >
+                        Print Tour List
+                      </button>
                     </div>
                   </div>
                 </div>
