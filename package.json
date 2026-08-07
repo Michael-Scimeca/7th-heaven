@@ -13,6 +13,7 @@
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
+    "@firecms/neat": "^1.0.2",
     "@livekit/components-react": "^2.9.20",
     "@livekit/components-styles": "^1.2.0",
     "@react-three/drei": "^10.7.7",
