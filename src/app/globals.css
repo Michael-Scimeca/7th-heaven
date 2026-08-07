@@ -101,7 +101,7 @@ html.lenis body {
 /* Sticky Tour Sort Bar Glassmorphic Blur when stuck on scroll */
 #tour-sort-bar.is-stuck,
 html.tour-sort-stuck #tour-sort-bar {
-  background-color: rgba(0, 0, 0, 0.6) !important;
+  background-color: transparent !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
   border-bottom-color: rgba(255, 255, 255, 0.15) !important;

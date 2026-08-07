@@ -1099,7 +1099,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck bg-black/60 backdrop-blur-2xl border-b border-white/15' : 'bg-transparent border-b border-transparent'} items-center relative text-white transition-all duration-300`}>
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck bg-transparent backdrop-blur-2xl border-b border-white/15' : 'bg-transparent border-b border-transparent'} items-center relative text-white transition-all duration-300`}>
             <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
