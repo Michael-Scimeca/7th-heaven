@@ -300,6 +300,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [mapMaskEnabled, setMapMaskEnabled] = useState(true);
   const [mapMaskTop, setMapMaskTop] = useState(50); // px
   const [mapMaskBottom, setMapMaskBottom] = useState(50); // px
+  const [mapMaskLeft, setMapMaskLeft] = useState(50); // px
+  const [mapMaskRight, setMapMaskRight] = useState(50); // px
 
   // Load font, layout & map mask settings from localStorage on mount
   useEffect(() => {
@@ -319,9 +321,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     const savedMaskEnabled = localStorage.getItem("7h_tour_map_mask_enabled");
     const savedMaskTop = localStorage.getItem("7h_tour_map_mask_top");
     const savedMaskBottom = localStorage.getItem("7h_tour_map_mask_bottom");
+    const savedMaskLeft = localStorage.getItem("7h_tour_map_mask_left");
+    const savedMaskRight = localStorage.getItem("7h_tour_map_mask_right");
     if (savedMaskEnabled !== null) setMapMaskEnabled(savedMaskEnabled === "true");
     if (savedMaskTop) setMapMaskTop(parseInt(savedMaskTop, 10) || 50);
     if (savedMaskBottom) setMapMaskBottom(parseInt(savedMaskBottom, 10) || 50);
+    if (savedMaskLeft) setMapMaskLeft(parseInt(savedMaskLeft, 10) || 50);
+    if (savedMaskRight) setMapMaskRight(parseInt(savedMaskRight, 10) || 50);
   }, []);
 
   // Dynamically load Google Fonts when selected
@@ -976,8 +982,10 @@ ${filterLine}
                 WebkitBackfaceVisibility: 'hidden',
                 ...(mapMaskEnabled
                   ? {
-                      WebkitMaskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%)`,
-                      maskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%)`,
+                      WebkitMaskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%), linear-gradient(to right, transparent 0px, black ${mapMaskLeft}px, black calc(100% - ${mapMaskRight}px), transparent 100%)`,
+                      WebkitMaskComposite: 'source-in',
+                      maskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%), linear-gradient(to right, transparent 0px, black ${mapMaskLeft}px, black calc(100% - ${mapMaskRight}px), transparent 100%)`,
+                      maskComposite: 'intersect',
                     }
                   : {}),
               }}
@@ -1981,6 +1989,58 @@ ${filterLine}
                         const val = parseInt(e.target.value, 10);
                         setMapMaskBottom(val);
                         localStorage.setItem("7h_tour_map_mask_bottom", String(val));
+                      }}
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                    />
+                    <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                      <span>0px</span>
+                      <span>75px</span>
+                      <span>150px</span>
+                    </div>
+                  </div>
+
+                  {/* Map Left Fade Distance */}
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <label htmlFor="map-mask-left-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Left Fade Clip</label>
+                      <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{mapMaskLeft}px</span>
+                    </div>
+                    <input aria-label="Input field"
+                      id="map-mask-left-slider"
+                      type="range"
+                      min="0"
+                      max="150"
+                      value={mapMaskLeft}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        setMapMaskLeft(val);
+                        localStorage.setItem("7h_tour_map_mask_left", String(val));
+                      }}
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                    />
+                    <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                      <span>0px</span>
+                      <span>75px</span>
+                      <span>150px</span>
+                    </div>
+                  </div>
+
+                  {/* Map Right Fade Distance */}
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <label htmlFor="map-mask-right-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Right Fade Clip</label>
+                      <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{mapMaskRight}px</span>
+                    </div>
+                    <input aria-label="Input field"
+                      id="map-mask-right-slider"
+                      type="range"
+                      min="0"
+                      max="150"
+                      value={mapMaskRight}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        setMapMaskRight(val);
+                        localStorage.setItem("7h_tour_map_mask_right", String(val));
                       }}
                       className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
                     />
