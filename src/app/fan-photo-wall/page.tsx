@@ -388,7 +388,7 @@ export default function FansPage() {
               return (
                 <div
                   key={photo.id}
-                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)] border-b border-r border-black/10 overflow-hidden hover:bg-white transition-colors duration-300"
+                  className="break-inside-avoid flex flex-col bg-[var(--color-bg-surface)] border-b border-r border-black/10 overflow-hidden hover:bg-white/[0.04] transition-colors duration-300"
                 >
                   <div className="pl-8 pr-4 py-4 flex items-center justify-between border-b border-black/5 bg-black/[0.02]">
                     <div className="flex items-center gap-3">
