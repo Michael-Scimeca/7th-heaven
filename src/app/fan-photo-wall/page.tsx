@@ -159,23 +159,11 @@ export default function FansPage() {
 
   return (
     <div className="min-h-screen pt-[88px]">
-      {/* ── HERO SECTION WITH BACKGROUND IMAGE ── */}
-      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center bg-black border-b border-white/10" id="fan-wall">
-        {/* Hero Background Image & Gradient Overlay */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <Image width={200} height={200} unoptimized
-            src="https://img.youtube.com/vi/C0PQYmyaTFk/maxresdefault.jpg"
-            alt="7th Heaven Live at DeKalb Cornfest"
-            className="w-full h-[180%] -translate-y-[45%] object-cover filter brightness-90 saturate-125 opacity-75"
-            style={{ objectPosition: "center 0%" }}
-          />
-
-
-
-
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,10,61,0.25)_0%,transparent_70%)]" />
+      {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
+      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center bg-black/30 backdrop-blur-xl border-b border-white/10" id="fan-wall">
+        {/* Backdrop Glow & Blur Overlay */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(147,51,234,0.15)_0%,transparent_70%)]" />
         </div>
 
         <div className="site-container relative z-10">
