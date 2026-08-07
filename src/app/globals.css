@@ -62,7 +62,8 @@ html.lenis body {
   box-shadow: none !important;
 }
 
-/* Strip box borders from section card wrappers site-wide */
+/* Strip box borders & bottom section dividers site-wide */
+.border-b,
 .border-purple-900\/30,
 .border-purple-500\/20,
 .border-white\/5,
@@ -72,6 +73,7 @@ html.lenis body {
 .border-black\/15,
 .border-black\/20 {
   border-color: transparent !important;
+  border-bottom-color: transparent !important;
 }
 
 /* Strip heavy outer card padding & borders on step wrappers & containers */
@@ -82,6 +84,19 @@ html.lenis body {
   border-color: transparent !important;
   background: transparent !important;
   box-shadow: none !important;
+}
+
+/* Strip all glow shadows, drop-shadows, and glowing blur circles site-wide */
+*, *::before, *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+[class*="shadow-"],
+[class*="drop-shadow"],
+[class*="blur-"] {
+  box-shadow: none !important;
+  filter: none !important;
 }
 
 /* =============================================

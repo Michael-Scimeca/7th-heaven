@@ -160,11 +160,7 @@ export default function FansPage() {
   return (
     <div className="min-h-screen pt-[88px]">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center bg-black/30 backdrop-blur-xl border-b border-white/10" id="fan-wall">
-        {/* Backdrop Glow & Blur Overlay */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(147,51,234,0.15)_0%,transparent_70%)]" />
-        </div>
+      <section className="relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center bg-black/30 backdrop-blur-xl" id="fan-wall">
 
         <div className="site-container relative z-10">
           {/* Header */}
