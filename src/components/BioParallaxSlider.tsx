@@ -163,19 +163,19 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "right" | "right-glass" | "right-accent">("left");
 
-  // 🎭 Section Fading Overlay Mask States
+  // 🎭 Section Fading Clipping Mask States
   const [sectionMaskEnabled, setSectionMaskEnabled] = useState<boolean>(true);
-  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(120); // px
-  const [sectionMaskOpacity, setSectionMaskOpacity] = useState<number>(100); // %
+  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(100); // px
+  const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px
   const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const savedEnabled = localStorage.getItem("7h_band_section_mask_enabled");
     const savedBottom = localStorage.getItem("7h_band_section_mask_bottom");
-    const savedOpacity = localStorage.getItem("7h_band_section_mask_opacity");
+    const savedTop = localStorage.getItem("7h_band_section_mask_top");
     if (savedEnabled !== null) setSectionMaskEnabled(savedEnabled === "true");
-    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 120);
-    if (savedOpacity) setSectionMaskOpacity(parseInt(savedOpacity, 10) || 100);
+    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 100);
+    if (savedTop) setSectionMaskTop(parseInt(savedTop, 10) || 0);
   }, []);
 
   // 🎬 Video Pagination Layout Style Options (10 Designs)
@@ -319,7 +319,7 @@ lerpSpeed: ${lerpSpeed}
 // Band Section Fade Mask Settings
 maskEnabled: ${sectionMaskEnabled}
 maskBottom: ${sectionMaskBottom}px
-maskOpacity: ${sectionMaskOpacity}%`;
+maskTop: ${sectionMaskTop}px`;
     navigator.clipboard.writeText(config);
     copiedRef.current = true;
     setTimeout(() => { copiedRef.current = false; }, 2000);
@@ -489,18 +489,17 @@ maskOpacity: ${sectionMaskOpacity}%`;
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0">
-
-      {/* 🎭 Bottom Section Fade Overlay (UI Tunable & Editable) */}
-      {sectionMaskEnabled && (
-        <div
-          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none z-20 transition-all duration-150"
-          style={{
-            height: `${sectionMaskBottom}px`,
-            background: `linear-gradient(to top, rgba(1, 3, 14, ${(sectionMaskOpacity / 100).toFixed(2)}) 0%, rgba(1, 3, 14, 0) 100%)`,
-          }}
-        />
-      )}
+    <div
+      className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
+      style={
+        sectionMaskEnabled
+          ? {
+              WebkitMaskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
+              maskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
+            }
+          : {}
+      }
+    >
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
@@ -736,255 +735,6 @@ maskOpacity: ${sectionMaskOpacity}%`;
           </div>
         </div>
 
-        {/* 🎬 DYNAMIC 10-STYLE VIDEO MINI SLIDER PAGINATION BAR */}
-        {paginationStyle === "glass-dock" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2.5 sm:gap-3.5 bg-black/80 backdrop-blur-2xl border border-white/20 px-3.5 sm:px-5 py-2.5 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] max-w-[95vw] overflow-x-auto select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-              const firstName = m?.name?.split(" ")[0] || "";
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-110" : "opacity-60 hover:opacity-100 hover:scale-105"
-                    }`}
-                >
-                  <div
-                    className={`w-12 h-16 sm:w-16 sm:h-20  overflow-hidden relative transition-colors duration-300 ${isActive
-                        ? "ring-2 ring-purple-500 shadow-[0_0_25px_rgba(255,10,61,0.9)] border border-[var(--color-accent)]"
-                        : "border border-white/20 group-hover:border-white/50"
-                      }`}
-                  >
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                      <track kind="captions" />
-                    </video>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-                    <span className="absolute bottom-1 inset-x-0 text-center text-[9px] sm:text-[10px] font-black uppercase text-white tracking-wider drop-shadow-md truncate px-0.5 z-10">
-                      {firstName}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {paginationStyle === "circular" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-black/85 backdrop-blur-2xl border border-white/20 px-5 py-3 rounded-full max-w-[95vw] overflow-x-auto select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-              const firstName = m?.name?.split(" ")[0] || "";
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-115 z-10" : "opacity-50 hover:opacity-100 hover:scale-105"
-                    }`}
-                >
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden relative border-2 transition-colors duration-300 ${isActive ? "border-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.9)]" : "border-white/20 group-hover:border-white/60"
-                    }`}>
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover">
-                      <track kind="captions" />
-                    </video>
-                    {isActive && <div className="absolute inset-0 border-2 border-[var(--color-accent)] rounded-full animate-ping opacity-40" />}
-                  </div>
-                  <span className={`text-[10px] font-black uppercase tracking-wider mt-1 transition-colors ${isActive ? " text-[var(--color-accent)]" : "text-white/60 group-hover:text-white"}`}>
-                    {firstName}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {paginationStyle === "cyber-hud" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2.5 bg-[var(--color-accent)]/90 backdrop-blur-2xl border-2 border-[var(--color-accent)]/60 p-2.5 shadow-[0_0_40px_rgba(255,10,61,0.6)] select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-              const firstName = m?.name?.split(" ")[0] || "";
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex flex-col items-center cursor-pointer transition-colors duration-200 ${isActive ? "scale-105" : "opacity-60 hover:opacity-100"
-                    }`}
-                >
-                  <div className={`w-13 h-16 sm:w-15 sm:h-18 rounded-lg overflow-hidden relative border-2 transition-colors ${isActive ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_20px_#06b6d4]" : "border-[var(--color-accent)]/40"
-                    }`}>
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover">
-                      <track kind="captions" />
-                    </video>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
-                    <span className="absolute top-1 left-1 text-[8px] font-mono font-bold text-cyan-300">0{idx + 1}</span>
-                    <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-mono font-bold uppercase text-white truncate px-0.5">
-                      {firstName}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {paginationStyle === "film-strip" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center bg-black/95 border-y-2 border-purple-500/60 px-6 py-2 select-none">
-            <div className="flex items-center gap-3">
-              {displayMembers.map((m, idx) => {
-                const isActive = activeIndex === idx;
-                const videoSrc = getMemberVideo(m?.name);
-                const firstName = m?.name?.split(" ")[0] || "";
-
-                return (
-                  <button aria-label="Action button"
-                    key={idx}
-                    type="button"
-                       onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                    className={`relative group flex flex-col items-center cursor-pointer transition-colors ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
-                      }`}
-                  >
-                    <div className={`w-14 h-18 sm:w-16 sm:h-20 rounded-md overflow-hidden relative border-2 transition-colors ${isActive ? "border-purple-400 shadow-[0_0_25px_rgba(147, 51, 234,0.8)]" : "border-purple-500/30"
-                      }`}>
-                      <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover">
-                        <track kind="captions" />
-                      </video>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
-                      <span className="absolute bottom-1 inset-x-0 text-center text-[9px] font-black uppercase text-purple-100 tracking-widest truncate">
-                        {firstName}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {paginationStyle === "minimal" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/15 select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-110" : "opacity-50 hover:opacity-100"
-                    }`}
-                >
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden relative border transition-colors ${isActive ? "border-white " : "border-transparent"
-                    }`}>
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover">
-                      <track kind="captions" />
-                    </video>
-                  </div>
-                  {isActive && <div className="w-4 h-1 bg-white rounded-full mt-1.5 animate-pulse" />}
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-
-        {paginationStyle === "full-bottom" && (
-          <div className="absolute inset-x-0 bottom-0 z-[100] flex items-center justify-center gap-4 sm:gap-6 bg-black/90 backdrop-blur-2xl border-t border-white/15 px-6 py-3 select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-              const firstName = m?.name?.split(" ")[0] || "";
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group flex flex-col items-center cursor-pointer transition-colors duration-300 ${isActive ? "scale-110 z-10" : "opacity-50 hover:opacity-100"
-                    }`}
-                >
-                  <div className={`w-14 h-16 sm:w-18 sm:h-20  overflow-hidden relative border-2 transition-colors ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_var(--color-purple-glow)]" : "border-white/20"
-                    }`}>
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover">
-                      <track kind="captions" />
-                    </video>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                    <span className="absolute bottom-1 inset-x-0 text-center text-[10px] font-black uppercase text-white tracking-widest truncate">
-                      {firstName}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {paginationStyle === "expanded-active" && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-black/85 backdrop-blur-2xl border border-white/20 p-2.5 rounded-3xl max-w-[95vw] overflow-x-auto select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-              const firstName = m?.name?.split(" ")[0] || "";
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative flex items-center gap-2 cursor-pointer transition-colors duration-300 ${isActive ? "bg-[var(--color-accent)]/30 border border-[var(--color-accent)]/60 p-1.5 " : "opacity-60 hover:opacity-100"
-                    }`}
-                >
-                  <div className={`w-12 h-14 sm:w-14 sm:h-16  overflow-hidden relative border transition-colors ${isActive ? "border-[var(--color-accent)] shadow-[0_0_20px_#a855f7]" : "border-white/20"
-                    }`}>
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover">
-                      <track kind="captions" />
-                    </video>
-                  </div>
-                  {isActive && (
-                    <div className="flex flex-col items-start pr-3">
-                      <span className="text-xs font-black uppercase text-white tracking-wider">{firstName}</span>
-                      <span className="text-[9px] font-bold  text-[var(--color-accent)] truncate max-w-[90px]">{m?.role}</span>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
-
-        {paginationStyle === "diamond" && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-6 bg-black/80 backdrop-blur-2xl border border-white/20 px-8 py-3 rounded-full max-w-[95vw] overflow-x-auto select-none">
-            {displayMembers.map((m, idx) => {
-              const isActive = activeIndex === idx;
-              const videoSrc = getMemberVideo(m?.name);
-
-              return (
-                <button aria-label="Action button"
-                  key={idx}
-                  type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                  className={`relative group cursor-pointer transition-colors duration-300 ${isActive ? "scale-125 z-10" : "opacity-50 hover:opacity-100 hover:scale-110"
-                    }`}
-                >
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rotate-45  overflow-hidden relative border-2 transition-colors ${isActive ? "border-[var(--color-accent)] shadow-[0_0_25px_#a855f7]" : "border-white/30"
-                    }`}>
-                    <video src={videoSrc} autoPlay loop muted playsInline className="w-full h-full object-cover -rotate-45 scale-125">
-                      <track kind="captions" />
-                    </video>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
         {/* ── Section Mask Editor Floating Trigger Button ── */}
         {!isMaskEditorOpen && (
           <button aria-label="Action button"
@@ -1055,30 +805,29 @@ maskOpacity: ${sectionMaskOpacity}%`;
                       <span>250px</span>
                     </div>
                   </div>
-
-                  {/* Fade Opacity Slider */}
+                  {/* Top Fade Clip Slider */}
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="band-mask-opacity-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Fade Opacity</label>
-                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskOpacity}%</span>
+                      <label htmlFor="band-mask-top-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Top Fade Clip</label>
+                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskTop}px</span>
                     </div>
                     <input aria-label="Input field"
-                      id="band-mask-opacity-slider"
+                      id="band-mask-top-slider"
                       type="range"
                       min="0"
-                      max="100"
-                      value={sectionMaskOpacity}
+                      max="200"
+                      value={sectionMaskTop}
                       onChange={(e) => {
                         const val = parseInt(e.target.value, 10);
-                        setSectionMaskOpacity(val);
-                        localStorage.setItem("7h_band_section_mask_opacity", String(val));
+                        setSectionMaskTop(val);
+                        localStorage.setItem("7h_band_section_mask_top", String(val));
                       }}
                       className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
                     />
                     <div className="flex justify-between text-[9px] text-white/30 font-mono mt-0.5">
-                      <span>0%</span>
-                      <span>50%</span>
-                      <span>100%</span>
+                      <span>0px</span>
+                      <span>100px</span>
+                      <span>200px</span>
                     </div>
                   </div>
                 </>
