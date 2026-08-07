@@ -163,19 +163,19 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "right" | "right-glass" | "right-accent">("left");
 
-  // 🎭 Section Fading Clipping Mask States
+  // 🎭 Section Fading Overlay Mask States
   const [sectionMaskEnabled, setSectionMaskEnabled] = useState<boolean>(true);
-  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(80); // px
-  const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px
+  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(120); // px
+  const [sectionMaskOpacity, setSectionMaskOpacity] = useState<number>(100); // %
   const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const savedEnabled = localStorage.getItem("7h_band_section_mask_enabled");
     const savedBottom = localStorage.getItem("7h_band_section_mask_bottom");
-    const savedTop = localStorage.getItem("7h_band_section_mask_top");
+    const savedOpacity = localStorage.getItem("7h_band_section_mask_opacity");
     if (savedEnabled !== null) setSectionMaskEnabled(savedEnabled === "true");
-    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 80);
-    if (savedTop) setSectionMaskTop(parseInt(savedTop, 10) || 0);
+    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 120);
+    if (savedOpacity) setSectionMaskOpacity(parseInt(savedOpacity, 10) || 100);
   }, []);
 
   // 🎬 Video Pagination Layout Style Options (10 Designs)
@@ -319,7 +319,7 @@ lerpSpeed: ${lerpSpeed}
 // Band Section Fade Mask Settings
 maskEnabled: ${sectionMaskEnabled}
 maskBottom: ${sectionMaskBottom}px
-maskTop: ${sectionMaskTop}px`;
+maskOpacity: ${sectionMaskOpacity}%`;
     navigator.clipboard.writeText(config);
     copiedRef.current = true;
     setTimeout(() => { copiedRef.current = false; }, 2000);
@@ -489,17 +489,18 @@ maskTop: ${sectionMaskTop}px`;
   };
 
   return (
-    <div
-      className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
-      style={
-        sectionMaskEnabled
-          ? {
-              WebkitMaskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
-              maskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
-            }
-          : {}
-      }
-    >
+    <div className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0">
+
+      {/* 🎭 Bottom Section Fade Overlay (UI Tunable & Editable) */}
+      {sectionMaskEnabled && (
+        <div
+          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none z-20 transition-all duration-150"
+          style={{
+            height: `${sectionMaskBottom}px`,
+            background: `linear-gradient(to top, rgba(1, 3, 14, ${(sectionMaskOpacity / 100).toFixed(2)}) 0%, rgba(1, 3, 14, 0) 100%)`,
+          }}
+        />
+      )}
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
@@ -1055,29 +1056,29 @@ maskTop: ${sectionMaskTop}px`;
                     </div>
                   </div>
 
-                  {/* Top Fade Clip Slider */}
+                  {/* Fade Opacity Slider */}
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="band-mask-top-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Top Fade Height</label>
-                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskTop}px</span>
+                      <label htmlFor="band-mask-opacity-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Fade Opacity</label>
+                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskOpacity}%</span>
                     </div>
                     <input aria-label="Input field"
-                      id="band-mask-top-slider"
+                      id="band-mask-opacity-slider"
                       type="range"
                       min="0"
-                      max="200"
-                      value={sectionMaskTop}
+                      max="100"
+                      value={sectionMaskOpacity}
                       onChange={(e) => {
                         const val = parseInt(e.target.value, 10);
-                        setSectionMaskTop(val);
-                        localStorage.setItem("7h_band_section_mask_top", String(val));
+                        setSectionMaskOpacity(val);
+                        localStorage.setItem("7h_band_section_mask_opacity", String(val));
                       }}
                       className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
                     />
                     <div className="flex justify-between text-[9px] text-white/30 font-mono mt-0.5">
-                      <span>0px</span>
-                      <span>100px</span>
-                      <span>200px</span>
+                      <span>0%</span>
+                      <span>50%</span>
+                      <span>100%</span>
                     </div>
                   </div>
                 </>
