@@ -19,6 +19,72 @@ html.lenis body {
 }
 
 /* =============================================
+   FULL TRANSPARENT, BORDERLESS & UNBOXED SITE THEME
+   ============================================= */
+:root {
+  --color-bg-deep: transparent !important;
+  --color-bg-surface: transparent !important;
+  --color-bg-glass: transparent !important;
+  --card-bg: transparent !important;
+  --surface-base: transparent !important;
+  --surface-raised: transparent !important;
+  --surface-overlay: transparent !important;
+  --border-color: transparent !important;
+  --color-border-main: transparent !important;
+  --color-border-purple: transparent !important;
+}
+
+[data-theme="dark"] {
+  --bg-color: transparent !important;
+  --card-bg: transparent !important;
+  --border-color: transparent !important;
+  --surface-base: transparent !important;
+  --surface-raised: transparent !important;
+  --surface-overlay: transparent !important;
+}
+
+/* Remove outer card borders & dark solid card backgrounds site-wide */
+.bg-card,
+.bg-surface,
+.bg-slate-900,
+.bg-slate-950,
+.bg-zinc-900,
+.bg-zinc-950,
+.bg-\[\#0c0d12\],
+.bg-\[\#030006\],
+.bg-\[\#0f052d\],
+.bg-black\/70,
+.bg-black\/80,
+.bg-black\/90,
+.bg-black\/95 {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Strip box borders from section card wrappers site-wide */
+.border-purple-900\/30,
+.border-purple-500\/20,
+.border-white\/5,
+.border-white\/10,
+.border-white\/15,
+.border-black\/10,
+.border-black\/15,
+.border-black\/20 {
+  border-color: transparent !important;
+}
+
+/* Strip heavy outer card padding & borders on step wrappers & containers */
+.rounded-3xl,
+.rounded-2xl {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* =============================================
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
 :root {
