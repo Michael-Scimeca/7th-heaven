@@ -972,7 +972,7 @@ ${filterLine}
 
           {!hideMap && (
             <div
-              className="mt-[100px] mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate"
+              className="mt-2 mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate"
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',

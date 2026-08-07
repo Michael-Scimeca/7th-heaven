@@ -632,7 +632,7 @@ maskTop: ${sectionMaskTop}px`;
                   key={i}
                   onClick={() => goToSlide(i)}
                   style={{ width: `${cardWidth}px` }}
-                  className="shrink-0 bg-transparent rounded-3xl px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 text-left"
+                  className="shrink-0 bg-transparent rounded-3xl px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
                     <div className="overflow-visible relative">
