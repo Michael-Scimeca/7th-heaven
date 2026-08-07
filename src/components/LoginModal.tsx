@@ -2,7 +2,7 @@
 /* eslint-disable react-doctor/no-giant-component */
 /* oxlint-disable react-doctor/no-giant-component */
 
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
@@ -108,39 +108,39 @@ function modalFormReducer(state: ModalFormState, action: ModalFormAction): Modal
 function useLoginFormState() {
   const [state, dispatch] = useReducer(modalFormReducer, initialFormState);
 
-  const setName = (val: string) => dispatch({ type: 'SET_FIELD', field: 'name', value: val });
-  const setEmail = (val: string) => dispatch({ type: 'SET_FIELD', field: 'email', value: val });
-  const setPassword = (val: string) => dispatch({ type: 'SET_FIELD', field: 'password', value: val });
-  const setZipCode = (val: string) => dispatch({ type: 'SET_FIELD', field: 'zipCode', value: val });
-  const setWantNotifications = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'wantNotifications', value: typeof val === 'function' ? (val as any)(state.wantNotifications) : val });
-  const setWantNewsletter = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'wantNewsletter', value: typeof val === 'function' ? (val as any)(state.wantNewsletter) : val });
-  const setError = (val: string) => dispatch({ type: 'SET_FIELD', field: 'error', value: val });
-  const setIsAgeConfirmed = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'isAgeConfirmed', value: typeof val === 'function' ? (val as any)(state.isAgeConfirmed) : val });
-  const setLoading = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'loading', value: typeof val === 'function' ? (val as any)(state.loading) : val });
-  const setLoginRole = (val: 'fan' | 'crew' | 'planner' | 'cruise') => dispatch({ type: 'SET_FIELD', field: 'loginRole', value: val });
-  const setConfirmationRequired = (val: boolean) => dispatch({ type: 'SET_FIELD', field: 'confirmationRequired', value: val });
-  const setWebsite = (val: string) => dispatch({ type: 'SET_FIELD', field: 'website', value: val });
-  const setUsernameField = (val: string) => dispatch({ type: 'SET_FIELD', field: 'usernameField', value: val });
-  const setPinSent = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'pinSent', value: typeof val === 'function' ? (val as any)(state.pinSent) : val });
-  const setPinCode = (val: string) => dispatch({ type: 'SET_FIELD', field: 'pinCode', value: val });
-  const setSignUpPayload = (val: any) => dispatch({ type: 'SET_FIELD', field: 'signUpPayload', value: val });
-  const setForgotPinSent = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'forgotPinSent', value: typeof val === 'function' ? (val as any)(state.forgotPinSent) : val });
-  const setForgotPinCode = (val: string) => dispatch({ type: 'SET_FIELD', field: 'forgotPinCode', value: val });
-  const setIsInviteFlow = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'isInviteFlow', value: typeof val === 'function' ? (val as any)(state.isInviteFlow) : val });
-  const setAdminMode = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'adminMode', value: typeof val === 'function' ? (val as any)(state.adminMode) : val });
-  const setAdminEmail = (val: string) => dispatch({ type: 'SET_FIELD', field: 'adminEmail', value: val });
-  const setAdminPassword = (val: string) => dispatch({ type: 'SET_FIELD', field: 'adminPassword', value: val });
-  const setAdminError = (val: string) => dispatch({ type: 'SET_FIELD', field: 'adminError', value: val });
-  const setAdminLoading = (val: boolean | ((prev: boolean) => boolean)) =>
-    dispatch({ type: 'SET_FIELD', field: 'adminLoading', value: typeof val === 'function' ? (val as any)(state.adminLoading) : val });
+  const setName = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'name', value: val }), []);
+  const setEmail = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'email', value: val }), []);
+  const setPassword = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'password', value: val }), []);
+  const setZipCode = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'zipCode', value: val }), []);
+  const setWantNotifications = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'wantNotifications', value: typeof val === 'function' ? (val as any)(state.wantNotifications) : val }), [state.wantNotifications]);
+  const setWantNewsletter = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'wantNewsletter', value: typeof val === 'function' ? (val as any)(state.wantNewsletter) : val }), [state.wantNewsletter]);
+  const setError = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'error', value: val }), []);
+  const setIsAgeConfirmed = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'isAgeConfirmed', value: typeof val === 'function' ? (val as any)(state.isAgeConfirmed) : val }), [state.isAgeConfirmed]);
+  const setLoading = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'loading', value: typeof val === 'function' ? (val as any)(state.loading) : val }), [state.loading]);
+  const setLoginRole = useCallback((val: 'fan' | 'crew' | 'planner' | 'cruise') => dispatch({ type: 'SET_FIELD', field: 'loginRole', value: val }), []);
+  const setConfirmationRequired = useCallback((val: boolean) => dispatch({ type: 'SET_FIELD', field: 'confirmationRequired', value: val }), []);
+  const setWebsite = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'website', value: val }), []);
+  const setUsernameField = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'usernameField', value: val }), []);
+  const setPinSent = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'pinSent', value: typeof val === 'function' ? (val as any)(state.pinSent) : val }), [state.pinSent]);
+  const setPinCode = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'pinCode', value: val }), []);
+  const setSignUpPayload = useCallback((val: any) => dispatch({ type: 'SET_FIELD', field: 'signUpPayload', value: val }), []);
+  const setForgotPinSent = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'forgotPinSent', value: typeof val === 'function' ? (val as any)(state.forgotPinSent) : val }), [state.forgotPinSent]);
+  const setForgotPinCode = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'forgotPinCode', value: val }), []);
+  const setIsInviteFlow = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'isInviteFlow', value: typeof val === 'function' ? (val as any)(state.isInviteFlow) : val }), [state.isInviteFlow]);
+  const setAdminMode = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'adminMode', value: typeof val === 'function' ? (val as any)(state.adminMode) : val }), [state.adminMode]);
+  const setAdminEmail = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'adminEmail', value: val }), []);
+  const setAdminPassword = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'adminPassword', value: val }), []);
+  const setAdminError = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'adminError', value: val }), []);
+  const setAdminLoading = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
+    dispatch({ type: 'SET_FIELD', field: 'adminLoading', value: typeof val === 'function' ? (val as any)(state.adminLoading) : val }), [state.adminLoading]);
 
   return {
     state, dispatch,
@@ -211,8 +211,10 @@ export default function LoginModal() {
 
   // Sync loginRole whenever modal opens (or modalLoginRole changes)
   useEffect(() => {
-    setLoginRole(modalLoginRole as any);
-  }, [modalLoginRole, isModalOpen, setLoginRole]);
+    if (modalLoginRole && state.loginRole !== modalLoginRole) {
+      setLoginRole(modalLoginRole as any);
+    }
+  }, [modalLoginRole, isModalOpen, state.loginRole, setLoginRole]);
 
   // DEBUG: Track modalMode changes
   console.log('[LoginModal] render — modalMode:', modalMode, '| isModalOpen:', isModalOpen);
