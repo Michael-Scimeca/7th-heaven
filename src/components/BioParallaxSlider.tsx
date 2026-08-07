@@ -163,14 +163,20 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
   const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "right" | "right-glass" | "right-accent">("left");
 
-  // 🎭 Bottom Clipping Mask & Gradient UI Control State
-  const [maskEnabled, setMaskEnabled] = useState<boolean>(false);
-  const [gradientStart, setGradientStart] = useState<number>(16);  // % height where solid black stops
-  const [gradientEnd, setGradientEnd] = useState<number>(58);      // % height where transparency occurs
-  const [overlayWidth, setOverlayWidth] = useState<number>(100);    // vw
-  const [overlayLeft, setOverlayLeft] = useState<number>(-25);      // vw
-  const [overlayHeight, setOverlayHeight] = useState<number>(48);   // vh
-  const [overlayBottom, setOverlayBottom] = useState<number>(-70);  // px
+  // 🎭 Section Fading Clipping Mask States
+  const [sectionMaskEnabled, setSectionMaskEnabled] = useState<boolean>(true);
+  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(80); // px
+  const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px
+  const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const savedEnabled = localStorage.getItem("7h_band_section_mask_enabled");
+    const savedBottom = localStorage.getItem("7h_band_section_mask_bottom");
+    const savedTop = localStorage.getItem("7h_band_section_mask_top");
+    if (savedEnabled !== null) setSectionMaskEnabled(savedEnabled === "true");
+    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 80);
+    if (savedTop) setSectionMaskTop(parseInt(savedTop, 10) || 0);
+  }, []);
 
   // 🎬 Video Pagination Layout Style Options (10 Designs)
   const [paginationStyle, setPaginationStyle] = useState<
@@ -310,12 +316,10 @@ parallaxDepth: ${parallaxDepth}
 maxSkew: ${maxSkew}°
 lerpSpeed: ${lerpSpeed}
 
-// Gradient Overlay Settings
-background: linear-gradient(to top, rgb(0, 0, 0) ${gradientStart}%, rgba(0, 0, 0, 0) ${gradientEnd}%)
-width: ${overlayWidth}vw
-left: ${overlayLeft}vw
-bottom: ${overlayBottom}px
-height: ${overlayHeight}vh`;
+// Band Section Fade Mask Settings
+maskEnabled: ${sectionMaskEnabled}
+maskBottom: ${sectionMaskBottom}px
+maskTop: ${sectionMaskTop}px`;
     navigator.clipboard.writeText(config);
     copiedRef.current = true;
     setTimeout(() => { copiedRef.current = false; }, 2000);
@@ -485,7 +489,17 @@ height: ${overlayHeight}vh`;
   };
 
   return (
-    <div className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0">
+    <div
+      className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
+      style={
+        sectionMaskEnabled
+          ? {
+              WebkitMaskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
+              maskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
+            }
+          : {}
+      }
+    >
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
@@ -643,20 +657,7 @@ height: ${overlayHeight}vh`;
                           }}
                         />
 
-                        {/* Div that overlays the img tag (Full Control UI Tunable) */}
-                        {maskEnabled && (
-                          <div
-                            className="pointer-events-none z-10"
-                            style={{
-                              background: `linear-gradient(to top, rgb(0, 0, 0) ${gradientStart}%, rgba(0, 0, 0, 0) ${gradientEnd}%)`,
-                              width: `${overlayWidth}vw`,
-                              position: "fixed",
-                              left: `${overlayLeft}vw`,
-                              bottom: `${overlayBottom}px`,
-                              height: `${overlayHeight}vh`
-                            }}
-                          />
-                        )}
+
                       </div>
 
                       {/* Dynamic Member Info Overlay (z-50 - Pure White & Bright Purple Text) */}
@@ -981,6 +982,107 @@ height: ${overlayHeight}vh`;
                 </button>
               );
             })}
+          </div>
+        )}
+        {/* ── Section Mask Editor Floating Trigger Button ── */}
+        {!isMaskEditorOpen && (
+          <button aria-label="Action button"
+            onClick={() => setIsMaskEditorOpen(true)}
+            className="fixed bottom-[110px] right-6 z-[9998] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none cursor-pointer"
+            title="Edit Band Section Mask Fade"
+          >
+            <span className="text-[11px]">🎭</span>
+            <span>Band Mask</span>
+          </button>
+        )}
+
+        {/* ── Section Mask UI Editor Modal ── */}
+        {isMaskEditorOpen && (
+          <div className="fixed right-6 bottom-6 z-[9999] p-0 pointer-events-none">
+            <div className="w-80 bg-[#0c0d12]/95 backdrop-blur-2xl border border-white/15 p-6 rounded-2xl relative flex flex-col font-sans select-none pointer-events-auto shadow-[0_20px_60px_rgba(0,0,0,0.9)] animate-all">
+              <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🎭</span>
+                  <h3 className="text-white font-black text-xs uppercase tracking-wider">Band Section Mask Editor</h3>
+                </div>
+                <button aria-label="Action button"
+                  onClick={() => setIsMaskEditorOpen(false)}
+                  className="text-white/50 hover:text-white text-xs cursor-pointer bg-white/5 hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between mb-4">
+                <label htmlFor="band-mask-toggle" className="text-white/80 text-xs uppercase font-extrabold tracking-wider">Enable Bottom/Top Mask</label>
+                <input aria-label="Input field"
+                  id="band-mask-toggle"
+                  type="checkbox"
+                  checked={sectionMaskEnabled}
+                  onChange={(e) => {
+                    setSectionMaskEnabled(e.target.checked);
+                    localStorage.setItem("7h_band_section_mask_enabled", String(e.target.checked));
+                  }}
+                  className="w-4 h-4 accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              {sectionMaskEnabled && (
+                <>
+                  {/* Bottom Fade Clip Slider */}
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                      <label htmlFor="band-mask-bottom-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Bottom Fade Height</label>
+                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskBottom}px</span>
+                    </div>
+                    <input aria-label="Input field"
+                      id="band-mask-bottom-slider"
+                      type="range"
+                      min="0"
+                      max="250"
+                      value={sectionMaskBottom}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        setSectionMaskBottom(val);
+                        localStorage.setItem("7h_band_section_mask_bottom", String(val));
+                      }}
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                    />
+                    <div className="flex justify-between text-[9px] text-white/30 font-mono mt-0.5">
+                      <span>0px</span>
+                      <span>125px</span>
+                      <span>250px</span>
+                    </div>
+                  </div>
+
+                  {/* Top Fade Clip Slider */}
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                      <label htmlFor="band-mask-top-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Top Fade Height</label>
+                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskTop}px</span>
+                    </div>
+                    <input aria-label="Input field"
+                      id="band-mask-top-slider"
+                      type="range"
+                      min="0"
+                      max="200"
+                      value={sectionMaskTop}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        setSectionMaskTop(val);
+                        localStorage.setItem("7h_band_section_mask_top", String(val));
+                      }}
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                    />
+                    <div className="flex justify-between text-[9px] text-white/30 font-mono mt-0.5">
+                      <span>0px</span>
+                      <span>100px</span>
+                      <span>200px</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>
