@@ -296,7 +296,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [isFontCustomizerOpen, setIsFontCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Load font & layout settings from localStorage on mount
+  // ── Map Mask Fade Control States ──
+  const [mapMaskEnabled, setMapMaskEnabled] = useState(true);
+  const [mapMaskTop, setMapMaskTop] = useState(50); // px
+  const [mapMaskBottom, setMapMaskBottom] = useState(50); // px
+
+  // Load font, layout & map mask settings from localStorage on mount
   useEffect(() => {
     const savedSize = localStorage.getItem("7h_tour_font_size");
     const savedFamily = localStorage.getItem("7h_tour_font_family");
@@ -310,6 +315,13 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
     if (savedHeight) setTourRowHeight(savedHeight);
     const savedWebsiteSize = localStorage.getItem("7h_tour_website_btn_font_size");
     if (savedWebsiteSize) setWebsiteBtnFontSize(savedWebsiteSize);
+
+    const savedMaskEnabled = localStorage.getItem("7h_tour_map_mask_enabled");
+    const savedMaskTop = localStorage.getItem("7h_tour_map_mask_top");
+    const savedMaskBottom = localStorage.getItem("7h_tour_map_mask_bottom");
+    if (savedMaskEnabled !== null) setMapMaskEnabled(savedMaskEnabled === "true");
+    if (savedMaskTop) setMapMaskTop(parseInt(savedMaskTop, 10) || 50);
+    if (savedMaskBottom) setMapMaskBottom(parseInt(savedMaskBottom, 10) || 50);
   }, []);
 
   // Dynamically load Google Fonts when selected
@@ -956,7 +968,20 @@ ${filterLine}
         <div className="w-full px-4 sm:px-8 md:px-12 relative z-10">
 
           {!hideMap && (
-            <div className="mt-[100px] mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+            <div
+              className="mt-[100px] mb-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate"
+              style={{
+                transform: 'translateZ(0)',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                ...(mapMaskEnabled
+                  ? {
+                      WebkitMaskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%)`,
+                      maskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%)`,
+                    }
+                  : {}),
+              }}
+            >
               <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
             </div>
           )}
@@ -1099,7 +1124,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-4 sm:-ml-8 md:-ml-12 px-4 sm:px-8 md:px-12 bg-transparent backdrop-blur-2xl border-b border-white/15' : 'w-full bg-transparent border-b border-transparent'} items-center text-white transition-all duration-300`}>
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-4 sm:-ml-8 md:-ml-12 px-4 sm:px-8 md:px-12 bg-transparent backdrop-blur-xl border-b border-white/15' : 'w-full bg-transparent border-b border-transparent'} items-center text-white transition-all duration-300`}>
             <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
@@ -1895,6 +1920,78 @@ ${filterLine}
                 <span>65px</span>
                 <span>100px</span>
               </div>
+            </div>
+
+            {/* Map Fade Mask Controls */}
+            <div className="mb-5 pt-4 border-t border-white/10">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-white text-xs uppercase font-extrabold tracking-wider">Map Fade Mask</label>
+                <input aria-label="Input field"
+                  type="checkbox"
+                  checked={mapMaskEnabled}
+                  onChange={(e) => {
+                    setMapMaskEnabled(e.target.checked);
+                    localStorage.setItem("7h_tour_map_mask_enabled", String(e.target.checked));
+                  }}
+                  className="w-4 h-4 accent-[var(--color-accent)] cursor-pointer"
+                />
+              </div>
+
+              {mapMaskEnabled && (
+                <>
+                  {/* Map Top Fade Distance */}
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <label htmlFor="map-mask-top-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Top Fade Clip</label>
+                      <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{mapMaskTop}px</span>
+                    </div>
+                    <input aria-label="Input field"
+                      id="map-mask-top-slider"
+                      type="range"
+                      min="0"
+                      max="150"
+                      value={mapMaskTop}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        setMapMaskTop(val);
+                        localStorage.setItem("7h_tour_map_mask_top", String(val));
+                      }}
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                    />
+                    <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                      <span>0px</span>
+                      <span>75px</span>
+                      <span>150px</span>
+                    </div>
+                  </div>
+
+                  {/* Map Bottom Fade Distance */}
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <label htmlFor="map-mask-bottom-slider" className="text-white/50 text-[var(--font-size-3xs)] uppercase font-bold tracking-wider">Bottom Fade Clip</label>
+                      <span className="text-[var(--color-accent)] text-xs font-bold font-mono">{mapMaskBottom}px</span>
+                    </div>
+                    <input aria-label="Input field"
+                      id="map-mask-bottom-slider"
+                      type="range"
+                      min="0"
+                      max="150"
+                      value={mapMaskBottom}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        setMapMaskBottom(val);
+                        localStorage.setItem("7h_tour_map_mask_bottom", String(val));
+                      }}
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)]"
+                    />
+                    <div className="flex justify-between text-[var(--font-size-4xs)] text-white/30 font-mono mt-0.5">
+                      <span>0px</span>
+                      <span>75px</span>
+                      <span>150px</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Code telemetry */}
