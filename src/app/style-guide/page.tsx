@@ -1968,33 +1968,33 @@ export default function StyleGuidePage() {
                   <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
                   <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border-0">Primary</span>
                 </div>
-                <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
+                <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
                   {/* Name */}
-                  <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors col-span-2">
+                  <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors col-span-2" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-name" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Phone */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors">
+                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-phone" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Email */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors">
+                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-email" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Email Address *</label>
-                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* T-Shirt Size */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors relative">
+                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors relative" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
+                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                       {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors">
+                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors" suppressHydrationWarning>
                     <label htmlFor="sg-guest1-crown" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
+                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                 </div>
 
