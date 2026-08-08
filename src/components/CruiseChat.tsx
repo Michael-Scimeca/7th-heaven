@@ -422,7 +422,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
     <div
       id="cruise-chat-root"
       style={{
-        border: '2px solid var(--chat-border-color, #a855f7)',
+        border: '2px solid var(--chat-border-color, rgba(168, 85, 247, 0.6))',
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--color-bg-glass, rgba(18, 18, 24, 0.45))',
       }}

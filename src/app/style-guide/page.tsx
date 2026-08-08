@@ -734,7 +734,7 @@ export default function StyleGuidePage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-purple-500/30 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-2xl p-4 sm:p-6">
+          <div className="rounded-2xl border-2 border-purple-500/40 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)] p-4 sm:p-6">
             <CruiseChat activeChannel="general" />
           </div>
         </section>
