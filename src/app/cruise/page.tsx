@@ -1436,28 +1436,28 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
 
                       {/* NOTES & CONSENT */}
-                      <div className="booking-section-container border-b border-white/10 bg-transparent">
-                        <div className="booking-section-header bg-white/[0.04] px-4 py-2 border-b border-white/10">
+                      <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
+                        <div className="booking-section-header bg-transparent px-0 py-2 border-0">
                           <span className="text-xs font-black uppercase tracking-wider text-white">ADDITIONAL NOTES & DIGITAL SIGNATURE</span>
                         </div>
 
-                        <div className="py-4 border-b border-white/10">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="flex flex-col justify-end">
+                        <div className="py-3 border-0">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                            <div className="flex flex-col justify-start">
                               <label htmlFor="cruise-how-heard" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">How Did You Hear About Us? (Which Band?)</label>
-                              <input aria-label="Input field" id="cruise-how-heard" type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                              <input aria-label="Input field" id="cruise-how-heard" type="text" required placeholder="e.g. 7th Heaven" value={formData.howHeard} onChange={e => setFormData(f => ({ ...f, howHeard: e.target.value }))} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                             </div>
-                            <div className="flex flex-col justify-end">
+                            <div className="flex flex-col justify-start">
                               <label htmlFor="cruise-dining-requests" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Dining Requests, Special Occasion, or Custom Details</label>
-                              <textarea aria-label="Text input" id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full bg-white/5 border border-white/15 p-4 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 resize-none rounded-lg" />
+                              <textarea aria-label="Text input" id="cruise-dining-requests" placeholder="e.g. Early seating dinner, celebrating 10th anniversary" value={formData.notes} onChange={e => setFormData(f => ({ ...f, notes: e.target.value }))} rows={2} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none resize-none rounded-lg" />
                             </div>
                           </div>
                         </div>
 
                         {/* SIGNATURE FIELDS */}
-                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-t border-white/10">
+                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2 border-0 items-start gap-4 mt-2">
                           {/* E-Signature */}
-                          <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 pt-4 pb-4 pr-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors flex flex-col justify-end">
+                          <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors flex flex-col justify-start">
                             <label htmlFor="cruise-e-signature" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Date & E-Signature (Type full name to sign) *</label>
                             <input aria-label="Input field"
                               id="cruise-e-signature"
@@ -1466,13 +1466,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               placeholder="Type legal name to sign"
                               value={signature}
                               onChange={e => setSignature(e.target.value)}
-                              className="booking-signature-input signature-font w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-lg font-black text-cyan-300 placeholder:text-white/30 focus:outline-none focus:border-cyan-400 rounded-lg"
+                              className="booking-signature-input signature-font w-full bg-black/50 border-0 px-3.5 py-2.5 text-lg font-black text-cyan-300 placeholder:text-white/30 focus:outline-none rounded-lg"
                             />
                           </div>
                           {/* Signature Date */}
-                          <div className="booking-cell pb-4 pt-4 focus-within:border-cyan-400 transition-colors flex flex-col justify-end">
+                          <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors flex flex-col justify-start">
                             <span className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Date Signed</span>
-                            <input aria-label="Input field" type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white/80 focus:outline-none cursor-not-allowed rounded-lg" />
+                            <input aria-label="Input field" type="text" readOnly value={signatureDate} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white/80 focus:outline-none cursor-not-allowed rounded-lg" />
                           </div>
                         </div>
                       </div>
