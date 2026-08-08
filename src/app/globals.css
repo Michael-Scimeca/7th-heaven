@@ -38,6 +38,10 @@ html.lenis body {
   --border-color: rgba(255, 255, 255, 0.1);
   --color-border-main: rgba(255, 255, 255, 0.1);
   --color-border-purple: rgba(147, 51, 234, 0.3);
+  /* Chat Box Customization Defaults */
+  --chat-bubble-padding-y: 5px;
+  --chat-bubble-padding-x: 13px;
+  --chat-message-spacing: 13px;
 }
 
 

@@ -74,9 +74,9 @@ export default function StyleGuidePage() {
   const [bubbleBorderColor, setBubbleBorderColor] = useState<string>("transparent");
   const [bubbleBgStyle, setBubbleBgStyle] = useState<string>("classic");
   const [bubbleFontSize, setBubbleFontSize] = useState<number>(12);
-  const [bubblePaddingY, setBubblePaddingY] = useState<number>(10);
-  const [bubblePaddingX, setBubblePaddingX] = useState<number>(16);
-  const [messageSpacing, setMessageSpacing] = useState<number>(16);
+  const [bubblePaddingY, setBubblePaddingY] = useState<number>(5);
+  const [bubblePaddingX, setBubblePaddingX] = useState<number>(13);
+  const [messageSpacing, setMessageSpacing] = useState<number>(13);
   const [bubbleColorPalette, setBubbleColorPalette] = useState<string>("default");
   const [customHexColor, setCustomHexColor] = useState<string>("#9333ea");
   const [bubbleOpacity, setBubbleOpacity] = useState<number>(80);

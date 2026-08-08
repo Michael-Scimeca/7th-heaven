@@ -512,7 +512,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         <div
           ref={chatContainerRef}
           data-lenis-prevent
-          style={{ gap: 'var(--chat-message-spacing, 16px)' }}
+          style={{ gap: 'var(--chat-message-spacing, 13px)' }}
           className="flex-1 flex flex-col min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
         >
           {messages.length === 0 ? (
@@ -575,10 +575,10 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                         borderRadius: "var(--chat-bubble-radius, 16px)",
                         borderWidth: "var(--chat-bubble-border-width, 0px)",
                         borderStyle: "solid",
-                        paddingTop: "var(--chat-bubble-padding-y, 10px)",
-                        paddingBottom: "var(--chat-bubble-padding-y, 10px)",
-                        paddingLeft: "var(--chat-bubble-padding-x, 16px)",
-                        paddingRight: "var(--chat-bubble-padding-x, 16px)",
+                        paddingTop: "var(--chat-bubble-padding-y, 5px)",
+                        paddingBottom: "var(--chat-bubble-padding-y, 5px)",
+                        paddingLeft: "var(--chat-bubble-padding-x, 13px)",
+                        paddingRight: "var(--chat-bubble-padding-x, 13px)",
                         borderColor: isSelf
                           ? "var(--chat-bubble-self-border, transparent)"
                           : hasAdminTag
