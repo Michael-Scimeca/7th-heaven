@@ -577,7 +577,7 @@ export default function StyleGuidePage() {
                   rows={4}
                   value={textareaInput}
                   onChange={(e) => setTextareaInput(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition resize-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-1 focus:ring-purple-400/50 transition resize-none"
                 />
               </div>
             </div>
@@ -812,8 +812,8 @@ export default function StyleGuidePage() {
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${multiUserColorMode
-                      ? "bg-emerald-600 text-white shadow-sm"
-                      : "bg-white/10 text-white/50"
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "bg-white/10 text-white/50"
                     }`}
                 >
                   {multiUserColorMode ? "ON (Unique Per Person)" : "OFF (Single Swatch)"}
@@ -844,8 +844,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubbleRadius(r)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleRadius === r
-                          ? "bg-purple-600 border-purple-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-purple-600 border-purple-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {r === 0 ? "0px" : `${r}px`}
@@ -875,8 +875,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleBorderWidth === w
-                          ? "bg-cyan-600 border-cyan-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-cyan-600 border-cyan-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {w === 0 ? "0px" : `${w}px`}
@@ -906,8 +906,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s
-                          ? "bg-emerald-600 border-emerald-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-emerald-600 border-emerald-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {s}px
@@ -937,8 +937,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubblePaddingY(py)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingY === py
-                          ? "bg-cyan-600 border-cyan-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-cyan-600 border-cyan-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {py}px
@@ -968,8 +968,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubblePaddingX(px)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingX === px
-                          ? "bg-purple-600 border-purple-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-purple-600 border-purple-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {px}px
@@ -999,8 +999,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setMessageSpacing(sp)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${messageSpacing === sp
-                          ? "bg-amber-600 border-amber-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-amber-600 border-amber-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {sp}px
@@ -1030,8 +1030,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleOpacity === o
-                          ? "bg-pink-600 border-pink-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-pink-600 border-pink-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {o}%
@@ -1062,8 +1062,8 @@ export default function StyleGuidePage() {
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
                       className={`w-5 h-5 rounded-full border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode
-                          ? "border-white ring-2 ring-white/50 scale-110"
-                          : "border-transparent opacity-80"
+                        ? "border-white ring-2 ring-white/50 scale-110"
+                        : "border-transparent opacity-80"
                         }`}
                     />
                   ))}
@@ -1101,8 +1101,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
                       className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${bubbleBgStyle === bg.val
-                          ? "bg-purple-600/40 border-purple-400 text-purple-200"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-purple-600/40 border-purple-400 text-purple-200"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {bg.label}
