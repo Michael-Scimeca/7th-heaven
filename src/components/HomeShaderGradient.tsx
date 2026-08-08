@@ -280,7 +280,7 @@ export default function HomeShaderGradient() {
         id="global-film-grain-overlay"
         className="fixed inset-0 pointer-events-none z-[99999] transition-opacity duration-200"
         style={{
-          opacity: `var(--canvas-grain-opacity, 0.06)`,
+          opacity: `var(--canvas-grain-opacity, 0.18)`,
           mixBlendMode: `var(--canvas-grain-blend, overlay)` as any,
         }}
       >

@@ -6,6 +6,7 @@ import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import { Guitar, Mic, PartyPopper, Sparkles, Check, AlertTriangle, Star, Shield, ClipboardList, Zap, Lightbulb, Calendar as CalendarIcon, Plus, X, ChevronDown, ChevronRight, Megaphone } from "lucide-react";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 const eventTypes = [
   { id: "full_band", label: "Full Band", icon: Guitar, desc: "High energy, full 5-piece concert setup" },
@@ -51,13 +52,13 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full bg-white/5 backdrop-blur-md border ${value ? 'border-cyan-400' : 'border-white/15'} px-4 py-3 text-lg text-left transition-colors hover:border-cyan-400 cursor-pointer flex items-center justify-between rounded-lg ${value ? 'text-white font-semibold' : 'text-white/40'}`}
+        className={`w-full bg-white/5 backdrop-blur-md border-0 px-4 py-3 text-lg text-left transition-colors hover:bg-white/10 cursor-pointer flex items-center justify-between rounded-xl ${value ? 'text-white font-semibold' : 'text-white/40'}`}
       >
         {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
       </button>
       {showCal && (
-        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0817] border border-white/15 p-4 rounded-xl shadow-2xl animate-[fade-in-up_0.15s_ease-out_both]">
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0817] border-0 p-4 rounded-xl shadow-2xl animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
             <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-white/60 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg></button>
             <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/80 hover:text-cyan-400 transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
@@ -98,7 +99,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-8 w-full rounded-lg text-xs font-bold transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-cyan-600 text-white shadow-md' : 'text-white/80 hover:bg-white/10 cursor-pointer'}`}
+                      className={`h-10 w-full font-bold text-xs rounded-lg transition-colors flex items-center justify-center ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-cyan-600 text-white shadow-md font-black' : 'bg-white/5 hover:bg-white/15 text-white/80 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -121,24 +122,30 @@ const InputField = ({ label, required, id, ...props }: { label: string; required
   return (
     <div>
       <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
-      <input aria-label="Input field" id={inputId} {...props} required={required}
-        className="w-full bg-white/5 backdrop-blur-md border border-white/15 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-colors rounded-xl shadow-inner"
-      />
+      <div className="input-glow-border rounded-lg">
+        <input aria-label="Input field" id={inputId} {...props} required={required}
+          className="w-full bg-white/5 border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+        />
+      </div>
     </div>
   );
 };
 
-const SelectField = ({ label, options, required, id, ...props }: { label: string; options: string[]; required?: boolean; id?: string } & React.SelectHTMLAttributes<HTMLSelectElement>) => {
-  const selectId = id || props.name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+const SelectField = ({ label, options, required, id, value, onChange, name }: { label: string; options: string[]; required?: boolean; id?: string; value?: string; onChange?: (e: any) => void; name?: string }) => {
+  const selectId = id || name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
       <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
-      <select aria-label="Select option" id={selectId} {...props} required={required}
-        className="w-full bg-white/5 backdrop-blur-md border border-white/15 px-4 py-3 text-lg text-white focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-colors appearance-none cursor-pointer rounded-xl shadow-inner"
-      >
-        <option value="" className="bg-[#0c0817] text-white">Select</option>
-        {options.map(o => <option key={o} value={o} className="bg-[#0c0817] text-white">{o}</option>)}
-      </select>
+      <GooeyMessagesDropdown
+        placeholder="Select"
+        defaultSelectedId={value ? String(value) : undefined}
+        customers={options.map(o => ({ id: o, name: o }))}
+        onSelect={(opt) => {
+          if (onChange) {
+            onChange({ target: { name: name || selectId, value: opt.id } });
+          }
+        }}
+      />
     </div>
   );
 };
@@ -1307,7 +1314,7 @@ function BookPageContent() {
             </div>
 
             {/* Step 2: Contact Information */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+            <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both]">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Contact Information
               </h2>
@@ -1320,7 +1327,7 @@ function BookPageContent() {
             </div>
 
             {/* Step 3: Venue Details */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+            <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both]">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Venue Details
               </h2>
@@ -1337,7 +1344,7 @@ function BookPageContent() {
               <div className="flex flex-col gap-8">
 
                 {/* Step 4: Technical & Logistics */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                <div className="bg-transparent border-0 p-0 shadow-none relative">
                   <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                     Technical & Logistics
                   </h2>
@@ -1356,7 +1363,7 @@ function BookPageContent() {
                 </div>
 
                 {/* Step 5: Additional Options */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                <div className="bg-transparent border-0 p-0 shadow-none relative">
                   <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
                     Production & Extras
                   </h2>
@@ -1406,19 +1413,21 @@ function BookPageContent() {
                 </div>
 
                 {/* Step 6: Notes & Questions */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                <div className="bg-transparent border-0 p-0 shadow-none relative">
                   <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
                     Notes & Questions
                   </h2>
                   <p className="text-white/60 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
-                  <textarea aria-label="Text input"
-                    name="details"
-                    value={formData.details}
-                    onChange={handleChange}
-                    rows={5}
-                    placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-white text-lg leading-relaxed px-4 py-3 focus:border-cyan-400 outline-none transition-colors resize-none placeholder:text-white/30 rounded-lg shadow-inner"
-                  />
+                  <div className="input-glow-border rounded-lg">
+                    <textarea aria-label="Text input"
+                      name="details"
+                      value={formData.details}
+                      onChange={handleChange}
+                      rows={5}
+                      placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
+                      className="w-full bg-white/5 border-0 text-white text-base leading-relaxed px-4 py-3 focus:outline-none transition resize-none placeholder:text-white/40 rounded-lg"
+                    />
+                  </div>
                   {formData.details && (
                     <div className="mt-3 flex items-center gap-2 text-base text-emerald-400">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
@@ -1434,12 +1443,10 @@ function BookPageContent() {
 
               </div>
 
-
-
               {/* Right Column: Sticky Summary Sidebar */}
               <div>
                 <div className="sticky top-32">
-                  <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-3xl p-6 shadow-2xl">
+                  <div className="bg-transparent border-0 p-0 shadow-none">
                     <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
                     <div className="flex flex-col gap-4 mb-8">

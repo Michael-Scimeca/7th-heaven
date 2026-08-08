@@ -3,188 +3,162 @@
 /**
  * GooeyMessagesDropdown
  * ---------------------------------------------------------------------------
- * A close visual match for the "Gooey Dropdown" reference at
- * https://goo-drop.learnframer.site/ (Framer University). Values below
- * (button size, panel size, colors, filter constants, type scale, avatar
- * gradients) were measured directly from that live page's computed styles.
+ * A customer selector built on the "Gooey Dropdown" visual technique from
+ * https://goo-drop.learnframer.site/ (Framer University). Button size,
+ * panel width, colors, and filter constants were measured directly from
+ * that live page's computed styles.
  *
  * Built with Tailwind utility classes for all static styling. Only truly
- * dynamic values (the trigger's live screen position, the panel's open/
- * closed size, and each avatar's gradient) are inline styles, since those
- * change per render and can't be expressed as static Tailwind classes.
+ * dynamic values (the trigger's measured width and the panel's open/closed
+ * size) are inline styles, since those change per render and can't be
+ * expressed as static Tailwind classes.
+ *
+ * Positioning: everything lives in normal document flow as a plain CSS
+ * `position: absolute` child of the trigger's own wrapper (`left: 50%`,
+ * `top: 0`, anchored via translateX) — NOT a portal with JS-computed fixed
+ * coordinates. That earlier approach had to re-measure the trigger's
+ * on-screen position via JS on every scroll frame, and on this site (which
+ * uses Lenis for smooth scrolling) that sync could never be made airtight —
+ * it would visibly lag or detach from the button during scroll. Plain CSS
+ * positioning moves in perfect lockstep with the page by construction,
+ * under any scroll mechanism, with no JS involved at all.
  *
  * How the goo effect works:
  * 1. A pill-shaped trigger button sits wherever you place it in the page.
- * 2. The colored "goo" shapes (button-match + expanding panel) and the menu
- *    list are rendered in a React portal attached to document.body,
- *    position-fixed at the trigger's real screen coordinates. This lets the
- *    panel expand freely even if the trigger lives inside a container that
- *    clips or masks overflow (e.g. a fixed header with a fade mask).
- * 3. The shapes layer has an SVG "goo" filter applied (blur -> high-contrast
- *    alpha matrix -> composite). While the panel shape animates from the
- *    trigger's exact size up to the full panel size, the blur+contrast makes
- *    the growing edges look soft and fluid instead of a plain CSS resize.
- * 4. The actual header/list/footer text lives in a separate, unfiltered
- *    layer stacked on top, so text never gets blurred — only the shapes do.
+ * 2. Behind/around it, two colored "goo" shapes (button-match + expanding
+ *    panel) sit in a layer with an SVG "goo" filter applied (blur ->
+ *    high-contrast alpha matrix -> composite). While the panel shape
+ *    animates from the trigger's exact size up to the full panel size, the
+ *    blur+contrast makes the growing edges look soft and fluid instead of a
+ *    plain CSS resize.
+ * 3. The actual header/list text lives in a separate, unfiltered layer
+ *    stacked on top, so text never gets blurred — only the shapes do.
+ * 4. The shapes layer is placed before the trigger button in markup (so the
+ *    button naturally paints on top and keeps its label visible when
+ *    closed), while the whole group gets a z-index high enough to clear
+ *    normal page content once open.
+ *
+ * Interaction: click-to-open/close (like a normal <select>), not
+ * hover-to-open — since this is now a real selector, clicking an option
+ * both selects it and closes the panel, and the trigger then displays the
+ * selected customer's name.
  */
 
-import {
-  useState,
-  useRef,
-  useId,
-  useLayoutEffect,
-  useEffect,
-  useCallback,
-} from "react";
-import { createPortal } from "react-dom";
-import { MessageCircle } from "lucide-react";
+import { useState, useRef, useId, useEffect, useLayoutEffect } from "react";
 
-export interface GooeyMessage {
+export interface GooeyCustomer {
+  id: string;
   name: string;
-  time: string;
-  snippet: string;
-  /** CSS gradient for the avatar circle. */
-  gradient: string;
 }
 
 export interface GooeyMessagesDropdownProps {
-  /** Panel header title. Defaults to "Messages". */
+  /** Panel header title. Defaults to "Customers". */
   title?: string;
-  /** Badge text, e.g. "3 new". Pass "" to hide it. */
+  /** Badge text, e.g. a count. Pass "" to hide it. */
   badge?: string;
-  messages?: GooeyMessage[];
-  footerLabel?: string;
-  onFooterClick?: () => void;
+  /** Text shown on the trigger before anything is selected. Defaults to "Select Customer". */
+  placeholder?: string;
+  customers?: GooeyCustomer[];
+  /** Pre-select a customer by id. */
+  defaultSelectedId?: string;
+  /** Called when the user picks a customer from the list. */
+  onSelect?: (customer: GooeyCustomer) => void;
   className?: string;
+  /** Background class when open/active. Defaults to "bg-[rgb(127,20,198)]". */
+  activeBg?: string;
+  /** Background class when closed/default. Defaults to "bg-[#1a1a1a]". */
+  defaultBg?: string;
 }
 
-const DEFAULT_MESSAGES: GooeyMessage[] = [
-  {
-    name: "Alice Johnson",
-    time: "2h",
-    snippet: "Hey! Are we still on for the meeting …",
-    gradient: "linear-gradient(128deg, rgb(146, 139, 250) 0%, rgb(178, 133, 250) 100%)",
-  },
-  {
-    name: "Bob Smith",
-    time: "2h",
-    snippet: "Dont forget to check out the new p...",
-    gradient: "linear-gradient(128deg, rgb(251, 127, 153) 0%, rgb(251, 172, 76) 100%)",
-  },
-  {
-    name: "Charlie Davis",
-    time: "Yesterday",
-    snippet: "Can you send me the files from last ...",
-    gradient: "linear-gradient(128deg, rgb(56, 194, 173) 0%, rgb(55, 149, 229) 100%)",
-  },
+const DEFAULT_CUSTOMERS: GooeyCustomer[] = [
+  { id: "bob-smith", name: "Bob Smith" },
+  { id: "alice-johnson", name: "Alice Johnson" },
+  { id: "charlie-davis", name: "Charlie Davis" },
+  { id: "elizabeth-montgomery", name: "Elizabeth Montgomery" },
+  { id: "david-lee", name: "David Lee" },
+  { id: "alexander-von-homburg", name: "Alexander Von Homburg" },
 ];
 
-const BUTTON_SIZE = 52;
-const PANEL_WIDTH = 306;
-const GAP_BELOW_BUTTON = 22;
+const BUTTON_MIN_WIDTH = 52;
+// Fallback only used for the very first paint before the button's real
+// height (now driven by its own py-4 padding, not a fixed height) has
+// been measured.
+const BUTTON_FALLBACK_HEIGHT = 52;
+const GAP_BELOW_BUTTON = 2;
+// Rough fallbacks only used for the very first paint before the real
+// content has been measured (see panelContentRef below).
+const FALLBACK_PANEL_WIDTH = 220;
+const FALLBACK_PANEL_HEIGHT = 160;
 
 export default function GooeyMessagesDropdown({
-  title = "Messages",
-  badge = "3 new",
-  messages = DEFAULT_MESSAGES,
-  footerLabel = "View All Message",
-  onFooterClick,
+  title = "Customers",
+  badge = "",
+  placeholder = "Select Customer",
+  customers = DEFAULT_CUSTOMERS,
+  defaultSelectedId,
+  onSelect,
   className = "",
+  activeBg = "bg-[rgb(127,20,198)]",
+  defaultBg = "bg-[rgb(127,20,198)]",
 }: GooeyMessagesDropdownProps) {
   const [open, setOpen] = useState(false);
-  const [anchor, setAnchor] = useState({ top: 0, centerX: 0 });
-  const [mounted, setMounted] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | undefined>(defaultSelectedId);
+  // How wide the trigger button actually renders at, so the goo shape
+  // sitting behind it (and the panel's horizontal center) can match it
+  // exactly. Text labels longer than BUTTON_MIN_WIDTH make the button grow
+  // into a pill instead of getting clipped inside a fixed circle.
+  const [triggerWidth, setTriggerWidth] = useState(BUTTON_MIN_WIDTH);
+  const [triggerHeight, setTriggerHeight] = useState(BUTTON_FALLBACK_HEIGHT);
+  // Actual rendered dimensions of the panel's content (title/badge row, if any,
+  // plus the option list). Measured directly so panel only grows as wide as needed.
+  const [panelWidth, setPanelWidth] = useState(FALLBACK_PANEL_WIDTH);
+  const [panelHeight, setPanelHeight] = useState(FALLBACK_PANEL_HEIGHT);
 
   const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
   const filterId = `goo-${rawId}`;
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const portalRef = useRef<HTMLDivElement>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelContentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const selected = customers.find((c) => c.id === selectedId);
+  const triggerText = selected ? selected.name : placeholder;
+  const currentBg = open ? activeBg : defaultBg;
 
-  const clearCloseTimer = useCallback(() => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  }, []);
-
-  // Hover opens it (matching the reference), with a short grace period on
-  // leave so moving the cursor from the button down into the panel doesn't
-  // close it. A direct click always toggles immediately, which is what lets
-  // the icon close the panel again on a second click, and keeps this usable
-  // on touch devices where hover never fires.
-  const handleEnter = useCallback(() => {
-    clearCloseTimer();
-    setOpen(true);
-  }, [clearCloseTimer]);
-
-  const handleLeave = useCallback(() => {
-    clearCloseTimer();
-    closeTimer.current = setTimeout(() => setOpen(false), 250);
-  }, [clearCloseTimer]);
-
-  const measure = () => {
+  useLayoutEffect(() => {
     const el = triggerRef.current;
     if (!el) return;
-    const rect = el.getBoundingClientRect();
-    setAnchor({ top: rect.top, centerX: rect.left + rect.width / 2 });
-  };
-
-  // Get the trigger's on-screen position correct before the first paint.
-  useLayoutEffect(() => {
-    measure();
-  }, []);
-
-  // The portal is position:fixed and anchored to the trigger's live
-  // on-screen coordinates. This site uses Lenis for smooth scrolling,
-  // which doesn't reliably dispatch native `scroll` events the way
-  // native scrolling does — so a scroll/resize listener isn't enough
-  // and the fixed shapes can drift away from the real button. Instead,
-  // poll the trigger's actual getBoundingClientRect() every animation
-  // frame: that always reflects the true current position no matter
-  // what's moving it (native scroll, Lenis, a CSS transform, etc.), so
-  // the goo shapes and panel stay glued to the button continuously.
-  useEffect(() => {
-    let rafId: number;
-    let prevTop = Number.NaN;
-    let prevCenterX = Number.NaN;
-
-    const loop = () => {
-      const el = triggerRef.current;
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const top = rect.top;
-        const centerX = rect.left + rect.width / 2;
-        if (top !== prevTop || centerX !== prevCenterX) {
-          prevTop = top;
-          prevCenterX = centerX;
-          setAnchor({ top, centerX });
-        }
-      }
-      rafId = requestAnimationFrame(loop);
+    const measure = () => {
+      setTriggerWidth(el.offsetWidth);
+      setTriggerHeight(el.offsetHeight);
     };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [triggerText]);
 
-    rafId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafId);
-  }, []);
-
-  useEffect(() => {
-    return () => clearCloseTimer();
-  }, [clearCloseTimer]);
+  // The panel content is always mounted (only its opacity/pointer-events
+  // toggle with `open`), so its real width and height can be measured continuously.
+  useLayoutEffect(() => {
+    const el = panelContentRef.current;
+    if (!el) return;
+    const measure = () => {
+      const measuredW = Math.max(el.offsetWidth, triggerWidth);
+      setPanelWidth(measuredW);
+      setPanelHeight(el.offsetHeight);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [title, badge, customers, triggerWidth]);
 
   useEffect(() => {
     if (!open) return;
     function handlePointer(e: MouseEvent) {
       const target = e.target as Node;
-      const insideWrap = wrapRef.current?.contains(target);
-      const insidePortal = portalRef.current?.contains(target);
-      if (!insideWrap && !insidePortal) setOpen(false);
+      if (!wrapRef.current?.contains(target)) setOpen(false);
     }
     function handleKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -197,32 +171,27 @@ export default function GooeyMessagesDropdown({
     };
   }, [open]);
 
-  const panelHeight = 76 + messages.length * 58 + 56;
-
-  // Local coordinates, relative to the anchor point below (the trigger's
-  // top-center). These only ever depend on `open`, never on scroll
-  // position, so the CSS transition on this shape only fires on an actual
-  // open/close toggle — not on every scroll frame.
+  // Local coordinates, relative to the anchor point
   const shapeStyle = open
     ? {
-        width: PANEL_WIDTH,
-        height: panelHeight,
-        left: -PANEL_WIDTH / 2,
-        top: BUTTON_SIZE + GAP_BELOW_BUTTON,
-        borderRadius: 20,
-      }
+      width: panelWidth,
+      height: panelHeight,
+      left: -triggerWidth / 2,
+      top: triggerHeight + GAP_BELOW_BUTTON,
+      borderRadius: 20,
+    }
     : {
-        width: BUTTON_SIZE,
-        height: BUTTON_SIZE,
-        left: -BUTTON_SIZE / 2,
-        top: 0,
-        borderRadius: 999,
-      };
+      width: triggerWidth,
+      height: triggerHeight,
+      left: -triggerWidth / 2,
+      top: 0,
+      borderRadius: 999,
+    };
 
-  const portalContent = (
+  return (
     <div
-      ref={portalRef}
-      className="fixed inset-0 z-[9999] pointer-events-none [font-family:Inter,var(--font-inter,sans-serif)]"
+      ref={wrapRef}
+      className={`relative inline-block [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
     >
       <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute w-0 h-0 overflow-hidden">
         <defs>
@@ -239,32 +208,19 @@ export default function GooeyMessagesDropdown({
         </defs>
       </svg>
 
-      {/* Anchor point: a zero-size box pinned to the trigger's live
-          on-screen position via plain inline left/top (no CSS transition,
-          updated every animation frame by the rAF loop above), so it
-          never lags behind scroll — including Lenis's non-native
-          scrolling. Everything below is positioned with fixed LOCAL
-          offsets from this point, so the open/close morph transition
-          only ever animates in response to `open` changing. */}
-      <div className="absolute" style={{ left: anchor.centerX, top: anchor.top }}>
-        {/* Two overlapping shapes (button-match + panel) under the goo
-            filter give the classic liquid pinch/merge look as the panel
-            grows. The drop-shadow lives on this OUTER layer (applied
-            after the goo filter has already composited) so the subtle
-            soft shadow reads cleanly instead of getting clipped by the
-            goo color matrix. */}
+      <div className="absolute left-1/2 top-0 z-40 pointer-events-none">
         <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
           <div style={{ filter: `url(#${filterId})` }}>
             <div
-              className="absolute bg-[#1a1a1a] transition-[width,height,left,top,border-radius] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
+              className={`absolute ${currentBg} transition-[width,height,left,top,border-radius,background-color] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]`}
               style={shapeStyle}
             />
             <div
-              className="absolute bg-[#1a1a1a] rounded-full"
+              className={`absolute ${currentBg} rounded-full transition-colors duration-300`}
               style={{
-                width: BUTTON_SIZE,
-                height: BUTTON_SIZE,
-                left: -BUTTON_SIZE / 2,
+                width: triggerWidth,
+                height: triggerHeight,
+                left: -triggerWidth / 2,
                 top: 0,
               }}
             />
@@ -272,88 +228,76 @@ export default function GooeyMessagesDropdown({
         </div>
 
         <div
-          className={`absolute bg-transparent px-5 pt-3 pb-5 opacity-0 -translate-y-1 pointer-events-none transition-[opacity,transform] duration-[220ms] ease delay-[80ms] ${
-            open ? "!opacity-100 !translate-y-0 !pointer-events-auto" : ""
-          }`}
-          role="menu"
+          ref={panelContentRef}
+          className={`absolute bg-transparent py-[6px] px-[12px] w-max opacity-0 -translate-y-1 pointer-events-none transition-[opacity,transform] duration-150 ease ${open ? "!opacity-100 !translate-y-0 !pointer-events-auto !duration-200 !delay-[400ms]" : ""
+            }`}
+          role="listbox"
           aria-hidden={!open}
-          onMouseEnter={handleEnter}
-          onMouseLeave={handleLeave}
           style={{
-            width: PANEL_WIDTH,
-            left: -PANEL_WIDTH / 2,
-            top: BUTTON_SIZE + GAP_BELOW_BUTTON,
+            left: -triggerWidth / 2,
+            top: triggerHeight + GAP_BELOW_BUTTON,
           }}
         >
-          <div className="flex items-center justify-between mb-3.5">
-            <span className="text-base font-medium text-white leading-[1.2]">{title}</span>
-            {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
-          </div>
+          {(title || badge) && (
+            <div className="flex items-center justify-between mb-2">
+              {title && <span className="text-base font-medium text-white leading-[1.2]">{title}</span>}
+              {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
+            </div>
+          )}
 
-          <ul className="list-none m-0 p-0 flex flex-col gap-[18px]">
-            {messages.map((m, i) => (
-              <li key={m.name + i} className="flex items-start gap-3 cursor-default" role="menuitem" tabIndex={open ? 0 : -1}>
-                <span
-                  className="shrink-0 w-10 h-10 rounded-full bg-cover"
-                  style={{ backgroundImage: m.gradient }}
-                />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-xs font-normal text-[#d1d1d1] whitespace-nowrap overflow-hidden text-ellipsis">
-                      {m.name}
-                    </span>
-                    <span className="text-[10px] font-medium text-[#787878] whitespace-nowrap shrink-0">
-                      {m.time}
-                    </span>
-                  </div>
-                  <p className="mt-0.5 text-xs font-normal text-[#a3a3a3] whitespace-nowrap overflow-hidden text-ellipsis">
-                    {m.snippet}
-                  </p>
-                </div>
+          <ul className="list-none m-0 p-0 flex flex-col">
+            {customers.map((c) => (
+              <li key={c.id} className="border-b border-white/10 last:border-b-0">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={c.id === selectedId}
+                  tabIndex={open ? 0 : -1}
+                  className={`block w-full text-left py-2 px-2 -mx-2 rounded-lg text-[13px] sm:text-[14px] font-[800] whitespace-nowrap cursor-pointer transition-colors duration-150 ${c.id === selectedId ? "text-white" : "text-[#d1d1d1]"
+                    }`}
+                  onClick={() => {
+                    setSelectedId(c.id);
+                    onSelect?.(c);
+                    setOpen(false);
+                  }}
+                >
+                  {c.name}
+                </button>
               </li>
             ))}
           </ul>
-
-          <button
-            type="button"
-            className="block w-full mt-[18px] pt-4 border-0 bg-transparent text-xs font-normal text-[#787878] text-center cursor-pointer transition-colors duration-150 hover:text-[#b3b3b3] font-[inherit]"
-            tabIndex={open ? 0 : -1}
-            onClick={() => {
-              onFooterClick?.();
-              setOpen(false);
-            }}
-          >
-            {footerLabel}
-          </button>
         </div>
       </div>
-    </div>
-  );
 
-  return (
-    <div ref={wrapRef} className={`relative inline-block ${className}`}>
       <button
         ref={triggerRef}
         type="button"
-        className="relative z-[1] w-[52px] h-[52px] rounded-full bg-[#1a1a1a] shadow-[0_4px_14px_rgba(0,0,0,0.18)] flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-105"
-        onMouseEnter={() => {
-          measure();
-          handleEnter();
-        }}
-        onMouseLeave={handleLeave}
-        onClick={() => {
-          measure();
-          clearCloseTimer();
-          setOpen((o) => !o);
-        }}
-        aria-haspopup="menu"
+        className={`relative z-50 min-w-[52px] px-4 py-4 rounded-full ${currentBg} shadow-[0_4px_14px_rgba(0,0,0,0.18)] flex items-center justify-center gap-1.5 cursor-pointer`}
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={title}
+        aria-label={triggerText}
       >
-        <MessageCircle size={18} strokeWidth={2} color="#ffffff" />
+        <span className="text-[12px] font-[800] uppercase tracking-wide text-white leading-none text-center whitespace-nowrap">
+          {triggerText}
+        </span>
+        <svg
+          width="10"
+          height="6"
+          viewBox="0 0 10 6"
+          fill="none"
+          className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        >
+          <path
+            d="M1 1L5 5L9 1"
+            stroke="#ffffff"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
-
-      {mounted && createPortal(portalContent, document.body)}
     </div>
   );
 }

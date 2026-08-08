@@ -213,6 +213,7 @@ export default async function RootLayout({
                   <PageNav />
                   <ClientOnlyExtras />
                   <HomeShaderGradient />
+                  <GrainOverlay />
                 </div>
               </SmoothScroll>
             </Providers>

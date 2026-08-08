@@ -600,19 +600,19 @@ export default function StyleGuidePage() {
                 <input
                   type="text"
                   placeholder="Enter full name..."
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 transition"
+                  className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 transition"
                 />
               </div>
 
               {/* Focused / Active */}
               <div>
                 <label className="block text-xs font-bold text-cyan-300 mb-1">Focused / Active State</label>
-                <div className="input-glow-border rounded-[12px]">
+                <div className="input-glow-border rounded-[8px]">
                   <input
                     type="text"
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-[12px] bg-white/10 border-none text-white/80 text-xs font-medium outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-[8px] bg-white/10 border-none text-white/80 text-xs font-medium outline-none transition"
                   />
                 </div>
               </div>
@@ -624,7 +624,7 @@ export default function StyleGuidePage() {
                   type="text"
                   value="invalid_email_format"
                   readOnly
-                  className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/50 text-red-300 text-xs outline-none focus:ring-1 focus:ring-red-400/50 transition"
+                  className="w-full px-4 py-2.5 rounded-lg bg-red-500/10 border border-red-500/50 text-red-300 text-xs outline-none focus:ring-1 focus:ring-red-400/50 transition"
                 />
                 <span className="text-[10px] text-red-400 mt-1 block">Please enter a valid email address.</span>
               </div>
@@ -636,7 +636,7 @@ export default function StyleGuidePage() {
                   type="text"
                   value="Read-only System ID: 7H-ADMIN-99"
                   disabled
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 text-white/30 text-xs cursor-not-allowed"
+                  className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/5 text-white/30 text-xs cursor-not-allowed"
                 />
               </div>
             </div>
@@ -656,7 +656,7 @@ export default function StyleGuidePage() {
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="Search shows, venues, tours, or keywords..."
                     style={{ paddingLeft: "3rem" }}
-                    className="no-bg-icon w-full pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 placeholder-white/50 text-xs font-medium outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition"
+                    className="no-bg-icon w-full pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/50 text-xs font-medium outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition"
                   />
                 </div>
               </div>
@@ -668,7 +668,7 @@ export default function StyleGuidePage() {
                   rows={4}
                   value={textareaInput}
                   onChange={(e) => setTextareaInput(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-1 focus:ring-purple-400/50 transition resize-none"
+                  className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-1 focus:ring-purple-400/50 transition resize-none"
                 />
               </div>
             </div>

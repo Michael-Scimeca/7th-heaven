@@ -158,10 +158,10 @@ export default async function Home() {
       <LiveStatusSign />
 
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
-      <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick" data-pick-label="7th Heaven" id="hero">
+      <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick" data-pick-label="Play Music" id="hero">
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
         {/* Full-bleed Hero Section */}
-        <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="7th Heaven">
+        <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
           <HeroVideoPlayer>
             <HeroLiveThumbs />

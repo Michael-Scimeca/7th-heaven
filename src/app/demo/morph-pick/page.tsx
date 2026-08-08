@@ -44,9 +44,10 @@ export default function MorphPickDemoPage() {
             </span>
             <h3 className="text-xl font-black uppercase italic mt-1">Simulate a song playing</h3>
             <p className="text-xs text-white/50 mt-2 max-w-md">
-              Toggle this to mimic a real audio player. While &quot;on&quot;, the cursor
-              shrinks into a small spinning pick with a × on it — anywhere on the page,
-              no hover required. Move your mouse around after clicking.
+              Toggle this to mimic a real audio player (this is exactly what the hero&apos;s
+              vinyl player now does automatically). While &quot;on&quot;, the cursor shrinks to
+              60% size and reads &quot;Stop Music&quot; at 10px — anywhere on the page, no hover
+              required. Move your mouse around after clicking.
             </p>
           </div>
           <button
@@ -71,6 +72,15 @@ export default function MorphPickDemoPage() {
             <span className="text-xs font-black uppercase tracking-wider text-[#c084fc]">Default label</span>
             <h3 className="text-xl font-black uppercase italic mt-1">data-pick-label=&quot;Play Video&quot;</h3>
             <p className="text-xs text-white/50 mt-2">The badge&apos;s marquee text reads whatever you put in this attribute.</p>
+          </div>
+
+          <div
+            className="morph-pick bg-[#0b0b14] border border-[#9333ea]/30 hover:border-[#9333ea]/70 rounded-3xl p-10 min-h-[180px] flex flex-col justify-center transition-colors"
+            data-pick-label="Play Music"
+          >
+            <span className="text-xs font-black uppercase tracking-wider text-[#c084fc]">Matches the real hero</span>
+            <h3 className="text-xl font-black uppercase italic mt-1">data-pick-label=&quot;Play Music&quot;</h3>
+            <p className="text-xs text-white/50 mt-2">Same label + 14px size used on the homepage hero section.</p>
           </div>
 
           <div

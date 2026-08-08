@@ -35,19 +35,19 @@ export default function PrivacyPage() {
                         <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">2. Information We Collect</h2>
                         <p className="mb-3 text-[var(--muted-text)]">We may collect the following types of information:</p>
                         <div className="flex flex-col gap-3">
-                            <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-xs">
+                            <div className="py-2 border-0 bg-transparent shadow-none">
                                 <p className="text-[var(--text-color)] font-bold text-sm mb-1">Account Information</p>
                                 <p className="text-sm text-[var(--muted-text)]">Name, email address, and password when you create a member account.</p>
                             </div>
-                            <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-xs">
+                            <div className="py-2 border-0 bg-transparent shadow-none">
                                 <p className="text-[var(--text-color)] font-bold text-sm mb-1">SMS Alert Information</p>
                                 <p className="text-sm text-[var(--muted-text)]">Name, zip code, and phone number when you subscribe to show alerts. We also record your consent timestamp and IP address as required by law.</p>
                             </div>
-                            <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-xs">
+                            <div className="py-2 border-0 bg-transparent shadow-none">
                                 <p className="text-[var(--text-color)] font-bold text-sm mb-1">Location Data</p>
                                 <p className="text-sm text-[var(--muted-text)]">Approximate geolocation (latitude/longitude) only when you explicitly enable the &quot;Nearby Shows&quot; feature. This data is stored locally in your browser and is not transmitted to our servers.</p>
                             </div>
-                            <div className="py-4 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-xs">
+                            <div className="py-2 border-0 bg-transparent shadow-none">
                                 <p className="text-[var(--text-color)] font-bold text-sm mb-1">Usage Data</p>
                                 <p className="text-sm text-[var(--muted-text)]">Browser type, pages visited, and interaction patterns collected automatically through standard web analytics.</p>
                             </div>
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
                     {/* 4 */}
                     <div>
                         <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">4. SMS/Text Message Program</h2>
-                        <div className="py-5 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-sm">
+                        <div className="py-2 border-0 bg-transparent shadow-none">
                             <p className="mb-3">By subscribing to 7th Heaven Show Alerts, you consent to receive recurring automated text messages at the phone number you provided. Key details:</p>
                             <ul className="list-disc pl-5 space-y-2 text-base">
                                 <li><strong className="text-[var(--text-color)]">Message Frequency:</strong> Varies. Typically 1–4 messages per month, with occasional additional messages for special events.</li>
@@ -138,7 +138,7 @@ export default function PrivacyPage() {
                     <div>
                         <h2 className="text-[var(--text-color)] text-lg font-bold mb-3">12. Contact Us</h2>
                         <p className="mb-2 text-[var(--muted-text)]">If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
-                        <div className="py-6 border border-[var(--border-color)] bg-[var(--card-bg)] rounded-xl shadow-sm">
+                        <div className="py-2 border-0 bg-transparent shadow-none">
                             <p className="text-[var(--text-color)] font-bold text-sm">7th Heaven</p>
                             <p className="text-base mt-1">Email: <a href="mailto:info@7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">info@7thheavenband.com</a></p>
                             <p className="text-base">Website: <a href="https://7thheavenband.com" className="text-[var(--color-accent)] font-bold hover:underline">7thheavenband.com</a></p>

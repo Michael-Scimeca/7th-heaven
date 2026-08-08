@@ -40,9 +40,9 @@ export default function GooeyDropdownDemoPage() {
           </Link>
         </div>
 
-        {/* Exact-match recreation of goo-drop.learnframer.site */}
+        {/* Customer selector built on the same goo technique */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-black uppercase italic">Exact Reference Match</h2>
+          <h2 className="text-2xl font-black uppercase italic">Customer Selector</h2>
           <a
             href="https://goo-drop.learnframer.site/"
             target="_blank"
@@ -53,13 +53,13 @@ export default function GooeyDropdownDemoPage() {
           </a>
         </div>
         <p className="text-white/50 text-sm max-w-2xl mb-6">
-          Pixel-measured against the live reference: 52px circular trigger,
-          306×290px panel, #1a1a1a background, Inter type scale, identical SVG
-          goo filter constants (blur stdDeviation 8, matrix 19/-8), and the
-          same avatar gradients.
+          Same goo trigger/panel mechanics as the reference, adapted into a
+          real selector: a pill trigger that grows to fit its label, an
+          arrow that flips on toggle, and a plain option list — click an
+          entry to select it, and the trigger updates to show the choice.
         </p>
-        <div className="flex items-start justify-center mb-20 bg-white border border-white/10 rounded-3xl p-10 min-h-[220px]">
-          <GooeyMessagesDropdown />
+        <div className="flex items-start justify-center mb-20 border border-white/10 rounded-3xl p-10 min-h-[220px]">
+          <GooeyMessagesDropdown title="" />
         </div>
 
         {/* Live examples */}

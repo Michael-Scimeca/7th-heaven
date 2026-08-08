@@ -19,12 +19,12 @@ export default function ActiveInputDemoPage() {
         <label className="block text-xs font-bold text-white/60 uppercase tracking-wider">
           Active Input
         </label>
-        <div className="input-glow-border rounded-[12px]">
+        <div className="input-glow-border rounded-[8px]">
           <input
             type="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-full px-4 py-3 rounded-[12px] bg-white/10 border-none text-white text-sm font-medium outline-none transition"
+            className="w-full px-4 py-3 rounded-[8px] bg-white/10 border-none text-white text-sm font-medium outline-none transition"
           />
         </div>
       </div>

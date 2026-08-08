@@ -279,6 +279,16 @@ export default function VinylHeroPlayer({
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // Let the global cursor know when a track is actually playing, so it can
+  // shrink into the "now playing" (X) badge — see CursorFollower.tsx's
+  // "cursor:song-playing" window event listener.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("cursor:song-playing", { detail: isPlaying }));
+    return () => {
+      window.dispatchEvent(new CustomEvent("cursor:song-playing", { detail: false }));
+    };
+  }, [isPlaying]);
+
   // Whenever the active album or track changes, reload the audio source.
   // React updating the src= prop on <audio> does NOT trigger a browser reload —
   // we must set .src and call .load() imperatively.

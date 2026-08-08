@@ -69,11 +69,11 @@ html.lenis body {
   --input-blur: 24px;
   --input-border-color: rgba(192, 132, 252, 0.4);
   --input-border-width: 0px;
-  --input-border-radius: 0px;
+  --input-border-radius: 8px;
   --input-text-color: #ffffff;
   --input-placeholder-color: rgba(255, 255, 255, 0.4);
-  --input-focus-border: #c084fc;
-  --input-focus-glow: rgba(0, 240, 255, 0);
+  --input-focus-border: #a855f7;
+  --input-focus-glow: rgba(168, 85, 247, 0.5);
   --input-padding-y: 12px;
   --input-padding-x: 18px;
 
@@ -164,7 +164,12 @@ input[type="radio"]:checked {
   box-shadow: 0 0 10px rgba(147, 51, 234, 0.5) !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--heading-color) !important;
 }
 
@@ -175,26 +180,22 @@ p {
 a {
   color: var(--link-color);
 }
+
 a:hover {
   color: var(--link-hover-color);
 }
 
 .site-input,
 .form-input,
-input[type="text"],
-input[type="search"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="tel"],
-input[type="url"],
+input,
 select,
 textarea {
   background-color: rgba(255, 255, 255, 0.05) !important;
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
-  border-radius: var(--input-border-radius) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
   color: var(--input-text-color) !important;
   padding: var(--input-padding-y) var(--input-padding-x);
   outline: none !important;
@@ -242,8 +243,8 @@ textarea {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
-  border: none !important;
-  border-radius: var(--input-border-radius, 14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
   color: #ffffff !important;
   padding: 12px 16px !important;
 }
@@ -279,13 +280,21 @@ textarea::placeholder {
 }
 
 .site-input:focus,
+.site-input:active,
 .form-input:focus,
+.form-input:active,
 input:focus,
+input:active,
 select:focus,
+select:active,
+textarea:focus,
+textarea:active,
 textarea:focus {
-  border-color: var(--input-focus-border) !important;
-  box-shadow: 0 0 18px var(--input-focus-glow), inset 0 1px 2px rgba(255, 255, 255, 0.1) !important;
+  border: 1.5px solid transparent !important;
+  outline: none !important;
 }
+
+
 
 /* =============================================
    ANIMATED SPINNING GRADIENT BORDER
@@ -301,22 +310,40 @@ textarea:focus {
 .input-glow-border {
   position: relative;
   isolation: isolate;
-  padding: 2px;
 }
 
+/* Thin masked ring, painted ON TOP of the field. Because mask cuts a
+   transparent hole in the middle, it only paints a ~1px band around
+   the edge — it doesn't matter what the input's own background looks
+   like underneath, and there's no need to reserve padding for it. */
 .input-glow-border::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
   border-radius: inherit;
+  padding: 1.5px;
   background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
-  filter: blur(6px);
+  filter: blur(2px);
   animation: border-angle-spin 5s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
 }
 
-.input-glow-border > * {
+.input-glow-border:focus-within::after,
+.input-glow-border:hover::after,
+.input-glow-border.active::after {
+  opacity: 1;
+}
+
+.input-glow-border:has(textarea)::after {
+  height: 96% !important;
+}
+
+.input-glow-border>* {
   position: relative;
   z-index: 1;
 }
@@ -1823,66 +1850,25 @@ html.tour-sort-stuck #tour-sort-bar {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -40;
+  z-index: 99999;
   pointer-events: none;
 }
 
 .grain-overlay::after {
   content: "";
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Dissolve_Noise_Texture.png");
-  height: 100vh;
-  width: 100vw;
   position: fixed;
-  opacity: 0.03;
-  animation: animateGrain 8s steps(10) infinite;
-}
-
-@keyframes animateGrain {
-
-  0%,
-  100% {
-    transform: translate(0, 0)
-  }
-
-  10% {
-    transform: translate(-5%, -10%)
-  }
-
-  20% {
-    transform: translate(-15%, -20%)
-  }
-
-  30% {
-    transform: translate(-5%, -10%)
-  }
-
-  40% {
-    transform: translate(-15%, -20%)
-  }
-
-  50% {
-    transform: translate(-5%, -10%)
-  }
-
-  60% {
-    transform: translate(-15%, -20%)
-  }
-
-  70% {
-    transform: translate(-5%, -10%)
-  }
-
-  80% {
-    transform: translate(-15%, -20%)
-  }
-
-  90% {
-    transform: translate(-5%, -10%)
-  }
-
-  100% {
-    transform: translate(-15%, -20%)
-  }
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat !important;
+  background-size: 200px 200px !important;
+  opacity: var(--canvas-grain-opacity, 0.18);
+  mix-blend-mode: var(--canvas-grain-blend, overlay);
+  pointer-events: none;
+  animation: none !important;
+  transform: none !important;
 }
 
 /* ── Header logo responsive positioning & hover ── */
@@ -1915,8 +1901,8 @@ div[class*="nextjs-toast"],
 div[class*="nextjs-portal"],
 a[href*="neat"],
 a[href*="firecms"],
-canvas + a,
-div:has(canvas) > a,
+canvas+a,
+div:has(canvas)>a,
 .neat-link,
 [class*="neat-link"] {
   display: none !important;
@@ -1925,19 +1911,14 @@ div:has(canvas) > a,
   pointer-events: none !important;
 }
 
-/* Global Border Radius System Enforcement: Only 0px or 9999px */
-.rounded,
-.rounded-xs,
-.rounded-sm,
-.rounded-md,
-.rounded-lg,
-.rounded-xl,
-.rounded-2xl,
-.rounded-3xl,
-.rounded-4xl {
-  border-radius: 0px !important;
-}
-
-.rounded-full {
-  border-radius: 9999px !important;
+/* Global Input Border Radius Enforcement: 8px */
+input,
+select,
+textarea,
+.site-input,
+.form-input,
+.input-glow-border,
+.input-glow-border::after,
+.input-glow-border>* {
+  border-radius: 8px !important;
 }

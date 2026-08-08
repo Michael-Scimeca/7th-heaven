@@ -11,6 +11,7 @@ import TourMap from "./TourMap";
 import { isShowOver, typeConfig, getShowType, getShowDateTime } from "@/lib/tour-helpers";
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
@@ -1179,11 +1180,15 @@ ${filterLine}
           <div id="tour-sort-bar" className={`sticky top-[88px] z-[100] hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-6 px-6 bg-transparent border-0' : 'w-full bg-transparent border-0'} items-center text-white`}>
             <span className="text-[0.6rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
-              <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
-                <option value="All">Month</option>
-                {months.map((m) => <option key={m} value={m}>{m}</option>)}
-              </select>
-              <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <GooeyMessagesDropdown
+                placeholder="MONTH"
+                defaultSelectedId={activeMonth}
+                customers={[
+                  { id: "All", name: "MONTH" },
+                  ...months.map((m) => ({ id: m, name: m })),
+                ]}
+                onSelect={(opt) => setActiveMonth(opt.id)}
+              />
             </div>
             <div className="relative flex items-center">
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1193,11 +1198,15 @@ ${filterLine}
               {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[0.6rem] cursor-pointer z-10"><X className="w-3 h-3" /></button>)}
             </div>
             <div className="relative">
-              <select aria-label="Select option" value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
-                <option value="All">City</option>
-                {locationOptions.map(({ city, count }) => <option key={city} value={city}>{city} ({count})</option>)}
-              </select>
-              <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <GooeyMessagesDropdown
+                placeholder="CITY"
+                defaultSelectedId={activeCity}
+                customers={[
+                  { id: "All", name: "CITY" },
+                  ...locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` })),
+                ]}
+                onSelect={(opt) => setActiveCity(opt.id)}
+              />
             </div>
             <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 

@@ -253,7 +253,7 @@ export default function FAQPage() {
 
                   {/* Expanded Answer with smooth grid-rows height transition */}
                   <div
-                    className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100 border-t border-white/10" : "grid-rows-[0fr] opacity-0 border-t border-transparent"
+                    className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100 border-t-0" : "grid-rows-[0fr] opacity-0 border-t-0"
                       }`}
                   >
                     <div className="overflow-hidden">

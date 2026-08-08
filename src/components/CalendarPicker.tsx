@@ -1,6 +1,7 @@
 /* eslint-disable react-doctor/no-giant-component */
 import React, { useState, useMemo, useSyncExternalStore } from "react";
 import { Guitar, Mic, PartyPopper, Sparkles } from "lucide-react";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 export interface BookingSlot {
   id: string;
@@ -127,35 +128,29 @@ export function CalendarPicker({
 
             <div className="flex items-center gap-2">
               {/* Month Select Dropdown */}
-              <select aria-label="Select option"
-                value={currentMonth.getMonth()}
-                onChange={(e) => {
-                  const newMonth = parseInt(e.target.value, 10);
-                  setCurrentMonth(new Date(currentMonth.getFullYear(), newMonth, 1));
-                }}
-                className="bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-cyan-400 shadow-sm"
-              >
-                {[
+              <GooeyMessagesDropdown
+                placeholder="Month"
+                defaultSelectedId={String(currentMonth.getMonth())}
+                customers={[
                   "January", "February", "March", "April", "May", "June",
                   "July", "August", "September", "October", "November", "December"
-                ].map((name, idx) => (
-                  <option key={name} value={idx} className="bg-[#0c0817] text-white">{name}</option>
-                ))}
-              </select>
+                ].map((name, idx) => ({ id: String(idx), name }))}
+                onSelect={(opt) => {
+                  const newMonth = parseInt(opt.id, 10);
+                  setCurrentMonth(new Date(currentMonth.getFullYear(), newMonth, 1));
+                }}
+              />
 
               {/* Year Select Dropdown */}
-              <select aria-label="Select option"
-                value={currentMonth.getFullYear()}
-                onChange={(e) => {
-                  const newYear = parseInt(e.target.value, 10);
+              <GooeyMessagesDropdown
+                placeholder="Year"
+                defaultSelectedId={String(currentMonth.getFullYear())}
+                customers={[2026, 2027, 2028].map(yr => ({ id: String(yr), name: String(yr) }))}
+                onSelect={(opt) => {
+                  const newYear = parseInt(opt.id, 10);
                   setCurrentMonth(new Date(newYear, currentMonth.getMonth(), 1));
                 }}
-                className="bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-cyan-400 shadow-sm"
-              >
-                {[2026, 2027, 2028].map(yr => (
-                  <option key={yr} value={yr} className="bg-[#0c0817] text-white">{yr}</option>
-                ))}
-              </select>
+              />
             </div>
 
             <button aria-label="Next"
