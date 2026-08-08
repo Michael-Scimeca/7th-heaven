@@ -47,6 +47,14 @@ html.lenis body {
   --color-section-border: rgba(255, 255, 255, 0.1);
   --color-input-bg: rgba(12, 8, 23, 0.8);
   --color-input-border: rgba(255, 255, 255, 0.15);
+  --color-nav-font: #6700ff;
+}
+
+/* Header Navigation Links Font Color Override */
+header nav a:not(.active),
+header a.nav-link:not(.active),
+.site-nav-link:not(.active) {
+  color: var(--color-nav-font, #6700ff) !important;
 }
 
 

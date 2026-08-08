@@ -28,7 +28,8 @@
     "--color-section-bg": "transparent",
     "--color-section-border": "rgba(255, 255, 255, 0.1)",
     "--color-input-bg": "rgba(12, 8, 23, 0.8)",
-    "--color-input-border": "rgba(255, 255, 255, 0.15)"
+    "--color-input-border": "rgba(255, 255, 255, 0.15)",
+    "--color-nav-font": "#6700ff"
   },
   "typography": {
     "--font-family-sans": "var(--font-barlow), 'Barlow', sans-serif",

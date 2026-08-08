@@ -237,7 +237,7 @@ export function Header() {
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${
                     active
                       ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                      : "!text-white hover:!text-[#c084fc]"
+                      : "!text-[#6700ff] hover:!text-[#c084fc]"
                   }`}
                 >
                   {link.label}
@@ -251,7 +251,7 @@ export function Header() {
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${
                 isNavActive("/live")
                   ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-white hover:!text-[#c084fc]"
+                  : "!text-[#6700ff] hover:!text-[#c084fc]"
               }`}
             >
               {hasLiveStreams && (
@@ -280,7 +280,7 @@ export function Header() {
             } ${
               isNavActive("/")
                 ? "!text-[#c084fc]"
-                : "!text-white hover:!text-[#c084fc]"
+                : "!text-[#6700ff] hover:!text-[#c084fc]"
             }`}
             title="7th Heaven — Go to Home Page"
           >
@@ -298,7 +298,7 @@ export function Header() {
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/cruise")
                   ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-white hover:!text-[#c084fc]"
+                  : "!text-[#6700ff] hover:!text-[#c084fc]"
               }`}
             >
               CRUISE
@@ -311,7 +311,7 @@ export function Header() {
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/book")
                   ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-white hover:!text-[#c084fc]"
+                  : "!text-[#6700ff] hover:!text-[#c084fc]"
               }`}
             >
               BOOK US
@@ -323,7 +323,7 @@ export function Header() {
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/contact")
                   ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-white hover:!text-[#c084fc]"
+                  : "!text-[#6700ff] hover:!text-[#c084fc]"
               }`}
             >
               CONTACT
@@ -469,16 +469,16 @@ export function Header() {
           {mobileOpen && (
             <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
 
-              <Link href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>BAND</Link>
-              <Link href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>SHOWS</Link>
-              <Link href="/shows/past" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/shows/past" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>PAST SHOWS</Link>
-              <Link href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>MERCH</Link>
-              <Link href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>MEDIA</Link>
-              <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>FAN WALL</Link>
-              <Link href="/live" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/live" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>LIVE</Link>
-              <Link href="/cruise" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/cruise" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>CRUISE</Link>
-              <Link href="/book" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/book" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>BOOK US</Link>
-              <Link href="/contact" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/contact" ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"}`}>CONTACT</Link>
+              <Link href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BAND</Link>
+              <Link href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>SHOWS</Link>
+              <Link href="/shows/past" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/shows/past" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>PAST SHOWS</Link>
+              <Link href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MERCH</Link>
+              <Link href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MEDIA</Link>
+              <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>FAN WALL</Link>
+              <Link href="/live" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/live" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>LIVE</Link>
+              <Link href="/cruise" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/cruise" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CRUISE</Link>
+              <Link href="/book" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/book" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BOOK US</Link>
+              <Link href="/contact" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/contact" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CONTACT</Link>
               {isLoggedIn ? (
                 <button aria-label="Action button"
                   onClick={async () => {
