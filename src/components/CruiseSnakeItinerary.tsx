@@ -252,8 +252,8 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
   const [maskSettings, setMaskSettings] = useState({
     itinTopFadeStart: 0,
-    itinTopFadeEnd: 10,
-    itinBottomFadeStart: 85,
+    itinTopFadeEnd: 1,
+    itinBottomFadeStart: 95,
     itinBottomFadeEnd: 100,
     itinBgOpacity: 90,
     itinBlur: 16,
