@@ -192,7 +192,6 @@ export default async function RootLayout({
             document.head.appendChild(style);
           }
         ` }} />
-        <GrainOverlay />
         <CursorFollower />
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>

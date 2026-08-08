@@ -86,6 +86,7 @@ export default function StyleGuidePage() {
   // Canvas Shader & Film Grain UI Control States
   const [canvasGrainOpacity, setCanvasGrainOpacity] = useState<number>(6); // 6%
   const [canvasGrainBlend, setCanvasGrainBlend] = useState<string>("overlay");
+  const [canvasGrainSize, setCanvasGrainSize] = useState<number>(0.85);
   const [canvasSpeed, setCanvasSpeed] = useState<number>(3);
   const [canvasWaveAmp, setCanvasWaveAmp] = useState<number>(0.6);
   const [canvasWaveFreqX, setCanvasWaveFreqX] = useState<number>(1.5);
@@ -96,12 +97,17 @@ export default function StyleGuidePage() {
   useEffect(() => {
     document.documentElement.style.setProperty("--canvas-grain-opacity", `${canvasGrainOpacity / 100}`);
     document.documentElement.style.setProperty("--canvas-grain-blend", canvasGrainBlend);
-  }, [canvasGrainOpacity, canvasGrainBlend]);
+    document.documentElement.style.setProperty("--canvas-grain-size", `${canvasGrainSize}`);
+    // Update the SVG filter baseFrequency live
+    const feTurb = document.querySelector("#globalGrainFilter feTurbulence");
+    if (feTurb) feTurb.setAttribute("baseFrequency", `${canvasGrainSize}`);
+  }, [canvasGrainOpacity, canvasGrainBlend, canvasGrainSize]);
 
   const handleCopyCanvasSpec = () => {
     const spec = `:root {
   --canvas-grain-opacity: ${canvasGrainOpacity / 100};
   --canvas-grain-blend: "${canvasGrainBlend}";
+  --canvas-grain-size: ${canvasGrainSize};
   --canvas-speed: ${canvasSpeed};
   --canvas-wave-amp: ${canvasWaveAmp};
   --canvas-wave-freq-x: ${canvasWaveFreqX};
@@ -1172,7 +1178,8 @@ export default function StyleGuidePage() {
                   ? bubbleColorPalette
                   : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
-            className="rounded-2xl border border-white/10 bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            className="morph-pick rounded-2xl border border-white/10 bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            data-pick-label="Live Chat"
           >
             <CruiseChat activeChannel="general" />
           </div>
@@ -1383,6 +1390,39 @@ export default function StyleGuidePage() {
                       }`}
                     >
                       {op}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Grain Size Slider */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-white/80">Grain Size (baseFrequency)</span>
+                  <span className="text-emerald-400 font-mono">{canvasGrainSize}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="3.0"
+                  step="0.05"
+                  value={canvasGrainSize}
+                  onChange={(e) => setCanvasGrainSize(Number(e.target.value))}
+                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                />
+                <div className="flex gap-1.5 pt-1">
+                  {[0.3, 0.5, 0.65, 0.85, 1.2, 2.0].map((sz) => (
+                    <button
+                      key={sz}
+                      type="button"
+                      onClick={() => setCanvasGrainSize(sz)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        canvasGrainSize === sz
+                          ? "bg-emerald-600 border-emerald-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {sz}
                     </button>
                   ))}
                 </div>
