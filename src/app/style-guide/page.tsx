@@ -76,6 +76,9 @@ export default function StyleGuidePage() {
   const [bubbleFontSize, setBubbleFontSize] = useState<number>(12);
   const [bubbleColorPalette, setBubbleColorPalette] = useState<string>("default");
   const [customHexColor, setCustomHexColor] = useState<string>("#9333ea");
+  const [bubbleOpacity, setBubbleOpacity] = useState<number>(80);
+  const [multiUserColorMode, setMultiUserColorMode] = useState<boolean>(true);
+  const [copiedSpec, setCopiedSpec] = useState<boolean>(false);
 
   // Sample Dropdown options
   const dropdownOptions = [
@@ -739,31 +742,78 @@ export default function StyleGuidePage() {
                 <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
               </h2>
               <p className="text-white/60 text-xs mt-1">
-                Live interactive preview of <code className="text-purple-300 font-mono">CruiseChat</code> with real-time UI controls for bubble radius, borders, and fills.
+                Live interactive preview of <code className="text-purple-300 font-mono">CruiseChat</code> with real-time UI controls for bubble radius, borders, opacity, font size, and per-user colors.
               </p>
             </div>
             
-            <button
-              type="button"
-              onClick={() => {
-                setBubbleRadius(16);
-                setBubbleBorderWidth(0);
-                setBubbleBorderColor("transparent");
-                setBubbleBgStyle("classic");
-              }}
-              className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white text-xs font-bold transition shrink-0"
-            >
-              Reset Chat Controls
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  const spec = JSON.stringify({
+                    corner_radius: `${bubbleRadius}px`,
+                    border_width: `${bubbleBorderWidth}px`,
+                    border_color: bubbleBorderColor,
+                    font_size: `${bubbleFontSize}px`,
+                    opacity: `${bubbleOpacity}%`,
+                    multi_user_colors: multiUserColorMode,
+                    color_palette: bubbleColorPalette,
+                    background_theme: bubbleBgStyle,
+                  }, null, 2);
+                  navigator.clipboard.writeText(spec);
+                  setCopiedSpec(true);
+                  setTimeout(() => setCopiedSpec(null as any), 2500);
+                }}
+                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]"
+              >
+                {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedSpec ? "Spec Copied to Clipboard!" : "Copy Chat Style Spec"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setBubbleRadius(16);
+                  setBubbleBorderWidth(0);
+                  setBubbleBorderColor("transparent");
+                  setBubbleBgStyle("classic");
+                  setBubbleFontSize(12);
+                  setBubbleOpacity(80);
+                  setMultiUserColorMode(true);
+                  setBubbleColorPalette("default");
+                }}
+                className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white text-xs font-bold transition"
+              >
+                Reset Controls
+              </button>
+            </div>
           </div>
 
           {/* Chat Bubble Customizer UI Control Bar */}
           <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-6">
-            <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
-              <Sliders className="w-4 h-4" /> Chat Bubble UI Controls studio
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                <Sliders className="w-4 h-4" /> Chat Bubble UI Controls Studio
+              </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+              {/* Multi-User Distinct Color Mode Toggle */}
+              <div className="flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-xl">
+                <span className="text-[11px] font-bold text-white/80 pl-1">Multi-User Unique Colors:</span>
+                <button
+                  type="button"
+                  onClick={() => setMultiUserColorMode(!multiUserColorMode)}
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${
+                    multiUserColorMode
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "bg-white/10 text-white/50"
+                  }`}
+                >
+                  {multiUserColorMode ? "ON (Unique Per Person)" : "OFF (Single Swatch)"}
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
               
               {/* 1. Corner Radius Control */}
               <div className="space-y-2">
@@ -779,7 +829,7 @@ export default function StyleGuidePage() {
                   onChange={(e) => setBubbleRadius(Number(e.target.value))}
                   className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
                 />
-                <div className="flex items-center gap-1.5 pt-1">
+                <div className="flex items-center gap-1 pt-1">
                   {[0, 8, 16, 24].map((r) => (
                     <button
                       key={r}
@@ -811,7 +861,7 @@ export default function StyleGuidePage() {
                   onChange={(e) => setBubbleBorderWidth(Number(e.target.value))}
                   className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
                 />
-                <div className="flex items-center gap-1.5 pt-1">
+                <div className="flex items-center gap-1 pt-1">
                   {[0, 1, 2, 3].map((w) => (
                     <button
                       key={w}
@@ -843,7 +893,7 @@ export default function StyleGuidePage() {
                   onChange={(e) => setBubbleFontSize(Number(e.target.value))}
                   className="w-full accent-emerald-500 bg-white/10 rounded-lg cursor-pointer"
                 />
-                <div className="flex items-center gap-1.5 pt-1">
+                <div className="flex items-center gap-1 pt-1">
                   {[10, 12, 14, 16].map((s) => (
                     <button
                       key={s}
@@ -861,9 +911,41 @@ export default function StyleGuidePage() {
                 </div>
               </div>
 
-              {/* 4. Color Palette Picker */}
+              {/* 4. Opacity Control */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-white/80">Color Palette Swatches</label>
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Bubble Opacity</span>
+                  <span className="font-mono text-pink-300">{bubbleOpacity}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="10"
+                  max="100"
+                  value={bubbleOpacity}
+                  onChange={(e) => setBubbleOpacity(Number(e.target.value))}
+                  className="w-full accent-pink-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1 pt-1">
+                  {[20, 50, 80, 100].map((o) => (
+                    <button
+                      key={o}
+                      type="button"
+                      onClick={() => setBubbleOpacity(o)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        bubbleOpacity === o
+                          ? "bg-pink-600 border-pink-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {o}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 5. Color Palette Swatches */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-white/80">Color Swatches</label>
                 <div className="flex items-center gap-1.5 flex-wrap">
                   {[
                     { label: "Default", val: "default", bg: "#7e22ce" },
@@ -872,16 +954,18 @@ export default function StyleGuidePage() {
                     { label: "Pink", val: "#ec4899", bg: "#ec4899" },
                     { label: "Emerald", val: "#10b981", bg: "#10b981" },
                     { label: "Amber", val: "#f59e0b", bg: "#f59e0b" },
-                    { label: "Rose", val: "#f43f5e", bg: "#f43f5e" },
                   ].map((p) => (
                     <button
                       key={p.val}
                       type="button"
-                      onClick={() => setBubbleColorPalette(p.val)}
+                      onClick={() => {
+                        setBubbleColorPalette(p.val);
+                        setMultiUserColorMode(false);
+                      }}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
-                      className={`w-6 h-6 rounded-full border-2 transition transform hover:scale-110 ${
-                        bubbleColorPalette === p.val
+                      className={`w-5 h-5 rounded-full border-2 transition transform hover:scale-110 ${
+                        bubbleColorPalette === p.val && !multiUserColorMode
                           ? "border-white ring-2 ring-white/50 scale-110"
                           : "border-transparent opacity-80"
                       }`}
@@ -895,29 +979,32 @@ export default function StyleGuidePage() {
                     onChange={(e) => {
                       setCustomHexColor(e.target.value);
                       setBubbleColorPalette(e.target.value);
+                      setMultiUserColorMode(false);
                     }}
-                    className="w-6 h-6 rounded-md border border-white/20 bg-transparent cursor-pointer"
+                    className="w-5 h-5 rounded-md border border-white/20 bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
-                  <span className="text-[10px] font-mono text-white/60 uppercase">{bubbleColorPalette}</span>
+                  <span className="text-[9px] font-mono text-white/60 uppercase truncate max-w-[80px]">
+                    {multiUserColorMode ? "Multi-User" : bubbleColorPalette}
+                  </span>
                 </div>
               </div>
 
-              {/* 5. Background Style Themes */}
+              {/* 6. Background Style Themes */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-white/80">Background Fill Theme</label>
+                <label className="block text-xs font-bold text-white/80">Fill Theme</label>
                 <div className="grid grid-cols-2 gap-1.5">
                   {[
                     { label: "Classic", val: "classic" },
-                    { label: "Glassmorphic", val: "glass" },
+                    { label: "Glass", val: "glass" },
                     { label: "Midnight", val: "midnight" },
-                    { label: "Vibrant Neon", val: "neon" },
+                    { label: "Neon", val: "neon" },
                   ].map((bg) => (
                     <button
                       key={bg.val}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
-                      className={`py-1.5 px-2 rounded text-[10px] font-bold border truncate transition ${
+                      className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${
                         bubbleBgStyle === bg.val
                           ? "bg-purple-600/40 border-purple-400 text-purple-200"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
@@ -940,18 +1027,21 @@ export default function StyleGuidePage() {
               ['--chat-bubble-member-border' as any]: bubbleBorderColor,
               ['--chat-bubble-self-border' as any]: bubbleBorderColor,
               ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
-              ['--chat-bubble-member-bg' as any]:
-                bubbleColorPalette !== 'default'
+              ['--chat-bubble-member-bg' as any]: multiUserColorMode
+                ? undefined
+                : bubbleColorPalette !== 'default'
                   ? bubbleColorPalette
-                  : bubbleBgStyle === 'glass' ? 'rgba(8, 145, 178, 0.35)' : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : 'rgba(22, 101, 124, 0.75)',
-              ['--chat-bubble-self-bg' as any]:
-                bubbleColorPalette !== 'default'
+                  : bubbleBgStyle === 'glass' ? `rgba(8, 145, 178, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : `rgba(22, 101, 124, ${bubbleOpacity / 100})`,
+              ['--chat-bubble-self-bg' as any]: multiUserColorMode
+                ? undefined
+                : bubbleColorPalette !== 'default'
                   ? bubbleColorPalette
-                  : bubbleBgStyle === 'glass' ? 'rgba(126, 34, 206, 0.35)' : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : 'rgba(126, 34, 206, 0.85)',
-              ['--chat-bubble-admin-bg' as any]:
-                bubbleColorPalette !== 'default'
+                  : bubbleBgStyle === 'glass' ? `rgba(126, 34, 206, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : `rgba(126, 34, 206, ${bubbleOpacity / 100})`,
+              ['--chat-bubble-admin-bg' as any]: multiUserColorMode
+                ? undefined
+                : bubbleColorPalette !== 'default'
                   ? bubbleColorPalette
-                  : bubbleBgStyle === 'glass' ? 'rgba(46, 16, 101, 0.45)' : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : 'rgba(46, 16, 101, 0.95)',
+                  : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
             className="rounded-2xl border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)]"
           >

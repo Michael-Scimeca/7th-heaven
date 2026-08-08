@@ -83,6 +83,23 @@ const getAvatarGradient = (name: string) => {
   return gradients[Math.abs(hash) % gradients.length];
 };
 
+export function getUserBubbleBg(senderName: string, opacity: number = 0.8) {
+  const palette = [
+    `rgba(14, 116, 144, ${opacity})`,  // Cyan / Ocean Blue
+    `rgba(109, 40, 217, ${opacity})`,  // Deep Purple
+    `rgba(190, 24, 93, ${opacity})`,   // Vibrant Pink
+    `rgba(4, 120, 87, ${opacity})`,    // Emerald Green
+    `rgba(180, 83, 9, ${opacity})`,    // Amber / Gold
+    `rgba(67, 56, 202, ${opacity})`,   // Indigo
+    `rgba(194, 65, 12, ${opacity})`,   // Deep Orange
+    `rgba(159, 18, 57, ${opacity})`,   // Rose
+  ];
+  let hash = 0;
+  const str = senderName || "user";
+  for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  return palette[Math.abs(hash) % palette.length];
+}
+
 const CHAT_EMOJIS = ['😂', '❤️', '🔥', '🤘', '🎸', '👏', '⚡', '😍', '🙌', '💀', '👀', '🎵', '🫶', '😭', '💜', '🤯', '🎤', '🎶', '🥹', '😎', '🥳', '🎉', '🥂', '🚢', '🌊'];
 
 const TAG_SUGGESTIONS = [
@@ -543,7 +560,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                         ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.8))"
                         : hasAdminTag
                           ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
-                          : "var(--chat-bubble-member-bg, rgba(22, 101, 124, 0.7))",
+                          : `var(--chat-bubble-member-bg, ${getUserBubbleBg(msg.sender_name, 0.75)})`,
                       fontSize: "var(--chat-bubble-font-size, 12px)",
                     }}
                     className="px-4 py-3 inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
