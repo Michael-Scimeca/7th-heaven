@@ -5,6 +5,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
+import { AlertTriangle, Ban, Trash2, LogOut } from "lucide-react";
 
 type ChatMessage = {
   id: string;
@@ -539,34 +540,38 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                 </div>
 
                 {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-[var(--color-bg-surface)]/95 border border-white/10 rounded-lg p-1 z-20">
-                    <button aria-label="Action button"
+                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-md border border-white/10 rounded-lg p-1 z-20 shadow-lg">
+                    <button
+                      aria-label="Warn User"
                       onClick={() => handleWarn(msg.sender_name)}
                       title="Warn User"
-                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-purple-600/15  text-[var(--color-accent)] hover:scale-105 transition-colors cursor-pointer"
+                      className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:scale-105 transition cursor-pointer"
                     >
-                      ⚠️
+                      <AlertTriangle className="w-3.5 h-3.5" />
                     </button>
-                    <button aria-label="Action button"
+                    <button
+                      aria-label="Ban User"
                       onClick={() => handleBan(msg.sender_name)}
                       title="Ban User"
-                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/15 text-red-500 hover:scale-105 transition-colors cursor-pointer"
+                      className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:scale-105 transition cursor-pointer"
                     >
-                      🚫
+                      <Ban className="w-3.5 h-3.5" />
                     </button>
-                    <button aria-label="Action button"
+                    <button
+                      aria-label="Delete Message"
                       onClick={() => handleDeleteMsg(msg.id)}
                       title="Delete Message"
-                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-white/10 text-white/40 hover:scale-105 transition-colors cursor-pointer"
+                      className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:scale-105 transition cursor-pointer"
                     >
-                      🗑
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
-                    <button aria-label="Action button"
+                    <button
+                      aria-label="Remove Fan Completely"
                       onClick={() => handleKick(msg.sender_name)}
                       title="Remove Fan Completely"
-                      className="w-6 h-6 rounded flex items-center justify-center text-xs hover:bg-red-500/20 text-red-500 hover:scale-105 transition-colors cursor-pointer"
+                      className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 hover:scale-105 transition cursor-pointer"
                     >
-                      🚪
+                      <LogOut className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 )}
