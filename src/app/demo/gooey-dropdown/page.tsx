@@ -40,8 +40,32 @@ export default function GooeyDropdownDemoPage() {
           </Link>
         </div>
 
+        {/* Exact-match recreation of goo-drop.learnframer.site */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-black uppercase italic">Exact Reference Match</h2>
+          <a
+            href="https://goo-drop.learnframer.site/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs text-[#c084fc] underline"
+          >
+            goo-drop.learnframer.site ↗
+          </a>
+        </div>
+        <p className="text-white/50 text-sm max-w-2xl mb-6">
+          Pixel-measured against the live reference: 52px circular trigger,
+          306×290px panel, #1a1a1a background, Inter type scale, identical SVG
+          goo filter constants (blur stdDeviation 8, matrix 19/-8), and the
+          same avatar gradients.
+        </p>
+        <div className="flex items-start justify-center mb-20 bg-white border border-white/10 rounded-3xl p-10 min-h-[220px]">
+          <GooeyMessagesDropdown />
+        </div>
+
         {/* Live examples */}
-        <h2 className="text-2xl font-black uppercase italic mb-6">Try it</h2>
+        <h2 className="text-2xl font-black uppercase italic mb-6">
+          Adapted variants (for site navigation)
+        </h2>
         <div className="flex flex-wrap items-start gap-10 mb-20 bg-[#0b0b14] border border-white/10 rounded-3xl p-10 min-h-[260px]">
           <GooeyDropdown
             label="Menu"

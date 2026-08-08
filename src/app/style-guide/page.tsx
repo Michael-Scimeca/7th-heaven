@@ -1896,10 +1896,7 @@ export default function StyleGuidePage() {
                 return (
                   <div
                     key={room.code}
-                    className={`overflow-hidden rounded-2xl flex flex-col justify-between group relative shadow-lg border-0 ${isYo
-                      ? 'bg-purple-950/60 backdrop-blur-xl'
-                      : 'bg-[var(--color-section-bg)] backdrop-blur-xl'
-                      }`}
+                    className="overflow-hidden rounded-2xl flex flex-col justify-between group relative shadow-none border-0 bg-transparent"
                   >
                     {isYo && (
                       <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">

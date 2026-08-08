@@ -906,7 +906,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     type="button"
                     key={room.code || room.selectValue}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="w-full text-left bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group hover:border-cyan-400/50 shadow-lg"
+                    className="w-full text-left bg-transparent border-0 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group shadow-none"
                   >
                     <div>
                       {room.image && (
@@ -914,12 +914,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
                         </div>
                       )}
-                      <div className="py-5">
+                      <div className="px-0 py-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
                           {room.icon && <span className="text-xl">{room.icon}</span>}
-                          <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2.5 py-1 rounded tracking-wider ${room.status === "soldout" ? "bg-red-500/20 text-red-300 border border-red-500/30" :
-                            room.status === "warning" ? "bg-purple-500/20 text-purple-300 border border-purple-500/30" :
-                              "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
+                          <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2.5 py-1 rounded tracking-wider border-0 ${room.status === "soldout" ? "bg-red-500/20 text-red-300" :
+                            room.status === "warning" ? "bg-purple-500/20 text-purple-300" :
+                              "bg-cyan-500/20 text-cyan-300"
                             }`}>{room.badge}</span>
                         </div>
                         <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-0.5">{room.code} Category</span>
@@ -927,7 +927,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
                     </div>
 
-                    <div className="py-5 pt-0 text-left">
+                    <div className="px-0 pt-0 pb-5 text-left">
                       {room.price === "Prevailing" ? (
                         <p className="text-[var(--font-size-2xs)] text-white/50 italic font-medium">Prevailing Rates Only</p>
                       ) : (
@@ -940,7 +940,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         <span className="text-[var(--font-size-3xs)] text-cyan-400 font-bold uppercase tracking-wider block mt-1">✓ {room.inclusions}</span>
                       )}
                       <span
-                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 hover:bg-cyan-500 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg group-hover:bg-cyan-500"
+                        className="mt-3 w-full py-2.5 px-4 bg-cyan-600 hover:bg-cyan-500 text-white font-black text-[var(--font-size-2xs)] uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md rounded-lg group-hover:bg-cyan-500 border-0"
                       >
                         <span>Select & Book Cabin</span>
                         <span>→</span>
@@ -975,10 +975,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <button
                         key={room.code || room.selectValue}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={`overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-lg border-0 ${isYo
-                          ? 'bg-purple-950/60 backdrop-blur-xl'
-                          : 'bg-[var(--color-section-bg)] backdrop-blur-xl'
-                          }`}
+                        className="overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                       >
                         {isYo && (
                           <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
