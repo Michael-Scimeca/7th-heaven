@@ -112,6 +112,8 @@ export default function StyleGuidePage() {
   // Stateroom Catalog & Suite Perks interactive preview states
   const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
+  const [sgGuestInsurance, setSgGuestInsurance] = useState("yes");
+  const [sgGuestGratuities, setSgGuestGratuities] = useState("yes");
 
   // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance
   useEffect(() => {
@@ -1937,6 +1939,89 @@ export default function StyleGuidePage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          {/* Cruise Guest Reservation Form Card Showcase */}
+          <div className="pt-8 border-t border-white/10 space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">Reservation Form Component</span>
+                <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Cruise Guest Booking Registration Card</h3>
+              </div>
+            </div>
+
+            <div className="booking-form-card bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-3xl overflow-hidden shadow-lg text-left">
+              {/* Header Banner */}
+              <div className="booking-header-banner border-b border-white/10 px-4 py-4 text-center bg-white/[0.04]">
+                <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
+                <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                <p className="text-[10px] text-white/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS (877-683-9753)</p>
+              </div>
+
+              {/* GUEST 1 (Primary Booker) */}
+              <div className="booking-section-container border-b border-white/10 bg-transparent">
+                <div className="booking-section-header bg-white/[0.04] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                  <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border border-purple-400">Primary</span>
+                </div>
+                <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                  {/* Name */}
+                  <div className="booking-cell border-b md:border-r border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors col-span-2">
+                    <label htmlFor="sg-guest1-name" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                  </div>
+                  {/* Phone */}
+                  <div className="booking-cell border-b md:border-r border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                    <label htmlFor="sg-guest1-phone" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Phone Number *</label>
+                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                  </div>
+                  {/* Email */}
+                  <div className="booking-cell border-b border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                    <label htmlFor="sg-guest1-email" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Email Address *</label>
+                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                  </div>
+                  {/* T-Shirt Size */}
+                  <div className="booking-cell md:border-r border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors relative">
+                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
+                      {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
+                    </select>
+                  </div>
+                  {/* Crown & Anchor */}
+                  <div className="booking-cell p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                    <label htmlFor="sg-guest1-crown" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                  </div>
+                </div>
+
+                {/* Toggles */}
+                <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/10">
+                  <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-4 flex flex-col justify-between">
+                    <span className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
+                    <div className="flex gap-3">
+                      {["yes", "no"].map(opt => (
+                        <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${sgGuestInsurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-white/5 border-white/15 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          {opt === "yes" ? "Yes, Protect" : "No, Decline"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="booking-cell p-4 flex flex-col justify-between">
+                    <span className="booking-label block text-xs font-black text-purple-400 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</span>
+                    <div className="flex gap-3">
+                      {["yes", "no"].map(opt => (
+                        <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${sgGuestGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-white/5 border-white/15 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          {opt === "yes" ? "Yes, Include" : "No, Exclude"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
