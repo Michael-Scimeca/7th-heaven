@@ -62,7 +62,7 @@ export default function StyleGuidePage() {
 
   // Sample interactive form states
   const [textInput, setTextInput] = useState("Michael Scimeca");
-  const [searchInput, setSearchInput] = useState("7th Heaven Live Shows 2026");
+  const [searchInput, setSearchInput] = useState("");
   const [textareaInput, setTextareaInput] = useState("Great performance at House of Blues! PA sound check scheduled for 4:30 PM.");
   const [checkboxState, setCheckboxState] = useState(true);
   const [radioState, setRadioState] = useState("full_band");
@@ -549,8 +549,9 @@ export default function StyleGuidePage() {
                     type="text"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Search shows, venues, tours, or keywords..."
                     style={{ paddingLeft: "3rem" }}
-                    className="no-bg-icon w-full pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition"
+                    className="no-bg-icon w-full pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/80 placeholder-white/50 text-xs font-medium outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition"
                   />
                 </div>
               </div>
