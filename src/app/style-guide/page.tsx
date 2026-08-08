@@ -169,7 +169,7 @@ export default function StyleGuidePage() {
         </div>
 
         {/* SECTION 1: TYPOGRAPHY */}
-        <section id="typography" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="typography" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Typography System
@@ -287,7 +287,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 2: COLORS */}
-        <section id="colors" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="colors" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
@@ -396,7 +396,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 3: BUTTONS */}
-        <section id="buttons" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="buttons" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
               <MousePointer className="w-6 h-6" /> 3. Button Variants & States
@@ -474,7 +474,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 4: FORM ELEMENTS */}
-        <section id="form-elements" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="form-elements" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
               <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
@@ -683,7 +683,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 5: DROPDOWNS */}
-        <section id="dropdowns" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="dropdowns" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
@@ -735,7 +735,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 6: CHAT BOX COMPONENT */}
-        <section id="chat" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="chat" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
@@ -745,7 +745,7 @@ export default function StyleGuidePage() {
                 Live interactive preview of <code className="text-purple-300 font-mono">CruiseChat</code> with real-time UI controls for bubble radius, borders, opacity, font size, and per-user colors.
               </p>
             </div>
-            
+
             <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
@@ -802,11 +802,10 @@ export default function StyleGuidePage() {
                 <button
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${
-                    multiUserColorMode
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${multiUserColorMode
                       ? "bg-emerald-600 text-white shadow-sm"
                       : "bg-white/10 text-white/50"
-                  }`}
+                    }`}
                 >
                   {multiUserColorMode ? "ON (Unique Per Person)" : "OFF (Single Swatch)"}
                 </button>
@@ -814,7 +813,7 @@ export default function StyleGuidePage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-              
+
               {/* 1. Corner Radius Control */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs font-bold text-white/80">
@@ -835,11 +834,10 @@ export default function StyleGuidePage() {
                       key={r}
                       type="button"
                       onClick={() => setBubbleRadius(r)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        bubbleRadius === r
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleRadius === r
                           ? "bg-purple-600 border-purple-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {r === 0 ? "0px" : `${r}px`}
                     </button>
@@ -867,11 +865,10 @@ export default function StyleGuidePage() {
                       key={w}
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        bubbleBorderWidth === w
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleBorderWidth === w
                           ? "bg-cyan-600 border-cyan-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {w === 0 ? "0px" : `${w}px`}
                     </button>
@@ -899,11 +896,10 @@ export default function StyleGuidePage() {
                       key={s}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        bubbleFontSize === s
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s
                           ? "bg-emerald-600 border-emerald-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {s}px
                     </button>
@@ -931,11 +927,10 @@ export default function StyleGuidePage() {
                       key={o}
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        bubbleOpacity === o
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleOpacity === o
                           ? "bg-pink-600 border-pink-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {o}%
                     </button>
@@ -964,11 +959,10 @@ export default function StyleGuidePage() {
                       }}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
-                      className={`w-5 h-5 rounded-full border-2 transition transform hover:scale-110 ${
-                        bubbleColorPalette === p.val && !multiUserColorMode
+                      className={`w-5 h-5 rounded-full border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode
                           ? "border-white ring-2 ring-white/50 scale-110"
                           : "border-transparent opacity-80"
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -1004,11 +998,10 @@ export default function StyleGuidePage() {
                       key={bg.val}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
-                      className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${
-                        bubbleBgStyle === bg.val
+                      className={`py-1 px-1.5 rounded text-[10px] font-bold border truncate transition ${bubbleBgStyle === bg.val
                           ? "bg-purple-600/40 border-purple-400 text-purple-200"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {bg.label}
                     </button>
@@ -1050,7 +1043,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 7: CARDS & BADGES */}
-        <section id="components" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="components" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
               <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
@@ -1129,7 +1122,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 8: BORDERS & GLASS */}
-        <section id="borders" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="borders" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
               <ShieldCheck className="w-6 h-6" /> 8. Border & Glass Standard
@@ -1162,7 +1155,7 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 9: SPACING & PADDING TOKENS */}
-        <section id="spacing" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        <section id="spacing" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
               <Box className="w-6 h-6" /> 9. Spacing & Page Padding Scale
