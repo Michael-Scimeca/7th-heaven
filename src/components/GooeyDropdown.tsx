@@ -1,59 +1,135 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+/**
+ * GooeyDropdown
+ * ---------------------------------------------------------------------------
+ * A recreation of the "gooey dropdown" interaction from Framer University
+ * (https://framer.university/resources/gooey-dropdown-in-framer), rebuilt as
+ * a plain React/Next.js component.
+ *
+ * How it works (same technique as the Framer original):
+ * 1. A pill-shaped trigger button sits in normal flow.
+ * 2. Behind it, two colored shapes (`triggerShape` + `panelShape`) live in a
+ *    layer that has an SVG "goo" filter applied (blur -> high-contrast alpha
+ *    matrix). While `panelShape` animates from the trigger's exact size up to
+ *    the full menu size, the blur+contrast makes the growing edges look soft
+ *    and fluid instead of a plain CSS resize.
+ * 3. The actual button label and menu items live in a separate, unfiltered
+ *    layer stacked on top, so text never gets blurred — only the background
+ *    blob does.
+ *
+ * No animation library required (framer-motion / gsap aren't dependencies
+ * here) — everything is driven by CSS transitions + React state.
+ */
 
-export interface Option {
+import {
+  useState,
+  useRef,
+  useId,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from "react";
+import styles from "./GooeyDropdown.module.css";
+
+export interface GooeyDropdownItem {
   label: string;
-  value: string;
-  icon?: string;
+  href?: string;
+  onClick?: () => void;
 }
 
 export interface GooeyDropdownProps {
-  options: Option[];
-  value: string;
-  onChange: (val: string) => void;
-  placeholder?: string;
-  theme?: 'dark' | 'light' | 'neon';
-  id?: string;
-  disabled?: boolean;
+  /** Text shown on the closed trigger pill. */
+  label: string;
+  /** Menu items revealed when the dropdown opens. */
+  items: GooeyDropdownItem[];
+  /** Fill color for the gooey blob (trigger + panel). */
+  accentColor?: string;
+  /** Text color for the trigger label. */
+  textColor?: string;
+  /** Text color for menu items (defaults to textColor). */
+  panelTextColor?: string;
+  /** Extra classes on the outer wrapper. */
+  className?: string;
 }
 
-export function GooeyDropdown({
-  options,
-  value,
-  onChange,
-  placeholder = 'Select option...',
-  theme = 'neon',
-  id = 'gooey-dropdown',
-  disabled = false,
+const ROW_HEIGHT = 42;
+const PANEL_PADDING_Y = 14;
+const PANEL_EXTRA_WIDTH = 56; // how much wider than the trigger the panel opens to
+const PANEL_MIN_WIDTH = 190;
+
+export default function GooeyDropdown({
+  label,
+  items,
+  accentColor = "#9333ea",
+  textColor = "#ffffff",
+  panelTextColor,
+  className = "",
 }: GooeyDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [triggerSize, setTriggerSize] = useState({ width: 120, height: 46 });
 
-  const selectedOption = options.find((o) => o.value === value);
+  const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
+  const filterId = `gooey-filter-${rawId}`;
 
-  // Close dropdown when clicking outside
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // Keep the trigger-shape / closed-panel size in sync with the real button,
+  // so the blob sits exactly behind the label with no gap or overhang.
+  useLayoutEffect(() => {
+    const el = triggerRef.current;
+    if (!el) return;
+    const measure = () =>
+      setTriggerSize({ width: el.offsetWidth, height: el.offsetHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [label]);
+
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+    if (!open) return;
+    function handlePointer(e: MouseEvent) {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", handlePointer);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handlePointer);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  const toggle = useCallback(() => setOpen((o) => !o), []);
+
+  const panelWidth = Math.max(
+    PANEL_MIN_WIDTH,
+    triggerSize.width + PANEL_EXTRA_WIDTH
+  );
+  const panelHeight = PANEL_PADDING_Y * 2 + items.length * ROW_HEIGHT;
+
+  const panelStyle = open
+    ? { width: panelWidth, height: triggerSize.height + panelHeight, borderRadius: 22 }
+    : { width: triggerSize.width, height: triggerSize.height, borderRadius: 999 };
 
   return (
-    <div ref={containerRef} className="relative inline-block w-full text-left select-none">
-      {/* SVG Gooey Filter definition */}
-      <svg className="hidden">
+    <div ref={wrapRef} className={`${styles.wrap} ${className}`}>
+      {/* Filter lives once per instance so multiple dropdowns don't fight
+          over the same id. Zero-size + hidden so it renders nothing itself. */}
+      <svg width="0" height="0" aria-hidden="true" focusable="false" className={styles.svgDefs}>
         <defs>
-          <filter id={`goo-filter-${id}`}>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+          <filter id={filterId}>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
             <feColorMatrix
               in="blur"
-              type="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -11"
               result="goo"
             />
             <feBlend in="SourceGraphic" in2="goo" />
@@ -61,92 +137,90 @@ export function GooeyDropdown({
         </defs>
       </svg>
 
-      {/* Main Container with SVG Filter applied */}
-      <div style={{ filter: `url(#goo-filter-${id})` }} className="relative w-full">
-        {/* Toggle Face / Header Button */}
+      <div className={styles.shapes} style={{ filter: `url(#${filterId})` }}>
+        <div
+          className={styles.panelShape}
+          style={{ ...panelStyle, background: accentColor }}
+        />
+        <div
+          className={styles.triggerShape}
+          style={{
+            width: triggerSize.width,
+            height: triggerSize.height,
+            background: accentColor,
+          }}
+        />
+      </div>
+
+      <div className={styles.content}>
         <button
+          ref={triggerRef}
           type="button"
-          disabled={disabled}
-          onClick={() => !disabled && setIsOpen((prev) => !prev)}
-          className={`w-full py-3 px-4 rounded-xl flex items-center justify-between font-bold text-sm transition-all duration-300 shadow-lg outline-none border ${
-            disabled
-              ? 'opacity-40 cursor-not-allowed bg-white/5 border-white/10 text-white/50'
-              : theme === 'neon'
-              ? 'bg-purple-600 hover:bg-purple-500 text-white border-purple-400/60 shadow-[0_0_20px_rgba(168,85,247,0.4)] cursor-pointer'
-              : theme === 'dark'
-              ? 'bg-[#12121a] hover:bg-[#1a1a24] text-white border-white/10 shadow-md cursor-pointer'
-              : 'bg-white hover:bg-slate-100 text-slate-900 border-slate-300 shadow-md cursor-pointer'
-          }`}
+          className={styles.trigger}
+          style={{ color: textColor }}
+          onClick={toggle}
+          aria-haspopup="menu"
+          aria-expanded={open}
         >
-          <span className="truncate flex items-center gap-2">
-            {selectedOption?.icon && <span>{selectedOption.icon}</span>}
-            <span className="truncate">{selectedOption ? selectedOption.label : placeholder}</span>
-          </span>
-          <span
-            className={`w-2 h-2 border-r-2 border-b-2 transition-transform duration-300 ml-2 ${
-              theme === 'light' ? 'border-slate-800' : 'border-white'
-            } ${isOpen ? '-rotate-135 translate-y-0.5' : 'rotate-45 -translate-y-0.5'}`}
-          />
+          {label}
+          <svg
+            width="10"
+            height="6"
+            viewBox="0 0 10 6"
+            fill="none"
+            className={styles.chevron}
+            data-open={open}
+          >
+            <path
+              d="M1 1L5 5L9 1"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
 
-        {/* Dropdown Items List with Liquid Gooey Animation */}
-        <div
-          className={`absolute left-0 right-0 z-30 transition-all duration-300 ease-[cubic-bezier(0.93,0.88,0.1,0.8)] ${
-            isOpen
-              ? 'top-[calc(100%+12px)] opacity-100 visible pointer-events-auto'
-              : 'top-1/2 opacity-0 invisible pointer-events-none'
-          }`}
+        <ul
+          className={styles.menu}
+          data-open={open}
+          role="menu"
+          aria-hidden={!open}
+          style={{ width: panelWidth, paddingTop: triggerSize.height + 6 }}
         >
-          {/* Liquid Tail element */}
-          <div
-            className={`absolute -top-3 right-6 w-4 h-6 pointer-events-none ${
-              theme === 'light' ? 'bg-white' : theme === 'neon' ? 'bg-purple-600' : 'bg-[#12121a]'
-            }`}
-          />
-
-          <ul
-            className={`w-full p-2 rounded-xl flex flex-col gap-1 shadow-2xl overflow-hidden ${
-              theme === 'neon'
-                ? 'bg-purple-600 text-white border border-purple-400/50 shadow-[0_10px_30px_rgba(168,85,247,0.4)]'
-                : theme === 'dark'
-                ? 'bg-[#0f0f15] text-white border border-white/10'
-                : 'bg-white text-slate-900 border border-slate-200'
-            }`}
-          >
-            {options.map((opt) => {
-              const isSelected = opt.value === value;
-              return (
-                <li key={opt.value}>
+          {items.map((item, i) => {
+            const delay = open ? 70 + i * 45 : 0;
+            return (
+              <li key={item.label + i} style={{ transitionDelay: `${delay}ms` }}>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    role="menuitem"
+                    tabIndex={open ? 0 : -1}
+                    style={{ color: panelTextColor ?? textColor }}
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
                   <button
                     type="button"
+                    role="menuitem"
+                    tabIndex={open ? 0 : -1}
+                    style={{ color: panelTextColor ?? textColor }}
                     onClick={() => {
-                      onChange(opt.value);
-                      setIsOpen(false);
+                      item.onClick?.();
+                      setOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                      isSelected
-                        ? theme === 'neon'
-                          ? 'bg-purple-900 text-white font-black border border-purple-400/30'
-                          : 'bg-purple-600 text-white font-black'
-                        : theme === 'light'
-                        ? 'hover:bg-slate-100 text-slate-700'
-                        : 'hover:bg-white/10 text-white/80'
-                    }`}
                   >
-                    <span className="flex items-center gap-2">
-                      {opt.icon && <span>{opt.icon}</span>}
-                      <span>{opt.label}</span>
-                    </span>
-                    {isSelected && <span className="text-cyan-400 font-extrabold text-xs">✓</span>}
+                    {item.label}
                   </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
 }
-
-export default GooeyDropdown;

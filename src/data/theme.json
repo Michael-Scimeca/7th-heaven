@@ -25,7 +25,7 @@
     "--color-error": "#ef4444",
     "--color-error": "#ef4444",
     "--color-info": "#9333ea",
-    "--color-section-bg": "rgba(12, 8, 23, 0.8)",
+    "--color-section-bg": "transparent",
     "--color-section-border": "rgba(255, 255, 255, 0.1)",
     "--color-input-bg": "rgba(12, 8, 23, 0.8)",
     "--color-input-border": "rgba(255, 255, 255, 0.15)"

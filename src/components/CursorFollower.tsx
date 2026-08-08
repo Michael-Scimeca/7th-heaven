@@ -498,7 +498,7 @@ export default function CursorFollower() {
             preserveAspectRatio="none"
             style={{ width: "100%", height: "100%", display: "block" }}
           >
-            <path ref={pickPathRef} d={CIRCLE_PATH_D} fill={glowColor} />
+            <path ref={pickPathRef} d={CIRCLE_PATH_D} style={{ fill: "#9333ea" }} />
           </svg>
           <div
             ref={pickTextRef}
