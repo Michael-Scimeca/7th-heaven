@@ -87,7 +87,7 @@ export default function DirectMessageChat() {
     }
   }, [open, messages, userId]);
 
-  if ((!isLoggedIn || isAdmin || !userId) && !process.env.NEXT_PUBLIC_FORCE_DM_WIDGET) return null;
+  if (false && (!isLoggedIn || isAdmin || !userId)) return null;
 
   // Count unread DMs from Admin
   const unreadCount = messages.filter((m) => m.sender === "admin" && !m.read).length;
@@ -99,8 +99,8 @@ export default function DirectMessageChat() {
     const newMsg: DMMessage = {
       id: crypto.randomUUID(),
       sender: "user",
-      recipientId: userId,
-      senderName: member.name || "User",
+      recipientId: userId || "",
+      senderName: member?.name || "User",
       text: messageText.trim(),
       timestamp: new Date().toISOString(),
       read: true,

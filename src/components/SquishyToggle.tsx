@@ -31,6 +31,13 @@ export interface SquishyToggleProps {
  * animation to the transition — producing a wild, far-flung intermediate
  * frame. The animation (with `forwards`) fully owns the motion; don't add
  * `transition-transform` back here.
+ *
+ * The outer pill also needs `overflow-hidden`. The bounce easing
+ * (cubic-bezier(0,0,.3,1.5)) intentionally overshoots past its keyframe
+ * target before settling — that's what makes it feel springy — so without
+ * clipping, the thumb visibly pokes outside the track at the peak of the
+ * bounce. Clipping to the pill shape contains that overshoot without
+ * touching the animation curve itself.
  */
 export function SquishyToggle({
   checked,

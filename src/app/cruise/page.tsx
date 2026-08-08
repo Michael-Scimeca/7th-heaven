@@ -992,7 +992,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                               <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
                             </div>
                           )}
-                          <div className="py-5">
+                          <div className="px-0 py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-2xl">{room.icon}</span>}
                               <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
@@ -1003,7 +1003,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </div>
                         </div>
 
-                        <div className="py-5 pt-0 text-left">
+                        <div className="px-0 pt-0 pb-5 text-left">
                           <div className="flex items-baseline gap-1.5">
                             <span className="text-xl font-black text-white">{room.price}</span>
                             <span className="text-[var(--font-size-2xs)] text-white/60 font-bold">USD pp</span>
