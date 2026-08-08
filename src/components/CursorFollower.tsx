@@ -495,7 +495,7 @@ export default function CursorFollower() {
           transform: "translate3d(-9999px, -9999px, 0)",
         }}
       >
-        <div ref={pickSpinRef} className="cursor-pick-spin">
+        <div ref={pickSpinRef} className="cursor-pick-spin" style={{ clipPath: PICK_CLIP }}>
           <svg
             viewBox="0 0 100 122"
             preserveAspectRatio="none"
@@ -515,7 +515,6 @@ export default function CursorFollower() {
               flexDirection: "column",
               justifyContent: "center",
               gap: 2,
-              clipPath: PICK_CLIP,
             }}
           >
             <div className="cursor-pick-row">
