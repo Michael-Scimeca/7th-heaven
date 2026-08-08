@@ -35,7 +35,7 @@ export default function CruiseHeroMaskEditor() {
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState<HeroMaskSettings>(DEFAULT_HERO_MASK_SETTINGS);
-  const [saveToast, setSaveToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -66,13 +66,53 @@ export default function CruiseHeroMaskEditor() {
 
     // Broadcast live changes to window for immediate React state reactivity across page
     window.dispatchEvent(new CustomEvent('hero-mask-update', { detail: settings }));
+  }, [settings, mounted]);
 
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 2500);
+  };
+
+  const handleSaveChanges = () => {
     try {
       localStorage.setItem('7h_cruise_hero_mask_v2', JSON.stringify(settings));
+      showToast('✓ Saved Permanently!');
     } catch {
-      // Ignore
+      showToast('Error saving');
     }
-  }, [settings, mounted]);
+  };
+
+  const handleCopyCSS = () => {
+    const cssSnippet = `/* 7th Heaven Hero Video Mask & ::before Blur CSS */
+.hero-video-mask {
+  mask-image: linear-gradient(${settings.maskAngle}, black 0%, black ${settings.fadeStart}%, transparent ${settings.fadeEnd}%);
+  -webkit-mask-image: linear-gradient(${settings.maskAngle}, black 0%, black ${settings.fadeStart}%, transparent ${settings.fadeEnd}%);
+}
+
+.hero-video-element {
+  filter: blur(${settings.videoBlur}px) brightness(${settings.videoBrightness}%) contrast(${settings.videoContrast}%);
+  opacity: ${settings.videoOpacity / 100};
+}
+
+.hero-bottom-strip::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: ${settings.beforeHeight}px;
+  z-index: ${settings.beforeZIndex};
+  backdrop-filter: blur(${settings.beforeBlur}px);
+  -webkit-backdrop-filter: blur(${settings.beforeBlur}px);
+  background: linear-gradient(to bottom, transparent, rgba(6, 6, 12, ${settings.beforeBgOpacity / 100}));
+}`;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(cssSnippet);
+      showToast('📋 CSS Copied!');
+    }
+  };
 
   const updateSetting = <K extends keyof HeroMaskSettings>(key: K, value: HeroMaskSettings[K]) => {
     setSettings(prev => ({ ...prev, [key]: value }));
@@ -84,8 +124,10 @@ export default function CruiseHeroMaskEditor() {
 
   const handleReset = () => {
     setSettings(DEFAULT_HERO_MASK_SETTINGS);
-    setSaveToast(true);
-    setTimeout(() => setSaveToast(false), 2000);
+    try {
+      localStorage.removeItem('7h_cruise_hero_mask_v2');
+    } catch {}
+    showToast('🔄 Defaults Reset');
   };
 
   if (!mounted) return null;
@@ -150,6 +192,27 @@ export default function CruiseHeroMaskEditor() {
 
           {/* DEDICATED SCROLLABLE BODY */}
           <div className="p-4 flex-1 min-h-0 overflow-y-scroll space-y-4 hero-editor-scroll-area bg-[#06060e]">
+            {/* Action Bar (Save & Copy CSS) */}
+            <div className="flex items-center gap-2 mb-2">
+              <button
+                aria-label="Save Changes Permanently"
+                onClick={handleSaveChanges}
+                className="flex-1 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-wider rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span>💾</span>
+                <span>Save Changes</span>
+              </button>
+              <button
+                aria-label="Copy CSS Snippet"
+                onClick={handleCopyCSS}
+                className="px-3.5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer flex items-center gap-1"
+                title="Copy CSS Code to Clipboard"
+              >
+                <span>📋</span>
+                <span>Copy CSS</span>
+              </button>
+            </div>
+
             {/* Quick Presets */}
             <div className="bg-cyan-950/40 border border-cyan-500/40 p-3.5 rounded-xl">
               <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 block mb-2">⚡ Quick Presets</span>
@@ -416,23 +479,32 @@ export default function CruiseHeroMaskEditor() {
             </div>
           </div>
 
-          {/* STICKY OPAQUE FOOTER */}
+          {/* STICKY OPAQUE FOOTER WITH SAVE & RESET BUTTONS */}
           <div className="p-4 border-t border-white/10 shrink-0 bg-[#06060e] flex items-center justify-between z-20">
             <button
               aria-label="Reset All Hero CSS Settings"
               onClick={handleReset}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
+              className="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
             >
-              🔄 Reset Defaults
+              🔄 Reset
             </button>
-            {saveToast && <span className="text-xs font-bold text-cyan-400 animate-pulse">✓ Reset Done!</span>}
-            <button
-              aria-label="Save and Close Hero CSS Studio"
-              onClick={() => setIsOpen(false)}
-              className="px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-wider rounded shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-colors cursor-pointer"
-            >
-              Done
-            </button>
+            {toastMsg && <span className="text-xs font-bold text-cyan-400 animate-pulse">{toastMsg}</span>}
+            <div className="flex items-center gap-2">
+              <button
+                aria-label="Save Changes"
+                onClick={handleSaveChanges}
+                className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-wider rounded shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all cursor-pointer"
+              >
+                💾 Save
+              </button>
+              <button
+                aria-label="Close Studio"
+                onClick={() => setIsOpen(false)}
+                className="px-3.5 py-2 bg-white/15 hover:bg-white/25 text-white font-black text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
+              >
+                Done
+              </button>
+            </div>
           </div>
         </div>,
         document.body
