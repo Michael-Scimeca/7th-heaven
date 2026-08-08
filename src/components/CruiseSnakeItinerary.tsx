@@ -665,11 +665,14 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   if (!itinerary || itinerary.length === 0) return null;
 
   return (
-    <section className={styles.root} ref={sectionRef}>
-      {/* ── Header ── */}
-      <div className={styles.header}>
+    <>
+      {/* ── Header (Outside Blue Container) ── */}
+      <div className={`${styles.header} pt-8 pb-4`}>
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
         <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
+      </div>
+
+      <section className={styles.root} ref={sectionRef}>
 
         {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
         {showSettings && mounted && createPortal(
@@ -1042,10 +1045,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           document.body
         )}
 
-
-
-      </div>
-
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
       <div
         ref={canvasRef}
@@ -1333,5 +1332,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         })}
       </div>
     </section>
+    </>
   );
 }
