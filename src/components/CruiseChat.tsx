@@ -498,10 +498,16 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         </div>
       )}
 
-      {/* Scrollable Message List Container with Fixed Glass Blur Fade Overlay */}
+      {/* Scrollable Message List Container with Fixed Pure Glass Blur Clipping Mask */}
       <div className="relative flex-1 min-h-0 flex flex-col">
-        {/* Fixed Top Glass Blur Fade Overlay */}
-        <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-[#090616] via-[#090616]/70 to-transparent backdrop-blur-md z-20 pointer-events-none" />
+        {/* Fixed Top Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
+        <div
+          style={{
+            maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+          }}
+          className="absolute top-0 left-0 right-0 h-12 backdrop-blur-md z-20 pointer-events-none"
+        />
 
         <div
           ref={chatContainerRef}
@@ -627,8 +633,14 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
           })
         )}
         </div>
-        {/* Fixed Bottom Glass Blur Fade Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#090616] via-[#090616]/50 to-transparent backdrop-blur-xs z-20 pointer-events-none" />
+        {/* Fixed Bottom Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
+        <div
+          style={{
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          }}
+          className="absolute bottom-0 left-0 right-0 h-10 backdrop-blur-md z-20 pointer-events-none"
+        />
       </div>
 
       <div className="py-2.5 border-t border-white/10 relative shrink-0">
