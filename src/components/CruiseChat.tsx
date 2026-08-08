@@ -450,7 +450,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
       style={{
         border: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
-        backgroundColor: 'var(--color-bg-glass, rgba(18, 18, 24, 0.45))',
+        backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
       className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-white transition-all duration-300"
     >

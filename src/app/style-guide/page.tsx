@@ -1043,7 +1043,7 @@ export default function StyleGuidePage() {
                   ? bubbleColorPalette
                   : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
-            className="rounded-2xl border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)]"
+            className="rounded-2xl border border-white/10 bg-transparent overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
           >
             <CruiseChat activeChannel="general" />
           </div>
