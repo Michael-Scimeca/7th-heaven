@@ -608,12 +608,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
     <div className="min-h-screen overflow-x-hidden max-w-full bg-transparent text-white pt-0">
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section className="-mt-[88px] pt-[120px] md:pt-[140px] relative flex flex-col justify-center overflow-hidden pb-[32px] md:pb-20 text-white min-h-[460px] md:min-h-[640px]">
-        {/* Cruise Hero Video Background Overlay with Bottom Clipping Mask */}
+        {/* Cruise Hero Video Background Overlay with Smooth Bottom Clipping Mask */}
         <div
           className="absolute inset-0 z-0 overflow-hidden"
           style={{
-            maskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 85%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 85%)',
+            maskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)',
           }}
         >
           <video
@@ -629,14 +629,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </video>
         </div>
 
-        {/* Higher Z-Index 30px ::before Blur Strip Overlay at Bottom of Hero Video */}
+        {/* Seamless 60px ::before Blur Overlay Strip at Bottom of Hero Video */}
         <div
-          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none hero-bottom-blur-strip z-30"
+          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none hero-bottom-blur-strip z-10"
           style={{
-            height: '30px',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            background: 'linear-gradient(to bottom, transparent, rgba(6, 6, 12, 0.85))',
+            height: '60px',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            background: 'linear-gradient(to bottom, transparent, rgba(6, 6, 12, 0.7))',
           }}
         />
 
