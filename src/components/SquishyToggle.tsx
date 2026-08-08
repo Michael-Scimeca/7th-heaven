@@ -38,6 +38,17 @@ export interface SquishyToggleProps {
  * clipping, the thumb visibly pokes outside the track at the peak of the
  * bounce. Clipping to the pill shape contains that overshoot without
  * touching the animation curve itself.
+ *
+ * The resting position below uses `peer-checked:[transform:translateX(22px)]`
+ * — an arbitrary-property utility — rather than Tailwind's `translate-x-*`
+ * scale. As of Tailwind v4, `translate-x-*` sets the standalone CSS
+ * `translate` property, not `transform`. Since `translate` and `transform`
+ * are independent properties that compose together, using `translate-x-22`
+ * here would stack on top of the squish animation's own `transform:
+ * translateX(...)` — e.g. a static 22px translate plus an animating 0→22px
+ * transform adds up to ~44px, launching the thumb past the track. Keeping
+ * both the fallback and the animation on the same `transform` property
+ * avoids that entirely.
  */
 export function SquishyToggle({
   checked,
@@ -85,7 +96,7 @@ export function SquishyToggle({
       <div
         ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        className="pointer-events-none absolute left-1 top-1 h-[22px] w-[22px] rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:translate-x-[22px]"
+        className="pointer-events-none absolute left-1 top-1 h-[22px] w-[22px] rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:[transform:translateX(22px)]"
       />
     </div>
   );

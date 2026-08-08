@@ -1,7 +1,17 @@
 .wrap {
   position: relative;
   display: inline-block;
-  isolation: isolate;
+}
+
+/* Portal root — attached directly to document.body so the goo shapes and
+   menu can expand freely even when the trigger lives inside a container
+   that clips or masks overflow (e.g. a fixed header with a fade mask).
+   Positioned via inline top/left computed from the trigger's real screen
+   coordinates (see GooeyDropdown.tsx). */
+.portalRoot {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
 }
 
 .svgDefs {
@@ -11,7 +21,7 @@
   overflow: hidden;
 }
 
-/* Layer that receives the SVG goo filter. Kept separate from .content so
+/* Layer that receives the SVG goo filter. Kept separate from the menu so
    text/labels never get blurred by the filter — only the colored shapes do. */
 .shapes {
   position: absolute;

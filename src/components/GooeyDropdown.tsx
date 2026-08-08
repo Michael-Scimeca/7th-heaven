@@ -8,13 +8,19 @@
  * a plain React/Next.js component.
  *
  * How it works (same technique as the Framer original):
- * 1. A pill-shaped trigger button sits in normal flow.
- * 2. Behind it, two colored shapes (`triggerShape` + `panelShape`) live in a
- *    layer that has an SVG "goo" filter applied (blur -> high-contrast alpha
- *    matrix). While `panelShape` animates from the trigger's exact size up to
- *    the full menu size, the blur+contrast makes the growing edges look soft
- *    and fluid instead of a plain CSS resize.
- * 3. The actual button label and menu items live in a separate, unfiltered
+ * 1. A pill-shaped trigger button sits in normal flow, wherever you put it.
+ * 2. The colored "goo" shapes (trigger-match + expanding panel) and the menu
+ *    list are rendered in a React portal attached to document.body, position
+ *    -fixed at the trigger's real screen coordinates. This is what lets the
+ *    panel expand freely even when the trigger lives inside a container that
+ *    clips or masks overflow (e.g. a fixed header with a fade mask) — since
+ *    the portal isn't a DOM descendant of that container, it isn't clipped.
+ * 3. Behind the trigger, two colored shapes live in a layer that has an SVG
+ *    "goo" filter applied (blur -> high-contrast alpha matrix). While the
+ *    panel shape animates from the trigger's exact size up to the full menu
+ *    size, the blur+contrast makes the growing edges look soft and fluid
+ *    instead of a plain CSS resize.
+ * 4. The actual button label and menu items live in a separate, unfiltered
  *    layer stacked on top, so text never gets blurred — only the background
  *    blob does.
  *
@@ -30,6 +36,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
+import { createPortal } from "react-dom";
 import styles from "./GooeyDropdown.module.css";
 
 export interface GooeyDropdownItem {
@@ -88,37 +95,54 @@ export default function GooeyDropdown({
 }: GooeyDropdownProps) {
   const [open, setOpen] = useState(false);
   const [triggerSize, setTriggerSize] = useState({ width: 120, height: 46 });
+  const [anchor, setAnchor] = useState({ top: 0, left: 0 });
+  const [mounted, setMounted] = useState(false);
 
   const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
   const filterId = `gooey-filter-${rawId}`;
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const portalRef = useRef<HTMLDivElement>(null);
+
+  // Portals need a browser document, so only render them after mount.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Translucent background color for glass backdrop-blur (transparent when closed)
   const bgGlassColor = open
     ? (transparent ? "rgba(20, 12, 36, 0.90)" : hexToRgba(accentColor, glassOpacity))
     : (transparent ? "rgba(255, 255, 255, 0.08)" : hexToRgba(accentColor, glassOpacity));
 
-  // Keep the trigger-shape / closed-panel size in sync with the real button,
-  // so the blob sits exactly behind the label with no gap or overhang.
+  // Keep the trigger-shape / closed-panel size AND screen position in sync
+  // with the real button, so the portaled blob sits exactly behind the
+  // label with no gap or overhang, wherever the trigger actually is.
   useLayoutEffect(() => {
     const el = triggerRef.current;
     if (!el) return;
-    const measure = () =>
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
       setTriggerSize({ width: el.offsetWidth, height: el.offsetHeight });
+      setAnchor({ top: rect.top, left: rect.left });
+    };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    return () => ro.disconnect();
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, [label]);
 
   useEffect(() => {
     if (!open) return;
     function handlePointer(e: MouseEvent) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      const target = e.target as Node;
+      const insideWrap = wrapRef.current?.contains(target);
+      const insidePortal = portalRef.current?.contains(target);
+      if (!insideWrap && !insidePortal) setOpen(false);
     }
     function handleKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -131,7 +155,16 @@ export default function GooeyDropdown({
     };
   }, [open]);
 
-  const toggle = useCallback(() => setOpen((o) => !o), []);
+  const toggle = useCallback(() => {
+    // Re-measure right before opening so scroll/layout shifts since the last
+    // resize observation don't leave the portal misaligned.
+    const el = triggerRef.current;
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      setAnchor({ top: rect.top, left: rect.left });
+    }
+    setOpen((o) => !o);
+  }, []);
 
   // Keep the panel exactly as wide as the trigger pill — it should only grow
   // downward, never bulge past the trigger's left/right edges.
@@ -142,10 +175,12 @@ export default function GooeyDropdown({
     ? { width: panelWidth, height: triggerSize.height + panelHeight, borderRadius: 22 }
     : { width: triggerSize.width, height: triggerSize.height, borderRadius: 999 };
 
-  return (
-    <div ref={wrapRef} className={`${styles.wrap} ${className}`}>
-      {/* Filter lives once per instance so multiple dropdowns don't fight
-          over the same id. Zero-size + hidden so it renders nothing itself. */}
+  const portalContent = (
+    <div
+      ref={portalRef}
+      className={styles.portalRoot}
+      style={{ top: anchor.top, left: anchor.left }}
+    >
       <svg width="0" height="0" aria-hidden="true" focusable="false" className={styles.svgDefs}>
         <defs>
           <filter id={filterId}>
@@ -183,12 +218,64 @@ export default function GooeyDropdown({
         />
       </div>
 
+      <ul
+        className={styles.menu}
+        data-open={open}
+        role="menu"
+        aria-hidden={!open}
+        style={{ width: panelWidth, paddingTop: triggerSize.height + 6 }}
+      >
+        {items.map((item, i) => {
+          const delay = open ? 70 + i * 45 : 0;
+          return (
+            <li key={item.label + i} style={{ transitionDelay: `${delay}ms` }}>
+              {item.href ? (
+                <a
+                  href={item.href}
+                  role="menuitem"
+                  tabIndex={open ? 0 : -1}
+                  style={{ color: panelTextColor ?? textColor }}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  role="menuitem"
+                  tabIndex={open ? 0 : -1}
+                  style={{ color: panelTextColor ?? textColor }}
+                  onClick={() => {
+                    item.onClick?.();
+                    setOpen(false);
+                  }}
+                >
+                  {item.label}
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+
+  return (
+    <div ref={wrapRef} className={`${styles.wrap} ${className}`}>
       <div className={styles.content}>
         <button
           ref={triggerRef}
           type="button"
           className={styles.trigger}
-          style={{ color: textColor }}
+          style={{
+            color: textColor,
+            // The button carries its own closed-state background so the
+            // label always stays legible regardless of how the portaled
+            // goo shapes (rendered separately, see below) happen to stack.
+            background: bgGlassColor,
+            backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+          }}
           onClick={toggle}
           aria-haspopup="menu"
           aria-expanded={open}
@@ -211,47 +298,9 @@ export default function GooeyDropdown({
             />
           </svg>
         </button>
-
-        <ul
-          className={styles.menu}
-          data-open={open}
-          role="menu"
-          aria-hidden={!open}
-          style={{ width: panelWidth, paddingTop: triggerSize.height + 6 }}
-        >
-          {items.map((item, i) => {
-            const delay = open ? 70 + i * 45 : 0;
-            return (
-              <li key={item.label + i} style={{ transitionDelay: `${delay}ms` }}>
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    role="menuitem"
-                    tabIndex={open ? 0 : -1}
-                    style={{ color: panelTextColor ?? textColor }}
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    role="menuitem"
-                    tabIndex={open ? 0 : -1}
-                    style={{ color: panelTextColor ?? textColor }}
-                    onClick={() => {
-                      item.onClick?.();
-                      setOpen(false);
-                    }}
-                  >
-                    {item.label}
-                  </button>
-                )}
-              </li>
-            );
-          })}
-        </ul>
       </div>
+
+      {mounted && createPortal(portalContent, document.body)}
     </div>
   );
 }

@@ -1,0 +1,186 @@
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: #1a1a1a;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  transition: transform 200ms ease;
+}
+
+.trigger:hover {
+  transform: scale(1.05);
+}
+
+.portalRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: "Inter", var(--font-inter, sans-serif);
+}
+
+.svgDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Filtered shape layer — mirrors the button (closed) and panel (open)
+   bounds exactly, but only ever renders as flat #1a1a1a blobs. Kept
+   separate from .panel so the real text never gets blurred. */
+.shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.buttonShape,
+.panelShape {
+  position: absolute;
+  background: #1a1a1a;
+}
+
+.buttonShape {
+  border-radius: 999px;
+}
+
+.panelShape {
+  transition:
+    width 420ms cubic-bezier(0.65, 0, 0.35, 1),
+    height 420ms cubic-bezier(0.65, 0, 0.35, 1),
+    left 420ms cubic-bezier(0.65, 0, 0.35, 1),
+    top 420ms cubic-bezier(0.65, 0, 0.35, 1),
+    border-radius 420ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.panel {
+  position: absolute;
+  background: transparent;
+  padding: 12px 20px 20px;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 220ms ease 80ms, transform 220ms ease 80ms;
+}
+
+.panel[data-open="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 500;
+  color: #787878;
+  line-height: 1.2;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: default;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background-size: cover;
+}
+
+.rowText {
+  min-width: 0;
+  flex: 1;
+}
+
+.rowTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 400;
+  color: #d1d1d1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time {
+  font-size: 10px;
+  font-weight: 500;
+  color: #787878;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.snippet {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #a3a3a3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding-top: 16px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 400;
+  color: #787878;
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 150ms ease;
+}
+
+.footer:hover {
+  color: #b3b3b3;
+}

@@ -10,9 +10,9 @@ import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
-import GooeyDropdown from "@/components/GooeyDropdown";
 
 const leftNavLinks = [
+  { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/shows/past", label: "PAST SHOWS" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
@@ -228,19 +228,6 @@ export function Header() {
 
           {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
           <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)] relative z-50">
-            {/* Gooey dropdown — replaces the plain "MERCH" link with a
-                gooey-morph menu (Shop All / Returns & Exchanges). */}
-            <GooeyDropdown
-              label="MERCH"
-              accentColor="#9333ea"
-              textColor="rgba(255,255,255,0.8)"
-              panelTextColor="#ffffff"
-              items={[
-                { label: "Shop All", href: "/merch" },
-                { label: "Returns & Exchanges", href: "/returns" },
-              ]}
-            />
-
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (

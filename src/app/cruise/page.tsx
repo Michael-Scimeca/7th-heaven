@@ -1246,70 +1246,70 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 <div className="lg:col-span-2 text-left">
                   <form onSubmit={handleSignup} className="space-y-6">
-                    <div className="booking-form-card bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-3xl overflow-hidden shadow-lg">
+                    <div className="booking-form-card bg-transparent border-0 rounded-3xl overflow-hidden shadow-none p-0 text-left">
                       {/* Header Banner representing the PDF top section */}
-                      <div className="booking-header-banner border-b border-white/10 px-4 py-4 text-center bg-white/[0.04]">
+                      <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
                         <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                         <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                         <p className="text-[var(--font-size-3xs)] text-white/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • Official Travel Agency: NTD Vacations (877-683-9753)</p>
                       </div>
 
                       {/* GUEST 1 (Primary Booker) */}
-                      <div className="booking-section-container border-b border-white/10 bg-transparent">
-                        <div className="booking-section-header bg-white/[0.04] px-3 py-3 border-b border-white/10 flex items-center justify-between">
+                      <div className="booking-section-container border-0 bg-transparent p-0">
+                        <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                           <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                          <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border border-purple-400">Primary</span>
+                          <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border-0">Primary</span>
                         </div>
-                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                        <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                           {/* Name */}
-                          <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors col-span-2">
+                          <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                             <label htmlFor="guest1-full-name" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                            <input aria-label="Input field" id="guest1-full-name" type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                            <input aria-label="Input field" id="guest1-full-name" type="text" required placeholder="Guest 1 Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                           </div>
                           {/* Phone */}
-                          <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                          <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="guest1-phone" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                            <input aria-label="Input field" id="guest1-phone" type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                            <input aria-label="Input field" id="guest1-phone" type="tel" required placeholder="(555) 123-4567" value={formData.phone} onChange={e => setFormData({ ...formData, phone: formatPhoneDisplay(e.target.value) })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                           </div>
                           {/* Email */}
-                          <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                          <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="guest1-email" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Email Address *</label>
-                            <input aria-label="Input field" id="guest1-email" type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                            <input aria-label="Input field" id="guest1-email" type="email" required placeholder="name@example.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                           </div>
                           {/* T-Shirt Size */}
-                          <div className="booking-cell md:border-r border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors relative">
+                          <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors relative">
                             <label htmlFor="guest1-tshirt-size" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                            <select aria-label="Select option" id="guest1-tshirt-size" value={formData.tshirtSize1} onChange={e => setFormData({ ...formData, tshirtSize1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
+                            <select aria-label="Select option" id="guest1-tshirt-size" value={formData.tshirtSize1} onChange={e => setFormData({ ...formData, tshirtSize1: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                               {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
                             </select>
                           </div>
                           {/* Crown & Anchor */}
-                          <div className="booking-cell p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                          <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors">
                             <label htmlFor="guest1-crown-anchor" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                            <input aria-label="Input field" id="guest1-crown-anchor" type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                            <input aria-label="Input field" id="guest1-crown-anchor" type="text" placeholder="Loyalty Number" value={formData.crownAnchor1} onChange={e => setFormData({ ...formData, crownAnchor1: e.target.value })} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                           </div>
                         </div>
 
                         {/* Customization toggles mirroring the Guest 1 page elements */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/10">
-                          <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-3 flex flex-col justify-between">
+                        <div className="grid grid-cols-1 md:grid-cols-2 border-0 gap-y-2 mt-2">
+                          <div className="booking-cell border-0 py-3 px-0 md:pr-3 flex flex-col justify-between">
                             <span className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
                             <div className="flex gap-3">
                               {["yes", "no"].map(opt => (
                                 <button aria-label="Action button" key={opt} type="button" onClick={() => setFormData(f => ({ ...f, insurance: opt }))}
-                                  className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-white/5 border-white/15 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                                  className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer shadow-sm ${formData.insurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"}`}>
                                   {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                                 </button>
                               ))}
                             </div>
                           </div>
 
-                          <div className="booking-cell p-3 flex flex-col justify-between">
+                          <div className="booking-cell border-0 py-3 px-0 md:pl-3 flex flex-col justify-between">
                             <span className="booking-label block text-xs font-black text-purple-400 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</span>
                             <div className="flex gap-3">
                               {["yes", "no"].map(opt => (
                                 <button aria-label="Action button" key={opt} type="button" onClick={() => setFormData(f => ({ ...f, prepaidGratuities: opt }))}
-                                  className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-white/5 border-white/15 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                                  className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer shadow-sm ${formData.prepaidGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"}`}>
                                   {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                                 </button>
                               ))}
@@ -1322,15 +1322,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => {
                         const guestNum = i + 2;
                         return (
-                          <div key={guestNum} className={`booking-section-container border-b border-white/10 transition-colors duration-300 ${g.active ? "bg-transparent opacity-100" : "bg-white/[0.02] opacity-80 print:booking-inactive"}`}>
+                          <div key={guestNum} className={`booking-section-container border-0 bg-transparent py-2 transition-colors duration-300 ${g.active ? "opacity-100" : "opacity-80 print:booking-inactive"}`}>
                             {/* Section Header with checkbox activator */}
-                            <div className="booking-section-header bg-white/[0.04] px-3 py-3 border-b border-white/10 flex items-center gap-3">
+                            <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center gap-3">
                               <input aria-label="Input field"
                                 type="checkbox"
                                 id={`guest-active-${guestNum}`}
                                 checked={g.active}
                                 onChange={e => toggleGuestActive(i, e.target.checked)}
-                                className="no-print w-5 h-5 rounded border-white/20 bg-black/50 accent-cyan-600 cursor-pointer"
+                                className="no-print w-5 h-5 rounded border-0 bg-black/50 accent-cyan-600 cursor-pointer"
                               />
                               <label htmlFor={`guest-active-${guestNum}`} className="text-sm font-black uppercase tracking-wider text-white cursor-pointer select-none">
                                 Include Guest {guestNum} in Cabin Reservation
@@ -1338,37 +1338,37 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             </div>
 
                             {g.active ? (
-                              <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
+                              <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2">
                                 {/* Name */}
-                                <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors col-span-2">
+                                <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                                   <label htmlFor={`guest-name-${guestNum}`} className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                                  <input aria-label="Input field" id={`guest-name-${guestNum}`} type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                                  <input aria-label="Input field" id={`guest-name-${guestNum}`} type="text" required placeholder={`Guest ${guestNum} Full Name`} value={g.name} onChange={e => updateGuest(i, "name", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                                 {/* Phone */}
-                                <div className="booking-cell border-b md:border-r border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                                <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors">
                                   <label htmlFor={`guest-phone-${guestNum}`} className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Phone Number (Optional)</label>
-                                  <input aria-label="Input field" id={`guest-phone-${guestNum}`} type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                                  <input aria-label="Input field" id={`guest-phone-${guestNum}`} type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => updateGuest(i, "phone", formatPhoneDisplay(e.target.value))} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                                 {/* Email */}
-                                <div className="booking-cell border-b border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                                <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors">
                                   <label htmlFor={`guest-email-${guestNum}`} className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Email Address (Optional)</label>
-                                  <input aria-label="Input field" id={`guest-email-${guestNum}`} type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                                  <input aria-label="Input field" id={`guest-email-${guestNum}`} type="email" placeholder="name@example.com" value={g.email} onChange={e => updateGuest(i, "email", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                                 {/* T-Shirt Size */}
-                                <div className="booking-cell md:border-r border-white/10 p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors relative">
+                                <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors relative">
                                   <label htmlFor={`guest-tshirt-${guestNum}`} className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                                  <select aria-label="Select option" id={`guest-tshirt-${guestNum}`} value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
+                                  <select aria-label="Select option" id={`guest-tshirt-${guestNum}`} value={g.tshirtSize} onChange={e => updateGuest(i, "tshirtSize", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                                     {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
                                   </select>
                                 </div>
                                 {/* Crown & Anchor */}
-                                <div className="booking-cell p-3 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                                <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors">
                                   <label htmlFor={`guest-crown-${guestNum}`} className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                                  <input aria-label="Input field" id={`guest-crown-${guestNum}`} type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                                  <input aria-label="Input field" id={`guest-crown-${guestNum}`} type="text" placeholder="Loyalty Number" value={g.crownAnchor} onChange={e => updateGuest(i, "crownAnchor", e.target.value)} className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                                 </div>
                               </div>
                             ) : (
-                              <div className="py-6 text-center text-white/50 text-xs font-black uppercase tracking-widest no-print select-none">
+                              <div className="py-4 text-center text-white/50 text-xs font-black uppercase tracking-widest no-print select-none">
                                 No Passenger Registered in Slot {guestNum}
                               </div>
                             )}
@@ -1377,13 +1377,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       })}
 
                       {/* CABIN CATEGORY SELECTION */}
-                      <div className="booking-section-container border-b border-white/10 bg-transparent">
-                        <div className="booking-section-header bg-white/[0.04] px-4 py-2 border-b border-white/10">
+                      <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
+                        <div className="booking-section-header bg-transparent px-0 py-2 border-0">
                           <span className="text-xs font-black uppercase tracking-wider text-white">WHAT CATEGORY ROOM DO YOU WANT TO BOOK?</span>
                         </div>
-                        <div className="py-3.5 focus-within:bg-cyan-500/10 transition-colors">
+                        <div className="py-2 focus-within:bg-cyan-500/10 transition-colors">
                           <select aria-label="Select option" value={formData.cabinPreference} onChange={e => setFormData(f => ({ ...f, cabinPreference: e.target.value }))} required
-                            className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
+                            className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                             <option value="" disabled className="bg-[#0c0817] text-white">-- Select Cabin Category --</option>
                             <optgroup label="Group Rates (Gratuities, Taxes & Fees Included)" className="bg-[#0c0817] text-cyan-300 font-black">
                               <option value="group_n5" className="bg-[#0c0817] text-white font-semibold">N5 - Ocean View ($1,883.27 pp) - 1 Left</option>
@@ -1405,12 +1405,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       </div>
 
                       {/* PAYMENT DETAILS */}
-                      <div className="booking-section-container border-b border-white/10 bg-transparent">
-                        <div className="booking-section-header bg-white/[0.04] px-4 py-2 border-b border-white/10 flex items-center justify-between">
+                      <div className="booking-section-container border-0 bg-transparent p-0 mt-4">
+                        <div className="booking-section-header bg-transparent px-0 py-2 border-0 flex items-center justify-between">
                           <span className="text-xs font-black uppercase tracking-wider text-white">PAYMENT INFORMATION (DEPOSIT DEALS)</span>
-                          <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
+                          <span className="no-print text-[var(--font-size-4xs)] font-black uppercase bg-emerald-500/20 text-emerald-300 border-0 px-2 py-0.5 rounded tracking-widest">SECURE STAGING</span>
                         </div>
-                        <div className="py-4 text-xs text-white/70 font-semibold leading-relaxed border-b border-white/10">
+                        <div className="py-2 text-xs text-white/70 font-semibold leading-relaxed border-0">
                           A $250.00 per-person deposit is required to secure your cabin under our group code. Payments are mock-processed for staging.
                         </div>
 

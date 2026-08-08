@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import GooeyDropdown from "@/components/GooeyDropdown";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 export default function GooeyDropdownDemoPage() {
   return (
