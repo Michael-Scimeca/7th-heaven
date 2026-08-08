@@ -250,6 +250,32 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const hasScrolledIntoRangeRef = useRef(false);
   const isShipInNodeProximityRef = useRef(false);
   const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
+  const [maskSettings, setMaskSettings] = useState({
+    itinTopFadeStart: 0,
+    itinTopFadeEnd: 10,
+    itinBottomFadeStart: 85,
+    itinBottomFadeEnd: 100,
+    itinBgOpacity: 90,
+    itinBlur: 16,
+  });
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
+      if (saved) {
+        setMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
+      }
+    } catch { }
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail) {
+        setMaskSettings(prev => ({ ...prev, ...customEvent.detail }));
+      }
+    };
+    window.addEventListener('hero-mask-update', handleUpdate);
+    return () => window.removeEventListener('hero-mask-update', handleUpdate);
+  }, []);
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const isMobile = useSyncExternalStore(
     (callback) => {
@@ -639,7 +665,17 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   if (!itinerary || itinerary.length === 0) return null;
 
   return (
-    <section className={styles.root} ref={sectionRef}>
+    <section
+      className={styles.root}
+      ref={sectionRef}
+      style={{
+        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+        backdropFilter: `blur(${maskSettings.itinBlur}px)`,
+        WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
+        background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
+      }}
+    >
       {/* ── Header ── */}
       <div className={styles.header}>
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>

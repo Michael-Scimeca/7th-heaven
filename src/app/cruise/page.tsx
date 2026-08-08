@@ -1680,18 +1680,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
-        {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED WITH LIVE TOP & BOTTOM MASKING) ── */}
-        <section
-          id="itinerary"
-          className="py-20 w-full max-w-none px-0 overflow-x-clip transition-all duration-150"
-          style={{
-            maskImage: `linear-gradient(to bottom, transparent ${heroMaskSettings.itinTopFadeStart}%, black ${heroMaskSettings.itinTopFadeEnd}%, black ${heroMaskSettings.itinBottomFadeStart}%, transparent ${heroMaskSettings.itinBottomFadeEnd}%)`,
-            WebkitMaskImage: `linear-gradient(to bottom, transparent ${heroMaskSettings.itinTopFadeStart}%, black ${heroMaskSettings.itinTopFadeEnd}%, black ${heroMaskSettings.itinBottomFadeStart}%, transparent ${heroMaskSettings.itinBottomFadeEnd}%)`,
-            backdropFilter: `blur(${heroMaskSettings.itinBlur}px)`,
-            WebkitBackdropFilter: `blur(${heroMaskSettings.itinBlur}px)`,
-            background: `rgba(11, 19, 41, ${heroMaskSettings.itinBgOpacity / 100})`,
-          }}
-        >
+        {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED) ── */}
+        <section id="itinerary" className="py-20 w-full max-w-none px-0 overflow-x-clip">
           <div className="text-center max-w-3xl mx-auto mb-12 px-4">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
