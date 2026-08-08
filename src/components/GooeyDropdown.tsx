@@ -49,14 +49,29 @@ export interface GooeyDropdownProps {
   textColor?: string;
   /** Text color for menu items (defaults to textColor). */
   panelTextColor?: string;
+  /** Opacity for the glass background (0.1 to 1.0, defaults to 0.75). */
+  glassOpacity?: number;
+  /** Backdrop blur strength in px (defaults to 24). */
+  backdropBlur?: number;
   /** Extra classes on the outer wrapper. */
   className?: string;
 }
 
+function hexToRgba(color: string, alpha: number = 0.75): string {
+  if (!color) return `rgba(147, 51, 234, ${alpha})`;
+  if (color.startsWith("rgba") || color.startsWith("hsla")) return color;
+  let c = color.replace("#", "");
+  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  const num = parseInt(c, 16);
+  if (isNaN(num)) return color;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 const ROW_HEIGHT = 42;
 const PANEL_PADDING_Y = 14;
-const PANEL_EXTRA_WIDTH = 56; // how much wider than the trigger the panel opens to
-const PANEL_MIN_WIDTH = 190;
 
 export default function GooeyDropdown({
   label,
@@ -64,6 +79,8 @@ export default function GooeyDropdown({
   accentColor = "#9333ea",
   textColor = "#ffffff",
   panelTextColor,
+  glassOpacity = 0.75,
+  backdropBlur = 24,
   className = "",
 }: GooeyDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -74,6 +91,9 @@ export default function GooeyDropdown({
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // Translucent background color for glass backdrop-blur
+  const bgGlassColor = hexToRgba(accentColor, glassOpacity);
 
   // Keep the trigger-shape / closed-panel size in sync with the real button,
   // so the blob sits exactly behind the label with no gap or overhang.
@@ -108,10 +128,9 @@ export default function GooeyDropdown({
 
   const toggle = useCallback(() => setOpen((o) => !o), []);
 
-  const panelWidth = Math.max(
-    PANEL_MIN_WIDTH,
-    triggerSize.width + PANEL_EXTRA_WIDTH
-  );
+  // Keep the panel exactly as wide as the trigger pill — it should only grow
+  // downward, never bulge past the trigger's left/right edges.
+  const panelWidth = triggerSize.width;
   const panelHeight = PANEL_PADDING_Y * 2 + items.length * ROW_HEIGHT;
 
   const panelStyle = open
@@ -140,14 +159,21 @@ export default function GooeyDropdown({
       <div className={styles.shapes} style={{ filter: `url(#${filterId})` }}>
         <div
           className={styles.panelShape}
-          style={{ ...panelStyle, background: accentColor }}
+          style={{
+            ...panelStyle,
+            background: bgGlassColor,
+            backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+          }}
         />
         <div
           className={styles.triggerShape}
           style={{
             width: triggerSize.width,
             height: triggerSize.height,
-            background: accentColor,
+            background: bgGlassColor,
+            backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
           }}
         />
       </div>
