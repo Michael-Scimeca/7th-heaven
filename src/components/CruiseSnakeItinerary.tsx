@@ -665,14 +665,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   if (!itinerary || itinerary.length === 0) return null;
 
   return (
-    <>
-      {/* ── Header (Outside Blue Container) ── */}
-      <div className={`${styles.header} pt-8 pb-4`}>
+    <section className={styles.root} ref={sectionRef}>
+      {/* ── Header (Inside Blue Container Box) ── */}
+      <div className={styles.header}>
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
         <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
       </div>
-
-      <section className={styles.root} ref={sectionRef}>
 
         {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
         {showSettings && mounted && createPortal(
@@ -1332,6 +1330,5 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         })}
       </div>
     </section>
-    </>
   );
 }
