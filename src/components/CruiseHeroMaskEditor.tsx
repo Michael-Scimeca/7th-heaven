@@ -76,7 +76,34 @@ export default function CruiseHeroMaskEditor() {
   }, [settings, mounted]);
 
   const updateSetting = (key: keyof HeroMaskSettings, value: number) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    setSettings(prev => {
+      const next = { ...prev, [key]: value };
+      if (key === 'itinBottomFadeStart' && next.itinBottomFadeEnd < value) {
+        next.itinBottomFadeEnd = value;
+      }
+      if (key === 'itinBottomFadeEnd' && value < next.itinBottomFadeStart) {
+        next.itinBottomFadeStart = value;
+      }
+      if (key === 'itinTopFadeStart' && next.itinTopFadeEnd < value) {
+        next.itinTopFadeEnd = value;
+      }
+      if (key === 'itinTopFadeEnd' && value < next.itinTopFadeStart) {
+        next.itinTopFadeStart = value;
+      }
+      if (key === 'bottomFadeStart' && next.bottomFadeEnd < value) {
+        next.bottomFadeEnd = value;
+      }
+      if (key === 'bottomFadeEnd' && value < next.bottomFadeStart) {
+        next.bottomFadeStart = value;
+      }
+      if (key === 'topFadeStart' && next.topFadeEnd < value) {
+        next.topFadeEnd = value;
+      }
+      if (key === 'topFadeEnd' && value < next.topFadeStart) {
+        next.topFadeStart = value;
+      }
+      return next;
+    });
   };
 
   const handleSave = () => {
@@ -94,10 +121,15 @@ export default function CruiseHeroMaskEditor() {
   };
 
   const generateCSS = () => {
+    const topEnd = Math.max(settings.topFadeStart, settings.topFadeEnd);
+    const bottomEnd = Math.max(settings.bottomFadeStart, settings.bottomFadeEnd);
+    const itinTopEnd = Math.max(settings.itinTopFadeStart, settings.itinTopFadeEnd);
+    const itinBottomEnd = Math.max(settings.itinBottomFadeStart, settings.itinBottomFadeEnd);
+
     return `/* 7th Heaven Hero & Official Itinerary Section Mask CSS */
 .hero-video-mask {
-  mask-image: linear-gradient(to bottom, transparent ${settings.topFadeStart}%, black ${settings.topFadeEnd}%, black ${settings.bottomFadeStart}%, transparent ${settings.bottomFadeEnd}%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.topFadeStart}%, black ${settings.topFadeEnd}%, black ${settings.bottomFadeStart}%, transparent ${settings.bottomFadeEnd}%);
+  mask-image: linear-gradient(to bottom, transparent ${settings.topFadeStart}%, black ${topEnd}%, black ${settings.bottomFadeStart}%, transparent ${bottomEnd}%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.topFadeStart}%, black ${topEnd}%, black ${settings.bottomFadeStart}%, transparent ${bottomEnd}%);
 }
 
 .hero-video-element {
@@ -107,8 +139,8 @@ export default function CruiseHeroMaskEditor() {
 }
 
 .official-itinerary-section {
-  mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${settings.itinTopFadeEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${settings.itinBottomFadeEnd}%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${settings.itinTopFadeEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${settings.itinBottomFadeEnd}%);
+  mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%);
   backdrop-filter: blur(${settings.itinBlur}px);
   -webkit-backdrop-filter: blur(${settings.itinBlur}px);
   background: rgba(11, 19, 41, ${settings.itinBgOpacity / 100});

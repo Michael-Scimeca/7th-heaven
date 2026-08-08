@@ -664,13 +664,16 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   if (!itinerary || itinerary.length === 0) return null;
 
+  const itinTopEnd = Math.max(maskSettings.itinTopFadeStart, maskSettings.itinTopFadeEnd);
+  const itinBottomEnd = Math.max(maskSettings.itinBottomFadeStart, maskSettings.itinBottomFadeEnd);
+
   return (
     <section
       className={styles.root}
       ref={sectionRef}
       style={{
-        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
-        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
+        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
         backdropFilter: `blur(${maskSettings.itinBlur}px)`,
         WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
         background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
