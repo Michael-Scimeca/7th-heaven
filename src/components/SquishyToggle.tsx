@@ -68,7 +68,7 @@ export function SquishyToggle({
       <div
         ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        className="pointer-events-none absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] transition-transform duration-300 ease-out peer-checked:translate-x-6"
+        className="pointer-events-none absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:translate-x-6"
       />
     </div>
   );
