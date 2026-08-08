@@ -1041,10 +1041,10 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
-              {/* Stateroom Categories Tab Column */}
-              <div className="lg:col-span-1 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 rounded-3xl flex flex-col justify-between shadow-lg">
+              {/* Stateroom Categories Tab Column — borderless & unpadded */}
+              <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
                 <div>
-                  <h3 className="text-base font-black uppercase text-white tracking-widest mb-6 border-b border-white/10 pb-3">Stateroom Categories</h3>
+                  <h3 className="text-base font-black uppercase text-white tracking-widest mb-4">Stateroom Categories</h3>
                   <div className="flex flex-col gap-2.5">
                     {[
                       { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
@@ -1056,9 +1056,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         key={tab.id}
                         type="button"
                         onClick={() => setStateroomTab(tab.id as any)}
-                        className={`w-full p-4 rounded-xl text-left border transition-colors cursor-pointer ${stateroomTab === tab.id
-                          ? "bg-purple-600/30 border-purple-400 text-white"
-                          : "bg-white/5 border-white/10 hover:border-white/20 text-white/80"
+                        className={`w-full p-4 rounded-xl text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id
+                          ? "bg-purple-600/30 text-white"
+                          : "bg-white/5 hover:bg-white/10 text-white/80"
                           }`}
                       >
                         <h4 className="text-sm font-extrabold text-white uppercase tracking-wider">{tab.label}</h4>
@@ -1068,7 +1068,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                   </div>
                 </div>
 
-                <div className="mt-8 bg-white/5 border border-white/10 p-5 rounded-2xl">
+                <div className="mt-8 bg-transparent border-0 p-0">
                   <h4 className="text-xs font-black uppercase text-white tracking-widest mb-3">Available layouts:</h4>
                   {stateroomTab === "suites" && (
                     <div className="space-y-2 text-sm text-white/80 font-medium">
