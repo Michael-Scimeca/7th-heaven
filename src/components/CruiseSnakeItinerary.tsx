@@ -665,17 +665,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   if (!itinerary || itinerary.length === 0) return null;
 
   return (
-    <section
-      className={styles.root}
-      ref={sectionRef}
-      style={{
-        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
-        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
-        backdropFilter: `blur(${maskSettings.itinBlur}px)`,
-        WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
-        background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
-      }}
-    >
+    <section className={styles.root} ref={sectionRef}>
       {/* ── Header ── */}
       <div className={styles.header}>
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
@@ -1057,7 +1047,20 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       </div>
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, width: '100%', maxWidth: '100%' }}>
+      <div
+        ref={canvasRef}
+        className={styles.canvas}
+        style={{
+          height: totalH,
+          width: '100%',
+          maxWidth: '100%',
+          maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+          WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+          backdropFilter: `blur(${maskSettings.itinBlur}px)`,
+          WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
+          background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
+        }}
+      >
         {/* SVG — path + nodes */}
         <svg
           className={styles.svg}
