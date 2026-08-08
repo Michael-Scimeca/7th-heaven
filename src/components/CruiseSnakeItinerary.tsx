@@ -1279,7 +1279,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           };
 
           return (
-            <React.Fragment key={`node-group-${day?.day || i}-${day?.location || day?.theme || 'day'}`}>
+            <React.Fragment key={`node-group-${day?.id || i}-${day?.location || day?.theme || 'day'}`}>
               {/* Day Badge — aligned flush with 32px margin */}
               <div
                 style={{
@@ -1304,7 +1304,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               </div>
               {/* Circle Video Node — aligned flush with 32px margin */}
               <div
-                key={`node-ring-${day?.day || i}-${day?.location || day?.theme || 'day'}`}
+                key={`node-ring-${day?.id || i}-${day?.location || day?.theme || 'day'}`}
                 style={{
                   position: 'absolute',
                   ...(node.isLeft
