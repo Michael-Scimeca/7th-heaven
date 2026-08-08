@@ -451,7 +451,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-white transition-all duration-300"
+      className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[520px] max-h-[600px] overflow-hidden text-white transition-all duration-300"
     >
       <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-2.5">
@@ -497,7 +497,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         </div>
       )}
 
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-3 px-1 space-y-4 scrollbar-hide relative bg-transparent">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-3 px-2 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-white/20 hover:scrollbar-thumb-white/40">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
