@@ -96,7 +96,7 @@ export function CalendarPicker({
 
 
   return (
-    <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-6 w-full rounded-2xl shadow-xl">
+    <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 w-full rounded-2xl shadow-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-white font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-cyan-400">*</span>}</h3>
@@ -133,7 +133,7 @@ export function CalendarPicker({
                   const newMonth = parseInt(e.target.value, 10);
                   setCurrentMonth(new Date(currentMonth.getFullYear(), newMonth, 1));
                 }}
-                className="bg-[#0c0817]/80 backdrop-blur-md border border-white/15 text-white font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-cyan-400 shadow-sm"
+                className="bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-cyan-400 shadow-sm"
               >
                 {[
                   "January", "February", "March", "April", "May", "June",
@@ -150,7 +150,7 @@ export function CalendarPicker({
                   const newYear = parseInt(e.target.value, 10);
                   setCurrentMonth(new Date(newYear, currentMonth.getMonth(), 1));
                 }}
-                className="bg-[#0c0817]/80 backdrop-blur-md border border-white/15 text-white font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-cyan-400 shadow-sm"
+                className="bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-extrabold text-sm py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-cyan-400 shadow-sm"
               >
                 {[2026, 2027, 2028].map(yr => (
                   <option key={yr} value={yr} className="bg-[#0c0817] text-white">{yr}</option>
@@ -250,7 +250,7 @@ export function CalendarPicker({
                   id="cal-show-start-time"
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/15 text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
+                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
                 >
                   <option value="" disabled className="bg-[#0c0817] text-white">Select Show Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
@@ -271,7 +271,7 @@ export function CalendarPicker({
                   id="cal-show-finish-time"
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/15 text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
+                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
                 >
                   <option value="" disabled className="bg-[#0c0817] text-white">Select Show Finish Time</option>
                   {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
@@ -294,7 +294,7 @@ export function CalendarPicker({
                   id="cal-band-start-time"
                   value={startTime}
                   onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/15 text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
+                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
                 >
                   <option value="" disabled className="bg-[#0c0817] text-white">Select Band Start Time</option>
                   {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
@@ -315,7 +315,7 @@ export function CalendarPicker({
                   id="cal-band-finish-time"
                   value={endTime}
                   onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/15 text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
+                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
                 >
                   <option value="" disabled className="bg-[#0c0817] text-white">Select Band Finish Time</option>
                   {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (

@@ -877,7 +877,7 @@ function BookPageContent() {
             )}
 
             {/* Step 1: Event Schedule & Format */}
-            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-8 rounded-3xl shadow-2xl relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Event Schedule & Format
               </h2>
@@ -941,7 +941,7 @@ function BookPageContent() {
             </div>
 
             {/* Your Scheduled Shows (Full Width Grid) */}
-            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-8 rounded-3xl shadow-2xl relative">
               {bookingSlots.length === 0 ? (
                 <div className="text-center py-12 border-2 border-dashed border-white/15 bg-white/[0.02] rounded-2xl">
                   <span className="text-4xl block mb-4">📅</span>
@@ -1439,7 +1439,7 @@ function BookPageContent() {
               {/* Right Column: Sticky Summary Sidebar */}
               <div>
                 <div className="sticky top-32">
-                  <div className="bg-[#0c0817]/90 backdrop-blur-xl border border-white/15 rounded-3xl p-6 shadow-2xl">
+                  <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-3xl p-6 shadow-2xl">
                     <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
                     <div className="flex flex-col gap-4 mb-8">

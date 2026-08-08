@@ -1573,6 +1573,10 @@ export default function StyleGuidePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Card / Section Background Token */}
             {([
+              { label: "Section Background", token: "--color-section-bg", category: "colors" as const, desc: "Booking/calendar/form section fill (was #0c0817)" },
+              { label: "Section Border", token: "--color-section-border", category: "colors" as const, desc: "Border on booking/form containers" },
+              { label: "Input Background", token: "--color-input-bg", category: "colors" as const, desc: "Select/input field backgrounds" },
+              { label: "Input Border", token: "--color-input-border", category: "colors" as const, desc: "Select/input field borders" },
               { label: "Card Background", token: "--color-bg-card", category: "colors" as const, desc: "All card & container fill" },
               { label: "Glass Background", token: "--color-bg-glass", category: "colors" as const, desc: "Glassmorphism panels" },
               { label: "Surface Background", token: "--color-bg-surface", category: "colors" as const, desc: "Deep surface layers" },

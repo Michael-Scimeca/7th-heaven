@@ -906,7 +906,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     type="button"
                     key={room.code || room.selectValue}
                     onClick={() => handleSelectCabin(room.selectValue)}
-                    className="w-full text-left bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group hover:border-cyan-400/50 shadow-lg"
+                    className="w-full text-left bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group hover:border-cyan-400/50 shadow-lg"
                   >
                     <div>
                       {room.image && (
@@ -977,7 +977,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                         onClick={() => handleSelectCabin(room.selectValue)}
                         className={`overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-lg ${isYo
                           ? 'bg-purple-950/60 border-2 border-purple-400 backdrop-blur-xl'
-                          : 'bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 hover:border-white/20'
+                          : 'bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] hover:border-white/20'
                           }`}
                       >
                         {isYo && (
@@ -1042,7 +1042,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
               {/* Stateroom Categories Tab Column */}
-              <div className="lg:col-span-1 bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-6 rounded-3xl flex flex-col justify-between shadow-lg">
+              <div className="lg:col-span-1 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 rounded-3xl flex flex-col justify-between shadow-lg">
                 <div>
                   <h3 className="text-base font-black uppercase text-white tracking-widest mb-6 border-b border-white/10 pb-3">Stateroom Categories</h3>
                   <div className="flex flex-col gap-2.5">
@@ -1246,7 +1246,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 <div className="lg:col-span-2 text-left">
                   <form onSubmit={handleSignup} className="space-y-6">
-                    <div className="booking-form-card bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-lg">
+                    <div className="booking-form-card bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-3xl overflow-hidden shadow-lg">
                       {/* Header Banner representing the PDF top section */}
                       <div className="booking-header-banner border-b border-white/10 px-4 py-4 text-center bg-white/[0.04]">
                         <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
