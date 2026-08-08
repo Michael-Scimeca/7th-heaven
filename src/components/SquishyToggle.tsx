@@ -49,7 +49,7 @@ export function SquishyToggle({
 
   return (
     <div
-      className={`squishy-toggle relative inline-block h-6 w-12 select-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`squishy-toggle relative inline-block h-6 w-12 rounded-full overflow-hidden select-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
     >
       <input
         id={id}
@@ -62,13 +62,13 @@ export function SquishyToggle({
       />
 
       {/* track */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-white/20 shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)] transition-colors duration-300 peer-checked:bg-purple-600" />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-white/20 shadow-[inset_0_1px_2px_rgba(0,0,0,0.2)] transition-colors duration-300 peer-checked:bg-purple-600 overflow-hidden" />
 
       {/* thumb */}
       <div
         ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        className="pointer-events-none absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:translate-x-5"
+        className="pointer-events-none absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] transition-transform duration-300 peer-checked:translate-x-[20px]"
       />
     </div>
   );
