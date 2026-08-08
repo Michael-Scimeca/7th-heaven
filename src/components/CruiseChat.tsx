@@ -451,9 +451,9 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[520px] max-h-[600px] overflow-hidden text-white transition-all duration-300"
+      className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[500px] max-h-[500px] min-h-0 overflow-hidden text-white transition-all duration-300"
     >
-      <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative">
+      <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
             💬
@@ -474,7 +474,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
       </div>
 
       {member?.is_warned && (
-        <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
+        <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
           <span className="text-purple-300 text-xs shrink-0">⚠️</span>
           <div className="flex-1">
             <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-purple-300/80 mb-0.5">Warning Alert</h4>
@@ -486,7 +486,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
       )}
 
       {member?.is_banned && (
-        <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out]">
+        <div className="bg-red-500/15 border-b border-red-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
           <span className="text-red-400 text-xs shrink-0">🚫</span>
           <div className="flex-1">
             <h4 className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-red-400/80 mb-0.5">Banned Alert</h4>
@@ -497,7 +497,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         </div>
       )}
 
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-3 px-2 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-white/20 hover:scrollbar-thumb-white/40">
+      <div ref={chatContainerRef} className="flex-1 min-h-0 overflow-y-auto py-3 px-2 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-white/20 hover:scrollbar-thumb-white/40">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -618,7 +618,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         )}
       </div>
 
-      <div className="py-2.5 border-t border-white/10 relative">
+      <div className="py-2.5 border-t border-white/10 relative shrink-0">
         {showTagMenu && (
           <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
             <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 px-2 py-1 flex items-center justify-between">
