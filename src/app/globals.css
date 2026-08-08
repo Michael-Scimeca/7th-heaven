@@ -1798,12 +1798,18 @@ html.tour-sort-stuck #tour-sort-bar {
   fill: #c084fc !important;
 }
 
-/* Hide Next.js development indicator badge (N) */
+/* Hide Next.js development indicator badge (N) & Neat Gradient Watermark Link */
 nextjs-portal,
 [data-nextjs-toast],
 #nextjs__container,
 div[class*="nextjs-toast"],
-div[class*="nextjs-portal"] {
+div[class*="nextjs-portal"],
+a[href*="neat"],
+a[href*="firecms"],
+canvas + a,
+div:has(canvas) > a,
+.neat-link,
+[class*="neat-link"] {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;

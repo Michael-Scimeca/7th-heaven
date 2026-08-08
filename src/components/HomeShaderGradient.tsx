@@ -149,6 +149,15 @@ export default function HomeShaderGradient() {
         cameraZ: GRADIENT_SETTINGS.cameraZ,
         cameraZoom: GRADIENT_SETTINGS.cameraZoom
       });
+
+      // Remove any Neat watermark link injected into DOM
+      setTimeout(() => {
+        if (canvasRef.current?.parentElement) {
+          const links = canvasRef.current.parentElement.querySelectorAll("a");
+          links.forEach((l) => l.remove());
+        }
+        document.querySelectorAll('a[href*="neat"], a[href*="firecms"], .neat-link').forEach((l) => l.remove());
+      }, 50);
     } catch (e) {
       console.warn("NeatGradient init fallback:", e);
     }
