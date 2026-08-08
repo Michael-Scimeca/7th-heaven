@@ -108,7 +108,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 font-[family-name:var(--font-barlow)]">
+    <div className="site-container py-8 font-[family-name:var(--font-barlow)]">
 
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <div className="mb-8">
@@ -172,47 +172,30 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
 
         {/* Search input */}
         <div className="relative">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-text)] w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <div className="absolute left-4 inset-y-0 flex items-center justify-center pointer-events-none text-white/50 z-10">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
           <input aria-label="Search"
-            type="text"
+            type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search venue, festival, city, date, or event name (e.g. Durty Nellies, Hard Rock, Halloween, Cruise)..."
-            className="w-full pl-12 pr-10 py-3.5 bg-[var(--bg-color)] border border-[var(--border-color)] text-sm font-semibold text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)] transition-colors shadow-inner"
+            className="form-input w-full text-sm font-semibold"
           />
           {searchQuery && (
             <button aria-label="Clear search"
               onClick={() => setSearchQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--muted-text)] hover:text-[var(--text-color)] flex items-center gap-1"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-white/50 hover:text-white px-2.5 py-1 rounded-md bg-white/10 transition z-10 flex items-center gap-1"
             >
               <X className="w-3.5 h-3.5" /> Clear
             </button>
           )}
         </div>
 
-        {/* Category Filter Pills */}
-        <div>
-          <span className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-2.5">
-            Filter by Event Type:
-          </span>
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => (
-              <button aria-label="Action button"
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-1.5  text-xs font-bold transition-colors cursor-pointer ${selectedCategory === cat.id
-                  ? "bg-[var(--color-accent)] text-white shadow-md scale-105"
-                  : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
-                  }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
+
 
         {/* Year Filter Pills */}
         <div>
@@ -302,7 +285,8 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                 {/* Year Header Accordion Bar */}
                 <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-[var(--bg-color)] to-[var(--card-bg)] border-b border-[var(--border-color)] hover:bg-[var(--color-accent)]/10 transition-colors cursor-pointer text-left"
+                  className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-[var(--bg-color)] to-[var(--card-bg)] hover:bg-[var(--color-accent)]/10 transition-colors cursor-pointer text-left"
+                  style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">
                     <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-sm font-black rounded-lg shadow-sm">
@@ -341,6 +325,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                         <div
                           key={`${yGroup.year}-${idx}`}
                           className="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
+                          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}
                         >
                           {/* Date & Day */}
                           <div className="w-full sm:w-48 shrink-0 font-semibold text-xs sm:text-sm text-[var(--muted-text)] flex items-center gap-2">

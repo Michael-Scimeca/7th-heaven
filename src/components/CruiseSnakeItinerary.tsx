@@ -252,7 +252,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
   const [hasScrolledIntoRange, setHasScrolledIntoRange] = useState(false);
   const [maskSettings, setMaskSettings] = useState({
     itinTopFadeStart: 0,
-    itinTopFadeEnd: 2,
+    itinTopFadeEnd: 3,
     itinBottomFadeStart: 95,
     itinBottomFadeEnd: 100,
     itinBgOpacity: 90,
@@ -664,7 +664,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   if (!itinerary || itinerary.length === 0) return null;
 
-  const itinTopEnd = Math.max(maskSettings.itinTopFadeStart, maskSettings.itinTopFadeEnd);
+  const itinTopEnd = Math.max(maskSettings.itinTopFadeStart, maskSettings.itinTopFadeEnd, 3);
   const itinBottomEnd = Math.max(maskSettings.itinBottomFadeStart, maskSettings.itinBottomFadeEnd);
 
   return (
@@ -674,11 +674,19 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       style={{
         maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
         WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
-        backdropFilter: `blur(${maskSettings.itinBlur}px)`,
-        WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
-        background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
       }}
     >
+      {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          backdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
+          WebkitBackdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
+          background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
+          transform: 'translateZ(0)',
+          willChange: 'transform',
+        }}
+      />
       {/* ── Header (Inside Blue Container Box) ── */}
       <div className={styles.header}>
         <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>

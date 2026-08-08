@@ -2,7 +2,7 @@
 
 html,
 body {
-  background-color: transparent;
+  background-color: #000000;
   color: #ffffff;
 }
 
@@ -28,9 +28,9 @@ html.lenis body {
    FULL TRANSPARENT, BORDERLESS & UNBOXED SITE THEME
    ============================================= */
 :root {
-  --color-bg-deep: transparent !important;
-  --color-bg-surface: transparent !important;
-  --color-bg-glass: transparent !important;
+  --color-bg-deep: #030006;
+  --color-bg-surface: rgba(15, 5, 29, 0.55);
+  --color-bg-glass: rgba(18, 18, 24, 0.45);
   --card-bg: transparent !important;
   --surface-base: transparent !important;
   --surface-raised: transparent !important;
@@ -49,20 +49,41 @@ html.lenis body {
   --surface-overlay: transparent !important;
 }
 
-/* Remove outer card borders & dark solid card backgrounds site-wide */
+/* Remove outer card borders & background colors on all sections site-wide */
+section,
 .bg-card,
 .bg-surface,
+.bg-white,
+.bg-slate-800,
 .bg-slate-900,
 .bg-slate-950,
+.bg-zinc-800,
 .bg-zinc-900,
 .bg-zinc-950,
+.bg-neutral-800,
+.bg-neutral-900,
+.bg-gray-50,
+.bg-gray-100,
+.bg-gray-800,
+.bg-gray-900,
+.bg-white\/5,
+.bg-white\/10,
+.bg-white\/15,
+.bg-white\/20,
+.bg-white\/80,
+.bg-white\/90,
 .bg-\[\#0c0d12\],
 .bg-\[\#030006\],
 .bg-\[\#0f052d\],
+.bg-black\/50,
 .bg-black\/70,
 .bg-black\/80,
 .bg-black\/90,
-.bg-black\/95 {
+.bg-black\/95,
+[class*="bg-[var(--card-bg)]"],
+[class*="bg-[var(--color-bg-surface)]"],
+[class*="bg-[var(--color-bg-deep)]"],
+[class*="bg-[var(--bg-color)]"] {
   background-color: transparent !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -137,12 +158,56 @@ html.lenis body {
   --link-hover-color: #e879f9;
 }
 
+/* Checkbox & Radio Button Controls (Purple Box + White Checkmark) */
 input[type="checkbox"] {
-  accent-color: var(--checkbox-accent-color) !important;
-  width: var(--checkbox-size) !important;
-  height: var(--checkbox-size) !important;
-  border-radius: var(--checkbox-border-radius) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 4px !important;
+  border: 1.5px solid rgba(168, 85, 247, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
   cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  vertical-align: middle !important;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #9333ea !important;
+  border-color: #a855f7 !important;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%223.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%2220%206%209%2017%204%2012%22%2F%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 13px 13px !important;
+  box-shadow: 0 0 10px rgba(147, 51, 234, 0.5) !important;
+}
+
+input[type="radio"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid rgba(168, 85, 247, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  vertical-align: middle !important;
+}
+
+input[type="radio"]:checked {
+  background-color: #9333ea !important;
+  border-color: #a855f7 !important;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%226%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fsvg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 10px 10px !important;
+  box-shadow: 0 0 10px rgba(147, 51, 234, 0.5) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -171,23 +236,70 @@ input[type="tel"],
 input[type="url"],
 select,
 textarea {
-  background-color: rgba(var(--input-bg-red), var(--input-bg-green), var(--input-bg-blue), var(--input-bg-opacity)) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
   border: var(--input-border-width) solid var(--input-border-color) !important;
   border-radius: var(--input-border-radius) !important;
   color: var(--input-text-color) !important;
-  padding: var(--input-padding-y) var(--input-padding-x) !important;
+  padding: var(--input-padding-y) var(--input-padding-x);
   outline: none !important;
   transition: all 0.2s ease-in-out !important;
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Universal Global Search Input Styling & Search SVG Icon */
+input[type="search"],
+.search-input,
+input[placeholder*="Search"],
+input[placeholder*="search"] {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C%20255%2C%20255%2C%200.45%29%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat !important;
+  background-position: left 0.85rem center !important;
+  background-size: 1rem 1rem !important;
+  padding-left: 2.75rem !important;
+  line-height: 1.25 !important;
+  vertical-align: middle !important;
+}
+
+input[type="search"]:focus,
+.search-input:focus,
+input[placeholder*="Search"]:focus,
+input[placeholder*="search"]:focus {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28236%2C%2072%2C%20153%2C%200.8%29%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E");
+}
+
+input.no-bg-icon,
+input[style*="background-image: none"],
+input[style*="background-image:none"] {
+  background-image: none !important;
+  padding-left: 2.25rem !important;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none !important;
+}
+
+textarea {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(var(--input-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--input-blur)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  padding: 12px 16px !important;
 }
 
 select {
   appearance: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat !important;
   background-position: right 0.75rem center !important;
   background-size: 0.6rem auto !important;
@@ -195,12 +307,22 @@ select {
   cursor: pointer !important;
 }
 
+select.no-bg-arrow,
+select[style*="background-image: none"],
+select[style*="background-image:none"] {
+  background-image: none !important;
+}
+
 .site-input::placeholder,
 .form-input::placeholder,
 input::placeholder,
 textarea::placeholder {
   color: var(--input-placeholder-color) !important;
-  font-size: calc(100% - 4px) !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  opacity: 0.5 !important;
 }
 
 .site-input:focus,
@@ -451,22 +573,20 @@ button,
   --surface-overlay: rgba(0, 0, 0, 0.92);
 }
 
-input::placeholder,
-textarea::placeholder,
-select::placeholder {
-  color: var(--placeholder-color);
-  opacity: 1;
-}
-
 ::placeholder,
 input::placeholder,
 textarea::placeholder,
+select::placeholder,
 .placeholder-black\/40::placeholder,
 .placeholder-black\/50::placeholder,
 .placeholder\:text-black\/40::placeholder,
 .placeholder\:text-black\/50::placeholder {
-  color: var(--placeholder-color) !important;
-  opacity: 1 !important;
+  color: var(--input-placeholder-color) !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  opacity: 0.5 !important;
 }
 
 @theme {
@@ -517,9 +637,9 @@ textarea::placeholder,
     ═══════════════════════════════════════════════════════ */
 
   /* ─── Backgrounds & Surfaces ─── */
-  --color-bg-primary: var(--bg-color);
+  --color-bg-primary: #000000;
   --color-bg-secondary: var(--surface-base);
-  --color-bg-deep: var(--bg-color);
+  --color-bg-deep: #030006;
 
   /* 3-level surface hierarchy — resolves to theme-aware vars */
   --color-surface-base: var(--surface-base);
@@ -527,36 +647,36 @@ textarea::placeholder,
   --color-surface-overlay: var(--surface-overlay);
 
   /* Legacy aliases kept for backward compatibility */
-  --color-bg-surface: var(--surface-raised);
-  --color-bg-card: var(--surface-raised);
+  --color-bg-surface: rgba(15, 5, 29, 0.55);
+  --color-bg-card: rgba(255, 255, 255, 0.03);
   --color-bg-card-alpha: var(--surface-raised);
   --color-bg-card-hover: var(--surface-raised);
   --color-bg-elevated: var(--surface-raised);
-  --color-bg-glass: var(--surface-overlay);
+  --color-bg-glass: rgba(18, 18, 24, 0.45);
 
   /* ─── Text ─── */
   --color-text-primary: var(--text-color);
-  --color-text-secondary: var(--text-color);
-  --color-text-muted: var(--muted-text);
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #d1d5db;
   --color-text-disabled: #888888;
   --color-text-on-accent: #ffffff;
   /* text on accent-colored buttons/badges */
 
   /* ─── Brand Accent ─── */
-  --color-accent: var(--accent-color);
-  --color-accent-hover: #7e22ce;
-  --color-accent-soft: rgba(147, 51, 234, 0.15);
+  --color-accent: #9333ea;
+  --color-accent-hover: #9333ea;
+  --color-accent-soft: #9333ea;
   /* tinted background for accent areas */
-  --color-accent-glow: rgba(147, 51, 234, 0.25);
+  --color-accent-glow: rgba(147, 51, 234, 0.4);
   /* subtle glow */
 
   /* ─── Semantic Status Colors ─── */
   --color-live: #ef4444;
   /* live stream / urgent indicators */
-  --color-success: #10b981;
+  --color-success: #9333ea;
   --color-warning: #9333ea;
   --color-error: #ef4444;
-  --color-info: #3b82f6;
+  --color-info: #9333ea;
 
   /* ─── UI Accent Colors — purposeful, not decorative ─── */
   --color-interactive: #3b82f6;
@@ -649,16 +769,16 @@ textarea::placeholder,
   --text-display: var(--font-size-display, 4.5rem);
 
   /* Duplicate as font-size-* aliases for backward compatibility */
-  --font-size-2xs: var(--font-size-2xs, 1rem);
-  --font-size-xs: var(--font-size-xs, 1rem);
-  --font-size-sm: var(--font-size-sm, 1rem);
-  --font-size-md: var(--font-size-md, 1rem);
-  --font-size-base: var(--font-size-base, 1rem);
-  --font-size-lg: var(--font-size-lg, 1.25rem);
-  --font-size-xl: var(--font-size-xl, 1.5rem);
-  --font-size-2xl: var(--font-size-2xl, 2.25rem);
-  --font-size-3xl: var(--font-size-3xl, 3rem);
-  --font-size-display: var(--font-size-display, 4.5rem);
+  --font-size-2xs: 1rem;
+  --font-size-xs: 1rem;
+  --font-size-sm: 1rem;
+  --font-size-md: 1rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2.25rem;
+  --font-size-3xl: 3rem;
+  --font-size-display: 4.5rem;
 
   /* Structural shadows — disabled site-wide */
   --shadow-brand: none;
@@ -1669,7 +1789,7 @@ html.tour-sort-stuck #tour-sort-bar {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9998;
+  z-index: -40;
   pointer-events: none;
 }
 

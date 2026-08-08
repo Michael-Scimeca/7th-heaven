@@ -123,7 +123,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
             sizes="96px"
             className="object-cover group-hover/art:scale-105 transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-black/40 group-hover/art:bg-black/20 flex items-center justify-center transition-colors">
+          <div className="absolute inset-0 bg-black/40 group-hover/art: flex items-center justify-center transition-colors">
             <div className={`w-10 h-10 rounded-full ${isPlaying ? 'bg-[var(--color-accent)]' : 'bg-white/90 text-black'} flex items-center justify-center shadow-xl transition-colors group-hover/art:scale-110`}>
               {isPlaying ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>

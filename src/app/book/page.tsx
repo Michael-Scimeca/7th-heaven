@@ -1307,7 +1307,7 @@ function BookPageContent() {
             </div>
 
             {/* Step 2: Contact Information */}
-            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Contact Information
               </h2>
@@ -1320,7 +1320,7 @@ function BookPageContent() {
             </div>
 
             {/* Step 3: Venue Details */}
-            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Venue Details
               </h2>
@@ -1337,7 +1337,7 @@ function BookPageContent() {
               <div className="flex flex-col gap-8">
 
                 {/* Step 4: Technical & Logistics */}
-                <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
                   <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                     Technical & Logistics
                   </h2>
@@ -1356,7 +1356,7 @@ function BookPageContent() {
                 </div>
 
                 {/* Step 5: Additional Options */}
-                <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
                   <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
                     Production & Extras
                   </h2>
@@ -1406,7 +1406,7 @@ function BookPageContent() {
                 </div>
 
                 {/* Step 6: Notes & Questions */}
-                <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
                   <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
                     Notes & Questions
                   </h2>
@@ -1417,7 +1417,7 @@ function BookPageContent() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-white text-lg leading-relaxed px-5 py-4 focus:border-cyan-400 outline-none transition-colors resize-none placeholder:text-white/30 rounded-2xl shadow-inner"
+                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-white text-lg leading-relaxed px-4 py-3 focus:border-cyan-400 outline-none transition-colors resize-none placeholder:text-white/30 rounded-lg shadow-inner"
                   />
                   {formData.details && (
                     <div className="mt-3 flex items-center gap-2 text-base text-emerald-400">

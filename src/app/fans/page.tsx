@@ -2,25 +2,28 @@
 
 import { Suspense } from "react";
 import { useEffect } from "react";
-import { useRouter, useSearchParams, redirect } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
 function FansRedirectContent() {
   const { member, isLoggedIn, hydrated, openModal, login } = useMember();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const isDemo = searchParams.get("demo") === "true";
-
-  if (hydrated && isDemo) {
-    redirect("/fans/demo");
-  }
-
-  if (hydrated && isLoggedIn && member) {
-    const slug = member.username || "me";
-    redirect(`/fans/${slug}`);
-  }
 
   useEffect(() => {
     if (!hydrated) return;
+
+    if (isDemo) {
+      router.replace("/fans/demo");
+      return;
+    }
+
+    if (isLoggedIn && member) {
+      const slug = member.username || "me";
+      router.replace(`/fans/${slug}`);
+      return;
+    }
 
     if (!isLoggedIn) {
       if (process.env.NODE_ENV === 'development') {
@@ -29,7 +32,7 @@ function FansRedirectContent() {
         openModal("login");
       }
     }
-  }, [hydrated, isLoggedIn, openModal, login]);
+  }, [hydrated, isDemo, isLoggedIn, member, router, openModal, login]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

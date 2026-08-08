@@ -2486,10 +2486,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         return (
                           <div
                             key={song.id}
-                            className={`p-3 rounded-xl flex items-center justify-between gap-3 border transition-colors ${song.isPlaying
-                              ? 'bg-purple-950/40 border-purple-500/50 shadow-[0_0_15px_rgba(192,132,252,0.15)]'
-                              : 'bg-white/5 border-white/10 hover:border-white/20'
+                            className={`p-3 flex items-center justify-between gap-3 transition-colors ${song.isPlaying
+                              ? 'bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]'
+                              : 'hover:bg-white/[0.03]'
                               }`}
+                            style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}
                           >
                             <div className="min-w-0 flex-1">
                               <p className={`font-bold text-xs truncate ${song.isPlaying ? 'text-purple-300 font-black' : 'text-white/90'}`}>

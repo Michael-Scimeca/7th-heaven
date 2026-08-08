@@ -2138,7 +2138,6 @@ export default function FeaturesPage() {
                 { path: "/members", label: "Member Profiles", desc: "Per-member pages: bio, instruments, gear list, Q&A — at /members/[slug]", access: "public" },
                 { path: "/video", label: "Video Gallery", desc: "10+ category library — music videos, live performances, backstage clips", access: "public" },
                 { path: "/music", label: "Music Player", desc: "Full track list with persistent inline audio player — no page reload", access: "public" },
-                { path: "/news", label: "News", desc: "Band announcements and articles — managed via Sanity CMS", access: "public" },
                 { path: "/fan-photo-wall", label: "Fan Photo Wall", desc: "AI-moderated masonry grid of fan-submitted concert photos with lightbox", access: "public" },
                 { path: "/contact", label: "Contact", desc: "General contact form", access: "public" },
                 { path: "/privacy", label: "Privacy Policy", desc: "Site privacy policy page", access: "public" },
@@ -2386,7 +2385,6 @@ export default function FeaturesPage() {
                 { path: "/members", label: "Member Profiles", desc: "Individual member pages at /members/[slug]", access: "public" },
                 { path: "/video", label: "Video Gallery", desc: "10+ category video library with custom inline YouTube player", access: "public" },
                 { path: "/music", label: "Music Player", desc: "Full track list with persistent audio player", access: "public" },
-                { path: "/news", label: "News", desc: "Band announcements and articles from Sanity CMS", access: "public" },
                 { path: "/fan-photo-wall", label: "Fan Photo Wall", desc: "AI-moderated masonry grid of fan-submitted concert photos", access: "public" },
                 { path: "/contact", label: "Contact", desc: "Contact form for general inquiries", access: "public" },
                 { path: "/privacy", label: "Privacy Policy", desc: "Site privacy policy", access: "public" },
@@ -2500,7 +2498,7 @@ export default function FeaturesPage() {
                       target={page.path.includes("[") ? undefined : "_blank"}
                       className={`flex items-center gap-4 px-5 py-3.5 transition-colors group ${pi !== group.pages.length - 1 ? "border-b border-white/[0.05]" : ""
                         } ${page.access === "dev"
-                          ? "bg-black/20 hover:bg-white/[0.02]"
+                          ? " hover:bg-white/[0.02]"
                           : "bg-black/10 hover:bg-white/[0.04]"
                         }`}
                     >

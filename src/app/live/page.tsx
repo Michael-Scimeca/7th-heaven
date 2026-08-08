@@ -18,6 +18,7 @@ interface LiveRoom {
   gradient: string;
   Icon: React.ElementType;
   member: string;
+  image?: string;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -179,10 +180,10 @@ const getElapsed = (creationTime: number) => {
 const getDemoRooms = (): LiveRoom[] => {
   const now = Math.floor(Date.now() / 1000);
   return [
-    { name: "live_michael", title: "Mike S — Backstage Cam",     numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", Icon: Guitar, member: "MS" },
-    { name: "live_ryan",    title: "Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: now - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", Icon: Piano, member: "RK" },
-    { name: "live_sammy",   title: "Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: now - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", Icon: Drum, member: "SD" },
-    { name: "live_tony",    title: "Tony M — Vocal Check",        numParticipants: 18,   creationTime: now - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", Icon: Mic, member: "TM" },
+    { name: "live_michael", title: "Mike S — Backstage Cam",     numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", Icon: Guitar, member: "MS", image: "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg" },
+    { name: "live_ryan",    title: "Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: now - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", Icon: Piano, member: "RK", image: "https://img.youtube.com/vi/C0PQYmyaTFk/hq720.jpg" },
+    { name: "live_sammy",   title: "Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: now - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", Icon: Drum, member: "SD", image: "https://img.youtube.com/vi/UQBvl_wZ0ak/hq720.jpg" },
+    { name: "live_tony",    title: "Tony M — Vocal Check",        numParticipants: 18,   creationTime: now - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", Icon: Mic, member: "TM", image: "https://img.youtube.com/vi/BzHUNTZ66zY/hq720.jpg" },
   ];
 };
 
@@ -312,7 +313,11 @@ export default function LiveHubPage() {
                     <div key={room.name} className="overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
                       {/* Mini feed */}
                       <div className="aspect-video relative">
-                        <MiniCanvasFeed color={room.color} index={rooms.indexOf(room)} />
+                        <img
+                          src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                          alt={room.title}
+                          className="w-full h-full object-cover"
+                        />
                         <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold" style={{ background: "#dc2626" }}>
                           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                           LIVE
@@ -463,9 +468,14 @@ export default function LiveHubPage() {
               style={{ "--room-color": room.color } as React.CSSProperties}
             >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
-                {/* Thumbnail with canvas feed */}
-                <div className="aspect-video bg-[var(--color-bg-primary)] relative overflow-hidden">
-                  <MiniCanvasFeed color={room.color} index={i} />
+                {/* Thumbnail with video concert image */}
+                <div className="aspect-video bg-black/60 relative overflow-hidden">
+                  <img
+                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                    alt={room.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                   {/* LIVE badge */}
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-md" style={{ background: "#dc2626", boxShadow: "0 0 16px rgba(220,38,38,0.5)" }}>
@@ -494,18 +504,18 @@ export default function LiveHubPage() {
               </Link>
 
               {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative bg-white border-b border-black/10 text-black">
+              <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-md border-b border-white/10 text-white">
                 {/* Avatar badge */}
                 <div
-                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4 ring-white shadow-md"
+                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4 ring-white/20 shadow-md"
                   style={{ background: room.gradient }}
                 >
                   {room.member}
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-black text-black mb-1">{room.title}</h3>
-                  <p className="text-sm text-black/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
+                  <h3 className="text-lg font-black text-white mb-1">{room.title}</h3>
+                  <p className="text-sm text-white/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                 </div>
 
                 <button aria-label="Action button"
@@ -513,7 +523,7 @@ export default function LiveHubPage() {
                     const slug = room.name.replace(/^live_/, "");
                     navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
                   }}
-                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-black/5 border border-black/15 text-black hover:bg-black/10 cursor-pointer"
+                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer"
                 >
                   COPY LINK
                 </button>
@@ -531,26 +541,26 @@ export default function LiveHubPage() {
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
               </div>
               <div className="max-w-xl">
-                <h2 className="text-2xl sm:text-3xl font-black text-black italic tracking-tight mb-3">Never Miss a Live Feed</h2>
-                <p className="text-sm text-black/50 mb-8 leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl font-black text-white italic tracking-tight mb-3">Never Miss a Live Feed</h2>
+                <p className="text-sm text-white/60 mb-8 leading-relaxed">
                   Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
                 </p>
                 <form action={() => alert("You are now subscribed to Live Stream Alerts!")}
                   className="flex flex-col sm:flex-row gap-3 items-center w-full">
                   <div className="relative flex-1 w-full">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Smartphone className="w-4 h-4 text-black/30" />
+                      <Smartphone className="w-4 h-4 text-white/40" />
                     </div>
                     <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-white border border-black/10 py-3.5 pl-12 pr-4 text-black placeholder:text-black/30 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
+                      className="w-full bg-white/5 border border-white/15 py-3.5 pl-12 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
                     />
                   </div>
                   <button aria-label="Action button" type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2">
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2 rounded-lg">
                     ALERT ME <Bell className="w-4 h-4" />
                   </button>
                 </form>
-                <p className="text-xs text-black/30 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
+                <p className="text-xs text-white/40 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
               </div>
             </div>
           </div>

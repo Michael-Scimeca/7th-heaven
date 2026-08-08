@@ -388,9 +388,9 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
 
   if (isLoading) {
     return (
-      <div className="bg-white border border-black/10 flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-md">
-        <div className="w-6 h-6 border-2 border-black/10 border-t-[var(--color-accent)] rounded-full animate-spin" />
-        <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-3">Loading chat...</p>
+      <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl flex flex-col h-[calc(100vh-12rem)] min-h-[500px] items-center justify-center shadow-2xl text-white">
+        <div className="w-6 h-6 border-2 border-white/10 border-t-cyan-400 rounded-full animate-spin" />
+        <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-3">Loading chat...</p>
       </div>
     );
   }
@@ -419,22 +419,30 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
   }
 
   return (
-    <div id="cruise-chat-root" className="bg-white border border-black/10 p-3 shadow-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-black">
-      <div className="py-2 px-1 border-b border-black/10 flex items-center justify-between z-10 relative">
+    <div
+      id="cruise-chat-root"
+      style={{
+        border: '2px solid var(--chat-border-color, #a855f7)',
+        boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
+        backgroundColor: 'var(--color-bg-glass, rgba(18, 18, 24, 0.45))',
+      }}
+      className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-white transition-all duration-300"
+    >
+      <div className="py-2 px-1 border-b border-white/15 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
             💬
           </div>
           <div>
-            <h3 className="font-black text-black text-xs tracking-wide flex items-center gap-1.5">
+            <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
               Passenger Lounge
-              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-700 bg-cyan-50 border border-cyan-200 px-1.5 py-0.5 rounded">
+              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
                 LIVE
               </span>
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
-              <span className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider">Cruisers Online</span>
+              <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">Cruisers Online</span>
             </div>
           </div>
         </div>
@@ -464,7 +472,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         </div>
       )}
 
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-3 px-0.5 space-y-3 scrollbar-hide relative bg-transparent">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto py-3 px-1 space-y-4 scrollbar-hide relative bg-transparent">
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -483,7 +491,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                   ? "bg-red-500/10 border-red-500/20 text-red-200"
                   : "bg-sky-500/10 border-sky-500/20 text-sky-200";
               return (
-                <div key={msg.id} className={`flex items-center gap-2 p-2.5  border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
                   <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
                   <div className="flex-1 leading-relaxed">
                     {msg.content}
@@ -508,31 +516,23 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                     <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                       {msg.sender_name}
                     </span>
-                    <span className={`text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none ${getRoleColor(msg.sender_role)}`}>
+                    <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border leading-none ${getRoleColor(msg.sender_role)}`}>
                       {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                     </span>
                     {hasAdminTag && (
-                      <span className="text-[8px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-purple-600/15 border border-purple-500/30 px-1 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
+                      <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
                         👑 Question for Admin
                       </span>
                     )}
-                    <span className="text-[10px] !text-gray-700 font-sans font-bold leading-none ml-auto tracking-tight">
+                    <span className="text-[10px] text-white/60 font-mono font-medium leading-none ml-auto tracking-tight">
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-md transition-colors !text-white ${chatLayout === 3
-                    ? `rounded-[18px] rounded-tl-[4px] ${isSelf
-                      ? 'bg-blue-600 border-blue-400/50 !text-white font-bold'
-                      : hasAdminTag
-                        ? 'bg-purple-600 border-purple-300 !text-black font-black'
-                        : 'bg-cyan-500 border-cyan-300/50 !text-white font-bold hover:bg-cyan-400'
-                    }`
-                    : ` rounded-tl-xs ${isSelf
-                      ? 'bg-sky-600 border-sky-400/50 !text-white shadow-md'
-                      : hasAdminTag
-                        ? 'bg-gradient-to-r from-amber-950/50 via-yellow-950/40 to-black/80 border-purple-500/50 !text-amber-100 shadow-xs'
-                        : 'bg-cyan-600 border-cyan-400/40 !text-white font-bold shadow-sm hover:bg-cyan-500'
-                    }`
+                  <div className={`p-3 text-xs inline-block max-w-[90%] leading-relaxed border-2 break-words shadow-lg transition-all text-white rounded-2xl ${isSelf
+                    ? 'bg-[#7e22ce] border-[#a855f7] rounded-tr-xs text-white font-semibold'
+                    : hasAdminTag
+                      ? 'bg-[#2e1065] border-[#c084fc] text-purple-100 rounded-tl-xs font-semibold'
+                      : 'bg-[#0891b2] border-[#06b6d4] text-white rounded-tl-xs font-semibold'
                     }`}>
                     {formatMessageContent(msg.content)}
                   </div>
@@ -644,7 +644,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                 }}
                 disabled={!member || isSending || member.is_banned}
                 placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
-                className="w-full !bg-white border border-black/15 pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-cyan-600 focus:!bg-white transition-colors disabled:opacity-50 placeholder:!text-black/50 shadow-sm"
+                className="w-full bg-white/5 border-2 border-white/20 focus:border-purple-400 rounded-2xl pl-3.5 pr-28 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
                 maxLength={500}
               />
               <div className="absolute right-1.5 flex items-center gap-1">

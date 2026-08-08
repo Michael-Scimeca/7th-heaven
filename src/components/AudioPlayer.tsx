@@ -330,7 +330,7 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full lg:w-[320px] bg-black/20 backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
@@ -347,7 +347,7 @@ export default function AudioPlayerSection() {
             </svg>
             {searchQuery && (
               <button aria-label="Search"
-                   onClick={() => setSearchQuery("")}
+                onClick={() => setSearchQuery("")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs cursor-pointer"
               >
                 ✕
@@ -573,7 +573,7 @@ export default function AudioPlayerSection() {
         </div>
 
         {/* --- CREDITS SIDEBAR --- */}
-        <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="w-full lg:w-[350px] bg-black/20 backdrop-blur-xl border-l border-white/10 pt-5 pl-6 pr-8 pb-8 shrink-0 overflow-y-auto custom-scrollbar hidden lg:flex lg:flex-col items-center relative overflow-hidden self-stretch h-full shadow-2xl">
+        <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="w-full lg:w-[350px]  backdrop-blur-xl border-l border-white/10 pt-5 pl-6 pr-8 pb-8 shrink-0 overflow-y-auto custom-scrollbar hidden lg:flex lg:flex-col items-center relative overflow-hidden self-stretch h-full shadow-2xl">
           {/* Fading Vertical Divider on Left */}
           <div className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none z-10" />
 
@@ -647,7 +647,7 @@ export default function AudioPlayerSection() {
                 {/* Lyrics Button */}
                 {lyricsMap[activeAlbum?.id] && (
                   <button aria-label="Action button"
-                       onClick={() => setShowLyrics(true)}
+                    onClick={() => setShowLyrics(true)}
                     className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
                   >
                     Lyrics

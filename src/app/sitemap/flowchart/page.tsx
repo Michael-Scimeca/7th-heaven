@@ -670,22 +670,14 @@ export default function FlowchartPage() {
               url="/members"
               screenshot="bio.png"
             />
-            <div className="node-connector-line" />
-
-            <FlowCard
-              label="News Feed"
-              sub="/news"
-              url="/news"
-              screenshot="news.png"
-            />
           </div>
 
           {/* Column 2: Music Experience (Teal) */}
           <div className="flow-column">
             <FlowCard
-              label="Music"
-              sub="/music"
-              url="/music"
+              label="Music Player (Homepage)"
+              sub="/#music_player"
+              url="/#music_player"
               screenshot="music.png"
             />
             <div className="node-connector-line" />

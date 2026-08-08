@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Sliders, X, Copy, Check, RotateCcw, Sparkles, Layers, Eye, Type, CheckSquare } from "lucide-react";
+import { Sliders, X, Copy, Check, RotateCcw, Sparkles, Layers, Eye, Type, CheckSquare, Search } from "lucide-react";
 
 export interface InputStyleSettings {
   bgRed: number;            // 0 - 255
@@ -18,6 +18,17 @@ export interface InputStyleSettings {
   focusGlowOpacity: number; // 0 - 1
   paddingY: number;         // in px (6 - 24)
   paddingX: number;         // in px (8 - 32)
+
+  // Search Bar Controls
+  searchIconColor: string;    // hex or rgb
+  searchIconOpacity: number;  // 0 - 1
+  searchIconLeft: number;     // in px (8 - 32)
+  searchIconTopOffset: number;// in px (-6 to 6)
+  searchPaddingLeft: number;  // in px (32 - 80)
+  searchPaddingRight: number; // in px (32 - 80)
+  searchPaddingY: number;     // in px (6 - 24)
+  searchMaxWidth: number;     // in px (300 - 1000)
+  searchRadius: number;       // in px (0 - 36)
 
   // Checkbox Controls
   checkboxAccentColor: string; // hex or rgb
@@ -47,7 +58,17 @@ export const DEFAULT_INPUT_SETTINGS: InputStyleSettings = {
   paddingY: 12,
   paddingX: 18,
 
-  checkboxAccentColor: "#c084fc",
+  searchIconColor: "#9ca3af",
+  searchIconOpacity: 0.5,
+  searchIconLeft: 16,
+  searchIconTopOffset: 1.5,
+  searchPaddingLeft: 48,
+  searchPaddingRight: 48,
+  searchPaddingY: 14,
+  searchMaxWidth: 500,
+  searchRadius: 12,
+
+  checkboxAccentColor: "#ffffff",
   checkboxSize: 18,
   checkboxRadius: 4,
 
@@ -125,7 +146,7 @@ export default function InputStyleEditor() {
   const [isOpen, setIsOpen] = useState(false);
   const [settings, setSettings] = useState<InputStyleSettings>(DEFAULT_INPUT_SETTINGS);
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<"controls" | "checkboxes" | "typography" | "preview" | "css">("controls");
+  const [activeTab, setActiveTab] = useState<"controls" | "search" | "checkboxes" | "typography" | "preview" | "css">("controls");
 
   useEffect(() => {
     setMounted(true);
@@ -156,8 +177,18 @@ export default function InputStyleEditor() {
     root.style.setProperty("--input-padding-y", `${s.paddingY}px`);
     root.style.setProperty("--input-padding-x", `${s.paddingX}px`);
 
+    // Search Controls
+    root.style.setProperty("--search-icon-color", s.searchIconColor || "#ffffff");
+    root.style.setProperty("--search-icon-opacity", `${s.searchIconOpacity ?? 0.5}`);
+    root.style.setProperty("--search-icon-left", `${s.searchIconLeft ?? 16}px`);
+    root.style.setProperty("--search-padding-left", `${s.searchPaddingLeft ?? 48}px`);
+    root.style.setProperty("--search-padding-right", `${s.searchPaddingRight ?? 48}px`);
+    root.style.setProperty("--search-padding-y", `${s.searchPaddingY ?? 14}px`);
+    root.style.setProperty("--search-max-width", `${s.searchMaxWidth ?? 500}px`);
+    root.style.setProperty("--search-radius", `${s.searchRadius ?? 12}px`);
+
     // Checkbox Controls
-    root.style.setProperty("--checkbox-accent-color", s.checkboxAccentColor || "#c084fc");
+    root.style.setProperty("--checkbox-accent-color", s.checkboxAccentColor || "#ffffff");
     root.style.setProperty("--checkbox-size", `${s.checkboxSize || 18}px`);
     root.style.setProperty("--checkbox-border-radius", `${s.checkboxRadius || 4}px`);
 
@@ -266,7 +297,7 @@ a:hover {
       {isOpen && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-end p-4 md:p-6 pointer-events-none">
           <div className="bg-[#0c0817]/95 backdrop-blur-2xl border border-cyan-500/30 rounded-3xl w-full max-w-xl max-h-[88vh] flex flex-col shadow-[0_0_50px_rgba(0,240,255,0.2)] text-white overflow-hidden pointer-events-auto shadow-2xl">
-            
+
             {/* Modal Header */}
             <div className="p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-3">
@@ -316,44 +347,46 @@ a:hover {
             </div>
 
             {/* View Tabs */}
-            <div className="flex border-b border-white/10 bg-black/20 text-xs font-bold">
+            <div className="flex border-b border-white/10  text-xs font-bold">
               <button
                 onClick={() => setActiveTab("controls")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${
-                  activeTab === "controls" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
-                }`}
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "controls" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
+                  }`}
               >
                 <Sliders className="w-3.5 h-3.5" /> Inputs
               </button>
               <button
+                onClick={() => setActiveTab("search")}
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "search" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
+                  }`}
+              >
+                <Search className="w-3.5 h-3.5" /> Search Bar
+              </button>
+              <button
                 onClick={() => setActiveTab("checkboxes")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${
-                  activeTab === "checkboxes" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
-                }`}
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "checkboxes" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
+                  }`}
               >
                 <CheckSquare className="w-3.5 h-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${
-                  activeTab === "typography" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
-                }`}
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "typography" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
+                  }`}
               >
                 <Type className="w-3.5 h-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${
-                  activeTab === "preview" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
-                }`}
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "preview" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
+                  }`}
               >
                 <Eye className="w-3.5 h-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
-                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${
-                  activeTab === "css" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
-                }`}
+                className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors border-b-2 ${activeTab === "css" ? "border-cyan-400 text-cyan-300 bg-white/5" : "border-transparent text-white/50 hover:text-white"
+                  }`}
               >
                 <Layers className="w-3.5 h-3.5" /> CSS
               </button>
@@ -520,13 +553,174 @@ a:hover {
                 </div>
               )}
 
+              {activeTab === "search" && (
+                <div className="space-y-6">
+                  <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                      🔍 Search Bar & Left Icon Styling
+                    </h4>
+
+                    <div>
+                      <label className="text-xs text-white/70 block mb-1">Search Icon Color</label>
+                      <div className="flex gap-3 items-center">
+                        <input
+                          type="color"
+                          value={settings.searchIconColor?.startsWith("#") ? settings.searchIconColor : "#ffffff"}
+                          onChange={(e) => update("searchIconColor", e.target.value)}
+                          className="w-10 h-10 bg-transparent rounded cursor-pointer border border-white/20 shrink-0"
+                        />
+                        <input
+                          type="text"
+                          value={settings.searchIconColor || "#ffffff"}
+                          onChange={(e) => update("searchIconColor", e.target.value)}
+                          className="flex-1 bg-black/50 border border-white/20 px-3 py-2 rounded-lg text-xs font-mono text-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Icon Opacity</span>
+                        <span className="font-mono text-cyan-300">{Math.round((settings.searchIconOpacity ?? 0.5) * 100)}%</span>
+                      </label>
+                      <input
+                        type="range" min="0.1" max="1" step="0.05"
+                        value={settings.searchIconOpacity ?? 0.5}
+                        onChange={(e) => update("searchIconOpacity", parseFloat(e.target.value))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Icon Left Offset</span>
+                        <span className="font-mono text-cyan-300">{settings.searchIconLeft ?? 16}px</span>
+                      </label>
+                      <input
+                        type="range" min="8" max="36" step="2"
+                        value={settings.searchIconLeft ?? 16}
+                        onChange={(e) => update("searchIconLeft", parseInt(e.target.value, 10))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Icon Vertical Alignment (Nudge Down)</span>
+                        <span className="font-mono text-cyan-300">+{settings.searchIconTopOffset ?? 1.5}px</span>
+                      </label>
+                      <input
+                        type="range" min="-6" max="6" step="0.5"
+                        value={settings.searchIconTopOffset ?? 1.5}
+                        onChange={(e) => update("searchIconTopOffset", parseFloat(e.target.value))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Text Left Padding (Icon Clearance)</span>
+                        <span className="font-mono text-cyan-300">{settings.searchPaddingLeft ?? 48}px</span>
+                      </label>
+                      <input
+                        type="range" min="32" max="80" step="2"
+                        value={settings.searchPaddingLeft ?? 48}
+                        onChange={(e) => update("searchPaddingLeft", parseInt(e.target.value, 10))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Text Right Padding</span>
+                        <span className="font-mono text-cyan-300">{settings.searchPaddingRight ?? 48}px</span>
+                      </label>
+                      <input
+                        type="range" min="24" max="80" step="2"
+                        value={settings.searchPaddingRight ?? 48}
+                        onChange={(e) => update("searchPaddingRight", parseInt(e.target.value, 10))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Vertical Padding (Height)</span>
+                        <span className="font-mono text-cyan-300">{settings.searchPaddingY ?? 14}px</span>
+                      </label>
+                      <input
+                        type="range" min="6" max="24" step="1"
+                        value={settings.searchPaddingY ?? 14}
+                        onChange={(e) => update("searchPaddingY", parseInt(e.target.value, 10))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Search Bar Max Width</span>
+                        <span className="font-mono text-cyan-300">{settings.searchMaxWidth ?? 500}px</span>
+                      </label>
+                      <input
+                        type="range" min="300" max="900" step="20"
+                        value={settings.searchMaxWidth ?? 500}
+                        onChange={(e) => update("searchMaxWidth", parseInt(e.target.value, 10))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-white/70 justify-between flex mb-1">
+                        <span>Search Corner Radius</span>
+                        <span className="font-mono text-cyan-300">{settings.searchRadius ?? 12}px</span>
+                      </label>
+                      <input
+                        type="range" min="0" max="32" step="2"
+                        value={settings.searchRadius ?? 12}
+                        onChange={(e) => update("searchRadius", parseInt(e.target.value, 10))}
+                        className="w-full accent-cyan-400 cursor-pointer"
+                      />
+                    </div>
+
+                    {/* Live Search Bar Preview */}
+                    <div className="pt-3 border-t border-white/10">
+                      <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Live Search Bar Preview</p>
+                      <div className="relative mx-auto" style={{ maxWidth: `${settings.searchMaxWidth ?? 500}px` }}>
+                        <div
+                          className="absolute inset-y-0 flex items-center pointer-events-none z-10"
+                          style={{
+                            left: `${settings.searchIconLeft ?? 16}px`,
+                            color: settings.searchIconColor || "#ffffff",
+                            opacity: settings.searchIconOpacity ?? 0.5,
+                          }}
+                        >
+                          <Search className="w-4 h-4" />
+                        </div>
+                        <input
+                          type="search"
+                          placeholder="Search questions, keywords, or topics..."
+                          className="form-input w-full text-sm font-semibold"
+                          style={{
+                            paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
+                            paddingRight: `${settings.searchPaddingRight ?? 48}px`,
+                            paddingTop: `${settings.searchPaddingY ?? 14}px`,
+                            paddingBottom: `${settings.searchPaddingY ?? 14}px`,
+                            borderRadius: `${settings.searchRadius ?? 12}px`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {activeTab === "checkboxes" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
-                    
+
                     <div>
                       <label className="text-xs text-white/70 block mb-1">Checkbox Accent Color</label>
                       <div className="flex gap-3 items-center">

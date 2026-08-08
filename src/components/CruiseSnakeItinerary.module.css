@@ -1,7 +1,7 @@
 .root {
     padding: 88px 0px;
     box-sizing: border-box;
-    background: linear-gradient(180deg, #071126 0%, #0c1a3a 50%, #060d1f 100%);
+    background: transparent;
     overflow-x: clip;
     overflow-y: visible;
     position: relative;

@@ -193,14 +193,13 @@ export default async function RootLayout({
           }
         ` }} />
         <GrainOverlay />
-        <HomeShaderGradient />
         <CursorFollower />
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>
               <ScrollToTop />
               <SmoothScroll>
-                <div id="page-content-wrapper" className="flex flex-col min-h-screen">
+                <div id="page-content-wrapper" className="flex flex-col min-h-screen relative z-10">
                   <Header />
                   {/* content-area class + CSS guarantees min-height: 100svh so footer
                       can NEVER appear before page content loads */}
@@ -214,6 +213,7 @@ export default async function RootLayout({
                   {isDraftMode && <VisualEditing />}
                   <PageNav />
                   <ClientOnlyExtras />
+                  <HomeShaderGradient />
                 </div>
               </SmoothScroll>
             </Providers>

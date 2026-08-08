@@ -14,6 +14,7 @@ import { useTransition } from "@/context/TransitionContext";
 const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
+  { href: "/shows/past", label: "PAST SHOWS" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
 ];
 

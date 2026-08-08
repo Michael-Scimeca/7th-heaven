@@ -232,16 +232,14 @@ export default function MediaPage() {
                     setActiveFilter(cat.category);
                     setActiveIndex(0);
                   }}
-                  className={`px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    isActive
+                  className={`px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
                       ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                       : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
-                  }`}
+                    }`}
                 >
                   <span>{cat.category}</span>
-                  <span className={`text-[10px] tabular-nums font-black px-1.5 py-0.2 rounded-full ${
-                    isActive ? "bg-black/30 text-white" : "bg-purple-500/20 text-purple-300"
-                  }`}>
+                  <span className={`text-[10px] tabular-nums font-black px-1.5 py-0.2 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-purple-500/20 text-purple-300"
+                    }`}>
                     {cat.videos.length}
                   </span>
                 </button>
@@ -295,11 +293,10 @@ export default function MediaPage() {
                   </div>
 
                   <h3
-                    className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 ${
-                      isActive
+                    className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 ${isActive
                         ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
                         : "text-white/30 group-hover:text-white/70"
-                    }`}
+                      }`}
                     style={{ fontFamily: "var(--font-barlow-condensed)" }}
                   >
                     {video.title}
@@ -307,9 +304,8 @@ export default function MediaPage() {
 
                   {video.description && (
                     <p
-                      className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${
-                        isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
-                      }`}
+                      className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
+                        }`}
                     >
                       {video.description}
                     </p>
@@ -320,9 +316,8 @@ export default function MediaPage() {
                       e.stopPropagation();
                       setPlayingId(video.id);
                     }}
-                    className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${
-                      isActive ? "opacity-100" : "opacity-40 hover:opacity-100"
-                    }`}
+                    className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"
+                      }`}
                   >
                     <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
                     <span>Play Video</span>
@@ -354,11 +349,10 @@ export default function MediaPage() {
                 return (
                   <div
                     key={video.id}
-                    className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${
-                      isActive
+                    className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive
                         ? "opacity-100 scale-100 pointer-events-auto"
                         : "opacity-0 scale-105 pointer-events-none"
-                    }`}
+                      }`}
                   >
                     {isPlaying ? (
                       <InlineYTPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
@@ -369,8 +363,8 @@ export default function MediaPage() {
                         aria-label={`Play ${video.title}`}
                       >
                         <VideoThumbnail videoId={video.id} title={video.title} />
-                        <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/50 transition-colors z-10" />
-                        
+                        <div className="absolute inset-0  group-hover/card:bg-black/50 transition-colors z-10" />
+
                         {/* Play Icon Badge */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/card:opacity-100 transition-opacity z-20">
                           <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.6)] group-hover/card:scale-110 transition-transform">

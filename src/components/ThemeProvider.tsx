@@ -47,8 +47,34 @@ export function ThemeProvider({
         if (res.ok) {
           const data = await res.json();
           if (data.tokens) {
-            setTokens(data.tokens);
-            setSavedTokens(data.tokens);
+            const mergedTokens: ThemeTokens = {
+              colors: {
+                ...DEFAULT_THEME_TOKENS.colors,
+                ...(data.tokens.colors || {}),
+              },
+              typography: {
+                ...DEFAULT_THEME_TOKENS.typography,
+                ...(data.tokens.typography || {}),
+              },
+              spacing: {
+                ...DEFAULT_THEME_TOKENS.spacing,
+                ...(data.tokens.spacing || {}),
+              },
+              radii: {
+                ...DEFAULT_THEME_TOKENS.radii,
+                ...(data.tokens.radii || {}),
+              },
+              shadows: {
+                ...DEFAULT_THEME_TOKENS.shadows,
+                ...(data.tokens.shadows || {}),
+              },
+              breakpoints: {
+                ...DEFAULT_THEME_TOKENS.breakpoints,
+                ...(data.tokens.breakpoints || {}),
+              },
+            };
+            setTokens(mergedTokens);
+            setSavedTokens(mergedTokens);
           }
         }
       } catch (e) {

@@ -31,6 +31,14 @@ export interface HeroMaskSettings {
   itinBottomFadeEnd: number;   // % (70 - 100)
   itinBgOpacity: number;       // % (0 - 100)
   itinBlur: number;            // px (0 - 40)
+
+  // Cruising History Section Mask & Blur Controls
+  historyTopFadeStart: number;    // % (0 - 30)
+  historyTopFadeEnd: number;      // % (0 - 40)
+  historyBottomFadeStart: number; // % (60 - 100)
+  historyBottomFadeEnd: number;   // % (70 - 100)
+  historyBgOpacity: number;       // % (0 - 100)
+  historyBlur: number;            // px (0 - 40)
 }
 
 export const DEFAULT_HERO_MASK_SETTINGS: HeroMaskSettings = {
@@ -47,11 +55,17 @@ export const DEFAULT_HERO_MASK_SETTINGS: HeroMaskSettings = {
   beforeBgOpacity: 85,
   beforeZIndex: 10,
   itinTopFadeStart: 0,
-  itinTopFadeEnd: 2,
+  itinTopFadeEnd: 3,
   itinBottomFadeStart: 95,
   itinBottomFadeEnd: 100,
   itinBgOpacity: 90,
   itinBlur: 16,
+  historyTopFadeStart: 0,
+  historyTopFadeEnd: 2,
+  historyBottomFadeStart: 95,
+  historyBottomFadeEnd: 100,
+  historyBgOpacity: 90,
+  historyBlur: 16,
 };
 
 export default function CruiseHeroMaskEditor() {
@@ -90,6 +104,18 @@ export default function CruiseHeroMaskEditor() {
       if (key === 'itinTopFadeEnd' && value < next.itinTopFadeStart) {
         next.itinTopFadeStart = value;
       }
+      if (key === 'historyBottomFadeStart' && next.historyBottomFadeEnd < value) {
+        next.historyBottomFadeEnd = value;
+      }
+      if (key === 'historyBottomFadeEnd' && value < next.historyBottomFadeStart) {
+        next.historyBottomFadeStart = value;
+      }
+      if (key === 'historyTopFadeStart' && next.historyTopFadeEnd < value) {
+        next.historyTopFadeEnd = value;
+      }
+      if (key === 'historyTopFadeEnd' && value < next.historyTopFadeStart) {
+        next.historyTopFadeStart = value;
+      }
       if (key === 'bottomFadeStart' && next.bottomFadeEnd < value) {
         next.bottomFadeEnd = value;
       }
@@ -125,6 +151,8 @@ export default function CruiseHeroMaskEditor() {
     const bottomEnd = Math.max(settings.bottomFadeStart, settings.bottomFadeEnd);
     const itinTopEnd = Math.max(settings.itinTopFadeStart, settings.itinTopFadeEnd);
     const itinBottomEnd = Math.max(settings.itinBottomFadeStart, settings.itinBottomFadeEnd);
+    const historyTopEnd = Math.max(settings.historyTopFadeStart, settings.historyTopFadeEnd);
+    const historyBottomEnd = Math.max(settings.historyBottomFadeStart, settings.historyBottomFadeEnd);
 
     return `/* 7th Heaven Hero & Official Itinerary Section Mask CSS */
 .hero-video-mask {
@@ -143,7 +171,15 @@ export default function CruiseHeroMaskEditor() {
   -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%);
   backdrop-filter: blur(${settings.itinBlur}px);
   -webkit-backdrop-filter: blur(${settings.itinBlur}px);
-  background: rgba(11, 19, 41, ${settings.itinBgOpacity / 100});
+  background: rgba(0, 0, 0, ${settings.itinBgOpacity / 100});
+}
+
+.cruising-history-section {
+  mask-image: linear-gradient(to bottom, transparent ${settings.historyTopFadeStart}%, black ${historyTopEnd}%, black ${settings.historyBottomFadeStart}%, transparent ${historyBottomEnd}%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.historyTopFadeStart}%, black ${historyTopEnd}%, black ${settings.historyBottomFadeStart}%, transparent ${historyBottomEnd}%);
+  backdrop-filter: blur(${settings.historyBlur}px);
+  -webkit-backdrop-filter: blur(${settings.historyBlur}px);
+  background: rgba(0, 0, 0, ${settings.historyBgOpacity / 100});
 }`;
   };
 
@@ -210,13 +246,13 @@ export default function CruiseHeroMaskEditor() {
               scrollbarColor: '#06b6d4 rgba(12, 16, 29, 0.8)',
             }}
           >
-            {/* 📍 1. OFFICIAL ITINERARY SECTION MASK & BG */}
+            {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
             <div className="bg-purple-950/30 p-3.5 rounded-xl border border-purple-500/30 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY CONTAINER
+                  <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY & CRUISING HISTORY
                 </span>
-                <span className="text-[10px] text-purple-300/70 font-mono">#itinerary</span>
+                <span className="text-[10px] text-purple-300/70 font-mono">#itinerary & .history</span>
               </div>
 
               {/* Itinerary Top Fade Start */}
@@ -312,6 +348,112 @@ export default function CruiseHeroMaskEditor() {
                   value={settings.itinBlur}
                   onChange={e => updateSetting('itinBlur', Number(e.target.value))}
                   className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+            </div>
+
+            {/* 📜 2. CRUISING HISTORY SECTION MASK & BG */}
+            <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/30 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-cyan-400" /> CRUISING HISTORY CONTAINER
+                </span>
+                <span className="text-[10px] text-cyan-300/70 font-mono">.history-timeline</span>
+              </div>
+
+              {/* History Top Fade Start */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">History Top Mask Start</span>
+                  <span className="text-cyan-300 font-mono">{settings.historyTopFadeStart}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  value={settings.historyTopFadeStart}
+                  onChange={e => updateSetting('historyTopFadeStart', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* History Top Fade End */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">History Top Mask End</span>
+                  <span className="text-cyan-300 font-mono">{settings.historyTopFadeEnd}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={settings.historyTopFadeEnd}
+                  onChange={e => updateSetting('historyTopFadeEnd', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* History Bottom Fade Start */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">History Bottom Mask Start</span>
+                  <span className="text-cyan-300 font-mono">{settings.historyBottomFadeStart}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="50"
+                  max="95"
+                  value={settings.historyBottomFadeStart}
+                  onChange={e => updateSetting('historyBottomFadeStart', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* History Bottom Fade End */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">History Bottom Mask End</span>
+                  <span className="text-cyan-300 font-mono">{settings.historyBottomFadeEnd}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="70"
+                  max="100"
+                  value={settings.historyBottomFadeEnd}
+                  onChange={e => updateSetting('historyBottomFadeEnd', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* History Background Opacity */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">History Dark BG Opacity</span>
+                  <span className="text-cyan-300 font-mono">{settings.historyBgOpacity}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.historyBgOpacity}
+                  onChange={e => updateSetting('historyBgOpacity', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* History Backdrop Blur */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">History Backdrop Blur</span>
+                  <span className="text-cyan-300 font-mono">{settings.historyBlur}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={settings.historyBlur}
+                  onChange={e => updateSetting('historyBlur', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>
             </div>

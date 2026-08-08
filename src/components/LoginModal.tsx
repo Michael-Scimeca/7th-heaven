@@ -571,7 +571,7 @@ export default function LoginModal() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-black/20 backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
+      <button type="button" aria-label="Close backdrop" className="absolute inset-0  backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
 
       {/* Modal */}
       <div
@@ -704,8 +704,8 @@ function LoginModalBodyContent(props: any) {
             type="button"
             onClick={() => setModalMode("login")}
             className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
-                ? "text-white font-extrabold"
-                : "text-white/60 hover:text-white"
+              ? "text-white font-extrabold"
+              : "text-white/60 hover:text-white"
               }`}
           >
             Sign In
@@ -714,8 +714,8 @@ function LoginModalBodyContent(props: any) {
             type="button"
             onClick={() => setModalMode("signup")}
             className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
-                ? "text-white font-extrabold"
-                : "text-white/60 hover:text-white"
+              ? "text-white font-extrabold"
+              : "text-white/60 hover:text-white"
               }`}
           >
             Sign Up

@@ -139,7 +139,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
 
   return (
-    <div className="p-6 bg-white border-t border-black/10 space-y-6 text-black font-sans">
+    <div className="py-6 pr-6 pl-0 bg-transparent border-t border-black/10 space-y-6 text-black font-sans">
 
       {/* Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -156,7 +156,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 }`}
             >
               <span>
-                {tab === "all" ? " ALL" : tab === "crew" ? " CREW" : tab === "fan" ? " FANS" : tab === "cruise" ? " CRUISE" : tab === "planner" ? " PLANNERS" : " ADMINS"}
+                {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
               <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-black/10 text-black'}`}>
                 {counts[tab]}
@@ -189,11 +189,11 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       {/* Search Input */}
       <div>
         <input aria-label="Search"
-          type="text"
+          type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder=" Search email directory by name, email, or phone number..."
-          className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] px-4 py-3 text-xs text-[var(--text-color)] font-semibold placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)]"
+          placeholder="Search email directory by name, email, or phone number..."
+          className="search-input w-full bg-[var(--card-bg)] border border-[var(--border-color)] py-3 text-xs text-[var(--text-color)] font-semibold placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)]"
         />
       </div>
 
@@ -203,7 +203,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-[var(--card-bg)] border-b-2 border-[var(--border-color)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-[var(--muted-text)] sticky top-0 backdrop-blur-md z-10">
-                <th className="py-3 px-4 border-b border-[var(--border-color)]">Name</th>
+                <th className="py-3 pr-4 pl-0 border-b border-[var(--border-color)]">Name</th>
                 <th className="py-3 px-4 border-b border-[var(--border-color)]">Email Address</th>
                 <th className="py-3 px-4 border-b border-[var(--border-color)]">Role</th>
                 <th className="py-3 px-4 border-b border-[var(--border-color)]">Phone Number</th>
@@ -219,8 +219,8 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 </tr>
               ) : (
                 filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-[var(--border-color)]">
-                    <td className="py-3 px-4 font-bold text-[var(--text-color)] flex items-center gap-2">
+                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-white/20">
+                    <td className="py-3 pr-4 pl-0 font-bold text-[var(--text-color)] flex items-center gap-2">
                       <div className="w-7 h-7 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center  text-[var(--color-accent)] font-black text-[var(--font-size-3xs)]">
                         {user.name.charAt(0)}
                       </div>

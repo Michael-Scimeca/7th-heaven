@@ -41,7 +41,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
     const initPlayer = () => {
       if (playerRef.current) {
-        try { playerRef.current.destroy(); } catch {}
+        try { playerRef.current.destroy(); } catch { }
       }
       try {
         playerRef.current = new window.YT.Player(playerDivId.current, {
@@ -154,7 +154,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
+            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/70 hover: text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
             aria-label="Close video"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">

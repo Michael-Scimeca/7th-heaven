@@ -119,17 +119,6 @@ function RoleAvatar({
      {initials}
     </span>
    </div>
-   {/* Role indicator dot */}
-   <div
-    className={`absolute -bottom-[1px] -right-[1px] rounded-full flex items-center justify-center ${
-     role === 'fan' ? 'bg-white/60' : role === 'crew' ? 'bg-emerald-400' : 'bg-purple-500'
-    }`}
-    style={{ width: size * 0.3, height: size * 0.3, border: `1.5px solid #12121e` }}
-   >
-    {role === 'admin' && (
-     <svg width={size * 0.16} height={size * 0.16} viewBox="0 0 24 24" fill="#12121e"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
-    )}
-   </div>
   </div>
  );
 }

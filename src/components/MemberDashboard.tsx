@@ -259,25 +259,6 @@ export default function MemberDashboard() {
           <div className="flex items-center gap-5">
             <div className="relative w-16 h-16 flex items-center justify-center text-xl font-black bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)]  text-[var(--color-accent)]">
               {member!.avatar}
-              {/* Role dot */}
-              {(() => {
-                const role = member?.role;
-                if (role === 'admin') return (
-                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-purple-500 border-2 border-[var(--color-bg-primary)] flex items-center justify-center">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-bg-primary)"><path d="M2 20h20v2H2v-2zm1-7l4 5h10l4-5-3-6-4 4-2-7-2 7-4-4-3 6z" /></svg>
-                  </span>
-                );
-                if (role === 'crew') return (
-                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-400 border-2 border-[var(--color-bg-primary)] flex items-center justify-center">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-bg-primary)" strokeWidth="3.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                  </span>
-                );
-                return (
-                  <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-white/50 border-2 border-[var(--color-bg-primary)] flex items-center justify-center">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="var(--color-bg-primary)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-                  </span>
-                );
-              })()}
             </div>
             <div>
               <div className="flex items-center gap-2">

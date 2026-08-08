@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 
 const MODAL_GLASS_STYLE: React.CSSProperties = {
@@ -32,9 +32,11 @@ export default function AdminGatewayPage() {
   }, []);
 
   // Handle redirect if logged in as admin
-  if (hydrated && isLoggedIn && member?.role === 'admin' && member.username) {
-    redirect(`/admin/${member.username}`);
-  }
+  useEffect(() => {
+    if (hydrated && isLoggedIn && member?.role === 'admin' && member.username) {
+      router.replace(`/admin/${member.username}`);
+    }
+  }, [hydrated, isLoggedIn, member, router]);
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();

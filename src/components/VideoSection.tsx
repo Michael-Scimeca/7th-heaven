@@ -38,7 +38,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
               onError={(e) => { e.currentTarget.src = '/images/video-placeholder.jpg'; }}
             />
             {/* YouTube-style hover overlay */}
-            <div className="absolute inset-0 z-[2] bg-black/20 group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+            <div className="absolute inset-0 z-[2]  group-hover/thumb:bg-black/40 transition-colors duration-300 flex items-center justify-center">
               <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center opacity-0 scale-75 group-hover/thumb:opacity-100 group-hover/thumb:scale-100 transition-colors duration-300 shadow-xl">
                 <svg width="16" height="18" viewBox="0 0 20 22" fill="currentColor"><path d="M19 11L1 21V1L19 11Z" /></svg>
               </div>
@@ -181,8 +181,8 @@ export default function VideoSection() {
       {/* Sticky category nav — Pill Tabs */}
       <div
         className={`sticky top-[72px] z-30 transition-colors duration-300 mb-8 ${navStuck
-            ? "backdrop-blur-lg border-b border-white/5 "
-            : ""
+          ? "backdrop-blur-lg border-b border-white/5 "
+          : ""
           }`}
         style={navStuck ? { backgroundColor: 'rgba(10, 10, 15, 0.95)' } : undefined}
       >
@@ -204,8 +204,8 @@ export default function VideoSection() {
                   }, 250);
                 }}
                 className={`text-sm font-bold uppercase tracking-[0.1em] py-2 px-6 rounded-full transition-colors duration-200 cursor-pointer whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category
-                    ? "bg-white text-black"
-                    : "bg-white/[0.05] text-white/60 hover:bg-white/10 hover:text-white"
+                  ? "bg-white text-black"
+                  : "bg-white/[0.05] text-white/60 hover:bg-white/10 hover:text-white"
                   }`}
               >
                 {cat.category}

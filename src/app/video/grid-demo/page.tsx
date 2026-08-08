@@ -76,7 +76,7 @@ export default function GridLayoutDemo() {
           {videos.map(v => (
             <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden">
               <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-colors duration-700" />
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
+              <div className="absolute inset-0 bg-black/40 group-hover: transition-colors" />
               {/* Play */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="w-12 h-12 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
@@ -118,7 +118,7 @@ export default function GridLayoutDemo() {
             <div key={v.id} className="group cursor-pointer">
               <div className="relative aspect-video overflow-hidden">
                 <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors" />
+                <div className="absolute inset-0  group-hover:bg-black/50 transition-colors" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                 </div>
@@ -209,7 +209,7 @@ export default function GridLayoutDemo() {
           {videos.map((v, i) => (
             <div key={v.id} className="relative aspect-video group cursor-pointer overflow-hidden">
               <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-colors" />
+              <div className="absolute inset-0 bg-black/50 group-hover: transition-colors" />
               {/* Big number */}
               <span className="absolute top-3 left-4 text-6xl font-black italic text-white/[0.08] leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{String(i + 1).padStart(2, "0")}</span>
               {/* Play */}

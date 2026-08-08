@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { sanityClient, queries, SanitySiteSettings } from "@/lib/sanity";
+import { Mail, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
     title: "Contact — 7th Heaven",
@@ -46,14 +47,16 @@ export default async function ContactPage() {
                                     {contact.name && <p className="text-sm md:text-lg font-medium text-[var(--muted-text)]">{contact.name}</p>}
                                 </div>
 
-                                <div className="flex flex-col gap-2 mt-4">
+                                <div className="flex flex-col gap-2.5 mt-4">
                                     {contact.email && (
-                                        <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2.5 text-base md:text-xl font-bold text-[var(--text-color)] hover: text-[var(--color-accent)] transition-colors duration-150">
-                                            <span className="text-xl">📧</span> {contact.email}
+                                        <a href={`mailto:${contact.email}?subject=7th%20heaven`} className="flex items-center gap-2.5 text-base md:text-xl font-bold text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 group">
+                                            <Mail className="w-5 h-5 md:w-6 md:h-6 shrink-0 text-[#c084fc] group-hover:text-white transition-colors" />
+                                            <span>{contact.email}</span>
                                         </a>
                                     )}
-                                    <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-2xl md:text-4xl font-black text-[var(--text-color)] hover: text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight">
-                                        <span className="text-2xl">📞</span> {contact.phone}
+                                    <a href={`tel:${contact.phone.replace(/-/g, "")}`} className="flex items-center gap-2.5 text-2xl md:text-4xl font-black text-[var(--text-color)] hover:text-[var(--color-accent)] transition-colors duration-150 font-mono tracking-tight group">
+                                        <Phone className="w-6 h-6 md:w-8 md:h-8 shrink-0 text-[#c084fc] group-hover:text-white transition-colors" />
+                                        <span>{contact.phone}</span>
                                     </a>
                                 </div>
                             </div>

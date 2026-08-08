@@ -394,10 +394,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   if (!isLoggedIn && !devBypass && !isDemoMode) {
     return (
-      <section className="py-48 min-h-screen bg-[#f0f2f5] flex items-center justify-center">
+      <section className="py-48 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-black italic tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
-          <p className="text-black/40 mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
+          <p className="text-[var(--muted-text)] mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
           <button aria-label="Action button" onClick={() => openModal('login')} className="px-8 py-3 bg-[var(--color-accent)] text-white text-sm font-bold uppercase tracking-widest hover:brightness-110 shadow-[0_0_15px_rgba(255,10,61,0.3)]">
             Login to Access
           </button>
@@ -407,7 +407,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   }
 
   return (
-    <section className="pt-[88px] pb-32 min-h-screen bg-[#f0f2f5] border-t border-black/10">
+    <section className="pt-[88px] pb-32 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] border-t border-[var(--border-color)]">
       <div className="site-container pt-[25px]">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (
@@ -420,7 +420,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
         {/* Account Identity Header */}
-        <div className="flex items-center justify-between mb-10 pb-6 border-b border-black/10">
+        <div className="flex items-center justify-between mb-10 pb-6 border-b border-[var(--border-color)]">
           <div className="flex items-center gap-4">
             <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black  text-[var(--color-accent)] overflow-hidden shrink-0">
               {(effectiveMember?.avatar || member?.avatar) && ((effectiveMember?.avatar || member?.avatar).startsWith('http') || (effectiveMember?.avatar || member?.avatar).startsWith('/') || (effectiveMember?.avatar || member?.avatar).startsWith('data:')) ? (
@@ -514,7 +514,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   );
                 })()}
               </div>
-              <p className="text-base text-black/40 font-mono mt-1">{effectiveMember?.email}</p>
+              <p className="text-base text-[var(--muted-text)] font-mono mt-1">{effectiveMember?.email}</p>
             </div>
           </div>
         </div>
@@ -522,17 +522,17 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {/* Cruise Hub Toggle */}
         {isCruiser && (
           <div className="flex justify-center mb-8 -mt-2">
-            <div className="bg-black/[0.03] border border-black/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+            <div className="bg-white/5 border border-white/10 rounded-full p-1 inline-flex items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               <button aria-label="Action button"
                 onClick={() => setDashboardView('fan')}
-                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-black shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-black/40 hover:text-black'
+                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'fan' ? 'bg-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.4)]' : 'text-white/40 hover:text-white'
                   }`}
               >
                 Fan Dashboard
               </button>
               <button aria-label="Action button"
                 onClick={() => setDashboardView('cruise')}
-                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-black/40 hover:text-cyan-400'
+                className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${dashboardView === 'cruise' ? 'bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-white/40 hover:text-cyan-400'
                   }`}
               >
                 Cruise Hub
@@ -544,15 +544,15 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
         {dashboardView === 'cruise' ? (
           <div>
             {/* Cruise Header */}
-            <header className="mb-8 border-b border-black/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <header className="mb-8 border-b border-[var(--border-color)] pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <div>
-                    <h1 className="text-3xl font-black uppercase tracking-widest text-black">Cruise Hub</h1>
+                    <h1 className="text-3xl font-black uppercase tracking-widest text-[var(--text-color)]">Cruise Hub</h1>
                     <p className=" text-[var(--color-accent)] font-bold text-sm tracking-widest uppercase mt-1">Passenger Area</p>
                   </div>
                 </div>
-                <p className="text-black/60 text-lg max-w-xl">Welcome aboard, <strong className="text-black">{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
+                <p className="text-[var(--muted-text)] text-lg max-w-xl">Welcome aboard, <strong className="text-[var(--text-color)]">{member?.name || 'Guest'}</strong>. Here is your official cruise status and early access portal.</p>
               </div>
               <div className="shrink-0">
                 <EmbarkationCountdown />
@@ -588,26 +588,26 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                 {cruiseItinerary.length > 0 && (
                   <div>
-                    <h2 className="text-xl font-black italic tracking-wide text-black uppercase mb-6 flex items-center gap-3">
-                      Official Itinerary <span className="text-xs font-bold text-black/30 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
+                    <h2 className="text-xl font-black italic tracking-wide text-white uppercase mb-6 flex items-center gap-3">
+                      Official Itinerary <span className="text-xs font-bold text-white/40 tracking-widest not-italic ml-2 uppercase">Subject to Change</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {cruiseItinerary.map(day => (
-                        <div key={day.id} className="bg-white border border-black/10 p-6 relative overflow-hidden group transition-colors duration-300" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
+                        <div key={day.id} className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group transition-colors duration-300 rounded-2xl" style={{ '--tw-border-opacity': '0.4', borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` } as React.CSSProperties}>
                           <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/2 transition-colors duration-500 pointer-events-none opacity-10 group-hover:opacity-20" style={{ backgroundColor: day.colorTheme }} />
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-5">
                               <span className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded border" style={{ color: day.colorTheme, backgroundColor: `color-mix(in srgb, ${day.colorTheme} 10%, transparent)`, borderColor: `color-mix(in srgb, ${day.colorTheme} 20%, transparent)` }}>{day.dayLabel}</span>
-                              <span className="text-xs font-bold text-black/40 uppercase tracking-widest">{day.location}</span>
+                              <span className="text-xs font-bold text-white/50 uppercase tracking-widest">{day.location}</span>
                             </div>
-                            <h3 className="text-lg font-black uppercase tracking-wide text-black mb-2">{day.theme}</h3>
-                            <ul className="space-y-4 mt-5 border-t border-black/10 pt-5">
+                            <h3 className="text-lg font-black uppercase tracking-wide text-white mb-2">{day.theme}</h3>
+                            <ul className="space-y-4 mt-5 border-t border-white/10 pt-5">
                               {day.events.map(ev => (
                                 <li key={ev.id} className="flex items-start gap-4">
                                   <span className="font-mono text-xs font-bold tracking-wider mt-0.5" style={{ color: day.colorTheme }}>{ev.time}</span>
                                   <div>
-                                    <strong className="block text-black text-sm tracking-wide">{ev.title}</strong>
-                                    <span className="text-black/40 text-xs">{ev.subtitle}</span>
+                                    <strong className="block text-white text-sm tracking-wide">{ev.title}</strong>
+                                    <span className="text-white/50 text-xs">{ev.subtitle}</span>
                                   </div>
                                 </li>
                               ))}
@@ -624,13 +624,13 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-1">
                 <div className="sticky top-32 flex flex-col gap-6">
                   {/* Passengers Widget */}
-                  <div className="bg-white border border-black/10 p-6 relative overflow-hidden group">
+                  <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 relative overflow-hidden group rounded-2xl">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-accent)]/20 transition-colors duration-500 pointer-events-none" />
                     <div className="flex justify-between items-end mb-5 relative z-10">
                       <div>
-                        <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/40 mb-1">Community</h2>
+                        <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-1">Community</h2>
                         <div className="flex items-center gap-2">
-                          <span className="text-black font-black text-2xl italic tracking-wide">412</span>
+                          <span className="text-white font-black text-2xl italic tracking-wide">412</span>
                           <span className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Fans Onboard</span>
                         </div>
                       </div>
@@ -638,10 +638,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-center relative z-10 mb-4">
                       <div className="flex -space-x-3">
                         {['JD', 'SL', 'MT', 'AB', 'RC', 'KW'].map((initials, i) => {
-                          const colors = ['bg-rose-500', 'bg-cyan-500', 'bg-emerald-500', 'bg-purple-600', 'bg-violet-500', 'bg-pink-500'];
+                          const colors = ['bg-rose-500/20 text-rose-300', 'bg-purple-500/20 text-purple-300', 'bg-cyan-500/20 text-cyan-300', 'bg-amber-500/20 text-amber-300', 'bg-emerald-500/20 text-emerald-300', 'bg-indigo-500/20 text-indigo-300'];
                           return (
                             <div key={`fan-avatar-${i}-${initials}`} className={`w-10 h-10 rounded-full border-2 border-[var(--color-bg-surface)] ${colors[i % colors.length]} flex items-center justify-center overflow-hidden  hover:-translate-y-1 transition-transform cursor-pointer`} style={{ zIndex: 10 - i }}>
-                              <span className="text-xs font-black text-black/90 tracking-widest">{initials}</span>
+                              <span className="font-bold text-xs">{initials}</span>
                             </div>
                           );
                         })}
@@ -650,7 +650,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </div>
                       </div>
                     </div>
-                    <p className="text-black/30 text-xs leading-relaxed relative z-10 border-t border-black/10 pt-4">
+                    <p className="text-white/40 text-xs leading-relaxed relative z-10 border-t border-white/10 pt-4">
                       Join the official 7th Heaven cruise community. See who else is sailing, coordinate shore excursions, and make new friends!
                     </p>
                   </div>
@@ -1051,7 +1051,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       >Unsubscribe</button>
                     </div>
                   ) : (
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-sm">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-md">
                       <div className="flex-1 flex items-center bg-white/5 border border-white/15 px-4 py-3 focus-within:border-rose-500/40 transition-colors">
                         <input aria-label="Input field"
                           type="tel"
@@ -1064,7 +1064,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <button aria-label="Action button"
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
-                        className="px-6 py-3 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+                        className="px-6 py-3 whitespace-nowrap shrink-0 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
                       >
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
                       </button>
@@ -1100,7 +1100,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       {myPhotos.map(photo => {
                         const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
                         return (
-                          <div key={photo.id} className={`relative aspect-square  overflow-hidden group border bg-black/20 ${photo.rejected ? 'border-red-500/40' : 'border-black/10'}`}>
+                          <div key={photo.id} className={`relative aspect-square  overflow-hidden group border  ${photo.rejected ? 'border-red-500/40' : 'border-black/10'}`}>
                             {isVideo ? (
                               <video src={photo.src} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay loop muted playsInline />
                             ) : (

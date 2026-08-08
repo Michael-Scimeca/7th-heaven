@@ -38,22 +38,22 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-4 bg-transparent border-none p-4 relative overflow-hidden">
-      <div className="flex items-center gap-4 border-r border-black/10 pr-6 shrink-0 z-10">
+    <div className="flex flex-wrap items-center gap-4 bg-transparent border-none p-2 relative overflow-hidden">
+      <div className="flex items-center gap-4 border-r border-white/15 pr-6 shrink-0 z-10">
         <span className="text-4xl">🛳️</span>
         <div>
-          <h2 className="text-black font-black italic tracking-wide text-lg">Embarkation</h2>
-          <p className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Port of Miami</p>
+          <h2 className="text-white font-black italic tracking-wide text-lg">Embarkation</h2>
+          <p className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
 
       <div className="flex items-center gap-4 z-10">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
-            <div className="bg-white border border-black/10 w-14 h-16 flex items-center justify-center text-black font-mono font-black text-2xl shadow-md">
+            <div className="bg-white/10 border border-white/20 rounded-2xl w-14 h-16 flex items-center justify-center text-white font-mono font-black text-2xl shadow-lg backdrop-blur-md">
               {value.toString().padStart(2, '0')}
             </div>
-            <span className="text-xs font-bold text-black/60 uppercase tracking-widest mt-2">{unit}</span>
+            <span className="text-xs font-extrabold text-white/90 uppercase tracking-widest mt-2 drop-shadow-sm">{unit}</span>
           </div>
         ))}
       </div>
@@ -455,7 +455,7 @@ export function BookingManager({ email }: { email?: string }) {
       <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-2">Cruise Registration</h2>
       <p className="text-white/60 text-sm mb-6">You haven't registered for the cruise priority list yet. Complete the quick form below to sign up instantly using your member account.</p>
 
-      <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10 bg-black/20 p-4 border border-white/5">
+      <form onSubmit={handleQuickRegister} className="space-y-4 relative z-10  p-4 border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <span className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Full Name</span>
@@ -498,14 +498,14 @@ export function BookingManager({ email }: { email?: string }) {
   );
 
   return (
-    <div className="p-6 bg-white border border-black/10 shadow-md text-black relative overflow-hidden flex flex-col justify-between">
+    <div className="p-6 md:p-8 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl text-white relative overflow-hidden flex flex-col justify-between">
       <div>
         <div className="flex justify-between items-center mb-6 relative z-10">
           <div>
-            <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50">Priority Status</h2>
+            <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/50">Priority Status</h2>
             <div className="flex items-center gap-3 mt-1">
               <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-md" />
-              <span className="text-emerald-700 font-bold tracking-widest uppercase text-xs">Registered</span>
+              <span className="text-emerald-400 font-bold tracking-widest uppercase text-xs">Registered</span>
             </div>
           </div>
 
@@ -637,7 +637,7 @@ export function BookingManager({ email }: { email?: string }) {
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                    <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
+                    <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-white/10 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
                       Cabin Room Preview
                     </span>
                   </div>
@@ -647,48 +647,48 @@ export function BookingManager({ email }: { email?: string }) {
 
             {/* Right Column: Details List */}
             <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
-              <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Passenger Name</span>
-                <span className="text-sm font-bold text-black">{booking.name}</span>
+              <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Passenger Name</span>
+                <span className="text-sm font-bold text-white">{booking.name}</span>
               </div>
-              <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Ship & Voyage</span>
-                <span className="text-xs font-bold text-cyan-700">Royal Caribbean · Icon of the Seas</span>
+              <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Ship & Voyage</span>
+                <span className="text-xs font-bold text-cyan-400">Royal Caribbean · Icon of the Seas</span>
               </div>
-              <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Sailing Dates</span>
-                <span className="text-xs font-bold text-black">Jan 18 – Jan 25, 2026 (7 Nights)</span>
+              <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Sailing Dates</span>
+                <span className="text-xs font-bold text-white">Jan 18 – Jan 25, 2026 (7 Nights)</span>
               </div>
-              <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Departure Port</span>
-                <span className="text-xs font-medium text-black/80">Port of Miami, FL (Terminal A)</span>
+              <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Departure Port</span>
+                <span className="text-xs font-medium text-white/80">Port of Miami, FL (Terminal A)</span>
               </div>
-              <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Party Size</span>
-                <span className="text-sm font-black  text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-black/50 ml-1">Guests</span></span>
+              <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Party Size</span>
+                <span className="text-sm font-black  text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/50 ml-1">Guests</span></span>
               </div>
 
               {booking.cabin_preference && (
-                <div className="flex justify-between items-center border-b border-black/10 pb-2">
-                  <span className="text-xs font-bold text-black/50 uppercase tracking-widest">Selected Cabin</span>
-                  <span className="text-sm font-bold text-cyan-700">{booking.cabin_preference}</span>
+                <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                  <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Selected Cabin</span>
+                  <span className="text-sm font-bold text-cyan-400">{booking.cabin_preference}</span>
                 </div>
               )}
 
               {/* Travel Readiness Checklist Badges */}
-              <div className="bg-gray-50 border border-black/10 p-3 my-3">
-                <span className="text-[var(--font-size-3xs)] font-bold text-black/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
+              <div className="bg-white/5 border border-white/10 p-3 my-3">
+                <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
                 <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-                  <div className="flex items-center gap-1.5 text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5 text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
                     <span>✓</span> Passport Verified
                   </div>
-                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)] border border-[var(--color-accent)] px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 px-2 py-1 rounded">
                     <span>🎸</span> Band VIP Pass Included
                   </div>
-                  <div className="flex items-center gap-1.5 text-cyan-800 font-medium bg-cyan-50 border border-cyan-200 px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5 text-cyan-300 font-medium bg-cyan-500/10 border border-cyan-500/20 px-2 py-1 rounded">
                     <span>📅</span> Check-in: 45 Days Prior
                   </div>
-                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-medium bg-amber-50 border border-amber-200 px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
                     <span>🏷️</span> Luggage Tags: Dec 1st
                   </div>
                 </div>
@@ -967,7 +967,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                 </div>
 
                 {tab === 'saved' ? (
-                  <div className="bg-black/20 border border-white/5 p-4 space-y-3">
+                  <div className=" border border-white/5 p-4 space-y-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                         <span className="text-lg">💳</span>
@@ -1082,15 +1082,15 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="bg-white border border-black/10 p-6 shadow-md text-black relative overflow-hidden group">
+    <div className="bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl text-white relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
 
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase  text-[var(--color-accent)] mb-1">Quick Access</h2>
-          <p className="text-black font-bold text-lg">Important Links</p>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-1">Quick Access</h2>
+          <p className="text-white font-bold text-lg">Important Links</p>
         </div>
       </div>
 
@@ -1101,11 +1101,11 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-between p-3 bg-gray-50 border border-black/10 hover:bg-gray-100 hover:border-[var(--color-accent)]/40 transition-colors text-left group/item"
+            className="w-full flex items-center justify-between p-3.5 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/40 rounded-2xl transition-colors text-left group/item"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || '🔗'}</span>
-              <span className="text-sm font-medium text-black group-hover/item: text-[var(--color-accent)] transition-colors">
+              <span className="text-sm font-medium text-white group-hover/item:text-cyan-300 transition-colors">
                 {link.title}
               </span>
             </div>

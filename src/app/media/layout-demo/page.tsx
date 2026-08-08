@@ -406,7 +406,7 @@ export default function MediaLayoutDemo() {
               <div key={v.id + v.title + "J"} className="bg-white/[0.04] backdrop-blur-2xl border border-white/10 hover:border-[var(--color-accent)]/60 rounded-3xl p-4 transition-colors duration-300 hover:-translate-y-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] group cursor-pointer">
                 <div className="relative aspect-video overflow-hidden mb-4 bg-black">
                   <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                  <div className="absolute inset-0  group-hover:bg-black/40 transition-colors" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/80 backdrop-blur-md flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg></div>
                   </div>

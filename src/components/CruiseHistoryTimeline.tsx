@@ -513,7 +513,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
   const [maskSettings, setMaskSettings] = useState({
     itinTopFadeStart: 0,
-    itinTopFadeEnd: 2,
+    itinTopFadeEnd: 3,
     itinBottomFadeStart: 95,
     itinBottomFadeEnd: 100,
     itinBgOpacity: 90,
@@ -538,22 +538,31 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     return () => window.removeEventListener('hero-mask-update', handleUpdate);
   }, []);
 
-  const itinTopEnd = Math.max(maskSettings.itinTopFadeStart, maskSettings.itinTopFadeEnd);
+  const itinTopEnd = Math.max(maskSettings.itinTopFadeStart, maskSettings.itinTopFadeEnd, 3);
   const itinBottomEnd = Math.max(maskSettings.itinBottomFadeStart, maskSettings.itinBottomFadeEnd);
 
   return (
+    <div
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip transition-all duration-150"
+      style={{
+        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
+        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
+      }}
+    >
+      {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
       <div
-        className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip transition-all duration-150"
+        className="absolute inset-0 pointer-events-none z-0"
         style={{
-          maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
-          WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
-          backdropFilter: `blur(${maskSettings.itinBlur}px)`,
-          WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
+          backdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
+          WebkitBackdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
           background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
+          transform: 'translateZ(0)',
+          willChange: 'transform',
         }}
-      >
-      {/* Section Header — Synced to Global Layout Padding (25px Mobile / 32px Desktop) */}
-      <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px]">
+      />
+
+      {/* Section Header — Inside Container Box */}
+      <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px] relative z-20">
         <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
@@ -566,6 +575,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         <p className="text-white/40 text-xs md:text-sm mt-2 leading-relaxed">
           Explore 7th Heaven&apos;s history at sea across Royal Caribbean, MSC, and landmark voyages in our serpentine timeline.
         </p>
+
+        {/* Inline Tuning Controls Toggle */}
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowSettings(!showSettings)}
+            className="px-4 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/40 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+          >
+            ⚙️ Timeline Path & Physics Tuning
+          </button>
+        </div>
       </div>
 
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (32px LEADING & TRAILING SPACING) ── */}
