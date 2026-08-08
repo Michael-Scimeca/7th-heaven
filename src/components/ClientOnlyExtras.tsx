@@ -21,7 +21,6 @@ const InputStyleEditor = dynamic(
 export default function ClientOnlyExtras() {
   return (
     <>
-      <DirectMessageChat />
       <DevGuideLine />
       <InputStyleEditor />
     </>

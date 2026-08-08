@@ -50,13 +50,6 @@ html.lenis body {
   --color-nav-font: #6700ff;
 }
 
-/* Header Navigation Links Font Color Override */
-header nav a:not(.active),
-header a.nav-link:not(.active),
-.site-nav-link:not(.active) {
-  color: var(--color-nav-font, #6700ff) !important;
-}
-
 
 
 [class*="shadow-"],

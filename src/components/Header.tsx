@@ -236,8 +236,8 @@ export function Header() {
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${
                     active
-                      ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                      : "!text-[#6700ff] hover:!text-[#c084fc]"
+                      ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                      : "text-white/80 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -250,8 +250,8 @@ export function Header() {
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${
                 isNavActive("/live")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-[#6700ff] hover:!text-[#c084fc]"
+                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                  : "text-white/80 hover:text-white"
               }`}
             >
               {hasLiveStreams && (
@@ -279,8 +279,8 @@ export function Header() {
               mobileOpen ? "z-[10001]" : "z-50"
             } ${
               isNavActive("/")
-                ? "!text-[#c084fc]"
-                : "!text-[#6700ff] hover:!text-[#c084fc]"
+                ? "!text-[#6700ff]"
+                : "text-white hover:!text-[#6700ff]"
             }`}
             title="7th Heaven — Go to Home Page"
           >
@@ -297,12 +297,12 @@ export function Header() {
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/cruise")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-[#6700ff] hover:!text-[#c084fc]"
+                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                  : "text-white/80 hover:text-white"
               }`}
             >
               CRUISE
-              <CruiseWaveAnimation />
+              {isNavActive("/cruise") && <CruiseWaveAnimation />}
             </Link>
 
             {/* Book Us link */}
@@ -310,8 +310,8 @@ export function Header() {
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/book")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-[#6700ff] hover:!text-[#c084fc]"
+                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                  : "text-white/80 hover:text-white"
               }`}
             >
               BOOK US
@@ -322,8 +322,8 @@ export function Header() {
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/contact")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
-                  : "!text-[#6700ff] hover:!text-[#c084fc]"
+                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                  : "text-white/80 hover:text-white"
               }`}
             >
               CONTACT

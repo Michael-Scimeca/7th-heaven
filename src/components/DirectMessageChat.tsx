@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useId } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
-import styles from "./DirectMessageChat.module.css";
 
 interface DMMessage {
   id: string;
@@ -20,8 +19,6 @@ export default function DirectMessageChat() {
   const [messageText, setMessageText] = useState("");
   const [messages, setMessages] = useState<DMMessage[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
-  const gooeyFilterId = `dm-gooey-${rawId}`;
 
   // If user is Admin, they use the registry directly, so don't show user widget
   const isAdmin = member?.role === "admin";
@@ -118,38 +115,6 @@ export default function DirectMessageChat() {
 
   return (
     <div className="fixed bottom-20 right-6 z-[9999] font-sans select-none">
-      {/* Gooey filter def — blur + high-contrast alpha matrix. Applied only to
-          the shape layer below so the button/panel edges melt into each
-          other while opening/closing; the real content stays crisp. */}
-      <svg width="0" height="0" aria-hidden="true" focusable="false" className={styles.svgDefs}>
-        <defs>
-          <filter id={gooeyFilterId}>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10"
-              result="goo"
-            />
-            <feBlend in="SourceGraphic" in2="goo" />
-          </filter>
-        </defs>
-      </svg>
-
-      {/* Filtered shape layer — mirrors the button (closed) and panel (open)
-          bounds exactly, but only ever renders as flat blobs. */}
-      <div className={styles.shapes} style={{ filter: `url(#${gooeyFilterId})` }}>
-        <div
-          className={styles.panelShape}
-          style={
-            open
-              ? { width: 300, height: 380, bottom: 64, borderRadius: 20, background: "var(--color-bg-surface, #18181b)" }
-              : { width: 48, height: 48, bottom: 0, borderRadius: 999, background: "var(--color-accent)" }
-          }
-        />
-        <div className={styles.triggerShape} style={{ width: 48, height: 48, background: "var(--color-accent)" }} />
-      </div>
-
       {/* Floating Chat Bubble Button */}
       <button aria-label="Action button"
         onClick={() => setOpen(!open)}
