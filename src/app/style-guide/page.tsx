@@ -1027,7 +1027,7 @@ export default function StyleGuidePage() {
               ['--chat-bubble-member-border' as any]: bubbleBorderColor,
               ['--chat-bubble-self-border' as any]: bubbleBorderColor,
               ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
-              ['--chat-bubble-member-bg' as any]: multiUserColorMode
+              ['--chat-bubble-override-bg' as any]: multiUserColorMode
                 ? undefined
                 : bubbleColorPalette !== 'default'
                   ? bubbleColorPalette

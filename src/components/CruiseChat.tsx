@@ -47,11 +47,19 @@ function isQuestionForAdmin(content: string) {
 }
 
 const getNameColor = (role?: string, name?: string) => {
-  if (role === 'admin') return '! text-[var(--color-accent)] font-extrabold';
-  if (role === 'crew') return '!text-emerald-700 font-extrabold';
-  if (role === 'planner') return '! text-[var(--color-accent)] font-extrabold';
-  if (role === 'cruise') return '!text-cyan-700 font-extrabold';
-  const colors = ['! text-[var(--color-accent)]', '!text-cyan-700', '!text-pink-700', '!text-emerald-700', '! text-[var(--color-accent)]', '!text-indigo-700'];
+  if (role === 'admin') return '!text-purple-300 font-extrabold';
+  if (role === 'crew') return '!text-emerald-400 font-extrabold';
+  if (role === 'planner') return '!text-pink-400 font-extrabold';
+  if (role === 'cruise') return '!text-cyan-400 font-extrabold';
+  const colors = [
+    '!text-cyan-400 font-bold',
+    '!text-purple-400 font-bold',
+    '!text-pink-400 font-bold',
+    '!text-emerald-400 font-bold',
+    '!text-amber-400 font-bold',
+    '!text-sky-400 font-bold',
+    '!text-rose-400 font-bold',
+  ];
   let hash = 0;
   const str = name || 'user';
   for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -85,14 +93,14 @@ const getAvatarGradient = (name: string) => {
 
 export function getUserBubbleBg(senderName: string, opacity: number = 0.8) {
   const palette = [
-    `rgba(14, 116, 144, ${opacity})`,  // Cyan / Ocean Blue
-    `rgba(109, 40, 217, ${opacity})`,  // Deep Purple
-    `rgba(190, 24, 93, ${opacity})`,   // Vibrant Pink
-    `rgba(4, 120, 87, ${opacity})`,    // Emerald Green
-    `rgba(180, 83, 9, ${opacity})`,    // Amber / Gold
-    `rgba(67, 56, 202, ${opacity})`,   // Indigo
-    `rgba(194, 65, 12, ${opacity})`,   // Deep Orange
-    `rgba(159, 18, 57, ${opacity})`,   // Rose
+    `rgba(8, 145, 178, ${opacity})`,    // Deep Cyan
+    `rgba(147, 51, 234, ${opacity})`,   // Vibrant Purple
+    `rgba(219, 39, 119, ${opacity})`,   // Hot Pink / Rose
+    `rgba(5, 150, 105, ${opacity})`,    // Emerald Green
+    `rgba(217, 119, 6, ${opacity})`,    // Amber Gold
+    `rgba(79, 70, 229, ${opacity})`,    // Indigo
+    `rgba(225, 29, 72, ${opacity})`,    // Crimson Red
+    `rgba(2, 132, 199, ${opacity})`,    // Sky Blue
   ];
   let hash = 0;
   const str = senderName || "user";
@@ -557,10 +565,10 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                           ? "var(--chat-bubble-admin-border, transparent)"
                           : "var(--chat-bubble-member-border, transparent)",
                       backgroundColor: isSelf
-                        ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.8))"
+                        ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.85))"
                         : hasAdminTag
                           ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
-                          : `var(--chat-bubble-member-bg, ${getUserBubbleBg(msg.sender_name, 0.75)})`,
+                          : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
                       fontSize: "var(--chat-bubble-font-size, 12px)",
                     }}
                     className="px-4 py-3 inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
