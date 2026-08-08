@@ -286,7 +286,7 @@ export default function HomeShaderGradient() {
           <filter id="globalGrainFilter">
             <feTurbulence
               type="fractalNoise"
-              baseFrequency={typeof document !== "undefined" ? getComputedStyle(document.documentElement).getPropertyValue("--canvas-grain-size").trim() || "0.85" : "0.85"}
+              baseFrequency="0.85"
               numOctaves="3"
               stitchTiles="stitch"
             />
