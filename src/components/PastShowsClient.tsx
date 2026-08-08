@@ -207,7 +207,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
               onClick={() => setSelectedYear("ALL")}
               className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
                 ? "bg-[var(--color-accent)] text-white shadow-sm"
-                : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
+                : "   text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
                 }`}
             >
               All Years
@@ -221,7 +221,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                 }}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
                   ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
-                  : "bg-[var(--bg-color)] text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
+                  : "   text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
                   }`}
               >
                 {y.year}

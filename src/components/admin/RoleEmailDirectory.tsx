@@ -151,8 +151,8 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               type="button"
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer border flex items-center gap-2 ${activeTab === tab
-                  ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
-                  : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
+                ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
+                : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
                 }`}
             >
               <span>
@@ -240,7 +240,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <td className="py-3 px-4 text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[var(--card-bg)] hover:bg-[var(--bg-color)] border border-[var(--border-color)] text-[var(--text-color)] font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-[var(--card-bg)] hover:   border border-[var(--border-color)] text-[var(--text-color)] font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>

@@ -20,7 +20,7 @@ const typeLabels: Record<string, string> = {
 
 export default function PlannerClient() {
   const { member, isLoggedIn, hydrated, login, signup } = useMember();
-  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+  const mounted = useSyncExternalStore(() => () => { }, () => true, () => false);
   const [booking, setBooking] = useState<Booking | null>(null);
   const [allBookings, setAllBookings] = useState<Booking[]>([]);
   const [notes, setNotes] = useState('');
@@ -42,31 +42,31 @@ export default function PlannerClient() {
       const res = await fetch(`/api/booking?email=${encodeURIComponent(memberEmail)}`);
       if (res.ok) {
         const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        const mapped: Booking[] = data.map((item: any) => ({
-          id: item.bookingId || item.booking_id || '',
-          eventName: item.eventType ? (typeLabels[item.eventType] || item.eventType) : '',
-          eventType: item.eventType || '',
-          date: item.eventDate || item.event_date || '',
-          startTime: item.startTime || item.start_time || '',
-          endTime: item.endTime || item.end_time || '',
-          venueName: item.venueName || item.venue_name || '',
-          venueCity: item.venueCity || item.venue_city || '',
-          venueState: item.venueState || item.venue_state || '',
-          indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || '',
-          expectedAttendance: item.expectedAttendance || item.expected_attendance || '',
-          organization: item.organization || '',
-          status: item.status || 'pending',
-          soundSystem: item.soundSystem || item.sound_system || '',
-          stageAvailable: item.stageAvailable || item.stage_available || '',
-          loadInTime: item.loadInTime || item.load_in_time || '',
-          notes: item.details || item.notes || '',
-        }));
-        setAllBookings(mapped);
-        const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
-        setBooking(active);
-        setNotes(active.notes || '');
-      }
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: Booking[] = data.map((item: any) => ({
+            id: item.bookingId || item.booking_id || '',
+            eventName: item.eventType ? (typeLabels[item.eventType] || item.eventType) : '',
+            eventType: item.eventType || '',
+            date: item.eventDate || item.event_date || '',
+            startTime: item.startTime || item.start_time || '',
+            endTime: item.endTime || item.end_time || '',
+            venueName: item.venueName || item.venue_name || '',
+            venueCity: item.venueCity || item.venue_city || '',
+            venueState: item.venueState || item.venue_state || '',
+            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || '',
+            expectedAttendance: item.expectedAttendance || item.expected_attendance || '',
+            organization: item.organization || '',
+            status: item.status || 'pending',
+            soundSystem: item.soundSystem || item.sound_system || '',
+            stageAvailable: item.stageAvailable || item.stage_available || '',
+            loadInTime: item.loadInTime || item.load_in_time || '',
+            notes: item.details || item.notes || '',
+          }));
+          setAllBookings(mapped);
+          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
+          setBooking(active);
+          setNotes(active.notes || '');
+        }
       }
     } catch (e) { console.error(e); }
   }, [member?.email]);
@@ -128,12 +128,12 @@ export default function PlannerClient() {
   };
 
   const isDevBypass = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => process.env.NODE_ENV === 'development' && (localStorage.getItem('7h_dev_bypass') === 'true' || new URLSearchParams(window.location.search).get('bypass') === 'true'),
     () => false
   );
   const forceLogin = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => new URLSearchParams(window.location.search).get('login') === 'true',
     () => false
   );
@@ -143,7 +143,7 @@ export default function PlannerClient() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 pb-16">
+      <div className="min-h-screen    text-[var(--text-color)] pt-24 pb-16">
         <div className="site-container max-w-2xl mx-auto">
 
           {/* Sign In / Create Account Card */}
@@ -280,7 +280,7 @@ export default function PlannerClient() {
   if (!booking) {
     const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : '📋';
     return (
-      <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 pb-16">
+      <div className="min-h-screen    text-[var(--text-color)] pt-24 pb-16">
         <div className="site-container max-w-2xl mx-auto">
           {/* Planner Identity */}
           <div className="flex items-center gap-4 mb-12">
@@ -348,7 +348,7 @@ export default function PlannerClient() {
   const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'PL';
 
   return (
-    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 pb-16">
+    <div className="min-h-screen    text-[var(--text-color)] pt-24 pb-16">
       <div className="site-container max-w-[1400px] mx-auto">
         <div className="flex gap-8">
           {/* LEFT SIDEBAR */}

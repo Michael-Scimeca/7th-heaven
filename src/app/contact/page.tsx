@@ -22,7 +22,7 @@ export default async function ContactPage() {
     const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 
     return (
-        <div className="pt-[123px] min-h-[calc(100vh-88px)] flex flex-col justify-center bg-[var(--bg-color)] text-[var(--text-color)]">
+        <div className="pt-[123px] min-h-[calc(100vh-88px)] flex flex-col justify-center    text-[var(--text-color)]">
             <section className="py-8 md:py-12 flex flex-col justify-center">
                 <div className="site-container w-full flex flex-col justify-center">
                     {/* Header */}

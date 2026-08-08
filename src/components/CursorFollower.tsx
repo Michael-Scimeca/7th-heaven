@@ -341,14 +341,19 @@ export default function CursorFollower() {
           from { transform: translateX(-50%); }
           to   { transform: translateX(0); }
         }
-        .cursor-pick-badge {
+        .cursor-pick-pos {
           position: fixed;
           top: 0; left: 0;
           pointer-events: none;
           z-index: 2147483647;
           will-change: transform;
-          animation: cursorPickSpin 2.4s linear infinite;
           transition: opacity 0.2s ease;
+        }
+        .cursor-pick-spin {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          animation: cursorPickSpin 2.4s linear infinite;
         }
         .cursor-pick-row {
           width: 100%;
@@ -421,40 +426,45 @@ export default function CursorFollower() {
         ))}
       </div>
 
-      {/* Guitar-pick cursor badge — shown while hovering a .morph-pick element */}
+      {/* Guitar-pick cursor badge — shown while hovering a .morph-pick element.
+          Position (JS-driven translate) and rotation (CSS animation) must live on
+          DIFFERENT elements — a CSS `animation` targeting `transform` fully owns
+          that property, so an inline transform set on the same node for tracking
+          the mouse would just get overwritten by the animation every frame. */}
       <div
         ref={pickElRef}
-        className="cursor-pick-badge"
+        className="cursor-pick-pos"
         style={{
           width: PICK_W,
           height: PICK_H,
           opacity: isVisible && pickActive ? 1 : 0,
-          clipPath: PICK_CLIP,
           transform: "translate3d(-9999px, -9999px, 0)",
         }}
       >
-        <div style={{ position: "absolute", inset: 0, background: "#9333ea" }} />
-        <div
-          style={{
-            position: "absolute",
-            left: "8%",
-            right: "8%",
-            top: "33%",
-            height: "26%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            gap: 2,
-          }}
-        >
-          <div className="cursor-pick-row">
-            <div className="cursor-pick-track">
-              {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickLabel}</span>)}
+        <div className="cursor-pick-spin" style={{ clipPath: PICK_CLIP }}>
+          <div style={{ position: "absolute", inset: 0, background: "#9333ea" }} />
+          <div
+            style={{
+              position: "absolute",
+              left: "8%",
+              right: "8%",
+              top: "33%",
+              height: "26%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: 2,
+            }}
+          >
+            <div className="cursor-pick-row">
+              <div className="cursor-pick-track">
+                {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickLabel}</span>)}
+              </div>
             </div>
-          </div>
-          <div className="cursor-pick-row reverse">
-            <div className="cursor-pick-track">
-              {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickLabel}</span>)}
+            <div className="cursor-pick-row reverse">
+              <div className="cursor-pick-track">
+                {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickLabel}</span>)}
+              </div>
             </div>
           </div>
         </div>

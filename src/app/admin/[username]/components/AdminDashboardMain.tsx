@@ -6131,7 +6131,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
                     </div>
 
-                    <div className="bg-[var(--bg-color)] border border-[var(--border-color)] pr-4 pb-4 pt-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
+                    <div className="   border border-[var(--border-color)] pr-4 pb-4 pt-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[160px]">
                       {crewAlertMsg ? crewAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
                     </div>
                   </div>
@@ -6653,7 +6653,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <span className="text-xs text-[var(--muted-text)] font-mono">Plain SMS Text</span>
                   </div>
 
-                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
+                  <div className="   border border-[var(--border-color)] p-4 text-xs text-[var(--text-color)] leading-relaxed font-sans whitespace-pre-wrap min-h-[120px]">
                     {bandAlertMsg ? bandAlertMsg : <span className="text-[var(--muted-text)] opacity-60 italic">(No message text entered yet...)</span>}
                   </div>
                 </div>
@@ -8753,7 +8753,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         ? 'bg-purple-500/20 text-purple-300 font-black shadow-[inset_0_-3px_0_#9333ea]'
                         : isNextShow
                           ? 'bg-purple-500/10 text-purple-300 font-black border-x border-purple-500/30 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]'
-                          : 'text-[var(--text-color)] hover:bg-[var(--bg-color)]'
+                          : 'text-[var(--text-color)] hover:  '
                         }`}
                       title="Click to select date & stack working crew at top"
                     >
@@ -8789,7 +8789,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               }}
                               className={`p-0.5 rounded border-none bg-transparent cursor-pointer transition-colors ${scheduleSortByDate === day.dateStr
                                 ? 'bg-purple-500/20 text-purple-300 font-extrabold'
-                                : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]'
+                                : 'text-[var(--muted-text)] hover:text-[var(--text-color)] hover:  '
                                 }`}
                               title={scheduleSortByDate === day.dateStr ? "Reset crew sorting" : "Sort working crew to the top"}
                             >
@@ -8835,7 +8835,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     return (
                       <td
                         key={day.dateStr}
-                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer ${isSelectedDay
+                        className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:   transition-colors cursor-pointer ${isSelectedDay
                           ? 'bg-purple-500/10 border-x border-purple-500/30'
                           : isNextShow
                             ? 'bg-purple-500/10 border-x border-purple-500/20'
@@ -9042,7 +9042,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 handleCellClick(day.dateStr, member.id, member.role || 'SERVER');
                               }
                             }}
-                            className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:bg-[var(--bg-color)] transition-colors cursor-pointer group ${isSelectedDay
+                            className={`p-1 border-r border-b border-[var(--border-color)] align-top relative hover:   transition-colors cursor-pointer group ${isSelectedDay
                               ? 'bg-purple-500/10 border-x border-purple-500/30'
                               : isNextShow
                                 ? 'bg-purple-500/10 border-x border-purple-500/20'
@@ -11391,7 +11391,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <div id="admin-dashboard-root" className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <div id="admin-dashboard-root" className="min-h-screen    text-[var(--text-color)] pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }

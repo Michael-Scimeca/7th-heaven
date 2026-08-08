@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PastShowsPage() {
   return (
-    <div className="min-h-screen bg-[var(--bg-color)] pt-[100px] pb-16">
+    <div className="min-h-screen    pt-[100px] pb-16">
       <PastShowsClient
         years={pastShowsData.years}
         totalShowsCount={pastShowsData.totalShows}

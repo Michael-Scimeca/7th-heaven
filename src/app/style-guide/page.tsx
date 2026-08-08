@@ -84,35 +84,68 @@ export default function StyleGuidePage() {
   const [copiedSpec, setCopiedSpec] = useState<boolean>(false);
 
   // Canvas Shader & Film Grain UI Control States
-  const [canvasGrainOpacity, setCanvasGrainOpacity] = useState<number>(6); // 6%
+  const [canvasGrainOpacity, setCanvasGrainOpacity] = useState<number>(6);
   const [canvasGrainBlend, setCanvasGrainBlend] = useState<string>("overlay");
   const [canvasGrainSize, setCanvasGrainSize] = useState<number>(0.85);
+  // NeatGradient live shader parameters
   const [canvasSpeed, setCanvasSpeed] = useState<number>(3);
   const [canvasWaveAmp, setCanvasWaveAmp] = useState<number>(0.6);
   const [canvasWaveFreqX, setCanvasWaveFreqX] = useState<number>(1.5);
   const [canvasWaveFreqY, setCanvasWaveFreqY] = useState<number>(2.0);
+  const [canvasColorBlending, setCanvasColorBlending] = useState<number>(10);
+  const [canvasColorSaturation, setCanvasColorSaturation] = useState<number>(10);
+  const [canvasColorBrightness, setCanvasColorBrightness] = useState<number>(0.5);
+  const [canvasShadows, setCanvasShadows] = useState<number>(10);
+  const [canvasHighlights, setCanvasHighlights] = useState<number>(10);
+  const [canvasHPressure, setCanvasHPressure] = useState<number>(3);
+  const [canvasVPressure, setCanvasVPressure] = useState<number>(3);
   const [canvasBgColor, setCanvasBgColor] = useState<string>("#05030a");
   const [copiedCanvasSpec, setCopiedCanvasSpec] = useState<boolean>(false);
 
+  // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance
   useEffect(() => {
     document.documentElement.style.setProperty("--canvas-grain-opacity", `${canvasGrainOpacity / 100}`);
     document.documentElement.style.setProperty("--canvas-grain-blend", canvasGrainBlend);
     document.documentElement.style.setProperty("--canvas-grain-size", `${canvasGrainSize}`);
-    // Update the SVG filter baseFrequency live
     const feTurb = document.querySelector("#globalGrainFilter feTurbulence");
     if (feTurb) feTurb.setAttribute("baseFrequency", `${canvasGrainSize}`);
-  }, [canvasGrainOpacity, canvasGrainBlend, canvasGrainSize]);
+
+    const neat = (window as any).__neatInstance;
+    if (neat) {
+      neat.speed = canvasSpeed;
+      neat.waveAmplitude = canvasWaveAmp;
+      neat.waveFrequencyX = canvasWaveFreqX;
+      neat.waveFrequencyY = canvasWaveFreqY;
+      neat.colorBlending = canvasColorBlending;
+      neat.colorSaturation = canvasColorSaturation;
+      neat.colorBrightness = canvasColorBrightness;
+      neat.shadows = canvasShadows;
+      neat.highlights = canvasHighlights;
+      neat.horizontalPressure = canvasHPressure;
+      neat.verticalPressure = canvasVPressure;
+      neat.backgroundColor = canvasBgColor;
+    }
+  }, [canvasGrainOpacity, canvasGrainBlend, canvasGrainSize, canvasSpeed, canvasWaveAmp, canvasWaveFreqX, canvasWaveFreqY, canvasColorBlending, canvasColorSaturation, canvasColorBrightness, canvasShadows, canvasHighlights, canvasHPressure, canvasVPressure, canvasBgColor]);
 
   const handleCopyCanvasSpec = () => {
     const spec = `:root {
+  /* Film Grain Overlay */
   --canvas-grain-opacity: ${canvasGrainOpacity / 100};
-  --canvas-grain-blend: "${canvasGrainBlend}";
+  --canvas-grain-blend: ${canvasGrainBlend};
   --canvas-grain-size: ${canvasGrainSize};
+  /* NeatGradient Shader */
   --canvas-speed: ${canvasSpeed};
-  --canvas-wave-amp: ${canvasWaveAmp};
+  --canvas-wave-amplitude: ${canvasWaveAmp};
   --canvas-wave-freq-x: ${canvasWaveFreqX};
   --canvas-wave-freq-y: ${canvasWaveFreqY};
-  --canvas-bg-color: "${canvasBgColor}";
+  --canvas-color-blending: ${canvasColorBlending};
+  --canvas-color-saturation: ${canvasColorSaturation};
+  --canvas-color-brightness: ${canvasColorBrightness};
+  --canvas-shadows: ${canvasShadows};
+  --canvas-highlights: ${canvasHighlights};
+  --canvas-h-pressure: ${canvasHPressure};
+  --canvas-v-pressure: ${canvasVPressure};
+  --canvas-bg-color: ${canvasBgColor};
 }`;
     navigator.clipboard.writeText(spec);
     setCopiedCanvasSpec(true);
@@ -1456,70 +1489,54 @@ export default function StyleGuidePage() {
               </div>
             </div>
 
-            {/* Background WebGL Shader Controls */}
-            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+            {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5">
               <h3 className="text-sm font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
-                <Sliders className="w-4 h-4" /> 2. Background Shader Parameters
+                <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
               </h3>
+              <p className="text-[10px] text-white/50">All sliders update the WebGL canvas shader in real-time via <code className="text-purple-300 font-mono">window.__neatInstance</code>.</p>
 
-              {/* Animation Speed Slider */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-xs font-bold">
-                  <span className="text-white/80">Shader Animation Speed</span>
-                  <span className="text-purple-400 font-mono">{canvasSpeed}x</span>
+              {/* Reusable slider helper */}
+              {([
+                { label: "Speed", value: canvasSpeed, set: setCanvasSpeed, min: 0, max: 10, step: 1, color: "purple" },
+                { label: "Wave Amplitude", value: canvasWaveAmp, set: setCanvasWaveAmp, min: 0, max: 3, step: 0.1, color: "cyan" },
+                { label: "Wave Freq X", value: canvasWaveFreqX, set: setCanvasWaveFreqX, min: 0, max: 5, step: 0.1, color: "cyan" },
+                { label: "Wave Freq Y", value: canvasWaveFreqY, set: setCanvasWaveFreqY, min: 0, max: 5, step: 0.1, color: "cyan" },
+                { label: "Color Blending", value: canvasColorBlending, set: setCanvasColorBlending, min: 0, max: 20, step: 1, color: "purple" },
+                { label: "Color Saturation", value: canvasColorSaturation, set: setCanvasColorSaturation, min: 0, max: 20, step: 1, color: "pink" },
+                { label: "Color Brightness", value: canvasColorBrightness, set: setCanvasColorBrightness, min: 0, max: 2, step: 0.05, color: "amber" },
+                { label: "Shadows", value: canvasShadows, set: setCanvasShadows, min: 0, max: 20, step: 1, color: "purple" },
+                { label: "Highlights", value: canvasHighlights, set: setCanvasHighlights, min: 0, max: 20, step: 1, color: "amber" },
+                { label: "H. Pressure", value: canvasHPressure, set: setCanvasHPressure, min: 0, max: 10, step: 1, color: "emerald" },
+                { label: "V. Pressure", value: canvasVPressure, set: setCanvasVPressure, min: 0, max: 10, step: 1, color: "emerald" },
+              ] as const).map((ctrl) => (
+                <div key={ctrl.label} className="space-y-1">
+                  <div className="flex justify-between items-center text-xs font-bold">
+                    <span className="text-white/80">{ctrl.label}</span>
+                    <span className={`font-mono text-${ctrl.color}-400`}>{ctrl.value}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={ctrl.min}
+                    max={ctrl.max}
+                    step={ctrl.step}
+                    value={ctrl.value}
+                    onChange={(e) => ctrl.set(Number(e.target.value))}
+                    className={`w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-${ctrl.color}-500`}
+                  />
                 </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  value={canvasSpeed}
-                  onChange={(e) => setCanvasSpeed(Number(e.target.value))}
-                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                />
-                <div className="flex gap-1.5 pt-1">
-                  {[1, 3, 5, 8, 10].map((spd) => (
-                    <button
-                      key={spd}
-                      type="button"
-                      onClick={() => setCanvasSpeed(spd)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        canvasSpeed === spd
-                          ? "bg-purple-600 border-purple-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
-                    >
-                      {spd}x
-                    </button>
-                  ))}
-                </div>
-              </div>
+              ))}
 
-              {/* Wave Amplitude Slider */}
+              {/* Background Color */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center text-xs font-bold">
-                  <span className="text-white/80">Wave Amplitude</span>
-                  <span className="text-cyan-400 font-mono">{canvasWaveAmp}</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.1"
-                  max="2.0"
-                  step="0.1"
-                  value={canvasWaveAmp}
-                  onChange={(e) => setCanvasWaveAmp(Number(e.target.value))}
-                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-                />
-              </div>
-
-              {/* Background Color Swatches */}
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-white/80">Background Base Tint</label>
+                <label className="block text-xs font-bold text-white/80">Background Color</label>
                 <div className="flex items-center gap-3">
                   {[
                     { label: "Midnight", bg: "#05030a" },
                     { label: "Deep Purple", bg: "#0a0418" },
                     { label: "Dark Magenta", bg: "#120215" },
                     { label: "Ocean Black", bg: "#020b18" },
+                    { label: "True Black", bg: "#000000" },
                   ].map((bg) => (
                     <button
                       key={bg.bg}

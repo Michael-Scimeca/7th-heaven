@@ -154,6 +154,8 @@ export default function HomeShaderGradient() {
       if (neatInstance) {
         (neatInstance as any)._licensed = true;
         (neatInstance as any)._renderWatermark = () => {};
+        // Expose instance globally so style guide canvas controls can update it live
+        (window as any).__neatInstance = neatInstance;
       }
 
       // Remove any Neat watermark link injected into DOM
