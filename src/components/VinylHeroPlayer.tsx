@@ -294,6 +294,22 @@ export default function VinylHeroPlayer({
     setDuration("0:00");
   }, [activeAlbumIdx, activeTrackIdx]);
 
+  useEffect(() => {
+    const handlePlayHeroMusic = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+      if (!audio.src) {
+        const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
+        if (url) audio.src = url;
+      }
+      audio.play()
+        .then(() => setIsPlaying(true))
+        .catch((err) => console.warn("Hero audio play failed:", err));
+    };
+    window.addEventListener("7h-play-hero-music", handlePlayHeroMusic);
+    return () => window.removeEventListener("7h-play-hero-music", handlePlayHeroMusic);
+  }, [activeAlbumIdx, activeTrackIdx]);
+
   const currentAlbum = ALBUMS[activeAlbumIdx];
   const currentTrack = currentAlbum.tracks[activeTrackIdx] || currentAlbum.tracks[0];
 

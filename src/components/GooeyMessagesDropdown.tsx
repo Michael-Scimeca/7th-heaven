@@ -106,7 +106,6 @@ export default function GooeyMessagesDropdown({
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

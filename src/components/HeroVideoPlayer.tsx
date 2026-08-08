@@ -249,6 +249,17 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     [snapshots]
   );
 
+  const handleHeroClick = useCallback(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.muted = false;
+      video.play().catch(() => {});
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("7h-play-hero-music"));
+    }
+  }, []);
+
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
       {/* CSS Animations style tag */}
@@ -279,7 +290,9 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         </video>
       )}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none transition-colors duration-300"
+        className="absolute inset-0 z-[1] cursor-pointer transition-colors duration-300"
+        onClick={handleHeroClick}
+        title="Click to play video audio & music player"
         style={{
           backgroundColor: tintColor,
           opacity: tintOpacity,

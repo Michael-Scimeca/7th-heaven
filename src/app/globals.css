@@ -287,6 +287,50 @@ textarea:focus {
   box-shadow: 0 0 18px var(--input-focus-glow), inset 0 1px 2px rgba(255, 255, 255, 0.1) !important;
 }
 
+/* =============================================
+   ANIMATED SPINNING GRADIENT BORDER
+   Wrap any input/element in .input-glow-border to give it a
+   rotating conic-gradient ring (masked to a 1px outline + blur).
+   ============================================= */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.input-glow-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.input-glow-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
+  filter: blur(6px);
+  animation: border-angle-spin 5s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.input-glow-border > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes border-angle-spin {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
 select option {
   background-color: #0c0d12 !important;
   color: #ffffff !important;

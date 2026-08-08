@@ -607,12 +607,14 @@ export default function StyleGuidePage() {
               {/* Focused / Active */}
               <div>
                 <label className="block text-xs font-bold text-cyan-300 mb-1">Focused / Active State</label>
-                <input
-                  type="text"
-                  value={textInput}
-                  onChange={(e) => setTextInput(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/10 border border-cyan-400 text-white/80 text-xs font-medium outline-none ring-2 ring-cyan-400/40 transition"
-                />
+                <div className="input-glow-border rounded-[12px]">
+                  <input
+                    type="text"
+                    value={textInput}
+                    onChange={(e) => setTextInput(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-[12px] bg-white/10 border-none text-white/80 text-xs font-medium outline-none transition"
+                  />
+                </div>
               </div>
 
               {/* Error */}
