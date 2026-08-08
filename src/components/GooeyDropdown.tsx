@@ -49,6 +49,8 @@ export interface GooeyDropdownProps {
   textColor?: string;
   /** Text color for menu items (defaults to textColor). */
   panelTextColor?: string;
+  /** Keep closed trigger pill transparent (defaults to true). */
+  transparent?: boolean;
   /** Opacity for the glass background (0.1 to 1.0, defaults to 0.75). */
   glassOpacity?: number;
   /** Backdrop blur strength in px (defaults to 24). */
@@ -79,6 +81,7 @@ export default function GooeyDropdown({
   accentColor = "#9333ea",
   textColor = "#ffffff",
   panelTextColor,
+  transparent = true,
   glassOpacity = 0.75,
   backdropBlur = 24,
   className = "",
@@ -92,8 +95,10 @@ export default function GooeyDropdown({
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // Translucent background color for glass backdrop-blur
-  const bgGlassColor = hexToRgba(accentColor, glassOpacity);
+  // Translucent background color for glass backdrop-blur (transparent when closed)
+  const bgGlassColor = open
+    ? hexToRgba(accentColor, glassOpacity)
+    : (transparent ? "rgba(255, 255, 255, 0.08)" : hexToRgba(accentColor, glassOpacity));
 
   // Keep the trigger-shape / closed-panel size in sync with the real button,
   // so the blob sits exactly behind the label with no gap or overhang.

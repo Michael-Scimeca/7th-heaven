@@ -59,7 +59,7 @@ export function SquishyToggle({
 
   return (
     <div
-      className={`squishy-toggle relative inline-block h-[30px] w-[52px] select-none bg-[oklab(0.999994_0.0000455678_0.0000200868_/_0.02)] ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`squishy-toggle relative inline-block h-[30px] w-[52px] select-none overflow-hidden rounded-full bg-[oklab(0.999994_0.0000455678_0.0000200868_/_0.02)] ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
     >
       <input
         id={id}
