@@ -764,6 +764,8 @@ select::placeholder,
   --animate-page-enter: page-enter 0.3s ease-out forwards;
   --animate-pulse-line: pulse-line 2s ease-in-out infinite;
   --animate-ticker: ticker 12s linear infinite;
+  --animate-squish-in: squish-in 0.4s forwards;
+  --animate-squish-out: squish-out 0.4s forwards;
 }
 
 /* --- Keyframes --- */
@@ -774,6 +776,45 @@ select::placeholder,
 
   to {
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Squishy toggle thumb (SquishyToggle component) */
+@keyframes squish-in {
+  0% {
+    border-radius: 8px;
+    transform: translateX(0) scale(1);
+    animation-timing-function: cubic-bezier(.75, 0, 1, 1);
+  }
+
+  50% {
+    border-radius: 5.2px / 11px;
+    transform: translateX(8.7px) scale(1.545, 0.727);
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1.5);
+  }
+
+  100% {
+    border-radius: 8px;
+    transform: translateX(24px) scale(1);
+  }
+}
+
+@keyframes squish-out {
+  0% {
+    border-radius: 8px;
+    transform: translateX(24px) scale(1);
+    animation-timing-function: cubic-bezier(.75, 0, 1, 1);
+  }
+
+  50% {
+    border-radius: 5.2px / 11px;
+    transform: translateX(2.2px) scale(1.545, 0.727);
+    animation-timing-function: cubic-bezier(0, 0, 0.3, 1.5);
+  }
+
+  100% {
+    border-radius: 8px;
+    transform: translateX(0) scale(1);
   }
 }
 

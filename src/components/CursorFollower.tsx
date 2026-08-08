@@ -4,6 +4,12 @@
 
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { gsap } from "gsap";
+import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(MorphSVGPlugin);
+}
 
 // ── Color palette presets ────────────────────────────────────────────────────
 const COLOR_PRESETS: Record<string, string[]> = {
@@ -107,6 +113,11 @@ const PICK_H = 127;
 const PICK_CLIP =
   "polygon(95.84% 28.87%, 95.84% 30.52%, 95.84% 32.17%, 95.84% 33.81%, 95.80% 35.46%, 95.60% 37.10%, 95.28% 38.73%, 94.85% 40.34%, 94.38% 41.94%, 93.88% 43.53%, 93.35% 45.12%, 92.79% 46.71%, 92.20% 48.28%, 91.57% 49.85%, 90.93% 51.41%, 90.25% 52.96%, 89.55% 54.50%, 88.82% 56.04%, 88.06% 57.56%, 87.28% 59.08%, 86.48% 60.59%, 85.65% 62.09%, 84.80% 63.59%, 83.92% 65.07%, 83.02% 66.54%, 82.10% 68.01%, 81.16% 69.46%, 80.19% 70.91%, 79.20% 72.34%, 78.18% 73.76%, 77.15% 75.17%, 76.09% 76.57%, 75.00% 77.96%, 73.90% 79.34%, 72.77% 80.70%, 71.61% 82.05%, 70.44% 83.38%, 69.24% 84.71%, 68.01% 86.02%, 66.77% 87.31%, 65.50% 88.59%, 64.21% 89.85%, 62.90% 91.10%, 61.57% 92.34%, 60.22% 93.56%, 58.85% 94.76%, 57.46% 95.95%, 55.94% 97.03%, 54.20% 97.84%, 52.27% 98.30%, 50.27% 98.36%, 48.26% 98.33%, 46.32% 97.92%, 44.55% 97.15%, 42.99% 96.11%, 41.59% 94.93%, 40.22% 93.72%, 38.87% 92.50%, 37.54% 91.27%, 36.23% 90.02%, 34.94% 88.76%, 33.66% 87.48%, 32.41% 86.19%, 31.19% 84.88%, 29.98% 83.57%, 28.80% 82.23%, 27.64% 80.89%, 26.51% 79.53%, 25.40% 78.15%, 24.31% 76.77%, 23.24% 75.37%, 22.20% 73.96%, 21.18% 72.54%, 20.19% 71.11%, 19.22% 69.67%, 18.27% 68.21%, 17.34% 66.75%, 16.44% 65.28%, 15.56% 63.80%, 14.70% 62.31%, 13.86% 60.81%, 13.05% 59.30%, 12.27% 57.79%, 11.51% 56.26%, 10.77% 54.73%, 10.06% 53.18%, 9.38% 51.63%, 8.73% 50.08%, 8.10% 48.51%, 7.51% 46.94%, 6.94% 45.35%, 6.41% 43.77%, 5.91% 42.17%, 5.46% 40.57%, 5.05% 38.95%, 4.70% 37.33%, 4.42% 35.70%, 4.23% 34.06%, 4.16% 32.41%, 4.19% 30.76%, 4.26% 29.12%, 4.49% 27.48%, 4.88% 25.87%, 5.42% 24.28%, 6.11% 22.73%, 6.93% 21.23%, 7.88% 19.77%, 8.94% 18.38%, 10.13% 17.05%, 11.45% 15.81%, 12.88% 14.65%, 14.42% 13.59%, 16.05% 12.63%, 17.76% 11.77%, 19.54% 11.00%, 21.38% 10.33%, 23.26% 9.75%, 25.17% 9.23%, 27.09% 8.75%, 29.03% 8.33%, 30.99% 7.95%, 32.96% 7.63%, 34.94% 7.34%, 36.93% 7.11%, 38.93% 6.92%, 40.93% 6.78%, 42.94% 6.68%, 44.95% 6.64%, 46.95% 6.56%, 48.96% 6.56%, 50.97% 6.56%, 52.98% 6.56%, 54.99% 6.63%, 57.00% 6.67%, 59.01% 6.76%, 61.01% 6.89%, 63.01% 7.08%, 65.00% 7.31%, 66.98% 7.59%, 68.95% 7.91%, 70.91% 8.28%, 72.85% 8.69%, 74.78% 9.16%, 76.69% 9.67%, 78.58% 10.24%, 80.42% 10.90%, 82.21% 11.64%, 83.94% 12.48%, 85.59% 13.43%, 87.14% 14.47%, 88.59% 15.61%, 89.92% 16.85%, 91.13% 18.16%, 92.22% 19.55%, 93.19% 20.99%, 94.04% 22.49%, 94.74% 24.03%, 95.29% 25.61%, 95.67% 27.23%, 95.84% 28.87%)";
 const PICK_DEFAULT_LABEL = "Play Video";
+// Same 160-point outline as PICK_CLIP, expressed as raw path data (not percentages)
+// in a 0–100 × 0–122 coordinate space, so MorphSVGPlugin can tween a circle into it.
+const PICK_PATH_D = "M95.84,35.22L95.84,37.23L95.84,39.25L95.84,41.25L95.8,43.26L95.6,45.26L95.28,47.25L94.85,49.21L94.38,51.17L93.88,53.11L93.35,55.05L92.79,56.99L92.2,58.9L91.57,60.82L90.93,62.72L90.25,64.61L89.55,66.49L88.82,68.37L88.06,70.22L87.28,72.08L86.48,73.92L85.65,75.75L84.8,77.58L83.92,79.39L83.02,81.18L82.1,82.97L81.16,84.74L80.19,86.51L79.2,88.25L78.18,89.99L77.15,91.71L76.09,93.42L75,95.11L73.9,96.79L72.77,98.45L71.61,100.1L70.44,101.72L69.24,103.35L68.01,104.94L66.77,106.52L65.5,108.08L64.21,109.62L62.9,111.14L61.57,112.65L60.22,114.14L58.85,115.61L57.46,117.06L55.94,118.38L54.2,119.36L52.27,119.93L50.27,120L48.26,119.96L46.32,119.46L44.55,118.52L42.99,117.25L41.59,115.81L40.22,114.34L38.87,112.85L37.54,111.35L36.23,109.82L34.94,108.29L33.66,106.73L32.41,105.15L31.19,103.55L29.98,101.96L28.8,100.32L27.64,98.69L26.51,97.03L25.4,95.34L24.31,93.66L23.24,91.95L22.2,90.23L21.18,88.5L20.19,86.75L19.22,85L18.27,83.22L17.34,81.44L16.44,79.64L15.56,77.84L14.7,76.02L13.86,74.19L13.05,72.35L12.27,70.5L11.51,68.64L10.77,66.77L10.06,64.88L9.38,62.99L8.73,61.1L8.1,59.18L7.51,57.27L6.94,55.33L6.41,53.4L5.91,51.45L5.46,49.5L5.05,47.52L4.7,45.54L4.42,43.55L4.23,41.55L4.16,39.54L4.19,37.53L4.26,35.53L4.49,33.53L4.88,31.56L5.42,29.62L6.11,27.73L6.93,25.9L7.88,24.12L8.94,22.42L10.13,20.8L11.45,19.29L12.88,17.87L14.42,16.58L16.05,15.41L17.76,14.36L19.54,13.42L21.38,12.6L23.26,11.89L25.17,11.26L27.09,10.67L29.03,10.16L30.99,9.7L32.96,9.31L34.94,8.95L36.93,8.67L38.93,8.44L40.93,8.27L42.94,8.15L44.95,8.1L46.95,8L48.96,8L50.97,8L52.98,8L54.99,8.09L57,8.14L59.01,8.25L61.01,8.41L63.01,8.64L65,8.92L66.98,9.26L68.95,9.65L70.91,10.1L72.85,10.6L74.78,11.18L76.69,11.8L78.58,12.49L80.42,13.3L82.21,14.2L83.94,15.23L85.59,16.38L87.14,17.65L88.59,19.04L89.92,20.56L91.13,22.16L92.22,23.85L93.19,25.61L94.04,27.44L94.74,29.32L95.29,31.24L95.67,33.22L95.84,35.22Z";
+// A circle in the same coordinate space — the resting shape the pick morphs from/to.
+const CIRCLE_PATH_D = "M10,61C10,38.91,27.91,21,50,21C72.09,21,90,38.91,90,61C90,83.09,72.09,101,50,101C27.91,101,10,83.09,10,61Z";
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function CursorFollower() {
@@ -117,6 +128,10 @@ export default function CursorFollower() {
   const [pickActive, setPickActive] = useState(false);
   const [pickLabel, setPickLabel] = useState(PICK_DEFAULT_LABEL);
   const pickElRef = useRef<HTMLDivElement | null>(null);
+  const pickSpinRef = useRef<HTMLDivElement | null>(null);
+  const pickPathRef = useRef<SVGPathElement | null>(null);
+  const pickTextRef = useRef<HTMLDivElement | null>(null);
+  const pickTlRef = useRef<gsap.core.Timeline | null>(null);
 
   // Settings state
   const [numCircles, setNumCircles] = useState(DEFAULTS.numCircles);
@@ -157,6 +172,7 @@ export default function CursorFollower() {
   useEffect(() => {
     hasMovedRef.current = false;
     setIsVisible(false);
+    setPickActive(false);
   }, [pathname]);
 
   // Touch detection & animation
@@ -176,7 +192,7 @@ export default function CursorFollower() {
         setIsVisible(true);
       }
     };
-    const onLeave = () => setIsVisible(false);
+    const onLeave = () => { setIsVisible(false); setPickActive(false); };
     const onEnter = (e: MouseEvent) => {
       coordsRef.current.x = e.clientX;
       coordsRef.current.y = e.clientY;
@@ -249,6 +265,37 @@ export default function CursorFollower() {
       document.removeEventListener("mouseout", handleOut);
     };
   }, [isTouch]);
+
+  // Smoothly morph the trailing dot into the guitar pick (and back) with GSAP's
+  // MorphSVGPlugin, instead of a hard opacity crossfade between two shapes.
+  useEffect(() => {
+    if (isTouch) return;
+    const spin = pickSpinRef.current;
+    const path = pickPathRef.current;
+    const text = pickTextRef.current;
+    if (!spin || !path || !text) return;
+
+    pickTlRef.current?.kill();
+    const tl = gsap.timeline();
+    pickTlRef.current = tl;
+
+    if (pickActive) {
+      tl.set(spin, { width: circleSize, height: circleSize, opacity: 0 })
+        .set(path, { morphSVG: CIRCLE_PATH_D })
+        .set(text, { opacity: 0 })
+        .to(spin, { opacity: 1, duration: 0.12 }, 0)
+        .to(spin, { width: PICK_W, height: PICK_H, duration: 0.5, ease: "back.out(1.6)" }, 0)
+        .to(path, { morphSVG: PICK_PATH_D, duration: 0.5, ease: "power2.inOut" }, 0)
+        .to(text, { opacity: 1, duration: 0.25 }, 0.28);
+    } else {
+      tl.to(text, { opacity: 0, duration: 0.12 }, 0)
+        .to(path, { morphSVG: CIRCLE_PATH_D, duration: 0.3, ease: "power1.inOut" }, 0)
+        .to(spin, { width: circleSize, height: circleSize, duration: 0.3, ease: "power1.inOut" }, 0)
+        .to(spin, { opacity: 0, duration: 0.15 }, 0.2);
+    }
+
+    return () => { tl.kill(); };
+  }, [pickActive, isTouch, circleSize]);
 
   if (isTouch) return null;
 
@@ -347,13 +394,14 @@ export default function CursorFollower() {
           pointer-events: none;
           z-index: 2147483647;
           will-change: transform;
-          transition: opacity 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .cursor-pick-spin {
           position: relative;
-          width: 100%;
-          height: 100%;
           animation: cursorPickSpin 2.4s linear infinite;
+          opacity: 0;
         }
         .cursor-pick-row {
           width: 100%;
@@ -427,23 +475,33 @@ export default function CursorFollower() {
       </div>
 
       {/* Guitar-pick cursor badge — shown while hovering a .morph-pick element.
-          Position (JS-driven translate) and rotation (CSS animation) must live on
-          DIFFERENT elements — a CSS `animation` targeting `transform` fully owns
-          that property, so an inline transform set on the same node for tracking
-          the mouse would just get overwritten by the animation every frame. */}
+          Three concerns, three elements, on purpose:
+          - pickElRef: POSITION only (JS-driven translate, tracks the mouse every frame)
+          - pickSpinRef: ROTATION (CSS animation) + size/opacity (GSAP) — a CSS
+            `animation` targeting `transform` fully owns that property, so it can't
+            live on the same node as the position translate above.
+          - pickPathRef: the actual SVG shape, morphed between a circle and the
+            pick outline via GSAP's MorphSVGPlugin for a smooth "grows out of the
+            trailing dot" feel instead of a hard crossfade. */}
       <div
         ref={pickElRef}
         className="cursor-pick-pos"
         style={{
           width: PICK_W,
           height: PICK_H,
-          opacity: isVisible && pickActive ? 1 : 0,
           transform: "translate3d(-9999px, -9999px, 0)",
         }}
       >
-        <div className="cursor-pick-spin" style={{ clipPath: PICK_CLIP }}>
-          <div style={{ position: "absolute", inset: 0, background: "#9333ea" }} />
+        <div ref={pickSpinRef} className="cursor-pick-spin">
+          <svg
+            viewBox="0 0 100 122"
+            preserveAspectRatio="none"
+            style={{ width: "100%", height: "100%", display: "block" }}
+          >
+            <path ref={pickPathRef} d={CIRCLE_PATH_D} fill={glowColor} />
+          </svg>
           <div
+            ref={pickTextRef}
             style={{
               position: "absolute",
               left: "8%",
@@ -454,6 +512,7 @@ export default function CursorFollower() {
               flexDirection: "column",
               justifyContent: "center",
               gap: 2,
+              clipPath: PICK_CLIP,
             }}
           >
             <div className="cursor-pick-row">

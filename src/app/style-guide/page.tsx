@@ -14,6 +14,10 @@ const CruiseChat = dynamic(() => import("@/components/CruiseChat"), {
   loading: () => <div className="p-12 text-center text-xs font-mono text-white/40 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl rounded-2xl border border-purple-500/30 animate-pulse">Loading Live Cruise Chat Box...</div>
 });
 
+const SquishyToggle = dynamic(() => import("@/components/SquishyToggle"), {
+  ssr: false,
+});
+
 const GooeyDropdown = dynamic(() => import("@/components/GooeyDropdown"), {
   ssr: false,
   loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-white/5 rounded-xl border border-white/10">Loading Dropdown...</div>
@@ -51,6 +55,7 @@ import {
   Send,
   Eye,
   Settings,
+  Anchor,
 } from "lucide-react";
 
 export default function StyleGuidePage() {
@@ -102,6 +107,10 @@ export default function StyleGuidePage() {
   const [canvasVPressure, setCanvasVPressure] = useState<number>(3);
   const [canvasBgColor, setCanvasBgColor] = useState<string>("#05030a");
   const [copiedCanvasSpec, setCopiedCanvasSpec] = useState<boolean>(false);
+
+  // Stateroom Catalog & Suite Perks interactive preview states
+  const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
+  const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
 
   // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance
   useEffect(() => {
@@ -179,6 +188,7 @@ export default function StyleGuidePage() {
     { id: "spacing", label: "9. Spacing & Padding", icon: Box },
     { id: "canvas-studio", label: "10. Canvas & Film Grain", icon: Sliders },
     { id: "global-containers", label: "11. Global Containers", icon: Settings },
+    { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
   ];
 
   return (
@@ -729,27 +739,26 @@ export default function StyleGuidePage() {
                     <span className="text-xs font-bold text-white/90 block">Push Notifications</span>
                     <span className="text-[11px] text-white/50 block">Receive live show reminders</span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setToggleState(!toggleState)}
-                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out cursor-pointer ${toggleState ? "bg-purple-600" : "bg-white/20"
-                      }`}
-                  >
-                    <div
-                      className={`w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${toggleState ? "translate-x-6" : "translate-x-0"
-                        }`}
-                    />
-                  </button>
+                  <SquishyToggle
+                    id="style-guide-push-notifications"
+                    checked={toggleState}
+                    onChange={setToggleState}
+                    label="Push Notifications"
+                  />
                 </div>
 
-                <div className="flex items-center justify-between opacity-50 cursor-not-allowed">
+                <div className="flex items-center justify-between">
                   <div>
                     <span className="text-xs font-bold text-white/60 block">Disabled Toggle (Off)</span>
                     <span className="text-[11px] text-white/40 block">System locked</span>
                   </div>
-                  <div className="w-12 h-6 rounded-full p-1 bg-white/10">
-                    <div className="w-4 h-4 rounded-full bg-white/40 translate-x-0" />
-                  </div>
+                  <SquishyToggle
+                    id="style-guide-disabled-toggle"
+                    checked={false}
+                    onChange={() => {}}
+                    disabled
+                    label="Disabled toggle"
+                  />
                 </div>
               </div>
             </div>
@@ -1655,6 +1664,205 @@ export default function StyleGuidePage() {
               <div className="p-5 rounded-2xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-surface"], border: `1px solid ${tokens.colors["--color-border-purple"]}` }}>
                 <span className="text-xs font-bold text-cyan-400">Surface Panel</span>
                 <p className="text-xs text-white/60">Uses <code className="text-cyan-300 font-mono text-[10px]">--color-bg-surface</code> + <code className="text-cyan-300 font-mono text-[10px]">--color-border-purple</code></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
+        <section id="stateroom-perks" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+              <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
+            </h2>
+            <p className="text-white/60 text-xs mt-1">
+              Interactive preview of the Stateroom Categories catalog and Suite Class Perks component (from the Cruise page). Responds to container, border, and accent theme token changes in real-time.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
+            {/* Stateroom Categories Tab Column */}
+            <div className="lg:col-span-1 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 rounded-3xl flex flex-col justify-between shadow-lg">
+              <div>
+                <h3 className="text-base font-black uppercase text-white tracking-widest mb-6 border-b border-white/10 pb-3">Stateroom Categories</h3>
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
+                    { id: "balcony", label: "Balconies & Infinite", desc: "Private sliding glass doors opening to ocean breeze." },
+                    { id: "ocean", label: "Ocean View", desc: "Large windows overlooking port approaches." },
+                    { id: "interior", label: "Interior Rooms", desc: "Efficient, comfortable, and budget-friendly." },
+                  ].map(tab => (
+                    <button aria-label="Action button"
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setStateroomTab(tab.id as any)}
+                      className={`w-full p-4 rounded-xl text-left border transition-colors cursor-pointer ${stateroomTab === tab.id
+                        ? "bg-purple-600/30 border-purple-400 text-white"
+                        : "bg-white/5 border-white/10 hover:border-white/20 text-white/80"
+                        }`}
+                    >
+                      <h4 className="text-sm font-extrabold text-white uppercase tracking-wider">{tab.label}</h4>
+                      <p className="text-xs text-white/70 mt-1 leading-relaxed">{tab.desc}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 bg-white/5 border border-white/10 p-5 rounded-2xl">
+                <h4 className="text-xs font-black uppercase text-white tracking-widest mb-3">Available layouts:</h4>
+                {stateroomTab === "suites" && (
+                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <p>• Ultimate Family Townhouse</p>
+                    <p>• Royal Loft Suite</p>
+                    <p>• Owner&apos;s Suite</p>
+                    <p>• Grand Suite (1 Bedroom & 2 Bedroom)</p>
+                    <p>• Sky Junior Suite</p>
+                    <p>• Surfside Family Suite</p>
+                  </div>
+                )}
+                {stateroomTab === "balcony" && (
+                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <p>• Infinite Ocean View Balcony</p>
+                    <p>• Infinite Central Park Balcony</p>
+                    <p>• Ocean View Balcony</p>
+                    <p>• Central Park View Balcony</p>
+                    <p>• Surfside Family View Balcony</p>
+                  </div>
+                )}
+                {stateroomTab === "ocean" && (
+                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <p>• Panoramic Ocean View</p>
+                    <p>• Ocean View</p>
+                  </div>
+                )}
+                {stateroomTab === "interior" && (
+                  <div className="space-y-2 text-sm text-white/80 font-medium">
+                    <p>• Interior</p>
+                    <p>• Spacious Interior</p>
+                    <p>• Central Park View Interior</p>
+                    <p>• Surfside Family View Interior</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Suite Class Benefits Column (Span 2) */}
+            <div className="lg:col-span-2 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 md:p-8 rounded-3xl flex flex-col justify-between shadow-lg">
+              <div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                  <div>
+                    <span className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">VIP Experiences</span>
+                    <h3 className="text-2xl md:text-3xl font-black uppercase text-white mt-1">Suite Class Perks</h3>
+                  </div>
+                  <div className="flex gap-1.5 bg-white/5 p-1.5 border border-white/10 rounded-xl">
+                    {(["sea", "sky", "star"] as const).map(perk => (
+                      <button aria-label="Action button"
+                        key={perk}
+                        type="button"
+                        onClick={() => setSuiteTab(perk)}
+                        className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-colors cursor-pointer ${suiteTab === perk
+                          ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30"
+                          : "bg-transparent text-white/60 hover:text-white"
+                          }`}
+                      >
+                        {perk} Class
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Benefits List */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 text-sm md:text-base text-white/90 font-medium leading-relaxed">
+                  {suiteTab === "sea" && [
+                    "Dedicated check-in line",
+                    "Priority boarding",
+                    "Dinner at Coastal Kitchen (subject to availability)*",
+                    "All-day access to Star | Sky | Sea dining",
+                    "Royal Caribbean plush bathrobes for use onboard",
+                    "Luxury pillow top mattress and linen",
+                    "Luxury bathroom amenities",
+                    "Lavazza Espresso coffee machine"
+                  ].map((perk) => (
+                    <div key={`sea-perk-${perk}`} className="flex items-center gap-2.5">
+                      <span className="text-purple-400 font-black text-base shrink-0">✓</span>
+                      <span>{perk}</span>
+                    </div>
+                  ))}
+
+                  {suiteTab === "sky" && [
+                    "Concierge service",
+                    "All-day access to Coastal Kitchen*",
+                    "All-day access to Star & Sky dining",
+                    "Complimentary VOOM Surf + Stream (1 device pp)†",
+                    "Specialty bottled water upon arrival",
+                    "Flexible arrival boarding & priority departure",
+                    "Priority dining reservations",
+                    "Reserved seating in select entertainment venues",
+                    "Suite Lounge access (complimentary hors d’oeuvres/cocktails)",
+                    "Access to Suite Sun Deck (The Grove on Star)",
+                    "Royal Caribbean plush bathrobes for use onboard",
+                    "Luxury pillow top mattress and linen",
+                    "Luxury bathroom amenities",
+                    "Lavazza Espresso coffee machine"
+                  ].map((perk) => (
+                    <div key={`sky-perk-${perk}`} className="flex items-center gap-2.5">
+                      <span className="text-cyan-400 font-black text-base shrink-0">✓</span>
+                      <span>{perk}</span>
+                    </div>
+                  ))}
+
+                  {suiteTab === "star" && [
+                    "Exclusive access to Royal Genie service§",
+                    "All-day access to Coastal Kitchen*",
+                    "All-day access to Star & Sky dining",
+                    "Complimentary Deluxe Beverage Package (ages 21+)†",
+                    "Complimentary Refreshment Package (under legal age)†",
+                    "Still and sparkling water replenished daily",
+                    "Complimentary Gratuities for stateroom/dining staffΔ",
+                    "Complimentary VOOM Surf + Stream powered by Starlink",
+                    "Expedited boarding & departure",
+                    "Best seats in the house in select entertainment venues",
+                    "Priority entrance to many onboard activities††",
+                    "Suite Lounge access (complimentary hors d'oeuvres/cocktails)",
+                    "Access to Suite Sun Deck, and The Grove",
+                    "Complimentary minibar stocked with Coca-Cola & water",
+                    "Complimentary laundry and pressing services",
+                    "Luxury mattress, pillows, and linens",
+                    "Luxury bathroom amenities",
+                    "Luxury bathrobes for use onboard",
+                    "In-suite coffee machine"
+                  ].map((perk) => (
+                    <div key={`star-perk-${perk}`} className="flex items-center gap-2.5">
+                      <span className="text-[var(--color-accent)] font-black text-base shrink-0">✓</span>
+                      <span>{perk}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Disclaimers & Notes */}
+              <div className="mt-8 border-t border-white/10 pt-4 text-xs text-white/60 space-y-1.5 leading-relaxed font-semibold">
+                {suiteTab === "sea" && (
+                  <>
+                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
+                    <p>** Sea Class guests do not have access to stateroom lounges.</p>
+                    <p>— Complimentary gratuities are not included for Sea Class guests.</p>
+                  </>
+                )}
+                {suiteTab === "sky" && (
+                  <>
+                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
+                    <p>† VOOM Surf + Stream package: One device per person is included for guests booked in a Sky Suite (not included in Sky Junior Suite).</p>
+                  </>
+                )}
+                {suiteTab === "star" && (
+                  <>
+                    <p>§ Royal Genie services are for Star Class guests only and cannot be extended to friends/family in other staterooms.</p>
+                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages not in Deluxe Package are charged.</p>
+                    <p>Δ Gratuities apply to standard housekeeping/dining. genie/concierge tipping is at guest discretion.</p>
+                    <p>†† Reduced wait times for select activities during published hours, excluding sea day peaks (1:00 PM – 4:00 PM).</p>
+                  </>
+                )}
               </div>
             </div>
           </div>

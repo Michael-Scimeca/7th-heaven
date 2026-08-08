@@ -1107,7 +1107,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
 
               {/* Suite Class Benefits Column (Span 2) */}
-              <div className="lg:col-span-2 bg-[#0c0817]/80 backdrop-blur-xl border border-cyan-500/30 p-6 md:p-8 rounded-3xl flex flex-col justify-between shadow-lg">
+              <div className="lg:col-span-2 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 md:p-8 rounded-3xl flex flex-col justify-between shadow-lg">
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                     <div>
