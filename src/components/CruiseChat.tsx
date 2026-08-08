@@ -529,11 +529,11 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`p-3 text-xs inline-block max-w-[90%] leading-relaxed border-2 break-words shadow-lg transition-all text-white rounded-2xl ${isSelf
-                    ? 'bg-[#7e22ce] border-[#a855f7] rounded-tr-xs text-white font-semibold'
+                  <div className={`px-4 py-3 text-xs inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white rounded-2xl ${isSelf
+                    ? 'bg-purple-700/80 text-white font-medium'
                     : hasAdminTag
-                      ? 'bg-[#2e1065] border-[#c084fc] text-purple-100 rounded-tl-xs font-semibold'
-                      : 'bg-[#0891b2] border-[#06b6d4] text-white rounded-tl-xs font-semibold'
+                      ? 'bg-purple-950/90 text-purple-100 font-medium'
+                      : 'bg-cyan-900/70 text-white font-medium'
                     }`}>
                     {formatMessageContent(msg.content)}
                   </div>
