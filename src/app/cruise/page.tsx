@@ -163,7 +163,7 @@ export default function CruisePage() {
     beforeBgOpacity: 85,
     beforeZIndex: 10,
     itinTopFadeStart: 0,
-    itinTopFadeEnd: 1,
+    itinTopFadeEnd: 2,
     itinBottomFadeStart: 95,
     itinBottomFadeEnd: 100,
     itinBgOpacity: 90,

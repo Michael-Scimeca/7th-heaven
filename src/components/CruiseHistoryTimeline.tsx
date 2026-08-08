@@ -513,7 +513,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
   const [maskSettings, setMaskSettings] = useState({
     itinTopFadeStart: 0,
-    itinTopFadeEnd: 1,
+    itinTopFadeEnd: 2,
     itinBottomFadeStart: 95,
     itinBottomFadeEnd: 100,
     itinBgOpacity: 90,
