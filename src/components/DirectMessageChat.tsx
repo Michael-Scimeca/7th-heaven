@@ -87,7 +87,7 @@ export default function DirectMessageChat() {
     }
   }, [open, messages, userId]);
 
-  if (false && (!isLoggedIn || isAdmin || !userId)) return null;
+  if (!isLoggedIn || isAdmin || !userId) return null;
 
   // Count unread DMs from Admin
   const unreadCount = messages.filter((m) => m.sender === "admin" && !m.read).length;
