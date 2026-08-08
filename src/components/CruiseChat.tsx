@@ -537,8 +537,8 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                 <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
                   {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                 </div>
-                <div className="flex flex-col flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <div className="flex flex-col items-start flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap w-full">
                     <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                       {msg.sender_name}
                     </span>
@@ -571,7 +571,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                           : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
                       fontSize: "var(--chat-bubble-font-size, 12px)",
                     }}
-                    className="px-4 py-3 inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
+                    className="px-4 py-2.5 w-fit max-w-[85%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
                   >
                     {formatMessageContent(msg.content)}
                   </div>
