@@ -605,9 +605,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen overflow-x-hidden max-w-full bg-transparent text-white pt-[88px]">
-      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — 32px TOP & BOTTOM PADDING ON MOBILE) ── */}
-      <section className="relative flex flex-col justify-center overflow-hidden py-[32px] md:py-20   text-white min-h-[360px] md:min-h-[580px]">
+    <div className="min-h-screen overflow-x-hidden max-w-full bg-transparent text-white pt-0">
+      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER) ── */}
+      <section className="-mt-[88px] pt-[120px] md:pt-[140px] relative flex flex-col justify-center overflow-hidden pb-[32px] md:pb-20 text-white min-h-[460px] md:min-h-[640px]">
         {/* Cruise Hero Video Background Overlay */}
         <div className="absolute inset-0 z-0">
           <video
