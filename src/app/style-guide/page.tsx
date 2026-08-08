@@ -74,6 +74,9 @@ export default function StyleGuidePage() {
   const [bubbleBorderColor, setBubbleBorderColor] = useState<string>("transparent");
   const [bubbleBgStyle, setBubbleBgStyle] = useState<string>("classic");
   const [bubbleFontSize, setBubbleFontSize] = useState<number>(12);
+  const [bubblePaddingY, setBubblePaddingY] = useState<number>(10);
+  const [bubblePaddingX, setBubblePaddingX] = useState<number>(16);
+  const [messageSpacing, setMessageSpacing] = useState<number>(16);
   const [bubbleColorPalette, setBubbleColorPalette] = useState<string>("default");
   const [customHexColor, setCustomHexColor] = useState<string>("#9333ea");
   const [bubbleOpacity, setBubbleOpacity] = useState<number>(80);
@@ -750,24 +753,27 @@ export default function StyleGuidePage() {
               <button
                 type="button"
                 onClick={() => {
-                  const spec = JSON.stringify({
-                    corner_radius: `${bubbleRadius}px`,
-                    border_width: `${bubbleBorderWidth}px`,
-                    border_color: bubbleBorderColor,
-                    font_size: `${bubbleFontSize}px`,
-                    opacity: `${bubbleOpacity}%`,
-                    multi_user_colors: multiUserColorMode,
-                    color_palette: bubbleColorPalette,
-                    background_theme: bubbleBgStyle,
-                  }, null, 2);
-                  navigator.clipboard.writeText(spec);
+                  const cssVars = `/* 7th Heaven Chat Style CSS Specs */
+:root {
+  --chat-bubble-radius: ${bubbleRadius}px;
+  --chat-bubble-border-width: ${bubbleBorderWidth}px;
+  --chat-bubble-font-size: ${bubbleFontSize}px;
+  --chat-bubble-padding-y: ${bubblePaddingY}px;
+  --chat-bubble-padding-x: ${bubblePaddingX}px;
+  --chat-message-spacing: ${messageSpacing}px;
+  --chat-bubble-opacity: ${bubbleOpacity}%;
+  --chat-bubble-theme: ${bubbleBgStyle};
+  --chat-multi-user-colors: ${multiUserColorMode};
+  --chat-color-palette: ${bubbleColorPalette};
+}`;
+                  navigator.clipboard.writeText(cssVars);
                   setCopiedSpec(true);
                   setTimeout(() => setCopiedSpec(null as any), 2500);
                 }}
                 className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]"
               >
                 {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedSpec ? "Spec Copied to Clipboard!" : "Copy Chat Style Spec"}</span>
+                <span>{copiedSpec ? "CSS Specs Copied!" : "Copy Chat Style Spec"}</span>
               </button>
 
               <button
@@ -778,6 +784,9 @@ export default function StyleGuidePage() {
                   setBubbleBorderColor("transparent");
                   setBubbleBgStyle("classic");
                   setBubbleFontSize(12);
+                  setBubblePaddingY(10);
+                  setBubblePaddingX(16);
+                  setMessageSpacing(16);
                   setBubbleOpacity(80);
                   setMultiUserColorMode(true);
                   setBubbleColorPalette("default");
@@ -907,7 +916,100 @@ export default function StyleGuidePage() {
                 </div>
               </div>
 
-              {/* 4. Opacity Control */}
+              {/* 4. Padding Y Control */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Padding Y (Vertical)</span>
+                  <span className="font-mono text-cyan-300">{bubblePaddingY}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="4"
+                  max="24"
+                  value={bubblePaddingY}
+                  onChange={(e) => setBubblePaddingY(Number(e.target.value))}
+                  className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1 pt-1">
+                  {[6, 10, 14, 18].map((py) => (
+                    <button
+                      key={py}
+                      type="button"
+                      onClick={() => setBubblePaddingY(py)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingY === py
+                          ? "bg-cyan-600 border-cyan-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        }`}
+                    >
+                      {py}px
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 5. Padding X Control */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Padding X (Horizontal)</span>
+                  <span className="font-mono text-purple-300">{bubblePaddingX}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="8"
+                  max="32"
+                  value={bubblePaddingX}
+                  onChange={(e) => setBubblePaddingX(Number(e.target.value))}
+                  className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1 pt-1">
+                  {[12, 16, 20, 24].map((px) => (
+                    <button
+                      key={px}
+                      type="button"
+                      onClick={() => setBubblePaddingX(px)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubblePaddingX === px
+                          ? "bg-purple-600 border-purple-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        }`}
+                    >
+                      {px}px
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 6. Message Spacing Control */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Message Spacing (Gap)</span>
+                  <span className="font-mono text-amber-300">{messageSpacing}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="4"
+                  max="28"
+                  value={messageSpacing}
+                  onChange={(e) => setMessageSpacing(Number(e.target.value))}
+                  className="w-full accent-amber-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1 pt-1">
+                  {[8, 12, 16, 20].map((sp) => (
+                    <button
+                      key={sp}
+                      type="button"
+                      onClick={() => setMessageSpacing(sp)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${messageSpacing === sp
+                          ? "bg-amber-600 border-amber-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        }`}
+                    >
+                      {sp}px
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 7. Opacity Control */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs font-bold text-white/80">
                   <span>Bubble Opacity</span>
@@ -938,7 +1040,7 @@ export default function StyleGuidePage() {
                 </div>
               </div>
 
-              {/* 5. Color Palette Swatches */}
+              {/* 8. Color Palette Swatches */}
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-white/80">Color Swatches</label>
                 <div className="flex items-center gap-1.5 flex-wrap">
@@ -984,7 +1086,7 @@ export default function StyleGuidePage() {
                 </div>
               </div>
 
-              {/* 6. Background Style Themes */}
+              {/* 9. Background Style Themes */}
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-white/80">Fill Theme</label>
                 <div className="grid grid-cols-2 gap-1.5">
@@ -1017,6 +1119,9 @@ export default function StyleGuidePage() {
               ['--chat-bubble-radius' as any]: `${bubbleRadius}px`,
               ['--chat-bubble-border-width' as any]: `${bubbleBorderWidth}px`,
               ['--chat-bubble-font-size' as any]: `${bubbleFontSize}px`,
+              ['--chat-bubble-padding-y' as any]: `${bubblePaddingY}px`,
+              ['--chat-bubble-padding-x' as any]: `${bubblePaddingX}px`,
+              ['--chat-message-spacing' as any]: `${messageSpacing}px`,
               ['--chat-bubble-member-border' as any]: bubbleBorderColor,
               ['--chat-bubble-self-border' as any]: bubbleBorderColor,
               ['--chat-bubble-admin-border' as any]: bubbleBorderColor,

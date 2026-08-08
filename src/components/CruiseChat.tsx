@@ -452,7 +452,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[500px] max-h-[500px] min-h-0 overflow-hidden text-white transition-all duration-300"
+      className="rounded-3xl backdrop-blur-md flex flex-col h-[500px] max-h-[500px] min-h-0 overflow-hidden text-white transition-all duration-300"
     >
       <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
         <div className="flex items-center gap-2.5">
@@ -512,126 +512,131 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         <div
           ref={chatContainerRef}
           data-lenis-prevent
-          className="flex-1 min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
+          style={{ gap: 'var(--chat-message-spacing, 16px)' }}
+          className="flex-1 flex flex-col min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
         >
-        {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-white/20">
-            <span className="text-3xl mb-2 opacity-50">👋</span>
-            <p className="text-xs font-bold uppercase tracking-widest">Welcome to the lounge</p>
-            <p className="text-xs mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
-          </div>
-        ) : (
-          messages.map((msg) => {
-            const isSystem = msg.sender_role === 'system';
-            if (isSystem) {
-              const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
-              const isBan = msg.content.includes('banned');
-              const bgClass = isWarning
-                ? "bg-purple-600/10 border-purple-500/20 text-purple-100"
-                : isBan
-                  ? "bg-red-500/10 border-red-500/20 text-red-200"
-                  : "bg-sky-500/10 border-sky-500/20 text-sky-200";
-              return (
-                <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
-                  <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
-                  <div className="flex-1 leading-relaxed">
-                    {msg.content}
-                  </div>
-                  <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0 font-mono ml-2">
-                    {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                </div>
-              );
-            }
-
-            const isSelf = member?.name && msg.sender_name === member.name;
-            const hasAdminTag = isQuestionForAdmin(msg.content);
-
-            return (
-              <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
-                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
-                  {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
-                </div>
-                <div className="flex flex-col items-start flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap w-full">
-                    <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
-                      {msg.sender_name}
-                    </span>
-                    <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border leading-none ${getRoleColor(msg.sender_role)}`}>
-                      {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
-                    </span>
-                    {hasAdminTag && (
-                      <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
-                        👑 Question for Admin
-                      </span>
-                    )}
-                    <span className="text-[10px] text-white/60 font-mono font-medium leading-none ml-auto tracking-tight">
+          {messages.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-white/20">
+              <span className="text-3xl mb-2 opacity-50">👋</span>
+              <p className="text-xs font-bold uppercase tracking-widest">Welcome to the lounge</p>
+              <p className="text-xs mt-1 text-center max-w-[200px]">Say hi to your fellow passengers or tag @admin to ask a question!</p>
+            </div>
+          ) : (
+            messages.map((msg) => {
+              const isSystem = msg.sender_role === 'system';
+              if (isSystem) {
+                const isWarning = msg.content.includes('Warning') || msg.content.includes('warned');
+                const isBan = msg.content.includes('banned');
+                const bgClass = isWarning
+                  ? "bg-purple-600/10 border-purple-500/20 text-purple-100"
+                  : isBan
+                    ? "bg-red-500/10 border-red-500/20 text-red-200"
+                    : "bg-sky-500/10 border-sky-500/20 text-sky-200";
+                return (
+                  <div key={msg.id} className={`flex items-center gap-2 p-2.5 rounded-xl border ${bgClass} text-xs font-medium animate-[slideIn_0.3s_ease-out]`}>
+                    <span className="text-sm shrink-0">{msg.sender_avatar || '🛡️'}</span>
+                    <div className="flex-1 leading-relaxed">
+                      {msg.content}
+                    </div>
+                    <span className="text-[var(--font-size-2xs)] opacity-40 shrink-0 font-mono ml-2">
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div
-                    style={{
-                      borderRadius: "var(--chat-bubble-radius, 16px)",
-                      borderWidth: "var(--chat-bubble-border-width, 0px)",
-                      borderStyle: "solid",
-                      borderColor: isSelf
-                        ? "var(--chat-bubble-self-border, transparent)"
-                        : hasAdminTag
-                          ? "var(--chat-bubble-admin-border, transparent)"
-                          : "var(--chat-bubble-member-border, transparent)",
-                      backgroundColor: isSelf
-                        ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.85))"
-                        : hasAdminTag
-                          ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
-                          : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
-                      fontSize: "var(--chat-bubble-font-size, 12px)",
-                    }}
-                    className="px-4 py-2.5 w-fit max-w-[85%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
-                  >
-                    {formatMessageContent(msg.content)}
-                  </div>
-                </div>
+                );
+              }
 
-                {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
-                  <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-md border border-white/10 rounded-lg p-1 z-20 shadow-lg">
-                    <button
-                      aria-label="Warn User"
-                      onClick={() => handleWarn(msg.sender_name)}
-                      title="Warn User"
-                      className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:scale-105 transition cursor-pointer"
-                    >
-                      <AlertTriangle className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      aria-label="Ban User"
-                      onClick={() => handleBan(msg.sender_name)}
-                      title="Ban User"
-                      className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:scale-105 transition cursor-pointer"
-                    >
-                      <Ban className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      aria-label="Delete Message"
-                      onClick={() => handleDeleteMsg(msg.id)}
-                      title="Delete Message"
-                      className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:scale-105 transition cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      aria-label="Remove Fan Completely"
-                      onClick={() => handleKick(msg.sender_name)}
-                      title="Remove Fan Completely"
-                      className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 hover:scale-105 transition cursor-pointer"
-                    >
-                      <LogOut className="w-3.5 h-3.5" />
-                    </button>
+              const isSelf = member?.name && msg.sender_name === member.name;
+              const hasAdminTag = isQuestionForAdmin(msg.content);
+
+              return (
+                <div key={msg.id} className="flex gap-2.5 items-start py-0.5 animate-[slideIn_0.3s_ease-out] group relative">
+                  <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs font-black mt-0.5 ${getAvatarGradient(msg.sender_name)}`}>
+                    {(msg.sender_avatar || msg.sender_name || 'FN').substring(0, 2).toUpperCase()}
                   </div>
-                )}
-              </div>
-            );
-          })
-        )}
+                  <div className="flex flex-col items-start flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap w-full">
+                      <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
+                        {msg.sender_name}
+                      </span>
+                      <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border leading-none ${getRoleColor(msg.sender_role)}`}>
+                        {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
+                      </span>
+                      {hasAdminTag && (
+                        <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
+                          👑 Question for Admin
+                        </span>
+                      )}
+                      <span className="text-[10px] text-white/60 font-mono font-medium leading-none ml-auto tracking-tight">
+                        {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        borderRadius: "var(--chat-bubble-radius, 16px)",
+                        borderWidth: "var(--chat-bubble-border-width, 0px)",
+                        borderStyle: "solid",
+                        paddingTop: "var(--chat-bubble-padding-y, 10px)",
+                        paddingBottom: "var(--chat-bubble-padding-y, 10px)",
+                        paddingLeft: "var(--chat-bubble-padding-x, 16px)",
+                        paddingRight: "var(--chat-bubble-padding-x, 16px)",
+                        borderColor: isSelf
+                          ? "var(--chat-bubble-self-border, transparent)"
+                          : hasAdminTag
+                            ? "var(--chat-bubble-admin-border, transparent)"
+                            : "var(--chat-bubble-member-border, transparent)",
+                        backgroundColor: isSelf
+                          ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.85))"
+                          : hasAdminTag
+                            ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
+                            : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
+                        fontSize: "var(--chat-bubble-font-size, 12px)",
+                      }}
+                      className="w-fit max-w-[85%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
+                    >
+                      {formatMessageContent(msg.content)}
+                    </div>
+                  </div>
+
+                  {isCrewOrAdmin && msg.sender_role !== 'crew' && msg.sender_role !== 'admin' && (
+                    <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-black/90 backdrop-blur-md border border-white/10 rounded-lg p-1 z-20 shadow-lg">
+                      <button
+                        aria-label="Warn User"
+                        onClick={() => handleWarn(msg.sender_name)}
+                        title="Warn User"
+                        className="w-6 h-6 rounded flex items-center justify-center text-amber-400 hover:bg-amber-500/20 hover:scale-105 transition cursor-pointer"
+                      >
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        aria-label="Ban User"
+                        onClick={() => handleBan(msg.sender_name)}
+                        title="Ban User"
+                        className="w-6 h-6 rounded flex items-center justify-center text-red-400 hover:bg-red-500/20 hover:scale-105 transition cursor-pointer"
+                      >
+                        <Ban className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        aria-label="Delete Message"
+                        onClick={() => handleDeleteMsg(msg.id)}
+                        title="Delete Message"
+                        className="w-6 h-6 rounded flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:scale-105 transition cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        aria-label="Remove Fan Completely"
+                        onClick={() => handleKick(msg.sender_name)}
+                        title="Remove Fan Completely"
+                        className="w-6 h-6 rounded flex items-center justify-center text-rose-400 hover:bg-rose-500/20 hover:scale-105 transition cursor-pointer"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
         </div>
         {/* Fixed Bottom Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
         <div
