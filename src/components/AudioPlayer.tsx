@@ -287,18 +287,6 @@ export default function AudioPlayerSection() {
     }
   }, [volume]);
 
-  useEffect(() => {
-    const handlePlayHeroMusic = () => {
-      if (audioRef.current && activeTrack) {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(e => console.log("Play prevented:", e));
-      }
-    };
-    window.addEventListener("7h-play-hero-music", handlePlayHeroMusic);
-    return () => window.removeEventListener("7h-play-hero-music", handlePlayHeroMusic);
-  }, [activeTrack]);
-
   const togglePlay = () => {
     if (!audioRef.current || !activeTrack) return;
     if (isPlaying) {

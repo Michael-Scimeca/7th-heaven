@@ -262,7 +262,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       if (video.currentTime < 10) {
         video.currentTime = 10;
       }
-      video.muted = false;
+      video.muted = true;
       video.play().catch(() => {});
     }
     if (typeof window !== "undefined") {
