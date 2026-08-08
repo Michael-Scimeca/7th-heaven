@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -83,6 +83,36 @@ export default function StyleGuidePage() {
   const [multiUserColorMode, setMultiUserColorMode] = useState<boolean>(true);
   const [copiedSpec, setCopiedSpec] = useState<boolean>(false);
 
+  // Canvas Shader & Film Grain UI Control States
+  const [canvasGrainOpacity, setCanvasGrainOpacity] = useState<number>(6); // 6%
+  const [canvasGrainBlend, setCanvasGrainBlend] = useState<string>("overlay");
+  const [canvasSpeed, setCanvasSpeed] = useState<number>(3);
+  const [canvasWaveAmp, setCanvasWaveAmp] = useState<number>(0.6);
+  const [canvasWaveFreqX, setCanvasWaveFreqX] = useState<number>(1.5);
+  const [canvasWaveFreqY, setCanvasWaveFreqY] = useState<number>(2.0);
+  const [canvasBgColor, setCanvasBgColor] = useState<string>("#05030a");
+  const [copiedCanvasSpec, setCopiedCanvasSpec] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--canvas-grain-opacity", `${canvasGrainOpacity / 100}`);
+    document.documentElement.style.setProperty("--canvas-grain-blend", canvasGrainBlend);
+  }, [canvasGrainOpacity, canvasGrainBlend]);
+
+  const handleCopyCanvasSpec = () => {
+    const spec = `:root {
+  --canvas-grain-opacity: ${canvasGrainOpacity / 100};
+  --canvas-grain-blend: "${canvasGrainBlend}";
+  --canvas-speed: ${canvasSpeed};
+  --canvas-wave-amp: ${canvasWaveAmp};
+  --canvas-wave-freq-x: ${canvasWaveFreqX};
+  --canvas-wave-freq-y: ${canvasWaveFreqY};
+  --canvas-bg-color: "${canvasBgColor}";
+}`;
+    navigator.clipboard.writeText(spec);
+    setCopiedCanvasSpec(true);
+    setTimeout(() => setCopiedCanvasSpec(false), 2000);
+  };
+
   // Sample Dropdown options
   const dropdownOptions = [
     { label: "Chicago, IL — House of Blues", value: "chicago", icon: "🎸" },
@@ -107,6 +137,7 @@ export default function StyleGuidePage() {
     { id: "components", label: "7. Cards & Badges", icon: Layers },
     { id: "borders", label: "8. Borders & Glass", icon: ShieldCheck },
     { id: "spacing", label: "9. Spacing & Padding", icon: Box },
+    { id: "canvas-studio", label: "10. Canvas & Film Grain", icon: Sliders },
   ];
 
   return (
@@ -1287,6 +1318,189 @@ export default function StyleGuidePage() {
               <span className="text-xs font-mono font-bold text-emerald-400">Desktop Page Padding</span>
               <div className="text-2xl font-black text-white">42px (<code className="text-xs text-white/50 font-mono">lg:px-[42px]</code>)</div>
               <p className="text-xs text-white/50">Standardized max desktop horizontal container padding.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 10: CANVAS SHADER & FILM GRAIN STUDIO */}
+        <section id="canvas-studio" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <h2 className="text-2xl font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                <Sliders className="w-6 h-6" /> 10. Canvas Shader & Full-Page Film Grain Studio
+              </h2>
+              <p className="text-white/60 text-xs mt-1">
+                Interactive real-time controller for background WebGL shader parameters and full-page film grain overlay system.
+              </p>
+            </div>
+            <button
+              onClick={handleCopyCanvasSpec}
+              className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${
+                copiedCanvasSpec
+                  ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                  : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
+              }`}
+            >
+              {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copiedCanvasSpec ? "Canvas Specs Copied!" : "Copy Canvas & Grain Spec"}</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Full-Page Film Grain Controls */}
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+              <h3 className="text-sm font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" /> 1. Full-Page Film Grain Overlay System
+              </h3>
+              <p className="text-xs text-white/60">
+                Controls the fixed resolution-independent SVG fractal noise layer covering the entire viewport screen (<code className="text-emerald-300 font-mono">z-[99999]</code>).
+              </p>
+
+              {/* Grain Opacity Slider */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-white/80">Grain Opacity</span>
+                  <span className="text-emerald-400 font-mono">{canvasGrainOpacity}% ({ (canvasGrainOpacity / 100).toFixed(2) })</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  value={canvasGrainOpacity}
+                  onChange={(e) => setCanvasGrainOpacity(Number(e.target.value))}
+                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                />
+                <div className="flex gap-1.5 pt-1">
+                  {[0, 4, 6, 10, 18, 25].map((op) => (
+                    <button
+                      key={op}
+                      type="button"
+                      onClick={() => setCanvasGrainOpacity(op)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        canvasGrainOpacity === op
+                          ? "bg-emerald-600 border-emerald-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {op}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Grain Blend Mode */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-white/80">Grain Blend Mode</label>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
+                  {[
+                    { label: "Overlay", val: "overlay" },
+                    { label: "Soft Light", val: "soft-light" },
+                    { label: "Screen", val: "screen" },
+                    { label: "Multiply", val: "multiply" },
+                    { label: "Dodge", val: "color-dodge" },
+                  ].map((mode) => (
+                    <button
+                      key={mode.val}
+                      type="button"
+                      onClick={() => setCanvasGrainBlend(mode.val)}
+                      className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${
+                        canvasGrainBlend === mode.val
+                          ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {mode.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Background WebGL Shader Controls */}
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+              <h3 className="text-sm font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                <Sliders className="w-4 h-4" /> 2. Background Shader Parameters
+              </h3>
+
+              {/* Animation Speed Slider */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-white/80">Shader Animation Speed</span>
+                  <span className="text-purple-400 font-mono">{canvasSpeed}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={canvasSpeed}
+                  onChange={(e) => setCanvasSpeed(Number(e.target.value))}
+                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                />
+                <div className="flex gap-1.5 pt-1">
+                  {[1, 3, 5, 8, 10].map((spd) => (
+                    <button
+                      key={spd}
+                      type="button"
+                      onClick={() => setCanvasSpeed(spd)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        canvasSpeed === spd
+                          ? "bg-purple-600 border-purple-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {spd}x
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Wave Amplitude Slider */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-white/80">Wave Amplitude</span>
+                  <span className="text-cyan-400 font-mono">{canvasWaveAmp}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="2.0"
+                  step="0.1"
+                  value={canvasWaveAmp}
+                  onChange={(e) => setCanvasWaveAmp(Number(e.target.value))}
+                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                />
+              </div>
+
+              {/* Background Color Swatches */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-white/80">Background Base Tint</label>
+                <div className="flex items-center gap-3">
+                  {[
+                    { label: "Midnight", bg: "#05030a" },
+                    { label: "Deep Purple", bg: "#0a0418" },
+                    { label: "Dark Magenta", bg: "#120215" },
+                    { label: "Ocean Black", bg: "#020b18" },
+                  ].map((bg) => (
+                    <button
+                      key={bg.bg}
+                      type="button"
+                      onClick={() => setCanvasBgColor(bg.bg)}
+                      style={{ backgroundColor: bg.bg }}
+                      title={bg.label}
+                      className={`w-6 h-6 rounded-full border-2 transition transform hover:scale-110 ${
+                        canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : "border-white/20"
+                      }`}
+                    />
+                  ))}
+                  <input
+                    type="color"
+                    value={canvasBgColor}
+                    onChange={(e) => setCanvasBgColor(e.target.value)}
+                    className="w-6 h-6 rounded-md border border-white/20 bg-transparent cursor-pointer ml-auto"
+                    title="Custom Hex Picker"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
