@@ -73,6 +73,9 @@ export default function StyleGuidePage() {
   const [bubbleBorderWidth, setBubbleBorderWidth] = useState<number>(0);
   const [bubbleBorderColor, setBubbleBorderColor] = useState<string>("transparent");
   const [bubbleBgStyle, setBubbleBgStyle] = useState<string>("classic");
+  const [bubbleFontSize, setBubbleFontSize] = useState<number>(12);
+  const [bubbleColorPalette, setBubbleColorPalette] = useState<string>("default");
+  const [customHexColor, setCustomHexColor] = useState<string>("#9333ea");
 
   // Sample Dropdown options
   const dropdownOptions = [
@@ -757,10 +760,10 @@ export default function StyleGuidePage() {
           {/* Chat Bubble Customizer UI Control Bar */}
           <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-6">
             <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
-              <Sliders className="w-4 h-4" /> Chat Bubble UI Controls
+              <Sliders className="w-4 h-4" /> Chat Bubble UI Controls studio
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
               
               {/* 1. Corner Radius Control */}
               <div className="space-y-2">
@@ -826,40 +829,83 @@ export default function StyleGuidePage() {
                 </div>
               </div>
 
-              {/* 3. Border Color Selection */}
+              {/* 3. Font Size Control */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-white/80">Border Color</label>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {[
-                    { label: "None", val: "transparent" },
-                    { label: "White 10%", val: "rgba(255,255,255,0.1)" },
-                    { label: "Cyan", val: "#06b6d4" },
-                    { label: "Purple", val: "#c084fc" },
-                  ].map((c) => (
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Font Size</span>
+                  <span className="font-mono text-emerald-300">{bubbleFontSize}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="10"
+                  max="20"
+                  value={bubbleFontSize}
+                  onChange={(e) => setBubbleFontSize(Number(e.target.value))}
+                  className="w-full accent-emerald-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1.5 pt-1">
+                  {[10, 12, 14, 16].map((s) => (
                     <button
-                      key={c.val}
+                      key={s}
                       type="button"
-                      onClick={() => {
-                        setBubbleBorderColor(c.val);
-                        if (bubbleBorderWidth === 0 && c.val !== "transparent") {
-                          setBubbleBorderWidth(1);
-                        }
-                      }}
-                      className={`py-1.5 px-2 rounded text-[10px] font-bold border truncate transition ${
-                        bubbleBorderColor === c.val
-                          ? "bg-white/20 border-white/40 text-white"
+                      onClick={() => setBubbleFontSize(s)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        bubbleFontSize === s
+                          ? "bg-emerald-600 border-emerald-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                       }`}
                     >
-                      {c.label}
+                      {s}px
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* 4. Background Fill Theme */}
+              {/* 4. Color Palette Picker */}
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-white/80">Background Style</label>
+                <label className="block text-xs font-bold text-white/80">Color Palette Swatches</label>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {[
+                    { label: "Default", val: "default", bg: "#7e22ce" },
+                    { label: "Purple", val: "#9333ea", bg: "#9333ea" },
+                    { label: "Cyan", val: "#06b6d4", bg: "#06b6d4" },
+                    { label: "Pink", val: "#ec4899", bg: "#ec4899" },
+                    { label: "Emerald", val: "#10b981", bg: "#10b981" },
+                    { label: "Amber", val: "#f59e0b", bg: "#f59e0b" },
+                    { label: "Rose", val: "#f43f5e", bg: "#f43f5e" },
+                  ].map((p) => (
+                    <button
+                      key={p.val}
+                      type="button"
+                      onClick={() => setBubbleColorPalette(p.val)}
+                      style={{ backgroundColor: p.bg }}
+                      title={p.label}
+                      className={`w-6 h-6 rounded-full border-2 transition transform hover:scale-110 ${
+                        bubbleColorPalette === p.val
+                          ? "border-white ring-2 ring-white/50 scale-110"
+                          : "border-transparent opacity-80"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 pt-1">
+                  <input
+                    type="color"
+                    value={customHexColor}
+                    onChange={(e) => {
+                      setCustomHexColor(e.target.value);
+                      setBubbleColorPalette(e.target.value);
+                    }}
+                    className="w-6 h-6 rounded-md border border-white/20 bg-transparent cursor-pointer"
+                    title="Custom Color Picker"
+                  />
+                  <span className="text-[10px] font-mono text-white/60 uppercase">{bubbleColorPalette}</span>
+                </div>
+              </div>
+
+              {/* 5. Background Style Themes */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-white/80">Background Fill Theme</label>
                 <div className="grid grid-cols-2 gap-1.5">
                   {[
                     { label: "Classic", val: "classic" },
@@ -890,12 +936,22 @@ export default function StyleGuidePage() {
             style={{
               ['--chat-bubble-radius' as any]: `${bubbleRadius}px`,
               ['--chat-bubble-border-width' as any]: `${bubbleBorderWidth}px`,
+              ['--chat-bubble-font-size' as any]: `${bubbleFontSize}px`,
               ['--chat-bubble-member-border' as any]: bubbleBorderColor,
               ['--chat-bubble-self-border' as any]: bubbleBorderColor,
               ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
-              ['--chat-bubble-member-bg' as any]: bubbleBgStyle === 'glass' ? 'rgba(8, 145, 178, 0.35)' : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : 'rgba(22, 101, 124, 0.75)',
-              ['--chat-bubble-self-bg' as any]: bubbleBgStyle === 'glass' ? 'rgba(126, 34, 206, 0.35)' : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : 'rgba(126, 34, 206, 0.85)',
-              ['--chat-bubble-admin-bg' as any]: bubbleBgStyle === 'glass' ? 'rgba(46, 16, 101, 0.45)' : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : 'rgba(46, 16, 101, 0.95)',
+              ['--chat-bubble-member-bg' as any]:
+                bubbleColorPalette !== 'default'
+                  ? bubbleColorPalette
+                  : bubbleBgStyle === 'glass' ? 'rgba(8, 145, 178, 0.35)' : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : 'rgba(22, 101, 124, 0.75)',
+              ['--chat-bubble-self-bg' as any]:
+                bubbleColorPalette !== 'default'
+                  ? bubbleColorPalette
+                  : bubbleBgStyle === 'glass' ? 'rgba(126, 34, 206, 0.35)' : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : 'rgba(126, 34, 206, 0.85)',
+              ['--chat-bubble-admin-bg' as any]:
+                bubbleColorPalette !== 'default'
+                  ? bubbleColorPalette
+                  : bubbleBgStyle === 'glass' ? 'rgba(46, 16, 101, 0.45)' : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : 'rgba(46, 16, 101, 0.95)',
             }}
             className="rounded-2xl border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)]"
           >

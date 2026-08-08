@@ -544,8 +544,9 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                         : hasAdminTag
                           ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
                           : "var(--chat-bubble-member-bg, rgba(22, 101, 124, 0.7))",
+                      fontSize: "var(--chat-bubble-font-size, 12px)",
                     }}
-                    className="px-4 py-3 text-xs inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
+                    className="px-4 py-3 inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
                   >
                     {formatMessageContent(msg.content)}
                   </div>
