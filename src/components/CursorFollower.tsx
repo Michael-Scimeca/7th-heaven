@@ -168,6 +168,17 @@ export default function CursorFollower() {
     setCustomColors(loadSetting("customColors", ["#3b0764", "#7e22ce", "#a855f7", "#3b0764"]));
   }, []);
 
+  const updateNumCircles = createSetHandler(setNumCircles, "numCircles");
+  const updateCircleSize = createSetHandler(setCircleSize, "circleSize");
+  const updateBlur = createSetHandler(setBlur, "blur");
+  const updateGlow = createSetHandler(setGlow, "glow");
+  const updateSpeed = createSetHandler(setSpeed, "speed");
+  const updateOpacity = createSetHandler(setOpacity, "opacity");
+  const updatePalette = createSetHandler(setPalette, "palette");
+  const updateTailScale = createSetHandler(setTailScale, "tailScale");
+  const updateGooey = createSetHandler(setGooey, "gooey");
+  const updateGooeyStrength = createSetHandler(setGooeyStrength, "gooeyStrength");
+
   // Reset on route change
   useEffect(() => {
     hasMovedRef.current = false;
@@ -308,7 +319,20 @@ export default function CursorFollower() {
   const set = createSetHandler;
 
   // Generator helpers
-  const handleGenerateGradient = () => {
+  const handleResetDefaults = () => {
+    updateNumCircles(DEFAULTS.numCircles);
+    updateCircleSize(DEFAULTS.circleSize);
+    updateBlur(DEFAULTS.blur);
+    updateGlow(DEFAULTS.glow);
+    updateSpeed(DEFAULTS.speed);
+    updateOpacity(DEFAULTS.opacity);
+    updatePalette(DEFAULTS.palette);
+    updateTailScale(DEFAULTS.tailScale);
+    updateGooey(DEFAULTS.gooey);
+    updateGooeyStrength(DEFAULTS.gooeyStrength);
+  };
+
+  const handleApplyGradient = () => {
     const list: string[] = [];
     const count = numCircles;
     for (let i = 0; i < count; i++) {
@@ -319,6 +343,10 @@ export default function CursorFollower() {
     saveSetting("customColors", list);
     setPalette("Custom");
     saveSetting("palette", "Custom");
+  };
+
+  const handleGenerateGradient = () => {
+    handleApplyGradient();
   };
 
   const handleGenerateRainbow = () => {
@@ -530,6 +558,221 @@ export default function CursorFollower() {
           </div>
         </div>
       </div>
+
+      {/* Floating Trigger Button for Cursor Control Studio */}
+      {!isTouch && (
+        <div className="fixed bottom-6 left-6 z-[2147483646] pointer-events-auto">
+          {!panelOpen ? (
+            <button
+              type="button"
+              onClick={() => setPanelOpen(true)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-black/85 backdrop-blur-xl border border-purple-500/40 text-white text-xs font-bold uppercase tracking-wider hover:bg-purple-950/80 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(147,51,234,0.4)] cursor-pointer group"
+              title="Open Cursor Trail Studio"
+            >
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_10px_#c084fc]" />
+              <span>Cursor Studio ✨</span>
+            </button>
+          ) : (
+            <div className="w-[340px] max-h-[85vh] overflow-y-auto bg-[#0a0514]/95 backdrop-blur-2xl border border-purple-500/40 rounded-3xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-4 select-none animate-[cursorScaleIn_0.2s_ease-out] text-left text-white z-[2147483647]">
+              {/* Studio Header */}
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex flex-col">
+                  <span className="text-xs font-black uppercase tracking-widest text-[#c084fc] flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
+                    Cursor Trail Studio
+                  </span>
+                  <span className="text-[10px] text-white/50 uppercase font-semibold">
+                    Full Trail, Speed, Color & Gooey Controls
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleResetDefaults}
+                    className="text-[10px] text-white/60 hover:text-white uppercase font-bold px-2 py-1 bg-white/5 hover:bg-white/10 rounded border border-white/10"
+                    title="Reset to defaults"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPanelOpen(false)}
+                    className="text-white/60 hover:text-white font-bold px-2 py-1 bg-white/10 hover:bg-white/20 rounded-full text-xs"
+                    title="Close"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Trail Speed & Smoothness */}
+              <div className="space-y-3 bg-white/[0.03] p-3 rounded-2xl border border-white/10">
+                <span className="text-[10px] font-black uppercase tracking-wider text-purple-400 block">1. Trail Motion & Size</span>
+                <SliderRow
+                  label="Trail Follow Speed"
+                  value={speed}
+                  min={0.01}
+                  max={0.50}
+                  step={0.01}
+                  display={`${Math.round(speed * 100)}%`}
+                  onChange={updateSpeed}
+                />
+                <SliderRow
+                  label="Trail Length (Circles)"
+                  value={numCircles}
+                  min={3}
+                  max={40}
+                  step={1}
+                  display={`${numCircles} circles`}
+                  onChange={updateNumCircles}
+                />
+                <SliderRow
+                  label="Circle Size"
+                  value={circleSize}
+                  min={6}
+                  max={60}
+                  step={1}
+                  display={`${circleSize}px`}
+                  onChange={updateCircleSize}
+                />
+                <SliderRow
+                  label="Tail Scale Taper"
+                  value={tailScale}
+                  min={0.2}
+                  max={2.0}
+                  step={0.05}
+                  display={`${tailScale.toFixed(2)}x`}
+                  onChange={updateTailScale}
+                />
+              </div>
+
+              {/* Visual FX & Glow */}
+              <div className="space-y-3 bg-white/[0.03] p-3 rounded-2xl border border-white/10">
+                <span className="text-[10px] font-black uppercase tracking-wider text-cyan-400 block">2. Visual FX & Glow</span>
+                <SliderRow
+                  label="Blur Effect"
+                  value={blur}
+                  min={0}
+                  max={20}
+                  step={1}
+                  display={`${blur}px`}
+                  onChange={updateBlur}
+                />
+                <SliderRow
+                  label="Glow Radius"
+                  value={glow}
+                  min={0}
+                  max={40}
+                  step={1}
+                  display={`${glow}px`}
+                  onChange={updateGlow}
+                />
+                <SliderRow
+                  label="Master Opacity"
+                  value={opacity}
+                  min={0.1}
+                  max={1.0}
+                  step={0.05}
+                  display={`${Math.round(opacity * 100)}%`}
+                  onChange={updateOpacity}
+                />
+              </div>
+
+              {/* Liquid Gooey Engine */}
+              <div className="space-y-3 bg-white/[0.03] p-3 rounded-2xl border border-white/10">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-300">3. Liquid Gooey Engine</span>
+                  <button
+                    type="button"
+                    onClick={() => updateGooey(!gooey)}
+                    className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border ${gooey ? "bg-purple-600 border-purple-400 text-white" : "bg-white/5 border-white/15 text-white/50"}`}
+                  >
+                    {gooey ? "ON (Fluid)" : "OFF"}
+                  </button>
+                </div>
+                {gooey && (
+                  <SliderRow
+                    label="Gooey Viscosity"
+                    value={gooeyStrength}
+                    min={2}
+                    max={25}
+                    step={1}
+                    display={`${gooeyStrength}px`}
+                    onChange={updateGooeyStrength}
+                  />
+                )}
+              </div>
+
+              {/* Color Presets & Palette */}
+              <div className="space-y-3 bg-white/[0.03] p-3 rounded-2xl border border-white/10">
+                <span className="text-[10px] font-black uppercase tracking-wider text-pink-400 block">4. Color Palettes & Presets</span>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {PRESET_NAMES.map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => updatePalette(name)}
+                      className={`py-1.5 rounded-lg text-[10px] font-extrabold uppercase border ${palette === name ? "bg-purple-600 border-purple-400 text-white shadow" : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"}`}
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Custom Gradient Builder */}
+                <div className="pt-2 border-t border-white/10 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <label className="text-[10px] font-bold text-white/70">From:</label>
+                      <input aria-label="Input field"
+                        type="color"
+                        value={gradStart}
+                        onChange={e => {
+                          setGradStart(e.target.value);
+                          handleApplyGradient();
+                        }}
+                        className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label className="text-[10px] font-bold text-white/70">To:</label>
+                      <input aria-label="Input field"
+                        type="color"
+                        value={gradEnd}
+                        onChange={e => {
+                          setGradEnd(e.target.value);
+                          handleApplyGradient();
+                        }}
+                        className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={handleGenerateRainbow}
+                      className="flex-1 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-[9px] font-bold uppercase text-white/80"
+                    >
+                      🌈 Rainbow
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleReverseColors}
+                      className="flex-1 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-[9px] font-bold uppercase text-white/80"
+                    >
+                      🔄 Reverse
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-[9px] text-white/40 text-center uppercase tracking-widest font-mono">
+                Hover any card with <code className="text-[#c084fc]">.morph-pick</code> to test guitar pick cursor!
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }
