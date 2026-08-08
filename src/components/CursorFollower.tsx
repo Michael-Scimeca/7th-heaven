@@ -56,15 +56,15 @@ const PRESET_NAMES = [...Object.keys(COLOR_PRESETS), "Custom"];
 // ── Default settings ─────────────────────────────────────────────────────────
 const DEFAULTS = {
   numCircles: 22,
-  circleSize: 24,
+  circleSize: 26,
   blur: 0,
   glow: 0,
-  speed: 0.12,
+  speed: 0.14,
   opacity: 1,
   palette: "Purple",
   tailScale: 1.0,
-  gooey: false,
-  gooeyStrength: 0,
+  gooey: true,
+  gooeyStrength: 12,
 };
 
 function interpolateHex(color1: string, color2: string, factor: number): string {
@@ -458,12 +458,12 @@ export default function CursorFollower() {
       {/* SVG Liquid Gooey Filter Definition (use visibility:hidden instead of display:none to avoid GPU filter matrix artifacts) */}
       <svg className="absolute w-0 h-0 pointer-events-none overflow-hidden" style={{ visibility: "hidden" }} aria-hidden="true">
         <defs>
-          <filter id="cursor-gooey" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation={gooeyStrength} result="blur" />
+          <filter id="cursor-gooey" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation={gooeyStrength > 0 ? gooeyStrength : 12} result="blur" />
             <feColorMatrix
               in="blur"
               mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0 0  0 0 1 0 0 0  0 0 0 20 -9"
+              values="1 0 0 0 0  0 1 0 0 0 0  0 0 1 0 0 0  0 0 0 30 -10"
             />
           </filter>
         </defs>
