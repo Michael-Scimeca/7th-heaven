@@ -1690,7 +1690,7 @@ export default function StyleGuidePage() {
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 pt-0 pl-0 sm:pl-0 grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
+          <div className="p-0 grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
             <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
               <div>
@@ -1896,13 +1896,13 @@ export default function StyleGuidePage() {
                 return (
                   <div
                     key={room.code}
-                    className={`overflow-hidden rounded-2xl flex flex-col justify-between group relative shadow-lg ${isYo
-                      ? 'bg-purple-950/60 border-2 border-purple-400 backdrop-blur-xl'
-                      : 'bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] hover:border-white/20'
+                    className={`overflow-hidden rounded-2xl flex flex-col justify-between group relative shadow-lg border-0 ${isYo
+                      ? 'bg-purple-950/60 backdrop-blur-xl'
+                      : 'bg-[var(--color-section-bg)] backdrop-blur-xl'
                       }`}
                   >
                     {isYo && (
-                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border border-purple-400 z-10">
+                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         <span>Popular</span>
                       </div>
@@ -1915,7 +1915,7 @@ export default function StyleGuidePage() {
                       )}
                       <div className="p-5">
                         <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <span className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'bg-white/10 text-white/70 border border-white/10'
+                          <span className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded tracking-wider border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
                             }`}>{room.label}</span>
                         </div>
                         <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest block">{room.code} Category</span>
@@ -1931,9 +1931,9 @@ export default function StyleGuidePage() {
                       <span className="text-[10px] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                       <button
                         type="button"
-                        className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
-                          ? 'bg-purple-600 hover:bg-purple-500 text-white border border-purple-400'
-                          : 'bg-purple-600 hover:bg-purple-500 text-white border border-purple-500'
+                        className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo
+                          ? 'bg-purple-600 hover:bg-purple-500 text-white'
+                          : 'bg-purple-600 hover:bg-purple-500 text-white'
                           }`}
                       >
                         <span>Select Prevailing Rate</span>
@@ -1955,70 +1955,70 @@ export default function StyleGuidePage() {
               </div>
             </div>
 
-            <div className="booking-form-card bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-3xl overflow-hidden shadow-lg text-left">
+            <div className="booking-form-card bg-transparent border-0 rounded-3xl overflow-hidden shadow-none p-0 text-left">
               {/* Header Banner */}
-              <div className="booking-header-banner border-b border-white/10 px-4 py-4 text-center bg-white/[0.04]">
+              <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
                 <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
                 <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                 <p className="text-[10px] text-white/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS (877-683-9753)</p>
               </div>
 
               {/* GUEST 1 (Primary Booker) */}
-              <div className="booking-section-container border-b border-white/10 bg-transparent">
-                <div className="booking-section-header bg-white/[0.04] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+              <div className="booking-section-container border-0 bg-transparent p-0">
+                <div className="booking-section-header bg-transparent px-0 py-3 border-0 flex items-center justify-between">
                   <span className="text-sm font-black uppercase tracking-wider text-white">Guest 1 (Primary Booker)</span>
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border border-purple-400">Primary</span>
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-white bg-purple-600 px-3 py-1 rounded-full shadow-sm border-0">Primary</span>
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2">
                   {/* Name */}
-                  <div className="booking-cell border-b md:border-r border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors col-span-2">
+                  <div className="booking-cell border-0 p-4 focus-within:bg-cyan-500/10 transition-colors col-span-2">
                     <label htmlFor="sg-guest1-name" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Phone */}
-                  <div className="booking-cell border-b md:border-r border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                  <div className="booking-cell border-0 p-4 focus-within:bg-cyan-500/10 transition-colors">
                     <label htmlFor="sg-guest1-phone" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Email */}
-                  <div className="booking-cell border-b border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                  <div className="booking-cell border-0 p-4 focus-within:bg-cyan-500/10 transition-colors">
                     <label htmlFor="sg-guest1-email" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Email Address *</label>
-                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* T-Shirt Size */}
-                  <div className="booking-cell md:border-r border-white/10 p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors relative">
+                  <div className="booking-cell border-0 p-4 focus-within:bg-cyan-500/10 transition-colors relative">
                     <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
-                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
+                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                       {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
-                  <div className="booking-cell p-4 focus-within:border-cyan-400 focus-within:bg-cyan-500/10 transition-colors">
+                  <div className="booking-cell border-0 p-4 focus-within:bg-cyan-500/10 transition-colors">
                     <label htmlFor="sg-guest1-crown" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
-                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" className="booking-input w-full bg-black/50 border border-white/15 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-cyan-400 rounded-lg" />
+                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                 </div>
 
                 {/* Toggles */}
-                <div className="grid grid-cols-1 md:grid-cols-2 border-t border-white/10">
-                  <div className="booking-cell border-b md:border-b-0 md:border-r border-white/10 p-4 flex flex-col justify-between">
+                <div className="grid grid-cols-1 md:grid-cols-2 border-0">
+                  <div className="booking-cell border-0 p-4 flex flex-col justify-between">
                     <span className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${sgGuestInsurance === opt ? "bg-cyan-600 border-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-white/5 border-white/15 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer shadow-sm ${sgGuestInsurance === opt ? "bg-cyan-600 text-white shadow-md shadow-cyan-600/30" : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <div className="booking-cell p-4 flex flex-col justify-between">
+                  <div className="booking-cell border-0 p-4 flex flex-col justify-between">
                     <span className="booking-label block text-xs font-black text-purple-400 uppercase tracking-wider mb-2.5">Do you want pre-paid gratuities? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border transition-colors cursor-pointer shadow-sm ${sgGuestGratuities === opt ? "bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-white/5 border-white/15 text-white/70 hover:text-white hover:bg-white/10"}`}>
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider border-0 transition-colors cursor-pointer shadow-sm ${sgGuestGratuities === opt ? "bg-purple-600 text-white shadow-md shadow-purple-600/30" : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10"}`}>
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
                       ))}
@@ -2040,7 +2040,7 @@ export default function StyleGuidePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-left">
               {/* Column 1: Booking Policy */}
-              <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-2xl p-6 relative text-left">
+              <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
                   <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
@@ -2087,7 +2087,7 @@ export default function StyleGuidePage() {
               </div>
 
               {/* Column 2: Passport Requirements */}
-              <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-2xl p-6 relative text-left">
+              <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <Compass className="w-6 h-6 text-cyan-400 shrink-0" />
                   <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
@@ -2109,7 +2109,7 @@ export default function StyleGuidePage() {
               </div>
 
               {/* Column 3: Cancellation Policy */}
-              <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] rounded-2xl p-6 relative text-left">
+              <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
                   <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
                   <h3 className="text-lg font-black uppercase text-white tracking-wide">Cancellation Policy</h3>

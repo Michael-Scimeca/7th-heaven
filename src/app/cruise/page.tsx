@@ -975,13 +975,13 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       <button
                         key={room.code || room.selectValue}
                         onClick={() => handleSelectCabin(room.selectValue)}
-                        className={`overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-lg ${isYo
-                          ? 'bg-purple-950/60 border-2 border-purple-400 backdrop-blur-xl'
-                          : 'bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] hover:border-white/20'
+                        className={`overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-lg border-0 ${isYo
+                          ? 'bg-purple-950/60 backdrop-blur-xl'
+                          : 'bg-[var(--color-section-bg)] backdrop-blur-xl'
                           }`}
                       >
                         {isYo && (
-                          <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border border-purple-400 z-10">
+                          <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                             <span>Popular</span>
                           </div>
@@ -995,7 +995,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <div className="py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-2xl">{room.icon}</span>}
-                              <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'bg-white/10 text-white/70 border border-white/10'
+                              <span className={`text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
                                 }`}>{room.label}</span>
                             </div>
                             <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block">{room.code} Category</span>
@@ -1010,9 +1010,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           </div>
                           <span className="text-[var(--font-size-4xs)] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
                           <span
-                            className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
-                              ? 'bg-purple-600 group-hover:bg-purple-500 text-white border border-purple-400'
-                              : 'bg-purple-600 group-hover:bg-purple-500 text-white border border-purple-500'
+                            className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border-0 ${isYo
+                              ? 'bg-purple-600 group-hover:bg-purple-500 text-white'
+                              : 'bg-purple-600 group-hover:bg-purple-500 text-white'
                               }`}
                           >
                             <span>Select Prevailing Rate</span>
