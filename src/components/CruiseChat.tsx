@@ -27,10 +27,7 @@ function formatMessageContent(content: string) {
       return (
         <span
           key={`tag-${i}-${part}`}
-          className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 rounded font-black text-xs border ${isAdminTag
-            ? 'bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)] shadow-[0_0_8px_var(--color-purple-glow)]'
-            : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-            }`}
+          className={`font-black text-xs px-0.5 mx-0.5 ${isAdminTag ? 'text-cyan-300 font-black' : 'text-purple-300 font-bold'}`}
         >
           {part}
         </span>
