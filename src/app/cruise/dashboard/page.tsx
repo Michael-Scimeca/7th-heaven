@@ -145,7 +145,7 @@ export default function CruiseDashboardGate() {
 
   if (isLoggedIn) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center">
+      <div className="min-h-screen   text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-white/10 border-t-cyan-400 rounded-full animate-spin mx-auto mb-4" />
           <p className="text-xs font-bold text-white/20 uppercase tracking-widest">Redirecting to Dashboard...</p>
@@ -155,7 +155,7 @@ export default function CruiseDashboardGate() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen   text-white pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -278,7 +278,7 @@ export default function CruiseDashboardGate() {
             </>
           )}
         </div>
-        
+
         <div className="text-center mt-6">
           <Link href="/cruise" className="text-white/40 hover:text-white/60 text-xs font-bold uppercase tracking-widest transition-colors">
             ← Back to Cruise Information

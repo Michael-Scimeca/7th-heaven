@@ -50,6 +50,7 @@ import {
   ArrowRight,
   Send,
   Eye,
+  Settings,
 } from "lucide-react";
 
 export default function StyleGuidePage() {
@@ -177,6 +178,7 @@ export default function StyleGuidePage() {
     { id: "borders", label: "8. Borders & Glass", icon: ShieldCheck },
     { id: "spacing", label: "9. Spacing & Padding", icon: Box },
     { id: "canvas-studio", label: "10. Canvas & Film Grain", icon: Sliders },
+    { id: "global-containers", label: "11. Global Containers", icon: Settings },
   ];
 
   return (
@@ -1375,11 +1377,10 @@ export default function StyleGuidePage() {
             </div>
             <button
               onClick={handleCopyCanvasSpec}
-              className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${
-                copiedCanvasSpec
+              className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
                   ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
                   : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
-              }`}
+                }`}
             >
               {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedCanvasSpec ? "Canvas Specs Copied!" : "Copy Canvas & Grain Spec"}</span>
@@ -1400,7 +1401,7 @@ export default function StyleGuidePage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs font-bold">
                   <span className="text-white/80">Grain Opacity</span>
-                  <span className="text-emerald-400 font-mono">{canvasGrainOpacity}% ({ (canvasGrainOpacity / 100).toFixed(2) })</span>
+                  <span className="text-emerald-400 font-mono">{canvasGrainOpacity}% ({(canvasGrainOpacity / 100).toFixed(2)})</span>
                 </div>
                 <input
                   type="range"
@@ -1416,11 +1417,10 @@ export default function StyleGuidePage() {
                       key={op}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        canvasGrainOpacity === op
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op
                           ? "bg-emerald-600 border-emerald-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {op}%
                     </button>
@@ -1449,11 +1449,10 @@ export default function StyleGuidePage() {
                       key={sz}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
-                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
-                        canvasGrainSize === sz
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz
                           ? "bg-emerald-600 border-emerald-400 text-white"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {sz}
                     </button>
@@ -1476,11 +1475,10 @@ export default function StyleGuidePage() {
                       key={mode.val}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
-                      className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${
-                        canvasGrainBlend === mode.val
+                      className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val
                           ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
                           : "bg-white/5 border-white/10 text-white/60 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {mode.label}
                     </button>
@@ -1544,9 +1542,8 @@ export default function StyleGuidePage() {
                       onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
-                      className={`w-6 h-6 rounded-full border-2 transition transform hover:scale-110 ${
-                        canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : "border-white/20"
-                      }`}
+                      className={`w-6 h-6 rounded-full border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : "border-white/20"
+                        }`}
                     />
                   ))}
                   <input
@@ -1557,6 +1554,103 @@ export default function StyleGuidePage() {
                     title="Custom Hex Picker"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 11: GLOBAL CONTAINER STYLES */}
+        <section id="global-containers" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-pink-400 flex items-center gap-2">
+              <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
+            </h2>
+            <p className="text-white/60 text-xs mt-1">
+              Edit global CSS variables for section/card backgrounds, borders, and glass surfaces. Changes apply site-wide in real-time. Hit <strong className="text-white">SAVE THEME TOKENS</strong> at the top to persist.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Card / Section Background Token */}
+            {([
+              { label: "Card Background", token: "--color-bg-card", category: "colors" as const, desc: "All card & container fill" },
+              { label: "Glass Background", token: "--color-bg-glass", category: "colors" as const, desc: "Glassmorphism panels" },
+              { label: "Surface Background", token: "--color-bg-surface", category: "colors" as const, desc: "Deep surface layers" },
+              { label: "Primary Background", token: "--color-bg-primary", category: "colors" as const, desc: "Page-level base background" },
+              { label: "Deep Background", token: "--color-bg-deep", category: "colors" as const, desc: "Deepest background layer" },
+              { label: "Main Border", token: "--color-border-main", category: "colors" as const, desc: "Default border on all containers" },
+              { label: "Purple Border", token: "--color-border-purple", category: "colors" as const, desc: "Accent purple border" },
+              { label: "Accent Color", token: "--color-accent", category: "colors" as const, desc: "Primary brand accent" },
+            ]).map((item) => {
+              const currentValue = tokens[item.category]?.[item.token] || "";
+              return (
+                <div key={item.token} className="p-4 rounded-xl bg-white/[0.02] border border-white/10 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-black uppercase tracking-wider text-pink-400">{item.label}</span>
+                      <p className="text-[10px] text-white/50 mt-0.5">{item.desc}</p>
+                    </div>
+                    <code className="text-[10px] font-mono text-white/40 bg-black/40 px-2 py-1 rounded border border-white/5">{item.token}</code>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-8 h-8 rounded-lg border border-white/20 shrink-0"
+                      style={{ backgroundColor: currentValue }}
+                    />
+                    <input
+                      type="text"
+                      value={currentValue}
+                      onChange={(e) => updateToken(item.category, item.token, e.target.value)}
+                      className="flex-1 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-xs font-mono text-white focus:border-pink-500 focus:outline-none transition"
+                      placeholder="rgba(255,255,255,0.03)"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => updateToken(item.category, item.token, "transparent")}
+                      className="px-2 py-1.5 text-[10px] font-bold uppercase text-white/60 bg-white/5 border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  {/* Quick presets */}
+                  <div className="flex gap-1.5 flex-wrap">
+                    {(item.token.includes("border")
+                      ? ["transparent", "rgba(255,255,255,0.05)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.15)", "rgba(147,51,234,0.3)"]
+                      : ["transparent", "rgba(255,255,255,0.02)", "rgba(255,255,255,0.03)", "rgba(255,255,255,0.05)", "rgba(18,18,24,0.45)", "rgba(15,5,29,0.55)"]
+                    ).map((preset) => (
+                      <button
+                        key={preset}
+                        type="button"
+                        onClick={() => updateToken(item.category, item.token, preset)}
+                        className={`px-2 py-1 rounded text-[9px] font-bold border transition ${currentValue === preset
+                          ? "bg-pink-600/40 border-pink-400 text-pink-200"
+                          : "bg-white/5 border-white/10 text-white/50 hover:text-white"
+                          }`}
+                      >
+                        {preset === "transparent" ? "none" : preset.length > 20 ? preset.slice(0, 18) + "…" : preset}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Live Preview Strip */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-white/60">Live Preview</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-5 rounded-2xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
+                <span className="text-xs font-bold text-pink-400">Card Container</span>
+                <p className="text-xs text-white/60">Uses <code className="text-pink-300 font-mono text-[10px]">--color-bg-card</code> + <code className="text-pink-300 font-mono text-[10px]">--color-border-main</code></p>
+              </div>
+              <div className="p-5 rounded-2xl backdrop-blur-xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-glass"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
+                <span className="text-xs font-bold text-purple-400">Glass Panel</span>
+                <p className="text-xs text-white/60">Uses <code className="text-purple-300 font-mono text-[10px]">--color-bg-glass</code></p>
+              </div>
+              <div className="p-5 rounded-2xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-surface"], border: `1px solid ${tokens.colors["--color-border-purple"]}` }}>
+                <span className="text-xs font-bold text-cyan-400">Surface Panel</span>
+                <p className="text-xs text-white/60">Uses <code className="text-cyan-300 font-mono text-[10px]">--color-bg-surface</code> + <code className="text-cyan-300 font-mono text-[10px]">--color-border-purple</code></p>
               </div>
             </div>
           </div>

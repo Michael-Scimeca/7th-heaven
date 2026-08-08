@@ -59,11 +59,11 @@ export default function GridLayoutDemo() {
   const catNames = categories.map(c => c.category);
 
   return (
-    <div className="bg-[var(--color-bg-deep)] min-h-screen pt-[72px]">
+    <div className="  min-h-screen pt-[72px]">
       <Switcher active={active} set={setActive} />
 
       {/* Shared nav */}
-      <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="sticky top-[72px] z-40  /90 backdrop-blur-xl border-b border-white/[0.06]">
         <div className="site-container py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <CatTabs cats={catNames} active={cat} set={setCat} />
           <p className="text-xs text-white/20 font-bold uppercase tracking-widest">{videos.length} Videos · Layout {active}</p>

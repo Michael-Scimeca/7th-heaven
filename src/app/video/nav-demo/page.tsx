@@ -43,7 +43,7 @@ export default function CatNavDemo() {
   const count = categories.find(c => c.category === activeCat)?.videos.length || 0;
 
   return (
-    <div className="bg-[var(--color-bg-deep)] min-h-screen pt-[72px]">
+    <div className="  min-h-screen pt-[72px]">
       <Switcher active={active} set={setActive} />
 
       {/* Spacer to simulate hero */}
@@ -56,7 +56,7 @@ export default function CatNavDemo() {
 
       {/* ═══ A — Slash-separated inline (current) ═══ */}
       {active === "A" && (
-        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40  /90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-1">
               {cats.map((c, i) => (
@@ -76,14 +76,14 @@ export default function CatNavDemo() {
 
       {/* ═══ B — Pill/Chip tabs ═══ */}
       {active === "B" && (
-        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40  /90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {cats.map(c => (
                 <button aria-label="Action button" key={c} onClick={() => setActiveCat(c)}
                   className={`text-xs font-bold uppercase tracking-[0.15em] px-4 py-2 rounded-full transition-colors cursor-pointer whitespace-nowrap border ${activeCat === c
-                      ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.3)]"
-                      : "bg-white/[0.03] border-white/10 text-white/40 hover:border-white/20 hover:text-white/70"
+                    ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                    : "bg-white/[0.03] border-white/10 text-white/40 hover:border-white/20 hover:text-white/70"
                     }`}>{c}</button>
               ))}
             </div>
@@ -97,7 +97,7 @@ export default function CatNavDemo() {
 
       {/* ═══ C — Underline tabs with count ═══ */}
       {active === "C" && (
-        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40  /90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex overflow-x-auto" style={{ scrollbarWidth: "none" }}>
               {cats.map(c => {
@@ -175,7 +175,7 @@ export default function CatNavDemo() {
 
       {/* ═══ F — Dropdown + prominent search ═══ */}
       {active === "F" && (
-        <div className="sticky top-[72px] z-40 bg-[var(--color-bg-deep)]/90 backdrop-blur-xl border-b border-white/[0.06]">
+        <div className="sticky top-[72px] z-40  /90 backdrop-blur-xl border-b border-white/[0.06]">
           <div className="site-container py-4 flex items-center gap-4">
             <div className="relative">
               <select aria-label="Select option"

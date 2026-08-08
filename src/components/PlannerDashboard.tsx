@@ -133,34 +133,34 @@ export default function PlannerDashboard() {
       const res = await fetch(`/api/booking?email=${encodeURIComponent(email)}`);
       if (res.ok) {
         const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        const mapped: BookingData[] = data.map((item: any) => ({
-          id: item.bookingId || item.booking_id || defaultBooking.id,
-          eventName: item.eventType ? (eventTypeLabels[item.eventType] || item.eventType) : defaultBooking.eventName,
-          eventType: item.eventType || defaultBooking.eventType,
-          date: item.eventDate || item.event_date || defaultBooking.date,
-          startTime: item.startTime || item.start_time || defaultBooking.startTime,
-          endTime: item.endTime || item.end_time || defaultBooking.endTime,
-          venueName: item.venueName || item.venue_name || defaultBooking.venueName,
-          venueCity: item.venueCity || item.venue_city || defaultBooking.venueCity,
-          venueState: item.venueState || item.venue_state || defaultBooking.venueState,
-          indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || defaultBooking.indoorOutdoor,
-          expectedAttendance: item.expectedAttendance || item.expected_attendance || defaultBooking.expectedAttendance,
-          organization: item.organization || defaultBooking.organization,
-          status: item.status || defaultBooking.status,
-          cancelledAt: item.cancelledAt || item.cancelled_at,
-          soundSystem: item.soundSystem || item.sound_system || '',
-          stageAvailable: item.stageAvailable || item.stage_available || '',
-          loadInTime: item.loadInTime || item.load_in_time || '',
-          notes: item.details || item.notes || '',
-        }));
-        setAllBookings(mapped);
-        // Active booking = most recent non-cancelled, or just the first
-        const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
-        setBooking(active);
-        setEditDraft(active);
-        setPlannerNotes(active.notes || '');
-      }
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: BookingData[] = data.map((item: any) => ({
+            id: item.bookingId || item.booking_id || defaultBooking.id,
+            eventName: item.eventType ? (eventTypeLabels[item.eventType] || item.eventType) : defaultBooking.eventName,
+            eventType: item.eventType || defaultBooking.eventType,
+            date: item.eventDate || item.event_date || defaultBooking.date,
+            startTime: item.startTime || item.start_time || defaultBooking.startTime,
+            endTime: item.endTime || item.end_time || defaultBooking.endTime,
+            venueName: item.venueName || item.venue_name || defaultBooking.venueName,
+            venueCity: item.venueCity || item.venue_city || defaultBooking.venueCity,
+            venueState: item.venueState || item.venue_state || defaultBooking.venueState,
+            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || defaultBooking.indoorOutdoor,
+            expectedAttendance: item.expectedAttendance || item.expected_attendance || defaultBooking.expectedAttendance,
+            organization: item.organization || defaultBooking.organization,
+            status: item.status || defaultBooking.status,
+            cancelledAt: item.cancelledAt || item.cancelled_at,
+            soundSystem: item.soundSystem || item.sound_system || '',
+            stageAvailable: item.stageAvailable || item.stage_available || '',
+            loadInTime: item.loadInTime || item.load_in_time || '',
+            notes: item.details || item.notes || '',
+          }));
+          setAllBookings(mapped);
+          // Active booking = most recent non-cancelled, or just the first
+          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
+          setBooking(active);
+          setEditDraft(active);
+          setPlannerNotes(active.notes || '');
+        }
       }
     } catch (e) {
       console.error('Failed to fetch bookings:', e);
@@ -213,7 +213,7 @@ export default function PlannerDashboard() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-6 relative overflow-hidden">
+      <div className="min-h-screen   text-white flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
         <div className="w-full max-w-md relative z-10">
@@ -318,7 +318,7 @@ export default function PlannerDashboard() {
   const s = STATUS_CONFIG[booking.status];
 
   return (
-    <section className="bg-[var(--color-bg-deep)] min-h-screen font-sans pt-24 pb-16">
+    <section className="  min-h-screen font-sans pt-24 pb-16">
       <div className="max-w-[1400px] mx-auto px-6">
 
 

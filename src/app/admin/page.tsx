@@ -64,7 +64,7 @@ export default function AdminGatewayPage() {
   }, [hydrated]);
 
   if (!hydrated) {
-    return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
+    return <div className="min-h-screen  " />;
   }
 
   // If logged in as admin, show loading while redirect takes place

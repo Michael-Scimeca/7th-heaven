@@ -63,8 +63,8 @@ export default function CruiseVideoGallery() {
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat
-                    ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                    : 'bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
+                  ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                  : 'bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
                   }`}
               >
                 {cat}
@@ -144,7 +144,7 @@ export default function CruiseVideoGallery() {
       {/* Full-screen Video Player Modal */}
       {activeVideo && (
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 transition-opacity duration-300 animate-in fade-in">
-          <div className="relative w-full max-w-5xl bg-[var(--color-bg-deep)] border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
+          <div className="relative w-full max-w-5xl   border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
                 <span className="text-[var(--font-size-3xs)] font-black uppercase text-cyan-400 tracking-widest block">

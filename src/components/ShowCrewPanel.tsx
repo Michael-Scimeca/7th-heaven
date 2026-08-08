@@ -134,7 +134,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
   ];
 
   return (
-    <div className="bg-[var(--color-bg-deep)] border border-white/5 overflow-hidden">
+    <div className="  border border-white/5 overflow-hidden">
       {/* Header */}
       <div className="px-5 py-3 bg-white/[0.02] border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -204,11 +204,11 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                   <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
                     <div className="flex-1">
                       <label htmlFor="show-crew-new-name" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Name</label>
-                      <input aria-label="Input field" id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
+                      <input aria-label="Input field" id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full   border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
                     </div>
                     <div>
                       <label htmlFor="show-crew-new-role" className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold block mb-1">Role</label>
-                      <select aria-label="Select option" id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
+                      <select aria-label="Select option" id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="  border border-white/10 px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
                         {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                       </select>
                     </div>
@@ -269,7 +269,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             <div className="mt-3">
               {addingGear ? (
                 <div className="flex gap-2">
-                  <input aria-label="Input field" value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
+                  <input aria-label="Input field" value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1   border border-white/10 px-3 py-1.5 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]" />
                   <button aria-label="Action button" onClick={addGearItem} className="text-xs text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-2">Add</button>
                   <button aria-label="Action button" onClick={() => setAddingGear(false)} className="text-xs text-white/30 cursor-pointer px-1"><X className="w-3.5 h-3.5" /></button>
                 </div>
@@ -289,7 +289,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
                 onChange={e => setNewNote(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]"
+                className="flex-1   border border-white/10 px-3 py-2 rounded-lg text-sm text-white placeholder:text-white/15 outline-none focus:border-[var(--color-accent)]"
               />
               <button aria-label="Action button" onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white text-xs font-bold uppercase tracking-wider rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
             </div>

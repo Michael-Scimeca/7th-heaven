@@ -138,7 +138,7 @@ export default function CursorTestingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white relative overflow-hidden font-sans pt-24 pb-20">
+    <div className="min-h-screen   text-white relative overflow-hidden font-sans pt-24 pb-20">
 
       {/* Force cursor:none everywhere — overrides pointer/default on links/buttons */}
       <style>{`*, *:hover, *:active, *:focus { cursor: none !important; }`}</style>

@@ -547,45 +547,45 @@ function BookPageContent() {
       if (res.ok) {
         const result = await res.json();
         if (result.success) {
-        // Save full form data for rebook auto-fill
-        localStorage.setItem('7h_planner_last_form_v1', JSON.stringify({
-          ...formData,
-          eventType: selectedType,
-          bookingSlots,
-          eventDates: bookingSlots.map(s => s.date),
-          eventDate: bookingSlots[0]?.date || ""
-        }));
+          // Save full form data for rebook auto-fill
+          localStorage.setItem('7h_planner_last_form_v1', JSON.stringify({
+            ...formData,
+            eventType: selectedType,
+            bookingSlots,
+            eventDates: bookingSlots.map(s => s.date),
+            eventDate: bookingSlots[0]?.date || ""
+          }));
 
-        // Track submission timestamp for rate limiting
-        try {
-          const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps_v1') || localStorage.getItem('7h_booking_timestamps') || '[]');
-          timestamps.push(Date.now());
-          const oneHourAgo = Date.now() - 60 * 60 * 1000;
-          localStorage.setItem('7h_booking_timestamps_v1', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
-        } catch { }
+          // Track submission timestamp for rate limiting
+          try {
+            const timestamps: number[] = JSON.parse(localStorage.getItem('7h_booking_timestamps_v1') || localStorage.getItem('7h_booking_timestamps') || '[]');
+            timestamps.push(Date.now());
+            const oneHourAgo = Date.now() - 60 * 60 * 1000;
+            localStorage.setItem('7h_booking_timestamps_v1', JSON.stringify(timestamps.filter(t => t > oneHourAgo)));
+          } catch { }
 
-        // Persist phone number to user account if logged in
-        if (isLoggedIn && member && formData.phone) {
-          const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
-          if (accounts[member.email]) {
-            accounts[member.email].phone = formData.phone;
-            localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
+          // Persist phone number to user account if logged in
+          if (isLoggedIn && member && formData.phone) {
+            const accounts = JSON.parse(localStorage.getItem('7h_accounts_v1') || localStorage.getItem('7h_accounts') || '{}');
+            if (accounts[member.email]) {
+              accounts[member.email].phone = formData.phone;
+              localStorage.setItem('7h_accounts_v1', JSON.stringify(accounts));
+            }
           }
-        }
 
-        // Stripe mode: redirect to Stripe Checkout
-        if (result.mode === "stripe" && result.url) {
-          window.location.href = result.url;
-          return;
-        }
+          // Stripe mode: redirect to Stripe Checkout
+          if (result.mode === "stripe" && result.url) {
+            window.location.href = result.url;
+            return;
+          }
 
-        // Free mode (no Stripe configured): redirect to success page
-        if (result.redirectUrl) {
-          window.location.href = result.redirectUrl;
-          return;
-        }
+          // Free mode (no Stripe configured): redirect to success page
+          if (result.redirectUrl) {
+            window.location.href = result.redirectUrl;
+            return;
+          }
 
-        setSubmitted(true);
+          setSubmitted(true);
         } else {
           setValidationErrors([result.error || "Something went wrong. Please try again."]);
         }
@@ -610,7 +610,7 @@ function BookPageContent() {
 
   if (submitted) {
     return (
-      <section className="min-h-screen flex items-center justify-center bg-[var(--color-bg-deep)] px-6 relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center   px-6 relative overflow-hidden">
         {/* Background Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] opacity-[0.05] rounded-full blur-[150px] pointer-events-none" />
 
@@ -641,7 +641,7 @@ function BookPageContent() {
                           onChange={e => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
+                          className="flex-1   border border-white/10 px-4 py-2.5 rounded-lg text-lg text-white focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button aria-label="Action button" type="button" onClick={() => setEditingEmail(false)} className="text-base  text-[var(--color-accent)] font-bold uppercase tracking-wider cursor-pointer px-3">Done</button>
                       </div>
@@ -664,7 +664,7 @@ function BookPageContent() {
                           value={accountPassword}
                           onChange={e => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
+                          className="flex-1   border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors disabled:opacity-50"
                         />
                         <button aria-label="Action button"
                           type="button"
@@ -691,7 +691,7 @@ function BookPageContent() {
                           value={pinCode}
                           onChange={e => setPinCode(e.target.value.replace(/\D/g, ''))}
                           disabled={pinLoading}
-                          className="flex-1 bg-[var(--color-bg-deep)] border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center tracking-[0.2em] font-mono disabled:opacity-50"
+                          className="flex-1   border border-white/10 px-4 py-3 text-lg text-white placeholder:text-white/20 focus:border-[var(--color-accent)] outline-none transition-colors text-center tracking-[0.2em] font-mono disabled:opacity-50"
                         />
                         <button aria-label="Action button"
                           type="button"
@@ -772,7 +772,7 @@ function BookPageContent() {
   }
 
   return (
-    <div className="bg-[var(--color-bg-deep)] min-h-screen relative overflow-clip pt-[88px]">
+    <div className="  min-h-screen relative overflow-clip pt-[88px]">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
 

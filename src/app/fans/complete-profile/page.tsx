@@ -114,7 +114,7 @@ export default function CompleteProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center">
+      <div className="min-h-screen   text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-4 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
           <p className="text-sm font-bold uppercase tracking-widest text-white/40">Loading your profile...</p>
@@ -124,7 +124,7 @@ export default function CompleteProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen   text-white flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Card */}
         <div className="bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden animate-[fadeIn_0.3s_ease]">
@@ -189,18 +189,15 @@ export default function CompleteProfilePage() {
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${
-                    wantNotifications
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNotifications
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-                  }`}
+                    }`}
                 >
-                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${
-                    wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                  }`}>
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${
-                      wantNotifications ? 'left-[18px]' : 'left-0.5'
-                    }`} />
+                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                    }`}>
+                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${wantNotifications ? 'left-[18px]' : 'left-0.5'
+                      }`} />
                   </span>
                   <span className="text-sm text-white/70 leading-tight text-left">
                     📍 Email me when 7th Heaven books a show near me
@@ -226,18 +223,15 @@ export default function CompleteProfilePage() {
                 <button aria-label="Action button"
                   type="button"
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${
-                    wantNewsletter
+                  className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg border transition-colors cursor-pointer ${wantNewsletter
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/20'
-                  }`}
+                    }`}
                 >
-                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${
-                    wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
-                  }`}>
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${
-                      wantNewsletter ? 'left-[18px]' : 'left-0.5'
-                    }`} />
+                  <span className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/10'
+                    }`}>
+                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-colors ${wantNewsletter ? 'left-[18px]' : 'left-0.5'
+                      }`} />
                   </span>
                   <span className="text-sm text-white/70 leading-tight text-left">
                     📧 Send me news, show updates &amp; exclusive drops

@@ -1801,7 +1801,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       onClick={() => setActiveSpotlightPort(idx)}
                       className={`w-full p-4  border-none text-left transition-colors cursor-pointer flex items-center gap-4 ${activeSpotlightPort === idx
                         ? "bg-cyan-500/10 shadow-md"
-                        : "bg-[var(--color-bg-deep)] hover:bg-white/5"
+                        : "  hover:bg-white/5"
                         }`}
                     >
                       <div className="w-12 h-12 overflow-hidden shrink-0 bg-black">

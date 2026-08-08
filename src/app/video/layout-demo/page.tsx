@@ -77,7 +77,7 @@ export default function VideoLayoutDemo() {
   const [cat, setCat] = useState("Official Music Videos");
 
   return (
-    <div className="bg-[var(--color-bg-deep)] min-h-screen pt-[72px]">
+    <div className="  min-h-screen pt-[72px]">
       <Switcher active={active} set={setActive} />
 
       {/* ═══ A — Cinema Split (current style refined) ═══ */}

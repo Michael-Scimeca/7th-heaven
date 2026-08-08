@@ -10,7 +10,7 @@ export default function ProductDetailPage() {
   const [added, setAdded] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 pb-20 font-sans">
+    <div className="min-h-screen   text-white pt-32 pb-20 font-sans">
       <div className="site-container max-w-6xl mx-auto">
 
         {/* Breadcrumbs */}
@@ -60,8 +60,8 @@ export default function ProductDetailPage() {
                     key={size}
                     onClick={() => setSelectedSize(size)}
                     className={`w-12 h-12 flex items-center justify-center font-bold text-sm border transition-colors cursor-pointer ${selectedSize === size
-                        ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-white"
-                        : "border-white/10 text-white/40 hover:border-white/20 hover:text-white"
+                      ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-white"
+                      : "border-white/10 text-white/40 hover:border-white/20 hover:text-white"
                       }`}
                   >
                     {size}

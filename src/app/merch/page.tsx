@@ -243,7 +243,7 @@ function MerchDashboard() {
 
   // ─── Auth gates ──────────────────────────────────────────────────────────────
   if (!isDemo && (!isLoggedIn || !member)) return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen   flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="bg-[var(--color-bg-surface)] border border-white/10 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🔐</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Login Required</h2>
@@ -254,7 +254,7 @@ function MerchDashboard() {
   );
 
   if (!isDemo && !isMerch) return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen   flex items-center justify-center p-6" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="bg-[var(--color-bg-surface)] border border-red-500/20 p-8 text-center max-w-sm w-full">
         <span className="text-5xl block mb-4">🚫</span>
         <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Merch Team Only</h2>
@@ -267,7 +267,7 @@ function MerchDashboard() {
   const claimedPickups = pickupQueue.filter(o => o.claimed);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg-deep)] pt-[123px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen   pt-[123px]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Header — sits below global nav */}
       <div className="border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm sticky top-[95px] z-20">
@@ -304,7 +304,7 @@ function MerchDashboard() {
 
 export default function MerchPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-deep)]" />}>
+    <Suspense fallback={<div className="min-h-screen  " />}>
       <MerchDashboard />
     </Suspense>
   );

@@ -53,7 +53,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
       {/* ── 2A. Classic Dark Glass Split ── */}
       {activeLayout === "2A" && (
-        <section className="relative py-16 md:py-24 overflow-hidden bg-[var(--color-bg-deep)]">
+        <section className="relative py-16 md:py-24 overflow-hidden  ">
           <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: "url('/images/hero-band-bg.png')" }} />
           <div className="absolute inset-0 bg-gradient-to-r from-[#090314] via-[#090314]/90 to-transparent" />
 

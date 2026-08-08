@@ -3080,7 +3080,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }, []);
 
   if (!mounted) {
-    return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
+    return <div className="min-h-screen  " />;
   }
 
   if ((forceLogin || !devBypass) && (!isLoggedIn || member?.role !== 'admin')) {
@@ -12025,7 +12025,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
-                  <div className="w-full h-full bg-[var(--color-bg-deep)] rounded-full flex items-center justify-center">
+                  <div className="w-full h-full   rounded-full flex items-center justify-center">
                     <span className="text-lg"></span>
                   </div>
                 </div>

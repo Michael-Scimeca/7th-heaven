@@ -181,7 +181,7 @@ export default function ClaimPage() {
   }, [pin, isLoggedIn, member]);
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : 'bg-[var(--color-bg-deep)]'}`}
+    <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : ' '}`}
       style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
       <style>{`
         @keyframes winnerFlash {

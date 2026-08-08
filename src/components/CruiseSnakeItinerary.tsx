@@ -3,7 +3,7 @@
 import Image from 'next/image';
 
 import React, { useEffect, useRef, useState, Fragment, Suspense, useSyncExternalStore } from 'react';
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
@@ -293,7 +293,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Preload audio elements on mount
   useEffect(() => {
-    if (typeof window === 'undefined') return () => {};
+    if (typeof window === 'undefined') return () => { };
     if (!portAudioRef.current) {
       portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
       portAudioRef.current.loop = true;
@@ -308,7 +308,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Unlock browser autoplay policy on first user interaction anywhere on page
   useEffect(() => {
-    if (soundMuted || typeof window === 'undefined') return () => {};
+    if (soundMuted || typeof window === 'undefined') return () => { };
 
     const unlockAudio = () => {
       if (soundMuted || !hasScrolledIntoRangeRef.current) return;
@@ -331,7 +331,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   // Keep playing sound of current location continuously when in section range
   useEffect(() => {
-    if (!itinerary || itinerary.length === 0) return () => {};
+    if (!itinerary || itinerary.length === 0) return () => { };
 
     if (soundMuted || !hasScrolledIntoRange) {
       fadeAudioOut(portAudioRef.current);
@@ -693,14 +693,14 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
       </div>
 
-        {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
-        {showSettings && mounted && createPortal(
-          <div
-            data-settings-panel
-            className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 bg-[var(--color-bg-deep)]/40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
-            style={{ zIndex: 999999, pointerEvents: 'auto' }}
-          >
-            <style>{`
+      {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
+      {showSettings && mounted && createPortal(
+        <div
+          data-settings-panel
+          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5  /40 border-2 border-cyan-400/50 rounded-3xl shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100"
+          style={{ zIndex: 999999, pointerEvents: 'auto' }}
+        >
+          <style>{`
               [data-settings-panel], [data-settings-panel] * {
                 cursor: default !important;
               }
@@ -711,358 +711,358 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               }
             `}</style>
 
-            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0 bg-[var(--color-bg-deep)]/60 pt-1 z-10">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">⚙️</span>
-                <div>
-                  <h3 className="text-white font-black text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
-                  <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
+          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4 sticky top-0  /60 pt-1 z-10">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">⚙️</span>
+              <div>
+                <h3 className="text-white font-black text-sm uppercase tracking-wide">SVG Path, Speed & Boat Controls</h3>
+                <p className="text-white/40 text-xs">All real-time physics tuning parameters</p>
+              </div>
+            </div>
+            <button aria-label="Action button"
+              onClick={() => setShowSettings(false)}
+              className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
+            >
+              ✕ Close
+            </button>
+          </div>
+
+          {/* Controls Sliders Grid — 2-Column organized sections */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+
+            {/* SECTION 1: Velocity & Viewport Triggers */}
+            <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+              <div className="flex justify-between items-center text-cyan-300 font-black text-sm">
+                <span>⚡ Cruise Boat & Line Travel Speed</span>
+                <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.2" max="4.0" step="0.1"
+                value={tuning.speedMultiplier ?? 1.0}
+                onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer h-2"
+              />
+              <div className="flex justify-between text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-wider">
+                <span>0.2x (Slow Motion)</span>
+                <span>1.0x (1:1 Viewport Lock)</span>
+                <span>4.0x (Hyper Speed)</span>
+              </div>
+            </div>
+
+            {/* Ship Bow Path Advance Offset */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🚢 Ship Bow Path Advance Offset</span>
+                <span className="text-cyan-400 font-mono">{(tuning.shipAdvancePx ?? 80)}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="-200" max="300" step="5"
+                value={tuning.shipAdvancePx ?? 80}
+                onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Blue Line Lead / Lag Offset */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🌊 Blue Line Lead/Lag Offset</span>
+                <span className="text-cyan-400 font-mono">{(tuning.lineFillLeadPx ?? 0)}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="-200" max="200" step="5"
+                value={tuning.lineFillLeadPx ?? 0}
+                onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Start Trigger Location */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>📍 Start Trigger Location</span>
+                <span className="text-cyan-400 font-mono">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.0" max="1.0" step="0.01"
+                value={tuning.scrollStartMul ?? 0.48}
+                onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* End Trigger Location */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>📍 End Trigger Location</span>
+                <span className="text-cyan-400 font-mono">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.0" max="1.0" step="0.01"
+                value={tuning.scrollEndMul ?? 0.5}
+                onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Start Node Padding */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🛑 Start Path Padding</span>
+                <span className="text-cyan-400 font-mono">{tuning.minShipDist ?? 0}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0" max="400" step="10"
+                value={tuning.minShipDist ?? 0}
+                onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* End Node Padding */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🏁 End Path Finish Padding</span>
+                <span className="text-cyan-400 font-mono">{tuning.maxShipDistPad ?? 0}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0" max="400" step="10"
+                value={tuning.maxShipDistPad ?? 0}
+                onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Anchor X Offset */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>⚓ Anchor X Offset</span>
+                <span className="text-cyan-400 font-mono">{tuning.anchorOffsetX ?? 0}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="-100" max="100" step="1"
+                value={tuning.anchorOffsetX ?? 0}
+                onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Anchor Y Offset */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>⚓ Anchor Y Offset</span>
+                <span className="text-cyan-400 font-mono">{tuning.anchorOffsetY ?? 0}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="-100" max="100" step="1"
+                value={tuning.anchorOffsetY ?? 0}
+                onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* 3D Ship Model Scale */}
+            <div className="bg-black/30 border border-white/10 p-3 space-y-1.5 backdrop-blur-sm">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🔎 3D Ship Scale</span>
+                <span className="text-cyan-400 font-mono">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.05" max="8.0" step="0.05"
+                value={tuning.shipScale ?? 1.8}
+                onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* 3D Hull Y Offset */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>⚓ Hull Y Path Offset</span>
+                <span className="text-cyan-400 font-mono">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.0" max="3.0" step="0.1"
+                value={tuning.shipOffsetY ?? 0.9}
+                onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
+            <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-cyan-500/30 p-4 space-y-3 mt-2">
+              <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-2">
+                <span className="text-lg">📍</span>
+                <h3 className="text-white font-black uppercase text-xs tracking-wider">Port Circle & Corner Arrival Controls</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Action Mode Toggle */}
+                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+                  <span className="block text-xs font-bold text-white/90">🎭 Port Circle Action</span>
+                  <div className="flex gap-1.5 pt-1">
+                    {[
+                      { id: 'hide', label: '🙈 Hide & Flip' },
+                      { id: 'bounce', label: '🏀 Elastic Bounce' },
+                      { id: 'spin', label: '🌀 Spin & Dock' },
+                    ].map(act => (
+                      <button aria-label="Action button"
+                        key={act.id}
+                        onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
+                        className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
+                          ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                          : 'bg-white/5 text-white/60 hover:bg-white/10'
+                          }`}
+                      >
+                        {act.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Min Scale Over Circle */}
+                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+                  <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                    <span>🔎 Min Scale Over Circle</span>
+                    <span className="text-cyan-400 font-mono">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
+                  </div>
+                  <input aria-label="Input field"
+                    type="range" min="0.0" max="1.0" step="0.05"
+                    value={tuning.nodeMinScale ?? 0.0}
+                    onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Scale Down Distance */}
+                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+                  <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                    <span>📏 Scale Down Trigger Radius</span>
+                    <span className="text-cyan-400 font-mono">{tuning.nodeDipRadius ?? 65}px</span>
+                  </div>
+                  <input aria-label="Input field"
+                    type="range" min="20" max="250" step="5"
+                    value={tuning.nodeDipRadius ?? 65}
+                    onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Re-appear Pop Distance */}
+                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+                  <div className="flex justify-between items-center text-xs font-bold text-white/90">
+                    <span>🚀 Re-appear Pop Distance</span>
+                    <span className="text-cyan-400 font-mono">{tuning.nodePopDist ?? 60}px</span>
+                  </div>
+                  <input aria-label="Input field"
+                    type="range" min="20" max="200" step="5"
+                    value={tuning.nodePopDist ?? 60}
+                    onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
                 </div>
               </div>
+            </div>
+
+            {/* Boat Smoothness Lerp */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🚢 Tracking Smoothness Lerp</span>
+                <span className="text-cyan-400 font-mono">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.05" max="1.0" step="0.05"
+                value={tuning.lerpSpeed ?? 0.85}
+                onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Wave Ripple Height */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>🌊 Wave Ripple Height</span>
+                <span className="text-cyan-400 font-mono">{tuning.rippleAmp ?? 7}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0" max="40" step="1"
+                value={tuning.rippleAmp ?? 7}
+                onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* Wave Animation Speed */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>⏱️ Wave Motion Speed</span>
+                <span className="text-cyan-400 font-mono">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0.0001" max="0.0050" step="0.0001"
+                value={tuning.waveSpeed ?? 0.0011}
+                onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* SVG Line Thickness */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>📏 SVG Line Thickness</span>
+                <span className="text-cyan-400 font-mono">{tuning.lineWidth ?? 6}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="2" max="20" step="1"
+                value={tuning.lineWidth ?? 6}
+                onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+            {/* SVG Glow Radius */}
+            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
+              <div className="flex justify-between items-center text-white/90 font-bold">
+                <span>✨ Neon Glow Blur</span>
+                <span className="text-cyan-400 font-mono">{tuning.glowBlur ?? 6}px</span>
+              </div>
+              <input aria-label="Input field"
+                type="range" min="0" max="25" step="1"
+                value={tuning.glowBlur ?? 6}
+                onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
+                className="w-full accent-cyan-400 cursor-pointer"
+              />
+            </div>
+
+          </div>
+
+          {/* Actions Bar */}
+          <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0  /40 backdrop-blur-md pb-1 z-10">
+            <button aria-label="Action button"
+              onClick={handleResetTuning}
+              className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
+            >
+              🔄 Reset to Defaults
+            </button>
+
+            <div className="flex items-center gap-3">
+              {saveToast && (
+                <span className="text-xs font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
+                  ✓ Settings Saved!
+                </span>
+              )}
               <button aria-label="Action button"
-                onClick={() => setShowSettings(false)}
-                className="text-white/60 hover:text-white text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
+                onClick={handleSaveTuning}
+                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
               >
-                ✕ Close
+                💾 Save Settings
               </button>
             </div>
+          </div>
 
-            {/* Controls Sliders Grid — 2-Column organized sections */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-
-              {/* SECTION 1: Velocity & Viewport Triggers */}
-              <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-                <div className="flex justify-between items-center text-cyan-300 font-black text-sm">
-                  <span>⚡ Cruise Boat & Line Travel Speed</span>
-                  <span className="text-cyan-400 font-mono text-base">{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.2" max="4.0" step="0.1"
-                  value={tuning.speedMultiplier ?? 1.0}
-                  onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer h-2"
-                />
-                <div className="flex justify-between text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-wider">
-                  <span>0.2x (Slow Motion)</span>
-                  <span>1.0x (1:1 Viewport Lock)</span>
-                  <span>4.0x (Hyper Speed)</span>
-                </div>
-              </div>
-
-              {/* Ship Bow Path Advance Offset */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🚢 Ship Bow Path Advance Offset</span>
-                  <span className="text-cyan-400 font-mono">{(tuning.shipAdvancePx ?? 80)}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="-200" max="300" step="5"
-                  value={tuning.shipAdvancePx ?? 80}
-                  onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Blue Line Lead / Lag Offset */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🌊 Blue Line Lead/Lag Offset</span>
-                  <span className="text-cyan-400 font-mono">{(tuning.lineFillLeadPx ?? 0)}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="-200" max="200" step="5"
-                  value={tuning.lineFillLeadPx ?? 0}
-                  onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Start Trigger Location */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>📍 Start Trigger Location</span>
-                  <span className="text-cyan-400 font-mono">{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.0" max="1.0" step="0.01"
-                  value={tuning.scrollStartMul ?? 0.48}
-                  onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* End Trigger Location */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>📍 End Trigger Location</span>
-                  <span className="text-cyan-400 font-mono">{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.0" max="1.0" step="0.01"
-                  value={tuning.scrollEndMul ?? 0.5}
-                  onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Start Node Padding */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🛑 Start Path Padding</span>
-                  <span className="text-cyan-400 font-mono">{tuning.minShipDist ?? 0}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0" max="400" step="10"
-                  value={tuning.minShipDist ?? 0}
-                  onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* End Node Padding */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🏁 End Path Finish Padding</span>
-                  <span className="text-cyan-400 font-mono">{tuning.maxShipDistPad ?? 0}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0" max="400" step="10"
-                  value={tuning.maxShipDistPad ?? 0}
-                  onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Anchor X Offset */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>⚓ Anchor X Offset</span>
-                  <span className="text-cyan-400 font-mono">{tuning.anchorOffsetX ?? 0}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="-100" max="100" step="1"
-                  value={tuning.anchorOffsetX ?? 0}
-                  onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Anchor Y Offset */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>⚓ Anchor Y Offset</span>
-                  <span className="text-cyan-400 font-mono">{tuning.anchorOffsetY ?? 0}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="-100" max="100" step="1"
-                  value={tuning.anchorOffsetY ?? 0}
-                  onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* 3D Ship Model Scale */}
-              <div className="bg-black/30 border border-white/10 p-3 space-y-1.5 backdrop-blur-sm">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🔎 3D Ship Scale</span>
-                  <span className="text-cyan-400 font-mono">{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.05" max="8.0" step="0.05"
-                  value={tuning.shipScale ?? 1.8}
-                  onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* 3D Hull Y Offset */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>⚓ Hull Y Path Offset</span>
-                  <span className="text-cyan-400 font-mono">{(tuning.shipOffsetY ?? 0.9).toFixed(1)}</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.0" max="3.0" step="0.1"
-                  value={tuning.shipOffsetY ?? 0.9}
-                  onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
-              <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-cyan-500/30 p-4 space-y-3 mt-2">
-                <div className="flex items-center gap-2 border-b border-cyan-500/20 pb-2">
-                  <span className="text-lg">📍</span>
-                  <h3 className="text-white font-black uppercase text-xs tracking-wider">Port Circle & Corner Arrival Controls</h3>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {/* Action Mode Toggle */}
-                  <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                    <span className="block text-xs font-bold text-white/90">🎭 Port Circle Action</span>
-                    <div className="flex gap-1.5 pt-1">
-                      {[
-                        { id: 'hide', label: '🙈 Hide & Flip' },
-                        { id: 'bounce', label: '🏀 Elastic Bounce' },
-                        { id: 'spin', label: '🌀 Spin & Dock' },
-                      ].map(act => (
-                        <button aria-label="Action button"
-                          key={act.id}
-                          onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                          className={`flex-1 py-1.5 px-2 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${(tuning.nodeAction ?? 'hide') === act.id
-                            ? 'bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.5)]'
-                            : 'bg-white/5 text-white/60 hover:bg-white/10'
-                            }`}
-                        >
-                          {act.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Min Scale Over Circle */}
-                  <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs font-bold text-white/90">
-                      <span>🔎 Min Scale Over Circle</span>
-                      <span className="text-cyan-400 font-mono">{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
-                    </div>
-                    <input aria-label="Input field"
-                      type="range" min="0.0" max="1.0" step="0.05"
-                      value={tuning.nodeMinScale ?? 0.0}
-                      onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
-                      className="w-full accent-cyan-400 cursor-pointer"
-                    />
-                  </div>
-
-                  {/* Scale Down Distance */}
-                  <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs font-bold text-white/90">
-                      <span>📏 Scale Down Trigger Radius</span>
-                      <span className="text-cyan-400 font-mono">{tuning.nodeDipRadius ?? 65}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      type="range" min="20" max="250" step="5"
-                      value={tuning.nodeDipRadius ?? 65}
-                      onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
-                      className="w-full accent-cyan-400 cursor-pointer"
-                    />
-                  </div>
-
-                  {/* Re-appear Pop Distance */}
-                  <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs font-bold text-white/90">
-                      <span>🚀 Re-appear Pop Distance</span>
-                      <span className="text-cyan-400 font-mono">{tuning.nodePopDist ?? 60}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      type="range" min="20" max="200" step="5"
-                      value={tuning.nodePopDist ?? 60}
-                      onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
-                      className="w-full accent-cyan-400 cursor-pointer"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Boat Smoothness Lerp */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🚢 Tracking Smoothness Lerp</span>
-                  <span className="text-cyan-400 font-mono">{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.05" max="1.0" step="0.05"
-                  value={tuning.lerpSpeed ?? 0.85}
-                  onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Wave Ripple Height */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>🌊 Wave Ripple Height</span>
-                  <span className="text-cyan-400 font-mono">{tuning.rippleAmp ?? 7}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0" max="40" step="1"
-                  value={tuning.rippleAmp ?? 7}
-                  onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Wave Animation Speed */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>⏱️ Wave Motion Speed</span>
-                  <span className="text-cyan-400 font-mono">{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0.0001" max="0.0050" step="0.0001"
-                  value={tuning.waveSpeed ?? 0.0011}
-                  onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* SVG Line Thickness */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>📏 SVG Line Thickness</span>
-                  <span className="text-cyan-400 font-mono">{tuning.lineWidth ?? 6}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="2" max="20" step="1"
-                  value={tuning.lineWidth ?? 6}
-                  onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-              {/* SVG Glow Radius */}
-              <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                <div className="flex justify-between items-center text-white/90 font-bold">
-                  <span>✨ Neon Glow Blur</span>
-                  <span className="text-cyan-400 font-mono">{tuning.glowBlur ?? 6}px</span>
-                </div>
-                <input aria-label="Input field"
-                  type="range" min="0" max="25" step="1"
-                  value={tuning.glowBlur ?? 6}
-                  onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
-                />
-              </div>
-
-            </div>
-
-            {/* Actions Bar */}
-            <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 bg-[var(--color-bg-deep)]/40 backdrop-blur-md pb-1 z-10">
-              <button aria-label="Action button"
-                onClick={handleResetTuning}
-                className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 cursor-pointer"
-              >
-                🔄 Reset to Defaults
-              </button>
-
-              <div className="flex items-center gap-3">
-                {saveToast && (
-                  <span className="text-xs font-bold text-[var(--color-accent)] transition-opacity duration-300 ease-out">
-                    ✓ Settings Saved!
-                  </span>
-                )}
-                <button aria-label="Action button"
-                  onClick={handleSaveTuning}
-                  className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
-                >
-                  💾 Save Settings
-                </button>
-              </div>
-            </div>
-
-          </div>,
-          document.body
-        )}
+        </div>,
+        document.body
+      )}
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
       <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, width: '100%', maxWidth: '100%' }}>

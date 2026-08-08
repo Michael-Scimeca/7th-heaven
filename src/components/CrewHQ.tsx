@@ -447,7 +447,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     return acc;
   }, {} as Record<string, number>);
 
-  if (isLoading) return <div className="min-h-screen bg-[var(--color-bg-deep)]" />;
+  if (isLoading) return <div className="min-h-screen  " />;
 
   const member = MEMBER_SEEDS[slug];
   const studioPath = `/crew-${defaultMemberId || slug}/studio`;
@@ -580,7 +580,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
           {/* ── LEFT COLUMN: SITE-WIDE MONITOR & POLICIES ─────── */}
           <div className="flex flex-col gap-5 flex-1 min-w-0">
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
+            <div className="  border border-white/[0.07] overflow-hidden flex flex-col" style={{ height: "calc(100vh - 340px)", minHeight: "480px" }}>
 
               {/* Feed header */}
               <div className="px-5 py-3.5 border-b border-white/[0.06] flex-shrink-0">
@@ -744,7 +744,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
               </div>
 
               {/* Chat Moderation Panel */}
-              <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] overflow-hidden">
+              <div className="  border border-white/[0.07] overflow-hidden">
                 <div className="p-4 border-b border-white/[0.05] flex items-center gap-3 bg-[var(--color-bg-elevated)]">
                   <div className="w-10 h-10 bg-[var(--color-accent-pink)]/20 border border-[#ec4899]/30 flex items-center justify-center text-xl">🛡️</div>
                   <div>
@@ -816,7 +816,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Live Stream Status Card */}
             <div className={` border overflow-hidden transition-colors ${isLive
               ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]"
-              : "border-white/[0.07] bg-[var(--color-bg-deep)]"
+              : "border-white/[0.07]  "
               }`}>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-4">
@@ -868,7 +868,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Quick Analytics */}
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] p-5">
+            <div className="  border border-white/[0.07] p-5">
               <h3 className="font-black text-xs uppercase tracking-widest text-white/25 mb-4">My Analytics</h3>
               <div className="space-y-3">
                 {[
@@ -886,7 +886,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             </div>
 
             {/* Crew Notes */}
-            <div className="bg-[var(--color-bg-deep)] border border-white/[0.07] p-5 flex-1">
+            <div className="  border border-white/[0.07] p-5 flex-1">
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className="font-black text-sm">📝 Notes for Admin</h3>
@@ -920,7 +920,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="flex items-center gap-2 p-3 bg-[var(--color-bg-deep)] border border-white/[0.07] hover:border-white/15 hover:bg-white/[0.02] transition-colors group"
+                  className="flex items-center gap-2 p-3   border border-white/[0.07] hover:border-white/15 hover:bg-white/[0.02] transition-colors group"
                 >
                   <span className="text-lg">{icon}</span>
                   <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">{label}</span>
