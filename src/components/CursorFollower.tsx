@@ -110,6 +110,11 @@ const createSetHandler = <T,>(setter: (v: T) => void, key: string) => (v: T) => 
 // per-element with data-pick-label="Your Text" (defaults to "Play Video").
 const PICK_W = 104;
 const PICK_H = 127;
+// Smaller "now playing" badge — shown while a song is playing (independent of hover),
+// triggered by dispatching `window.dispatchEvent(new CustomEvent("cursor:song-playing", { detail: true }))`.
+const SONG_PICK_W = 56;
+const SONG_PICK_H = 68;
+const SONG_PICK_LABEL = "×";
 const PICK_CLIP =
   "polygon(95.84% 28.87%, 95.84% 30.52%, 95.84% 32.17%, 95.84% 33.81%, 95.80% 35.46%, 95.60% 37.10%, 95.28% 38.73%, 94.85% 40.34%, 94.38% 41.94%, 93.88% 43.53%, 93.35% 45.12%, 92.79% 46.71%, 92.20% 48.28%, 91.57% 49.85%, 90.93% 51.41%, 90.25% 52.96%, 89.55% 54.50%, 88.82% 56.04%, 88.06% 57.56%, 87.28% 59.08%, 86.48% 60.59%, 85.65% 62.09%, 84.80% 63.59%, 83.92% 65.07%, 83.02% 66.54%, 82.10% 68.01%, 81.16% 69.46%, 80.19% 70.91%, 79.20% 72.34%, 78.18% 73.76%, 77.15% 75.17%, 76.09% 76.57%, 75.00% 77.96%, 73.90% 79.34%, 72.77% 80.70%, 71.61% 82.05%, 70.44% 83.38%, 69.24% 84.71%, 68.01% 86.02%, 66.77% 87.31%, 65.50% 88.59%, 64.21% 89.85%, 62.90% 91.10%, 61.57% 92.34%, 60.22% 93.56%, 58.85% 94.76%, 57.46% 95.95%, 55.94% 97.03%, 54.20% 97.84%, 52.27% 98.30%, 50.27% 98.36%, 48.26% 98.33%, 46.32% 97.92%, 44.55% 97.15%, 42.99% 96.11%, 41.59% 94.93%, 40.22% 93.72%, 38.87% 92.50%, 37.54% 91.27%, 36.23% 90.02%, 34.94% 88.76%, 33.66% 87.48%, 32.41% 86.19%, 31.19% 84.88%, 29.98% 83.57%, 28.80% 82.23%, 27.64% 80.89%, 26.51% 79.53%, 25.40% 78.15%, 24.31% 76.77%, 23.24% 75.37%, 22.20% 73.96%, 21.18% 72.54%, 20.19% 71.11%, 19.22% 69.67%, 18.27% 68.21%, 17.34% 66.75%, 16.44% 65.28%, 15.56% 63.80%, 14.70% 62.31%, 13.86% 60.81%, 13.05% 59.30%, 12.27% 57.79%, 11.51% 56.26%, 10.77% 54.73%, 10.06% 53.18%, 9.38% 51.63%, 8.73% 50.08%, 8.10% 48.51%, 7.51% 46.94%, 6.94% 45.35%, 6.41% 43.77%, 5.91% 42.17%, 5.46% 40.57%, 5.05% 38.95%, 4.70% 37.33%, 4.42% 35.70%, 4.23% 34.06%, 4.16% 32.41%, 4.19% 30.76%, 4.26% 29.12%, 4.49% 27.48%, 4.88% 25.87%, 5.42% 24.28%, 6.11% 22.73%, 6.93% 21.23%, 7.88% 19.77%, 8.94% 18.38%, 10.13% 17.05%, 11.45% 15.81%, 12.88% 14.65%, 14.42% 13.59%, 16.05% 12.63%, 17.76% 11.77%, 19.54% 11.00%, 21.38% 10.33%, 23.26% 9.75%, 25.17% 9.23%, 27.09% 8.75%, 29.03% 8.33%, 30.99% 7.95%, 32.96% 7.63%, 34.94% 7.34%, 36.93% 7.11%, 38.93% 6.92%, 40.93% 6.78%, 42.94% 6.68%, 44.95% 6.64%, 46.95% 6.56%, 48.96% 6.56%, 50.97% 6.56%, 52.98% 6.56%, 54.99% 6.63%, 57.00% 6.67%, 59.01% 6.76%, 61.01% 6.89%, 63.01% 7.08%, 65.00% 7.31%, 66.98% 7.59%, 68.95% 7.91%, 70.91% 8.28%, 72.85% 8.69%, 74.78% 9.16%, 76.69% 9.67%, 78.58% 10.24%, 80.42% 10.90%, 82.21% 11.64%, 83.94% 12.48%, 85.59% 13.43%, 87.14% 14.47%, 88.59% 15.61%, 89.92% 16.85%, 91.13% 18.16%, 92.22% 19.55%, 93.19% 20.99%, 94.04% 22.49%, 94.74% 24.03%, 95.29% 25.61%, 95.67% 27.23%, 95.84% 28.87%)";
 const PICK_DEFAULT_LABEL = "Play Video";
@@ -127,6 +132,7 @@ export default function CursorFollower() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [pickActive, setPickActive] = useState(false);
   const [pickLabel, setPickLabel] = useState(PICK_DEFAULT_LABEL);
+  const [songPlaying, setSongPlaying] = useState(false);
   const pickElRef = useRef<HTMLDivElement | null>(null);
   const pickSpinRef = useRef<HTMLDivElement | null>(null);
   const pickPathRef = useRef<SVGPathElement | null>(null);
@@ -184,6 +190,7 @@ export default function CursorFollower() {
     hasMovedRef.current = false;
     setIsVisible(false);
     setPickActive(false);
+    setSongPlaying(false);
   }, [pathname]);
 
   // Touch detection & animation
@@ -277,6 +284,18 @@ export default function CursorFollower() {
     };
   }, [isTouch]);
 
+  // "now playing" cursor override — independent of hover. Anything (an audio player,
+  // a test button, etc.) can flip this on/off from anywhere in the app via:
+  //   window.dispatchEvent(new CustomEvent("cursor:song-playing", { detail: true | false }))
+  useEffect(() => {
+    if (isTouch) return;
+    const handleSongPlaying = (e: Event) => {
+      setSongPlaying(!!(e as CustomEvent<boolean>).detail);
+    };
+    window.addEventListener("cursor:song-playing", handleSongPlaying as EventListener);
+    return () => window.removeEventListener("cursor:song-playing", handleSongPlaying as EventListener);
+  }, [isTouch]);
+
   // Smoothly morph the trailing dot into the guitar pick (and back) with GSAP's
   // MorphSVGPlugin, instead of a hard opacity crossfade between two shapes.
   useEffect(() => {
@@ -298,6 +317,17 @@ export default function CursorFollower() {
         .to(spin, { width: PICK_W, height: PICK_H, duration: 0.5, ease: "back.out(1.6)" }, 0)
         .to(path, { morphSVG: PICK_PATH_D, duration: 0.5, ease: "power2.inOut" }, 0)
         .to(text, { opacity: 1, duration: 0.25 }, 0.28);
+    } else if (songPlaying) {
+      // Smaller "now playing" badge — same pick shape, scaled down, with a stop (×)
+      // mark instead of the marquee label. Shown while a track is playing, regardless
+      // of hover state.
+      tl.set(spin, { width: circleSize, height: circleSize, opacity: 0 })
+        .set(path, { morphSVG: CIRCLE_PATH_D })
+        .set(text, { opacity: 0 })
+        .to(spin, { opacity: 1, duration: 0.12 }, 0)
+        .to(spin, { width: SONG_PICK_W, height: SONG_PICK_H, duration: 0.45, ease: "back.out(1.6)" }, 0)
+        .to(path, { morphSVG: PICK_PATH_D, duration: 0.45, ease: "power2.inOut" }, 0)
+        .to(text, { opacity: 1, duration: 0.2 }, 0.24);
     } else {
       tl.to(text, { opacity: 0, duration: 0.12 }, 0)
         .to(path, { morphSVG: CIRCLE_PATH_D, duration: 0.3, ease: "power1.inOut" }, 0)
@@ -306,7 +336,7 @@ export default function CursorFollower() {
     }
 
     return () => { tl.kill(); };
-  }, [pickActive, isTouch, circleSize]);
+  }, [pickActive, songPlaying, isTouch, circleSize]);
 
   if (isTouch) return null;
 
@@ -473,8 +503,8 @@ export default function CursorFollower() {
       <div
         className="pointer-events-none fixed inset-0 overflow-hidden"
         style={{
-          opacity: isVisible && !pickActive ? opacity : 0,
-          visibility: isVisible && !pickActive ? "visible" : "hidden",
+          opacity: isVisible && !pickActive && !songPlaying ? opacity : 0,
+          visibility: isVisible && !pickActive && !songPlaying ? "visible" : "hidden",
           transition: "opacity 0.15s ease, visibility 0.15s ease",
           zIndex: 2147483647,
           filter: gooey ? "url(#cursor-gooey)" : "none",
@@ -505,7 +535,9 @@ export default function CursorFollower() {
         ))}
       </div>
 
-      {/* Guitar-pick cursor badge — shown while hovering a .morph-pick element.
+      {/* Guitar-pick cursor badge — shown while hovering a .morph-pick element, OR
+          (smaller, with a × mark) while `songPlaying` is true via the
+          "cursor:song-playing" window event, regardless of hover.
           Three concerns, three elements, on purpose:
           - pickElRef: POSITION only (JS-driven translate, tracks the mouse every frame)
           - pickSpinRef: ROTATION (CSS animation) + size/opacity (GSAP) — a CSS
@@ -547,12 +579,12 @@ export default function CursorFollower() {
           >
             <div className="cursor-pick-row">
               <div className="cursor-pick-track">
-                {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickLabel}</span>)}
+                {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickActive ? pickLabel : SONG_PICK_LABEL}</span>)}
               </div>
             </div>
             <div className="cursor-pick-row reverse">
               <div className="cursor-pick-track">
-                {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickLabel}</span>)}
+                {Array.from({ length: 8 }, (_, i) => <span key={i}>{pickActive ? pickLabel : SONG_PICK_LABEL}</span>)}
               </div>
             </div>
           </div>

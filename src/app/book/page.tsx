@@ -877,11 +877,11 @@ function BookPageContent() {
             )}
 
             {/* Step 1: Event Schedule & Format */}
-            <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-8 rounded-3xl shadow-2xl relative">
+            <div className="bg-transparent border-0 p-0 shadow-none relative">
               <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Event Schedule & Format
               </h2>
-              <div className="mb-6 p-4 bg-white/5 border border-white/10 rounded-2xl flex items-start gap-3">
+              <div className="mb-6 p-0 bg-transparent border-0 flex items-start gap-3">
                 <Lightbulb className="w-5 h-5 text-yellow-300 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
@@ -906,7 +906,7 @@ function BookPageContent() {
                 />
 
                 {/* Alternate Dates */}
-                <div className="mt-6 p-5 bg-white/5 border border-white/10 rounded-2xl">
+                <div className="mt-6 p-0 bg-transparent border-0">
                   <div className="flex items-center gap-3 mb-4">
                     <CalendarIcon className="w-5 h-5 text-cyan-400 shrink-0" />
                     <div>

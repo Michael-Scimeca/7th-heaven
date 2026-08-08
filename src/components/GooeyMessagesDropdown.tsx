@@ -136,10 +136,42 @@ export default function GooeyMessagesDropdown({
     setAnchor({ top: rect.top, centerX: rect.left + rect.width / 2 });
   };
 
+  // Get the trigger's on-screen position correct before the first paint.
   useLayoutEffect(() => {
     measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // The portal is position:fixed and anchored to the trigger's live
+  // on-screen coordinates. This site uses Lenis for smooth scrolling,
+  // which doesn't reliably dispatch native `scroll` events the way
+  // native scrolling does — so a scroll/resize listener isn't enough
+  // and the fixed shapes can drift away from the real button. Instead,
+  // poll the trigger's actual getBoundingClientRect() every animation
+  // frame: that always reflects the true current position no matter
+  // what's moving it (native scroll, Lenis, a CSS transform, etc.), so
+  // the goo shapes and panel stay glued to the button continuously.
+  useEffect(() => {
+    let rafId: number;
+    let prevTop = Number.NaN;
+    let prevCenterX = Number.NaN;
+
+    const loop = () => {
+      const el = triggerRef.current;
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const top = rect.top;
+        const centerX = rect.left + rect.width / 2;
+        if (top !== prevTop || centerX !== prevCenterX) {
+          prevTop = top;
+          prevCenterX = centerX;
+          setAnchor({ top, centerX });
+        }
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+
+    rafId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   useEffect(() => {
@@ -167,19 +199,23 @@ export default function GooeyMessagesDropdown({
 
   const panelHeight = 76 + messages.length * 58 + 56;
 
+  // Local coordinates, relative to the anchor point below (the trigger's
+  // top-center). These only ever depend on `open`, never on scroll
+  // position, so the CSS transition on this shape only fires on an actual
+  // open/close toggle — not on every scroll frame.
   const shapeStyle = open
     ? {
         width: PANEL_WIDTH,
         height: panelHeight,
-        left: anchor.centerX - PANEL_WIDTH / 2,
-        top: anchor.top + BUTTON_SIZE + GAP_BELOW_BUTTON,
+        left: -PANEL_WIDTH / 2,
+        top: BUTTON_SIZE + GAP_BELOW_BUTTON,
         borderRadius: 20,
       }
     : {
         width: BUTTON_SIZE,
         height: BUTTON_SIZE,
-        left: anchor.centerX - BUTTON_SIZE / 2,
-        top: anchor.top,
+        left: -BUTTON_SIZE / 2,
+        top: 0,
         borderRadius: 999,
       };
 
@@ -203,83 +239,93 @@ export default function GooeyMessagesDropdown({
         </defs>
       </svg>
 
-      {/* Two overlapping shapes (button-match + panel) under the goo filter
-          give the classic liquid pinch/merge look as the panel grows. The
-          drop-shadow lives on this OUTER layer (applied after the goo
-          filter has already composited) so the subtle soft shadow reads
-          cleanly instead of getting clipped by the goo color matrix. */}
-      <div className="absolute inset-0 pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
-        <div className="absolute inset-0" style={{ filter: `url(#${filterId})` }}>
-          <div
-            className="absolute bg-[#1a1a1a] transition-[width,height,left,top,border-radius] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
-            style={shapeStyle}
-          />
-          <div
-            className="absolute bg-[#1a1a1a] rounded-full"
-            style={{
-              width: BUTTON_SIZE,
-              height: BUTTON_SIZE,
-              left: anchor.centerX - BUTTON_SIZE / 2,
-              top: anchor.top,
-            }}
-          />
-        </div>
-      </div>
-
-      <div
-        className={`absolute bg-transparent px-5 pt-3 pb-5 opacity-0 -translate-y-1 pointer-events-none transition-[opacity,transform] duration-[220ms] ease delay-[80ms] ${
-          open ? "!opacity-100 !translate-y-0 !pointer-events-auto" : ""
-        }`}
-        role="menu"
-        aria-hidden={!open}
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-        style={{
-          width: PANEL_WIDTH,
-          left: anchor.centerX - PANEL_WIDTH / 2,
-          top: anchor.top + BUTTON_SIZE + GAP_BELOW_BUTTON,
-        }}
-      >
-        <div className="flex items-center justify-between mb-3.5">
-          <span className="text-base font-medium text-white leading-[1.2]">{title}</span>
-          {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
+      {/* Anchor point: a zero-size box pinned to the trigger's live
+          on-screen position via plain inline left/top (no CSS transition,
+          updated every animation frame by the rAF loop above), so it
+          never lags behind scroll — including Lenis's non-native
+          scrolling. Everything below is positioned with fixed LOCAL
+          offsets from this point, so the open/close morph transition
+          only ever animates in response to `open` changing. */}
+      <div className="absolute" style={{ left: anchor.centerX, top: anchor.top }}>
+        {/* Two overlapping shapes (button-match + panel) under the goo
+            filter give the classic liquid pinch/merge look as the panel
+            grows. The drop-shadow lives on this OUTER layer (applied
+            after the goo filter has already composited) so the subtle
+            soft shadow reads cleanly instead of getting clipped by the
+            goo color matrix. */}
+        <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
+          <div style={{ filter: `url(#${filterId})` }}>
+            <div
+              className="absolute bg-[#1a1a1a] transition-[width,height,left,top,border-radius] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]"
+              style={shapeStyle}
+            />
+            <div
+              className="absolute bg-[#1a1a1a] rounded-full"
+              style={{
+                width: BUTTON_SIZE,
+                height: BUTTON_SIZE,
+                left: -BUTTON_SIZE / 2,
+                top: 0,
+              }}
+            />
+          </div>
         </div>
 
-        <ul className="list-none m-0 p-0 flex flex-col gap-[18px]">
-          {messages.map((m, i) => (
-            <li key={m.name + i} className="flex items-start gap-3 cursor-default" role="menuitem" tabIndex={open ? 0 : -1}>
-              <span
-                className="shrink-0 w-10 h-10 rounded-full bg-cover"
-                style={{ backgroundImage: m.gradient }}
-              />
-              <div className="min-w-0 flex-1">
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className="text-xs font-normal text-[#d1d1d1] whitespace-nowrap overflow-hidden text-ellipsis">
-                    {m.name}
-                  </span>
-                  <span className="text-[10px] font-medium text-[#787878] whitespace-nowrap shrink-0">
-                    {m.time}
-                  </span>
-                </div>
-                <p className="mt-0.5 text-xs font-normal text-[#a3a3a3] whitespace-nowrap overflow-hidden text-ellipsis">
-                  {m.snippet}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          type="button"
-          className="block w-full mt-[18px] pt-4 border-0 bg-transparent text-xs font-normal text-[#787878] text-center cursor-pointer transition-colors duration-150 hover:text-[#b3b3b3] font-[inherit]"
-          tabIndex={open ? 0 : -1}
-          onClick={() => {
-            onFooterClick?.();
-            setOpen(false);
+        <div
+          className={`absolute bg-transparent px-5 pt-3 pb-5 opacity-0 -translate-y-1 pointer-events-none transition-[opacity,transform] duration-[220ms] ease delay-[80ms] ${
+            open ? "!opacity-100 !translate-y-0 !pointer-events-auto" : ""
+          }`}
+          role="menu"
+          aria-hidden={!open}
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleLeave}
+          style={{
+            width: PANEL_WIDTH,
+            left: -PANEL_WIDTH / 2,
+            top: BUTTON_SIZE + GAP_BELOW_BUTTON,
           }}
         >
-          {footerLabel}
-        </button>
+          <div className="flex items-center justify-between mb-3.5">
+            <span className="text-base font-medium text-white leading-[1.2]">{title}</span>
+            {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
+          </div>
+
+          <ul className="list-none m-0 p-0 flex flex-col gap-[18px]">
+            {messages.map((m, i) => (
+              <li key={m.name + i} className="flex items-start gap-3 cursor-default" role="menuitem" tabIndex={open ? 0 : -1}>
+                <span
+                  className="shrink-0 w-10 h-10 rounded-full bg-cover"
+                  style={{ backgroundImage: m.gradient }}
+                />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="text-xs font-normal text-[#d1d1d1] whitespace-nowrap overflow-hidden text-ellipsis">
+                      {m.name}
+                    </span>
+                    <span className="text-[10px] font-medium text-[#787878] whitespace-nowrap shrink-0">
+                      {m.time}
+                    </span>
+                  </div>
+                  <p className="mt-0.5 text-xs font-normal text-[#a3a3a3] whitespace-nowrap overflow-hidden text-ellipsis">
+                    {m.snippet}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            className="block w-full mt-[18px] pt-4 border-0 bg-transparent text-xs font-normal text-[#787878] text-center cursor-pointer transition-colors duration-150 hover:text-[#b3b3b3] font-[inherit]"
+            tabIndex={open ? 0 : -1}
+            onClick={() => {
+              onFooterClick?.();
+              setOpen(false);
+            }}
+          >
+            {footerLabel}
+          </button>
+        </div>
       </div>
     </div>
   );

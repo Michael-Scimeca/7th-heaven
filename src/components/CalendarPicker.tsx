@@ -96,7 +96,7 @@ export function CalendarPicker({
 
 
   return (
-    <div className="bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 w-full rounded-2xl shadow-xl">
+    <div className="bg-transparent border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h3 className="text-white font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-cyan-400">*</span>}</h3>
@@ -115,7 +115,7 @@ export function CalendarPicker({
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1.5fr] gap-8">
         <div>
           {/* Month & Year Selection Bar */}
-          <div className="flex items-center justify-between bg-white/5 border border-white/10 p-3 mb-4 rounded-xl">
+          <div className="flex items-center justify-between bg-transparent border-0 p-0 mb-4">
             <button aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}

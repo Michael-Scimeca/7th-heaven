@@ -1,6 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 export default function MorphPickDemoPage() {
+  const [songPlaying, setSongPlaying] = useState(false);
+
+  const toggleSongPlaying = () => {
+    const next = !songPlaying;
+    setSongPlaying(next);
+    window.dispatchEvent(new CustomEvent("cursor:song-playing", { detail: next }));
+  };
+
   return (
     <div className="min-h-screen text-white relative font-sans pt-24 pb-20">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
@@ -23,6 +34,31 @@ export default function MorphPickDemoPage() {
           <Link href="/style-guide#chat" className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs uppercase tracking-wider transition-colors whitespace-nowrap">
             ← Style Guide
           </Link>
+        </div>
+
+        {/* "Now playing" test — independent of hover, driven by a global window event */}
+        <div className="bg-[#0b0b14] border border-[#9333ea]/30 rounded-3xl p-8 mb-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#9333ea]/20 border border-[#9333ea]/40 text-[#c084fc] inline-block mb-2">
+              now playing state
+            </span>
+            <h3 className="text-xl font-black uppercase italic mt-1">Simulate a song playing</h3>
+            <p className="text-xs text-white/50 mt-2 max-w-md">
+              Toggle this to mimic a real audio player. While &quot;on&quot;, the cursor
+              shrinks into a small spinning pick with a × on it — anywhere on the page,
+              no hover required. Move your mouse around after clicking.
+            </p>
+          </div>
+          <button
+            onClick={toggleSongPlaying}
+            className={`px-6 py-3 rounded-full font-black uppercase text-xs tracking-wider transition-colors whitespace-nowrap ${
+              songPlaying
+                ? "bg-[#9333ea] text-white hover:bg-[#7e22ce]"
+                : "bg-white/5 text-white/70 border border-white/15 hover:bg-white/10"
+            }`}
+          >
+            {songPlaying ? "⏸ Playing — click to stop" : "▶ Simulate play"}
+          </button>
         </div>
 
         {/* Test zones — each opts into the effect via the morph-pick class */}
