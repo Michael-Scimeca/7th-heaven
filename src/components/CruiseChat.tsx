@@ -529,12 +529,24 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className={`px-4 py-3 text-xs inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white rounded-2xl ${isSelf
-                    ? 'bg-purple-700/80 text-white font-medium'
-                    : hasAdminTag
-                      ? 'bg-purple-950/90 text-purple-100 font-medium'
-                      : 'bg-cyan-900/70 text-white font-medium'
-                    }`}>
+                  <div
+                    style={{
+                      borderRadius: "var(--chat-bubble-radius, 16px)",
+                      borderWidth: "var(--chat-bubble-border-width, 0px)",
+                      borderStyle: "solid",
+                      borderColor: isSelf
+                        ? "var(--chat-bubble-self-border, transparent)"
+                        : hasAdminTag
+                          ? "var(--chat-bubble-admin-border, transparent)"
+                          : "var(--chat-bubble-member-border, transparent)",
+                      backgroundColor: isSelf
+                        ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.8))"
+                        : hasAdminTag
+                          ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
+                          : "var(--chat-bubble-member-bg, rgba(22, 101, 124, 0.7))",
+                    }}
+                    className="px-4 py-3 text-xs inline-block max-w-[90%] leading-relaxed break-words shadow-md transition-all text-white font-medium"
+                  >
                     {formatMessageContent(msg.content)}
                   </div>
                 </div>

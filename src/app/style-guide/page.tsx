@@ -68,6 +68,11 @@ export default function StyleGuidePage() {
   const [radioState, setRadioState] = useState("full_band");
   const [toggleState, setToggleState] = useState(true);
   const [selectedDropdown, setSelectedDropdown] = useState("chicago");
+  // Interactive Chat Bubble UI Control States
+  const [bubbleRadius, setBubbleRadius] = useState<number>(16);
+  const [bubbleBorderWidth, setBubbleBorderWidth] = useState<number>(0);
+  const [bubbleBorderColor, setBubbleBorderColor] = useState<string>("transparent");
+  const [bubbleBgStyle, setBubbleBgStyle] = useState<string>("classic");
 
   // Sample Dropdown options
   const dropdownOptions = [
@@ -725,16 +730,175 @@ export default function StyleGuidePage() {
 
         {/* SECTION 6: CHAT BOX COMPONENT */}
         <section id="chat" className="scroll-mt-36 bg-[#090616] border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
-              <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
-            </h2>
-            <p className="text-white/60 text-xs mt-1">
-              Live interactive preview of <code className="text-purple-300 font-mono">CruiseChat</code> imported directly from the codebase.
-            </p>
+          <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
+              </h2>
+              <p className="text-white/60 text-xs mt-1">
+                Live interactive preview of <code className="text-purple-300 font-mono">CruiseChat</code> with real-time UI controls for bubble radius, borders, and fills.
+              </p>
+            </div>
+            
+            <button
+              type="button"
+              onClick={() => {
+                setBubbleRadius(16);
+                setBubbleBorderWidth(0);
+                setBubbleBorderColor("transparent");
+                setBubbleBgStyle("classic");
+              }}
+              className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white text-xs font-bold transition shrink-0"
+            >
+              Reset Chat Controls
+            </button>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)]">
+          {/* Chat Bubble Customizer UI Control Bar */}
+          <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-6">
+            <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+              <Sliders className="w-4 h-4" /> Chat Bubble UI Controls
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              {/* 1. Corner Radius Control */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Corner Radius</span>
+                  <span className="font-mono text-purple-300">{bubbleRadius}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="32"
+                  value={bubbleRadius}
+                  onChange={(e) => setBubbleRadius(Number(e.target.value))}
+                  className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1.5 pt-1">
+                  {[0, 8, 16, 24].map((r) => (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setBubbleRadius(r)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        bubbleRadius === r
+                          ? "bg-purple-600 border-purple-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {r === 0 ? "0px" : `${r}px`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 2. Border Width Control */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold text-white/80">
+                  <span>Border Width</span>
+                  <span className="font-mono text-cyan-300">{bubbleBorderWidth}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="6"
+                  value={bubbleBorderWidth}
+                  onChange={(e) => setBubbleBorderWidth(Number(e.target.value))}
+                  className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
+                />
+                <div className="flex items-center gap-1.5 pt-1">
+                  {[0, 1, 2, 3].map((w) => (
+                    <button
+                      key={w}
+                      type="button"
+                      onClick={() => setBubbleBorderWidth(w)}
+                      className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${
+                        bubbleBorderWidth === w
+                          ? "bg-cyan-600 border-cyan-400 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {w === 0 ? "0px" : `${w}px`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 3. Border Color Selection */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-white/80">Border Color</label>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { label: "None", val: "transparent" },
+                    { label: "White 10%", val: "rgba(255,255,255,0.1)" },
+                    { label: "Cyan", val: "#06b6d4" },
+                    { label: "Purple", val: "#c084fc" },
+                  ].map((c) => (
+                    <button
+                      key={c.val}
+                      type="button"
+                      onClick={() => {
+                        setBubbleBorderColor(c.val);
+                        if (bubbleBorderWidth === 0 && c.val !== "transparent") {
+                          setBubbleBorderWidth(1);
+                        }
+                      }}
+                      className={`py-1.5 px-2 rounded text-[10px] font-bold border truncate transition ${
+                        bubbleBorderColor === c.val
+                          ? "bg-white/20 border-white/40 text-white"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {c.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 4. Background Fill Theme */}
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-white/80">Background Style</label>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { label: "Classic", val: "classic" },
+                    { label: "Glassmorphic", val: "glass" },
+                    { label: "Midnight", val: "midnight" },
+                    { label: "Vibrant Neon", val: "neon" },
+                  ].map((bg) => (
+                    <button
+                      key={bg.val}
+                      type="button"
+                      onClick={() => setBubbleBgStyle(bg.val)}
+                      className={`py-1.5 px-2 rounded text-[10px] font-bold border truncate transition ${
+                        bubbleBgStyle === bg.val
+                          ? "bg-purple-600/40 border-purple-400 text-purple-200"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {bg.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div
+            style={{
+              ['--chat-bubble-radius' as any]: `${bubbleRadius}px`,
+              ['--chat-bubble-border-width' as any]: `${bubbleBorderWidth}px`,
+              ['--chat-bubble-member-border' as any]: bubbleBorderColor,
+              ['--chat-bubble-self-border' as any]: bubbleBorderColor,
+              ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
+              ['--chat-bubble-member-bg' as any]: bubbleBgStyle === 'glass' ? 'rgba(8, 145, 178, 0.35)' : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : 'rgba(22, 101, 124, 0.75)',
+              ['--chat-bubble-self-bg' as any]: bubbleBgStyle === 'glass' ? 'rgba(126, 34, 206, 0.35)' : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : 'rgba(126, 34, 206, 0.85)',
+              ['--chat-bubble-admin-bg' as any]: bubbleBgStyle === 'glass' ? 'rgba(46, 16, 101, 0.45)' : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : 'rgba(46, 16, 101, 0.95)',
+            }}
+            className="rounded-2xl border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)]"
+          >
             <CruiseChat activeChannel="general" />
           </div>
         </section>
