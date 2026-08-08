@@ -498,11 +498,16 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         </div>
       )}
 
-      <div
-        ref={chatContainerRef}
-        data-lenis-prevent
-        className="flex-1 min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
-      >
+      {/* Scrollable Message List Container with Fixed Glass Blur Fade Overlay */}
+      <div className="relative flex-1 min-h-0 flex flex-col">
+        {/* Fixed Top Glass Blur Fade Overlay */}
+        <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-[#090616] via-[#090616]/70 to-transparent backdrop-blur-md z-20 pointer-events-none" />
+
+        <div
+          ref={chatContainerRef}
+          data-lenis-prevent
+          className="flex-1 min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
+        >
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
@@ -621,6 +626,9 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
             );
           })
         )}
+        </div>
+        {/* Fixed Bottom Glass Blur Fade Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#090616] via-[#090616]/50 to-transparent backdrop-blur-xs z-20 pointer-events-none" />
       </div>
 
       <div className="py-2.5 border-t border-white/10 relative shrink-0">
