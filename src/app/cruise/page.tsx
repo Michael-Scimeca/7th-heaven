@@ -24,6 +24,8 @@ const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItine
 const CruiseVideoGallery = dynamic(() => import("@/components/CruiseVideoGallery"), { ssr: false });
 const CruiseHistoryTimeline = dynamic(() => import("@/components/CruiseHistoryTimeline"), { ssr: false });
 
+const CruiseHeroMaskEditor = dynamic(() => import("@/components/CruiseHeroMaskEditor"), { ssr: false });
+
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
   const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#9333ea", "#ec4899", "#8b5cf6", "#64748b"];
   return itinData.map((day, i) => ({
@@ -606,10 +608,22 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
   return (
     <div className="min-h-screen overflow-x-hidden max-w-full bg-transparent text-white pt-0">
-      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER) ── */}
+      {/* Interactive Hero Video Mask & Blur Live Edit UI Tool */}
+      <React.Suspense fallback={null}>
+        <CruiseHeroMaskEditor />
+      </React.Suspense>
+
+      {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section className="-mt-[88px] pt-[120px] md:pt-[140px] relative flex flex-col justify-center overflow-hidden pb-[32px] md:pb-20 text-white min-h-[460px] md:min-h-[640px]">
-        {/* Cruise Hero Video Background Overlay */}
-        <div className="absolute inset-0 z-0">
+        {/* Cruise Hero Video Background Overlay with Bottom Masking & Video Blur */}
+        <div
+          className="absolute inset-0 z-0 overflow-hidden"
+          style={{
+            maskImage: 'linear-gradient(to bottom, black 0%, black var(--hero-mask-fade-start, 65%), transparent var(--hero-mask-fade-end, 100%))',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black var(--hero-mask-fade-start, 65%), transparent var(--hero-mask-fade-end, 100%))',
+            opacity: 'var(--hero-mask-opacity, 1)',
+          }}
+        >
           <video
             ref={heroVideoRef}
             autoPlay
@@ -617,12 +631,28 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             loop
             playsInline
             className="w-full h-full object-cover opacity-55 scale-105"
+            style={{
+              filter: 'blur(var(--hero-video-blur, 0px))',
+              WebkitFilter: 'blur(var(--hero-video-blur, 0px))',
+            }}
             poster="/images/cruise-hero.png"
           >
             <source src="/movie/cruise.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-transparent via-black/20 to-black/50" />
         </div>
+
+        {/* Higher Z-Index 30px ::before Blur Strip at Bottom of Hero Video */}
+        <div
+          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none hero-bottom-blur-strip"
+          style={{
+            height: 'var(--hero-before-height, 30px)',
+            zIndex: 'var(--hero-before-zindex, 30)',
+            backdropFilter: 'blur(var(--hero-before-blur, 20px))',
+            WebkitBackdropFilter: 'blur(var(--hero-before-blur, 20px))',
+            background: 'linear-gradient(to bottom, transparent, rgba(6, 6, 12, 0.85))',
+          }}
+        />
 
         {/* Hero Text */}
         <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-2">
