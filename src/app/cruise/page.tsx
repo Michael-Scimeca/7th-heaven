@@ -621,7 +621,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           style={{
             maskImage: 'linear-gradient(to bottom, black 0%, black var(--hero-mask-fade-start, 65%), transparent var(--hero-mask-fade-end, 100%))',
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black var(--hero-mask-fade-start, 65%), transparent var(--hero-mask-fade-end, 100%))',
-            opacity: 'var(--hero-mask-opacity, 1)',
           }}
         >
           <video
@@ -630,7 +629,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             muted
             loop
             playsInline
-            className="w-full h-full object-cover opacity-55 scale-105"
+            className="w-full h-full object-cover scale-105"
             style={{
               filter: 'blur(var(--hero-video-blur, 0px))',
               WebkitFilter: 'blur(var(--hero-video-blur, 0px))',
@@ -639,7 +638,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           >
             <source src="/movie/cruise.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-black/20 to-black/50" />
         </div>
 
         {/* Higher Z-Index 30px ::before Blur Strip at Bottom of Hero Video */}
