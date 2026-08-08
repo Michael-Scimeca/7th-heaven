@@ -1674,7 +1674,7 @@ export default function StyleGuidePage() {
 
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section id="stateroom-perks" className="scroll-mt-36 border-0 rounded-3xl p-0 space-y-6 overflow-hidden">
-          <div className="border-b border-white/10 p-6 sm:p-8 pb-4">
+          <div className="border-b border-white/10 px-0 py-4 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
