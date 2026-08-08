@@ -97,7 +97,7 @@ export default function GooeyDropdown({
 
     // Translucent background color for glass backdrop-blur (transparent when closed)
     const bgGlassColor = open
-        ? hexToRgba(accentColor, glassOpacity)
+        ? (transparent ? "rgba(20, 12, 36, 0.90)" : hexToRgba(accentColor, glassOpacity))
         : (transparent ? "rgba(255, 255, 255, 0.08)" : hexToRgba(accentColor, glassOpacity));
 
     // Keep the trigger-shape / closed-panel size in sync with the real button,
