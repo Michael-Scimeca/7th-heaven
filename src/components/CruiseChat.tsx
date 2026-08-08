@@ -447,6 +447,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
   return (
     <div
       id="cruise-chat-root"
+      data-lenis-prevent
       style={{
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
@@ -497,7 +498,11 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         </div>
       )}
 
-      <div ref={chatContainerRef} className="flex-1 min-h-0 overflow-y-auto py-3 px-2 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-white/20 hover:scrollbar-thumb-white/40">
+      <div
+        ref={chatContainerRef}
+        data-lenis-prevent
+        className="flex-1 min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 space-y-4 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
+      >
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-white/20">
             <span className="text-3xl mb-2 opacity-50">👋</span>
