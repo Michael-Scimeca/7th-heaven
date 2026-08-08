@@ -403,6 +403,9 @@ export default function CursorFollower() {
           animation: cursorPickSpin 2.4s linear infinite;
           opacity: 0;
         }
+        .cursor-pick-spin path {
+          fill: #9333ea !important;
+        }
         .cursor-pick-row {
           width: 100%;
           height: 16px;

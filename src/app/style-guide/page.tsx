@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 
 const InputStyleEditor = dynamic(() => import("@/components/InputStyleEditor"), {
@@ -1867,6 +1868,75 @@ export default function StyleGuidePage() {
                   </>
                 )}
               </div>
+            </div>
+          </div>
+
+          {/* Stateroom Pricing & Rate Cards Showcase */}
+          <div className="pt-8 border-t border-white/10 space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <span className="text-xs font-black uppercase tracking-[0.25em] text-purple-400">Prevailing Market Pricing Cards</span>
+                <h3 className="text-xl md:text-2xl font-black uppercase text-white mt-1">Stateroom & Cabin Rate Cards</h3>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", selectValue: "prev_zi" },
+                { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", selectValue: "prev_yo", isHighlighted: true },
+                { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", selectValue: "prev_if" },
+              ].map((room) => {
+                const isYo = room.code === "YO";
+                return (
+                  <div
+                    key={room.code}
+                    className={`overflow-hidden rounded-2xl flex flex-col justify-between group relative shadow-lg ${isYo
+                      ? 'bg-purple-950/60 border-2 border-purple-400 backdrop-blur-xl'
+                      : 'bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] hover:border-white/20'
+                      }`}
+                  >
+                    {isYo && (
+                      <div className="absolute top-3 right-3 bg-purple-600 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border border-purple-400 z-10">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        <span>Popular</span>
+                      </div>
+                    )}
+                    <div>
+                      {room.image && (
+                        <div className="relative h-44 w-full overflow-hidden text-center">
+                          <Image width={350} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <div className="p-5">
+                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
+                          <span className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded tracking-wider ${isYo ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'bg-white/10 text-white/70 border border-white/10'
+                            }`}>{room.label}</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest block">{room.code} Category</span>
+                        <h4 className="text-base font-black text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
+                      </div>
+                    </div>
+
+                    <div className="p-5 pt-0 text-left">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-xl font-black text-white">{room.price}</span>
+                        <span className="text-xs text-white/60 font-bold">USD pp</span>
+                      </div>
+                      <span className="text-[10px] text-white/50 uppercase tracking-widest font-bold block mt-1">Rates as of June 27, 2026</span>
+                      <button
+                        type="button"
+                        className={`mt-4 w-full py-2.5 px-4 rounded-lg font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isYo
+                          ? 'bg-purple-600 hover:bg-purple-500 text-white border border-purple-400'
+                          : 'bg-purple-600 hover:bg-purple-500 text-white border border-purple-500'
+                          }`}
+                      >
+                        <span>Select Prevailing Rate</span>
+                        <span>→</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
