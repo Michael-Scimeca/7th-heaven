@@ -152,13 +152,26 @@ export default function CruisePage() {
   const [heroMaskSettings, setHeroMaskSettings] = useState({
     fadeStart: 50,
     fadeEnd: 85,
+    maskAngle: 'to bottom',
     videoBlur: 0,
+    videoBrightness: 100,
+    videoContrast: 100,
+    videoOpacity: 100,
     beforeHeight: 30,
     beforeBlur: 20,
+    beforeBgOpacity: 85,
     beforeZIndex: 30,
   });
 
   useEffect(() => {
+    // Restore saved settings on mount if available
+    try {
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v2');
+      if (saved) {
+        setHeroMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
+      }
+    } catch { }
+
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (customEvent.detail) {
@@ -639,8 +652,8 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         <div
           className="absolute inset-0 z-0 overflow-hidden"
           style={{
-            maskImage: `linear-gradient(to bottom, black 0%, black ${heroMaskSettings.fadeStart}%, transparent ${heroMaskSettings.fadeEnd}%)`,
-            WebkitMaskImage: `linear-gradient(to bottom, black 0%, black ${heroMaskSettings.fadeStart}%, transparent ${heroMaskSettings.fadeEnd}%)`,
+            maskImage: `linear-gradient(${heroMaskSettings.maskAngle}, black 0%, black ${heroMaskSettings.fadeStart}%, transparent ${heroMaskSettings.fadeEnd}%)`,
+            WebkitMaskImage: `linear-gradient(${heroMaskSettings.maskAngle}, black 0%, black ${heroMaskSettings.fadeStart}%, transparent ${heroMaskSettings.fadeEnd}%)`,
           }}
         >
           <video
@@ -651,8 +664,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             playsInline
             className="w-full h-full object-cover scale-105"
             style={{
-              filter: `blur(${heroMaskSettings.videoBlur}px)`,
-              WebkitFilter: `blur(${heroMaskSettings.videoBlur}px)`,
+              filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
+              WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
+              opacity: heroMaskSettings.videoOpacity / 100,
             }}
             poster="/images/cruise-hero.png"
           >
@@ -668,7 +682,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             zIndex: heroMaskSettings.beforeZIndex,
             backdropFilter: `blur(${heroMaskSettings.beforeBlur}px)`,
             WebkitBackdropFilter: `blur(${heroMaskSettings.beforeBlur}px)`,
-            background: 'linear-gradient(to bottom, transparent, rgba(6, 6, 12, 0.85))',
+            background: `linear-gradient(to bottom, transparent, rgba(6, 6, 12, ${heroMaskSettings.beforeBgOpacity / 100}))`,
           }}
         />
 

@@ -4,23 +4,31 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 export interface HeroMaskSettings {
-  fadeStart: number;      // % (0 - 100)
-  fadeEnd: number;        // % (50 - 100)
-  videoBlur: number;      // px (0 - 40)
-  beforeHeight: number;   // px (10 - 100)
-  beforeBlur: number;     // px (0 - 60)
-  beforeZIndex: number;   // z-index (10 - 50)
-  maskOpacity: number;    // % (0 - 100)
+  fadeStart: number;        // % (0 - 100)
+  fadeEnd: number;          // % (0 - 100)
+  maskAngle: string;        // 'to bottom' | 'to top' | 'to bottom right' | 'to bottom left'
+  videoBlur: number;        // px (0 - 50)
+  videoBrightness: number;  // % (50 - 150)
+  videoContrast: number;    // % (50 - 150)
+  videoOpacity: number;     // % (20 - 100)
+  beforeHeight: number;     // px (0 - 150)
+  beforeBlur: number;       // px (0 - 80)
+  beforeBgOpacity: number;  // % (0 - 100)
+  beforeZIndex: number;     // z-index (10 - 50)
 }
 
 export const DEFAULT_HERO_MASK_SETTINGS: HeroMaskSettings = {
   fadeStart: 50,
   fadeEnd: 85,
+  maskAngle: 'to bottom',
   videoBlur: 0,
+  videoBrightness: 100,
+  videoContrast: 100,
+  videoOpacity: 100,
   beforeHeight: 30,
   beforeBlur: 20,
+  beforeBgOpacity: 85,
   beforeZIndex: 30,
-  maskOpacity: 100,
 };
 
 export default function CruiseHeroMaskEditor() {
@@ -32,7 +40,7 @@ export default function CruiseHeroMaskEditor() {
   useEffect(() => {
     setMounted(true);
     try {
-      const saved = localStorage.getItem('7h_cruise_hero_mask_v1');
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v2');
       if (saved) {
         setSettings({ ...DEFAULT_HERO_MASK_SETTINGS, ...JSON.parse(saved) });
       }
@@ -46,23 +54,27 @@ export default function CruiseHeroMaskEditor() {
     const root = document.documentElement;
     root.style.setProperty('--hero-mask-fade-start', `${settings.fadeStart}%`);
     root.style.setProperty('--hero-mask-fade-end', `${settings.fadeEnd}%`);
+    root.style.setProperty('--hero-mask-angle', settings.maskAngle);
     root.style.setProperty('--hero-video-blur', `${settings.videoBlur}px`);
+    root.style.setProperty('--hero-video-brightness', `${settings.videoBrightness}%`);
+    root.style.setProperty('--hero-video-contrast', `${settings.videoContrast}%`);
+    root.style.setProperty('--hero-video-opacity', `${settings.videoOpacity / 100}`);
     root.style.setProperty('--hero-before-height', `${settings.beforeHeight}px`);
     root.style.setProperty('--hero-before-blur', `${settings.beforeBlur}px`);
+    root.style.setProperty('--hero-before-bg-opacity', `${settings.beforeBgOpacity / 100}`);
     root.style.setProperty('--hero-before-zindex', `${settings.beforeZIndex}`);
-    root.style.setProperty('--hero-mask-opacity', `${settings.maskOpacity / 100}`);
 
-    // Broadcast live changes to window for immediate React state reactivity
+    // Broadcast live changes to window for immediate React state reactivity across page
     window.dispatchEvent(new CustomEvent('hero-mask-update', { detail: settings }));
 
     try {
-      localStorage.setItem('7h_cruise_hero_mask_v1', JSON.stringify(settings));
+      localStorage.setItem('7h_cruise_hero_mask_v2', JSON.stringify(settings));
     } catch {
       // Ignore
     }
   }, [settings, mounted]);
 
-  const updateSetting = <K extends keyof HeroMaskSettings>(key: K, value: number) => {
+  const updateSetting = <K extends keyof HeroMaskSettings>(key: K, value: HeroMaskSettings[K]) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 
@@ -82,221 +94,346 @@ export default function CruiseHeroMaskEditor() {
     <>
       {/* Floating Gear Trigger Button */}
       <button
-        aria-label="Edit Hero Video Masking & Blur"
+        aria-label="Edit Hero Video Masking & Blur Studio"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 px-4 py-3 bg-[#06060c]/90 hover:bg-cyan-500 hover:text-black border border-cyan-400/50 text-cyan-300 rounded-full font-mono text-xs font-black uppercase tracking-wider shadow-[0_0_25px_rgba(6,182,212,0.4)] backdrop-blur-md transition-all duration-300 flex items-center gap-2 cursor-pointer group"
+        className="fixed bottom-6 right-6 z-50 px-4 py-3 bg-[#06060c]/90 hover:bg-cyan-500 hover:text-black border border-cyan-400/50 text-cyan-300 rounded-full font-mono text-xs font-black uppercase tracking-wider shadow-[0_0_25px_rgba(6,182,212,0.5)] backdrop-blur-md transition-all duration-300 flex items-center gap-2 cursor-pointer group"
       >
         <span className="text-base group-hover:rotate-90 transition-transform duration-500">⚙️</span>
-        <span>Hero Mask & Blur Tool</span>
+        <span>Hero CSS Studio</span>
       </button>
 
       {/* Floating Settings Drawer Portal */}
       {isOpen && createPortal(
-        <div className="fixed inset-0 z-[100] flex justify-end pointer-events-none p-4 md:p-6 animate-fadeIn">
-          {/* Style tag for prominent, custom-styled cyan scrollbar */}
+        <div className="fixed top-16 right-4 md:right-8 z-[100] w-full max-w-[420px] bg-[#090912] border border-cyan-400/50 text-white rounded-2xl flex flex-col h-[calc(100vh-100px)] max-h-[calc(100vh-100px)] shadow-[0_0_60px_rgba(0,0,0,0.95)] animate-fadeIn overflow-hidden">
+          {/* Style tag for guaranteed visible scrollbar */}
           <style>{`
-            .custom-hero-editor-scroll::-webkit-scrollbar {
+            .hero-editor-scroll-area {
+              overflow-y: scroll !important;
+              scrollbar-width: thin !important;
+              scrollbar-color: #06b6d4 rgba(255, 255, 255, 0.1) !important;
+            }
+            .hero-editor-scroll-area::-webkit-scrollbar {
               width: 10px !important;
               display: block !important;
             }
-            .custom-hero-editor-scroll::-webkit-scrollbar-track {
-              background: rgba(255, 255, 255, 0.1) !important;
+            .hero-editor-scroll-area::-webkit-scrollbar-track {
+              background: rgba(255, 255, 255, 0.08) !important;
               border-radius: 6px !important;
             }
-            .custom-hero-editor-scroll::-webkit-scrollbar-thumb {
+            .hero-editor-scroll-area::-webkit-scrollbar-thumb {
               background: #06b6d4 !important;
               border-radius: 6px !important;
-              border: 2px solid #080810 !important;
-              box-shadow: 0 0 12px rgba(6, 182, 212, 0.8) !important;
+              border: 2px solid #090912 !important;
+              box-shadow: 0 0 10px rgba(6, 182, 212, 0.8) !important;
             }
-            .custom-hero-editor-scroll::-webkit-scrollbar-thumb:hover {
+            .hero-editor-scroll-area::-webkit-scrollbar-thumb:hover {
               background: #22d3ee !important;
             }
           `}</style>
           
-          <div className="pointer-events-auto w-full max-w-md bg-[#080810]/95 backdrop-blur-2xl border border-cyan-500/40 text-white h-[calc(100vh-120px)] max-h-[calc(100vh-120px)] my-auto p-6 flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.9)] rounded-2xl">
-            {/* Sticky Header */}
-            <div className="shrink-0 border-b border-white/10 pb-4 mb-4 flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-black uppercase tracking-tight text-white">🎬 Hero Video Mask & Blur Editor</h3>
-                <p className="text-xs text-cyan-400 font-mono mt-0.5">Live Adjust Hero Clipping Mask, Blur & ::before Strip</p>
-              </div>
-              <button
-                aria-label="Close Mask Editor"
-                onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center font-bold text-sm transition-colors cursor-pointer shrink-0"
-              >
-                ✕
-              </button>
+          {/* STICKY HEADER */}
+          <div className="p-4 border-b border-white/10 shrink-0 bg-[#090912] flex items-center justify-between z-20">
+            <div>
+              <h3 className="text-base font-black uppercase tracking-tight text-white flex items-center gap-2">
+                <span>🎬</span> Hero Video Mask & Blur Studio
+              </h3>
+              <p className="text-[11px] text-cyan-400 font-mono mt-0.5">Full CSS Control of Mask, Video Blur & ::before Strip</p>
             </div>
+            <button
+              aria-label="Close Mask Studio"
+              onClick={() => setIsOpen(false)}
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center font-bold text-sm transition-colors cursor-pointer shrink-0"
+            >
+              ✕
+            </button>
+          </div>
 
-            {/* Dedicated Scroll Container */}
-            <div className="flex-1 overflow-y-auto pr-2 space-y-5 custom-hero-editor-scroll">
-              {/* Quick Presets */}
-              <div className="bg-cyan-950/20 border border-cyan-500/20 p-4 rounded-xl">
-                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 block mb-2">⚡ Quick Presets</span>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => applyPreset({ fadeStart: 50, fadeEnd: 85, videoBlur: 0, beforeHeight: 30, beforeBlur: 20, beforeZIndex: 30 })}
-                    className="px-3 py-2 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
-                  >
-                    🌊 Standard Ocean Mask
-                  </button>
-                  <button
-                    onClick={() => applyPreset({ fadeStart: 35, fadeEnd: 80, videoBlur: 10, beforeHeight: 45, beforeBlur: 30, beforeZIndex: 35 })}
-                    className="px-3 py-2 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
-                  >
-                    ✨ Soft Dreamy Blur
-                  </button>
-                  <button
-                    onClick={() => applyPreset({ fadeStart: 75, fadeEnd: 100, videoBlur: 0, beforeHeight: 20, beforeBlur: 10, beforeZIndex: 25 })}
-                    className="px-3 py-2 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
-                  >
-                    🔍 Crisp Sharp Edge
-                  </button>
-                  <button
-                    onClick={() => applyPreset({ fadeStart: 25, fadeEnd: 70, videoBlur: 16, beforeHeight: 60, beforeBlur: 45, beforeZIndex: 40 })}
-                    className="px-3 py-2 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
-                  >
-                    🔮 High-Z Max Blur
-                  </button>
-                </div>
-              </div>
-
-              {/* Slider Controls */}
-              <div className="space-y-4">
-                {/* 1. Bottom Mask Fade Start */}
-                <div className="space-y-1.5 bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-cyan-300">📐 Mask Fade Start (% Height)</span>
-                    <span className="font-mono text-cyan-400 font-bold text-sm">{settings.fadeStart}%</span>
-                  </div>
-                  <input
-                    aria-label="Mask Fade Start Percentage"
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={settings.fadeStart}
-                    onChange={e => updateSetting('fadeStart', parseInt(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer h-2"
-                  />
-                  <p className="text-[var(--font-size-4xs)] text-white/50">Point where the bottom video clipping gradient starts fading out.</p>
-                </div>
-
-                {/* 2. Bottom Mask Fade End */}
-                <div className="space-y-1.5 bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-cyan-300">🏁 Mask Fade End (% Height)</span>
-                    <span className="font-mono text-cyan-400 font-bold text-sm">{settings.fadeEnd}%</span>
-                  </div>
-                  <input
-                    aria-label="Mask Fade End Percentage"
-                    type="range"
-                    min="30"
-                    max="100"
-                    step="1"
-                    value={settings.fadeEnd}
-                    onChange={e => updateSetting('fadeEnd', parseInt(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer h-2"
-                  />
-                  <p className="text-[var(--font-size-4xs)] text-white/50">Point where the video completely clips to transparent.</p>
-                </div>
-
-                {/* 3. Hero Video Blur */}
-                <div className="space-y-1.5 bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-cyan-300">💧 Video Blur (px)</span>
-                    <span className="font-mono text-cyan-400 font-bold text-sm">{settings.videoBlur}px</span>
-                  </div>
-                  <input
-                    aria-label="Video Blur Amount in Pixels"
-                    type="range"
-                    min="0"
-                    max="40"
-                    step="1"
-                    value={settings.videoBlur}
-                    onChange={e => updateSetting('videoBlur', parseInt(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer h-2"
-                  />
-                  <p className="text-[var(--font-size-4xs)] text-white/50">Applies Gaussian blur directly to the playing hero video element.</p>
-                </div>
-
-                {/* 4. ::before Strip Height (30px Default) */}
-                <div className="space-y-1.5 bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-cyan-300">📏 ::before Overlay Strip Height</span>
-                    <span className="font-mono text-cyan-400 font-bold text-sm">{settings.beforeHeight}px</span>
-                  </div>
-                  <input
-                    aria-label="Overlay Strip Height in Pixels"
-                    type="range"
-                    min="10"
-                    max="120"
-                    step="1"
-                    value={settings.beforeHeight}
-                    onChange={e => updateSetting('beforeHeight', parseInt(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer h-2"
-                  />
-                  <p className="text-[var(--font-size-4xs)] text-white/50">Height of the 100% width bottom ::before blur overlay strip (default 30px).</p>
-                </div>
-
-                {/* 5. ::before Strip Backdrop Blur */}
-                <div className="space-y-1.5 bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-cyan-300">✨ ::before Backdrop Blur Filter</span>
-                    <span className="font-mono text-cyan-400 font-bold text-sm">{settings.beforeBlur}px</span>
-                  </div>
-                  <input
-                    aria-label="Overlay Strip Backdrop Blur"
-                    type="range"
-                    min="0"
-                    max="60"
-                    step="1"
-                    value={settings.beforeBlur}
-                    onChange={e => updateSetting('beforeBlur', parseInt(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer h-2"
-                  />
-                  <p className="text-[var(--font-size-4xs)] text-white/50">Backdrop-blur filter applied to the bottom ::before strip.</p>
-                </div>
-
-                {/* 6. ::before Strip Z-Index */}
-                <div className="space-y-1.5 bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-cyan-300">🥞 ::before Strip Z-Index</span>
-                    <span className="font-mono text-cyan-400 font-bold text-sm">z-{settings.beforeZIndex}</span>
-                  </div>
-                  <input
-                    aria-label="Overlay Strip Z-Index"
-                    type="range"
-                    min="10"
-                    max="50"
-                    step="1"
-                    value={settings.beforeZIndex}
-                    onChange={e => updateSetting('beforeZIndex', parseInt(e.target.value))}
-                    className="w-full accent-cyan-400 cursor-pointer h-2"
-                  />
-                  <p className="text-[var(--font-size-4xs)] text-white/50">Z-Index layer for the ::before blur strip.</p>
-                </div>
+          {/* DEDICATED SCROLLABLE BODY */}
+          <div className="p-4 flex-1 min-h-0 overflow-y-scroll space-y-4 hero-editor-scroll-area">
+            {/* Quick Presets */}
+            <div className="bg-cyan-950/30 border border-cyan-500/30 p-3.5 rounded-xl">
+              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 block mb-2">⚡ Quick Presets</span>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  aria-label="Apply Standard Ocean Mask Preset"
+                  onClick={() => applyPreset({ fadeStart: 50, fadeEnd: 85, maskAngle: 'to bottom', videoBlur: 0, videoBrightness: 100, videoContrast: 100, videoOpacity: 100, beforeHeight: 30, beforeBlur: 20, beforeBgOpacity: 85, beforeZIndex: 30 })}
+                  className="px-2.5 py-1.5 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
+                >
+                  🌊 Standard Mask
+                </button>
+                <button
+                  aria-label="Apply Soft Dreamy Blur Preset"
+                  onClick={() => applyPreset({ fadeStart: 35, fadeEnd: 80, maskAngle: 'to bottom', videoBlur: 10, videoBrightness: 110, videoContrast: 95, videoOpacity: 90, beforeHeight: 45, beforeBlur: 30, beforeBgOpacity: 75, beforeZIndex: 35 })}
+                  className="px-2.5 py-1.5 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
+                >
+                  ✨ Soft Dream Blur
+                </button>
+                <button
+                  aria-label="Apply Crisp Sharp Edge Preset"
+                  onClick={() => applyPreset({ fadeStart: 75, fadeEnd: 100, maskAngle: 'to bottom', videoBlur: 0, videoBrightness: 100, videoContrast: 100, videoOpacity: 100, beforeHeight: 20, beforeBlur: 10, beforeBgOpacity: 90, beforeZIndex: 25 })}
+                  className="px-2.5 py-1.5 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
+                >
+                  🔍 Sharp Edge
+                </button>
+                <button
+                  aria-label="Apply High-Z Max Blur Preset"
+                  onClick={() => applyPreset({ fadeStart: 25, fadeEnd: 70, maskAngle: 'to bottom', videoBlur: 16, videoBrightness: 90, videoContrast: 110, videoOpacity: 85, beforeHeight: 60, beforeBlur: 45, beforeBgOpacity: 95, beforeZIndex: 40 })}
+                  className="px-2.5 py-1.5 bg-white/5 hover:bg-cyan-500/20 border border-white/10 text-xs font-bold text-white rounded transition-colors text-left"
+                >
+                  🔮 High-Z Max Blur
+                </button>
               </div>
             </div>
 
-            {/* Sticky Footer */}
-            <div className="shrink-0 border-t border-white/10 pt-4 mt-4 flex items-center justify-between">
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
-              >
-                🔄 Reset
-              </button>
-              {saveToast && <span className="text-xs font-bold text-cyan-400 animate-pulse">✓ Reset Done!</span>}
-              <button
-                onClick={() => setIsOpen(false)}
-                className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-wider rounded shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-colors cursor-pointer"
-              >
-                Done
-              </button>
+            {/* CATEGORY 1: MASK CLIPPING GRADIENT CONTROLS */}
+            <div className="space-y-3 pt-2">
+              <span className="text-[11px] font-black uppercase tracking-widest text-cyan-400 block border-b border-cyan-500/30 pb-1">
+                📐 1. Mask Clipping Gradient
+              </span>
+
+              {/* Mask Direction Angle */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <span className="font-bold text-xs text-cyan-300 block mb-1.5">🔄 Mask Gradient Direction</span>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { label: '⬇️ To Bottom', val: 'to bottom' },
+                    { label: '⬆️ To Top', val: 'to top' },
+                    { label: '↘️ Down-Right', val: 'to bottom right' },
+                    { label: '↙️ Down-Left', val: 'to bottom left' },
+                  ].map(item => (
+                    <button
+                      key={item.val}
+                      aria-label={`Set Mask Direction to ${item.label}`}
+                      onClick={() => updateSetting('maskAngle', item.val)}
+                      className={`px-2 py-1.5 text-xs font-bold rounded border transition-colors ${settings.maskAngle === item.val
+                        ? 'bg-cyan-500 text-black border-cyan-400 font-black'
+                        : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10'
+                        }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mask Fade Start */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Start Fade (% Height)</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.fadeStart}%</span>
+                </div>
+                <input
+                  aria-label="Mask Fade Start Percentage"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={settings.fadeStart}
+                  onChange={e => updateSetting('fadeStart', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+                <p className="text-[10px] text-white/50">Point where video starts fading out to transparent.</p>
+              </div>
+
+              {/* Mask Fade End */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">End Fade (% Height)</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.fadeEnd}%</span>
+                </div>
+                <input
+                  aria-label="Mask Fade End Percentage"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={settings.fadeEnd}
+                  onChange={e => updateSetting('fadeEnd', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+                <p className="text-[10px] text-white/50">Point where video is 100% transparently clipped.</p>
+              </div>
             </div>
+
+            {/* CATEGORY 2: VIDEO BLUR & EFFECTS CONTROLS */}
+            <div className="space-y-3 pt-2">
+              <span className="text-[11px] font-black uppercase tracking-widest text-cyan-400 block border-b border-cyan-500/30 pb-1">
+                💧 2. Video Blur & FX Controls
+              </span>
+
+              {/* Video Blur */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Gaussian Video Blur</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.videoBlur}px</span>
+                </div>
+                <input
+                  aria-label="Video Blur Amount in Pixels"
+                  type="range"
+                  min="0"
+                  max="50"
+                  step="1"
+                  value={settings.videoBlur}
+                  onChange={e => updateSetting('videoBlur', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+                <p className="text-[10px] text-white/50">Applies live backdrop/filter blur directly onto the playing video.</p>
+              </div>
+
+              {/* Video Opacity */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Video Opacity</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.videoOpacity}%</span>
+                </div>
+                <input
+                  aria-label="Video Opacity Percentage"
+                  type="range"
+                  min="20"
+                  max="100"
+                  step="5"
+                  value={settings.videoOpacity}
+                  onChange={e => updateSetting('videoOpacity', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+              </div>
+
+              {/* Video Brightness */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Video Brightness</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.videoBrightness}%</span>
+                </div>
+                <input
+                  aria-label="Video Brightness Percentage"
+                  type="range"
+                  min="50"
+                  max="150"
+                  step="5"
+                  value={settings.videoBrightness}
+                  onChange={e => updateSetting('videoBrightness', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+              </div>
+
+              {/* Video Contrast */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Video Contrast</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.videoContrast}%</span>
+                </div>
+                <input
+                  aria-label="Video Contrast Percentage"
+                  type="range"
+                  min="50"
+                  max="150"
+                  step="5"
+                  value={settings.videoContrast}
+                  onChange={e => updateSetting('videoContrast', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+              </div>
+            </div>
+
+            {/* CATEGORY 3: ::BEFORE BOTTOM STRIP CONTROLS */}
+            <div className="space-y-3 pt-2">
+              <span className="text-[11px] font-black uppercase tracking-widest text-cyan-400 block border-b border-cyan-500/30 pb-1">
+                ✨ 3. ::before Bottom Overlay Strip
+              </span>
+
+              {/* ::before Height (Default 30px) */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Overlay Strip Height</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.beforeHeight}px</span>
+                </div>
+                <input
+                  aria-label="Overlay Strip Height in Pixels"
+                  type="range"
+                  min="0"
+                  max="150"
+                  step="1"
+                  value={settings.beforeHeight}
+                  onChange={e => updateSetting('beforeHeight', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+                <p className="text-[10px] text-white/50">Height of 100% width bottom overlay strip (default 30px).</p>
+              </div>
+
+              {/* ::before Backdrop Blur */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Strip Backdrop Blur</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.beforeBlur}px</span>
+                </div>
+                <input
+                  aria-label="Overlay Strip Backdrop Blur"
+                  type="range"
+                  min="0"
+                  max="80"
+                  step="1"
+                  value={settings.beforeBlur}
+                  onChange={e => updateSetting('beforeBlur', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+                <p className="text-[10px] text-white/50">Backdrop-blur filter applied to bottom strip.</p>
+              </div>
+
+              {/* ::before Background Opacity */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Strip Dark Tint Opacity</span>
+                  <span className="font-mono text-cyan-400 font-black">{settings.beforeBgOpacity}%</span>
+                </div>
+                <input
+                  aria-label="Overlay Strip Background Opacity"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value={settings.beforeBgOpacity}
+                  onChange={e => updateSetting('beforeBgOpacity', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+              </div>
+
+              {/* ::before Z-Index */}
+              <div className="space-y-1 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-cyan-300">Strip Z-Index Layer</span>
+                  <span className="font-mono text-cyan-400 font-black">z-{settings.beforeZIndex}</span>
+                </div>
+                <input
+                  aria-label="Overlay Strip Z-Index Layer"
+                  type="range"
+                  min="10"
+                  max="50"
+                  step="1"
+                  value={settings.beforeZIndex}
+                  onChange={e => updateSetting('beforeZIndex', parseInt(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-2"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* STICKY FOOTER */}
+          <div className="p-4 border-t border-white/10 shrink-0 bg-[#090912] flex items-center justify-between z-20">
+            <button
+              aria-label="Reset All Hero CSS Settings"
+              onClick={handleReset}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
+            >
+              🔄 Reset Defaults
+            </button>
+            {saveToast && <span className="text-xs font-bold text-cyan-400 animate-pulse">✓ Reset Done!</span>}
+            <button
+              aria-label="Save and Close Hero CSS Studio"
+              onClick={() => setIsOpen(false)}
+              className="px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black text-xs uppercase tracking-wider rounded shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-colors cursor-pointer"
+            >
+              Done
+            </button>
           </div>
         </div>,
         document.body
