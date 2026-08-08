@@ -95,14 +95,14 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
       const res = await fetch("/api/live-rooms");
       if (res.ok) {
         const data = await res.json();
-      const allRooms = data.rooms || [];
-      const rooms = allRooms.filter((r: any) => r.showOnHomepage);
-      setActiveLiveRooms(rooms);
+        const allRooms = data.rooms || [];
+        const rooms = allRooms.filter((r: any) => r.showOnHomepage);
+        setActiveLiveRooms(rooms);
 
-      // Calculate total viewers across visible rooms
-      const total = rooms.reduce((acc: number, r: any) => acc + (r.numParticipants || 0), 0);
-      // If real viewers is 0 but rooms exist, show a small random number for "hype"
-      viewerCountRef.current = total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0);
+        // Calculate total viewers across visible rooms
+        const total = rooms.reduce((acc: number, r: any) => acc + (r.numParticipants || 0), 0);
+        // If real viewers is 0 but rooms exist, show a small random number for "hype"
+        viewerCountRef.current = total || (rooms.length > 0 ? Math.floor(Math.random() * 20) + 5 : 0);
       }
     } catch (err) {
       console.error("Live rooms check failed", err);
@@ -194,7 +194,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {isLoading ? (
               <div className="aspect-video bg-white/[0.03] animate-pulse border border-white/[0.06]" />
             ) : videoId ? (
-              <div className="relative aspect-video bg-black border border-white/10 overflow-hidden">
+              <div className="relative aspect-video   border border-white/10 overflow-hidden">
                 <iframe
                   title="7th Heaven Live Stream Video"
                   src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
@@ -205,7 +205,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 />
               </div>
             ) : selectedMedia?.image_url ? (
-              <div className="relative aspect-video bg-black border border-white/10 overflow-hidden">
+              <div className="relative aspect-video   border border-white/10 overflow-hidden">
                 <Image width={200} height={200} unoptimized src={selectedMedia.image_url} alt={selectedMedia.content} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">

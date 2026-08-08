@@ -92,7 +92,7 @@ export function DailyPoll() {
           return (
             <button aria-label="Action button"
               key={opt.id}
-                 onClick={() => !voted && setVoted(opt.id)}
+              onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
               className={`w-full relative overflow-hidden  border text-left transition-colors ${voted === opt.id
                 ? 'border-emerald-500 bg-emerald-500/10'
@@ -154,7 +154,7 @@ export function OriginStats() {
               <span className="text-white/70">{stat.location}</span>
               <span className=" text-[var(--color-accent)]">{stat.count} fans</span>
             </div>
-            <div className="w-full h-1.5 bg-black rounded-full overflow-hidden border border-white/5">
+            <div className="w-full h-1.5   rounded-full overflow-hidden border border-white/5">
               <div
                 className="h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 rounded-full opacity-80 group-hover:opacity-100 transition-colors duration-1000 delay-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
@@ -265,55 +265,55 @@ export function BookingManager({ email }: { email?: string }) {
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.booking) {
-        let cabinPref = data.booking.cabin_preference || 'Ocean View Balcony (Cabin 9122)';
-        let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
-        if (data.booking.notes) {
-          const notesLower = data.booking.notes.toLowerCase();
-          const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
-          if (matches && matches[1]) {
-            cabinPref = matches[1].split('\n')[0].trim();
+          let cabinPref = data.booking.cabin_preference || 'Ocean View Balcony (Cabin 9122)';
+          let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+          if (data.booking.notes) {
+            const notesLower = data.booking.notes.toLowerCase();
+            const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
+            if (matches && matches[1]) {
+              cabinPref = matches[1].split('\n')[0].trim();
+            }
+            if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
+              cabinImg = '/images/cruise/n5.jpg';
+            } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
+              cabinImg = '/images/cruise/if.jpg';
+            } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
+              cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+            } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
+              cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
+            } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
+              cabinImg = '/images/cruise/jy.png';
+            }
           }
-          if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
-            cabinImg = '/images/cruise/n5.jpg';
-          } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
-            cabinImg = '/images/cruise/if.jpg';
-          } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
-            cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
-          } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
-            cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
-          } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
-            cabinImg = '/images/cruise/jy.png';
-          }
+
+          const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$1,200.00");
+          const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$350.00");
+
+          setBooking({
+            ...data.booking,
+            name: data.booking.name || member?.name || 'Cruise Guest',
+            cabin_preference: cabinPref,
+            cabin_image: cabinImg,
+            total_fare: data.booking.total_fare || "$1,550.00",
+            amount_paid: amountPaid,
+            balance_due: balanceDue
+          });
+
+          setFormData({
+            guest_count: data.booking.guest_count || 2,
+            phone: data.booking.phone || '(555) 019-9283',
+            anonymous: data.booking.anonymous || false,
+            guests: data.booking.guests || [{ name: 'Sarah Connor', type: 'adult' }]
+          });
+        } else {
+          setBooking(defaultBooking);
+          setFormData({
+            guest_count: 2,
+            phone: '(555) 019-9283',
+            anonymous: false,
+            guests: [{ name: 'Sarah Connor', type: 'adult' }]
+          });
         }
-
-        const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$1,200.00");
-        const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$350.00");
-
-        setBooking({
-          ...data.booking,
-          name: data.booking.name || member?.name || 'Cruise Guest',
-          cabin_preference: cabinPref,
-          cabin_image: cabinImg,
-          total_fare: data.booking.total_fare || "$1,550.00",
-          amount_paid: amountPaid,
-          balance_due: balanceDue
-        });
-
-        setFormData({
-          guest_count: data.booking.guest_count || 2,
-          phone: data.booking.phone || '(555) 019-9283',
-          anonymous: data.booking.anonymous || false,
-          guests: data.booking.guests || [{ name: 'Sarah Connor', type: 'adult' }]
-        });
-      } else {
-        setBooking(defaultBooking);
-        setFormData({
-          guest_count: 2,
-          phone: '(555) 019-9283',
-          anonymous: false,
-          guests: [{ name: 'Sarah Connor', type: 'adult' }]
-        });
-      }
       }
     } catch {
       setBooking(defaultBooking);
@@ -350,43 +350,43 @@ export function BookingManager({ email }: { email?: string }) {
       if (res.ok) {
         const data = await res.json();
         if (data.success) {
-        // Parse cabin preference and set matching image
-        let cabinPref = 'Ocean View Balcony';
-        let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
-        if (data.booking.notes) {
-          const notesLower = data.booking.notes.toLowerCase();
-          const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
-          if (matches && matches[1]) {
-            cabinPref = matches[1].split('\n')[0].trim();
+          // Parse cabin preference and set matching image
+          let cabinPref = 'Ocean View Balcony';
+          let cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+          if (data.booking.notes) {
+            const notesLower = data.booking.notes.toLowerCase();
+            const matches = data.booking.notes.match(/Cabin Preference:\s*(.*)/i) || data.booking.notes.match(/Cabin:\s*(.*)/i);
+            if (matches && matches[1]) {
+              cabinPref = matches[1].split('\n')[0].trim();
+            }
+            if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
+              cabinImg = '/images/cruise/n5.jpg';
+            } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
+              cabinImg = '/images/cruise/if.jpg';
+            } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
+              cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
+            } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
+              cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
+            } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
+              cabinImg = '/images/cruise/jy.png';
+            }
           }
-          if (notesLower.includes('group_n5') || notesLower.includes('ocean view')) {
-            cabinImg = '/images/cruise/n5.jpg';
-          } else if (notesLower.includes('group_if') || notesLower.includes('central park')) {
-            cabinImg = '/images/cruise/if.jpg';
-          } else if (notesLower.includes('group_d4') || notesLower.includes('group_d2') || notesLower.includes('balcony')) {
-            cabinImg = '/images/cruise/d1_ocean_view_balcony.jpg';
-          } else if (notesLower.includes('group_i1') || notesLower.includes('infinite ocean balcony')) {
-            cabinImg = '/images/cruise/i1_infinite_ocean_view_balcony.jpg';
-          } else if (notesLower.includes('group_jy') || notesLower.includes('suite')) {
-            cabinImg = '/images/cruise/jy.png';
-          }
+
+          const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$0.00");
+          const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$1,550.00");
+
+          setBooking({
+            ...data.booking,
+            cabin_preference: cabinPref,
+            cabin_image: cabinImg,
+            amount_paid: amountPaid,
+            balance_due: balanceDue
+          });
+          setIsEditing(false);
+          setSaveStatus('');
+        } else {
+          setSaveStatus('Error saving');
         }
-
-        const amountPaid = data.booking.full_paid ? "$1,550.00" : (data.booking.deposit_paid ? "$500.00" : "$0.00");
-        const balanceDue = data.booking.full_paid ? "$0.00" : (data.booking.deposit_paid ? "$1,050.00" : "$1,550.00");
-
-        setBooking({
-          ...data.booking,
-          cabin_preference: cabinPref,
-          cabin_image: cabinImg,
-          amount_paid: amountPaid,
-          balance_due: balanceDue
-        });
-        setIsEditing(false);
-        setSaveStatus('');
-      } else {
-        setSaveStatus('Error saving');
-      }
       }
     } catch {
       setSaveStatus('Error saving');
@@ -421,19 +421,19 @@ export function BookingManager({ email }: { email?: string }) {
         if (bookRes.ok) {
           const bookData = await bookRes.json();
           if (bookData.success) {
-          setBooking(bookData.booking);
-          setFormData({
-            guest_count: bookData.booking.guest_count || 1,
-            phone: bookData.booking.phone || '',
-            anonymous: bookData.booking.anonymous || false,
-            guests: bookData.booking.guests || []
-          });
+            setBooking(bookData.booking);
+            setFormData({
+              guest_count: bookData.booking.guest_count || 1,
+              phone: bookData.booking.phone || '',
+              anonymous: bookData.booking.anonymous || false,
+              guests: bookData.booking.guests || []
+            });
+          }
         }
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setRegError(data.error || 'Registration failed.');
       }
-    } else {
-      const data = await res.json().catch(() => ({}));
-      setRegError(data.error || 'Registration failed.');
-    }
     } catch (err) {
       setRegError('An error occurred during registration.');
     } finally {
@@ -600,7 +600,7 @@ export function BookingManager({ email }: { email?: string }) {
                         <option value="child">Child</option>
                       </select>
                       <button aria-label="Action button"
-                           onClick={() => {
+                        onClick={() => {
                           const newGuests = formData.guests.filter((_, idx) => idx !== i);
                           setFormData({ ...formData, guests: newGuests });
                         }}
@@ -714,7 +714,7 @@ export function BookingManager({ email }: { email?: string }) {
                     <span className="text-rose-600 font-black text-sm">{booking.balance_due || "$350.00"}</span>
                     {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
                       <button aria-label="Action button"
-                           onClick={() => setIsPayModalOpen(true)}
+                        onClick={() => setIsPayModalOpen(true)}
                         className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
                       >
                         💳 Pay Balance
@@ -920,7 +920,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
               Your final payment of <strong className="text-emerald-400">{balanceDue}</strong> has been processed securely. Your booking is now fully paid!
             </p>
             <button aria-label="Close"
-                 onClick={onClose}
+              onClick={onClose}
               className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-emerald-500/15"
             >
               Close
@@ -952,14 +952,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                 <div className="flex gap-2 p-1 bg-black/40 border border-white/5">
                   <button aria-label="Action button"
                     type="button"
-                       onClick={() => { setTab('saved'); setError(''); }}
+                    onClick={() => { setTab('saved'); setError(''); }}
                     className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
-                       onClick={() => { setTab('new'); setError(''); }}
+                    onClick={() => { setTab('new'); setError(''); }}
                     className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
@@ -1038,7 +1038,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                 <div className="flex gap-3 pt-2">
                   <button aria-label="Close"
                     type="button"
-                       onClick={onClose}
+                    onClick={onClose}
                     className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer"
                   >
                     Cancel
@@ -1153,7 +1153,7 @@ export function SongRequestLeaderboard() {
               <div className="text-white/30 text-xs">{song.votes} votes</div>
             </div>
             <button aria-label="Action button"
-                 onClick={() => handleVote(song.id)}
+              onClick={() => handleVote(song.id)}
               className="w-8 h-8 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center hover:bg-[var(--color-purple-glow)] hover:border-[var(--color-border-purple)] hover:text-[var(--color-purple-light)] transition-colors text-white/40"
             >
               ▲
@@ -1192,7 +1192,7 @@ export function CaptainsLog() {
 
       <div className="flex items-center gap-4 bg-black/40 p-4 border border-white/5">
         <button aria-label="Action button"
-             onClick={() => setIsPlaying(!isPlaying)}
+          onClick={() => setIsPlaying(!isPlaying)}
           className="w-12 h-12 rounded-full bg-[var(--color-accent)] text-white flex items-center justify-center shrink-0 hover:bg-[#851de7] hover:scale-105 transition-colors shadow-md"
         >
           {isPlaying ? (

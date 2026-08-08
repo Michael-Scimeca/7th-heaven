@@ -32,39 +32,50 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
   const [showControls, setShowControls] = useState(true);
   const [buffered, setBuffered] = useState(0);
   const [showVolume, setShowVolume] = useState(false);
+  const [useFallbackIframe, setUseFallbackIframe] = useState(false);
 
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (useFallbackIframe) return;
+
     const initPlayer = () => {
       if (playerRef.current) {
-        playerRef.current.destroy();
+        try { playerRef.current.destroy(); } catch {}
       }
-      playerRef.current = new window.YT.Player(playerDivId.current, {
-        videoId,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          rel: 0,
-          showinfo: 0,
-          playsinline: 1,
-        },
-        events: {
-          onReady: (e: any) => {
-            setIsReady(true);
-            setDuration(e.target.getDuration());
-            e.target.setVolume(volume);
-            e.target.playVideo();
+      try {
+        playerRef.current = new window.YT.Player(playerDivId.current, {
+          videoId,
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            iv_load_policy: 3,
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+            playsinline: 1,
+            origin: typeof window !== "undefined" ? window.location.origin : undefined,
           },
-          onStateChange: (e: any) => {
-            setIsPlaying(e.data === window.YT.PlayerState.PLAYING);
+          events: {
+            onReady: (e: any) => {
+              setIsReady(true);
+              setDuration(e.target.getDuration());
+              e.target.setVolume(volume);
+              e.target.playVideo();
+            },
+            onStateChange: (e: any) => {
+              setIsPlaying(e.data === window.YT.PlayerState.PLAYING);
+            },
+            onError: () => {
+              setUseFallbackIframe(true);
+            },
           },
-        },
-      });
+        });
+      } catch {
+        setUseFallbackIframe(true);
+      }
     };
 
     loadYouTubeAPI(initPlayer);
@@ -72,11 +83,13 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
     return () => {
       cancelAnimationFrame(animRef.current);
       if (playerRef.current) {
-        playerRef.current.destroy();
+        try {
+          playerRef.current.destroy();
+        } catch { }
         playerRef.current = null;
       }
     };
-  }, [videoId, volume]);
+  }, [videoId, volume, useFallbackIframe]);
 
   // Time update loop
   useEffect(() => {
@@ -133,20 +146,42 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
     else containerRef.current.requestFullscreen();
   };
 
-
-
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  if (useFallbackIframe) {
+    return (
+      <div className="relative w-full h-full bg-black">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
+            aria-label="Close video"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&controls=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}`}
+          title={title}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
+    );
+  }
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full bg-black outline-none"
+      className="relative w-full h-full outline-none bg-black"
       onMouseMove={resetHideTimer}
     >
       {/* YouTube Player */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div id={playerDivId.current} className="absolute inset-0 w-full h-full" />
-        {/* Hide YouTube branding overlay */}
         <div className="absolute bottom-0 left-0 w-40 h-14 z-10" />
       </div>
 
@@ -161,9 +196,8 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       {/* Close button */}
       {onClose && (
         <button onClick={(e) => { e.stopPropagation(); onClose(); }}
-          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${
-            showControls ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ? "opacity-100" : "opacity-0"
+            }`}
           aria-label="Close"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
@@ -174,9 +208,8 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
       {/* Controls overlay */}
       <div
-        className={`absolute bottom-0 inset-x-0 z-20 px-4 pb-3 pt-8 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute bottom-0 inset-x-0 z-20 px-4 pb-3 pt-8 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+          }`}
         aria-label="Player controls container"
         onClick={(e) => e.stopPropagation()}
       >
@@ -223,7 +256,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
             {/* Volume */}
             <div
-              className="relative flex items-center gap-1.5"
+              className="relative flex items-[#center] gap-1.5"
               onMouseEnter={() => setShowVolume(true)}
               onMouseLeave={() => setShowVolume(false)}
             >

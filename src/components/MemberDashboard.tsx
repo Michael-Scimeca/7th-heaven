@@ -38,6 +38,8 @@ const showVenues = [
   { name: "Rochaus", city: "W. Dundee, IL", lat: 42.0989, lng: -88.2768, date: "April 26", time: "", type: "Full Band" },
 ];
 
+import { Palette, Ticket, PenTool, Users, Crown, Music, Star, Shield, Check, AlertTriangle, Clock, MapPin } from "lucide-react";
+
 function getDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 3959; // Earth radius in miles
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -47,12 +49,12 @@ function getDistance(lat1: number, lng1: number, lat2: number, lng2: number): nu
 }
 
 const rewards = [
-  { name: "Free Sticker Pack", points: 200, icon: "🎨" },
-  { name: "Early Access Tickets", points: 500, icon: "🎟️" },
-  { name: "Signed Setlist", points: 750, icon: "✍️" },
-  { name: "Backstage Meet & Greet", points: 1500, icon: "🤝" },
-  { name: "VIP Concert Package", points: 3000, icon: "👑" },
-  { name: "Private Acoustic Session", points: 5000, icon: "🎸" },
+  { name: "Free Sticker Pack", points: 200, icon: Palette },
+  { name: "Early Access Tickets", points: 500, icon: Ticket },
+  { name: "Signed Setlist", points: 750, icon: PenTool },
+  { name: "Backstage Meet & Greet", points: 1500, icon: Users },
+  { name: "VIP Concert Package", points: 3000, icon: Crown },
+  { name: "Private Acoustic Session", points: 5000, icon: Music },
 ];
 
 const tierThresholds = [
@@ -283,10 +285,10 @@ export default function MemberDashboard() {
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? 'fan';
-                  const cfg = { fan: { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', icon: '🛡️', cls: 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' }, admin: { label: 'ADMIN', icon: '👑', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', icon: '⭐', cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
+                  const cfg = { fan: { label: 'FAN', Icon: Star, cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', Icon: Shield, cls: 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' }, admin: { label: 'ADMIN', Icon: Crown, cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', Icon: Star, cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
                   return (
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
-                      <span className="text-[var(--font-size-2xs)]">{cfg.icon}</span>{cfg.label}
+                      <cfg.Icon className="w-3 h-3" />{cfg.label}
                     </span>
                   );
                 })()}
@@ -313,7 +315,7 @@ export default function MemberDashboard() {
 
           <div className="relative z-10 flex items-center justify-between mb-4 pb-4 border-b border-white/10">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🎟️</span>
+              <Ticket className="w-6 h-6 text-cyan-400" />
               <h2 className="text-xl font-black italic tracking-tight">
                 Prize <span className="gradient-text">Wallet</span>
               </h2>
@@ -424,16 +426,16 @@ export default function MemberDashboard() {
                     {/* Status Overlay Badge */}
                     <div className="absolute top-2 right-2">
                       {photo.approved ? (
-                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-emerald-400/20">
-                          ✅ Published
+                        <span className="px-2.5 py-1 bg-emerald-500/90 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-emerald-400/20 flex items-center gap-1">
+                          <Check className="w-3 h-3" /> Published
                         </span>
                       ) : photo.rejected ? (
-                        <span className="px-2.5 py-1 bg-red-500/95 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-red-400/30">
-                          ⚠️ Declined
+                        <span className="px-2.5 py-1 bg-red-500/95 text-white font-mono text-[0.6rem] uppercase tracking-widest rounded border border-red-400/30 flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" /> Declined
                         </span>
                       ) : (
-                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded border border-yellow-400/20 font-black">
-                          ⏳ Pending
+                        <span className="px-2.5 py-1 bg-yellow-500/90 text-black font-mono text-[0.6rem] uppercase tracking-widest rounded border border-yellow-400/20 font-black flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> Pending
                         </span>
                       )}
                     </div>
@@ -459,7 +461,7 @@ export default function MemberDashboard() {
                     )}
 
                     <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5 text-[0.65rem] text-white/30">
-                      {photo.venue && <span className="truncate">📍 {photo.venue}</span>}
+                      {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-cyan-400 shrink-0" /> {photo.venue}</span>}
                       <span className="font-mono">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
                   </div>
@@ -559,7 +561,7 @@ export default function MemberDashboard() {
            100% { background-color: #ffffff; }
          }
        `}</style>
-          <div className="bg-black p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
+          <div className="  p-10 border-8 border-green-500 text-center scale-125 sm:scale-150 rotate-3 shadow-[0_0_100px_rgba(34,197,94,1)]">
             <h1 className="text-5xl sm:text-7xl font-black text-green-500 uppercase tracking-tighter drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]">WINNER</h1>
             <p className="text-xl sm:text-3xl font-bold text-white mt-4 uppercase tracking-widest">CLAIMING PRIZE</p>
           </div>

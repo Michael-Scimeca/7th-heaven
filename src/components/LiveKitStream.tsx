@@ -16,6 +16,7 @@ import { Track, Room } from 'livekit-client';
 import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
+import { AlertTriangle, Mic } from 'lucide-react';
 
 interface LiveKitStreamProps {
   room: string;
@@ -73,54 +74,41 @@ export function LiveKitStream({
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
 
-  const fetchToken = useCallback(async (activeRef: { current: boolean }) => {
-    try {
-      const tokenVal = typeof window !== 'undefined' ? localStorage.getItem('7h_crew_token') : null;
-      const headers: Record<string, string> = {};
-      if (tokenVal) headers['Authorization'] = `Bearer ${tokenVal}`;
-
-      const res = await fetch(
-        `/api/livekit?room=${encodeURIComponent(room)}&username=${encodeURIComponent(username)}&publish=${isPublisher}`,
-        { headers }
-      );
-
-      if (!activeRef.current) return;
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error || `HTTP ${res.status}`);
-        return;
-      }
-      const data = await res.json();
-      if (!activeRef.current) return;
-      if (data.error) {
-        setError(data.error);
-        return;
-      }
-      setToken(data.token);
-      setUrl(data.url);
-    } catch {
-      if (!activeRef.current) return;
-      setError('Failed to connect to stream server');
-    }
-  }, [room, username, isPublisher]);
-
   useEffect(() => {
-    const activeRef = { current: true };
-    const timerId = setTimeout(() => {
-      fetchToken(activeRef);
-    }, 0);
-
-    return () => {
-      activeRef.current = false;
-      clearTimeout(timerId);
-    };
-  }, [fetchToken]);
+    let cancelled = false;
+    async function getToken() {
+      try {
+        setError('');
+        const identity = isPublisher
+          ? `crew-${Math.random().toString(36).substring(2, 6)}`
+          : `fan-${Math.random().toString(36).substring(2, 6)}`;
+        const name = username || (isPublisher ? "Crew Member" : "Fan Viewer");
+        const res = await fetch(`/api/livekit/token?room=${encodeURIComponent(room)}&identity=${encodeURIComponent(identity)}&name=${encodeURIComponent(name)}&publisher=${isPublisher}`);
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || `HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (!cancelled) {
+          setToken(data.token);
+          setUrl(data.wsUrl);
+        }
+      } catch (err: any) {
+        if (!cancelled) {
+          console.error("LiveKit token fetch failed:", err);
+          setError(err.message || "Failed to join live stream");
+        }
+      }
+    }
+    getToken();
+    return () => { cancelled = true; };
+  }, [room, username, isPublisher]);
 
   if (error) {
     return (
       <div className={`flex items-center justify-center bg-black/40  p-8 ${className}`}>
         <div className="text-center">
-          <p className="text-red-400 text-sm font-medium mb-2">⚠️ Stream Error</p>
+          <p className="text-red-400 text-sm font-medium mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
           <p className="text-white/30 text-xs max-w-sm">{error}</p>
         </div>
       </div>
@@ -237,7 +225,7 @@ function ViewerView({ room }: { room: string }) {
         <div className="h-full flex items-center justify-center">
           <div className="text-center">
             <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-              <span className="text-3xl">🎤</span>
+              <Mic className="w-8 h-8 text-cyan-400" />
             </div>
             <p className="text-white/60 text-base font-bold">{remoteParticipants[0]?.name || 'Crew'} is Live</p>
             <p className="text-white/30 text-sm mt-1">Camera is warming up or in audio-only mode</p>

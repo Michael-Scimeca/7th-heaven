@@ -3,15 +3,27 @@
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from 'next/image';
 
-import React, {
-  useState, useEffect, useRef, useCallback, useMemo,
-} from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import {
+  Music, Ticket, Trophy, Eye, Ban, VolumeX, MessageSquare, Users, ClipboardList,
+  ScrollText, Smile, ShoppingBag, Package, Mail, Guitar, Piano, Drum, Mic, Heart,
+  Radio, Shield, Pin, Zap, Clock, Sparkles, BarChart3, AlertTriangle
+} from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
 import { useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
 import { supabase } from '@/lib/supabase-client';
+
+const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
+  const key = (nameOrInstrument || '').toLowerCase();
+  if (key.includes('guitar') || key.includes('mike') || key.includes('michael')) return <Guitar className={className} />;
+  if (key.includes('drum') || key.includes('sammy')) return <Drum className={className} />;
+  if (key.includes('key') || key.includes('piano') || key.includes('ryan')) return <Piano className={className} />;
+  if (key.includes('vocal') || key.includes('mic') || key.includes('tony')) return <Mic className={className} />;
+  return <Music className={className} />;
+};
 
 // ── Sub-components extracted from this file ──
 import { CameraFeed } from './CameraFeed';
@@ -885,7 +897,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Auto-flag new messages ── */
   useEffect(() => {
-    if (messages.length === 0) return () => {};
+    if (messages.length === 0) return () => { };
 
     messages.forEach(msg => {
       if (msg.isSystem || !msg.account) return;
@@ -1195,24 +1207,21 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
       {/* ── Main layout ── */}
       <section
-        className="fixed bottom-0 left-0 right-0 top-[95px] z-40 flex flex-col overflow-hidden"
-        style={{ background: '#ffffff' }}
+        className="fixed bottom-0 left-0 right-0 top-[95px] z-40 flex flex-col overflow-hidden text-white"
       >
 
         {/* ── TOP BAR ── */}
         <div
-          className="shrink-0 flex items-center justify-between gap-2 px-3 py-2"
-          style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,0,0,0.08)' }}
+          className="shrink-0 flex items-center justify-between gap-2 site-container py-2"
+          style={{ backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
           {/* Left */}
           <div className="flex items-center gap-3 min-w-0">
             <Link
               href="/live"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors"
+              className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider transition-colors hover:text-white"
               style={{
-                background: 'rgba(0,0,0,0.04)',
-                border: '1px solid rgba(0,0,0,0.08)',
-                color: 'rgba(0,0,0,0.6)',
+                color: 'rgba(255,255,255,0.85)',
               }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -1229,17 +1238,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               >{activeFeedCrew.avatar}</div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-black/90 text-sm font-bold truncate">{activeFeedCrew.name} — {activeFeedCrew.cameraLabel}</span>
+                  <span className="text-white/95 text-sm font-bold truncate">{activeFeedCrew.name} — {activeFeedCrew.cameraLabel}</span>
                   <span
-                    className="hidden sm:inline px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider shrink-0"
+                    className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider shrink-0"
                     style={{
                       background: `${activeFeedCrew.color}22`,
                       border: `1px solid ${activeFeedCrew.color}55`,
                       color: activeFeedCrew.color,
                     }}
-                  >{activeFeedCrew.badge} CREW</span>
+                  >{getInstrumentIcon(activeFeedCrew.name, "w-3 h-3")} CREW</span>
                 </div>
-                <p className="text-black/30 text-xs hidden sm:block">
+                <p className="text-white/40 text-xs hidden sm:block">
                   7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}
                 </p>
               </div>
@@ -1250,10 +1259,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           <div className="shrink-0 flex items-center gap-2">
             <Link
               href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
-              className="flex items-center gap-2 px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-colors hover:scale-105"
+              className="flex items-center gap-2 text-xs font-black uppercase tracking-wider"
               style={{
-                background: `${activeFeedCrew.color}18`,
-                border: `1px solid ${activeFeedCrew.color}44`,
+
                 color: activeFeedCrew.color,
                 textDecoration: 'none',
               }}
@@ -1280,28 +1288,23 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     activeFeedId === 'ryan' ? '/crew-ryan' :
                       activeFeedId === 'tony' ? '/crew-tony' : '/crew'
               }
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-colors hover:scale-105"
+              className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider "
               style={{
-                background: 'rgba(255,10,61,0.12)',
-                border: '1px solid rgba(255,10,61,0.35)',
+
                 color: '#c084fc',
                 textDecoration: 'none',
               }}
             >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
+
               <span className="hidden sm:inline">Crew Side</span>
             </Link>
 
             <div
-              className="shrink-0 flex items-center gap-2 px-3 py-1.5"
+              className="shrink-0 flex items-center gap-2"
               style={{
-                background: 'rgba(192, 132, 252,0.08)',
-                border: '1px solid rgba(192, 132, 252,0.25)',
+
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#c084fc' }} />
               <span className="text-xs font-black uppercase tracking-widest hidden sm:inline" style={{ color: '#c084fc' }}>
                 Demo Mode
               </span>
@@ -1311,10 +1314,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
         {/* ── CAM SWITCHER TABS ── */}
         <div
-          className="shrink-0 flex items-center gap-1 px-3 py-1.5 overflow-x-auto"
-          style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,0,0,0.08)' }}
+          className="shrink-0 flex items-center gap-1 site-container py-1.5 overflow-x-auto"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
-          <span className="text-xs shrink-0 mr-1" style={{ color: 'rgba(0,0,0,0.4)' }}>CAM</span>
+          <span className="text-xs shrink-0 mr-1" style={{ color: 'rgba(255,255,255,0.4)' }}>CAM</span>
           {(['mike', 'sammy', 'ryan', 'tony'] as const).map(key => {
             const cfg = CREW_CONFIG[key];
             const feedSlug = key === 'mike' ? 'michael' : key;
@@ -1332,14 +1335,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     router.push(`/live/${feedSlug}`);
                   }
                 }}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-colors shrink-0"
+                className="flex items-center gap-1.5 px-3  rounded-lg text-xs font-bold  shrink-0"
                 style={{
-                  background: activeFeedId === key ? `${cfg.color}22` : 'transparent',
-                  border: activeFeedId === key ? `1px solid ${cfg.color}55` : '1px solid transparent',
-                  color: activeFeedId === key ? cfg.color : 'rgba(0,0,0,0.5)',
+
+                  color: activeFeedId === key ? cfg.color : 'rgba(255,255,255,0.6)',
                 }}
               >
-                <span>{cfg.badge}</span>
+                <span>{getInstrumentIcon(cfg.name, "w-3.5 h-3.5")}</span>
                 <span>{cfg.name}</span>
                 {isFeedLive && (
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_#dc2626]" style={{ background: '#dc2626' }} />
@@ -1363,15 +1365,15 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   isPublisher={false}
                 />
               ) : (
-                <div className="absolute inset-0 bg-gray-50 flex flex-col items-center justify-center border border-black/10">
-                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-black/25">
+                <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                       <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                       <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
                     </svg>
                   </div>
-                  <h3 className="text-black/40 font-bold tracking-widest uppercase text-sm mb-1">Stream Offline</h3>
-                  <p className="text-black/25 text-xs">Waiting for {activeFeedCrew.name} to go live...</p>
+                  <h3 className="text-white/80 font-bold tracking-widest uppercase text-sm mb-1">Stream Offline</h3>
+                  <p className="text-white/40 text-xs">Waiting for {activeFeedCrew.name} to go live...</p>
                 </div>
               )}
 
@@ -1463,7 +1465,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-ping shrink-0" />
                       <span className=" text-[var(--color-accent)] shrink-0">Now Playing:</span>
                       <span className="text-black truncate font-bold">{activeSong.title}</span>
-                      <span className=" text-[var(--color-accent)] shrink-0">🎵</span>
+                      <Music className="w-3.5 h-3.5 text-[var(--color-accent)] shrink-0" />
                     </div>
                   </div>
                 );
@@ -1487,7 +1489,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {raffleState.status === 'open' && (
                         <>
                           <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
-                            <span className="text-xl animate-pulse">🎰</span>
+                            <Ticket className="w-5 h-5 text-yellow-400 animate-pulse" />
                             <span className="font-black text-sm uppercase tracking-widest leading-tight mt-1">Live Raffle</span>
                             <span className="ml-auto px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded text-xs font-bold uppercase tracking-widest animate-pulse">OPEN</span>
                           </div>
@@ -1552,7 +1554,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'countdown' && (
                         <div className="py-8 text-center flex flex-col items-center gap-3">
-                          <span className="text-4xl">🎟️</span>
+                          <Ticket className="w-10 h-10 text-yellow-400" />
                           <p className="text-yellow-300 font-black text-sm uppercase tracking-wider">Drawing Coming Up!</p>
                           <p className="text-black/40 text-xs">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entries locked in</p>
                           {hasEnteredRaffle && (
@@ -1565,7 +1567,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                       {raffleState.status === 'drawing' && (
                         <div className="py-8 text-center flex flex-col items-center justify-center">
-                          <div className="text-5xl animate-spin mb-4">🎰</div>
+                          <Ticket className="w-10 h-10 text-yellow-400 animate-spin mb-4" />
                           <p className="text-purple-300 font-black text-sm uppercase tracking-widest animate-pulse">Drawing Winner...</p>
                         </div>
                       )}
@@ -1573,7 +1575,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       {raffleState.status === 'complete' && (
                         <div className="py-2">
                           <div className="flex items-center gap-2 text-purple-300 mb-4 pr-6">
-                            <span className="text-xl">🏆</span>
+                            <Trophy className="w-5 h-5 text-yellow-400" />
                             <span className="font-black text-sm uppercase tracking-widest">Raffle Winner</span>
                           </div>
                           <div className="space-y-2">
@@ -1770,9 +1772,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     <span className="text-sm font-black uppercase tracking-wider" style={{ color: '#f87171' }}>Moderation Dashboard</span>
                   </div>
                   <div className="flex items-center gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    <span>👁 {viewerCount.toLocaleString()}</span>
-                    <span style={{ color: bannedUsers.size > 0 ? '#f87171' : 'rgba(255,255,255,0.3)' }}>🚫 {bannedUsers.size}</span>
-                    <span style={{ color: mutedUsers.size > 0 ? '#c084fc' : 'rgba(255,255,255,0.3)' }}>🔇 {mutedUsers.size}</span>
+                    <span className="flex items-center gap-1"><Eye className="w-3.5 h-3.5 text-white/50" /> {viewerCount.toLocaleString()}</span>
+                    <span className="flex items-center gap-1" style={{ color: bannedUsers.size > 0 ? '#f87171' : 'rgba(255,255,255,0.3)' }}><Ban className="w-3.5 h-3.5" /> {bannedUsers.size}</span>
+                    <span className="flex items-center gap-1" style={{ color: mutedUsers.size > 0 ? '#c084fc' : 'rgba(255,255,255,0.3)' }}><VolumeX className="w-3.5 h-3.5" /> {mutedUsers.size}</span>
                   </div>
                 </div>
                 {/* Tabs */}
@@ -1804,13 +1806,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           : '1px solid transparent',
                       }}
                     >
-                      {tab === 'live' && `💬 Live${messages.filter(m => !m.isSystem).length > 0 ? ` (${messages.filter(m => !m.isSystem).length})` : ''}`}
-                      {tab === 'flagged' && `🚨 Flagged${flaggedMsgs.length > 0 ? ` (${flaggedMsgs.length})` : ''}`}
-                      {tab === 'merch' && `🛍 Merch${merchTimerActive ? ' ●' : ''}`}
-                      {tab === 'users' && '👥 Users'}
-                      {tab === 'log' && '📋 Log'}
-                      {tab === 'policy' && '📜 Policy'}
-                      {tab === 'stats' && '📊 Stats'}
+                      {tab === 'live' && <span className="inline-flex items-center gap-1"><MessageSquare className="w-3 h-3" /> Live{messages.filter(m => !m.isSystem).length > 0 ? ` (${messages.filter(m => !m.isSystem).length})` : ''}</span>}
+                      {tab === 'flagged' && <span className="inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Flagged{flaggedMsgs.length > 0 ? ` (${flaggedMsgs.length})` : ''}</span>}
+                      {tab === 'merch' && <span className="inline-flex items-center gap-1"><ShoppingBag className="w-3 h-3" /> Merch{merchTimerActive ? ' ●' : ''}</span>}
+                      {tab === 'users' && <span className="inline-flex items-center gap-1"><Users className="w-3 h-3" /> Users</span>}
+                      {tab === 'log' && <span className="inline-flex items-center gap-1"><ClipboardList className="w-3 h-3" /> Log</span>}
+                      {tab === 'policy' && <span className="inline-flex items-center gap-1"><ScrollText className="w-3 h-3" /> Policy</span>}
+                      {tab === 'stats' && <span className="inline-flex items-center gap-1"><BarChart3 className="w-3 h-3" /> Stats</span>}
                     </button>
                   ))}
                 </div>
@@ -1824,7 +1826,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <div className="flex flex-col h-full">
                     {messages.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <span className="text-4xl mb-3">💬</span>
+                        <MessageSquare className="w-8 h-8 text-black/30 mb-3" />
                         <p className="text-black/30 text-xs uppercase tracking-widest">Waiting for messages...</p>
                       </div>
                     ) : (
@@ -2002,7 +2004,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     })}
                     {FAN_ACCOUNTS.every(acc => messages.filter(m => m.account?.id === acc.id).length === 0) && (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <span className="text-4xl mb-3">👥</span>
+                        <Users className="w-8 h-8 text-black/30 mb-3" />
                         <p className="text-black/30 text-xs uppercase tracking-widest">Waiting for chat activity...</p>
                       </div>
                     )}
@@ -2014,7 +2016,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   <div className="p-3 space-y-1">
                     {modLog.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <span className="text-4xl mb-3">📋</span>
+                        <ClipboardList className="w-8 h-8 text-black/30 mb-3" />
                         <p className="text-black/30 text-xs uppercase tracking-widest">No actions taken yet</p>
                       </div>
                     ) : modLog.map(entry => (
@@ -2404,28 +2406,29 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             <div
               className="w-full lg:w-[360px] xl:w-[400px] flex-1 lg:flex-none flex flex-col min-h-0 overflow-hidden"
               style={{
-                background: '#ffffff',
-                borderLeft: '1px solid rgba(0,0,0,0.08)',
+                background: 'rgba(12, 7, 24, 0.65)',
+                backdropFilter: 'blur(16px)',
+                borderLeft: '1px solid rgba(255,255,255,0.08)',
               }}
             >
               {/* Chat header with Tab toggling */}
               <div
                 className="shrink-0 flex flex-col px-4 pt-3 pb-2"
-                style={{ borderBottom: '1px solid rgba(0,0,0,0.08)' }}
+                style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex gap-4">
                     <button aria-label="Action button"
                       onClick={() => setActiveSidebarTab('chat')}
-                      className={`text-sm font-black uppercase tracking-wider transition-colors ${activeSidebarTab === 'chat' ? 'text-black' : 'text-black/40 hover:text-black/70'}`}
+                      className={`text-sm font-black uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab === 'chat' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
                     >
-                      💬 Chat
+                      <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> Chat
                     </button>
                     <button aria-label="Action button"
                       onClick={() => setActiveSidebarTab('setlist')}
-                      className={`text-sm font-black uppercase tracking-wider transition-colors ${activeSidebarTab === 'setlist' ? 'text-black' : 'text-black/40 hover:text-black/70'}`}
+                      className={`text-sm font-black uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab === 'setlist' ? 'text-white' : 'text-white/40 hover:text-white/70'}`}
                     >
-                      🎵 Setlist
+                      <Music className="w-3.5 h-3.5 text-purple-400" /> Setlist
                     </button>
                   </div>
 
@@ -2435,7 +2438,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       <div
                         key={c.id}
                         title={`${c.displayName} is live`}
-                        className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ring-2 ring-white"
+                        className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ring-2 ring-white/20"
                         style={{ background: c.color, fontSize: 9 }}
                       >
                         {c.avatar}
@@ -2446,21 +2449,21 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               </div>
 
               {activeSidebarTab === 'setlist' ? (
-                <div className="flex-1 flex flex-col min-h-0 bg-gray-50">
+                <div className="flex-1 flex flex-col min-h-0 bg-[#07040d]">
                   {/* Sort Toggle header */}
-                  <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-black/10">
-                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-black/40">Sort View</span>
+                  <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-white/10">
+                    <span className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white/40">Sort View</span>
                     <div className="flex gap-1.5">
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('order')}
-                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'order' ? 'bg-gray-100text-black' : 'bg-transparent text-black/30 hover:text-black/60'
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'order' ? 'bg-white/10 text-white' : 'bg-transparent text-white/30 hover:text-white/60'
                           }`}
                       >
                         Setlist Order
                       </button>
                       <button aria-label="Action button"
                         onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-black/30 hover:text-black/60 border border-transparent'
+                        className={`px-2 py-1 rounded text-3xs font-black uppercase tracking-widest transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20  text-[var(--color-accent)] border border-[var(--color-accent)]/30' : 'bg-transparent text-white/30 hover:text-white/60 border border-transparent'
                           }`}
                       >
                         Most Liked
@@ -2483,29 +2486,24 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         return (
                           <div
                             key={song.id}
-                            className={`flex items-center justify-between p-3  border transition-colors ${song.isPlaying
-                              ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_15px_rgba(255,10,61,0.15)] animate-in fade-in duration-300'
-                              : 'bg-white/[0.02] border-black/10'
+                            className={`p-3 rounded-xl flex items-center justify-between gap-3 border transition-colors ${song.isPlaying
+                              ? 'bg-purple-950/40 border-purple-500/50 shadow-[0_0_15px_rgba(192,132,252,0.15)]'
+                              : 'bg-white/5 border-white/10 hover:border-white/20'
                               }`}
                           >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <span className={`text-sm shrink-0 ${song.isPlaying ? 'animate-pulse  text-[var(--color-accent)]' : 'text-black/25'}`}>
-                                {song.isPlaying ? '🔊' : '🎵'}
-                              </span>
-                              <div className="min-w-0">
-                                <p className={`text-xs font-bold truncate ${song.isPlaying ? ' text-[var(--color-accent)]' : 'text-black/90'}`}>
-                                  {song.title}
-                                </p>
-                                {song.isPlaying && (
-                                  <span className="inline-block text-[var(--font-size-4xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] mt-0.5 animate-pulse">
-                                    Now Playing
-                                  </span>
-                                )}
-                              </div>
+                            <div className="min-w-0 flex-1">
+                              <p className={`font-bold text-xs truncate ${song.isPlaying ? 'text-purple-300 font-black' : 'text-white/90'}`}>
+                                {song.title}
+                              </p>
+                              {song.isPlaying && (
+                                <span className="inline-block text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-300 mt-0.5 animate-pulse">
+                                  Now Playing
+                                </span>
+                              )}
                             </div>
 
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-black/40">
+                              <span className="text-[var(--font-size-2xs)] font-mono font-bold text-white/50">
                                 {song.likes}
                               </span>
                               <button aria-label="Action button"
@@ -2513,11 +2511,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                 disabled={hasLiked}
                                 className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked
                                   ? 'bg-red-500/10 text-red-500 cursor-not-allowed'
-                                  : 'bg-gray-50 border border-black/10 hover:border-black/15 text-black/50 hover:text-black hover:scale-105 active:scale-95'
+                                  : 'bg-white/10 border border-white/15 hover:border-white/25 text-white/70 hover:text-white hover:scale-105 active:scale-95'
                                   }`}
                                 title={hasLiked ? 'Already Liked!' : 'Like this song'}
                               >
-                                {hasLiked ? '❤️' : '🤍'}
+                                <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'text-red-500 fill-current' : 'text-white/60'}`} />
                               </button>
                             </div>
                           </div>
@@ -2544,7 +2542,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         50%      { background: rgba(239,68,68,0.13); }
                       }
                     `}</style>
-                      <span style={{ fontSize: 11 }}>🛡️</span>
+                      <Shield className="w-3.5 h-3.5 text-red-400 shrink-0" />
                       <span style={{ fontSize: 11, color: 'rgba(252,165,165,0.85)', fontWeight: 700, letterSpacing: '0.05em' }}>
                         MODERATOR IS MONITORING THIS CHAT
                       </span>
@@ -2564,7 +2562,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         borderBottom: '1px solid rgba(255,10,61,0.2)',
                       }}
                     >
-                      <span style={{ fontSize: 13, marginTop: 1 }}>📌</span>
+                      <Pin className="w-3.5 h-3.5 text-pink-400 shrink-0 mt-0.5" />
                       <div className="flex-1 min-w-0">
                         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.4 }}>
                           {pinnedMessage.text}
@@ -2586,8 +2584,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     >
                       {messages.length === 0 && (
                         <div className="flex flex-col items-center justify-center h-32 text-center">
-                          <span className="text-2xl mb-2">👋</span>
-                          <p className="text-black/25 text-xs uppercase tracking-widest">Stream is starting...</p>
+                          <Smile className="w-6 h-6 text-white/25 mb-2" />
+                          <p className="text-white/30 text-xs uppercase tracking-widest">Stream is starting...</p>
                         </div>
                       )}
 
@@ -2598,8 +2596,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                               <span
                                 className="px-3 py-1 rounded-full text-xs"
                                 style={{
-                                  background: 'rgba(0,0,0,0.04)',
-                                  color: 'rgba(0,0,0,0.5)',
+                                  background: 'rgba(255,255,255,0.08)',
+                                  color: 'rgba(255,255,255,0.7)',
                                   fontSize: 11,
                                 }}
                               >
@@ -2613,7 +2611,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         const isUser = msg.isUser;
                         const isFlagged = flaggedMsgs.some(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
                         const isBanned = msg.account && bannedUsers.has(msg.account.id);
-                        const flagEntry = flaggedMsgs.find(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
 
                         const initials = (msg.account?.displayName || 'FN').substring(0, 2).toUpperCase();
                         const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago' }) : '08:52 PM';
@@ -2624,42 +2621,42 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             className="msg-new flex items-start gap-2.5 py-1 px-1 mb-1.5 group"
                           >
                             {/* Avatar */}
-                            <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-cyan-600 text-white shadow-xs">
+                            <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-purple-600 text-white shadow-xs">
                               {initials}
                             </div>
 
                             <div className="flex-1 min-w-0">
                               {/* Header row */}
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <span className="text-xs font-extrabold !text-slate-900">
+                                <span className="text-xs font-extrabold text-white">
                                   {msg.account?.displayName || 'Fan'}
                                 </span>
 
-                                <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-emerald-800 bg-emerald-500/20 border-emerald-500/35">
+                                <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-emerald-300 bg-emerald-500/20 border-emerald-500/35">
                                   {isCrew ? 'CREW' : isUser ? 'YOU' : 'FAN'}
                                 </span>
 
                                 {showAdminPanel && isBanned && (
-                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-red-800 bg-red-500/20 border-red-500/35">
+                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-red-300 bg-red-500/20 border-red-500/35">
                                     🚫 BANNED
                                   </span>
                                 )}
                                 {showAdminPanel && isFlagged && !isBanned && (
-                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none  text-[var(--color-accent)] bg-purple-600/20 border-purple-500/35">
+                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-purple-300 bg-purple-600/20 border-purple-500/35">
                                     ⚩ FLAGGED
                                   </span>
                                 )}
 
-                                <span className="text-[10px] !text-gray-700 font-sans font-bold leading-none ml-auto tracking-tight">
+                                <span className="text-[10px] text-white/50 font-sans font-bold leading-none ml-auto tracking-tight">
                                   {timeStr}
                                 </span>
                               </div>
 
                               {/* Message bubble */}
                               <div
-                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm !text-white font-bold  rounded-tl-xs ${isCrew
-                                  ? 'bg-emerald-600 border-emerald-400/50'
-                                  : 'bg-cyan-500 border-cyan-400/50'
+                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm text-white font-bold rounded-tl-xs ${isCrew
+                                  ? 'bg-emerald-600/90 border-emerald-400/50'
+                                  : 'bg-purple-900/80 border-purple-500/40'
                                   }`}
                               >
                                 {msg.text}
@@ -2674,14 +2671,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                   {/* Chat input */}
                   <div
-                    className="shrink-0 p-3"
-                    style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}
+                    className="shrink-0 p-3 bg-[#0c0718]"
+                    style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
                   >
                     {/* Emoji picker */}
                     {showEmojiPicker && (
                       <div
-                        className="mb-2 p-2 flex flex-wrap gap-1"
-                        style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)' }}
+                        className="mb-2 p-2 flex flex-wrap gap-1 rounded-lg"
+                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
                       >
                         {CHAT_EMOJIS.map(em => (
                           <button aria-label="Previous"
@@ -2702,15 +2699,15 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* Blocked message warning */}
                     {blockedReason && (
                       <div
-                        className="flex items-center gap-2 mb-2 px-3 py-2 text-xs font-bold"
+                        className="flex items-center gap-2 mb-2 px-3 py-2 text-xs font-bold rounded-lg"
                         style={{
-                          background: 'rgba(239,68,68,0.12)',
+                          background: 'rgba(239,68,68,0.15)',
                           border: '1px solid rgba(239,68,68,0.35)',
                           color: '#fca5a5',
                           animation: 'slideInMsg 0.2s ease forwards',
                         }}
                       >
-                        <span className="shrink-0">⛔</span>
+                        <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
                         <span><strong>WARNING:</strong> {blockedReason}</span>
                       </div>
                     )}
@@ -2724,7 +2721,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
                         placeholder="Type a message... use @admin to ask a question"
                         maxLength={200}
-                        className="w-full !bg-white border border-black/15 pl-3.5 pr-28 py-2.5 text-xs !text-black font-medium outline-none focus:border-[var(--color-accent)] focus:!bg-white transition-colors placeholder:!text-black/50 shadow-sm"
+                        className="w-full bg-white/10 border border-white/20 pl-3.5 pr-28 py-2.5 text-xs text-white font-medium outline-none focus:border-[#c084fc] focus:bg-white/15 transition-colors placeholder:text-white/40 placeholder:text-[9px] shadow-sm rounded-lg"
                       />
                       <div className="absolute right-1.5 flex items-center gap-1">
                         <button aria-label="Action button"
@@ -3018,9 +3015,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <span className="text-[var(--font-size-3xs)] font-black px-2 py-0.5 rounded-full uppercase tracking-wider"
+                      <span className="text-[var(--font-size-3xs)] font-black px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1"
                         style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color }}>
-                        🛍️ LIVE DROP MERCH
+                        <ShoppingBag className="w-3.5 h-3.5 inline" /> LIVE DROP MERCH
                       </span>
                       <h3 className="text-lg font-black text-black uppercase tracking-wider mt-2 leading-tight">
                         {activeMerchDrop.product.name}
@@ -3043,23 +3040,23 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table'
+                            className={`py-2.5 px-3 border text-xs font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table'
                               ? 'bg-white text-black border-white'
                               : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
                               }`}
                           >
-                            <span>🛍️ Pickup</span>
+                            <span className="flex items-center gap-1"><ShoppingBag className="w-3.5 h-3.5 text-purple-600" /> Pickup</span>
                             <span className="text-[var(--font-size-4xs)] opacity-60 normal-case font-normal font-sans">Merch Table</span>
                           </button>
                           <button aria-label="Action button"
                             type="button"
                             onClick={() => setCheckoutDeliveryMethod('shipping')}
-                            className={`py-2.5 px-3  border text-xs font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping'
+                            className={`py-2.5 px-3 border text-xs font-bold uppercase transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping'
                               ? 'bg-white text-black border-white'
                               : 'bg-transparent text-black/60 border-black/10 hover:border-black/15'
                               }`}
                           >
-                            <span>📦 Ship Home</span>
+                            <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5 text-purple-600" /> Ship Home</span>
                             <span className="text-[var(--font-size-4xs)] opacity-60 normal-case font-normal font-sans">Standard Delivery</span>
                           </button>
                         </div>

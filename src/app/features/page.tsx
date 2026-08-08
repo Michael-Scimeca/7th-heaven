@@ -1348,7 +1348,7 @@ export default function FeaturesPage() {
   const highlights = FEATURES.filter(f => f.highlight);
 
   return (
-    <main className="min-h-screen bg-black text-white overflow-x-hidden">
+    <main className="min-h-screen   text-white overflow-x-hidden">
 
       {/* ═══ HERO ═══════════════════════════════════════ */}
       <section className="relative pt-40 pb-28 px-6 md:px-12 lg:px-20 overflow-hidden">

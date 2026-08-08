@@ -2,6 +2,7 @@
 import Image from 'next/image';
 
 import Link from "next/link";
+import { Smartphone, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { useState, useEffect, useCallback } from "react";
@@ -132,13 +133,13 @@ export function Footer() {
       <div className="site-container pt-0 pb-2" suppressHydrationWarning>
         <div className="max-w-lg" suppressHydrationWarning>
           <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
-            <span className="text-lg">📱</span>
+            <Smartphone className="w-5 h-5 text-[var(--color-accent)]" />
             <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-[var(--text-color)]">Text Alerts</h3>
           </div>
           <p className="text-base text-[var(--muted-text)] mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
           {smsStatus === 'success' ? (
             <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-              <span className="text-emerald-600 text-lg">✓</span>
+              <Check className="w-5 h-5 text-emerald-600" />
               <p className="text-sm font-bold text-emerald-600">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
             </div>
           ) : (
@@ -195,9 +196,9 @@ export function Footer() {
               <button aria-label="Action button"
                 type="submit"
                 disabled={smsStatus === 'sending'}
-                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap"
+                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
               >
-                {smsStatus === 'sending' ? '...' : '📱 Subscribe'}
+                {smsStatus === 'sending' ? '...' : <><Smartphone className="w-4 h-4" /> Subscribe</>}
               </button>
             </form>
           )}
@@ -213,10 +214,9 @@ export function Footer() {
           {endorsements.map((brand) => (
             <Image width={200} height={200} unoptimized
               key={brand.name}
-              src={brand.logoPath}
+              src={`${brand.logoPath}?v=3`}
               alt={brand.name}
-              className="h-6 md:h-7 w-auto object-contain transition-colors duration-300 hover:opacity-100 opacity-50 shrink-0"
-              style={{ filter: 'brightness(0)' }}
+              className="h-6 md:h-7 w-auto object-contain opacity-100 shrink-0"
               loading="lazy"
             />
           ))}

@@ -264,7 +264,7 @@ export default function PreloaderDemo() {
                       : "border-white/5 hover:border-white/10"
                     }`}
                 >
-                  <div className="relative w-full aspect-square bg-black mb-3 border border-white/5">
+                  <div className="relative w-full aspect-square   mb-3 border border-white/5">
                     <Image
                       src={`/images/loading-images/${f.idx}.png`}
                       alt={`Frame ${f.idx}`}

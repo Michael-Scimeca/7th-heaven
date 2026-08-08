@@ -41,8 +41,8 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               type="button"
               onClick={() => setActiveLayout(opt.id)}
               className={`px-3 py-1.5 text-xs font-black uppercase transition-colors cursor-pointer border ${activeLayout === opt.id
-                  ? "bg-cyan-500 text-black border-cyan-400 font-extrabold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
-                  : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
+                ? "bg-cyan-500 text-black border-cyan-400 font-extrabold shadow-[0_0_12px_rgba(6,182,212,0.4)]"
+                : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
             >
               {opt.name}
@@ -150,7 +150,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
       {/* ── 2D. Neon Line Divider ── */}
       {activeLayout === "2D" && (
-        <section className="relative py-16 md:py-24 overflow-hidden bg-black text-left">
+        <section className="relative py-16 md:py-24 overflow-hidden   text-left">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-cyan-500/30">
             {/* Left Column */}
             <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
@@ -164,7 +164,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             </div>
 
             {/* Right Column */}
-            <div className="lg:col-span-7 p-8 md:p-12 bg-black flex flex-col justify-center">
+            <div className="lg:col-span-7 p-8 md:p-12   flex flex-col justify-center">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xs font-mono text-cyan-300 font-bold uppercase">{featured.date}</span>
                 <span className="px-2.5 py-0.5 bg-[var(--color-accent)]/20  text-[var(--color-accent)] text-[var(--font-size-3xs)] font-bold uppercase">Featured</span>

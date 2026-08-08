@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { X, Music } from "lucide-react";
 import Link from "next/link";
 
 export interface PastShowItem {
@@ -183,11 +184,11 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             className="w-full pl-12 pr-10 py-3.5 bg-[var(--bg-color)] border border-[var(--border-color)] text-sm font-semibold text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)] transition-colors shadow-inner"
           />
           {searchQuery && (
-            <button aria-label="Search"
+            <button aria-label="Clear search"
               onClick={() => setSearchQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--muted-text)] hover:text-[var(--text-color)]"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--muted-text)] hover:text-[var(--text-color)] flex items-center gap-1"
             >
-              ✕ Clear
+              <X className="w-3.5 h-3.5" /> Clear
             </button>
           )}
         </div>
@@ -273,7 +274,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-12 text-center my-8">
-          <span className="text-4xl mb-4 block">🎸</span>
+          <Music className="w-10 h-10 text-cyan-400 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">No Past Shows Found</h3>
           <p className="text-sm text-[var(--muted-text)] max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.

@@ -180,32 +180,32 @@ export default async function Home() {
       )}
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
-      <section id="tour" className="bg-transparent py-[100px]">
+      <section id="tour" className="bg-transparent py-0">
         <TourList initialShows={upcomingShows} />
       </section>
 
       {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-hidden py-[100px]">
+      <section id="band" className="relative w-full bg-transparent overflow-hidden py-0">
         <BioParallaxSlider />
       </section>
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
-      <section id="music" className="relative w-full h-[calc(100dvh-90px)] my-[100px] overflow-hidden">
+      <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">
         <AudioPlayerSection />
       </section>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
-      <div className="py-[100px]">
+      <div className="">
         <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
       </div>
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <div className="py-[100px]">
+      <div className="">
         <HomeNewsSection />
       </div>
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <div className="py-[100px]">
+      <div className="">
         <HomeMerch />
       </div>
     </>

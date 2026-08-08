@@ -184,6 +184,7 @@ export default function CursorFollower() {
           const baseScale = (circlesRef.current.length - i) / circlesRef.current.length;
           const scale = baseScale * tailScale;
           c.el.style.transform = `translate3d(${x - circleSize / 2}px, ${y - circleSize / 2}px, 0) scale(${scale})`;
+          c.el.style.opacity = "1";
           c.x = x;
           c.y = y;
           const next = circlesRef.current[i + 1] || circlesRef.current[0];
@@ -276,6 +277,7 @@ export default function CursorFollower() {
           pointer-events: none;
           z-index: 2147483647;
           will-change: transform;
+          opacity: 0;
         }
         @keyframes cursorScaleIn {
           from { transform: scale(0.85); opacity: 0; }
@@ -283,8 +285,8 @@ export default function CursorFollower() {
         }
       `}} />
 
-      {/* SVG Liquid Gooey Filter Definition */}
-      <svg className="hidden absolute w-0 h-0 pointer-events-none" aria-hidden="true">
+      {/* SVG Liquid Gooey Filter Definition (use visibility:hidden instead of display:none to avoid GPU filter matrix artifacts) */}
+      <svg className="absolute w-0 h-0 pointer-events-none overflow-hidden" style={{ visibility: "hidden" }} aria-hidden="true">
         <defs>
           <filter id="cursor-gooey" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur in="SourceGraphic" stdDeviation={gooeyStrength} result="blur" />
@@ -331,265 +333,6 @@ export default function CursorFollower() {
             }}
           />
         ))}
-      </div>
-
-      {/* ── Settings Panel Button ── */}
-      <div className="fixed bottom-6 right-6 flex flex-col items-end gap-2" style={{ zIndex: 2147483646 }}>
-        {!panelOpen ? (
-          <button aria-label="Action button"
-            onClick={() => setPanelOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
-            title="Cursor Settings"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 animate-pulse" />
-            <span>Cursor Settings</span>
-          </button>
-        ) : (
-          <div
-            className="w-[320px] max-h-[85vh] overflow-y-auto bg-black/95 backdrop-blur-2xl border border-white/15 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col gap-4 select-none text-white scrollbar-thin"
-            style={{ animation: "cursorScaleIn 0.18s ease-out" }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <div>
-                <span className="text-xs font-black uppercase tracking-wider  text-[var(--color-accent)] block">Cursor Settings</span>
-                <span className="text-[9px] text-white/40 uppercase font-semibold">Customize your cursor trail</span>
-              </div>
-              <button aria-label="Action button"
-                onClick={() => setPanelOpen(false)}
-                className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors text-xs font-bold"
-              >✕</button>
-            </div>
-
-            {/* Gooey Effect Toggle */}
-            <div className="flex items-center justify-between p-2.5 bg-purple-900/20 border border-purple-500/30">
-              <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-wider text-purple-300">Liquid Gooey Mode 🧪</span>
-                <span className="text-[8px] text-white/50">Fuses trail circles into gooey liquid</span>
-              </div>
-              <button aria-label="Action button"
-                onClick={() => set<boolean>(setGooey, "gooey")(!gooey)}
-                className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer ${gooey ? "bg-purple-600 justify-end" : "bg-white/10 justify-start"
-                  }`}
-              >
-                <span className="w-4 h-4 rounded-full bg-white shadow-md transform transition-transform" />
-              </button>
-            </div>
-
-            {/* Gooey Fusion Strength Slider */}
-            {gooey && (
-              <SliderRow
-                label="Gooey Fusion"
-                value={gooeyStrength}
-                min={2} max={18} step={1}
-                display={`${gooeyStrength}`}
-                onChange={set<number>(setGooeyStrength, "gooeyStrength")}
-              />
-            )}
-
-            {/* Color Palette Presets */}
-            <div className="space-y-2">
-              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Color Palette</span>
-              <div className="grid grid-cols-4 gap-1.5">
-                {PRESET_NAMES.map(name => {
-                  const cols = name === "Custom" ? customColors : COLOR_PRESETS[name];
-                  const mid = cols?.[Math.floor((cols?.length ?? 0) / 2)] ?? "#a855f7";
-                  return (
-                    <button aria-label="Action button"
-                      key={name}
-                      onClick={() => set<string>(setPalette, "palette")(name)}
-                      className={`px-2 py-1.5 text-[9px] font-extrabold uppercase tracking-wider rounded-lg border transition-colors text-left truncate ${palette === name
-                        ? "border-purple-400 bg-purple-600/30 text-white"
-                        : "border-white/10 bg-white/5 hover:bg-purple-600/20 hover:border-purple-400 text-white/70"
-                        }`}
-                      style={{ borderLeftColor: mid, borderLeftWidth: 3 }}
-                    >
-                      {name}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* ── Per-Circle & Custom Color Builder ── */}
-              <div className="space-y-2 border border-white/10 p-3 bg-white/[0.02]">
-                <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-extrabold  text-[var(--color-accent)] uppercase tracking-wider block">
-                    Custom & Per-Circle Colors
-                  </span>
-                  <button aria-label="Action button"
-                    onClick={() => setShowPerCircleEdit(!showPerCircleEdit)}
-                    className="text-[9px] font-bold text-white/50 hover:text-purple-300 uppercase underline transition-colors"
-                  >
-                    {showPerCircleEdit ? "Hide Circle Breakdown" : "Edit Each Circle (" + numCircles + ")"}
-                  </button>
-                </div>
-
-                {/* Gradient Builder Tools */}
-                <div className="space-y-2 pt-1 border-t border-white/5">
-                  <span className="text-[8.5px] font-bold text-white/40 uppercase tracking-wider block">Quick Gradient Generator</span>
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <div className="flex items-center gap-1 bg-white/5 p-1 rounded-lg border border-white/10">
-                      <input aria-label="Input field"
-                        type="color"
-                        value={gradStart}
-                        onChange={e => setGradStart(e.target.value)}
-                        className="w-5 h-5 rounded cursor-pointer bg-transparent border-0"
-                        title="Start Color"
-                      />
-                      <span className="text-[9px] font-mono text-white/40">→</span>
-                      <input aria-label="Input field"
-                        type="color"
-                        value={gradEnd}
-                        onChange={e => setGradEnd(e.target.value)}
-                        className="w-5 h-5 rounded cursor-pointer bg-transparent border-0"
-                        title="End Color"
-                      />
-                    </div>
-
-                    <button aria-label="Action button"
-                      onClick={handleGenerateGradient}
-                      className="px-2 py-1.5 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors"
-                    >
-                      Fill
-                    </button>
-                    <button aria-label="Action button"
-                      onClick={handleGenerateRainbow}
-                      className="px-1.5 py-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors hover:scale-105"
-                      title="Generate Rainbow Spectrum"
-                    >
-                      🌈 Rainbow
-                    </button>
-                    <button aria-label="Action button"
-                      onClick={handleReverseColors}
-                      className="px-2 py-1.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-[8.5px] font-extrabold uppercase tracking-wider rounded-lg transition-colors"
-                      title="Reverse Color Trail Order"
-                    >
-                      ⇄ Reverse
-                    </button>
-                  </div>
-                </div>
-
-                {/* Individual Circle Breakdown (Show/Hide) */}
-                {showPerCircleEdit && (
-                  <div className="space-y-1.5 pt-2 border-t border-white/10 max-h-[180px] overflow-y-auto pr-1">
-                    <span className="text-[8.5px] font-extrabold text-white/50 uppercase tracking-wider block mb-1">
-                      Individual Circle Swatches (Circle #1 to #{numCircles})
-                    </span>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {Array.from({ length: numCircles }).map((_, i) => {
-                        const circleColor = colors[i % colors.length] || "#a855f7";
-                        const hexVal = circleColor.startsWith("#") ? circleColor : "#a855f7";
-                        return (
-                          <div
-                            key={i}
-                            className="flex items-center gap-1.5 px-2 py-1 bg-white/5 border border-white/10 rounded-lg hover:border-purple-400/50 transition-colors"
-                          >
-                            <input aria-label="Input field"
-                              type="color"
-                              value={hexVal}
-                              onChange={e => handleUpdateCircleColor(i, e.target.value)}
-                              className="w-4 h-4 rounded cursor-pointer border-0 bg-transparent shrink-0"
-                            />
-                            <div className="flex flex-col min-w-0">
-                              <span className="text-[8px] font-extrabold uppercase text-purple-300 leading-tight">
-                                #{i + 1} {i === 0 ? "(Head)" : i === numCircles - 1 ? "(Tail)" : ""}
-                              </span>
-                              <span className="text-[7.5px] font-mono text-white/50 truncate leading-tight">
-                                {circleColor}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Tail Length */}
-            <SliderRow
-              label="Tail Length"
-              value={numCircles}
-              min={3} max={40} step={1}
-              display={`${numCircles}`}
-              onChange={set<number>(setNumCircles, "numCircles")}
-            />
-
-            {/* Circle Size */}
-            <SliderRow
-              label="Circle Size"
-              value={circleSize}
-              min={4} max={60} step={1}
-              display={`${circleSize}px`}
-              onChange={set<number>(setCircleSize, "circleSize")}
-            />
-
-            {/* Tail Scale Factor */}
-            <SliderRow
-              label="Tail Size Scale"
-              value={tailScale}
-              min={0.2} max={1.5} step={0.05}
-              display={`${Math.round(tailScale * 100)}%`}
-              onChange={set<number>(setTailScale, "tailScale")}
-            />
-
-            {/* Blur */}
-            <SliderRow
-              label="Blur"
-              value={blur}
-              min={0} max={20} step={0.5}
-              display={`${blur}px`}
-              onChange={set<number>(setBlur, "blur")}
-            />
-
-            {/* Glow */}
-            <SliderRow
-              label="Glow"
-              value={glow}
-              min={0} max={40} step={1}
-              display={`${glow}px`}
-              onChange={set<number>(setGlow, "glow")}
-            />
-
-            {/* Speed */}
-            <SliderRow
-              label="Trail Speed"
-              value={speed}
-              min={0.02} max={0.5} step={0.01}
-              display={speed.toFixed(2)}
-              onChange={set<number>(setSpeed, "speed")}
-            />
-
-            {/* Opacity */}
-            <SliderRow
-              label="Opacity"
-              value={opacity}
-              min={0.1} max={1} step={0.05}
-              display={`${Math.round(opacity * 100)}%`}
-              onChange={set<number>(setOpacity, "opacity")}
-            />
-
-            {/* Reset */}
-            <button aria-label="Action button"
-              onClick={() => {
-                set<number>(setNumCircles, "numCircles")(DEFAULTS.numCircles);
-                set<number>(setCircleSize, "circleSize")(DEFAULTS.circleSize);
-                set<number>(setBlur, "blur")(DEFAULTS.blur);
-                set<number>(setGlow, "glow")(DEFAULTS.glow);
-                set<number>(setSpeed, "speed")(DEFAULTS.speed);
-                set<number>(setOpacity, "opacity")(DEFAULTS.opacity);
-                set<number>(setTailScale, "tailScale")(DEFAULTS.tailScale);
-                set<boolean>(setGooey, "gooey")(DEFAULTS.gooey);
-                set<number>(setGooeyStrength, "gooeyStrength")(DEFAULTS.gooeyStrength);
-                set<string>(setPalette, "palette")(DEFAULTS.palette);
-              }}
-              className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white/60 hover:text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors cursor-pointer"
-            >
-              Reset to Defaults
-            </button>
-          </div>
-        )}
       </div>
     </>
   );

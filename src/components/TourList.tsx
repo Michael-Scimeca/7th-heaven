@@ -4,6 +4,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
+import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail } from "lucide-react";
 import { SanityTourDate } from "@/lib/sanity";
 import "leaflet/dist/leaflet.css";
 import TourMap from "./TourMap";
@@ -200,7 +201,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg pl-4 pr-8 py-2.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--text-color)] cursor-pointer transition-colors duration-200 focus:outline-none";
+const selectClass = "appearance-none bg-transparent border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.55rem] font-bold uppercase tracking-wider text-white cursor-pointer transition-all duration-200 focus:outline-none";
 const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -278,6 +279,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(null);
   const [hoveredRowIdx, setHoveredRowIdx] = useState<number | null>(null);
   const [isSortBarStuck, setIsSortBarStuck] = useState(false);
+  const [sortBarOpacity, setSortBarOpacity] = useState(1);
 
   // Subscribed show IDs for custom specific notifications
   const [subscribedShowIds, setSubscribedShowIds] = useState<string[]>([]);
@@ -671,7 +673,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         return `In ${minutes}m ${seconds}s`;
       }
     } else if (nowTime <= startTime + 4 * 60 * 60 * 1000) {
-      return "🎸 Live Now";
+      return "Live Now";
     } else {
       return "Show Over";
     }
@@ -721,25 +723,79 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const tableRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // Detect when sticky sort bar locks in — activate glassmorphic blur immediately on scroll
+  const isStuckRef = useRef(false);
+
+  // Detect when sticky sort bar locks in — 200px scroll window fade from 1 to 0 before reaching container bottom end (at containerBottom = 130)
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId: number | null = null;
+
+    const updateScroll = () => {
+      rafId = null;
       const sortBar = document.getElementById("tour-sort-bar");
-      if (!sortBar) return;
-      const rect = sortBar.getBoundingClientRect();
-      const stuck = rect.top <= 92;
-      setIsSortBarStuck(stuck);
-      if (stuck) {
+      const container = tableRef.current || document.getElementById("tour-table-container");
+      const sentinel = sentinelRef.current;
+      if (!sortBar || !container) return;
+
+      const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
+      const containerBottom = container.getBoundingClientRect().bottom;
+
+      const isAboveSentinel = sentinelTop <= 92;
+      const stuck = isAboveSentinel && containerBottom > 130;
+
+      let opacity = 1;
+      if (isAboveSentinel) {
+        if (containerBottom <= 130) {
+          opacity = 0;
+        } else if (containerBottom < 330) {
+          // 200px fade-out window: containerBottom goes from 330 (100% opacity) down to 130 (0% opacity)
+          opacity = Math.max(0, Math.min(1, (containerBottom - 130) / 200));
+        }
+      }
+
+      // Direct DOM manipulation for opacity and pointerEvents — bypasses React re-render completely during scroll!
+      const finalOpacity = stuck ? opacity : 1;
+      sortBar.style.opacity = String(finalOpacity);
+      sortBar.style.pointerEvents = (!stuck || finalOpacity > 0.05) ? 'auto' : 'none';
+
+      // Synchronize bottom tour date rows fade out with sort bar as table container reaches bottom end
+      const rowsContainer = document.getElementById("tour-rows-container");
+      if (rowsContainer) {
+        if (isAboveSentinel && containerBottom < 330) {
+          const rowsOpacity = Math.max(0, Math.min(1, (containerBottom - 130) / 200));
+          rowsContainer.style.opacity = String(rowsOpacity);
+          rowsContainer.style.transition = 'opacity 0.05s linear';
+        } else {
+          rowsContainer.style.opacity = '1';
+        }
+      }
+
+      // Only trigger React state update if stuck boolean state actually changed
+      if (isStuckRef.current !== stuck) {
+        isStuckRef.current = stuck;
+        setIsSortBarStuck(stuck);
+      }
+
+      if (isAboveSentinel && containerBottom > 100) {
         document.documentElement.classList.add('tour-sort-stuck');
       } else {
         document.documentElement.classList.remove('tour-sort-stuck');
       }
     };
 
+    const handleScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(updateScroll);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    window.addEventListener("resize", handleScroll, { passive: true });
+    updateScroll();
+
     return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
       document.documentElement.classList.remove('tour-sort-stuck');
     };
   }, []);
@@ -950,6 +1006,13 @@ ${filterLine}
         font-size: ${tourFontSize} !important;
         font-family: ${tourFontFamily} !important;
       }
+      #tour-sort-bar,
+      #tour-sort-bar span,
+      #tour-sort-bar select,
+      #tour-sort-bar input,
+      #tour-sort-bar option {
+        font-size: calc(${tourFontSize} - 4px) !important;
+      }
       #tour-table-container .tour-row-item {
         padding-top: ${tourRowPadding} !important;
         padding-bottom: ${tourRowPadding} !important;
@@ -967,24 +1030,16 @@ ${filterLine}
     `}} />
 
       {/* Table */}
-      <section className="pt-0 pb-12 relative" ref={tableRef} id="tour-table-container">
-        <div className="w-full px-4 sm:px-8 md:px-12 relative z-10">
+      <section className="py-0 relative" ref={tableRef} id="tour-table-container">
+        <div className="w-full px-6 relative">
 
           {!hideMap && (
             <div
-              className="mt-2 mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden isolate"
+              className="mt-0 mb-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]   overflow-hidden isolate"
               style={{
                 transform: 'translateZ(0)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
-                ...(mapMaskEnabled
-                  ? {
-                      WebkitMaskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%), linear-gradient(to right, transparent 0px, black ${mapMaskLeft}px, black calc(100% - ${mapMaskRight}px), transparent 100%)`,
-                      WebkitMaskComposite: 'source-in',
-                      maskImage: `linear-gradient(to bottom, transparent 0px, black ${mapMaskTop}px, black calc(100% - ${mapMaskBottom}px), transparent 100%), linear-gradient(to right, transparent 0px, black ${mapMaskLeft}px, black calc(100% - ${mapMaskRight}px), transparent 100%)`,
-                      maskComposite: 'intersect',
-                    }
-                  : {}),
               }}
             >
               <TourMap shows={hasActiveFilters ? filtered : activeShowsByTime} nextShowVenue={upNext?.venue} nextShowCity={upNext?.city} onPinClick={handleMapPinClick} />
@@ -1007,37 +1062,37 @@ ${filterLine}
                     </div>
 
                     {/* Venue name */}
-                    <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-black text-black leading-[1] mb-4 uppercase whitespace-nowrap">
+                    <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-black text-white leading-[1] mb-4 uppercase whitespace-nowrap">
                       {upNext.venue}
                     </h3>
 
                     {/* Date + Location + Time */}
-                    <div className="flex items-center gap-2 text-[0.85rem] text-black/80 font-bold">
+                    <div className="flex items-center gap-2 text-[0.85rem] text-white/90 font-bold">
                       <span>
                         {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
                       </span>
                       {upNext.city && (
                         <>
-                          <span className="text-black/30">·</span>
+                          <span className="text-white/40">·</span>
                           <span>{upNext.city}{upNext.state ? `, ${upNext.state}` : ""}</span>
                         </>
                       )}
                       {upNext.playTime ? (
                         <>
-                          <span className="text-black/30">·</span>
-                          <span className="text-rose-600 font-extrabold">Plays: {upNext.playTime}</span>
+                          <span className="text-white/40">·</span>
+                          <span className="text-rose-400 font-extrabold">Plays: {upNext.playTime}</span>
                           {upNext.time && (
                             <>
-                              <span className="text-black/30">·</span>
-                              <span className="text-black/50">Event: {upNext.time}</span>
+                              <span className="text-white/40">·</span>
+                              <span className="text-white/70">Event: {upNext.time}</span>
                             </>
                           )}
                         </>
                       ) : (
                         upNext.time && (
                           <>
-                            <span className="text-black/30">·</span>
-                            <span className="text-black/60">{upNext.time}</span>
+                            <span className="text-white/40">·</span>
+                            <span className="text-white/80">{upNext.time}</span>
                           </>
                         )
                       )}
@@ -1106,7 +1161,7 @@ ${filterLine}
                   onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
                   className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
                 >
-                  ➕ Add Show
+                  <Plus className="w-3.5 h-3.5" /> Add Show
                 </button>
               )}
 
@@ -1121,8 +1176,8 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-4 sm:-ml-8 md:-ml-12 px-4 sm:px-8 md:px-12 bg-transparent backdrop-blur-xl border-b border-white/15' : 'w-full bg-transparent border-b border-transparent'} items-center text-white transition-all duration-300`}>
-            <span className="text-[0.85rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-[100] hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-6 px-6 bg-transparent border-0' : 'w-full bg-transparent border-0'} items-center text-white`}>
+            <span className="text-[0.6rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <select aria-label="Select option" value={activeMonth} onChange={(e) => setActiveMonth(e.target.value)} className={`${selectClass} w-full ${activeMonth !== "All" ? activeSelect : ""}`} id="tour-filter-month">
                 <option value="All">Month</option>
@@ -1130,10 +1185,12 @@ ${filterLine}
               </select>
               <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </div>
-            <div className="relative">
-              <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--placeholder-color)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg pl-8 pr-7 py-2 text-[0.8rem] text-[var(--text-color)] placeholder:text-[var(--placeholder-color)] focus:outline-none focus:border-[var(--color-accent)] transition-colors font-semibold" id="tour-search" />
-              {searchQuery && (<button aria-label="Search" onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-[var(--text-color)] text-[0.6rem] cursor-pointer">✕</button>)}
+            <div className="relative flex items-center">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[0.6rem] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+              {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[0.6rem] cursor-pointer z-10"><X className="w-3 h-3" /></button>)}
             </div>
             <div className="relative">
               <select aria-label="Select option" value={activeCity} onChange={(e) => setActiveCity(e.target.value)} className={`${selectClass} w-full ${activeCity !== "All" ? activeSelect : ""}`} id="tour-filter-city">
@@ -1142,10 +1199,10 @@ ${filterLine}
               </select>
               <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-text)] pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </div>
-            <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+            <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-            <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-            <span className="text-[0.95rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+            <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+            <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
             {member?.role === 'admin' && (
               <div className="text-right" />
             )}
@@ -1175,20 +1232,20 @@ ${filterLine}
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-black transition-colors duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-white transition-colors duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="font-[var(--font-heading)] font-extrabold text-sm uppercase  text-[var(--color-accent)]">{show.day}</span>
-                    <span className="text-black font-bold text-base">{show.date}</span>
-                    <span className="font-black text-black text-base">{show.venue}</span>
-                    <span className="text-black/80 font-medium text-sm">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="text-white font-bold text-base">{show.date}</span>
+                    <span className="font-black text-white text-base">{show.venue}</span>
+                    <span className="text-white/80 font-medium text-sm">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
-                          {show.doorsTime && <span className="text-black/50 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
-                          {show.playTime && <span className="text-rose-600 font-extrabold text-[0.8rem] whitespace-nowrap">Show: {show.playTime}</span>}
-                          {show.time && (show.doorsTime || show.playTime) && <span className="text-black/60 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Event: {show.time}</span>}
-                          {!show.doorsTime && !show.playTime && show.time && <span className="text-black font-bold whitespace-nowrap">{show.time}</span>}
+                          {show.doorsTime && <span className="text-white/60 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
+                          {show.playTime && <span className="text-rose-400 font-extrabold text-[0.8rem] whitespace-nowrap">Show: {show.playTime}</span>}
+                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Event: {show.time}</span>}
+                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold whitespace-nowrap">{show.time}</span>}
                         </div>
                       ) : null}
                       {isShowToday(show) && (
@@ -1213,13 +1270,9 @@ ${filterLine}
                               {subscribingId === show._id ? (
                                 <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                               ) : subscribedShowIdsSet.has(show._id) ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                                </svg>
+                                <Bell className="w-3.5 h-3.5" />
                               ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
+                                <Bell className="w-3.5 h-3.5" />
                               )}
                             </button>
                           )}
@@ -1230,14 +1283,14 @@ ${filterLine}
                               const cfg = typeConfig[showType] || typeConfig.full;
                               return (
                                 <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ color: cfg.color }} className="flex items-center justify-center p-1 text-black hover:opacity-75 transition-opacity">
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+                                  <MapPin className="w-5.5 h-5.5" />
                                 </a>
                               );
                             })() : null}
                           </div>
                           <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-black/80 hover:text-black transition-colors cursor-pointer bg-transparent border-none">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-5.5 h-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-white/80 hover:text-white transition-colors cursor-pointer bg-transparent border-none">
+                              <CalendarDays className="w-5.5 h-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
                               <div className="absolute right-0 mt-2 bg-white border border-black/15 py-1.5 shadow-xl z-50 min-w-[150px] text-black">
@@ -1251,13 +1304,13 @@ ${filterLine}
                                   }}
                                   className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                                 >
-                                  💬 SMS / Text Alerts
+                                  <MessageSquare className="w-3.5 h-3.5 text-purple-600" /> SMS / Text Alerts
                                 </button>
                                 <button aria-label="Action button"
                                   onClick={() => { setActiveCalDropdownId(null); handlePrintTourList(); }}
                                   className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-black/80 hover:text-black hover:bg-gray-100 transition-colors text-left w-full border-t border-black/10 mt-1 pt-2 cursor-pointer font-sans"
                                 >
-                                  🖨️ Print Tour List
+                                  <Printer className="w-3.5 h-3.5 text-purple-600" /> Print Tour List
                                 </button>
                               </div>
                             )}
@@ -1309,26 +1362,26 @@ ${filterLine}
                   >
 
                     {/* Header Row: Date & Time */}
-                    <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                       <div className="flex items-baseline gap-2">
                         <span className="font-[var(--font-heading)] font-bold text-xs uppercase  text-[var(--color-accent)]">{show.day}</span>
-                        <span className="text-black font-bold text-base">{show.date}</span>
+                        <span className="text-white font-bold text-base">{show.date}</span>
                       </div>
                       <div className="flex flex-col items-end gap-1">
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex flex-col items-end gap-0.5">
                             {show.doorsTime && (
-                              <span className="text-black/50 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-black/5 border border-black/10 rounded whitespace-nowrap">
+                              <span className="text-white/60 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-rose-600 text-xs font-extrabold px-2 py-0.5 bg-rose-500/8 border border-rose-500/15 rounded whitespace-nowrap">
+                              <span className="text-rose-400 text-xs font-extrabold px-2 py-0.5 bg-rose-500/15 border border-rose-500/25 rounded whitespace-nowrap">
                                 Show: {show.playTime}
                               </span>
                             )}
                             {show.time && (
-                              <span className="text-black/70 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-black/5 border border-black/10 rounded whitespace-nowrap">
+                              <span className="text-white/80 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
                                 {show.playTime ? `Event: ${show.time}` : show.time}
                               </span>
                             )}
@@ -1344,9 +1397,9 @@ ${filterLine}
 
                     {/* Details: Venue & Location */}
                     <div>
-                      <h4 className="text-lg font-black text-black leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                      <h4 className="text-lg font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {show.city && (
-                        <p className="text-xs text-black/60 flex items-center gap-1 mt-1 font-semibold">
+                        <p className="text-xs text-white/70 flex items-center gap-1 mt-1 font-semibold">
                           {show.city}{show.state ? `, ${show.state}` : ""}
                         </p>
                       )}
@@ -1387,7 +1440,7 @@ ${filterLine}
                           const cfg = typeConfig[showType] || typeConfig.full;
                           return (
                             <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-colors duration-300 shrink-0">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+                              <MapPin className="w-4 h-4" />
                             </a>
                           );
                         })()}
@@ -1405,13 +1458,9 @@ ${filterLine}
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
                             ) : subscribedShowIdsSet.has(show._id) ? (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-                              </svg>
+                              <Bell className="w-4 h-4" />
                             ) : (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                              </svg>
+                              <Bell className="w-4 h-4" />
                             )}
                           </button>
                         )}
@@ -1420,7 +1469,7 @@ ${filterLine}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
                             <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-colors duration-300 cursor-pointer">
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                              <CalendarDays className="w-4 h-4" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
                               <div className="absolute left-0 mt-2 bg-[var(--color-bg-deep)] border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">
@@ -1434,7 +1483,7 @@ ${filterLine}
                                   }}
                                   className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white hover:bg-[var(--color-accent)]/20 transition-colors text-left w-full border-t border-white/5 mt-1 pt-2 cursor-pointer font-sans"
                                 >
-                                  💬 SMS / Text Alerts
+                                  <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> SMS / Text Alerts
                                 </button>
                               </div>
                             )}
@@ -1456,7 +1505,7 @@ ${filterLine}
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
                               className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-colors rounded-md text-center"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
+                              <MapPin className="w-3.5 h-3.5 shrink-0" />
                               Directions{show.notes ? ' & Parking' : ''}
                             </a>
                           );
@@ -1467,8 +1516,8 @@ ${filterLine}
                     {/* Admin Actions */}
                     {member?.role === 'admin' && show._id && (
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <button aria-label="Action button" onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Edit</button>
-                        <button aria-label="Action button" onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer">Del</button>
+                        <button aria-label="Action button" onClick={() => handleEditClick(show)} className="px-2 h-9 bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer"><Edit className="w-3.5 h-3.5 inline mr-1" /> Edit</button>
+                        <button aria-label="Action button" onClick={() => handleDeleteShow(show._id)} className="px-2 h-9 bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer"><X className="w-3.5 h-3.5 inline mr-1" /> Del</button>
                       </div>
                     )}
                   </div>
@@ -1497,11 +1546,10 @@ ${filterLine}
             <div className="p-6 md:p-8 text-left">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                  <span>{editingShow ? "✏️ Edit Show Date" : "➕ Add New Show Date"}</span>
+                  <span className="flex items-center gap-1.5">{editingShow ? <><Edit className="w-5 h-5" /> Edit Show Date</> : <><Plus className="w-5 h-5" /> Add New Show Date</>}</span>
                 </h3>
                 <button aria-label="Action button"
                   onClick={() => setIsModalOpen(false)}
-                  className="text-white/40 hover:text-white transition-colors cursor-pointer text-sm"
                 >
                   ✕ Close
                 </button>
@@ -1686,7 +1734,7 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-white/80">🎤 This specific show</p>
+                    <p className="text-xs font-bold text-white/80 flex items-center gap-1.5"><Mic className="w-3.5 h-3.5 text-cyan-400" /> This specific show</p>
                     <p className="text-[var(--font-size-3xs)] text-white/30">Reminders & updates for {notifyPopupShow.venue}</p>
                   </div>
                 </button>
@@ -1706,7 +1754,7 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-white/80">📍 Shows near me</p>
+                    <p className="text-xs font-bold text-white/80 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-cyan-400" /> Shows near me</p>
                     <p className="text-[var(--font-size-3xs)] text-white/30">Get emailed when we book near your area</p>
                   </div>
                 </button>
@@ -1726,7 +1774,7 @@ ${filterLine}
                       }`} />
                   </span>
                   <div className="text-left">
-                    <p className="text-xs font-bold text-white/80">📧 Newsletter & exclusives</p>
+                    <p className="text-xs font-bold text-white/80 flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-cyan-400" /> Newsletter & exclusives</p>
                     <p className="text-[var(--font-size-3xs)] text-white/30">News, drops & merch updates</p>
                   </div>
                 </button>
@@ -1748,27 +1796,15 @@ ${filterLine}
                 <button aria-label="Action button"
                   onClick={handleNotifyConfirm}
                   disabled={!notifyPrefs.thisShow && !notifyPrefs.proximity && !notifyPrefs.newsletter}
-                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                  className="flex-1 py-2.5 bg-[var(--color-accent)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-40 shadow-[0_0_15px_rgba(255,10,61,0.3)] flex items-center justify-center gap-1.5"
                 >
-                  {subscribingId ? 'Saving...' : 'Enable Alerts 🔔'}
+                  {subscribingId ? 'Saving...' : <><Bell className="w-3.5 h-3.5" /> Enable Alerts</>}
                 </button>
               </div>
             </div>
           </div>
         </div>
       )}
-      {/* ── Table Style Button ── */}
-      {!isFontCustomizerOpen && (
-        <button aria-label="Action button"
-          onClick={() => setIsFontCustomizerOpen(true)}
-          className="fixed bottom-[60px] right-6 z-[9999] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none"
-          title="Table Font & Style Settings"
-        >
-          <span className="text-[11px]">Aa</span>
-          <span>Table Style</span>
-        </button>
-      )}
-
       {/* ── Font Customizer Modal/Panel ── */}
       {isFontCustomizerOpen && (
         <div className="fixed right-6 bottom-6 z-50 p-0 pointer-events-none">

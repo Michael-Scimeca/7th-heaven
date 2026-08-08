@@ -75,7 +75,7 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
   }
 
   const urgency = Math.max(0, Math.min(1, 1 - timeLeft.totalDays / 14));
-  const numberColor = urgency > 0.5 ? '#9333ea' : '#000000';
+  const numberColor = urgency > 0.5 ? '#a855f7' : '#ffffff';
 
   const units = [
    { label: "Days", value: timeLeft.days },
@@ -91,13 +91,13 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
       <div className={`flex flex-col items-center ${compact ? 'px-2 py-1 min-w-[44px]' : 'px-3 py-2 min-w-[64px]'}`}>
        <span
         className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-[23px] sm:text-[25px] font-black' : 'text-[53px] md:text-[3.9rem]'}`}
-        style={{ color: numberColor === '#000000' && compact ? '#a855f7' : numberColor }}
+        style={{ color: numberColor }}
        >
         {String(u.value).padStart(2, "0")}
        </span>
-       <span className={`uppercase tracking-wider ${compact ? 'text-[12px] sm:text-[13px] font-extrabold text-white/70 mt-1 tracking-widest' : 'text-[var(--font-size-3xs)] font-extrabold text-black/50 mt-1.5 tracking-widest'}`}>{u.label}</span>
+       <span className={`uppercase tracking-wider ${compact ? 'text-[12px] sm:text-[13px] font-extrabold text-white/70 mt-1 tracking-widest' : 'text-[var(--font-size-3xs)] font-extrabold text-white/60 mt-1.5 tracking-widest'}`}>{u.label}</span>
       </div>
-      {i < 3 && <span className={`text-white/30 font-bold ${compact ? 'text-lg' : 'text-4xl'}`}>:</span>}
+      {i < 3 && <span className={`text-white/40 font-bold ${compact ? 'text-lg' : 'text-4xl'}`}>:</span>}
      </div>
     ))}
    </div>

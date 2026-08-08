@@ -203,7 +203,7 @@ export default function ProximityPanel() {
               className="w-full bg-white/5 border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
             >
               {RADIUS_OPTIONS.map(r => (
-                <option key={r} value={r} className="bg-[#0f051d] text-white">{r} miles</option>
+                <option key={r} value={r} className="    text-white">{r} miles</option>
               ))}
             </select>
           </div>

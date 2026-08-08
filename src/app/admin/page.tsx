@@ -68,7 +68,7 @@ export default function AdminGatewayPage() {
   // If logged in as admin, show loading while redirect takes place
   if (isLoggedIn && member?.role === 'admin') {
     return (
-      <div className="fixed inset-0 h-screen w-screen bg-[#030305] text-white flex items-center justify-center">
+      <div className="fixed inset-0 h-screen w-screen   text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 rounded-full border-4 border-purple-500 border-t-transparent animate-spin mx-auto mb-4" />
           <p className="text-xs uppercase tracking-widest text-white/40 font-bold">Redirecting to dashboard...</p>
@@ -80,7 +80,7 @@ export default function AdminGatewayPage() {
   const isWrongRole = isLoggedIn && member?.role !== 'admin';
 
   return (
-    <div className="fixed inset-0 h-screen w-screen bg-[#030305] text-white flex items-center justify-center px-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="fixed inset-0 h-screen w-screen   text-white flex items-center justify-center px-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
       <style jsx global>{`
         html, body {
           overflow: hidden !important;

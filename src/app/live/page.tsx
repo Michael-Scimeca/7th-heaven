@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, ScrollText, AlertTriangle, Smartphone, Bell } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -15,7 +16,7 @@ interface LiveRoom {
   creationTime: number;
   color: string;
   gradient: string;
-  emoji: string;
+  Icon: React.ElementType;
   member: string;
 }
 
@@ -178,10 +179,10 @@ const getElapsed = (creationTime: number) => {
 const getDemoRooms = (): LiveRoom[] => {
   const now = Math.floor(Date.now() / 1000);
   return [
-    { name: "live_michael", title: "🎸 Mike S — Backstage Cam",     numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", emoji: "🎸", member: "MS" },
-    { name: "live_ryan",    title: "🎹 Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: now - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", emoji: "🎹", member: "RK" },
-    { name: "live_sammy",   title: "🥁 Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: now - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", emoji: "🥁", member: "SD" },
-    { name: "live_tony",    title: "🎤 Tony M — Vocal Check",        numParticipants: 18,   creationTime: now - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", emoji: "🎤", member: "TM" },
+    { name: "live_michael", title: "Mike S — Backstage Cam",     numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", Icon: Guitar, member: "MS" },
+    { name: "live_ryan",    title: "Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: now - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", Icon: Piano, member: "RK" },
+    { name: "live_sammy",   title: "Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: now - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", Icon: Drum, member: "SD" },
+    { name: "live_tony",    title: "Tony M — Vocal Check",        numParticipants: 18,   creationTime: now - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", Icon: Mic, member: "TM" },
   ];
 };
 
@@ -245,12 +246,12 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[88px] pb-24 w-full" style={{ background: "var(--color-bg-primary)" }}>
+    <section className="min-h-screen pt-[88px] pb-24 w-full bg-transparent">
       <div className="w-full px-0">
 
 
         {/* ── HEADER ── */}
-        <div className="w-full px-6 md:px-12 pt-[21px] mb-10">
+        <div className="site-container pt-[21px] mb-10">
 
           {/* Title row */}
           <div className="text-left mb-10">
@@ -276,10 +277,10 @@ export default function LiveHubPage() {
                 <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
               <div className="flex items-center gap-4 text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-                <span>👁 {totalViewers.toLocaleString()} watching</span>
-                <span style={{ color: bannedUsers.size > 0 ? "#f87171" : undefined }}>🚫 {bannedUsers.size} banned</span>
-                <span style={{ color: mutedUsers.size > 0 ? "#c084fc" : undefined }}>🔇 {mutedUsers.size} muted</span>
-                {flaggedCount > 0 && <span style={{ color: "#fca5a5" }}>🚨 {flaggedCount} flagged</span>}
+                <span className="flex items-center gap-1"><Eye className="w-3.5 h-3.5 text-white/50" /> {totalViewers.toLocaleString()} watching</span>
+                <span className="flex items-center gap-1" style={{ color: bannedUsers.size > 0 ? "#f87171" : undefined }}><Ban className="w-3.5 h-3.5" /> {bannedUsers.size} banned</span>
+                <span className="flex items-center gap-1" style={{ color: mutedUsers.size > 0 ? "#c084fc" : undefined }}><VolumeX className="w-3.5 h-3.5" /> {mutedUsers.size} muted</span>
+                {flaggedCount > 0 && <span className="flex items-center gap-1" style={{ color: "#fca5a5" }}><Siren className="w-3.5 h-3.5" /> {flaggedCount} flagged</span>}
               </div>
             </div>
 
@@ -294,9 +295,9 @@ export default function LiveHubPage() {
                     borderBottom: adminTab === tab ? "2px solid #a855f7" : "2px solid transparent",
                   }}
                 >
-                  {tab === "streams" && `📡 Streams (${rooms.length})`}
-                  {tab === "users" && `👥 Chat Users`}
-                  {tab === "policy" && `📜 Policy`}
+                  {tab === "streams" && <span className="flex items-center gap-1.5"><Radio className="w-3.5 h-3.5 inline" /> Streams ({rooms.length})</span>}
+                  {tab === "users" && <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5 inline" /> Chat Users</span>}
+                  {tab === "policy" && <span className="flex items-center gap-1.5"><ScrollText className="w-3.5 h-3.5 inline" /> Policy</span>}
                 </button>
               ))}
             </div>
@@ -523,10 +524,10 @@ export default function LiveHubPage() {
 
         {/* ── SMS ALERTS BANNER (FRAMELESS) ── */}
         {liveAlertsEnabled && (
-          <div className="px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
+          <div className="site-container mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 mb-4">
-                <span className="text-xs">📲</span>
+                <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
                 <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
               </div>
               <div className="max-w-xl">
@@ -538,15 +539,15 @@ export default function LiveHubPage() {
                   className="flex flex-col sm:flex-row gap-3 items-center w-full">
                   <div className="relative flex-1 w-full">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <span className="text-black/30 text-sm">📱</span>
+                      <Smartphone className="w-4 h-4 text-black/30" />
                     </div>
                     <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
                       className="w-full bg-white border border-black/10 py-3.5 pl-12 pr-4 text-black placeholder:text-black/30 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors"
                     />
                   </div>
                   <button aria-label="Action button" type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0">
-                    ALERT ME 🔔
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2">
+                    ALERT ME <Bell className="w-4 h-4" />
                   </button>
                 </form>
                 <p className="text-xs text-black/30 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { ShoppingBag, Check } from "lucide-react";
 
 export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState("M");
@@ -10,7 +11,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg-deep)] text-white pt-32 pb-20 font-sans">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="site-container max-w-6xl mx-auto">
 
         {/* Breadcrumbs */}
         <div className="flex items-center gap-2 text-white/40 text-xs uppercase tracking-wider mb-8">
@@ -27,7 +28,7 @@ export default function ProductDetailPage() {
           {/* Left: Product Image Container */}
           <div className="bg-[var(--color-bg-surface)] border border-white/5 p-8 rounded-3xl flex items-center justify-center aspect-square relative overflow-hidden">
             <div className="absolute inset-0 bg-radial-gradient from-[var(--color-accent)]/10 to-transparent opacity-40 blur-[80px]" />
-            <span className="text-9xl relative z-10 filter drop-shadow-[0_0_30px_rgba(255,10,61,0.3)]">👕</span>
+            <ShoppingBag className="w-32 h-32 text-[var(--color-accent)] relative z-10 filter drop-shadow-[0_0_30px_rgba(255,10,61,0.3)]" />
           </div>
 
           {/* Right: Product Info & Actions */}
@@ -97,9 +98,9 @@ export default function ProductDetailPage() {
                   setAdded(true);
                   setTimeout(() => setAdded(false), 2000);
                 }}
-                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)] hover:scale-[1.01]"
+                className="w-full py-4 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold uppercase tracking-widest text-sm transition-colors shadow-[0_0_30px_rgba(255,10,61,0.3)] hover:scale-[1.01] flex items-center justify-center gap-2"
               >
-                {added ? "✓ Added to Cart!" : "Add to Cart"}
+                {added ? <><Check className="w-4 h-4" /> Added to Cart!</> : "Add to Cart"}
               </button>
 
               <Link

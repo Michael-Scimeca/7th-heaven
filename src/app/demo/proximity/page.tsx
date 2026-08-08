@@ -176,9 +176,9 @@ export default function ProximityDemoPage() {
               {/* Phone frame */}
               <div className="bg-[#1a1a1a] rounded-[2.5rem] border-[6px] border-[#333] shadow-[0_30px_80px_rgba(0,0,0,0.6)] overflow-hidden">
                 {/* Status bar */}
-                <div className="bg-black px-6 pt-3 pb-1 flex items-center justify-between">
+                <div className="  px-6 pt-3 pb-1 flex items-center justify-between">
                   <span className="text-white text-xs font-semibold">9:41</span>
-                  <div className="w-24 h-5 bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-3" />
+                  <div className="w-24 h-5   rounded-full absolute left-1/2 -translate-x-1/2 top-3" />
                   <div className="flex items-center gap-1">
                     <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1" opacity="0.4" /><rect x="4.5" y="2" width="3" height="10" rx="1" opacity="0.6" /><rect x="9" y="0" width="3" height="12" rx="1" opacity="0.8" /><rect x="13.5" y="0" width="2.5" height="12" rx="1" /></svg>
                     <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 0C3.6 0 0 3.1 0 7s3.6 7 8 7 8-3.1 8-7-3.6-7-8-7zm0 10.5c-1.9 0-3.5-1.6-3.5-3.5S6.1 3.5 8 3.5s3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z" opacity="0.4" /></svg>

@@ -5,7 +5,7 @@
 import React from 'react';
 
 import { useState, useEffect, useRef, use, useMemo, useCallback, useSyncExternalStore } from "react";
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 import Link from "next/link";
 import { useRouter, redirect } from 'next/navigation';
 import { createClient } from "@/lib/supabase/client";
@@ -1391,18 +1391,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     const dynamicCrew = users.flatMap(u => {
       if (u.role !== 'crew') return [];
       const initials = u.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-        return [{
-          id: u.id,
-          name: u.name,
-          role: u.duty || 'Crew Member',
-          maxHours: 40,
-          email: u.email || '',
-          phone: u.phone || '',
-          initials: initials || 'C',
-          color: getAvatarColor(u.name),
-          avatar: u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=random`
-        }];
-      });
+      return [{
+        id: u.id,
+        name: u.name,
+        role: u.duty || 'Crew Member',
+        maxHours: 40,
+        email: u.email || '',
+        phone: u.phone || '',
+        initials: initials || 'C',
+        color: getAvatarColor(u.name),
+        avatar: u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=random`
+      }];
+    });
 
     const processedStatic = STATIC_CREW.map(sc => {
       const initials = sc.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
@@ -2941,10 +2941,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           setAuditLog(prev => [{
             id: crypto.randomUUID(),
-          text: ` Uploaded featured track: "${data.track.title}"`,
-          time: "Just now",
-          color: "bg-emerald-500"
-        }, ...prev]);
+            text: ` Uploaded featured track: "${data.track.title}"`,
+            time: "Just now",
+            color: "bg-emerald-500"
+          }, ...prev]);
         } else {
           trackUploadErrorRef.current = data.error || 'Upload failed';
         }
@@ -5080,16 +5080,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           const data = await res.json();
                           setSmsResult(data);
                           if (data.success) {
-                          const costNum = parseFloat(calcCost);
-                          setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
-                          setSmsTotalSpentAllTime(prev => prev + costNum);
-                          setSmsTotalSentAllTime(prev => prev + 480);
-                          setSmsHistoryLogs(prev => [
-                            { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
-                            ...prev
-                          ]);
+                            const costNum = parseFloat(calcCost);
+                            setSmsTwilioBalance(prev => Math.max(0, prev - costNum));
+                            setSmsTotalSpentAllTime(prev => prev + costNum);
+                            setSmsTotalSentAllTime(prev => prev + 480);
+                            setSmsHistoryLogs(prev => [
+                              { id: `blast_${Date.now()}`, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), venue: show.venue, city: show.city, recipients: 480, segments: 1, cost: costNum, status: 'Delivered (Twilio 10DLC)' },
+                              ...prev
+                            ]);
+                          }
                         }
-                      }
                       } catch (err: any) {
                         setSmsResult({ error: err.message });
                       }
@@ -5410,206 +5410,206 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         .map((r) => {
                           const norm = r.phone ? normalizePhoneNumber(r.phone) : null;
                           const isChecked = selectedCrewPhonesSet.has(r.id) || (norm ? selectedCrewPhonesSet.has(norm) : false);
-                        const editKey = `main:${r.id}`;
-                        const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
-                        return (
-                          <div
-                            key={r.id}
-                            className={`flex items-center justify-between gap-2.5 px-2.5 py-2 border-b border-black/20 dark:border-white/15 transition-colors duration-200 relative min-h-[38px] ${isChecked
-                              ? 'bg-purple-500/10 text-black dark:text-white'
-                              : 'hover:bg-black/5 dark:hover:bg-white/[0.04]'
-                              }`}
-                            title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
-                          >
+                          const editKey = `main:${r.id}`;
+                          const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
+                          return (
                             <div
-                              role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
-                              onClick={() => handleToggleMember(r)}
-                              className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer"
+                              key={r.id}
+                              className={`flex items-center justify-between gap-2.5 px-2.5 py-2 border-b border-black/20 dark:border-white/15 transition-colors duration-200 relative min-h-[38px] ${isChecked
+                                ? 'bg-purple-500/10 text-black dark:text-white'
+                                : 'hover:bg-black/5 dark:hover:bg-white/[0.04]'
+                                }`}
+                              title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                             >
-                              {/* High-Visibility Amber Checkbox */}
-                              <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors shrink-0 select-none ${isChecked
-                                ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_10px_rgba(147, 51, 234,0.5)] scale-105'
-                                : 'bg-black/60 border-white/30 hover:border-white/60'
-                                }`}>
-                                {isChecked && (
-                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                )}
-                              </div>
-
-                              {/* Avatar */}
-                              {(() => {
-                                const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                return avatarSrc ? (
-                                  <img
-                                    src={avatarSrc}
-                                    alt={r.name}
-                                    className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
-                                    onError={(e) => {
-                                      const fallback = resolveMemberAvatar(r.name, '');
-                                      if (fallback && !e.currentTarget.src.endsWith(fallback)) {
-                                        e.currentTarget.src = fallback;
-                                      }
-                                    }}
-                                  />
-                                ) : (
-                                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
-                                    {r.name.slice(0, 2)}
-                                  </div>
-                                );
-                              })()}
-
-                              {/* Name */}
-                              <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
-                            </div>
-
-                            {/* Role & Edit actions */}
-                            <div className="flex items-center gap-1.5 shrink-0 relative">
-                              {r.duty ? (
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                    setEditingDutyValue(r.duty || '');
-                                  }}
-                                  className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
-                                  title={`Click to change or edit role(s): ${r.duty}`}
-                                >
-                                  <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
-                                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                    setEditingDutyValue(r.duty || '');
-                                  }}
-                                  className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-colors flex items-center gap-1"
-                                  title="Click to assign role(s)"
-                                >
-                                  <span>+ Assign Role</span>
-                                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                </button>
-                              )}
-
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                  setEditingDutyValue(r.duty || '');
-                                }}
-                                className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
-                                title="Edit Role"
+                              <div
+                                role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
+                                onClick={() => handleToggleMember(r)}
+                                className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer"
                               >
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                              </button>
+                                {/* High-Visibility Amber Checkbox */}
+                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors shrink-0 select-none ${isChecked
+                                  ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_10px_rgba(147, 51, 234,0.5)] scale-105'
+                                  : 'bg-black/60 border-white/30 hover:border-white/60'
+                                  }`}>
+                                  {isChecked && (
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                  )}
+                                </div>
 
-                              {isEditingThis && (
-                                <div
-                                  className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                                    <div className="truncate pr-2">
-                                      <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block truncate">Edit Roles</span>
-                                      <span className="text-[9px] font-bold text-slate-500 block truncate">{r.name}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1 shrink-0">
-                                      <button
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleSaveDuty(r.id);
-                                        }}
-                                        disabled={savingDuty}
-                                        className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
-                                      >
-                                        Save
-                                      </button>
-                                      <button
-                                        type="button"
-                                        aria-label="Cancel editing duty member"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setEditingDutyMemberId(null);
-                                        }}
-                                        className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
-                                      >
-                                        Cancel
-                                      </button>
-                                    </div>
-                                  </div>
-
-                                  {/* Quick-Select Chips (All Roles) */}
-                                  <div>
-                                    <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">Quick Toggle Presets:</span>
-                                    <div className="flex flex-wrap gap-1 max-h-[180px] overflow-y-auto custom-scrollbar p-1.5 bg-slate-50 border border-slate-200 rounded-lg">
-                                      {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
-                                        const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
-                                        const isSelected = currentList.includes(chip.toUpperCase());
-                                        return (
-                                          <button
-                                            key={chip}
-                                            type="button"
-                                            onClick={() => {
-                                              let updated: string[];
-                                              if (isSelected) {
-                                                updated = currentList.filter(c => c !== chip.toUpperCase());
-                                              } else {
-                                                updated = [...currentList, chip.toUpperCase()];
-                                              }
-                                              setEditingDutyValue(updated.join(', '));
-                                            }}
-                                            className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
-                                              ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
-                                              : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
-                                              }`}
-                                          >
-                                            {isSelected ? ` ${chip}` : `+ ${chip}`}
-                                          </button>
-                                        );
-                                      })}
-                                    </div>
-                                  </div>
-
-                                  {/* Custom role input */}
-                                  <div className="pt-1.5 border-t border-slate-200 space-y-1">
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Custom / Edit Text:</span>
-                                      {editingDutyValue && (
-                                        <button
-                                          type="button"
-                                          onClick={() => setEditingDutyValue('')}
-                                          className="text-[9px] font-bold text-rose-600 hover:text-rose-800 border-none bg-transparent cursor-pointer"
-                                        >
-                                          Clear Roles
-                                        </button>
-                                      )}
-                                    </div>
-                                    <input
-                                      type="text"
-                                      aria-label="Custom duty roles"
-                                      value={editingDutyValue}
-                                      onChange={(e) => setEditingDutyValue(e.target.value)}
-                                      placeholder="e.g. STAGE HAND, MERCH..."
-                                      style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                                      className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
-                                      onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                          handleSaveDuty(r.id);
+                                {/* Avatar */}
+                                {(() => {
+                                  const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                  return avatarSrc ? (
+                                    <img
+                                      src={avatarSrc}
+                                      alt={r.name}
+                                      className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
+                                      onError={(e) => {
+                                        const fallback = resolveMemberAvatar(r.name, '');
+                                        if (fallback && !e.currentTarget.src.endsWith(fallback)) {
+                                          e.currentTarget.src = fallback;
                                         }
                                       }}
                                     />
+                                  ) : (
+                                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
+                                      {r.name.slice(0, 2)}
+                                    </div>
+                                  );
+                                })()}
+
+                                {/* Name */}
+                                <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
+                              </div>
+
+                              {/* Role & Edit actions */}
+                              <div className="flex items-center gap-1.5 shrink-0 relative">
+                                {r.duty ? (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                      setEditingDutyValue(r.duty || '');
+                                    }}
+                                    className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
+                                    title={`Click to change or edit role(s): ${r.duty}`}
+                                  >
+                                    <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
+                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                      setEditingDutyValue(r.duty || '');
+                                    }}
+                                    className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-colors flex items-center gap-1"
+                                    title="Click to assign role(s)"
+                                  >
+                                    <span>+ Assign Role</span>
+                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                  </button>
+                                )}
+
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                    setEditingDutyValue(r.duty || '');
+                                  }}
+                                  className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                  title="Edit Role"
+                                >
+                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                </button>
+
+                                {isEditingThis && (
+                                  <div
+                                    className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+                                      <div className="truncate pr-2">
+                                        <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block truncate">Edit Roles</span>
+                                        <span className="text-[9px] font-bold text-slate-500 block truncate">{r.name}</span>
+                                      </div>
+                                      <div className="flex items-center gap-1 shrink-0">
+                                        <button
+                                          type="button"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleSaveDuty(r.id);
+                                          }}
+                                          disabled={savingDuty}
+                                          className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
+                                        >
+                                          Save
+                                        </button>
+                                        <button
+                                          type="button"
+                                          aria-label="Cancel editing duty member"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEditingDutyMemberId(null);
+                                          }}
+                                          className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                    {/* Quick-Select Chips (All Roles) */}
+                                    <div>
+                                      <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">Quick Toggle Presets:</span>
+                                      <div className="flex flex-wrap gap-1 max-h-[180px] overflow-y-auto custom-scrollbar p-1.5 bg-slate-50 border border-slate-200 rounded-lg">
+                                        {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
+                                          const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
+                                          const isSelected = currentList.includes(chip.toUpperCase());
+                                          return (
+                                            <button
+                                              key={chip}
+                                              type="button"
+                                              onClick={() => {
+                                                let updated: string[];
+                                                if (isSelected) {
+                                                  updated = currentList.filter(c => c !== chip.toUpperCase());
+                                                } else {
+                                                  updated = [...currentList, chip.toUpperCase()];
+                                                }
+                                                setEditingDutyValue(updated.join(', '));
+                                              }}
+                                              className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
+                                                ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
+                                                : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
+                                                }`}
+                                            >
+                                              {isSelected ? ` ${chip}` : `+ ${chip}`}
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+
+                                    {/* Custom role input */}
+                                    <div className="pt-1.5 border-t border-slate-200 space-y-1">
+                                      <div className="flex items-center justify-between">
+                                        <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Custom / Edit Text:</span>
+                                        {editingDutyValue && (
+                                          <button
+                                            type="button"
+                                            onClick={() => setEditingDutyValue('')}
+                                            className="text-[9px] font-bold text-rose-600 hover:text-rose-800 border-none bg-transparent cursor-pointer"
+                                          >
+                                            Clear Roles
+                                          </button>
+                                        )}
+                                      </div>
+                                      <input
+                                        type="text"
+                                        aria-label="Custom duty roles"
+                                        value={editingDutyValue}
+                                        onChange={(e) => setEditingDutyValue(e.target.value)}
+                                        placeholder="e.g. STAGE HAND, MERCH..."
+                                        style={{ backgroundColor: '#ffffff', color: '#000000' }}
+                                        className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
+                                        onKeyDown={(e) => {
+                                          if (e.key === 'Enter') {
+                                            handleSaveDuty(r.id);
+                                          }
+                                        }}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      });
+                          );
+                        });
                     })()}
                   </div>
                 </div>
@@ -5779,58 +5779,58 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 return (
                                   <div
                                     key={r.id}
-                                  className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-1 px-1.5 rounded hover:bg-white/10 relative"
-                                >
-                                  <div
-                                    role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (newSmsGroupError) setNewSmsGroupError(""); handleToggleMember(r); } }}
-                                    className="flex items-center gap-2 cursor-pointer flex-1"
-                                    onClick={() => {
-                                      if (newSmsGroupError) setNewSmsGroupError("");
-                                      handleToggleMember(r);
-                                    }}
+                                    className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-1 px-1.5 rounded hover:bg-white/10 relative"
                                   >
-                                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors shrink-0 select-none ${isChecked
-                                      ? 'bg-purple-600 border-purple-400 text-white shadow-sm'
-                                      : 'bg-black/60 border-white/30'
-                                      }`}>
-                                      {isChecked && (
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                      )}
-                                    </div>
-                                    <span className="font-semibold text-white">{r.name}</span>
-                                  </div>
-
-                                  <div className="relative shrink-0">
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                        setEditingDutyValue(r.duty || r.role || '');
+                                    <div
+                                      role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (newSmsGroupError) setNewSmsGroupError(""); handleToggleMember(r); } }}
+                                      className="flex items-center gap-2 cursor-pointer flex-1"
+                                      onClick={() => {
+                                        if (newSmsGroupError) setNewSmsGroupError("");
+                                        handleToggleMember(r);
                                       }}
-                                      className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
-                                      title={`Click to edit role(s): ${displayRole}`}
                                     >
-                                      <span className="truncate">{displayRole}</span>
-                                      {isEditingThis && (
-                                        <DutyRoleEditorPopover
-                                          memberName={r.name}
-                                          editKey={editKey}
-                                          editingDutyValue={editingDutyValue}
-                                          setEditingDutyValue={setEditingDutyValue}
-                                          handleSaveDuty={handleSaveDuty}
-                                          savingDuty={savingDuty}
-                                          setEditingDutyMemberId={setEditingDutyMemberId}
-                                          presetRoles={presetRoles}
-                                          memberId={r.id}
-                                        />
-                                      )}
-                                    </button>
+                                      <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors shrink-0 select-none ${isChecked
+                                        ? 'bg-purple-600 border-purple-400 text-white shadow-sm'
+                                        : 'bg-black/60 border-white/30'
+                                        }`}>
+                                        {isChecked && (
+                                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                        )}
+                                      </div>
+                                      <span className="font-semibold text-white">{r.name}</span>
+                                    </div>
+
+                                    <div className="relative shrink-0">
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                          setEditingDutyValue(r.duty || r.role || '');
+                                        }}
+                                        className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
+                                        title={`Click to edit role(s): ${displayRole}`}
+                                      >
+                                        <span className="truncate">{displayRole}</span>
+                                        {isEditingThis && (
+                                          <DutyRoleEditorPopover
+                                            memberName={r.name}
+                                            editKey={editKey}
+                                            editingDutyValue={editingDutyValue}
+                                            setEditingDutyValue={setEditingDutyValue}
+                                            handleSaveDuty={handleSaveDuty}
+                                            savingDuty={savingDuty}
+                                            setEditingDutyMemberId={setEditingDutyMemberId}
+                                            presetRoles={presetRoles}
+                                            memberId={r.id}
+                                          />
+                                        )}
+                                      </button>
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            });
-                          })()}
+                                );
+                              });
+                            })()}
                           </div>
                         </div>
 
@@ -5925,31 +5925,31 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           const data = await res.json();
                           setCrewAlertResult(data);
                           if (data.success) {
-                          setCrewAlertMsg('');
-                          setSelectedCrewPhones([]);
-                          setSmsSelectedShowDate('');
-                          setSmsEmailSubject('');
-                          setSendEmailAlert(false);
-                          setAuditLog(prev => [{
-                            id: crypto.randomUUID(),
-                            text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
-                            time: 'Just now',
-                            color: 'bg-purple-600',
-                            details: {
-                              type: 'broadcast',
-                              smsText: crewAlertMsg,
-                              emailSubject: smsEmailSubject || undefined
-                            }
-                          }, ...prev]);
-                        } else {
-                          setAuditLog(prev => [{
-                            id: crypto.randomUUID(),
-                            text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
-                            time: 'Just now',
-                            color: 'bg-red-500'
-                          }, ...prev]);
+                            setCrewAlertMsg('');
+                            setSelectedCrewPhones([]);
+                            setSmsSelectedShowDate('');
+                            setSmsEmailSubject('');
+                            setSendEmailAlert(false);
+                            setAuditLog(prev => [{
+                              id: crypto.randomUUID(),
+                              text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
+                              time: 'Just now',
+                              color: 'bg-purple-600',
+                              details: {
+                                type: 'broadcast',
+                                smsText: crewAlertMsg,
+                                emailSubject: smsEmailSubject || undefined
+                              }
+                            }, ...prev]);
+                          } else {
+                            setAuditLog(prev => [{
+                              id: crypto.randomUUID(),
+                              text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
+                              time: 'Just now',
+                              color: 'bg-red-500'
+                            }, ...prev]);
+                          }
                         }
-                      }
                       } catch (err: any) {
                         setCrewAlertResult({ error: err.message });
                       }
@@ -6083,31 +6083,31 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         const data = await res.json();
                         setCrewAlertResult(data);
                         if (data.success) {
-                        setCrewAlertMsg('');
-                        setSelectedCrewPhones([]);
-                        setSmsSelectedShowDate('');
-                        setSmsEmailSubject('');
-                        setSendEmailAlert(false);
-                        setAuditLog(prev => [{
-                          id: crypto.randomUUID(),
-                          text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
-                          time: 'Just now',
-                          color: 'bg-purple-600',
-                          details: {
-                            type: 'broadcast',
-                            smsText: crewAlertMsg,
-                            emailSubject: smsEmailSubject || undefined
-                          }
-                        }, ...prev]);
-                      } else {
-                        setAuditLog(prev => [{
-                          id: crypto.randomUUID(),
-                          text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
-                          time: 'Just now',
-                          color: 'bg-red-500'
-                        }, ...prev]);
+                          setCrewAlertMsg('');
+                          setSelectedCrewPhones([]);
+                          setSmsSelectedShowDate('');
+                          setSmsEmailSubject('');
+                          setSendEmailAlert(false);
+                          setAuditLog(prev => [{
+                            id: crypto.randomUUID(),
+                            text: ` Sent Crew Broadcast (SMS: ${sendSmsAlert ? 'Yes' : 'No'}, Email: ${sendEmailAlert ? 'Yes' : 'No'}): "${data.sentCount || sendCount} recipients notified"`,
+                            time: 'Just now',
+                            color: 'bg-purple-600',
+                            details: {
+                              type: 'broadcast',
+                              smsText: crewAlertMsg,
+                              emailSubject: smsEmailSubject || undefined
+                            }
+                          }, ...prev]);
+                        } else {
+                          setAuditLog(prev => [{
+                            id: crypto.randomUUID(),
+                            text: ` Failed to send Crew Broadcast: ${data.error || 'Unknown error'}`,
+                            time: 'Just now',
+                            color: 'bg-red-500'
+                          }, ...prev]);
+                        }
                       }
-                    }
                     } catch (err: any) {
                       setCrewAlertResult({ error: err.message });
                     }
@@ -6199,7 +6199,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         value={newPresetRoleInput}
                         onChange={(e) => setNewPresetRoleInput(e.target.value)}
                         placeholder="e.g. LIGHTING DESIGNER"
-                        className="flex-1 bg-black border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500/50"
+                        className="flex-1   border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500/50"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             handleAddPresetRole(newPresetRoleInput);
@@ -6422,7 +6422,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             </div>
                           );
                         });
-                      })()}
+                    })()}
                   </div>
                 </div>
               </div>
@@ -7690,47 +7690,47 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex justify-center">
                         <button aria-label={`Select ${s.name || s.email}`} onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${cruiseSelectedEmailsSet.has(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
                           {cruiseSelectedEmailsSet.has(s.email) && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                        </button>
+                      </div>
+                      {/* Row number */}
+                      <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
+                      {/* Name + Email */}
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-white truncate">{s.name}</p>
+                        <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                      </div>
+                      {/* Phone */}
+                      <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
+                      {/* Party size + date */}
+                      <div>
+                        <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                        <p className="text-[0.5rem] text-white/20">{s.date}</p>
+                      </div>
+                      {/* Checked off */}
+                      <div className="flex justify-center">
+                        <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                          {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                        </button>
+                      </div>
+                      {/* Deposit paid */}
+                      <div className="flex justify-center">
+                        <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                          {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                        </button>
+                      </div>
+                      {/* Full paid */}
+                      <div className="flex justify-center">
+                        <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                          {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                        </button>
+                      </div>
+                      {/* Delete */}
+                      <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6 rounded-md border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
                       </button>
                     </div>
-                    {/* Row number */}
-                    <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
-                    {/* Name + Email */}
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                      <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
-                    </div>
-                    {/* Phone */}
-                    <p className="text-[0.65rem] text-white/40 font-mono truncate">{s.phone || '—'}</p>
-                    {/* Party size + date */}
-                    <div>
-                      <p className="text-[0.65rem] text-white/50 font-bold">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                      <p className="text-[0.5rem] text-white/20">{s.date}</p>
-                    </div>
-                    {/* Checked off */}
-                    <div className="flex justify-center">
-                      <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                        {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                      </button>
-                    </div>
-                    {/* Deposit paid */}
-                    <div className="flex justify-center">
-                      <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                        {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                      </button>
-                    </div>
-                    {/* Full paid */}
-                    <div className="flex justify-center">
-                      <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                        {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                      </button>
-                    </div>
-                    {/* Delete */}
-                    <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6 rounded-md border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
-                    </button>
-                  </div>
-                ));
-              })()}
+                  ));
+                })()}
               </div>
             )}
 
@@ -10707,7 +10707,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           return item;
                                         }));
                                       }}
-                                      className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
+                                      className="w-full px-3 py-1.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
                                     >
                                       {generateTimeOptions().slice(0, -1).map(opt => (
                                         <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -10724,7 +10724,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         const val = parseFloat(e.target.value);
                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
                                       }}
-                                      className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
+                                      className="w-full px-3 py-1.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
                                     >
                                       {generateTimeOptions().flatMap(opt => opt.value > tf.startHour ? (
                                         [<option key={opt.value} value={opt.value}>{opt.label}</option>]
@@ -10744,7 +10744,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
                                     }}
                                     placeholder="e.g. Audio Mix"
-                                    className="w-full px-3 py-2 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
+                                    className="w-full px-3 py-2   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
                                   />
                                   <div className="flex flex-wrap gap-1 mt-1.5">
                                     {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
@@ -10799,7 +10799,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           return item;
                                         }));
                                       }}
-                                      className="w-full px-3 py-1.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
+                                      className="w-full px-3 py-1.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
                                     >
                                       <option value="">Select tags...</option>
                                       <option value="Overtime">⏰ Overtime</option>
@@ -10971,7 +10971,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         value={newGroupNameInput}
                         onChange={(e) => setNewGroupNameInput(e.target.value)}
                         placeholder="e.g. Weekend Tech Crew"
-                        className="w-full px-3.5 py-2.5 bg-black border border-white/10 text-xs text-white rounded-lg outline-none focus:border-emerald-500/50 transition-colors font-bold"
+                        className="w-full px-3.5 py-2.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-emerald-500/50 transition-colors font-bold"
                       />
                     </div>
 
@@ -11067,7 +11067,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 [m.id]: { ...prev[m.id], timeFrames: currentTfs }
                                               }));
                                             }}
-                                            className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
+                                            className="w-full px-2 py-1   border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
                                             style={{ fontSize: '9.5px' }}
                                           >
                                             {generateTimeOptions().slice(0, -1).map(opt => (
@@ -11090,7 +11090,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 [m.id]: { ...prev[m.id], timeFrames: currentTfs }
                                               }));
                                             }}
-                                            className="w-full px-2 py-1 bg-black border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
+                                            className="w-full px-2 py-1   border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
                                             style={{ fontSize: '9.5px' }}
                                           >
                                             {generateTimeOptions().flatMap(opt => opt.value > tf.startHour ? (
@@ -11423,7 +11423,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         #admin-dashboard-root .live-sms-preview-box {
           background-color: #0d0e17 !important;
           color: #ffffff !important;
-          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
         }
 
         /* Solid button overrides so button labels remain white where appropriate */

@@ -20,12 +20,14 @@ const RARITY_COLORS: Record<string, string> = {
   Legendary: "text-pink-400",
 };
 
+import { Guitar, ShoppingBag, Smartphone, Link as LinkIcon, Gift, Dices, Check, X } from "lucide-react";
+
 const REASON_LABELS: Record<string, string> = {
-  show_attendance: "🎸 Show Attendance",
-  merch_purchase: "🛍️ Merch Purchase",
-  social_share: "📱 Social Share",
-  referral: "🔗 Referral",
-  manual: "🎁 Gift from Admin",
+  show_attendance: "Show Attendance",
+  merch_purchase: "Merch Purchase",
+  social_share: "Social Share",
+  referral: "Referral",
+  manual: "Gift from Admin",
 };
 
 interface PickAwardsSectionProps {
@@ -184,13 +186,13 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       <p className={`text-xs font-bold uppercase tracking-[0.1em] ${RARITY_COLORS[pick.rarity]}`}>{pick.rarity} · ×{pick.owned}</p>
                     </div>
                   </div>
-                  <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black text-sm cursor-pointer">✕</button>
+                  <button aria-label="Action button" onClick={() => setSelectedPick(null)} className="text-black/40 hover:text-black text-sm cursor-pointer"><X className="w-4 h-4" /></button>
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-xs text-black/50 uppercase tracking-[0.15em] font-bold">History</p>
                   {pick.picks.slice(0, 5).map((p: any) => (
                     <div key={p.id || p.created_at} className="flex items-center gap-2 text-xs text-black/70 bg-gray-50 px-3 py-1.5 rounded">
-                      <span>{REASON_LABELS[p.awarded_reason] || "🎁 Awarded"}</span>
+                      <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5 text-purple-600" /> {REASON_LABELS[p.awarded_reason] || "Awarded"}</span>
                       <span className="text-black/40 ml-auto">
                         {new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </span>
@@ -220,7 +222,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
 
           {/* Visit Merch Table CTA */}
           <div className="mb-6 p-4 border border-black/10 bg-gray-50 rounded-lg flex items-center gap-3 border-dashed">
-            <span className="text-2xl">🎰</span>
+            <Dices className="w-6 h-6 text-purple-600 shrink-0" />
             <p className="text-xs text-black/60 uppercase tracking-[0.15em] font-bold">
               Visit the merch table at any show to enter your picks into the lottery
             </p>
@@ -229,7 +231,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           {/* Active Lotteries */}
           {lotteries.length > 0 && (
             <div>
-              <h3 className="text-sm font-bold text-black/70 uppercase tracking-[0.15em] mb-3">🎰 Active Lotteries</h3>
+              <h3 className="text-sm font-bold text-black/70 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5"><Dices className="w-4 h-4 text-purple-600" /> Active Lotteries</h3>
               <div className="space-y-3">
                 {lotteries.map((lottery: any) => (
                   <div
@@ -248,7 +250,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30">✓ Entered</span>
+                          <span className="text-xs font-bold text-emerald-600 uppercase tracking-[0.15em] bg-emerald-500/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/30 flex items-center gap-1"><Check className="w-3 h-3" /> Entered</span>
                         ) : lottery.isEligible ? (
                           <button aria-label="Action button"
                             onClick={() => handleEnterLottery(lottery.id)}

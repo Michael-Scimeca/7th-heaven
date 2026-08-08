@@ -37,6 +37,10 @@ const inter = Inter({
   display: "swap",
 });
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+import defaultThemeTokens from "@/data/theme.json";
+import { ThemeTokens } from "@/lib/theme-tokens";
+
 const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-inter-tight",
@@ -146,9 +150,9 @@ const BAND_LD = {
       "inAlbum": "Color In Motion"
     },
     {
-       "@type": "MusicRecording",
-       "name": "30 Songs in 30 Minutes",
-       "description": "The world-famous medley of 70s and 80s hits."
+      "@type": "MusicRecording",
+      "name": "30 Songs in 30 Minutes",
+      "description": "The world-famous medley of 70s and 80s hits."
     }
   ]
 };
@@ -161,27 +165,15 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} suppressHydrationWarning>
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(BAND_LD).replace(/</g, '\\u003c') }}
-        />
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("7h_theme");if(t){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","dark")}}catch(e){}`,
-          }}
-        />
-      </head>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-barlow)", letterSpacing: "0" }} suppressHydrationWarning>
+    <html lang="en" className={`dark ${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
         <Script
           id="band-jsonld"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             // Escape <, > and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
@@ -192,7 +184,8 @@ export default async function RootLayout({
           }}
         />
 
-        <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
+        <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{
+          __html: `
           if (window.location.search.includes('bypass=true')) {
             var style = document.createElement('style');
             style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
@@ -203,26 +196,28 @@ export default async function RootLayout({
         <HomeShaderGradient />
         <CursorFollower />
         <TransitionProvider>
-          <Providers>
-            <ScrollToTop />
-            <SmoothScroll>
-              <div id="page-content-wrapper" className="flex flex-col min-h-screen">
-                <Header />
-                {/* content-area class + CSS guarantees min-height: 100svh so footer
-                    can NEVER appear before page content loads */}
-                <div className="content-area flex-1 flex flex-col">
-                  <PageTransition>
-                    {children}
-                  </PageTransition>
+          <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
+            <Providers>
+              <ScrollToTop />
+              <SmoothScroll>
+                <div id="page-content-wrapper" className="flex flex-col min-h-screen">
+                  <Header />
+                  {/* content-area class + CSS guarantees min-height: 100svh so footer
+                      can NEVER appear before page content loads */}
+                  <div className="content-area flex-1 flex flex-col">
+                    <PageTransition>
+                      {children}
+                    </PageTransition>
+                  </div>
+                  <Footer />
+                  <SanityLive />
+                  {isDraftMode && <VisualEditing />}
+                  <PageNav />
+                  <ClientOnlyExtras />
                 </div>
-                <Footer />
-                <SanityLive />
-                {isDraftMode && <VisualEditing />}
-                <PageNav />
-                <ClientOnlyExtras />
-              </div>
-            </SmoothScroll>
-          </Providers>
+              </SmoothScroll>
+            </Providers>
+          </ThemeProvider>
         </TransitionProvider>
       </body>
     </html>

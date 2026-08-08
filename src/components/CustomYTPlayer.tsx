@@ -191,7 +191,7 @@ export default function CustomYTPlayer({
   }, []);
 
   // Global Keyboard Controls
-  const keyHandlerRef = useRef<(e: KeyboardEvent) => void>(() => {});
+  const keyHandlerRef = useRef<(e: KeyboardEvent) => void>(() => { });
   useLayoutEffect(() => {
     keyHandlerRef.current = (e: KeyboardEvent) => {
       // Don't intercept keypresses when typing in inputs/textareas
@@ -256,7 +256,7 @@ export default function CustomYTPlayer({
       >
         {/* Player Container */}
         <div
-          className="relative aspect-video bg-black border border-white/10 overflow-hidden group/player"
+          className="relative aspect-video   border border-white/10 overflow-hidden group/player"
           onMouseMove={resetHideTimer}
         >
           {/* YouTube Player (hidden controls) */}
@@ -271,16 +271,15 @@ export default function CustomYTPlayer({
 
           {/* Loading State */}
           {!isReady && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black z-20">
+            <div className="absolute inset-0 flex items-center justify-center   z-20">
               <div className="w-12 h-12 border-2 border-white/20 border-t-[var(--color-accent)] rounded-full animate-spin" />
             </div>
           )}
 
           {/* Center Play/Pause Indicator */}
           <div
-            className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${
-              showControls && !isPlaying ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute inset-0 flex items-center justify-center z-10 transition-opacity duration-300 pointer-events-none ${showControls && !isPlaying ? "opacity-100" : "opacity-0"
+              }`}
           >
             <div className="w-20 h-20 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="white" className="ml-1">
@@ -291,16 +290,14 @@ export default function CustomYTPlayer({
 
           {/* Top Gradient */}
           <div
-            className={`absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/70 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${
-              showControls ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-black/70 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
+              }`}
           />
 
           {/* Top Bar — Title & Close */}
           <div
-            className={`absolute top-0 inset-x-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${
-              showControls ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute top-0 inset-x-0 z-20 flex items-center justify-between px-5 py-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+              }`}
           >
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-1 h-6 bg-[var(--color-accent)] rounded-full shrink-0" />
@@ -322,16 +319,14 @@ export default function CustomYTPlayer({
 
           {/* Bottom Gradient */}
           <div
-            className={`absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${
-              showControls ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 transition-opacity duration-300 pointer-events-none ${showControls ? "opacity-100" : "opacity-0"
+              }`}
           />
 
           {/* Bottom Controls */}
           <div
-            className={`absolute bottom-0 inset-x-0 z-20 px-5 pb-4 transition-opacity duration-300 ${
-              showControls ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute bottom-0 inset-x-0 z-20 px-5 pb-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Progress Bar */}

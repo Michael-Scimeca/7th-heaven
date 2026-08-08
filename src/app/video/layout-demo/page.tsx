@@ -136,7 +136,7 @@ export default function VideoLayoutDemo() {
       {/* ═══ C — Netflix Style (Big Row + Horizontal Scroll) ═══ */}
       {active === "C" && (
         <div>
-          <section className="relative bg-black overflow-hidden" style={{ minHeight: "60vh" }}>
+          <section className="relative   overflow-hidden" style={{ minHeight: "60vh" }}>
             <div className="absolute inset-0"><Image width={200} height={200} unoptimized src={thumb(featured.id)} alt="7th Heaven Media" className="w-full h-full object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" /><div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" /></div>
             <div className="relative z-10 site-container flex items-end pb-16" style={{ minHeight: "60vh" }}>
               <div className="max-w-lg">
@@ -290,7 +290,7 @@ export default function VideoLayoutDemo() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left 6-col Sticky Hero Player */}
             <div className="lg:col-span-6 lg:sticky lg:top-[90px]">
-              <div className="relative aspect-video overflow-hidden bg-black border border-white/10 group cursor-pointer">
+              <div className="relative aspect-video overflow-hidden   border border-white/10 group cursor-pointer">
                 <Image width={200} height={200} unoptimized src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -366,7 +366,7 @@ export default function VideoLayoutDemo() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             {/* Big 8-col Hero */}
-            <div className="md:col-span-8 relative aspect-[16/10] rounded-3xl overflow-hidden bg-black border border-white/10 group cursor-pointer">
+            <div className="md:col-span-8 relative aspect-[16/10] rounded-3xl overflow-hidden   border border-white/10 group cursor-pointer">
               <Image width={200} height={200} unoptimized src={thumb(VIDEOS[0].id)} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -378,7 +378,7 @@ export default function VideoLayoutDemo() {
             {/* 4-col Side Stack */}
             <div className="md:col-span-4 flex flex-col gap-4">
               {VIDEOS.slice(1, 3).map((v) => (
-                <div key={v.id + v.title + "I"} className="flex-1 relative overflow-hidden bg-black border border-white/10 group cursor-pointer min-h-[160px]">
+                <div key={v.id + v.title + "I"} className="flex-1 relative overflow-hidden   border border-white/10 group cursor-pointer min-h-[160px]">
                   <Image width={200} height={200} unoptimized src={thumb(v.id)} alt="7th Heaven Media" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -467,7 +467,7 @@ export default function VideoLayoutDemo() {
               <CatNav active={cat} set={setCat} />
             </div>
             {/* Primary Cinema Screen */}
-            <div className="relative aspect-[21/9] overflow-hidden mb-6 bg-black border border-white/10">
+            <div className="relative aspect-[21/9] overflow-hidden mb-6   border border-white/10">
               <Image width={200} height={200} unoptimized src={thumb(featured.id)} alt={featured.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -547,7 +547,7 @@ export default function VideoLayoutDemo() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-black/90 p-4 border border-white/15 rounded-3xl">
             {VIDEOS.concat(VIDEOS.slice(0, 4)).map((v, i) => (
-              <div key={v.id + i + "N"} className="relative aspect-video overflow-hidden bg-black border border-white/15 group cursor-pointer hover:border-[var(--color-accent)] transition-colors">
+              <div key={v.id + i + "N"} className="relative aspect-video overflow-hidden   border border-white/15 group cursor-pointer hover:border-[var(--color-accent)] transition-colors">
                 <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                 <div className="absolute top-2 left-2 bg-black/80 text-[9px] font-mono text-white/80 px-1.5 py-0.5 rounded border border-white/20">CAM-0{i + 1}</div>
                 <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/80 backdrop-blur-sm">
@@ -568,7 +568,7 @@ export default function VideoLayoutDemo() {
           </div>
           <div className="flex gap-4 overflow-x-auto pb-6 snap-x custom-scrollbar">
             {VIDEOS.concat(VIDEOS).map((v, i) => (
-              <div key={v.id + i + "O"} className="w-[240px] aspect-[9/16] shrink-0 snap-center rounded-3xl overflow-hidden relative bg-black border border-white/15 group cursor-pointer shadow-xl">
+              <div key={v.id + i + "O"} className="w-[240px] aspect-[9/16] shrink-0 snap-center rounded-3xl overflow-hidden relative   border border-white/15 group cursor-pointer shadow-xl">
                 <Image width={200} height={200} unoptimized src={thumb(v.id)} alt={v.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
                 <div className="absolute top-4 left-4 right-4 flex justify-between text-[var(--font-size-2xs)] font-mono text-white/70">
@@ -596,7 +596,7 @@ export default function VideoLayoutDemo() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {CATS.map((c) => (
-                  <button aria-label="Action button" key={c + "P"} onClick={() => setCat(c)} className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${cat === c ? "bg-black text-white border-black" : "bg-white text-black/60 border-black/10 hover:border-black/30"}`}>
+                  <button aria-label="Action button" key={c + "P"} onClick={() => setCat(c)} className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-colors ${cat === c ? "  text-white border-black" : "bg-white text-black/60 border-black/10 hover:border-black/30"}`}>
                     {c}
                   </button>
                 ))}

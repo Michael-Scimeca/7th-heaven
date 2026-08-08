@@ -599,10 +599,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <path
               d={pathD}
               fill="none"
+              fillOpacity={0}
               stroke="rgba(6, 182, 212, 0.15)"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
+              style={{ fill: 'none', fillOpacity: 0 }}
             />
 
             {/* Dim/Unfilled Track Line Extension from 2026 -> 2027 -> 2028 */}
@@ -610,10 +612,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <path
                 d={staticFuturePathD}
                 fill="none"
+                fillOpacity={0}
                 stroke="rgba(6, 182, 212, 0.15)"
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                style={{ fill: 'none', fillOpacity: 0 }}
               />
             )}
 
@@ -622,14 +626,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={desktopPathRef}
               d={pathD}
               fill="none"
+              fillOpacity={0}
               stroke={tuning.lineColor || '#06b6d4'}
               strokeWidth={tuning.lineWidth || 6}
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
+                fill: 'none',
+                fillOpacity: 0,
                 strokeDasharray: desktopPathLength || 10000,
                 strokeDashoffset: desktopPathLength || 10000,
-                filter: 'url(#water-wave-motion)',
+                filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.8))',
               }}
             />
           </svg>

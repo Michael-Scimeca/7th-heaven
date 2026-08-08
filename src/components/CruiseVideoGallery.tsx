@@ -62,11 +62,10 @@ export default function CruiseVideoGallery() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${
-                  selectedCategory === cat
+                className={`px-5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${selectedCategory === cat
                     ? 'bg-cyan-500 text-black font-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
                     : 'bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10'
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -120,7 +119,7 @@ export default function CruiseVideoGallery() {
               </div>
 
               {/* Title & Info */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
+              <div className="py-6 flex-1 flex flex-col justify-between space-y-3">
                 <div>
                   <h3 className="text-lg font-black text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
                     {vid.title}

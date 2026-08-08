@@ -4,13 +4,12 @@ import Image from 'next/image';
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
-import ThemeToggle from "@/components/ThemeToggle";
 
 const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
@@ -33,6 +32,16 @@ export function Header() {
     (mode === "covering" || mode === "covered") && pendingHref
       ? pendingHref
       : pathname;
+
+  const isNavActive = useCallback((targetHref: string) => {
+    if (!effectivePathname) return false;
+    if (targetHref === "/") return effectivePathname === "/";
+    return (
+      effectivePathname === targetHref ||
+      effectivePathname.startsWith(targetHref + "/") ||
+      effectivePathname.startsWith(targetHref + "?")
+    );
+  }, [effectivePathname]);
 
   const isDemoFanPage = pathname === "/fans/demo";
   const isDemoCruisePage = pathname === "/cruise/demo";
@@ -89,10 +98,33 @@ export function Header() {
 
 
 
+  const isScrolledRef = useRef(false);
+
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
+    let rafId: number | null = null;
+
+    const checkScroll = () => {
+      rafId = null;
+      const isPastThreshold = window.scrollY > 40;
+      if (isScrolledRef.current !== isPastThreshold) {
+        isScrolledRef.current = isPastThreshold;
+        setScrolled(isPastThreshold);
+      }
+    };
+
+    const handler = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(checkScroll);
+      }
+    };
+
     window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    checkScroll();
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", handler);
+    };
   }, []);
 
   useEffect(() => {
@@ -180,32 +212,49 @@ export function Header() {
         ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}
+      style={{
+        maskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))",
+        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))"
+      }}
       suppressHydrationWarning
     >
-      <div className="w-full max-w-full px-[25px] md:px-[32px]">
+      <div className="w-full max-w-full site-container">
         <div
           id="nav-inner-card"
           suppressHydrationWarning
-          className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4"
+          className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-50"
         >
 
-          {/* ── LEFT NAV GROUP (Desktop > 1400px) ── */}
-          <nav className="hidden min-[1401px]:flex min-[1401px]:flex-1 min-[1401px]:justify-start items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)]">
-            {leftNavLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 ${effectivePathname === link.href ? " text-[var(--color-accent)] font-extrabold" : "text-black hover: text-[var(--color-accent)]"
+          {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
+          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)] relative z-50">
+            {leftNavLinks.map((link) => {
+              const active = isNavActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${
+                    active
+                      ? "text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                      : "text-white hover:text-[#c084fc]"
                   }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+                >
+                  {link.label}
+                  {active && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
+                  )}
+                </Link>
+              );
+            })}
 
             {/* Live Stream link */}
             <Link
               href="/live"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${
+                isNavActive("/live")
+                  ? "text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  : "text-white hover:text-[#c084fc]"
+              }`}
             >
               {hasLiveStreams && (
                 <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full whitespace-nowrap font-sans scale-90">
@@ -214,10 +263,13 @@ export function Header() {
                 </span>
               )}
               LIVE
+              {isNavActive("/live") && (
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
+              )}
             </Link>
           </nav>
 
-          {/* ── LOGO (Left aligned on tablet/mobile, 100% dead-centered on desktop) ── */}
+          {/* ── LOGO (Dead-centered horizontally & vertically) ── */}
           <Link
             href="/"
             id="header-logo"
@@ -228,62 +280,100 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 max-[1400px]:-ml-[25px] min-[1401px]:absolute min-[1401px]:left-1/2 min-[1401px]:-translate-x-1/2 min-[1401px]:top-1/2 min-[1401px]:-translate-y-1/2 cursor-pointer ${mobileOpen ? "z-[10001]" : "z-20"}`}
+            className={`shrink-0 min-w-0 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer group transition-colors duration-200 flex items-center justify-center m-0 p-0 ${
+              mobileOpen ? "z-[10001]" : "z-50"
+            } ${
+              isNavActive("/")
+                ? "text-[#c084fc]"
+                : "text-white hover:text-[#c084fc]"
+            }`}
             title="7th Heaven — Go to Home Page"
           >
-            <div className="w-[150px] sm:w-[180px] min-[1401px]:w-[220px] h-[36px] sm:h-[40px] overflow-hidden flex items-center justify-center pt-1">
-              <Logo className="w-full h-full text-black drop-shadow-sm hover:opacity-85 transition-opacity translate-y-[2px]" />
+            <div className="w-[150px] sm:w-[180px] lg:w-[220px] h-[36px] sm:h-[40px] flex items-center justify-center">
+              <Logo className="w-full h-full text-current drop-shadow-sm transition-colors duration-200" />
             </div>
           </Link>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-3 min-[1401px]:gap-4 min-[1401px]:flex-1 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-10"}`}>
+          <div className={`flex items-center justify-end gap-3 lg:gap-4 lg:flex-1 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
 
             {/* Cruise link */}
             <Link
               href="/cruise"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
+                isNavActive("/cruise")
+                  ? "text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  : "text-white hover:text-[#c084fc]"
+              }`}
             >
               CRUISE
               <CruiseWaveAnimation />
+              {isNavActive("/cruise") && (
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
+              )}
             </Link>
 
             {/* Book Us link */}
             <Link
               href="/book"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
+                isNavActive("/book")
+                  ? "text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  : "text-white hover:text-[#c084fc]"
+              }`}
             >
               BOOK US
+              {isNavActive("/book") && (
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
+              )}
             </Link>
 
             {/* Contact link */}
             <Link
               href="/contact"
-              className="hidden min-[1401px]:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider text-black hover: text-[var(--color-accent)] transition-colors py-1"
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
+                isNavActive("/contact")
+                  ? "text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  : "text-white hover:text-[#c084fc]"
+              }`}
             >
               CONTACT
+              {isNavActive("/contact") && (
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
+              )}
             </Link>
 
-            {/* Cart Icon */}
-            <Link
-              href="/merch"
-              className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
-              title="Cart / Merch"
-            >
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-              </svg>
-            </Link>
-
-            {/* Theme Toggle */}
-            <ThemeToggle />
+            {/* Cart Icon (only in nav bar when NOT signed in) */}
+            {!isLoggedIn && !isDemoPage && (
+              <Link
+                href="/merch"
+                className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
+                title="Cart / Merch"
+              >
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="9" cy="21" r="1" />
+                  <circle cx="20" cy="21" r="1" />
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+              </Link>
+            )}
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {isLoggedIn || isDemoPage ? (
               <div className="flex items-center gap-1.5">
                 <div className="relative shrink-0 flex items-center justify-center">
+                  {/* Cart Icon attached directly to avatar profile circle when signed in */}
+                  <Link
+                    href="/merch"
+                    className="absolute -top-1 -left-1.5 w-5 h-5 bg-[#851def] hover:bg-[#7415d8] text-white rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 z-20"
+                    title="Cart / Merch"
+                  >
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="9" cy="21" r="1" />
+                      <circle cx="20" cy="21" r="1" />
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                  </Link>
                   <Link
                     href={dashboardHref}
                     className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
@@ -293,7 +383,7 @@ export function Header() {
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-tr from-sky-600 to-sky-400 flex items-center justify-center text-white font-black text-sm" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
+                      <div className="w-full h-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-black text-sm shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
                         {initials}
                       </div>
                     )}
@@ -301,7 +391,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-1 -right-3.5 px-1.5 py-0.5 min-w-[26px] h-6 text-[6.5px] font-black uppercase text-white border-2 border-white flex items-center justify-center  leading-none ${badgeBg}`}
+                    className={`absolute -bottom-1 -right-3.5 px-1.5 py-0.5 min-w-[26px] h-6 text-[9.5px] font-black uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -309,22 +399,21 @@ export function Header() {
                 </div>
 
                 {/* Exit button */}
-                <button aria-label="Action button"
+                <button aria-label="Sign Out of Account"
                   onClick={async () => {
                     await logout();
                     router.push("/");
                     router.refresh();
                   }}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-500/10 hover:bg-red-600 border border-red-500/30 hover:border-red-600 text-red-600 hover:text-white text-[11px] font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shadow-sm ml-1"
+                  className="p-1.5 text-purple-400 hover:text-purple-300 hover:scale-110 transition-all cursor-pointer bg-transparent border-0 ml-1"
                   title="Sign Out of Account"
                   id="header-sign-out"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                     <polyline points="16 17 21 12 16 7" />
                     <line x1="21" y1="12" x2="9" y2="12" />
                   </svg>
-                  <span className="whitespace-nowrap">Sign Out</span>
                 </button>
               </div>
             ) : (
@@ -338,7 +427,8 @@ export function Header() {
             )}
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
-            <button className="flex min-[1401px]:hidden w-10 h-10 items-center justify-end -mr-1 relative cursor-pointer text-black hover: text-[var(--color-accent)] transition-colors p-0"
+            <button
+              className="flex lg:hidden w-10 h-10 items-center justify-end -mr-1 relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
@@ -393,16 +483,16 @@ export function Header() {
           {mobileOpen && (
             <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
 
-              <Link href="/#band" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BAND</Link>
-              <Link href="/#tour" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">SHOWS</Link>
-              <Link href="/shows/past" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">PAST SHOWS</Link>
-              <Link href="/merch" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MERCH</Link>
-              <Link href="/media" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">MEDIA</Link>
-              <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">FAN WALL</Link>
-              <Link href="/live" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">LIVE</Link>
-              <Link href="/cruise" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">CRUISE</Link>
-              <Link href="/book" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">BOOK US</Link>
-              <Link href="/contact" onClick={() => setMobileOpen(false)} className="text-4xl font-black text-white uppercase">CONTACT</Link>
+              <Link href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>BAND</Link>
+              <Link href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>SHOWS</Link>
+              <Link href="/shows/past" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/shows/past" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>PAST SHOWS</Link>
+              <Link href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>MERCH</Link>
+              <Link href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>MEDIA</Link>
+              <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>FAN WALL</Link>
+              <Link href="/live" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/live" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>LIVE</Link>
+              <Link href="/cruise" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/cruise" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>CRUISE</Link>
+              <Link href="/book" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/book" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>BOOK US</Link>
+              <Link href="/contact" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/contact" ? "text-[#c084fc]" : "text-white hover:text-[#c084fc]"}`}>CONTACT</Link>
               {isLoggedIn ? (
                 <button aria-label="Action button"
                   onClick={async () => {

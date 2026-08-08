@@ -37,8 +37,8 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               key={l.id}
               onClick={() => setActiveLayout(l.id)}
               className={`w-9 h-9  text-xs font-black transition-colors cursor-pointer flex items-center justify-center ${activeLayout === l.id
-                  ? "bg-[var(--color-accent)] text-white shadow-md border border-[var(--color-accent)]/50 scale-110"
-                  : "bg-white/5 text-white/60 hover:text-white hover:bg-white/15 border border-transparent"
+                ? "bg-[var(--color-accent)] text-white shadow-md border border-[var(--color-accent)]/50 scale-110"
+                : "bg-white/5 text-white/60 hover:text-white hover:bg-white/15 border border-transparent"
                 }`}
             >
               {l.name}
@@ -90,7 +90,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`relative p-7 rounded-3xl bg-black border border-cyan-500/30 backdrop-blur-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-colors group overflow-hidden ${i === 0 || i === 3 ? "md:col-span-2" : ""
+              className={`relative p-7 rounded-3xl   border border-cyan-500/30 backdrop-blur-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-colors group overflow-hidden ${i === 0 || i === 3 ? "md:col-span-2" : ""
                 }`}
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
@@ -140,7 +140,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               className="p-7 rounded-3xl bg-[var(--color-surface-raised)] border border-[var(--color-accent)]/20 backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:border-[var(--color-accent)]/50 hover:-translate-y-1.5 transition-colors group"
             >
               <div className="w-12 h-12 bg-[var(--color-accent)] p-0.5 mb-6 group-hover:rotate-6 transition-transform">
-                <div className="w-full h-full bg-black rounded-[14px] flex items-center justify-center font-black text-white text-lg">
+                <div className="w-full h-full   rounded-[14px] flex items-center justify-center font-black text-white text-lg">
                   {s.number.charAt(0)}
                 </div>
               </div>
@@ -200,7 +200,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s) => (
             <div
               key={s.label}
-              className="relative p-8 rounded-3xl bg-black border border-[var(--color-accent)]/20 backdrop-blur-xl hover:border-[var(--color-accent)] shadow-[var(--shadow-brand)] hover:shadow-[var(--shadow-brand)] transition-colors group overflow-hidden"
+              className="relative p-8 rounded-3xl   border border-[var(--color-accent)]/20 backdrop-blur-xl hover:border-[var(--color-accent)] shadow-[var(--shadow-brand)] hover:shadow-[var(--shadow-brand)] transition-colors group overflow-hidden"
             >
               <div className="absolute -top-12 -left-12 w-32 h-32 bg-[var(--color-accent)]/15 rounded-full blur-3xl group-hover:bg-[var(--color-accent)]/15 transition-colors" />
               <div className="text-5xl font-black  text-[var(--color-accent)] mb-3">
@@ -258,7 +258,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
           {stats.map((s) => (
             <div
               key={s.label}
-              className="relative p-8 rounded-3xl bg-black border border-white/10 backdrop-blur-2xl transition-colors group overflow-hidden"
+              className="relative p-8 rounded-3xl   border border-white/10 backdrop-blur-2xl transition-colors group overflow-hidden"
             >
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-[var(--color-accent)]/40 group-hover:w-full transition-colors duration-500" />
               <div className="text-5xl font-black text-white tracking-tight mb-3 group-hover:scale-110 transition-transform origin-left">
@@ -291,7 +291,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
       {activeLayout === 12 && (
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
           {stats.map((s) => (
-            <div key={s.label} className="relative p-7 bg-black border-2 border-cyan-400/40 hover:border-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-colors group">
+            <div key={s.label} className="relative p-7   border-2 border-cyan-400/40 hover:border-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-colors group">
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-cyan-400 border border-black" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-cyan-400 border border-black" />
               <div className="text-4xl font-mono font-black text-cyan-300 mb-2">{s.number}</div>
@@ -340,7 +340,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
       {activeLayout === 15 && (
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           {stats.map((s) => (
-            <div key={s.label} className="p-7 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg bg-black border border-white/10 backdrop-blur-xl transition-colors group">
+            <div key={s.label} className="p-7 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg   border border-white/10 backdrop-blur-xl transition-colors group">
               <div className="text-4xl font-black  text-[var(--color-accent)] mb-2 group-hover:scale-105 transition-transform">{s.number}</div>
               <h4 className="text-xs font-extrabold uppercase text-white mb-2 tracking-wider">{s.label}</h4>
               <p className="text-xs text-white/70 leading-relaxed">{s.text}</p>
@@ -384,7 +384,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
       {activeLayout === 18 && (
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4">
           {stats.map((s) => (
-            <div key={s.label} className="p-6 bg-black border border-white/10 hover:border-[var(--color-accent)] backdrop-blur-xl text-center group transition-colors">
+            <div key={s.label} className="p-6   border border-white/10 hover:border-[var(--color-accent)] backdrop-blur-xl text-center group transition-colors">
               <div className="text-4xl font-black text-white mb-1 group-hover:scale-110 transition-transform">{s.number}</div>
               <h4 className="text-[var(--font-size-2xs)] font-extrabold uppercase  text-[var(--color-accent)] tracking-wider mb-2">{s.label}</h4>
               <p className="text-[var(--font-size-2xs)] text-white/60 leading-snug line-clamp-2">{s.text}</p>

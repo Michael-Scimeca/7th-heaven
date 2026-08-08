@@ -49,20 +49,20 @@ const nextConfig: NextConfig = {
   async headers() {
     const cspRules = [
       "default-src 'self'",
-      // Scripts — self + inline (needed for Next.js) + trusted CDNs
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.hcaptcha.com https://www.googletagmanager.com https://cdn.sanity.io",
+      // Scripts — self + inline (needed for Next.js) + trusted CDNs + YouTube API
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.hcaptcha.com https://www.googletagmanager.com https://cdn.sanity.io https://www.youtube.com https://s.ytimg.com",
       // Styles
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Fonts
       "font-src 'self' https://fonts.gstatic.com",
       // Images — allow data URIs for generated OG images
-      "img-src 'self' data: blob: https://api.qrserver.com https://cdn.sanity.io https://lh3.googleusercontent.com https://7thheavenband.com https://www.7thheavenband.com https://cdn.shopify.com https://img.youtube.com https://*.basemaps.cartocdn.com https://upload.wikimedia.org",
-      // Connect — Supabase, LiveKit, Sanity, Upstash
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.livekit.cloud wss://*.livekit.cloud https://*.sanity.io https://*.upstash.io https://hcaptcha.com https://www.googletagmanager.com https://*.myshopify.com",
-      // Media — LiveKit streams
-      "media-src 'self' blob: https://*.livekit.cloud",
-      // Frames — hCaptcha only
-      "frame-src https://hcaptcha.com https://newassets.hcaptcha.com",
+      "img-src 'self' data: blob: https://api.qrserver.com https://cdn.sanity.io https://lh3.googleusercontent.com https://7thheavenband.com https://www.7thheavenband.com https://cdn.shopify.com https://img.youtube.com https://i.ytimg.com https://*.basemaps.cartocdn.com https://upload.wikimedia.org",
+      // Connect — Supabase, LiveKit, Sanity, Upstash, YouTube
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.livekit.cloud wss://*.livekit.cloud https://*.sanity.io https://*.upstash.io https://hcaptcha.com https://www.googletagmanager.com https://*.myshopify.com https://www.youtube.com https://*.googlevideo.com",
+      // Media — LiveKit streams & Google Video
+      "media-src 'self' blob: https://*.livekit.cloud https://*.googlevideo.com https://www.youtube.com",
+      // Frames — hCaptcha & YouTube embeds
+      "frame-src 'self' https://hcaptcha.com https://newassets.hcaptcha.com https://www.youtube.com https://www.youtube-nocookie.com",
       // Workers (Next.js needs blob)
       "worker-src 'self' blob:",
       // Block all object embeds

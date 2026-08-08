@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AlertTriangle, ShoppingCart } from "lucide-react";
 
 type ShopifyProduct = {
   id: string;
@@ -137,7 +138,8 @@ export default function HomeMerch() {
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
         {isDemo && (
           <div className="mb-6 flex items-center gap-2 px-4 py-2 bg-purple-600/10 border border-purple-500/20 rounded-lg">
-            <span className="text-purple-300 text-xs font-black uppercase tracking-widest">⚠ Demo</span>
+            <AlertTriangle className="w-4 h-4 text-purple-300 shrink-0" />
+            <span className="text-purple-300 text-xs font-black uppercase tracking-widest">Demo</span>
             <p className="text-purple-200/50 text-xs">These are placeholder products. Connect Shopify and tag items "featured" or "sale" to replace them.</p>
           </div>
         )}
@@ -172,7 +174,7 @@ export default function HomeMerch() {
                     <Image src={imageUrl} alt={product.title} fill sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-4xl opacity-20">🛒</span>
+                      <ShoppingCart className="w-10 h-10 text-white/20" />
                     </div>
                   )}
                   {soldOut && (

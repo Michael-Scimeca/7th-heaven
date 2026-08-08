@@ -10,6 +10,8 @@ const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mo
 import { getProducts } from '@/lib/shopify';
 import { shiftCoverageRequest } from '@/lib/email-templates';
 import { createClient } from '@/lib/supabase/client';
+import { AlertTriangle, Ban, Trash2, X, Check, Sparkles, Gift, Users, Music, Volume2, Heart, FileText, MapPin, MessageSquare, ChevronDown, Mail, Shield, Siren, Clock } from 'lucide-react';
+import { getShowDateTime } from '@/lib/date-utils';
 
 // ── Constants & types extracted from this file ──
 import {
@@ -2651,12 +2653,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   const activeProduct = shopifyProducts.find(p => p.id === selectedProductIdRef.current) || shopifyProducts[0];
   const pName = activeProduct?.title || '7TH HEAVEN HOODIE 2026';
-  const pPrice = activeProduct ? activeProduct.variants.edges[0].node.price.amount : '45.00';
+  const pPrice = activeProduct?.variants?.edges?.[0]?.node?.price?.amount || '45.00';
   const pStock = activeProduct ? (activeProduct.quantityAvailable || 0) : inventoryQtyRef.current;
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
-    <div className="min-h-screen bg-[#030305] text-white font-sans selection:bg-purple-600/30 pt-20">
+    <div className="min-h-screen bg-transparent text-white font-sans selection:bg-purple-600/30 pt-20">
 
       {/* ─── EXACT HEADER LAYOUT ─── */}
       <header>
@@ -2775,11 +2777,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
               )}
 
-              {/* ─── VIDEO + CHAT GRID (Exactly like the old one) ─── */}
-              <div className="flex bg-[#0f051d] overflow-hidden h-[600px] border border-white/15 rounded-none">
+              {/* ─── VIDEO + CHAT GRID ─── */}
+              <div
+                className="flex bg-transparent overflow-hidden h-[600px] rounded-lg"
+                style={{ border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px' }}
+              >
 
                 {/* VIDEO PLAYER (Left side) */}
-                <div className="flex-1 relative bg-black group min-w-0 border-r border-white/15">
+                <div
+                  className="flex-1 relative bg-transparent group min-w-0"
+                  style={{ borderRight: '1px solid rgba(255, 255, 255, 0.15)' }}
+                >
                   {(userId && isLive) ? (
                     <LiveKitStream
                       room={`live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`}
@@ -2793,7 +2801,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       className="absolute inset-0 z-0"
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-black flex flex-col items-center justify-center">
+                    <div className="absolute inset-0 bg-transparent flex flex-col items-center justify-center">
                       <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
                           <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
@@ -2867,8 +2875,11 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </div>
 
                 {/* CHAT PANEL (Right side) */}
-                <div className="w-[400px] bg-[#0c0418] flex flex-col shrink-0 text-white">
-                  <div className="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
+                <div className="w-[400px] bg-transparent flex flex-col shrink-0 text-white">
+                  <div
+                    className="p-4 flex items-center justify-between shrink-0"
+                    style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.15)' }}
+                  >
                     <span className="text-xs font-black uppercase tracking-widest text-white/90">Live Chat</span>
                     <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-white/60">
                       <div className="flex items-center gap-1">
@@ -3024,7 +3035,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           onClick={handleGlobalPinBox}
                           disabled={!globalPinText.trim()}
-                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-30 disabled:bg-white/10 disabled:text-white/30"
+                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 text-white font-black uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:text-white"
                         >
                           PIN
                         </button>
@@ -3041,535 +3052,536 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3.5 pr-12 text-xs text-white placeholder:text-white/30 outline-none focus:border-purple-500/50 transition-colors"
                       />
                       <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center">
-                        <button onClick={handlePost} disabled={!content.trim() || posting} className="h-full px-3 bg-purple-600 hover:brightness-110 text-black rounded-lg flex items-center justify-center transition-colors disabled:opacity-40" title="Send Chat">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
+                        <button onClick={handlePost} disabled={!content.trim() || posting} className="h-full px-3 bg-purple-600 hover:brightness-110 text-white rounded-lg flex items-center justify-center transition-colors disabled:opacity-40" title="Send Chat">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
+
+                {/* FLASH MERCH DROP */}
+                <div className="flex-1 text-white">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div>
+                      <h3 className="text-sm font-black italic tracking-wide text-white">Flash Merch Drop</h3>
+                      <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Limited time, limited stock</p>
+                    </div>
+                  </div>
+                  <div>
+                    {activeDrop ? (
+                      <div className="space-y-4">
+                        {/* Submitted Status Header */}
+                        <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">Flash Sale Active</span>
+                          </div>
+                          <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
+                        </div>
+
+                        {/* Countdown timer */}
+                        <div className="bg-black/40 border border-white/10 p-4 text-center">
+                          <p className="text-xs font-black tracking-widest text-white/40 uppercase mb-1">Time Remaining</p>
+                          <p className="text-3xl font-black font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
+                            {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
+                          </p>
+                          <div className="w-full bg-white/5 h-1.5 rounded-full mt-3 overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-colors duration-1000"
+                              style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Product List */}
+                        <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                          <p className="text-xs font-black tracking-widest uppercase text-white/40">Active Products</p>
+                          {activeDrop.products.map(p => (
+                            <div key={p.id} className="flex gap-3 p-2.5 bg-white/5 border border-white/10 items-center justify-between">
+                              <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
+                                <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                              </div>
+                              <div className="shrink-0 text-right">
+                                <p className="text-xs font-black text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="pt-2">
+                          <button
+                            type="button"
+                            onClick={cancelFlashDrop}
+                            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-black tracking-widest uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            Cancel Flash Drop
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex items-center justify-between mb-3 text-xs font-black uppercase tracking-widest">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[var(--color-accent-pink)]">LIVE SHOPIFY INVENTORY</span>
+                            <a
+                              href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[var(--font-size-4xs)] text-white/60 hover:text-white font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-purple-500/30 bg-white/5 px-2 py-0.5 rounded"
+                              title="Go to Shopify Products Admin"
+                            >
+                              Shopify Admin ↗
+                            </a>
+                          </div>
+                          <button onClick={() => window.location.reload()} className="text-white/40 hover:text-white flex items-center gap-1">↻ Refresh</button>
+                        </div>
+
+                        <div className="mb-4">
+                          <select
+                            aria-label="Select product to add to Flash Drop"
+                            value=""
+                            onChange={e => {
+                              if (e.target.value) {
+                                addProductToDrop(e.target.value);
+                                e.target.value = "";
+                              }
+                            }}
+                            className="w-full bg-black border border-white/20 p-3 text-white font-bold text-sm outline-none focus:border-[#9333ea] cursor-pointer appearance-none"
+                            style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
+                          >
+                            <option value="" className="text-white/40 bg-black">Select product to add to Flash Drop...</option>
+                            {shopifyProducts.map(p => (
+                              <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)} className="bg-black text-white">
+                                {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
+                          <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Selected Products & Flash Sale Prices</p>
+                          {selectedProducts.length === 0 ? (
+                            <div className="text-center py-6 border border-white/15 text-white/60 italic text-xs">
+                              No products selected yet. Select a product above.
+                            </div>
+                          ) : (
+                            selectedProducts.map(p => (
+                              <div key={p.id} className="flex gap-4 p-3 border border-white/15 items-center justify-between text-white bg-white/5">
+                                <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
+                                  <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                                </div>
+                                <div className="flex items-center gap-2 shrink-0">
+                                  <div className="flex items-center bg-black/60 border border-white/15 rounded-lg px-2 py-1 max-w-[90px]">
+                                    <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
+                                    <input
+                                      type="text"
+                                      aria-label="Flash sale price"
+                                      value={p.flashPrice}
+                                      onChange={e => updateProductFlashPrice(p.id, e.target.value)}
+                                      className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right"
+                                      placeholder="Price"
+                                    />
+                                  </div>
+                                  <button
+                                    onClick={() => removeProductFromDrop(p.id)}
+                                    className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs transition-colors cursor-pointer border-none"
+                                    title="Remove from drop"
+                                  >
+                                    ✕
+                                  </button>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Total Products</p>
+                            <div className="w-full bg-white/5 border border-white/15 rounded-lg p-2.5 text-center text-xs font-bold font-mono text-white">{selectedProducts.length}</div>
+                          </div>
+                          <div>
+                            <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Duration</p>
+                            <div className="grid grid-cols-4 gap-1">
+                              {['2m', '5m', '10m', '15m'].map((d) => (
+                                <button
+                                  key={d}
+                                  type="button"
+                                  onClick={() => setDropDurationStr(d)}
+                                  className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10'}`}
+                                >
+                                  {d}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        <label className="flex items-center gap-2 mb-4 cursor-pointer group">
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-purple-600 border-[#9333ea]' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
+                            {globalDrop && <span className="text-black text-[var(--font-size-3xs)] font-bold">✓</span>}
+                          </div>
+                          <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
+                          <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
+                        </label>
+
+                        <button
+                          type="button"
+                          onClick={launchFlashDrop}
+                          className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors"
+                        >
+                          Launch Flash Drop
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
+                            localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
+                            try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
+                          }}
+                          className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
+                        >
+                          [TESTING] Simulate Sold Out Merch Drop
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* LIVE RAFFLE (Rebuilt as requested) */}
+                <div className="flex-1 flex flex-col text-white">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div>
+                        <h3 className="text-sm font-black italic tracking-wide text-white">Live Event Raffle</h3>
+                        <p className="text-xs font-bold text-white/60 uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                      </div>
+                    </div>
+                    {raffleStatus !== 'idle' && (
+                      <button
+                        type="button"
+                        onClick={cancelRaffle}
+                        className="px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
+                      >
+                        {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex-1 flex flex-col gap-5">
+
+                    {/* Multi-Raffle Queue Configuration */}
+                    <div className="overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+                      <div className="space-y-3 min-w-0">
+                        {Array.from(raffleQueue, (item, idx) => ({ item, idx })).map(({ item, idx }) => (
+                          <div key={item.name || idx} className={`flex flex-col gap-1.5 relative ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
+                            {/* Show indicator if it's the currently active raffle */}
+                            {idx === activeQueueIndex && raffleStatus !== 'idle' && (
+                              <div className="absolute -left-5 top-7  text-[var(--color-accent)] animate-pulse text-xs">▶</div>
+                            )}
+
+                            <div className="flex gap-2 items-end">
+                              {/* Input 1: Prize Name */}
+                              <div className="flex-1 flex flex-col gap-1.5">
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
+                                <input
+                                  type="text"
+                                  aria-label="Raffle prize name"
+                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                  value={item.name}
+                                  onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
+                                  placeholder="e.g. VIP Meet & Greet Pass"
+                                  className={`w-full bg-white/5 border rounded-md px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50 shadow-[0_0_10px_rgba(147,51,234,0.1)]' : 'border-white/10 focus:border-[#a78bfa]'}`}
+                                />
+                              </div>
+
+                              {/* Input 2: Entries Needed */}
+                              <div className="w-20 flex flex-col gap-1.5 relative">
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
+                                <input
+                                  type="number"
+                                  aria-label="Minimum entries needed"
+                                  min="1"
+                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                  value={item.min || ''}
+                                  onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
+                                  className={`w-full bg-white/5 border rounded-md px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-white/10 focus:border-purple-500'}`}
+                                />
+                                {/* Floating counter during active raffle */}
+                                {idx === activeQueueIndex && raffleStatus !== 'idle' && (
+                                  <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)] font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/20 whitespace-nowrap overflow-visible z-10 w-auto text-right">
+                                    {raffleEntrants.length} / {item.min} Entries
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Input 3: Prize Qty */}
+                              <div className="w-14 flex flex-col gap-1.5">
+                                {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
+                                <input
+                                  type="number"
+                                  aria-label="Prize quantity"
+                                  min="1"
+                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                  value={item.qty || ''}
+                                  onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
+                                  className={`w-full bg-white/5 border rounded-md px-3 py-2 text-xs text-white outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-white/10 focus:border-[#a78bfa]'}`}
+                                />
+                              </div>
+
+                              {/* Action Buttons */}
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  type="button"
+                                  aria-label="Start raffle"
+                                  onClick={() => startSpecificRaffle(idx)}
+                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                  className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
+                                    ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
+                                    : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
+                                      ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
+                                      : 'border-white/10 text-white/30 opacity-30 shadow-none'
+                                    }`}
+                                >
+                                  {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
+                                </button>
+
+                                <button
+                                  type="button"
+                                  aria-label="Remove raffle item"
+                                  onClick={() => removeQueueItem(idx)}
+                                  disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
+                                  className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors disabled:opacity-0 text-xs"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+
+                        <button
+                          type="button"
+                          onClick={addQueueItem}
+                          disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                          className="w-full py-2.5 border border-dashed border-white/20 text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-md hover:border-white/50 hover:bg-white/5 transition-colors disabled:opacity-30"
+                        >
+                          + Add Another Raffle To Queue
+                        </button>
+                      </div>
+                    </div>
+
+                    {raffleStatus === 'open' && (
+                      <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
+                        <p className="text-lg font-black text-white italic mb-1">{raffleEntrants.length} <span className="text-xs text-white/50">/ {raffleMinEntrants}</span></p>
+                        <p className="text-xs font-bold text-[var(--color-accent)] uppercase tracking-widest mt-0.5">Fan entries collected</p>
+                        <div className="flex flex-col gap-2 mt-4 px-2">
+                          <div className="flex gap-2">
+                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Fake Entry</button>
+                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/15 rounded-lg text-xs font-bold text-white uppercase tracking-widest transition-colors">+ Multi Fake</button>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={rigWinForMe}
+                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] transition-colors"
+                          >
+                            🧪 TEST: Rig Win for Me
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Draw Action */}
+                    <div className="mt-auto">
+                      {raffleStatus !== 'complete' ? (
+                        <button
+                          type="button"
+                          onClick={drawWinner}
+                          disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
+                          className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors disabled:opacity-30 disabled:grayscale"
+                        >
+                          {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
+                        </button>
+                      ) : (
+                        <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
+                          <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
+                          <h4 className="text-lg font-black text-black italic">Winner Selected</h4>
+                          <div className="flex flex-col gap-2 justify-center mt-3">
+                            {drawnWinners.map((w, i) => (
+                              <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
+                                <span className="text-sm font-black">{w.name}</span>
+                                <span className="text-xs font-mono font-bold tracking-widest text-purple-200 font-sans">PIN: {winnerPins[i] || '0000'}</span>
+                              </div>
+                            ))}
+                          </div>
+                          {raffleAutoRestartCountdown !== null && (
+                            <p className="text-xs font-bold text-black/40 mt-3 pt-3 border-t border-black/10">
+                              Next raffle auto-starts in <span className=" text-[var(--color-accent)] font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
+              <div className="mt-6 text-white">
+                <div className="mb-4 flex items-center gap-3">
+                  <div>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
+                    <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
+                  </div>
+                </div>
+
+                <div className="pt-4 space-y-4">
+                  <div className="flex flex-col lg:flex-row gap-6 items-start">
+                    <div className="max-w-[600px] w-full space-y-2">
+                      <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
+                      <p className="text-white/60 text-xs leading-relaxed font-sans font-semibold">
+                        Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
+                      </p>
+
+                      <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-[300px] mt-2">
+                        <input
+                          type="text"
+                          aria-label="Custom flagged keyword"
+                          value={newCustomWord}
+                          onChange={e => setNewCustomWord(e.target.value)}
+                          placeholder="e.g. ticket-scalper"
+                          className="flex-1 bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white outline-none focus:border-purple-500/50 font-bold placeholder:text-white/30"
+                        />
+                        <button
+                          type="submit"
+                          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-600 text-white font-black text-xs uppercase tracking-wider transition-colors"
+                        >
+                          Add Keyword
+                        </button>
+                      </form>
+                    </div>
+
+                    <div className="w-full lg:w-[450px] shrink-0 space-y-2">
+                      <p className="text-xs font-black uppercase tracking-widest text-white/60">Active Custom Filters</p>
+                      {customWords.length === 0 ? (
+                        <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+                          <p className="text-white/40 text-xs italic">No custom keywords configured.</p>
+                        </div>
+                      ) : (
+                        <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
+                          {customWords.map(word => (
+                            <span
+                              key={word}
+                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border border-white/15 text-xs font-bold text-white"
+                            >
+                              <span>{word}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveCustomWord(word)}
+                                className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/20 text-white/60 hover:text-white transition-colors"
+                              >
+                                &times;
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
+              <div className="mt-6 text-white">
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
+                      <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
+                    </div>
+                  </div>
+                  {isLive && (
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
+                      ● Live Tracking
+                    </span>
+                  )}
+                </div>
+
+                <div className="pt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                    {/* store sales card */}
+                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
+                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white">Store Sales Revenue</p>
+                      <p className="text-2xl font-black mt-1 text-white font-mono">
+                        ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                      </p>
+                      <p className="text-3xs font-bold text-white/60 uppercase tracking-wider mt-1">
+                        {orders.filter(o => o.source === 'Store').length} purchases
+                      </p>
+                    </div>
+
+                    {/* flash drop sales card */}
+                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
+                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white">Flash Drop Sales</p>
+                      <p className="text-2xl font-black mt-1 text-white font-mono">
+                        ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                      </p>
+                      <p className="text-3xs font-bold text-white/60 uppercase tracking-wider mt-1">
+                        {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
+                      </p>
+                    </div>
+
+                    {/* raffle claims card */}
+                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
+                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white">Raffle Claims</p>
+                      <p className="text-2xl font-black mt-1 text-white font-mono">
+                        {orders.filter(o => o.source === 'Raffle').length}
+                      </p>
+                      <p className="text-3xs font-bold text-white/60 uppercase tracking-wider mt-1">prizes claimed by fans</p>
+                    </div>
+
+                    {/* viewers card */}
+                    <div className="p-0 bg-transparent border-none relative overflow-hidden">
+                      <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-white inline" /> Live Viewers
+                      </p>
+                      <p className="text-2xl font-black mt-1 text-white font-mono">{viewerCount}</p>
+                      <p className="text-3xs font-bold text-white/60 uppercase tracking-wider mt-1">{isLive ? "Watching live right now" : "Offline"}</p>
+                    </div>
+
                   </div>
                 </div>
               </div>
             </div>
           )}
         </div>
-        {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
-
-          {/* FLASH MERCH DROP */}
-          <div className="flex-1 text-white">
-            <div className="flex items-center gap-3 mb-4">
-              <div>
-                <h3 className="text-sm font-black italic tracking-wide text-white">Flash Merch Drop</h3>
-                <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Limited time, limited stock</p>
-              </div>
-            </div>
-            <div>
-              {activeDrop ? (
-                <div className="space-y-4">
-                  {/* Submitted Status Header */}
-                  <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent)]">Flash Sale Active</span>
-                    </div>
-                    <span className="text-[var(--font-size-3xs)] text-white/40 uppercase font-bold tracking-wider">Submitted Successfully</span>
-                  </div>
-
-                  {/* Countdown timer */}
-                  <div className="bg-black/40 border border-white/10 p-4 text-center">
-                    <p className="text-xs font-black tracking-widest text-white/40 uppercase mb-1">Time Remaining</p>
-                    <p className="text-3xl font-black font-mono text-[var(--color-accent-pink)] tracking-wider animate-pulse">
-                      {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
-                    </p>
-                    <div className="w-full bg-white/5 h-1.5 rounded-full mt-3 overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-colors duration-1000"
-                        style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Product List */}
-                  <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                    <p className="text-xs font-black tracking-widest uppercase text-white/40">Active Products</p>
-                    {activeDrop.products.map(p => (
-                      <div key={p.id} className="flex gap-3 p-2.5 bg-white/5 border border-white/10 items-center justify-between">
-                        <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-10 h-10 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold truncate text-white" title={p.title}>{p.title}</p>
-                          <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
-                        </div>
-                        <div className="shrink-0 text-right">
-                          <p className="text-xs font-black text-[var(--color-accent-pink)] font-mono">${p.flashPrice}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={cancelFlashDrop}
-                      className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-black tracking-widest uppercase transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      Cancel Flash Drop
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center justify-between mb-3 text-xs font-black uppercase tracking-widest">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[var(--color-accent-pink)]">LIVE SHOPIFY INVENTORY</span>
-                      <a
-                        href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[var(--font-size-4xs)] text-white/60 hover:text-white font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-purple-500/30 bg-white/5 px-2 py-0.5 rounded"
-                        title="Go to Shopify Products Admin"
-                      >
-                        Shopify Admin ↗
-                      </a>
-                    </div>
-                    <button onClick={() => window.location.reload()} className="text-white/40 hover:text-white flex items-center gap-1">↻ Refresh</button>
-                  </div>
-
-                  <div className="mb-4">
-                    <select
-                      aria-label="Select product to add to Flash Drop"
-                      value=""
-                      onChange={e => {
-                        if (e.target.value) {
-                          addProductToDrop(e.target.value);
-                          e.target.value = "";
-                        }
-                      }}
-                      className="w-full bg-black border border-white/20 p-3 text-white font-bold text-sm outline-none focus:border-[#9333ea] cursor-pointer appearance-none"
-                      style={{ backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ec4899%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem top 50%', backgroundSize: '0.65rem auto' }}
-                    >
-                      <option value="" className="text-white/40 bg-black">Select product to add to Flash Drop...</option>
-                      {shopifyProducts.map(p => (
-                        <option key={p.id} value={p.id} disabled={selectedProducts.some(sp => sp.id === p.id)} className="bg-black text-white">
-                          {p.title} — ${p.variants?.edges?.[0]?.node?.price?.amount} ({(p.quantityAvailable || 0)} in stock)
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-                    <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Selected Products & Flash Sale Prices</p>
-                    {selectedProducts.length === 0 ? (
-                      <div className="text-center py-6 border border-white/15 text-white/60 italic text-xs">
-                        No products selected yet. Select a product above.
-                      </div>
-                    ) : (
-                      selectedProducts.map(p => (
-                        <div key={p.id} className="flex gap-4 p-3 border border-white/15 items-center justify-between text-white bg-white/5">
-                          <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded bg-black object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold truncate pr-2 text-white" title={p.title}>{p.title}</p>
-                            <p className="text-[var(--font-size-3xs)] text-white/50 mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0">
-                            <div className="flex items-center bg-black/60 border border-white/15 rounded-lg px-2 py-1 max-w-[90px]">
-                              <span className="text-white/40 text-[var(--font-size-3xs)] mr-1">$</span>
-                              <input
-                                type="text"
-                                aria-label="Flash sale price"
-                                value={p.flashPrice}
-                                onChange={e => updateProductFlashPrice(p.id, e.target.value)}
-                                className="bg-transparent text-white font-mono font-black text-xs outline-none w-full text-right"
-                                placeholder="Price"
-                              />
-                            </div>
-                            <button
-                              onClick={() => removeProductFromDrop(p.id)}
-                              className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs transition-colors cursor-pointer border-none"
-                              title="Remove from drop"
-                            >
-                              ✕
-                            </button>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Total Products</p>
-                      <div className="w-full bg-white/5 border border-white/15 rounded-lg p-2.5 text-center text-xs font-bold font-mono text-white">{selectedProducts.length}</div>
-                    </div>
-                    <div>
-                      <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Duration</p>
-                      <div className="grid grid-cols-4 gap-1">
-                        {['2m', '5m', '10m', '15m'].map((d) => (
-                          <button
-                            key={d}
-                            type="button"
-                            onClick={() => setDropDurationStr(d)}
-                            className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10'}`}
-                          >
-                            {d}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <label className="flex items-center gap-2 mb-4 cursor-pointer group">
-                    <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-purple-600 border-[#9333ea]' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
-                      {globalDrop && <span className="text-black text-[var(--font-size-3xs)] font-bold">✓</span>}
-                    </div>
-                    <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
-                    <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
-                  </label>
-
-                  <button
-                    type="button"
-                    onClick={launchFlashDrop}
-                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors"
-                  >
-                    Launch Flash Drop
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
-                      localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
-                      try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
-                    }}
-                    className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
-                  >
-                    [TESTING] Simulate Sold Out Merch Drop
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* LIVE RAFFLE (Rebuilt as requested) */}
-          <div className="flex-1 flex flex-col text-white">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-4">
-              <div className="flex items-center gap-3">
-                <div>
-                  <h3 className="text-sm font-black italic tracking-wide text-white">Live Event Raffle</h3>
-                  <p className="text-xs font-bold text-white/60 uppercase tracking-widest">{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
-                </div>
-              </div>
-              {raffleStatus !== 'idle' && (
-                <button
-                  type="button"
-                  onClick={cancelRaffle}
-                  className="px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20"
-                >
-                  {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
-                </button>
-              )}
-            </div>
-            <div className="flex-1 flex flex-col gap-5">
-
-              {/* Multi-Raffle Queue Configuration */}
-              <div className="overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <div className="space-y-3 min-w-0">
-                  {Array.from(raffleQueue, (item, idx) => ({ item, idx })).map(({ item, idx }) => (
-                    <div key={item.name || idx} className={`flex flex-col gap-1.5 relative ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
-                      {/* Show indicator if it's the currently active raffle */}
-                      {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                        <div className="absolute -left-5 top-7  text-[var(--color-accent)] animate-pulse text-xs">▶</div>
-                      )}
-
-                      <div className="flex gap-2 items-end">
-                        {/* Input 1: Prize Name */}
-                        <div className="flex-1 flex flex-col gap-1.5">
-                          {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
-                          <input
-                            type="text"
-                            aria-label="Raffle prize name"
-                            disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                            value={item.name}
-                            onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
-                            placeholder="e.g. VIP Meet & Greet Pass"
-                            className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50 shadow-[0_0_10px_rgba(147,51,234,0.1)]' : 'border-black/10 focus:border-[#a78bfa]'}`}
-                          />
-                        </div>
-
-                        {/* Input 2: Entries Needed */}
-                        <div className="w-20 flex flex-col gap-1.5 relative">
-                          {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] truncate block">2. Entries</span>}
-                          <input
-                            type="number"
-                            aria-label="Minimum entries needed"
-                            min="1"
-                            disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                            value={item.min || ''}
-                            onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                            className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-black/10 focus:border-purple-500'}`}
-                          />
-                          {/* Floating counter during active raffle */}
-                          {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                            <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)]  text-[var(--color-accent)] font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/20 whitespace-nowrap overflow-visible z-10 w-auto text-right">
-                              {raffleEntrants.length} / {item.min} Entries
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Input 3: Prize Qty */}
-                        <div className="w-14 flex flex-col gap-1.5">
-                          {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
-                          <input
-                            type="number"
-                            aria-label="Prize quantity"
-                            min="1"
-                            disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                            value={item.qty || ''}
-                            onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                            className={`w-full bg-gray-50 border rounded-md px-3 py-2 text-xs text-black outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-black/10 focus:border-[#a78bfa]'}`}
-                          />
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            aria-label="Start raffle"
-                            onClick={() => startSpecificRaffle(idx)}
-                            disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                            className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
-                              ? 'border-purple-500  text-[var(--color-accent)] hover:bg-purple-600/10'
-                              : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
-                                ? 'border-purple-500/50 bg-purple-600/20  text-[var(--color-accent)]'
-                                : 'border-black/10 text-black/30 opacity-30 shadow-none'
-                              }`}
-                          >
-                            {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
-                          </button>
-
-                          <button
-                            type="button"
-                            aria-label="Remove raffle item"
-                            onClick={() => removeQueueItem(idx)}
-                            disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
-                            className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors disabled:opacity-0 text-xs"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-
-                  <button
-                    type="button"
-                    onClick={addQueueItem}
-                    disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                    className="w-full py-2 border border-dashed border-black/15 text-black/40 text-xs font-bold uppercase tracking-widest rounded-md hover:border-white/40 hover:text-black/80 transition-colors disabled:opacity-30"
-                  >
-                    + Add Another Raffle To Queue
-                  </button>
-                </div>
-              </div>
-
-              {raffleStatus === 'open' && (
-                <div className="mt-2 text-center p-3 border border-purple-500/20 bg-purple-600/5">
-                  <p className="text-lg font-black text-black italic mb-1">{raffleEntrants.length} <span className="text-xs text-black/50">/ {raffleMinEntrants}</span></p>
-                  <p className="text-xs font-bold  text-[var(--color-accent)] uppercase tracking-widest mt-0.5">Fan entries collected</p>
-                  <div className="flex flex-col gap-2 mt-4 px-2">
-                    <div className="flex gap-2">
-                      <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-black/10 rounded-lg text-xs font-bold text-black uppercase tracking-widest transition-colors">+ Fake Entry</button>
-                      <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-black/10 rounded-lg text-xs font-bold text-black uppercase tracking-widest transition-colors">+ Multi Fake</button>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={rigWinForMe}
-                      className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg text-xs font-black text-[var(--color-accent)] uppercase tracking-[0.2em] transition-colors"
-                    >
-                      🧪 TEST: Rig Win for Me
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Draw Action */}
-              <div className="mt-auto">
-                {raffleStatus !== 'complete' ? (
-                  <button
-                    type="button"
-                    onClick={drawWinner}
-                    disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
-                    className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-black text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors disabled:opacity-30 disabled:grayscale"
-                  >
-                    {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
-                  </button>
-                ) : (
-                  <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
-                    <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
-                    <h4 className="text-lg font-black text-black italic">Winner Selected</h4>
-                    <div className="flex flex-col gap-2 justify-center mt-3">
-                      {drawnWinners.map((w, i) => (
-                        <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
-                          <span className="text-sm font-black">{w.name}</span>
-                          <span className="text-xs font-mono font-bold tracking-widest text-purple-200 font-sans">PIN: {winnerPins[i] || '0000'}</span>
-                        </div>
-                      ))}
-                    </div>
-                    {raffleAutoRestartCountdown !== null && (
-                      <p className="text-xs font-bold text-black/40 mt-3 pt-3 border-t border-black/10">
-                        Next raffle auto-starts in <span className=" text-[var(--color-accent)] font-mono text-xs">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-        <div className="mt-6 text-white">
-          <div className="mb-4 flex items-center gap-3">
-            <div>
-              <h3 className="text-sm font-black italic tracking-wide text-white">Chat Moderation & Policies</h3>
-              <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Custom Flagged Keywords & Filters</p>
-            </div>
-          </div>
-
-          <div className="pt-4 space-y-4">
-            <div className="flex flex-col lg:flex-row gap-6 items-start">
-              <div className="flex-1 min-w-0 w-full space-y-2">
-                <h4 className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Custom Flagged Keywords</h4>
-                <p className="text-white/60 text-xs leading-relaxed font-sans font-semibold">
-                  Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
-                </p>
-
-                <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-md mt-2">
-                  <input
-                    type="text"
-                    aria-label="Custom flagged keyword"
-                    value={newCustomWord}
-                    onChange={e => setNewCustomWord(e.target.value)}
-                    placeholder="e.g. ticket-scalper"
-                    className="flex-1 bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white outline-none focus:border-purple-500/50 font-bold placeholder:text-white/30"
-                  />
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-purple-600 hover:bg-purple-600 text-white font-black text-xs uppercase tracking-wider transition-colors"
-                  >
-                    Add Keyword
-                  </button>
-                </form>
-              </div>
-
-              <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                <p className="text-xs font-black uppercase tracking-widest text-white/60">Active Custom Filters</p>
-                {customWords.length === 0 ? (
-                  <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
-                    <p className="text-white/40 text-xs italic">No custom keywords configured.</p>
-                  </div>
-                ) : (
-                  <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
-                    {customWords.map(word => (
-                      <span
-                        key={word}
-                        className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border border-white/15 text-xs font-bold text-white"
-                      >
-                        <span>{word}</span>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveCustomWord(word)}
-                          className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-white/20 text-white/60 hover:text-white transition-colors"
-                        >
-                          &times;
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-        <div className="mt-6 text-white">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div>
-                <h3 className="text-sm font-black italic tracking-wide text-white">Live Stream Performance & Chat Analytics</h3>
-                <p className="text-xs font-bold text-white/60 uppercase tracking-widest">Real-time Sales and Engagement Metrics</p>
-              </div>
-            </div>
-            {isLive && (
-              <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] rounded-full text-xs font-black uppercase tracking-widest animate-pulse">
-                ● Live Tracking
-              </span>
-            )}
-          </div>
-
-          <div className="pt-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-              {/* store sales card */}
-              <div className="p-4 bg-gradient-to-br from-[#291e34] to-[#0c0c11] border border-[var(--color-accent)]/20 relative overflow-hidden group hover:border-[var(--color-accent)]/40 transition-colors duration-300">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-accent)]/5 rounded-full blur-xl pointer-events-none" />
-                <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest  text-[var(--color-accent)]">Store Sales Revenue</p>
-                <p className="text-2xl font-black mt-2 text-white font-mono">
-                  ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
-                </p>
-                <p className="text-3xs font-bold text-white/40 uppercase tracking-wider mt-1.5">
-                  {orders.filter(o => o.source === 'Store').length} purchases
-                </p>
-              </div>
-
-              {/* flash drop sales card */}
-              <div className="p-4 bg-gradient-to-br from-[#341e29] to-[#0c0c11] border border-pink-500/20 relative overflow-hidden group hover:border-pink-500/40 transition-colors duration-300">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/5 rounded-full blur-xl pointer-events-none" />
-                <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-pink-400">Flash Drop Sales</p>
-                <p className="text-2xl font-black mt-2 text-white font-mono">
-                  ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
-                </p>
-                <p className="text-3xs font-bold text-white/40 uppercase tracking-wider mt-1.5">
-                  {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
-                </p>
-              </div>
-
-              {/* raffle claims card */}
-              <div className="p-4 bg-gradient-to-br from-[#292212] to-[#0c0c11] border border-purple-500/20 relative overflow-hidden group hover:border-purple-500/40 transition-colors duration-300">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600/5 rounded-full blur-xl pointer-events-none" />
-                <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest  text-[var(--color-accent)]">Raffle Claims</p>
-                <p className="text-2xl font-black mt-2 text-white font-mono">
-                  {orders.filter(o => o.source === 'Raffle').length}
-                </p>
-                <p className="text-3xs font-bold text-white/40 uppercase tracking-wider mt-1.5">prizes claimed by fans</p>
-              </div>
-
-              {/* viewers card */}
-              <div className="p-4 bg-gradient-to-br from-[#12211e] to-[#0c0c11] border  border-[var(--color-accent)]/30 relative overflow-hidden group hover:border-emerald-500/40 transition-colors duration-300">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
-                <p className="text-[var(--font-size-2xs)] font-black uppercase tracking-widest text-[var(--color-accent)]">👁️ Live Viewers</p>
-                <p className="text-2xl font-black mt-2 text-black font-mono">{viewerCount}</p>
-                <p className="text-3xs font-bold text-black/30 uppercase tracking-wider mt-1.5">{isLive ? "Watching live right now" : "Offline"}</p>
-              </div>
-
-            </div>
-          </div>
-        </div>
 
 
         {/* LIVE SETLIST & FAN LIKES */}
-        <div className={`xl:col-span-2 bg-white border border-black/10  overflow-hidden shadow-md flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'}`}>
-          <div className="w-full text-left p-4 border-b border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-gray-50 select-none group">
+        <div className={`xl:col-span-2 bg-transparent border border-white/10 overflow-hidden flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'} mt-6`}>
+          <div className="w-full text-left py-4 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-transparent select-none group">
             <button
               type="button"
               onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
               className="flex items-center gap-3 bg-transparent border-none p-0 text-left flex-1 cursor-pointer"
             >
-              <div className="w-10 h-10 bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-xl transition-transform group-hover:scale-105">🎵</div>
+              <div className="w-10 h-10 bg-purple-600/10 border border-purple-500/20 flex items-center justify-center rounded-lg text-purple-400">
+                <Music className="w-5 h-5" />
+              </div>
               <div>
-                <h3 className="text-sm font-black italic tracking-widetext-black">Live Setlist & Fan Likes</h3>
-                <p className="text-xs font-bold text-black/40 uppercase tracking-widest mt-0.5">
+                <h3 className="text-sm font-black italic tracking-wide text-white">Live Setlist & Fan Likes</h3>
+                <p className="text-xs font-bold text-white/40 uppercase tracking-widest mt-0.5">
                   Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
                 </p>
               </div>
@@ -3578,7 +3590,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-gray-50 text-black/60 border-black/10 hover:bg-gray-100 hover:text-black font-sans font-bold cursor-pointer"
+                className="px-4 py-2 text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors border bg-white/5 text-white/60 border-white/10 hover:bg-white/10 hover:text-white font-sans font-bold cursor-pointer"
               >
                 Reset Likes
               </button>
@@ -3586,9 +3598,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className={`w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
+                className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}
               >
-                ▼
+                <ChevronDown className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -3603,19 +3615,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     key={song.id}
                     className={`flex items-center justify-between p-2 rounded-lg border transition-colors ${song.isPlaying
                       ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/40 shadow-[0_0_10px_rgba(255,10,61,0.12)]'
-                      : 'bg-black/20 border-black/10 hover:border-black/10'
+                      : 'bg-white/5 border-white/10 hover:border-white/20'
                       }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className={`text-xs ${song.isPlaying ? 'animate-pulse  text-[var(--color-accent)]' : 'text-black/40'}`}>
-                        {song.isPlaying ? '🔊' : '🎵'}
+                      <span className="shrink-0">
+                        {song.isPlaying ? <Volume2 className="w-3.5 h-3.5 text-[var(--color-accent)] animate-pulse" /> : <Music className="w-3.5 h-3.5 text-white/40" />}
                       </span>
                       <div className="min-w-0">
-                        <p className={`text-xs font-bold truncate ${song.isPlaying ? ' text-[var(--color-accent)]' : 'text-black'}`}>
+                        <p className={`text-xs font-bold truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : 'text-white'}`}>
                           {song.title}
                         </p>
-                        <p className="text-[var(--font-size-3xs)] font-semibold text-black/40 uppercase tracking-wider">
-                          ❤️ {song.likes} likes
+                        <p className="text-[var(--font-size-3xs)] font-semibold text-white/40 uppercase tracking-wider flex items-center gap-1 mt-0.5">
+                          <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
                         </p>
                       </div>
                     </div>
@@ -3624,8 +3636,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       <button
                         onClick={() => toggleSongPlaying(song.id)}
                         className={`px-2 py-1 rounded text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors ${song.isPlaying
-                          ? 'bg-[var(--color-accent)] text-black shadow-[0_0_8px_rgba(255,10,61,0.4)]'
-                          : 'bg-gray-50 hover:bg-white/15 text-black/70 hover:text-black border border-black/10'
+                          ? 'bg-[var(--color-accent)] text-white shadow-[0_0_8px_rgba(255,10,61,0.4)]'
+                          : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border border-white/15'
                           }`}
                       >
                         {song.isPlaying ? 'Playing' : 'Set Active'}
@@ -3633,10 +3645,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                       <button
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="w-6 h-6 flex items-center justify-center rounded border border-red-500/10 hover:border-red-500/30 text-red-500/40 hover:text-red-500 hover:bg-red-500/10 transition-colors text-3xs"
+                        className="w-6 h-6 flex items-center justify-center rounded border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
                         title="Delete Song"
                       >
-                        ✕
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
@@ -3644,34 +3656,34 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* Add Song form */}
-              <div className="pt-3 border-t border-black/10">
+              <div className="pt-3 border-t border-white/10">
                 {isBulkImport ? (
-                  <div className="space-y-2 transition-opacity duration-250 ease-out">
+                  <div className="space-y-2 transition-opacity duration-250 ease-out max-w-[300px]">
                     <textarea
                       aria-label="Paste a list of songs"
                       placeholder="Paste a list of songs (one per line, or separated by commas)..."
                       value={newSongTitle}
                       onChange={e => setNewSongTitle(e.target.value)}
                       rows={4}
-                      className="w-full bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors resize-none"
                     />
                     <div className="flex justify-between items-center">
                       <button
                         onClick={() => { setIsBulkImport(false); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-black tracking-widest text-black/40 hover:text-black/60 transition-colors"
+                        className="text-3xs uppercase font-black tracking-widest text-white/40 hover:text-white/60 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => addSongToSetlist(newSongTitle)}
-                        className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
+                        className="px-4 py-2 bg-[var(--color-accent)] hover:brightness-110 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
                       >
                         Import Playlist
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-2 max-w-[300px]">
                     <div className="flex gap-2">
                       <input
                         type="text"
@@ -3680,22 +3692,22 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         value={newSongTitle}
                         onChange={e => setNewSongTitle(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
-                        className="flex-1 bg-gray-50 border border-black/10 rounded-lg px-3 py-2 text-xs text-black outline-none focus:border-[var(--color-accent)] transition-colors"
+                        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
                       />
                       <button
                         onClick={() => addSongToSetlist(newSongTitle)}
-                        className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-black text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
+                        className="px-4 py-2 bg-[var(--color-accent)] hover:brightness-110 text-white text-[var(--font-size-2xs)] font-black uppercase tracking-widest rounded-lg transition-colors shadow-[var(--color-accent)]/20"
                       >
                         Add
                       </button>
                     </div>
-                    <div className="flex justify-end">
+                    <div className="flex justify-start">
                       <button
                         type="button"
                         onClick={() => { setIsBulkImport(true); setNewSongTitle(''); }}
-                        className="text-3xs uppercase font-black tracking-widest text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
+                        className="text-3xs uppercase font-black tracking-widest text-[var(--color-accent)] hover:brightness-125 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-none"
                       >
-                        📋 Bulk Import / Paste List
+                        <FileText className="w-3.5 h-3.5 text-[var(--color-accent)] inline" /> Bulk Import / Paste List
                       </button>
                     </div>
                   </div>
@@ -3815,8 +3827,8 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <p className="text-white/40 text-xs italic">You have no upcoming work shifts scheduled.</p>
                         </div>
                       ) : (
-                        <div className="flex flex-col gap-2 font-sans">
-                          {activeShifts.map((shift) => {
+                        <div className="flex flex-col font-sans">
+                          {activeShifts.map((shift, index) => {
                             const dateObj = new Date(shift.date + 'T00:00:00');
                             const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
                             const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
@@ -3825,10 +3837,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             return (
                               <div
                                 key={shift.id}
-                                className={`py-2 px-3  transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3 ${shift.approvalStatus === 'pending'
-                                  ? 'bg-gradient-to-r from-yellow-500/[0.03] to-black/50 border border-yellow-500/40 shadow-[0_0_15px_rgba(147, 51, 234,0.05)] hover:border-yellow-500/60'
-                                  : 'bg-black/40 border border-white/10 hover:border-white/20'
-                                  }`}
+                                className="py-3.5 px-2 bg-transparent transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-white/[0.02]"
+                                style={{
+                                  borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                                }}
                               >
                                 {/* Date & Time Column */}
                                 <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
@@ -3858,10 +3870,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                           <button
                                             type="button"
                                             onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                            className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
+                                            className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-1 hover:underline"
                                             title="Click to view venue load-in, parking & WiFi details"
                                           >
-                                            📍 {shift.location} <span className="text-[9px]  text-[var(--color-accent)]/80">ℹ️</span>
+                                            <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {shift.location} <span className="text-[9px] text-[var(--color-accent)]/80">ℹ️</span>
                                           </button>
                                         );
                                       }
@@ -3873,26 +3885,26 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     })()}
                                     {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                                       <AvailabilityCardForm
-                                         availDate={availDate}
-                                         setAvailDate={setAvailDate}
-                                         availType={availType}
-                                         setAvailType={setAvailType}
-                                         availNote={availNote}
-                                         setAvailNote={setAvailNote}
-                                         onSubmit={handleAddAvailability}
-                                         myAvailabilities={myAvailabilities}
-                                         onRemove={handleRemoveAvailability}
-                                       />
-                                       <TimeOffCardForm
-                                         timeOffDate={timeOffDate}
-                                         setTimeOffDate={setTimeOffDate}
-                                         timeOffReason={timeOffReason}
-                                         setTimeOffReason={setTimeOffReason}
-                                         onSubmit={handleAddTimeOffRequest}
-                                         myTimeOffRequests={myTimeOffRequests}
-                                         onRemove={handleRemoveTimeOffRequest}
-                                       />
+                                      <AvailabilityCardForm
+                                        availDate={availDate}
+                                        setAvailDate={setAvailDate}
+                                        availType={availType}
+                                        setAvailType={setAvailType}
+                                        availNote={availNote}
+                                        setAvailNote={setAvailNote}
+                                        onSubmit={handleAddAvailability}
+                                        myAvailabilities={myAvailabilities}
+                                        onRemove={handleRemoveAvailability}
+                                      />
+                                      <TimeOffCardForm
+                                        timeOffDate={timeOffDate}
+                                        setTimeOffDate={setTimeOffDate}
+                                        timeOffReason={timeOffReason}
+                                        setTimeOffReason={setTimeOffReason}
+                                        onSubmit={handleAddTimeOffRequest}
+                                        myTimeOffRequests={myTimeOffRequests}
+                                        onRemove={handleRemoveTimeOffRequest}
+                                      />
 
 
 
@@ -4047,8 +4059,8 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           <p className="text-white/40 text-xs italic">No band tour events or shows loaded.</p>
                         </div>
                       ) : (
-                        <div className="flex flex-col gap-2 font-sans">
-                          {tourDates.map((show) => {
+                        <div className="flex flex-col font-sans">
+                          {tourDates.map((show, index) => {
                             const dateObj = new Date(show.date + 'T00:00:00');
                             const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
                             const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
@@ -4061,10 +4073,10 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             return (
                               <div
                                 key={show.date + '_' + show.venue}
-                                className={`py-2 px-3 border  transition-colors flex flex-col md:flex-row md:items-center justify-between gap-2.5 ${userShift
-                                  ? 'bg-gradient-to-r from-purple-500/[0.03] to-black/40 border-purple-500/25 hover:border-purple-500/40 animate-[fadeIn_0.2s_ease-out]'
-                                  : 'bg-black/40 border border-white/10 hover:border-white/20'
-                                  }`}
+                                className="py-3.5 px-2 bg-transparent transition-colors flex flex-col md:flex-row md:items-center justify-between gap-2.5 hover:bg-white/[0.02]"
+                                style={{
+                                  borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                                }}
                               >
                                 {/* Date Column */}
                                 <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
@@ -4097,14 +4109,14 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       <button
                                         type="button"
                                         onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                        className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
+                                        className="text-xs font-black text-purple-300 hover:text-purple-200 transition-colors border-none bg-transparent p-0 cursor-pointer flex items-center gap-1 hover:underline"
                                         title="Click to view venue specs"
                                       >
-                                        📍 {show.venue} <span className="text-[9px]  text-[var(--color-accent)]/80">ℹ️</span>
+                                        <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {show.venue} <span className="text-[9px] text-[var(--color-accent)]/80">ℹ️</span>
                                       </button>
                                     ) : (
-                                      <span className="text-xs font-black text-white/90">
-                                        📍 {show.venue}
+                                      <span className="text-xs font-black text-white/90 flex items-center gap-1">
+                                        <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {show.venue}
                                       </span>
                                     )}
                                     <span className="text-[10px] text-white/50">
@@ -4113,9 +4125,9 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                     <button
                                       type="button"
                                       onClick={() => setActiveDiscussionDate(show.date)}
-                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none"
+                                      className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-purple-500/20 text-purple-300 text-[9px] font-black uppercase tracking-wider rounded transition-colors cursor-pointer select-none flex items-center gap-1"
                                     >
-                                      💬 Lineup & Discuss
+                                      <MessageSquare className="w-3 h-3 text-purple-300 inline" /> Lineup & Discuss
                                     </button>
                                   </div>
                                   {show.notes && (

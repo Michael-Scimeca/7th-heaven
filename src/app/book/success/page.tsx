@@ -30,7 +30,7 @@ function SuccessContent() {
   }, [countdown, isLoggedIn, member?.role]);
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-[var(--color-bg-deep)] px-6 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center bg-[var(--color-bg-deep)] site-container relative overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-500 opacity-[0.04] rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-[var(--color-accent)] opacity-[0.03] rounded-full blur-[120px] pointer-events-none" />

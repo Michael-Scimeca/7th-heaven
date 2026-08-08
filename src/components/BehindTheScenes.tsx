@@ -43,7 +43,7 @@ export default function BehindTheScenes({ btsVideos: sanityBts }: BehindTheScene
   const featured = btsVideos[0];
 
   return (
-    <section className="relative bg-black overflow-hidden" id="behind-the-scenes">
+    <section className="relative   overflow-hidden" id="behind-the-scenes">
       {/* Featured BTS Hero */}
       <div className="relative w-full min-h-[70vh] flex items-end">
         {/* Background thumbnail */}

@@ -1029,14 +1029,15 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           preserveAspectRatio="none"
           aria-hidden="true"
         >
-          {/* FULL ROUTE GUIDE TRACK — Hidden transparent guide path */}
+          {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
           <path
             ref={trackRef}
             d={initialPathD}
             fill="none"
-            stroke="transparent"
-            strokeWidth="0"
-            opacity="0"
+            stroke="rgba(6, 182, 212, 0.25)"
+            strokeWidth={tuning.lineWidth ?? 6}
+            strokeLinecap="round"
+            style={{ fill: 'none' }}
           />
 
           {/* BRIGHT FILL — scroll-driven, fills as you travel */}
@@ -1047,6 +1048,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             stroke="#06b6d4"
             strokeWidth={tuning.lineWidth ?? 6}
             strokeLinecap="round"
+            style={{ fill: 'none' }}
           />
 
           {/* Flowing current dashes on the fill */}
@@ -1059,6 +1061,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             strokeLinecap="round"
             strokeDasharray="12 24 6 18"
             className={styles.waterCurrent}
+            style={{ fill: 'none' }}
           />
 
           {/* Bright flowing highlights */}
@@ -1071,6 +1074,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             strokeLinecap="round"
             strokeDasharray="4 40 2 50"
             className={styles.waterHighlight}
+            style={{ fill: 'none' }}
           />
 
         </svg>
@@ -1148,20 +1152,20 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               width: '640px',
             };
           } else {
-            // Wide Screen Sweep (default) — shifted 32px from section edge (wider on mobile)
+            // Wide Screen Sweep (default) — 42px padding on left/right matching site-container
             cardStyle = {
               ...cardStyle,
               ...(node.isLeft
-                ? { left: '32px' }
-                : { right: '32px' }
+                ? { left: '42px' }
+                : { right: '42px' }
               ),
-              width: isMobile ? 'calc(100vw - 64px)' : 'min(620px, 42vw)',
-              maxWidth: isMobile ? 'calc(100vw - 64px)' : '620px',
+              width: isMobile ? 'calc(100vw - 84px)' : 'min(620px, 42vw)',
+              maxWidth: isMobile ? 'calc(100vw - 84px)' : '620px',
             };
           }
           return (
             <div
-              key={day?.location || day?.theme}
+              key={`card-${i}-${day?.theme || day?.location || 'day'}`}
               ref={el => { cardRefs.current[i] = el; }}
               className={`${styles.card} ${node.isLeft ? styles.cardLeft : styles.cardRight}`}
               style={cardStyle}

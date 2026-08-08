@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 
@@ -222,7 +223,7 @@ export default function PlannerDashboard() {
             <div className="p-10">
               <div className="text-center mb-10">
                 <div className="w-14 h-14 mx-auto mb-5 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                  <ClipboardList className="w-6 h-6 text-[var(--color-accent)]" />
                 </div>
                 <h1 className="text-2xl font-black tracking-tight">
                   Planner <span className=" text-[var(--color-accent)]">Portal</span>
@@ -316,25 +317,6 @@ export default function PlannerDashboard() {
 
   const s = STATUS_CONFIG[booking.status];
 
-  const done = [!!booking.date, !!(booking.startTime && booking.endTime), !!booking.venueName, !!booking.indoorOutdoor, !!booking.soundSystem, !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance].filter(Boolean).length;
-  const checklistItems = [
-    { label: "Event date confirmed", ok: !!booking.date },
-    { label: "Show time set", ok: !!(booking.startTime && booking.endTime) },
-    { label: "Venue details provided", ok: !!booking.venueName },
-    { label: "Indoor/Outdoor specified", ok: !!booking.indoorOutdoor },
-    { label: "Sound system confirmed", ok: !!booking.soundSystem },
-    { label: "Stage availability", ok: !!booking.stageAvailable },
-    { label: "Load-in time set", ok: !!booking.loadInTime },
-    { label: "Expected attendance", ok: !!booking.expectedAttendance },
-  ];
-  const pct = Math.round((done / checklistItems.length) * 100);
-  const pastBookings = allBookings.filter(b => b.id !== booking.id);
-  const statusSteps = [
-    { label: "Pending", active: booking.status === "pending" || booking.status === "confirmed" },
-    { label: "Confirmed", active: booking.status === "confirmed" },
-    { label: "Completed", active: false },
-  ];
-
   return (
     <section className="bg-[var(--color-bg-deep)] min-h-screen font-sans pt-24 pb-16">
       <div className="max-w-[1400px] mx-auto px-6">
@@ -343,19 +325,19 @@ export default function PlannerDashboard() {
         {/* Account Identity Header — matches fan/crew layout */}
         <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/10">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black  text-[var(--color-accent)]">
+            <div className="relative w-16 h-16 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-xl font-black text-[var(--color-accent)]">
               {isSignedInPlanner && member?.name
                 ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
-                : '📋'}
+                : <ClipboardList className="w-8 h-8 text-[var(--color-accent)]" />}
               <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[var(--color-accent)] border-2 border-[#050508] flex items-center justify-center">
-                <span className="text-[var(--font-size-3xs)]">📋</span>
+                <ClipboardList className="w-3.5 h-3.5 text-white" />
               </span>
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-black italic tracking-tight">{isSignedInPlanner && member?.name ? member.name : 'Event Planner'}</h1>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
-                  📋 Event Planner
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/30">
+                  <ClipboardList className="w-3.5 h-3.5" /> Event Planner
                 </span>
               </div>
               <p className="text-base text-white/40 font-mono mt-1">{isSignedInPlanner && member?.email ? member.email : 'Sign in to manage bookings'}</p>
@@ -370,7 +352,7 @@ export default function PlannerDashboard() {
                 <a href={isSignedInPlanner ? `/book?${params.toString()}` : "#"}
                   onClick={(e) => { if (!isSignedInPlanner) { e.preventDefault(); window.location.href = '/planner'; } }}
                   className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:shadow-[0_0_30px_rgba(255,10,61,0.5)] flex items-center gap-2">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <Clock className="w-3.5 h-3.5" />
                   New Booking
                 </a>
               );
@@ -383,7 +365,7 @@ export default function PlannerDashboard() {
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-default" onClick={() => setShowCancelConfirm(false)}>
             <div className="bg-[var(--color-bg-surface)] border border-rose-500/30 p-8 rounded-3xl shadow-[0_0_60px_rgba(244,63,94,0.15)] max-w-md w-full text-left cursor-auto" onClick={(e) => e.stopPropagation()}>
               <div className="w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center mx-auto mb-5">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
+                <History className="w-5 h-5 text-rose-500" />
               </div>
               <h3 className="text-xl font-bold text-white text-center mb-2">Cancel This Booking?</h3>
               <p className="text-white/40 text-base text-center mb-2">{booking.eventName}</p>
@@ -508,20 +490,7 @@ export default function PlannerDashboard() {
                     /* Cancelled state — rebook or revive */
                     <>
                       <a
-                        href={(() => {
-                          const p = new URLSearchParams();
-                          p.set("from", "rebook");
-                          p.set("organization", booking.organization);
-                          p.set("venueName", booking.venueName);
-                          p.set("venueCity", booking.venueCity);
-                          p.set("venueState", booking.venueState);
-                          p.set("eventType", booking.eventType);
-                          p.set("startTime", booking.startTime);
-                          p.set("endTime", booking.endTime);
-                          p.set("indoorOutdoor", booking.indoorOutdoor);
-                          p.set("expectedAttendance", booking.expectedAttendance);
-                          return `/book?${p.toString()}`;
-                        })()}
+                        href={rebookUrl(booking)}
                         className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center"
                       >
                         Rebook This Event
@@ -542,20 +511,7 @@ export default function PlannerDashboard() {
                     /* Normal actions */
                     <>
                       <a
-                        href={(() => {
-                          const p = new URLSearchParams();
-                          p.set("from", "rebook");
-                          p.set("organization", booking.organization);
-                          p.set("venueName", booking.venueName);
-                          p.set("venueCity", booking.venueCity);
-                          p.set("venueState", booking.venueState);
-                          p.set("eventType", booking.eventType);
-                          p.set("startTime", booking.startTime);
-                          p.set("endTime", booking.endTime);
-                          p.set("indoorOutdoor", booking.indoorOutdoor);
-                          p.set("expectedAttendance", booking.expectedAttendance);
-                          return `/book?${p.toString()}`;
-                        })()}
+                        href={rebookUrl(booking)}
                         className="w-full py-3 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)] border border-[var(--color-accent)]/30 hover:border-transparent  text-[var(--color-accent)] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors text-center"
                       >
                         Rebook This Event
@@ -576,7 +532,7 @@ export default function PlannerDashboard() {
                   href="/planner"
                   className="w-full py-3 bg-white/[0.03] hover:bg-white/[0.08] text-white/50 hover:text-white font-bold text-sm uppercase tracking-wider transition-colors border border-white/10 flex items-center justify-center gap-2"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                  <History className="w-4 h-4" />
                   Sign in to manage
                 </Link>
               )}
@@ -584,7 +540,7 @@ export default function PlannerDashboard() {
                 href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking Dashboard] Issue with Event — ${booking.id}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nI'm reaching out from my Booking Dashboard regarding the following event:\n\n────────────────────────\nBooking ID: ${booking.id}\nEvent: ${booking.eventName}\nType: ${eventTypeLabels[booking.eventType] || booking.eventType}\nDate: ${booking.date}\nTime: ${booking.startTime} – ${booking.endTime}\nVenue: ${booking.venueName}\nCity: ${booking.venueCity}, ${booking.venueState}\nStatus: ${s.label}\n────────────────────────\n\nEvent Planner Message:\n\n`)}`}
                 className="w-full py-3 flex items-center justify-center gap-2 text-white/40 hover: text-[var(--color-accent)] font-bold text-sm uppercase tracking-wider hover:bg-[var(--color-accent)]/5 transition-colors"
               >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                <FileText className="w-4 h-4" />
                 Contact 7th Heaven
               </a>
             </div>
@@ -597,14 +553,16 @@ export default function PlannerDashboard() {
           <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📝</div>
+                <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-cyan-400" />
+                </div>
                 <div>
                   <h3 className="text-lg font-bold text-white tracking-tight">Event Notes</h3>
                   <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Private notes for your event — visible to you and the 7th Heaven team</p>
                 </div>
               </div>
               {notesSaved && (
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-full border  border-[var(--color-accent)]/30 animate-[fade-in-up_0.3s_ease-out]">✓ Saved</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/30 animate-[fade-in-up_0.3s_ease-out] flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Saved</span>
               )}
             </div>
             <textarea aria-label="Text input"
@@ -645,7 +603,9 @@ export default function PlannerDashboard() {
             <div className="bg-[var(--color-bg-surface)] border border-white/5 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center text-lg">✅</div>
+                  <div className="w-10 h-10 bg-emerald-500/10 border border-[var(--color-accent)]/30 flex items-center justify-center">
+                    <CheckSquare className="w-5 h-5 text-emerald-400" />
+                  </div>
                   <div>
                     <h3 className="text-lg font-bold text-white tracking-tight">Event Readiness Checklist</h3>
                     <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">Auto-generated from your booking details</p>
@@ -695,7 +655,7 @@ export default function PlannerDashboard() {
                       : 'bg-white/[0.02] border-white/5 hover:border-purple-500/20'
                       }`}
                   >
-                    <span className="text-lg shrink-0">{item.done ? '✅' : '⬜'}</span>
+                    <div className="shrink-0">{item.done ? <CheckSquare className="w-5 h-5 text-emerald-400" /> : <Square className="w-5 h-5 text-white/15" />}</div>
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-bold ${item.done ? 'text-white/80' : 'text-white/40'}`}>{item.label}</p>
                       <p className={`text-xs truncate ${item.done ? 'text-emerald-400/70' : 'text-purple-300/60'}`}>
@@ -703,7 +663,7 @@ export default function PlannerDashboard() {
                       </p>
                     </div>
                     {!item.done && (
-                      <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] px-2 py-0.5 rounded border border-[var(--color-border-purple)] shrink-0">
+                      <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest text-purple-300 bg-purple-600/10 px-2 py-0.5 rounded border border-purple-500/20 shrink-0">
                         Needed
                       </span>
                     )}
@@ -718,14 +678,14 @@ export default function PlannerDashboard() {
                   !!booking.stageAvailable, !!booking.loadInTime, !!booking.expectedAttendance,
                 ].filter(i => !i).length;
                 if (missing === 0) return (
-                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border  border-[var(--color-accent)]/30">
-                    <span className="text-emerald-400 text-sm">🎉</span>
+                  <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-emerald-500/10 border border-[var(--color-accent)]/30">
+                    <PartyPopper className="w-4 h-4 text-emerald-400 shrink-0" />
                     <p className="text-sm font-bold text-[var(--color-accent)]">All set! Your event details are complete.</p>
                   </div>
                 );
                 return (
                   <div className="mt-4 flex items-center gap-2 px-4 py-3 bg-purple-600/5 border border-purple-500/15">
-                    <span className="text-purple-300 text-sm">💡</span>
+                    <Lightbulb className="w-4 h-4 text-purple-300 shrink-0" />
                     <p className="text-sm text-white/40">
                       {missing} item{missing !== 1 ? 's' : ''} still needed.{' '}
                       <button aria-label="Action button" onClick={handleEditStart} className=" text-[var(--color-accent)] hover:text-white font-bold underline transition-colors cursor-pointer">
@@ -744,7 +704,9 @@ export default function PlannerDashboard() {
         {allBookings.length > 1 && (
           <div className="mt-10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center text-lg">📜</div>
+              <div className="w-10 h-10 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-center">
+                <History className="w-5 h-5 text-cyan-400" />
+              </div>
               <div>
                 <h3 className="text-lg font-bold text-white tracking-tight">Booking History</h3>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/30 font-bold mt-0.5">{allBookings.length} total booking{allBookings.length !== 1 ? 's' : ''}</p>
@@ -796,9 +758,9 @@ export default function PlannerDashboard() {
                           {b.eventName}
                         </h4>
                         <div className="flex items-center gap-4 text-xs text-white/40">
-                          <span>📅 {b.date}</span>
-                          <span>📍 {b.venueName}, {b.venueCity}</span>
-                          {b.startTime && <span>🕗 {b.startTime}</span>}
+                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {b.date}</span>
+                          <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {b.venueName}, {b.venueCity}</span>
+                          {b.startTime && <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {b.startTime}</span>}
                         </div>
                       </button>
                     </div>

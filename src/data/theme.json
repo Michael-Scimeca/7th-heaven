@@ -1,0 +1,71 @@
+{
+  "colors": {
+    "--color-accent": "#9333ea",
+    "--color-accent-hover": "#9333ea",
+    "--color-accent-soft": "#9333ea",
+    "--color-accent-glow": "rgba(147, 51, 234, 0.4)",
+    "--color-bg-primary": "#000000",
+    "--color-bg-deep": "#030006",
+    "--color-bg-surface": "rgba(15, 5, 29, 0.55)",
+    "--color-bg-glass": "rgba(18, 18, 24, 0.45)",
+    "--color-bg-card": "rgba(255, 255, 255, 0.03)",
+    "--color-text-main": "#ffffff",
+    "--color-text-secondary": "#d1d5db",
+    "--color-text-muted": "#d1d5db",
+    "--color-text-subtle": "#d1d5db",
+    "--color-border-main": "rgba(255, 255, 255, 0.08)",
+    "--color-border-purple": "rgba(147, 51, 234, 0.3)",
+    "--color-success": "#9333ea",
+    "--color-warning": "#9333ea",
+    "--color-error": "#ef4444",
+    "--color-info": "#9333ea"
+  },
+  "typography": {
+    "--font-family-sans": "var(--font-barlow), 'Barlow', sans-serif",
+    "--font-family-heading": "var(--font-barlow), 'Barlow', sans-serif",
+    "--font-family-display": "var(--font-barlow), 'Barlow', sans-serif",
+    "--font-size-base": "1rem",
+    "--font-size-2xs": "1rem",
+    "--font-size-xs": "1rem",
+    "--font-size-sm": "1rem",
+    "--font-size-md": "1rem",
+    "--font-size-lg": "1.25rem",
+    "--font-size-xl": "1.5rem",
+    "--font-size-2xl": "2.25rem",
+    "--font-size-3xl": "3rem",
+    "--font-size-display": "4.5rem",
+    "--font-weight-normal": "400",
+    "--font-weight-medium": "500",
+    "--font-weight-semibold": "600",
+    "--font-weight-bold": "700",
+    "--line-height-tight": "1.15",
+    "--line-height-snug": "1.33",
+    "--line-height-normal": "1.50",
+    "--line-height-relaxed": "1.75"
+  },
+  "spacing": {
+    "--space-xs": "0.25rem",
+    "--space-sm": "0.5rem",
+    "--space-md": "1rem",
+    "--space-lg": "1.5rem",
+    "--space-xl": "2rem",
+    "--space-2xl": "3rem"
+  },
+  "radii": {
+    "--radius-none": "0px",
+    "--radius-full": "9999px"
+  },
+  "shadows": {
+    "--shadow-sm": "none",
+    "--shadow-md": "none",
+    "--shadow-lg": "none",
+    "--shadow-accent-glow": "none"
+  },
+  "breakpoints": {
+    "--breakpoint-sm": "640px",
+    "--breakpoint-md": "768px",
+    "--breakpoint-lg": "1024px",
+    "--breakpoint-xl": "1280px",
+    "--breakpoint-2xl": "1536px"
+  }
+}

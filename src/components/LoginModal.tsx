@@ -3,6 +3,7 @@
 /* oxlint-disable react-doctor/no-giant-component */
 
 import { useReducer, useEffect, useCallback } from "react";
+import { Lock, Mail, Zap, Check, X } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
@@ -588,7 +589,7 @@ export default function LoginModal() {
           aria-label="Close login modal"
           className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
         >
-          ✕
+          <X className="w-4 h-4" />
         </button>
 
         <LoginModalBodyContent
@@ -744,7 +745,7 @@ function LoginModalBodyContent(props: any) {
       {/* Special notice for Crew / Planner login */}
       {modalMode !== "forgot" && loginRole !== 'fan' && (
         <div className="p-3 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-xs text-purple-200 mb-4 flex items-center gap-2">
-          <span className="text-base">🔒</span>
+          <Lock className="w-4 h-4 text-purple-400 shrink-0" />
           <span>
             Logging in as <strong className="uppercase text-white">{loginRole}</strong>. Access requires an authorized account.
           </span>
@@ -754,7 +755,7 @@ function LoginModalBodyContent(props: any) {
       {/* Invite flow banner */}
       {isInviteFlow && (
         <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-200 mb-4 flex items-start gap-2">
-          <span className="text-base font-bold">✉️</span>
+          <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
           <div>
             <span className="font-bold text-white uppercase block">Invited Member Signup</span>
             Your details have been pre-filled from your invitation. Just set a password to activate your account.
@@ -806,8 +807,8 @@ function LoginModalBodyContent(props: any) {
         </div>
       ) : confirmationRequired ? (
         <div className="flex flex-col items-center gap-4 my-6 text-center">
-          <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 text-2xl font-bold">
-            ✉️
+          <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
+            <Mail className="w-6 h-6" />
           </div>
           <h3 className="text-lg font-black uppercase text-white tracking-wider">Check Your Email</h3>
           <p className="text-xs text-white/80 max-w-sm leading-relaxed">
@@ -904,7 +905,7 @@ function LoginModalBodyContent(props: any) {
             <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
               <div>
                 <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
-                  Email {isInviteFlow && <span className=" text-[var(--color-accent)]">✓ on file</span>}
+                  Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                 </label>
                 <input
                   id="login-email-input"
@@ -1030,7 +1031,7 @@ function LoginModalBodyContent(props: any) {
       {/* Quick Demo Login Bar for Testing */}
       <div className="mt-4 pt-3 border-t border-white/10">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-300">⚡ Quick Demo One-Click Logins:</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
           <button type="button"
             onClick={() => setAdminMode(!adminMode)}
             className="text-[10px] font-bold text-white/40 hover:text-white underline cursor-pointer"
@@ -1041,7 +1042,7 @@ function LoginModalBodyContent(props: any) {
 
         {adminMode ? (
           <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-lg flex flex-col gap-2">
-            <span className="text-[11px] font-bold text-red-300 uppercase tracking-wider">🔒 Super Admin Direct Bypass</span>
+            <span className="text-[11px] font-bold text-red-300 uppercase tracking-wider flex items-center gap-1"><Lock className="w-3 h-3" /> Super Admin Direct Bypass</span>
             <div className="grid grid-cols-2 gap-2">
               <input
                 type="email"
@@ -1304,7 +1305,7 @@ function SignUpExtraFields({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
-            Full Name {isInviteFlow && <span className=" text-[var(--color-accent)]">✓ on file</span>}
+            Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
           </label>
           <input
             id="signup-full-name"

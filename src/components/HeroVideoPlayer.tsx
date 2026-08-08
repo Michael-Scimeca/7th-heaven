@@ -12,14 +12,19 @@ import {
 } from "@/context/VideoSnapshotContext";
 
 const ALBUM_VIDEOS: Record<string, string> = {
-  "be-here": "/movie/are-we-there-yet.mp4",
+  "be-here": "/movie/hero-colorinmostion.mp4",
+  "01-be-here": "/movie/hero-colorinmostion.mp4",
   "color-in-motion": "/movie/hero-colorinmostion.mp4",
+  "07-color-in-motion": "/movie/hero-colorinmostion.mp4",
   "luminous": "/movie/luminous.mp4",
+  "09-luminous": "/movie/luminous.mp4",
   "next": "/movie/next.mp4",
+  "20-usa-uk": "/movie/next.mp4",
   "spectrum": "/movie/spectrum.mp4",
+  "14-synergy": "/movie/spectrum.mp4",
 };
 
-const DEFAULT_VIDEO = "/movie/are-we-there-yet.mp4";
+const DEFAULT_VIDEO = "/movie/hero-colorinmostion.mp4";
 const SNAPSHOT_INTERVAL_MS = 30_000; // 30 seconds
 const MAX_SNAPSHOTS = 2;
 
@@ -188,11 +193,56 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   }, [captureFrame, videoSrc]); // re-run when source changes
 
   // ── Album → video sync ──────────────────────────────────────────────────────
-  const handleAlbumChange = (albumId: string) => {
+  const handleAlbumChange = useCallback((albumId: string) => {
     const next = ALBUM_VIDEOS[albumId] ?? DEFAULT_VIDEO;
     if (next === videoSrc) return;
     setVideoSrc(next);
-  };
+  }, [videoSrc]);
+
+  useEffect(() => {
+    const handleCustomAlbumChange = (e: Event) => {
+      const customEvt = e as CustomEvent<{ albumId?: string }>;
+      const albumId = customEvt.detail?.albumId;
+      if (albumId) {
+        handleAlbumChange(albumId);
+      }
+    };
+    window.addEventListener("7h-album-change", handleCustomAlbumChange);
+    return () => window.removeEventListener("7h-album-change", handleCustomAlbumChange);
+  }, [handleAlbumChange]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && !isYouTube) {
+      video.load();
+      video.play().catch(() => {});
+    }
+  }, [videoSrc, isYouTube]);
+
+  // ── Pause video when out of viewport to optimize GPU/CPU performance ─────────
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || isYouTube) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isYouTube, videoSrc]);
 
   const ctxValue: VideoSnapshotContextValue = useMemo(
     () => ({ snapshots }),
@@ -215,6 +265,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         <HeroYTBackground videoId={ytId} />
       ) : (
         <video
+          key={videoSrc}
           ref={videoRef}
           onCanPlay={captureFrame}
           autoPlay

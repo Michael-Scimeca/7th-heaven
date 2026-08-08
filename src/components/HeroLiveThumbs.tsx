@@ -59,7 +59,7 @@ export default function HeroLiveThumbs() {
 
     const updateScale = () => {
       if (typeof window !== "undefined") {
-        if (window.innerWidth < 700) {
+        if (window.innerWidth < 768) {
           setScale(Math.max(0.45, (window.innerWidth - 100) / 600));
         } else {
           setScale(1);

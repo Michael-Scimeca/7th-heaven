@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Trophy } from 'lucide-react';
 
 interface RaffleState {
   status: string;
@@ -51,8 +52,8 @@ export function RaffleClaimModal({ raffleState, member, onClose }: RaffleClaimMo
 
         {!claimMethod ? (
           <>
-            <div className="text-center mb-5">
-              <span className="text-4xl mb-2 block">🏆</span>
+            <div className="text-center mb-5 flex flex-col items-center">
+              <Trophy className="w-10 h-10 text-yellow-500 mb-2" />
               <h3 className="text-xl font-black text-black uppercase tracking-wider">You Won!</h3>
               {raffleState.prizes?.[winnerIdx]?.name && (
                 <p className="text-sm font-bold  text-[var(--color-accent)] mt-1 uppercase tracking-widest">{raffleState.prizes[winnerIdx].name}</p>

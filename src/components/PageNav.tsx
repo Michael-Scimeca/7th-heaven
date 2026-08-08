@@ -99,7 +99,7 @@ const CATEGORIES = [
       { path: "/demo/preloader", label: "Preloader Demo" },
       { path: "/demo/circle-carousel", label: "Circle Carousel Demo" },
       { path: "/demo/yt-carousel", label: "YT Carousel Demo" },
-      { path: "/style-guide", label: "Style Guide" },
+      { path: "/admin/theme", label: "Admin Theme (Gated)" },
       { path: "/sitemap", label: "Sitemap" },
       { path: "/sitemap/visual", label: "Visual Map" },
       { path: "/sitemap/flowchart", label: "Flowchart" },
@@ -158,25 +158,32 @@ export function PageNav() {
   return (
     <div className="fixed bottom-8 left-8 z-[9999] font-sans" ref={menuRef}>
       {isOpen && (
-        <div className="absolute bottom-full mb-4 left-0 w-[300px] bg-[var(--card-bg)] border border-[var(--border-color)] shadow-[0_10px_40px_rgba(0,0,0,0.25)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden" style={{ maxHeight: 'min(80vh, 600px)' }}>
-          {/* Header — fixed, never scrolls */}
-          <div className="p-4 border-b border-[var(--border-color)] bg-[var(--bg-color)] shrink-0">
-            <h3 className="text-[var(--text-color)] text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+        <div
+          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85 backdrop-blur-2xl border border-purple-500/30 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden"
+          style={{ maxHeight: 'min(80vh, 600px)' }}
+        >
+          {/* Header — fixed, translucent blur */}
+          <div className="py-4 border-b border-white/10 bg-white/[0.04] backdrop-blur-md shrink-0">
+            <h3 className="text-white text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
               Dev Navigator
             </h3>
-            <p className="text-[var(--muted-text)] text-xs mt-1 font-semibold tracking-wide">Jump to any page instantly</p>
+            <p className="text-white/50 text-xs mt-1 font-semibold tracking-wide">Jump to any page instantly</p>
           </div>
 
-          {/* Scrollable list — grows to fill remaining height */}
+          {/* Scrollable list — grows to fill remaining height with visible custom scrollbar */}
           <div
             ref={listRef}
-            className="p-2 flex flex-col gap-3 overflow-y-scroll rounded-b-2xl bg-[var(--card-bg)] text-[var(--text-color)]"
-            style={{ overscrollBehavior: 'contain' }}
+            className="p-3 flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-b-2xl bg-transparent text-white"
+            style={{
+              overscrollBehavior: 'contain',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(168, 85, 247, 0.6) rgba(255, 255, 255, 0.05)'
+            }}
           >
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="text-xs font-black uppercase tracking-[0.15em]  text-[var(--color-accent)] pl-2 mt-2 mb-1 border-b border-[var(--border-color)] pb-1">{category.name}</h4>
+                <h4 className="text-xs font-black uppercase tracking-[0.15em] text-purple-400 pl-2 mt-2 mb-1 border-b border-white/10 pb-1">{category.name}</h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
@@ -190,9 +197,9 @@ export function PageNav() {
                           localStorage.setItem('7h_dev_bypass', 'true');
                         }
                       }}
-                      className={`px-3 py-2  transition-colors flex items-center justify-between group ${isActive
-                          ? "bg-[var(--color-accent)] text-white font-black shadow-md"
-                          : "text-[var(--text-color)] font-extrabold hover:bg-[var(--color-accent)]/10 hover: text-[var(--color-accent)]"
+                      className={`px-3 py-2 rounded-lg transition-colors flex items-center justify-between group ${isActive
+                        ? "bg-purple-600 text-white font-black shadow-md shadow-purple-600/30"
+                        : "text-white/80 font-bold hover:bg-white/10 hover:text-white"
                         }`}
                     >
                       <span className="text-sm font-bold tracking-wide">{page.label}</span>
@@ -208,8 +215,8 @@ export function PageNav() {
       <button aria-label="Action button"
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-colors duration-300 font-bold uppercase tracking-widest text-sm ${isOpen
-            ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
-            : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
+          ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
+          : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
           }`}
         title="Page Navigator"
       >

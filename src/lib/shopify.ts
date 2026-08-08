@@ -34,8 +34,8 @@ async function shopifyFetch<T>({ query, variables }: { query: string; variables?
     const body = result.ok ? await result.json() : await result.json().catch(() => ({} as T));
     return { status: result.status, body };
   } catch (error) {
-    console.error('Error fetching from Shopify:', error);
-    throw error;
+    console.warn('Error fetching from Shopify:', error);
+    return { status: 500, body: {} as T };
   }
 }
 
@@ -83,11 +83,16 @@ export async function getProducts() {
     }
   `;
 
-  const response = await shopifyFetch<any>({ query });
-  return response.body.data?.products.edges.map((e: any) => ({
-    ...e.node,
-    quantityAvailable: e.node.variants?.edges?.[0]?.node?.quantityAvailable ?? null,
-  })) || [];
+  try {
+    const response = await shopifyFetch<any>({ query });
+    return response.body?.data?.products?.edges?.map((e: any) => ({
+      ...e.node,
+      quantityAvailable: e.node.variants?.edges?.[0]?.node?.quantityAvailable ?? null,
+    })) || [];
+  } catch (err) {
+    console.warn('Error fetching Shopify products:', err);
+    return [];
+  }
 }
 
 /**

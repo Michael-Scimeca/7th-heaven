@@ -13,10 +13,16 @@ const DevGuideLine = dynamic(
   { ssr: false }
 );
 
+const InputStyleEditor = dynamic(
+  () => import("@/components/InputStyleEditor"),
+  { ssr: false }
+);
+
 export default function ClientOnlyExtras() {
   return (
     <>
       <DevGuideLine />
+      <InputStyleEditor />
     </>
   );
 }

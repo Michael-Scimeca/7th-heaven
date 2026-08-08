@@ -74,7 +74,7 @@ const GRADIENT_SETTINGS = {
   iridescenceEnabled: false,
   iridescenceIntensity: 0.9,
   iridescenceSpeed: 0,
-  grainIntensity: 0.29,
+  grainIntensity: 0,
   grainScale: 0,
   grainSparsity: 0,
   grainSpeed: 0,
@@ -126,10 +126,10 @@ export default function HomeShaderGradient() {
         shadows: GRADIENT_SETTINGS.shadows,
         highlights: GRADIENT_SETTINGS.highlights,
         grainIntensity: 0, // Grain handled via overlay canvas
-        resolution: GRADIENT_SETTINGS.resolution,
+        resolution: 0.7, // Optimized resolution for smooth 60fps scrolling on High-DPI/Retina screens
         wireframe: GRADIENT_SETTINGS.wireframe,
         flatShading: GRADIENT_SETTINGS.flatShading,
-        antialias: GRADIENT_SETTINGS.antialiasing,
+        antialias: false,
         flowEnabled: GRADIENT_SETTINGS.flowEnabled,
         flowDistortionA: GRADIENT_SETTINGS.flowDistortionA,
         flowDistortionB: GRADIENT_SETTINGS.flowDistortionB,
@@ -156,6 +156,29 @@ export default function HomeShaderGradient() {
     // ── Position Overlay Animation ──
     let animFrameId: number;
     const startMs = performance.now();
+    let isVisible = true;
+    let isScrolling = false;
+    let scrollTimeout: NodeJS.Timeout;
+    let lastFrameTime = 0;
+
+    const onScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    if (typeof IntersectionObserver !== "undefined" && canvasRef.current) {
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+      }, { threshold: 0.01 });
+      observer.observe(canvasRef.current);
+    }
 
     const updatePositionLayer = (t: number) => {
       if (!positionLayerRef.current) return;
@@ -178,70 +201,65 @@ export default function HomeShaderGradient() {
     };
 
     const positionLoop = (t: number) => {
-      updatePositionLayer(t);
+      // Pause position updates during active scrolling to free CPU/GPU for 60fps scroll
+      if (isVisible && !isScrolling && !(typeof window !== "undefined" && (window as unknown as Record<string, boolean>).__pageTransitionActive)) {
+        if (t - lastFrameTime > 40) { // 25 FPS cap for background gradient ambient movement
+          updatePositionLayer(t);
+          lastFrameTime = t;
+        }
+      }
       animFrameId = requestAnimationFrame(positionLoop);
     };
 
     animFrameId = requestAnimationFrame(positionLoop);
 
-    // ── Grain Overlay Canvas ──
+    // ── Grain Overlay Canvas (Optimized 256x256 Tile Pattern) ──
     const grainCanvas = grainCanvasRef.current;
     if (grainCanvas) {
       const ctx = grainCanvas.getContext("2d");
-      const resizeGrain = () => {
-        grainCanvas.width = window.innerWidth;
-        grainCanvas.height = window.innerHeight;
+      const generateGrainTile = () => {
+        grainCanvas.width = 256;
+        grainCanvas.height = 256;
         if (ctx) {
-          const w = grainCanvas.width;
-          const h = grainCanvas.height;
+          const w = 256;
+          const h = 256;
           const intensity = GRADIENT_SETTINGS.grainIntensity;
           ctx.clearRect(0, 0, w, h);
-          if (intensity > 0 && w > 0 && h > 0) {
-            const block = 2;
+          if (intensity > 0) {
             const imgData = ctx.createImageData(w, h);
             const data = imgData.data;
-            for (let by = 0; by < h; by += block) {
-              const rowMax = Math.min(by + block, h);
-              for (let bx = 0; bx < w; bx += block) {
-                const v = Math.random() < 0.5 ? 0 : 255;
-                const a = Math.floor(Math.random() * intensity * 255);
-                const colMax = Math.min(bx + block, w);
-                for (let y = by; y < rowMax; y++) {
-                  let idx = (y * w + bx) * 4;
-                  for (let x = bx; x < colMax; x++) {
-                    data[idx] = v;
-                    data[idx + 1] = v;
-                    data[idx + 2] = v;
-                    data[idx + 3] = a;
-                    idx += 4;
-                  }
-                }
-              }
+            for (let i = 0; i < data.length; i += 4) {
+              const v = Math.random() < 0.5 ? 0 : 255;
+              const a = Math.floor(Math.random() * intensity * 180);
+              data[i] = v;
+              data[i + 1] = v;
+              data[i + 2] = v;
+              data[i + 3] = a;
             }
             ctx.putImageData(imgData, 0, 0);
           }
         }
       };
-      resizeGrain();
-      window.addEventListener("resize", resizeGrain);
+      generateGrainTile();
+
       return () => {
-        window.removeEventListener("resize", resizeGrain);
+        window.removeEventListener("scroll", onScroll);
         cancelAnimationFrame(animFrameId);
         neatInstance?.destroy?.();
       };
     }
 
     return () => {
+      window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(animFrameId);
       neatInstance?.destroy?.();
     };
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-50 pointer-events-none overflow-hidden bg-[#05030a]">
+    <div className="fixed inset-0 -z-50 pointer-events-none overflow-hidden bg-transparent">
       <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />
       <div ref={positionLayerRef} className="fixed inset-0 z-0 pointer-events-none transition-opacity duration-300" />
-      <canvas ref={grainCanvasRef} className="fixed inset-0 w-full h-full z-10 pointer-events-none mix-blend-overlay opacity-80" />
     </div>
   );
 }

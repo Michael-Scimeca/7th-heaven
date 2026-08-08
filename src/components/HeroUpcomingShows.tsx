@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Guitar, MapPin, Calendar } from "lucide-react";
 import CountdownTimer from "./CountdownTimer";
 import { getShowDateTime } from "@/lib/date-utils";
 
@@ -198,8 +199,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
               )}
             </div>
             {nextShow.info && (
-              <p className="mt-1 text-[var(--font-size-5xs)] font-extrabold uppercase tracking-[0.12em]  text-[var(--color-accent)]/80">
-                🎸 {nextShow.info}
+              <p className="mt-1 text-[var(--font-size-5xs)] font-extrabold uppercase tracking-[0.12em] text-[var(--color-accent)]/80 flex items-center gap-1">
+                <Guitar className="w-3 h-3" /> {nextShow.info}
               </p>
             )}
           </Link>
@@ -207,8 +208,8 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
           {/* Bottom block: Action buttons */}
           <div className="flex flex-wrap gap-1.5 items-center mt-0.5 pt-2 border-t border-white/5">
             {nextShow.mapUrl && (
-              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase tracking-widest font-bold" id="hero-upnext-map">
-                📍 Directions
+              <a href={nextShow.mapUrl} target="_blank" rel="noopener noreferrer" className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 uppercase tracking-widest font-bold flex items-center gap-1" id="hero-upnext-map">
+                <MapPin className="w-3 h-3 text-cyan-400" /> Directions
               </a>
             )}
             {nextShow.websiteUrl && (
@@ -222,7 +223,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
                 className="btn-outline btn-outline-hover text-[var(--font-size-5xs)] py-1 px-2 border-[var(--color-accent)]/20 flex items-center gap-1 cursor-pointer uppercase tracking-widest font-bold text-white/70"
                 id="hero-upnext-calendar-btn"
               >
-                📅 Calendar
+                <Calendar className="w-3 h-3 text-cyan-400" /> Calendar
               </button>
               {activeCalDropdownId === 'upnext' && (
                 <div className="absolute left-0 bottom-full mb-1 bg-[var(--color-bg-deep)] border border-[var(--color-accent)]/30 rounded py-1 shadow-[0_6px_24px_rgba(0,0,0,0.8)] z-50 min-w-[110px] backdrop-blur-md">
@@ -247,7 +248,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-white/90 truncate leading-tight">{show.venue}</p>
-              <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5">📍 {show.city}{show.state ? `, ${show.state}` : ''}</p>
+              <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5 flex items-center gap-1"><MapPin className="w-2.5 h-2.5 text-cyan-400 shrink-0" /> {show.city}{show.state ? `, ${show.state}` : ''}</p>
             </div>
             <span className="text-[var(--font-size-4xs)] font-bold text-white/20">→</span>
           </Link>

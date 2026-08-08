@@ -157,12 +157,26 @@ const lerp = (v0: number, v1: number, t: number) => v0 * (1 - t) + v1 * t;
 
 function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const stateRef = useRef({ h: 0, amp: 0, rafId: 0 });
+  const stateRef = useRef({ h: 0, amp: 0, rafId: 0, isVisible: true });
+  const drawRef = useRef<(time: number) => void>(() => {});
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        stateRef.current.isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, []);
 
   const draw = useCallback((time: number) => {
-    // Skip canvas draw while page-transition wave is animating — frees frame budget
-    if ((window as any).__pageTransitionActive) {
-      stateRef.current.rafId = requestAnimationFrame((ts) => draw(ts / 1000));
+    // Skip off-screen rendering or during page transitions — frees frame budget for main thread
+    if (!stateRef.current.isVisible || (typeof window !== "undefined" && (window as unknown as Record<string, boolean>).__pageTransitionActive)) {
+      stateRef.current.rafId = requestAnimationFrame((ts) => drawRef.current(ts / 1000));
       return;
     }
     const canvas = canvasRef.current;
@@ -189,13 +203,22 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
       const x = (i / steps) * W;
       const t = time * speed + (i / steps) * st.amp * Math.PI * 2;
       const y = H / 2 - Math.sin(t) * st.h;
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
     }
     ctx.strokeStyle = "#d946ef";
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
+    st.rafId = requestAnimationFrame((ts) => drawRef.current(ts / 1000));
   }, [isPlaying]);
+
+  useEffect(() => {
+    drawRef.current = draw;
+  }, [draw]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -244,7 +267,7 @@ export default function VinylHeroPlayer({
   useEffect(() => {
     const update = () => {
       if (typeof window !== "undefined") {
-        if (window.innerWidth < 700) {
+        if (window.innerWidth < 768) {
           setScale(Math.max(0.45, (window.innerWidth - 100) / 600));
         } else {
           setScale(1);
@@ -335,15 +358,19 @@ export default function VinylHeroPlayer({
   };
 
   const handleSlideChange = (swiper: SwiperType) => {
-    const newIdx = swiper.realIndex;
-    if (newIdx !== activeAlbumIdx) {
+    const newIdx = typeof swiper.activeIndex === 'number' ? swiper.activeIndex : swiper.realIndex;
+    if (newIdx !== undefined && newIdx !== activeAlbumIdx) {
       setActiveAlbumIdx(newIdx);
       setActiveTrackIdx(0);
       setIsPlaying(false);
       setProgress(0);
       setCurrentTime("0:00");
       setDuration("0:00");
-      onAlbumChange?.(ALBUMS[newIdx]?.id ?? "");
+      const albumId = ALBUMS[newIdx]?.id ?? "";
+      onAlbumChange?.(albumId);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("7h-album-change", { detail: { albumId } }));
+      }
       if (audioRef.current) {
         audioRef.current.pause();
         const url = ALBUMS[newIdx]?.tracks[0]?.audioUrl;
@@ -365,7 +392,11 @@ export default function VinylHeroPlayer({
     setProgress(0);
     setCurrentTime("0:00");
     setDuration("0:00");
-    onAlbumChange?.(ALBUMS[clamped]?.id ?? "");
+    const albumId = ALBUMS[clamped]?.id ?? "";
+    onAlbumChange?.(albumId);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("7h-album-change", { detail: { albumId } }));
+    }
     if (audioRef.current) {
       audioRef.current.pause();
       const url = ALBUMS[clamped]?.tracks[0]?.audioUrl;
@@ -501,9 +532,7 @@ export default function VinylHeroPlayer({
                               togglePlay();
                             } else {
                               // Switch to this album and auto-play first track
-                              swiperRef.current?.slideTo(idx);
-                              setActiveAlbumIdx(idx);
-                              setActiveTrackIdx(0);
+                              goToAlbum(idx);
                               playTrack(0);
                             }
                           }}
@@ -539,11 +568,7 @@ export default function VinylHeroPlayer({
 
             {/* LAYER 3: Controls overlay — z-30, floats ABOVE the disc */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-              <div
-                className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none"
-                onMouseEnter={() => setShowTracklist(true)}
-                onMouseLeave={() => setShowTracklist(false)}
-              >
+              <div className="relative w-[250px] h-[250px] flex flex-col justify-between p-4 pointer-events-none">
 
                 {/* Top Controls */}
                 <div className="flex items-center justify-center pointer-events-auto">
@@ -562,8 +587,8 @@ export default function VinylHeroPlayer({
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" /></svg>
                     </button>
                     <div className="w-[1px] h-3 bg-white/20 my-auto" />
-                    <button aria-label="Action button"
-                         onClick={(e) => { e.stopPropagation(); }}
+                    <button aria-label="Toggle Playlist"
+                      onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
                       className={`p-1 rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
                       title="Toggle Playlist"
                     >
@@ -597,7 +622,7 @@ export default function VinylHeroPlayer({
                   <div className="flex flex-col gap-1 pointer-events-auto">
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); }}
+                      onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
                       className="text-left border-0 bg-white text-black rounded-lg px-2 py-0.5 shadow-md max-w-[105px] cursor-pointer hover:bg-[var(--color-accent)] transition-colors"
                     >
                       <div className="text-[9px] font-black uppercase leading-tight flex items-center gap-1">
@@ -670,8 +695,7 @@ export default function VinylHeroPlayer({
                   : "opacity-0 pointer-events-none"
                 }`}
               style={{ left: 'calc(50% + 125px)', width: showTracklist ? '220px' : '0px', overflow: 'hidden' }}
-              onMouseEnter={() => setShowTracklist(true)}
-              onMouseLeave={() => setShowTracklist(false)}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="pl-3 border-l border-white/15 h-full flex flex-col justify-center">
                 <div className="flex items-center justify-between mb-1.5 pb-1 border-b border-white/10 whitespace-nowrap">

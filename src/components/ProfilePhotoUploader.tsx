@@ -2,6 +2,7 @@
 /* eslint-disable react-doctor/prefer-useReducer */
 
 import React, { useState, useRef, useEffect } from "react";
+import { Camera, Edit } from "lucide-react";
 import { useMember } from "@/context/MemberContext";
 
 function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<string> {
@@ -145,8 +146,8 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
     <div className="bg-white border border-black/15 p-6 shadow-sm relative overflow-hidden text-black font-sans">
       <div className="flex items-center justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center  text-[var(--color-accent)] font-bold">
-            📷
+          <div className="w-9 h-9 rounded-lg bg-purple-600/10 border border-purple-500/30 flex items-center justify-center text-[var(--color-accent)] font-bold">
+            <Camera className="w-4 h-4 text-purple-600" />
           </div>
           <div>
             <h3 className="text-base font-black uppercase tracking-tight text-black">
@@ -172,15 +173,15 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
             <img src={activeAvatar} alt="Profile preview" className="w-full h-full object-cover" />
           ) : (
             <div className="text-center p-1">
-              <span className="text-xs font-black  text-[var(--color-accent)] tracking-wider block">{initials}</span>
-              <p className="text-[9px] font-bold  text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
+              <span className="text-xs font-black text-[var(--color-accent)] tracking-wider block">{initials}</span>
+              <p className="text-[9px] font-bold text-[var(--color-accent)]/60 uppercase tracking-widest mt-0.5">No Photo</p>
             </div>
           )}
           <button aria-label="Action button"
             onClick={() => fileInputRef.current?.click()}
-            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity cursor-pointer"
+            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity cursor-pointer gap-1"
           >
-            ✏️ Change
+            <Edit className="w-3.5 h-3.5" /> Change
           </button>
         </div>
 

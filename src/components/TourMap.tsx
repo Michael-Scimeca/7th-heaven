@@ -63,10 +63,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const [map, setMap] = useState<any>(null);
 
   // ── Directional Map Gradient Customizer states ──
-  const [mapGradTop, setMapGradTop] = useState(true);
+  const [mapGradTop, setMapGradTop] = useState(false);
   const [mapGradBottom, setMapGradBottom] = useState(true);
-  const [mapGradLeft, setMapGradLeft] = useState(true);
-  const [mapGradRight, setMapGradRight] = useState(true);
+  const [mapGradLeft, setMapGradLeft] = useState(false);
+  const [mapGradRight, setMapGradRight] = useState(false);
 
   const [mapGradSize, setMapGradSize] = useState(23); // %
   const [mapGradOpacity, setMapGradOpacity] = useState(0.691); // 0..1 → *0.75 = 0.518
@@ -194,7 +194,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     });
 
     const baseLayer = L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
       { maxZoom: 18, subdomains: "abcd" }
     ).addTo(mapInstance);
 
@@ -272,7 +272,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
   // Draw and Update Markers
   useEffect(() => {
-    if (!L || !map) return () => {};
+    if (!L || !map) return () => { };
 
     for (const m of markersRef.current) {
       m.marker.off();
@@ -285,30 +285,30 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     (shows || []).forEach(s => {
       if (!s.city || isShowOver(s)) return;
       const key = `${s.venue}|${s.city}`;
-        const coords = VENUE_COORDS[key] || (s.lat && s.lng ? [s.lat, s.lng] : null);
-        if (coords) {
-          if (!showGroups[key]) {
-            showGroups[key] = {
-              venue: s.venue,
-              city: s.city,
-              state: s.state || "",
-              lat: coords[0],
-              lng: coords[1],
-              type: getShowType(s.info || ''),
-              shows: []
-            };
-          }
-          showGroups[key].shows.push({
-            date: s.date,
-            time: s.time || "",
-            playTime: s.playTime || "",
-            info: s.info || "",
-            allAges: s.allAges,
-            mapUrl: s.mapUrl,
-            websiteUrl: s.websiteUrl
-          });
+      const coords = VENUE_COORDS[key] || (s.lat && s.lng ? [s.lat, s.lng] : null);
+      if (coords) {
+        if (!showGroups[key]) {
+          showGroups[key] = {
+            venue: s.venue,
+            city: s.city,
+            state: s.state || "",
+            lat: coords[0],
+            lng: coords[1],
+            type: getShowType(s.info || ''),
+            shows: []
+          };
         }
-      });
+        showGroups[key].shows.push({
+          date: s.date,
+          time: s.time || "",
+          playTime: s.playTime || "",
+          info: s.info || "",
+          allAges: s.allAges,
+          mapUrl: s.mapUrl,
+          websiteUrl: s.websiteUrl
+        });
+      }
+    });
 
     const uniqueVenues = Object.values(showGroups);
 
@@ -520,7 +520,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           }, 1300);
         }
       },
-      () => {},
+      () => { },
       { enableHighAccuracy: false, timeout: 8000 }
     );
   }, [onPinClick]);
@@ -539,7 +539,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full aspect-[3/1] overflow-hidden bg-black pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px' }}>
+    <div className="relative w-full aspect-[3/1] overflow-hidden   pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862" />
 
       {/* ── Directional Dark Edge Gradient Overlays ── */}
@@ -913,9 +913,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           pointer-events: none;
           z-index: 99999;
         }
-        /* ── SnazzyMaps Style 227862 (My Custom Map: Deep Purple & Violet Dark Theme) ── */
+        /* ── SnazzyMaps Style 227862 (Deep Dark Theme without Grid Seams) ── */
         .snazzy-map-227862 .leaflet-tile-pane {
-          filter: invert(100%) sepia(0%) saturate(0%) contrast(110%) brightness(75%);
+          filter: brightness(95%) contrast(105%);
         }
 
         .custom-venue-marker:hover .custom-tooltip-card {

@@ -161,21 +161,104 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [focalScale, setFocalScale] = useState<number>(1.36);
 
   const [textLayout, setTextLayout] = useState<"pill" | "top" | "spotlight" | "spine">("pill");
-  const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "right" | "right-glass" | "right-accent">("left");
+  const [textPos, setTextPos] = useState<"left" | "left-glass" | "left-accent" | "center" | "center-glass" | "right" | "right-glass" | "right-accent">("left");
+  const [nameFontSize, setNameFontSize] = useState<number>(28); // px
+  const [roleFontSize, setRoleFontSize] = useState<number>(14); // px
+  const [textBottomOffset, setTextBottomOffset] = useState<number>(16); // px
+  const [textBackdropOpacity, setTextBackdropOpacity] = useState<number>(0); // % opacity for text background backdrop mask
 
-  // 🎭 Section Fading Clipping Mask States
+  // 🎭 Section Fading Clipping Mask States — Professional Studio Suite
   const [sectionMaskEnabled, setSectionMaskEnabled] = useState<boolean>(true);
-  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(100); // px
-  const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px
+  const [topMaskEnabled, setTopMaskEnabled] = useState<boolean>(false); // false by default = ZERO top head clipping
+  const [topMaskDistance, setTopMaskDistance] = useState<number>(80); // px top fade length
+  const [topMaskMinOpacity, setTopMaskMinOpacity] = useState<number>(0); // % top min opacity floor
+  const [bottomMaskEnabled, setBottomMaskEnabled] = useState<boolean>(true);
+  const [bottomFadeMode, setBottomFadeMode] = useState<"screen-fixed" | "image-relative">("screen-fixed");
+  const [screenBottomFadeHeight, setScreenBottomFadeHeight] = useState<number>(180); // px from bottom of screen
+  const [screenBottomFadeEasing, setScreenBottomFadeEasing] = useState<"smooth" | "soft" | "linear" | "sharp">("smooth");
+  const [maskStudioTab, setMaskStudioTab] = useState<"preset" | "stops" | "member" | "raw">("preset");
+  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(180); // px
+  const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px - Top fade distance
+  const [topFadeStyle, setTopFadeStyle] = useState<"smooth" | "soft" | "linear" | "sharp">("smooth"); // Smooth top fade curve
+  const [sectionMaskStart, setSectionMaskStart] = useState<number>(35); // % start down image - Bottom smooth fade out (35% chest level)
+  const [sectionMaskEnd, setSectionMaskEnd] = useState<number>(75); // % end down image - Bottom smooth fade out (75% waist level)
+  const [sectionMaskMidpoint, setSectionMaskMidpoint] = useState<number>(50); // % curve midpoint
+  const [sectionMaskMinOpacity, setSectionMaskMinOpacity] = useState<number>(0); // % min opacity floor (0% = transparent bottom)
+  const [sectionMaskDirection, setSectionMaskDirection] = useState<string>("to bottom");
+  const [sectionMaskSideFeather, setSectionMaskSideFeather] = useState<number>(0); // px left/right side feathering
+  const [sectionMaskStrength, setSectionMaskStrength] = useState<number>(75); // % mask strength / drop speed
+  const [sectionMaskFeather, setSectionMaskFeather] = useState<"smooth" | "linear" | "sharp" | "radial">("linear");
   const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
+  const [isDrawerExpanded, setIsDrawerExpanded] = useState<boolean>(false);
+  const [maskCopied, setMaskCopied] = useState<boolean>(false);
+
+  // 🎛️ 5-Stop Custom Gradient Point Editor States
+  const [gradientStops, setGradientStops] = useState<Array<{ pos: number; opacity: number }>>([
+    { pos: 0, opacity: 100 },
+    { pos: 60, opacity: 100 },
+    { pos: 80, opacity: 50 },
+    { pos: 92, opacity: 15 },
+    { pos: 100, opacity: 0 },
+  ]);
+
+  // 👤 Per-Member Override States
+  const [selectedMemberTarget, setSelectedMemberTarget] = useState<"all" | "adam" | "richard" | "frankie" | "mark" | "nick">("all");
+  const [perMemberMaskStart, setPerMemberMaskStart] = useState<Record<string, number>>({
+    adam: 70,
+    richard: 70,
+    frankie: 70,
+    mark: 70,
+    nick: 70,
+  });
+
+  // 📝 Raw Custom CSS Injection Input State
+  const [customRawMask, setCustomRawMask] = useState<string>("");
+  const [useRawMask, setUseRawMask] = useState<boolean>(false);
 
   useEffect(() => {
     const savedEnabled = localStorage.getItem("7h_band_section_mask_enabled");
+    const savedTopEnabled = localStorage.getItem("7h_band_top_mask_enabled");
+    const savedTopDist = localStorage.getItem("7h_band_top_mask_dist");
+    const savedTopMinOp = localStorage.getItem("7h_band_top_mask_min_op");
+    const savedBottomEnabled = localStorage.getItem("7h_band_bottom_mask_enabled");
+    const savedFadeMode = localStorage.getItem("7h_band_bottom_fade_mode");
+    const savedScreenHeight = localStorage.getItem("7h_band_screen_bottom_height");
+    const savedScreenEasing = localStorage.getItem("7h_band_screen_bottom_easing");
     const savedBottom = localStorage.getItem("7h_band_section_mask_bottom");
     const savedTop = localStorage.getItem("7h_band_section_mask_top");
+    const savedTopStyle = localStorage.getItem("7h_band_top_fade_style");
+    const savedStart = localStorage.getItem("7h_band_section_mask_start");
+    const savedEnd = localStorage.getItem("7h_band_section_mask_end");
+    const savedMid = localStorage.getItem("7h_band_section_mask_mid");
+    const savedMinOp = localStorage.getItem("7h_band_section_mask_min_op");
+    const savedDir = localStorage.getItem("7h_band_section_mask_dir");
+    const savedSide = localStorage.getItem("7h_band_section_mask_side");
+    const savedStrength = localStorage.getItem("7h_band_section_mask_strength");
+    const savedFeather = localStorage.getItem("7h_band_section_mask_feather");
+    const savedRaw = localStorage.getItem("7h_band_section_mask_raw");
+    const savedStops = localStorage.getItem("7h_band_section_mask_stops");
+
     if (savedEnabled !== null) setSectionMaskEnabled(savedEnabled === "true");
-    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 100);
-    if (savedTop) setSectionMaskTop(parseInt(savedTop, 10) || 0);
+    if (savedTopEnabled !== null) setTopMaskEnabled(savedTopEnabled === "true");
+    if (savedTopDist) setTopMaskDistance(parseInt(savedTopDist, 10) || 80);
+    if (savedTopMinOp) setTopMaskMinOpacity(parseInt(savedTopMinOp, 10) || 0);
+    if (savedBottomEnabled !== null) setBottomMaskEnabled(savedBottomEnabled === "true");
+    if (savedFadeMode) setBottomFadeMode((savedFadeMode as any) || "screen-fixed");
+    if (savedScreenHeight) setScreenBottomFadeHeight(parseInt(savedScreenHeight, 10) || 180);
+    if (savedScreenEasing) setScreenBottomFadeEasing((savedScreenEasing as any) || "smooth");
+    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 180);
+    if (savedTop !== null) setSectionMaskTop(parseInt(savedTop, 10) || 0);
+    if (savedTopStyle) setTopFadeStyle((savedTopStyle as any) || "smooth");
+    if (savedStart) setSectionMaskStart(parseInt(savedStart, 10) || 70);
+    if (savedEnd) setSectionMaskEnd(parseInt(savedEnd, 10) || 100);
+    if (savedMid) setSectionMaskMidpoint(parseInt(savedMid, 10) || 50);
+    if (savedMinOp) setSectionMaskMinOpacity(parseInt(savedMinOp, 10) || 0);
+    if (savedDir) setSectionMaskDirection((savedDir as any) || "to bottom");
+    if (savedSide) setSectionMaskSideFeather(parseInt(savedSide, 10) || 0);
+    if (savedStrength) setSectionMaskStrength(parseInt(savedStrength, 10) || 75);
+    if (savedFeather) setSectionMaskFeather((savedFeather as any) || "linear");
+    if (savedRaw) { setCustomRawMask(savedRaw); setUseRawMask(true); }
+    if (savedStops) { try { setGradientStops(JSON.parse(savedStops)); } catch (_) {} }
   }, []);
 
   // 🎬 Video Pagination Layout Style Options (10 Designs)
@@ -491,14 +574,6 @@ maskTop: ${sectionMaskTop}px`;
   return (
     <div
       className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
-      style={
-        sectionMaskEnabled
-          ? {
-              WebkitMaskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
-              maskImage: `linear-gradient(to bottom, ${sectionMaskTop > 0 ? `transparent 0px, black ${sectionMaskTop}px` : 'black 0%'}, black calc(100% - ${sectionMaskBottom}px), transparent 100%)`,
-            }
-          : {}
-      }
     >
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
@@ -639,10 +714,10 @@ maskTop: ${sectionMaskTop}px`;
 
                       {/* Dynamic Sized Member Photo Cutout Container */}
                       <div
-                        className="relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom"
+                        className="smooothy-img-container relative flex items-end justify-center overflow-visible bg-transparent transition-colors duration-150 origin-bottom"
                         style={{
                           height: `${imageHeight}px`,
-                          transform: `translateY(${imageOffsetY}px)`
+                          transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
                         <img
@@ -652,75 +727,144 @@ maskTop: ${sectionMaskTop}px`;
                           className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0"
                           style={{
                             maxHeight: `${imageHeight}px`,
-                            transform: `scale(${imageScale})`
+                            transform: `scale(${imageScale})`,
+                            ...(sectionMaskEnabled
+                              ? (() => {
+                                  const maskStr = useRawMask && customRawMask.trim()
+                                    ? customRawMask.trim()
+                                    : `linear-gradient(${sectionMaskDirection}, black 0%, black ${sectionMaskStart}%, rgba(0,0,0,${sectionMaskMinOpacity / 100}) ${sectionMaskEnd}%)`;
+
+                                  return {
+                                    WebkitMaskImage: maskStr,
+                                    maskImage: maskStr,
+                                    WebkitMaskSize: "100% 100%",
+                                    maskSize: "100% 100%",
+                                    WebkitMaskRepeat: "no-repeat",
+                                    maskRepeat: "no-repeat",
+                                  };
+                                })()
+                              : {})
                           }}
                         />
-
-
                       </div>
 
-                      {/* Dynamic Member Info Overlay (z-50 - Pure White & Bright Purple Text) */}
+                      {/* Dynamic Member Info Overlay (z-[100] - Pure White & Bright Purple Text with Live Control) */}
                       {textPos === "left" && (
-                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%]">
-                          <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+                        <div
+                          className="absolute left-4 z-[100] flex flex-col items-start text-left pointer-events-none max-w-[90%]"
+                          style={{
+                            bottom: `${textBottomOffset}px`,
+                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
+                          }}
+                        >
+                          <h3 className="font-black text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-extrabold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5">
+                          <span className="font-extrabold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "left-glass" && (
-                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                        <div
+                          className="absolute left-4 z-[100] flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3"
+                          style={{ bottom: `${textBottomOffset}px` }}
+                        >
+                          <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block mt-0.5">
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "left-accent" && (
-                        <div className="absolute bottom-4 left-4 z-50 flex flex-col items-start text-left pointer-events-none max-w-[90%] border-l-2 border-[var(--color-accent)] pl-3 py-1">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
+                        <div
+                          className="absolute left-4 z-[100] flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1"
+                          style={{ bottom: `${textBottomOffset}px` }}
+                        >
+                          <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                            {m?.role}
+                          </span>
+                        </div>
+                      )}
+
+                      {textPos === "center" && (
+                        <div
+                          className="absolute left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center text-center pointer-events-none w-full px-2"
+                          style={{
+                            bottom: `${textBottomOffset}px`,
+                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
+                          }}
+                        >
+                          <h3 className="font-black text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]" style={{ fontSize: `${nameFontSize}px` }}>
+                            {m?.name}
+                          </h3>
+                          <span className="font-extrabold text-[#c084fc] tracking-wide block drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
+                            {m?.role}
+                          </span>
+                        </div>
+                      )}
+
+                      {textPos === "center-glass" && (
+                        <div
+                          className="absolute left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5 rounded-xl shadow-2xl"
+                          style={{ bottom: `${textBottomOffset}px` }}
+                        >
+                          <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
+                            {m?.name}
+                          </h3>
+                          <span className="font-bold text-[#c084fc] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "right" && (
-                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%]">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
+                        <div
+                          className="absolute right-4 z-[100] flex flex-col items-end text-right pointer-events-none max-w-[90%]"
+                          style={{
+                            bottom: `${textBottomOffset}px`,
+                            ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
+                          }}
+                        >
+                          <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "right-glass" && (
-                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                        <div
+                          className="absolute right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3"
+                          style={{ bottom: `${textBottomOffset}px` }}
+                        >
+                          <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block mt-0.5">
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
                       )}
 
                       {textPos === "right-accent" && (
-                        <div className="absolute bottom-4 right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1">
-                          <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight drop-">
+                        <div
+                          className="absolute right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1"
+                          style={{ bottom: `${textBottomOffset}px` }}
+                        >
+                          <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
                           </h3>
-                          <span className="text-sm md:text-base font-bold  text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5">
+                          <span className="font-bold text-[var(--color-accent)] tracking-wide block drop-shadow-md mt-0.5" style={{ fontSize: `${roleFontSize}px` }}>
                             {m?.role}
                           </span>
                         </div>
@@ -733,108 +877,250 @@ maskTop: ${sectionMaskTop}px`;
             })}
           </div>
         </div>
+      </div>
 
-        {/* ── Section Mask Editor Floating Trigger Button ── */}
-        {!isMaskEditorOpen && (
-          <button aria-label="Action button"
-            onClick={() => setIsMaskEditorOpen(true)}
-            className="fixed bottom-[110px] right-6 z-[9998] flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-wider hover:bg-black/95 hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.6)] select-none cursor-pointer"
-            title="Edit Band Section Mask Fade"
-          >
-            <span className="text-[11px]">🎭</span>
-            <span>Band Mask</span>
-          </button>
-        )}
+      {/* ── Floating Mask Gradient Editor Button ── */}
+      <button
+        type="button"
+        onClick={() => setIsMaskEditorOpen(!isMaskEditorOpen)}
+        className="fixed bottom-6 right-6 z-[9999] px-4 py-2.5 bg-[#090514]/95 hover:bg-[#120a26] text-white border border-purple-500/40 rounded-full shadow-[0_10px_35px_rgba(168,85,247,0.4)] backdrop-blur-md text-xs font-black uppercase tracking-wider flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
+      >
+        <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+        🎭 Mask Gradient Editor
+      </button>
 
-        {/* ── Section Mask UI Editor Modal ── */}
-        {isMaskEditorOpen && (
-          <div className="fixed right-6 bottom-6 z-[9999] p-0 pointer-events-none">
-            <div className="w-80 bg-[#0c0d12]/95 backdrop-blur-2xl border border-white/15 p-6 rounded-2xl relative flex flex-col font-sans select-none pointer-events-auto shadow-[0_20px_60px_rgba(0,0,0,0.9)] animate-all">
-              <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🎭</span>
-                  <h3 className="text-white font-black text-xs uppercase tracking-wider">Band Section Mask Editor</h3>
-                </div>
-                <button aria-label="Action button"
-                  onClick={() => setIsMaskEditorOpen(false)}
-                  className="text-white/50 hover:text-white text-xs cursor-pointer bg-white/5 hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+      {/* ── Mask Gradient Editor Drawer / Modal ── */}
+      {isMaskEditorOpen && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-end bg-black/60 backdrop-blur-sm p-4 sm:p-6 transition-all animate-[fadeIn_0.2s_ease-out]">
+          <div className="w-full max-w-md bg-[#0c0817] border border-purple-500/30 rounded-2xl p-6 text-white shadow-[0_25px_80px_rgba(0,0,0,0.9)] max-h-[90vh] overflow-y-auto relative flex flex-col gap-5">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <h3 className="font-black text-lg text-white tracking-wide flex items-center gap-2">
+                  <span>🎭 Mask Gradient Editor</span>
+                </h3>
+                <p className="text-xs text-white/50 mt-0.5">Control image bottom/top fade out & opacity</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMaskEditorOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Enable / Disable Mask Toggle */}
+            <div className="flex items-center justify-between bg-white/[0.04] p-3 rounded-xl border border-white/10">
+              <span className="text-xs font-bold uppercase tracking-wider text-white/80">Enable Section Mask</span>
+              <button
+                type="button"
+                onClick={() => setSectionMaskEnabled(!sectionMaskEnabled)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${
+                  sectionMaskEnabled ? "bg-purple-600 text-white" : "bg-white/10 text-white/40"
+                }`}
+              >
+                {sectionMaskEnabled ? "Active" : "Disabled"}
+              </button>
+            </div>
+
+            {/* Presets */}
+            <div>
+              <label className="text-xs font-bold text-white/60 uppercase tracking-wider block mb-2">Fade Presets</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseRawMask(false);
+                    setSectionMaskDirection("to bottom");
+                    setSectionMaskStart(67);
+                    setSectionMaskEnd(91);
+                    setSectionMaskMinOpacity(0);
+                  }}
+                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
                 >
-                  ✕
+                  📉 Bottom Soft Fade (67%-91%)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseRawMask(false);
+                    setSectionMaskDirection("to bottom");
+                    setSectionMaskStart(45);
+                    setSectionMaskEnd(85);
+                    setSectionMaskMinOpacity(0);
+                  }}
+                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
+                >
+                  📉 Bottom High Fade (45%-85%)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseRawMask(false);
+                    setSectionMaskDirection("to top");
+                    setSectionMaskStart(60);
+                    setSectionMaskEnd(95);
+                    setSectionMaskMinOpacity(0);
+                  }}
+                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
+                >
+                  📈 Top Fade (60%-95%)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseRawMask(true);
+                    setCustomRawMask("linear-gradient(to bottom, transparent 0%, black 15%, black 70%, transparent 95%)");
+                  }}
+                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
+                >
+                  ↔️ Top & Bottom Dual Fade
                 </button>
               </div>
+            </div>
 
-              <div className="flex items-center justify-between mb-4">
-                <label htmlFor="band-mask-toggle" className="text-white/80 text-xs uppercase font-extrabold tracking-wider">Enable Bottom/Top Mask</label>
-                <input aria-label="Input field"
-                  id="band-mask-toggle"
-                  type="checkbox"
-                  checked={sectionMaskEnabled}
-                  onChange={(e) => {
-                    setSectionMaskEnabled(e.target.checked);
-                    localStorage.setItem("7h_band_section_mask_enabled", String(e.target.checked));
-                  }}
-                  className="w-4 h-4 accent-purple-500 cursor-pointer"
+            {/* Mask Direction */}
+            <div>
+              <label className="text-xs font-bold text-white/60 uppercase tracking-wider block mb-2">Gradient Direction</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setUseRawMask(false); setSectionMaskDirection("to bottom"); }}
+                  className={`px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    !useRawMask && sectionMaskDirection === "to bottom"
+                      ? "bg-purple-600 text-white border border-purple-400/50"
+                      : "bg-white/5 text-white/60 border border-white/10"
+                  }`}
+                >
+                  ⬇️ To Bottom (Fade at Bottom)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setUseRawMask(false); setSectionMaskDirection("to top"); }}
+                  className={`px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    !useRawMask && sectionMaskDirection === "to top"
+                      ? "bg-purple-600 text-white border border-purple-400/50"
+                      : "bg-white/5 text-white/60 border border-white/10"
+                  }`}
+                >
+                  ⬆️ To Top (Fade at Top)
+                </button>
+              </div>
+            </div>
+
+            {/* Sliders */}
+            <div className="space-y-4 bg-white/[0.03] p-4 rounded-xl border border-white/10">
+              {/* Fade Start Position */}
+              <div>
+                <div className="flex justify-between items-center text-xs font-bold text-white/80 mb-1">
+                  <span>Fade Start Position (Solid Cutoff)</span>
+                  <span className="text-purple-400 font-mono">{sectionMaskStart}%</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={sectionMaskStart}
+                  onChange={(e) => { setUseRawMask(false); setSectionMaskStart(Number(e.target.value)); }}
+                  className="w-full accent-purple-500 cursor-pointer"
                 />
               </div>
 
-              {sectionMaskEnabled && (
-                <>
-                  {/* Bottom Fade Clip Slider */}
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="band-mask-bottom-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Bottom Fade Height</label>
-                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskBottom}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      id="band-mask-bottom-slider"
-                      type="range"
-                      min="0"
-                      max="250"
-                      value={sectionMaskBottom}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setSectionMaskBottom(val);
-                        localStorage.setItem("7h_band_section_mask_bottom", String(val));
-                      }}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                    />
-                    <div className="flex justify-between text-[9px] text-white/30 font-mono mt-0.5">
-                      <span>0px</span>
-                      <span>125px</span>
-                      <span>250px</span>
-                    </div>
-                  </div>
-                  {/* Top Fade Clip Slider */}
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="band-mask-top-slider" className="text-white/60 text-[10px] uppercase font-bold tracking-wider">Top Fade Clip</label>
-                      <span className="text-purple-400 text-xs font-bold font-mono">{sectionMaskTop}px</span>
-                    </div>
-                    <input aria-label="Input field"
-                      id="band-mask-top-slider"
-                      type="range"
-                      min="0"
-                      max="200"
-                      value={sectionMaskTop}
-                      onChange={(e) => {
-                        const val = parseInt(e.target.value, 10);
-                        setSectionMaskTop(val);
-                        localStorage.setItem("7h_band_section_mask_top", String(val));
-                      }}
-                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                    />
-                    <div className="flex justify-between text-[9px] text-white/30 font-mono mt-0.5">
-                      <span>0px</span>
-                      <span>100px</span>
-                      <span>200px</span>
-                    </div>
-                  </div>
-                </>
-              )}
+              {/* Fade End Position */}
+              <div>
+                <div className="flex justify-between items-center text-xs font-bold text-white/80 mb-1">
+                  <span>Fade End Position (Complete Fade)</span>
+                  <span className="text-purple-400 font-mono">{sectionMaskEnd}%</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={sectionMaskEnd}
+                  onChange={(e) => { setUseRawMask(false); setSectionMaskEnd(Number(e.target.value)); }}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+
+              {/* Bottom Opacity Floor */}
+              <div>
+                <div className="flex justify-between items-center text-xs font-bold text-white/80 mb-1">
+                  <span>Fade Min Opacity (Floor)</span>
+                  <span className="text-purple-400 font-mono">{sectionMaskMinOpacity}%</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={sectionMaskMinOpacity}
+                  onChange={(e) => { setUseRawMask(false); setSectionMaskMinOpacity(Number(e.target.value)); }}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Raw Custom CSS Input */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-bold text-white/60 uppercase tracking-wider">Custom CSS Mask String</label>
+                <button
+                  type="button"
+                  onClick={() => setUseRawMask(!useRawMask)}
+                  className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                    useRawMask ? "bg-purple-500 text-white" : "bg-white/10 text-white/40"
+                  }`}
+                >
+                  {useRawMask ? "Using Custom CSS" : "Use Custom CSS"}
+                </button>
+              </div>
+              <input
+                type="text"
+                value={customRawMask}
+                placeholder="linear-gradient(to bottom, black 0%, black 67%, transparent 91%)"
+                onChange={(e) => {
+                  setCustomRawMask(e.target.value);
+                  setUseRawMask(true);
+                }}
+                className="w-full bg-black/60 border border-white/15 rounded-lg px-3 py-2 text-xs font-mono text-purple-300 focus:outline-none focus:border-purple-400 placeholder:text-white/20"
+              />
+            </div>
+
+            {/* Current CSS Value Preview */}
+            <div className="bg-black/80 border border-white/10 p-3 rounded-lg text-[11px] font-mono text-white/70">
+              <span className="text-white/40 block text-[9px] uppercase font-bold tracking-wider mb-1">Active mask-image:</span>
+              <span className="text-purple-300 break-all">
+                {useRawMask && customRawMask.trim()
+                  ? customRawMask.trim()
+                  : `linear-gradient(${sectionMaskDirection}, black 0%, black ${sectionMaskStart}%, rgba(0,0,0,${sectionMaskMinOpacity / 100}) ${sectionMaskEnd}%)`}
+              </span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => {
+                  const currentMaskStr = useRawMask && customRawMask.trim()
+                    ? customRawMask.trim()
+                    : `linear-gradient(${sectionMaskDirection}, black 0%, black ${sectionMaskStart}%, rgba(0,0,0,${sectionMaskMinOpacity / 100}) ${sectionMaskEnd}%)`;
+                  navigator.clipboard.writeText(`mask-image: ${currentMaskStr};`);
+                }}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+              >
+                📋 Copy CSS
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsMaskEditorOpen(false)}
+                className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shadow-md shadow-purple-600/30"
+              >
+                Done
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

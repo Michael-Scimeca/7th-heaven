@@ -1,6 +1,7 @@
 /* eslint-disable react-doctor/no-giant-component */
 "use client";
 import Image from 'next/image';
+import { Lock, Camera, Shield, MapPin, X } from "lucide-react";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
@@ -183,7 +184,7 @@ export default function FansPage() {
               {!effectivelyLoggedIn && (
                 <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-none md:whitespace-nowrap">
 
-                  <span className="text-sm">🔒</span>
+                  <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
                   <p>
                     You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
                     <button aria-label="Action button"
@@ -215,7 +216,7 @@ export default function FansPage() {
               }}
               className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-colors flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
             >
-              <span className="text-lg">📸</span>
+              <Camera className="w-4 h-4" />
               <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>
             </button>
           </div>
@@ -239,8 +240,8 @@ export default function FansPage() {
         {isModerator && pendingPhotos.length > 0 && (
           <div className="site-container mx-auto mb-14 p-6">
             <div className="flex items-center gap-3 mb-6">
-              <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm">
-                🛡️
+              <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm text-purple-300">
+                <Shield className="w-4 h-4" />
               </span>
               <div>
                 <h3 className="text-lg font-bold text-black">
@@ -293,8 +294,8 @@ export default function FansPage() {
                         {photo.name}
                       </div>
                       {photo.venue && (
-                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-black/60 truncate">
-                          📍 {photo.venue}
+                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-black/60 truncate flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-[var(--color-accent)] shrink-0" /> {photo.venue}
                         </p>
                       )}
                       {photo.caption && (
@@ -427,7 +428,7 @@ export default function FansPage() {
                   </div>
                   <button aria-label="Action button"
                     type="button"
-                    className="relative group cursor-pointer bg-black w-full text-left"
+                    className="relative group cursor-pointer   w-full text-left"
                     onClick={() => setSelectedPhoto(photo)}
                   >
                     {isVideo ? (
@@ -502,11 +503,11 @@ export default function FansPage() {
               className="relative max-w-4xl max-h-[85vh] w-full flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              <button aria-label="Action button"
+              <button aria-label="Close"
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute -top-10 right-0 text-white/40 hover:text-white transition-colors cursor-pointer text-2xl"
+                className="absolute -top-10 right-0 text-white/40 hover:text-white transition-colors cursor-pointer"
               >
-                ✕
+                <X className="w-6 h-6" />
               </button>
               {selectedPhoto.type === "video" ||
                 selectedPhoto.src.endsWith(".mp4") ||

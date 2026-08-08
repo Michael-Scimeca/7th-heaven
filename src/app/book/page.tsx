@@ -1,18 +1,17 @@
-/* eslint-disable react-doctor/no-giant-component */
 "use client";
-
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
+import { Guitar, Mic, PartyPopper, Sparkles, Check, AlertTriangle, Star, Shield, ClipboardList, Zap, Lightbulb, Calendar as CalendarIcon, Plus, X, ChevronDown, ChevronRight, Megaphone } from "lucide-react";
 
 const eventTypes = [
-  { id: "full_band", label: "Full Band", icon: "🎸", desc: "High energy, full 5-piece concert setup" },
-  { id: "unplugged", label: "Unplugged", icon: "🎤", desc: "Acoustic, intimate stripped-down set" },
-  { id: "private", label: "Private Event", icon: "🎉", desc: "Birthdays, corporate events, weddings" },
-  { id: "custom", label: "Custom Booking", icon: "✨", desc: "Special requests, festivals, hybrid shows" },
+  { id: "full_band", label: "Full Band", icon: Guitar, desc: "High energy, full 5-piece concert setup" },
+  { id: "unplugged", label: "Unplugged", icon: Mic, desc: "Acoustic, intimate stripped-down set" },
+  { id: "private", label: "Private Event", icon: PartyPopper, desc: "Birthdays, corporate events, weddings" },
+  { id: "custom", label: "Custom Booking", icon: Sparkles, desc: "Special requests, festivals, hybrid shows" },
 ];
 
 const budgetRanges = [
@@ -48,28 +47,28 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
 
   return (
     <div className="relative">
-      <span className="text-base font-bold uppercase tracking-widest text-black/50 block mb-1.5">{label}</span>
+      <span className="text-base font-bold uppercase tracking-widest text-white/60 block mb-1.5">{label}</span>
       <button aria-label="Action button"
         type="button"
         onClick={() => setShowCal(!showCal)}
-        className={`w-full bg-black/[0.04] border ${value ? 'border-[var(--color-accent)]/60' : 'border-black/15'} px-4 py-3  text-lg text-left transition-colors hover:border-[var(--color-accent)]/60 cursor-pointer flex items-center justify-between ${value ? 'text-black font-semibold' : 'text-black/40'}`}
+        className={`w-full bg-white/5 backdrop-blur-md border ${value ? 'border-cyan-400' : 'border-white/15'} px-4 py-3 text-lg text-left transition-colors hover:border-cyan-400 cursor-pointer flex items-center justify-between rounded-lg ${value ? 'text-white font-semibold' : 'text-white/40'}`}
       >
         {value ? new Date(value + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : 'Pick a date…'}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
       </button>
       {showCal && (
-        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-white border border-black/15 p-4 animate-[fade-in-up_0.15s_ease-out_both]">
+        <div className="absolute z-50 top-full mt-2 left-0 w-72 bg-[#0c0817] border border-white/15 p-4 rounded-xl shadow-2xl animate-[fade-in-up_0.15s_ease-out_both]">
           <div className="flex items-center justify-between mb-3">
-            <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg></button>
-            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-black/70 hover: text-[var(--color-accent)] transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
-            <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-black/50 hover:text-black p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
+            <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month - 1, 1))} className="text-white/60 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg></button>
+            <button aria-label="Action button" type="button" onClick={() => setShowMonthGrid(!showMonthGrid)} className="text-xs font-bold uppercase tracking-wider text-white/80 hover:text-cyan-400 transition-colors cursor-pointer">{calMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</button>
+            <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year, month + 1, 1))} className="text-white/60 hover:text-white p-1 cursor-pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg></button>
           </div>
           {showMonthGrid ? (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">← {year - 1}</button>
-                <span className="text-xs font-bold text-black">{year}</span>
-                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-black/50 hover:text-black text-base font-bold cursor-pointer">{year + 1} →</button>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year - 1, month, 1))} className="text-white/60 hover:text-white text-base font-bold cursor-pointer">← {year - 1}</button>
+                <span className="text-xs font-bold text-white">{year}</span>
+                <button aria-label="Action button" type="button" onClick={() => setCalMonth(new Date(year + 1, month, 1))} className="text-white/60 hover:text-white text-base font-bold cursor-pointer">{year + 1} →</button>
               </div>
               <div className="grid grid-cols-3 gap-1.5">
                 {M_NAMES.map((m, i) => {
@@ -77,7 +76,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                   const isPast = new Date(year, i + 1, 0) < new Date();
                   return (
                     <button aria-label="Action button" key={m} type="button" disabled={isPast} onClick={() => { setCalMonth(new Date(year, i, 1)); setShowMonthGrid(false); }}
-                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-colors ${isPast ? 'text-black/20 cursor-not-allowed' : isCur ? 'bg-[var(--color-accent)] text-white' : 'text-black/60 hover:bg-black/5 cursor-pointer'}`}
+                      className={`py-2 rounded-lg text-base font-bold uppercase tracking-wider transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isCur ? 'bg-cyan-600 text-white' : 'text-white/70 hover:bg-white/10 cursor-pointer'}`}
                     >{m}</button>
                   );
                 })}
@@ -86,7 +85,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
           ) : (
             <>
               <div className="grid grid-cols-7 mb-1">
-                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={`day-${i}-${d}`} className="text-center text-lg font-bold text-black/40 uppercase">{d}</div>)}
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={`day-${i}-${d}`} className="text-center text-lg font-bold text-white/40 uppercase">{d}</div>)}
               </div>
               <div className="grid grid-cols-7 gap-1">
                 {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
@@ -99,7 +98,7 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
                     <button aria-label="Action button"
                       key={ds} type="button" disabled={isPast}
                       onClick={() => { onChange(ds); setShowCal(false); }}
-                      className={`h-8 w-full rounded-lg text-xs font-bold transition-colors ${isPast ? 'text-black/20 cursor-not-allowed' : isSel ? 'bg-[var(--color-accent)] text-white shadow-md' : 'text-black/80 hover:bg-black/5 cursor-pointer'}`}
+                      className={`h-8 w-full rounded-lg text-xs font-bold transition-colors ${isPast ? 'text-white/20 cursor-not-allowed' : isSel ? 'bg-cyan-600 text-white shadow-md' : 'text-white/80 hover:bg-white/10 cursor-pointer'}`}
                     >
                       {i + 1}
                     </button>
@@ -121,9 +120,9 @@ const InputField = ({ label, required, id, ...props }: { label: string; required
   const inputId = id || props.name || `book-input-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
       <input aria-label="Input field" id={inputId} {...props} required={required}
-        className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black placeholder:text-black/40 focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors"
+        className="w-full bg-white/5 backdrop-blur-md border border-white/15 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-colors rounded-xl shadow-inner"
       />
     </div>
   );
@@ -133,12 +132,12 @@ const SelectField = ({ label, options, required, id, ...props }: { label: string
   const selectId = id || props.name || `book-select-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-2">{label}{required && " *"}</label>
+      <label htmlFor={selectId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
       <select aria-label="Select option" id={selectId} {...props} required={required}
-        className="w-full bg-black/[0.04] border border-black/15 px-4 py-3 text-lg text-black focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] outline-none transition-colors appearance-none cursor-pointer"
+        className="w-full bg-white/5 backdrop-blur-md border border-white/15 px-4 py-3 text-lg text-white focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-colors appearance-none cursor-pointer rounded-xl shadow-inner"
       >
-        <option value="" className="bg-white text-black">Select</option>
-        {options.map(o => <option key={o} value={o} className="bg-white text-black">{o}</option>)}
+        <option value="" className="bg-[#0c0817] text-white">Select</option>
+        {options.map(o => <option key={o} value={o} className="bg-[#0c0817] text-white">{o}</option>)}
       </select>
     </div>
   );
@@ -146,17 +145,17 @@ const SelectField = ({ label, options, required, id, ...props }: { label: string
 
 const RadioPillField = ({ label, name, options, value, onChange, required }: { label: string; name: string, options: string[], value: string, onChange: any, required?: boolean }) => (
   <div className="mb-2">
-    <span className="text-base font-bold uppercase tracking-[0.15em] text-black/50 block mb-3">{label}{required && " *"}</span>
+    <span className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-3">{label}{required && " *"}</span>
     <div className="flex flex-wrap gap-2">
       {options.map(o => (
         <button aria-label="Action button"
           key={o}
           type="button"
           onClick={() => onChange({ target: { name, value: o } } as any)}
-          className={`py-2 px-4  text-lg font-bold tracking-wide transition-colors border
+          className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl
             ${value === o
-              ? "bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-md"
-              : "bg-black/[0.04] border-black/15 text-black/70 hover:bg-black/10 hover:border-black/30 hover:text-black"
+              ? "bg-cyan-600/80 backdrop-blur-md text-white border-cyan-400 shadow-md shadow-cyan-600/30 font-black"
+              : "bg-white/5 backdrop-blur-md border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 hover:text-white"
             }
           `}
         >
@@ -782,28 +781,28 @@ function BookPageContent() {
 
           {/* Signed-in Identity Block */}
           {isLoggedIn && member && (
-            <div className="flex items-center justify-between mb-8 pb-6 border-b border-black/10">
+            <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
               <div className="flex items-center gap-4">
-                <div className="relative w-14 h-14 rounded-full bg-[var(--color-accent)]/20 border-2 border-[var(--color-accent)] flex items-center justify-center text-lg font-black  text-[var(--color-accent)]">
+                <div className="relative w-14 h-14 rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-lg font-black text-cyan-300">
                   {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
-                  <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${member.role === 'event_planner' ? 'bg-fuchsia-500' : 'bg-[var(--color-accent)]'
+                  <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${member.role === 'event_planner' ? 'bg-purple-600' : 'bg-cyan-500'
                     } border-2 border-white flex items-center justify-center`}>
-                    <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? '📋' : '★'}</span>
+                    <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? <ClipboardList className="w-2.5 h-2.5" /> : <Star className="w-2.5 h-2.5 fill-white" />}</span>
                   </span>
                 </div>
                 <div className="text-left">
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-black italic tracking-tight text-black">{member.name}</h2>
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${member.role === 'event_planner' ? 'bg-fuchsia-500/10 text-fuchsia-600 border-fuchsia-500/30' : 'bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30'
+                    <h2 className="text-xl font-black italic tracking-tight text-white">{member.name}</h2>
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${member.role === 'event_planner' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
                       }`}>
-                      {member.role === 'event_planner' ? '📋 Event Planner' : member.role === 'admin' ? '🛡️ Admin' : member.role === 'crew' ? '🛡️ Crew' : '★ Fan'}
+                      {member.role === 'event_planner' ? <><ClipboardList className="w-3.5 h-3.5" /> Event Planner</> : member.role === 'admin' ? <><Shield className="w-3.5 h-3.5" /> Admin</> : member.role === 'crew' ? <><Shield className="w-3.5 h-3.5" /> Crew</> : <><Star className="w-3.5 h-3.5" /> Fan</>}
                     </span>
                   </div>
-                  <p className="text-base text-black/50 font-mono mt-0.5">{member.email}</p>
+                  <p className="text-base text-white/50 font-mono mt-0.5">{member.email}</p>
                 </div>
               </div>
-              <div className="hidden md:flex items-center gap-2 text-base text-emerald-700 bg-emerald-500/10 border  border-[var(--color-accent)]/30 px-4 py-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <div className="hidden md:flex items-center gap-2 text-base text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-xl">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 Account data auto-filled
               </div>
             </div>
@@ -815,30 +814,30 @@ function BookPageContent() {
             member?.role === 'event_planner' ? (
               <div className="flex items-center justify-between gap-6 mb-8 py-2">
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                    <span className="text-lg font-black text-purple-600">{member?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '👋'}</span>
+                  <div className="w-12 h-12 flex items-center justify-center shrink-0 rounded-full bg-purple-500/20 border border-purple-500/30">
+                    <span className="text-lg font-black text-purple-300">{member?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '👋'}</span>
                   </div>
                   <div>
-                    <p className="text-black text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-600">{member?.name?.split(' ')[0]}</span></p>
-                    <p className="text-black/50 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
+                    <p className="text-white text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-400">{member?.name?.split(' ')[0]}</span></p>
+                    <p className="text-white/60 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
                   </div>
                 </div>
-                <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md shrink-0">
+                <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg shrink-0">
                   My Dashboard →
                 </Link>
               </div>
             ) : (
               <div className="flex items-center justify-between gap-6 mb-8 py-2">
                 <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 flex items-center justify-center shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                  <div className="w-12 h-12 flex items-center justify-center shrink-0 rounded-full bg-purple-500/20 border border-purple-500/30">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                   </div>
                   <div>
-                    <p className="text-black text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-600">Get Your Own Dashboard</span></p>
-                    <p className="text-black/50 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
+                    <p className="text-white text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-400">Get Your Own Dashboard</span></p>
+                    <p className="text-white/60 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                   </div>
                 </div>
-                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md shrink-0">
+                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg shrink-0">
                   Planner Portal →
                 </Link>
               </div>
@@ -847,47 +846,46 @@ function BookPageContent() {
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {isFromPlanner && (
-              <div className="bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-4 flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center flex-shrink-0">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+              <div className="bg-purple-950/40 border border-purple-500/30 px-6 py-4 rounded-2xl flex items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 </div>
                 <div>
-                  <p className="text-fuchsia-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
-                  <p className="text-white/40 text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
+                  <p className="text-purple-300 text-base font-bold">{fromParam === "rebook" ? "Rebooking previous event" : "Profile details pre-loaded"}</p>
+                  <p className="text-white/60 text-lg">{fromParam === "rebook" ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need." : "Your contact & venue info has been filled in. Just pick your date and event type."}</p>
                 </div>
               </div>
             )}
 
             {hasSavedForm && !isFromPlanner && (
-              <div className="p-5 bg-purple-600/10 border border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
+              <div className="p-5 bg-purple-950/40 border border-purple-500/30 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-[fade-in-up_0.2s_ease-out_both] relative z-10">
                 <div className="flex items-center gap-3">
-                  <span className="text-xl shrink-0">📋</span>
+                  <ClipboardList className="w-6 h-6 text-purple-300 shrink-0" />
                   <div>
                     <p className="text-white font-bold text-base">Re-fill with details from your last booking?</p>
-                    <p className="text-white/40 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
+                    <p className="text-white/60 text-sm mt-0.5">We found a booking request you recently filled out. You can automatically fill in your contact and venue details.</p>
                   </div>
                 </div>
                 <button aria-label="Action button"
                   type="button"
                   onClick={handleLoadLastForm}
-                  className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md hover:shadow-[0_0_20px_rgba(147,85,247,0.3)] shrink-0"
+                  className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-md rounded-lg shrink-0 flex items-center gap-1.5"
                 >
-                  ⚡ Populate
+                  <Zap className="w-3.5 h-3.5" /> Populate
                 </button>
               </div>
             )}
 
             {/* Step 1: Event Schedule & Format */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">1</span>
+            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Event Schedule & Format
               </h2>
-              <div className="mb-6 p-4 bg-purple-600/5 border border-purple-500/20 flex items-start gap-3">
-                <span className="text-xl mt-0.5">💡</span>
+              <div className="mb-6 p-4 bg-white/5 border border-white/10 rounded-2xl flex items-start gap-3">
+                <Lightbulb className="w-5 h-5 text-yellow-300 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-bold text-black uppercase tracking-wider">Multi-Date Bookings Supported</h4>
-                  <p className="text-black/60 text-sm mt-1">You can select **multiple dates** on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
+                  <h4 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Date Bookings Supported</h4>
+                  <p className="text-white/70 text-sm mt-1">You can select <strong>multiple dates</strong> on the calendar to book a multi-day run or request multiple shows at once. Below the calendar, you can configure unique times, formats, and separate contact/venue details for each date if needed.</p>
                 </div>
               </div>
               <div className="mb-6">
@@ -908,12 +906,12 @@ function BookPageContent() {
                 />
 
                 {/* Alternate Dates */}
-                <div className="mt-6 p-5 bg-black/[0.02] border border-black/10">
+                <div className="mt-6 p-5 bg-white/5 border border-white/10 rounded-2xl">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="text-lg">📅</span>
+                    <CalendarIcon className="w-5 h-5 text-cyan-400 shrink-0" />
                     <div>
-                      <h4 className="text-base font-bold uppercase tracking-widest text-black">Flexible? Add Backup Dates</h4>
-                      <p className="text-base text-black/50">Increase your chances — we&apos;ll try your preferred date first</p>
+                      <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
+                      <p className="text-base text-white/60">Increase your chances — we&apos;ll try your preferred date first</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -922,18 +920,18 @@ function BookPageContent() {
                   </div>
                   {(altDate1 || altDate2) && (
                     <div className="mt-3 flex flex-wrap gap-2">
-                      <span className="text-base text-black/50 uppercase tracking-widest font-bold">Priority:</span>
-                      <span className="text-base bg-[var(--color-accent)]/20  text-[var(--color-accent)] px-2 py-0.5 rounded font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
-                      {altDate1 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
-                      {altDate2 && <span className="text-base bg-black/5 text-black/70 px-2 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                      <span className="text-base text-white/50 uppercase tracking-widest font-bold">Priority:</span>
+                      <span className="text-base bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-2.5 py-0.5 rounded font-bold">1st: {bookingSlots.length > 0 ? bookingSlots.map(s => new Date(s.date + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })).join(', ') : '—'}</span>
+                      {altDate1 && <span className="text-base bg-white/10 text-white/80 border border-white/15 px-2.5 py-0.5 rounded font-bold">2nd: {new Date(altDate1 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
+                      {altDate2 && <span className="text-base bg-white/10 text-white/80 border border-white/15 px-2.5 py-0.5 rounded font-bold">3rd: {new Date(altDate2 + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>}
                     </div>
                   )}
                 </div>
               </div>
               {/* Pricing hint per type */}
               {selectedType && (
-                <div className="px-5 py-3 bg-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 text-base text-black/60 mb-4">
-                  <span className=" text-[var(--color-accent)] font-bold">Pricing Guide:</span>{" "}
+                <div className="px-5 py-3 bg-cyan-500/10 border border-cyan-400/30 rounded-xl text-base text-white/80 mb-4">
+                  <span className="text-cyan-300 font-bold">Pricing Guide:</span>{" "}
                   {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                   {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
                   {selectedType === "private" && "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
@@ -943,23 +941,23 @@ function BookPageContent() {
             </div>
 
             {/* Your Scheduled Shows (Full Width Grid) */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
+            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
               {bookingSlots.length === 0 ? (
-                <div className="text-center py-12 border-2 border-dashed border-black/15 bg-black/[0.01]">
+                <div className="text-center py-12 border-2 border-dashed border-white/15 bg-white/[0.02] rounded-2xl">
                   <span className="text-4xl block mb-4">📅</span>
-                  <h4 className="text-lg font-bold text-black uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
-                  <p className="text-black/50 text-base max-w-md mx-auto">
+                  <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
+                  <p className="text-white/60 text-base max-w-md mx-auto">
                     Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once.
                   </p>
                 </div>
               ) : (
                 <>
-                  <div className="flex items-center justify-between border-b border-black/10 pb-4 mb-6">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
                     <div>
-                      <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-black">Your Scheduled Shows</h4>
-                      <p className="text-base text-black/50 mt-1 uppercase">Configure individual times and formats for each show below</p>
+                      <h4 className="text-lg font-bold uppercase tracking-[0.15em] text-white">Your Scheduled Shows</h4>
+                      <p className="text-base text-white/60 mt-1 uppercase">Configure individual times and formats for each show below</p>
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-3 py-1 rounded-full border border-[var(--color-accent)]/25">
+                    <span className="text-xs font-bold uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-3 py-1 rounded-full border border-cyan-400/30">
                       {bookingSlots.length} Show{bookingSlots.length > 1 ? 's' : ''}
                     </span>
                   </div>
@@ -969,7 +967,7 @@ function BookPageContent() {
                       return (
                         <div
                           key={slot.id}
-                          className="bg-[var(--color-bg-surface)] border border-black/10 hover:border-[var(--color-accent)]/40 p-6 relative group transition-colors shadow-sm hover:shadow-md"
+                          className="bg-white/5 border border-white/10 hover:border-cyan-400/40 p-6 rounded-2xl relative group transition-colors shadow-lg"
                         >
                           {/* Duplicate and Remove buttons */}
                           <div className="absolute top-4 right-4 flex items-center gap-1.5">
@@ -982,30 +980,30 @@ function BookPageContent() {
                                 };
                                 setBookingSlots([...bookingSlots, newSlot]);
                               }}
-                              className="text-black/50 hover: text-[var(--color-accent)] transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-[var(--color-accent)]/10 border border-black/10 hover:border-[var(--color-accent)]/25"
+                              className="text-white/60 hover:text-cyan-300 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-cyan-500/20 border border-white/15 hover:border-cyan-400/30"
                               title="Add another show on this date"
                             >
-                              ➕ Add Another
+                              <Plus className="w-3 h-3" /> Add Another
                             </button>
                             <button aria-label="Action button"
                               type="button"
                               onClick={() => setBookingSlots(bookingSlots.filter(s => s.id !== slot.id))}
-                              className="text-black/50 hover:text-rose-600 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-black/5 px-2 py-1 rounded-lg hover:bg-rose-500/10 border border-black/10 hover:border-rose-500/25"
+                              className="text-white/60 hover:text-rose-400 transition-colors cursor-pointer text-[var(--font-size-3xs)] font-bold uppercase tracking-wider flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-lg hover:bg-rose-500/20 border border-white/15 hover:border-rose-500/30"
                               title="Remove this show"
                             >
-                              ✕ Remove
+                              <X className="w-3 h-3" /> Remove
                             </button>
                           </div>
 
                           <div className="mb-4">
-                            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] block mb-1">Show #{index + 1}</span>
-                            <h5 className="text-base font-bold text-black tracking-wide">{formattedDate}</h5>
+                            <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-cyan-300 block mb-1">Show #{index + 1}</span>
+                            <h5 className="text-base font-bold text-white tracking-wide">{formattedDate}</h5>
                           </div>
 
-                          <div className="space-y-3 mt-4 border-t border-black/10 pt-4">
+                          <div className="space-y-3 mt-4 border-t border-white/10 pt-4">
                             {/* Format */}
                             <div>
-                              <label htmlFor={`slot-format-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Show Format</label>
+                              <label htmlFor={`slot-format-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">Show Format</label>
                               <div className="relative">
                                 <select aria-label="Select option"
                                   id={`slot-format-${slot.id}`}
@@ -1014,14 +1012,14 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                  className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
                                 >
-                                  <option value="full_band" className="bg-white text-black">🎸 Full Band</option>
-                                  <option value="unplugged" className="bg-white text-black">🎤 Unplugged</option>
-                                  <option value="private" className="bg-white text-black">🎉 Private Event</option>
-                                  <option value="custom" className="bg-white text-black">✨ Custom Booking</option>
+                                  <option value="full_band" className="bg-[#0c0817] text-white">Full Band</option>
+                                  <option value="unplugged" className="bg-[#0c0817] text-white">Unplugged</option>
+                                  <option value="private" className="bg-[#0c0817] text-white">Private Event</option>
+                                  <option value="custom" className="bg-[#0c0817] text-white">Custom Booking</option>
                                 </select>
-                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
                                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </div>
                               </div>
@@ -1034,7 +1032,7 @@ function BookPageContent() {
                                     const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, customEventType: e.target.value } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className="w-full mt-1.5 bg-black/[0.04] border border-[var(--color-accent)]/30 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                  className="w-full mt-1.5 bg-white/5 backdrop-blur-md border border-cyan-400/40 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                 />
                               )}
                             </div>
@@ -1042,7 +1040,7 @@ function BookPageContent() {
                             {/* Times */}
                             <div className="grid grid-cols-2 gap-2">
                               <div>
-                                <label htmlFor={`slot-start-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">Start Time</label>
+                                <label htmlFor={`slot-start-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">Start Time</label>
                                 <div className="relative">
                                   <select aria-label="Select option"
                                     id={`slot-start-${slot.id}`}
@@ -1051,19 +1049,19 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
                                   >
                                     {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                      <option key={t} value={t} className="bg-white text-black">{t}</option>
+                                      <option key={t} value={t} className="bg-[#0c0817] text-white">{t}</option>
                                     ))}
                                   </select>
-                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                   </div>
                                 </div>
                               </div>
                               <div>
-                                <label htmlFor={`slot-end-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-1.5">End Time</label>
+                                <label htmlFor={`slot-end-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">End Time</label>
                                 <div className="relative">
                                   <select aria-label="Select option"
                                     id={`slot-end-${slot.id}`}
@@ -1072,13 +1070,13 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+                                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
                                   >
                                     {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
-                                      <option key={t} value={t} className="bg-white text-black">{t}</option>
+                                      <option key={t} value={t} className="bg-[#0c0817] text-white">{t}</option>
                                     ))}
                                   </select>
-                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                   </div>
                                 </div>
@@ -1087,10 +1085,10 @@ function BookPageContent() {
                           </div>
 
                           {/* Separate Contact/Venue details toggle buttons & form fields */}
-                          <div className="mt-4 pt-4 border-t border-black/10">
+                          <div className="mt-4 pt-4 border-t border-white/10">
                             <div className="mb-3">
-                              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-black/50 block mb-2">Contact & Venue Details</span>
-                              <div className="grid grid-cols-2 gap-1.5 bg-[var(--color-bg-deep)] p-1 border border-white/5">
+                              <span className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-2">Contact & Venue Details</span>
+                              <div className="grid grid-cols-2 gap-1.5 bg-black/50 p-1 border border-white/10 rounded-lg">
                                 <button aria-label="Action button"
                                   type="button"
                                   onClick={() => {
@@ -1106,7 +1104,7 @@ function BookPageContent() {
                                     } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${!slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                                 >
                                   Share Main Info
                                 </button>
@@ -1125,7 +1123,7 @@ function BookPageContent() {
                                     } : s);
                                     setBookingSlots(updated);
                                   }}
-                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(255,10,61,0.3)]' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
+                                  className={`py-2 rounded-lg text-[var(--font-size-3xs)] font-extrabold uppercase tracking-wider transition-colors cursor-pointer text-center ${slot.useSeparateInfo ? 'bg-cyan-600 text-white shadow-md' : 'text-white/40 hover:text-white/70 bg-transparent'}`}
                                 >
                                   Use Separate Info
                                 </button>
@@ -1133,16 +1131,16 @@ function BookPageContent() {
                             </div>
 
                             {!slot.useSeparateInfo ? (
-                              <div className="p-3.5 bg-white/[0.02] border border-white/5 text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
+                              <div className="p-3.5 bg-white/[0.03] border border-white/10 rounded-xl text-[var(--font-size-3xs)] text-white/50 space-y-1.5 mt-2 animate-[fade-in-up_0.1s_ease-out_both]">
                                 <div className="flex justify-between items-start gap-2">
-                                  <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
+                                  <span className="font-bold text-white/40 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Contact:</span>
                                   <span className="text-white font-medium text-right break-all">
                                     {formData.name || <span className="text-white/20 italic">(empty)</span>}
                                     {formData.email && <span className="block text-[var(--font-size-4xs)] text-white/40 font-mono mt-0.5">{formData.email}</span>}
                                   </span>
                                 </div>
                                 <div className="flex justify-between items-start gap-2">
-                                  <span className="font-bold text-white/20 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
+                                  <span className="font-bold text-white/40 uppercase tracking-widest text-[var(--font-size-4xs)] mt-0.5">Venue:</span>
                                   <span className="text-white font-medium text-right break-all">
                                     {formData.venueName || <span className="text-white/20 italic">(empty)</span>}
                                     {(formData.venueCity || formData.venueState) && (
@@ -1150,12 +1148,12 @@ function BookPageContent() {
                                     )}
                                   </span>
                                 </div>
-                                <p className="text-[var(--font-size-4xs)]  text-[var(--color-accent)] font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/5 text-right flex items-center justify-end gap-1">
+                                <p className="text-[var(--font-size-4xs)] text-cyan-300 font-bold tracking-wide italic mt-2 pt-1.5 border-t border-white/10 text-right flex items-center justify-end gap-1">
                                   <span>🔗 Link Active: Shares contact & venue data</span>
                                 </p>
                               </div>
                             ) : (
-                              <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.02] border border-white/5">
+                              <div className="mt-3 space-y-3 animate-[fade-in-up_0.15s_ease-out_both] p-3.5 bg-white/[0.03] border border-white/10 rounded-xl">
                                 <div className="flex justify-between items-center mb-1 gap-2 flex-wrap">
                                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-white/40">Separate Show Info</span>
                                   <div className="flex gap-2">
@@ -1173,7 +1171,7 @@ function BookPageContent() {
                                         } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="text-[var(--font-size-4xs)] font-bold  text-[var(--color-accent)] hover:underline cursor-pointer"
+                                      className="text-[var(--font-size-4xs)] font-bold text-cyan-300 hover:underline cursor-pointer"
                                     >
                                       ⚡ Copy Main
                                     </button>
@@ -1198,7 +1196,7 @@ function BookPageContent() {
                                             }
                                           } catch { }
                                         }}
-                                        className="text-[var(--font-size-4xs)] font-bold text-fuchsia-400 hover:underline cursor-pointer"
+                                        className="text-[var(--font-size-4xs)] font-bold text-purple-400 hover:underline cursor-pointer"
                                       >
                                         ⚡ Load Last
                                       </button>
@@ -1208,7 +1206,7 @@ function BookPageContent() {
 
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
-                                    <label htmlFor={`slot-contact-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Name</label>
+                                    <label htmlFor={`slot-contact-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Contact Name</label>
                                     <input aria-label="Input field"
                                       id={`slot-contact-name-${slot.id}`}
                                       type="text"
@@ -1218,11 +1216,11 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactName: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                      className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                     />
                                   </div>
                                   <div>
-                                    <label htmlFor={`slot-contact-email-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Contact Email</label>
+                                    <label htmlFor={`slot-contact-email-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Contact Email</label>
                                     <input aria-label="Input field"
                                       id={`slot-contact-email-${slot.id}`}
                                       type="email"
@@ -1232,13 +1230,13 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, contactEmail: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                      className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                     />
                                   </div>
                                 </div>
 
                                 <div>
-                                  <label htmlFor={`slot-venue-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Venue Name</label>
+                                  <label htmlFor={`slot-venue-name-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Venue Name</label>
                                   <input aria-label="Input field"
                                     id={`slot-venue-name-${slot.id}`}
                                     type="text"
@@ -1248,13 +1246,13 @@ function BookPageContent() {
                                       const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueName: e.target.value } : s);
                                       setBookingSlots(updated);
                                     }}
-                                    className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                   />
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-2">
                                   <div>
-                                    <label htmlFor={`slot-venue-city-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">City</label>
+                                    <label htmlFor={`slot-venue-city-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">City</label>
                                     <input aria-label="Input field"
                                       id={`slot-venue-city-${slot.id}`}
                                       type="text"
@@ -1264,11 +1262,11 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueCity: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                      className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                     />
                                   </div>
                                   <div>
-                                    <label htmlFor={`slot-venue-state-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">State</label>
+                                    <label htmlFor={`slot-venue-state-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">State</label>
                                     <input aria-label="Input field"
                                       id={`slot-venue-state-${slot.id}`}
                                       type="text"
@@ -1278,7 +1276,7 @@ function BookPageContent() {
                                         const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, venueState: e.target.value } : s);
                                         setBookingSlots(updated);
                                       }}
-                                      className="w-full bg-black/[0.04] border border-black/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+                                      className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-1.5 px-2.5 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
                                     />
                                   </div>
                                 </div>
@@ -1286,14 +1284,14 @@ function BookPageContent() {
                             )}
                           </div>
 
-                          <div className="mt-4 pt-4 border-t border-black/10">
+                          <div className="mt-4 pt-4 border-t border-white/10">
                             <button aria-label="Previous"
                               type="button"
                               onClick={() => setExpandedMetadata(prev => ({ ...prev, [slot.id]: !prev[slot.id] }))}
-                              className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest  text-[var(--color-accent)] hover:text-purple-600 transition-colors"
+                              className="w-full text-left flex items-center justify-between text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-300 hover:text-purple-400 transition-colors"
                             >
-                              <span>📢 Tour Page Details {expandedMetadata[slot.id] ? "▼" : "▶"}</span>
-                              <span className="text-[var(--font-size-4xs)] text-black/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
+                              <span className="flex items-center gap-1.5"><Megaphone className="w-3.5 h-3.5" /> Tour Page Details {expandedMetadata[slot.id] ? <ChevronDown className="w-3.5 h-3.5 inline" /> : <ChevronRight className="w-3.5 h-3.5 inline" />}</span>
+                              <span className="text-[var(--font-size-4xs)] text-white/40 lowercase font-normal">(optional: age limit, tickets, notes)</span>
                             </button>
 
                             {expandedMetadata[slot.id] && (
@@ -1309,9 +1307,8 @@ function BookPageContent() {
             </div>
 
             {/* Step 2: Contact Information */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">2</span>
+            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Contact Information
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1323,9 +1320,8 @@ function BookPageContent() {
             </div>
 
             {/* Step 3: Venue Details */}
-            <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative animate-[fade-in-up_0.15s_ease-out_both]">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">3</span>
+            <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative animate-[fade-in-up_0.15s_ease-out_both]">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                 Venue Details
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1341,9 +1337,8 @@ function BookPageContent() {
               <div className="flex flex-col gap-8">
 
                 {/* Step 4: Technical & Logistics */}
-                <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-                  <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-6 flex items-center gap-3">
-                    <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">4</span>
+                <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
                     Technical & Logistics
                   </h2>
                   <div className="flex flex-col gap-8">
@@ -1352,7 +1347,7 @@ function BookPageContent() {
                     <RadioPillField label="Stage Available?" name="stageAvailable" value={formData.stageAvailable} onChange={handleChange} options={["Yes", "No — performing at floor level", "Portable / riser can be arranged", "Not sure"]} />
                     <RadioPillField label="Backline Provided?" name="backlineProvided" value={formData.backlineProvided} onChange={handleChange} options={["Yes — amps, drums, etc.", "Partial", "No — band brings everything", "Not sure"]} />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-black/10 pt-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2 border-t border-white/10 pt-8">
                       <div>
                         <InputField label="Expected Attendance" name="expectedAttendance" value={formData.expectedAttendance} onChange={handleChange} placeholder="~200 people" />
                       </div>
@@ -1361,12 +1356,11 @@ function BookPageContent() {
                 </div>
 
                 {/* Step 5: Additional Options */}
-                <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-                  <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-2 flex items-center gap-3">
-                    <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">5</span>
+                <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
                     Production & Extras
                   </h2>
-                  <p className="text-black/50 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
+                  <p className="text-white/60 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {(() => {
                       const addOnsSet = new Set(addOns);
@@ -1377,21 +1371,21 @@ function BookPageContent() {
                             key={option.id}
                             type="button"
                             onClick={() => setAddOns(prev => isActive ? prev.filter(a => a !== option.id) : [...prev, option.id])}
-                            className={`w-full text-left p-4  border transition-colors cursor-pointer flex items-start gap-3 group
+                            className={`w-full text-left p-4 rounded-xl border transition-colors cursor-pointer flex items-start gap-3 group
                           ${isActive
-                                ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/5 shadow-sm'
-                                : 'border-black/10 bg-black/[0.02] hover:border-black/20 hover:bg-black/[0.04]'
+                                ? 'border-cyan-400 bg-cyan-500/20 shadow-md'
+                                : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
                               }`}
                           >
                             <span className="text-xl mt-0.5">{option.icon}</span>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className={`text-base font-bold block ${isActive ? ' text-[var(--color-accent)]' : 'text-black/80'}`}>{option.label}</span>
+                                <span className={`text-base font-bold block ${isActive ? 'text-cyan-300' : 'text-white'}`}>{option.label}</span>
                                 {isActive && (
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                                 )}
                               </div>
-                              <span className="text-base text-black/50 block leading-snug">{option.desc}</span>
+                              <span className="text-base text-white/60 block leading-snug">{option.desc}</span>
                             </div>
                           </button>
                         );
@@ -1399,12 +1393,12 @@ function BookPageContent() {
                     })()}
                   </div>
                   {addOns.length > 0 && (
-                    <div className="mt-5 pt-4 border-t border-black/10 flex items-center gap-3 flex-wrap">
-                      <span className="text-base font-bold uppercase tracking-widest text-black/50">Selected:</span>
+                    <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3 flex-wrap">
+                      <span className="text-base font-bold uppercase tracking-widest text-white/50">Selected:</span>
                       {addOns.map(id => (
-                        <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[var(--color-accent)]/10  text-[var(--color-accent)] text-base font-bold rounded-full border border-[var(--color-accent)]/20">
+                        <span key={id} className="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 text-cyan-300 text-base font-bold rounded-full border border-cyan-400/30">
                           {id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                          <button aria-label="Previous" type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5  text-[var(--color-accent)]/50 hover: text-[var(--color-accent)] cursor-pointer">×</button>
+                          <button aria-label="Previous" type="button" onClick={() => setAddOns(prev => prev.filter(a => a !== id))} className="ml-0.5 text-cyan-400/50 hover:text-cyan-300 cursor-pointer">×</button>
                         </span>
                       ))}
                     </div>
@@ -1412,22 +1406,21 @@ function BookPageContent() {
                 </div>
 
                 {/* Step 6: Notes & Questions */}
-                <div className="bg-[var(--color-bg-surface)] border border-black/10 p-8 rounded-3xl shadow-xl relative">
-                  <h2 className="text-lg font-bold uppercase tracking-[0.2em]  text-[var(--color-accent)] mb-2 flex items-center gap-3">
-                    <span className="w-5 h-5 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-base">6</span>
+                <div className="bg-[#0c0817]/80 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
                     Notes & Questions
                   </h2>
-                  <p className="text-black/50 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
+                  <p className="text-white/60 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
                   <textarea aria-label="Text input"
                     name="details"
                     value={formData.details}
                     onChange={handleChange}
                     rows={5}
                     placeholder="e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
-                    className="w-full bg-black/[0.04] border border-black/15 text-black text-lg leading-relaxed px-5 py-4 focus:border-[var(--color-accent)] outline-none transition-colors resize-none placeholder:text-black/40"
+                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-white text-lg leading-relaxed px-5 py-4 focus:border-cyan-400 outline-none transition-colors resize-none placeholder:text-white/30 rounded-2xl shadow-inner"
                   />
                   {formData.details && (
-                    <div className="mt-3 flex items-center gap-2 text-base text-emerald-700">
+                    <div className="mt-3 flex items-center gap-2 text-base text-emerald-400">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
                       <span className="uppercase tracking-widest font-bold">Note attached to your booking</span>
                     </div>
@@ -1446,57 +1439,57 @@ function BookPageContent() {
               {/* Right Column: Sticky Summary Sidebar */}
               <div>
                 <div className="sticky top-32">
-                  <div className="bg-white border border-black/15 rounded-3xl p-6 shadow-xl">
-                    <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-black/70 mb-6 pb-4 border-b border-black/10">Booking Summary</h3>
+                  <div className="bg-[#0c0817]/90 backdrop-blur-xl border border-white/15 rounded-3xl p-6 shadow-2xl">
+                    <h3 className="text-lg font-bold tracking-[0.2em] uppercase text-white mb-6 pb-4 border-b border-white/10">Booking Summary</h3>
 
                     <div className="flex flex-col gap-4 mb-8">
                       <div className="flex justify-between items-start">
-                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Date</span>
-                        <span className="text-base font-bold text-black text-right">
+                        <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Date</span>
+                        <span className="text-base font-bold text-white text-right">
                           {bookingSlots.length === 1 ? (
                             new Date(bookingSlots[0].date + "T12:00:00Z").toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
                           ) : bookingSlots.length > 1 ? (
                             `${bookingSlots.length} Shows Scheduled`
                           ) : (
-                            <span className="text-black/30">—</span>
+                            <span className="text-white/30">—</span>
                           )}
                         </span>
                       </div>
                       <div className="flex justify-between items-start">
-                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Time</span>
-                        <span className="text-base font-bold text-black text-right">
+                        <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Time</span>
+                        <span className="text-base font-bold text-white text-right">
                           {bookingSlots.length === 1 ? (
                             `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
                           ) : bookingSlots.length > 1 ? (
                             "Varies by show"
                           ) : (
-                            <span className="text-black/30">—</span>
+                            <span className="text-white/30">—</span>
                           )}
                         </span>
                       </div>
                       <div className="flex justify-between items-start">
-                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Format</span>
-                        <span className="text-base font-bold  text-[var(--color-accent)] text-right">
-                          {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className=" text-[var(--color-accent)]/30">—</span>}
+                        <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Format</span>
+                        <span className="text-base font-bold text-cyan-300 text-right">
+                          {selectedType ? eventTypes.find(t => t.id === selectedType)?.label : <span className="text-cyan-400/30">—</span>}
                         </span>
                       </div>
-                      <div className="flex justify-between items-start pt-4 border-t border-black/10">
-                        <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Venue</span>
-                        <span className="text-base font-bold text-black text-right break-words max-w-[150px]">
-                          {formData.venueName ? formData.venueName : <span className="text-black/30">—</span>}
-                          {formData.venueCity && <span className="block text-base text-black/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
+                      <div className="flex justify-between items-start pt-4 border-t border-white/10">
+                        <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Venue</span>
+                        <span className="text-base font-bold text-white text-right break-words max-w-[150px]">
+                          {formData.venueName ? formData.venueName : <span className="text-white/30">—</span>}
+                          {formData.venueCity && <span className="block text-base text-white/50 font-normal">{formData.venueCity}, {formData.venueState}</span>}
                         </span>
                       </div>
                       {addOns.length > 0 && (
-                        <div className="flex justify-between items-start pt-4 border-t border-black/10">
-                          <span className="text-lg text-black/50 uppercase tracking-widest mt-1">Add-Ons</span>
+                        <div className="flex justify-between items-start pt-4 border-t border-white/10">
+                          <span className="text-lg text-white/50 uppercase tracking-widest mt-1">Add-Ons</span>
                           <div className="text-right">
-                            <span className="text-base font-bold  text-[var(--color-accent)]">{addOns.length} selected</span>
+                            <span className="text-base font-bold text-cyan-300">{addOns.length} selected</span>
                             <div className="flex flex-wrap gap-1 mt-1 justify-end max-w-[160px]">
                               {addOns.slice(0, 3).map(id => (
-                                <span key={id} className="text-lg bg-[var(--color-accent)]/10  text-[var(--color-accent)] px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
+                                <span key={id} className="text-lg bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded font-bold">{id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</span>
                               ))}
-                              {addOns.length > 3 && <span className="text-lg text-black/40 font-bold">+{addOns.length - 3} more</span>}
+                              {addOns.length > 3 && <span className="text-lg text-white/40 font-bold">+{addOns.length - 3} more</span>}
                             </div>
                           </div>
                         </div>
@@ -1507,14 +1500,14 @@ function BookPageContent() {
 
                     {/* Validation Errors */}
                     {validationErrors.length > 0 && (
-                      <div className="bg-red-500/10 border border-red-500/30 p-4 mb-4">
+                      <div className="bg-rose-500/10 border border-rose-500/30 p-4 mb-4 rounded-xl">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-red-600 text-sm">⚠</span>
-                          <span className="text-red-600 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
+                          <span className="text-rose-400 text-sm">⚠</span>
+                          <span className="text-rose-300 text-lg font-bold uppercase tracking-widest">Please fix the following</span>
                         </div>
                         <ul className="space-y-1">
                           {validationErrors.map((err, i) => (
-                            <li key={`err-${i}-${err}`} className="text-red-600 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-red-500">{err}</li>
+                            <li key={`err-${i}-${err}`} className="text-rose-300 text-base pl-5 relative before:content-['•'] before:absolute before:left-1.5 before:text-rose-400">{err}</li>
                           ))}
                         </ul>
                       </div>
@@ -1523,7 +1516,7 @@ function BookPageContent() {
                     <button aria-label="Action button"
                       type="submit"
                       disabled={submitting || !selectedType || bookingSlots.length === 0 || !formData.startTime || !formData.endTime || !formData.email}
-                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold tracking-wider uppercase text-base py-4 transition-colors flex items-center justify-center gap-2"
+                      className="w-full bg-gradient-to-r from-purple-600 via-cyan-500 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black tracking-wider uppercase text-base py-4 transition-all flex items-center justify-center gap-2 rounded-xl shadow-lg shadow-cyan-500/25"
                     >
                       {submitting ? (
                         <>
@@ -1537,8 +1530,8 @@ function BookPageContent() {
                         </>
                       )}
                     </button>
-                    <p className="text-base text-black/50 text-center mt-4">
-                      By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-black transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-black transition-colors">Terms</Link>.
+                    <p className="text-base text-white/50 text-center mt-4">
+                      By submitting, you confirm you are 18 years of age or older and agree to our <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link>.
                     </p>
                   </div>
                 </div>
@@ -1560,7 +1553,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
     <div className="mt-4 space-y-3 animate-[fade-in-up_0.15s_ease-out_both]">
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Age Limit</label>
+          <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Age Limit</label>
           <div className="relative">
             <select aria-label="Select option"
               id={`slot-age-limit-${slot.id}`}
@@ -1569,19 +1562,19 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
                 const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
                 setBookingSlots(updated);
               }}
-              className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+              className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
             >
-              <option value="all_ages" className="bg-white text-black">All Ages</option>
-              <option value="21_plus" className="bg-white text-black">21 & Over</option>
-              <option value="18_plus" className="bg-white text-black">18 & Over</option>
+              <option value="all_ages" className="bg-[#0c0817] text-white">All Ages</option>
+              <option value="21_plus" className="bg-[#0c0817] text-white">21 & Over</option>
+              <option value="18_plus" className="bg-[#0c0817] text-white">18 & Over</option>
             </select>
-            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
           </div>
         </div>
         <div>
-          <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Doors Time</label>
+          <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Doors Time</label>
           <div className="relative">
             <select aria-label="Select option"
               id={`slot-doors-time-${slot.id}`}
@@ -1590,14 +1583,14 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
                 const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
                 setBookingSlots(updated);
               }}
-              className="w-full bg-black/[0.04] border border-black/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-black focus:border-[var(--color-accent)] transition-colors cursor-pointer appearance-none"
+              className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
             >
-              <option value="" className="bg-white text-black">Same as Start</option>
+              <option value="" className="bg-[#0c0817] text-white">Same as Start</option>
               {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                <option key={t} value={t} className="bg-white text-black">{t}</option>
+                <option key={t} value={t} className="bg-[#0c0817] text-white">{t}</option>
               ))}
             </select>
-            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-black/40">
+            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
           </div>
@@ -1606,7 +1599,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Cover / Price</label>
+          <label htmlFor={`slot-cover-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Cover / Price</label>
           <input aria-label="Input field"
             id={`slot-cover-${slot.id}`}
             type="text"
@@ -1616,11 +1609,11 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, cover: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+            className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
         <div>
-          <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-black/50 block mb-1">Ticket Link</label>
+          <label htmlFor={`slot-ticket-link-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Ticket Link</label>
           <input aria-label="Input field"
             id={`slot-ticket-link-${slot.id}`}
             type="text"
@@ -1630,7 +1623,7 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
               const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ticketLink: e.target.value } : s);
               setBookingSlots(updated);
             }}
-            className="w-full bg-black/[0.04] border border-black/15 text-xs py-2 px-3 rounded-lg outline-none text-black focus:border-[var(--color-accent)] placeholder:text-black/40"
+            className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
         </div>
       </div>
