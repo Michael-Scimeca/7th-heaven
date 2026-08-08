@@ -1673,8 +1673,8 @@ export default function StyleGuidePage() {
         </section>
 
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
-        <section id="stateroom-perks" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4">
+        <section id="stateroom-perks" className="scroll-mt-36 border border-white/10 rounded-3xl p-0 space-y-6 overflow-hidden">
+          <div className="border-b border-white/10 p-6 sm:p-8 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
@@ -1683,7 +1683,7 @@ export default function StyleGuidePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
+          <div className="p-6 sm:p-8 pt-0 pl-0 sm:pl-0 grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
             <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0 bg-transparent shadow-none">
               <div>

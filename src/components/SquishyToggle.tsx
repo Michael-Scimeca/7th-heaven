@@ -49,7 +49,7 @@ export function SquishyToggle({
 
   return (
     <div
-      className={`relative inline-block h-6 w-12 select-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`squishy-toggle relative inline-block h-6 w-12 select-none ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
     >
       <input
         id={id}
