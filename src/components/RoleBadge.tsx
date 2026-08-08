@@ -81,7 +81,7 @@ export default function RoleBadge({ role, size = 'sm', showLabel = false, classN
     <Icon size={iconSize} />
    </span>
    {showLabel && (
-    <span className={`${config.color} font-bold uppercase tracking-wider ${size === 'sm' ? 'text-[var(--font-size-2xs)]' : 'text-[var(--font-size-xs)]'}`}>
+    <span className={`${config.color} font-bold uppercase tracking-wider text-[12px]`} style={{ fontSize: "12px" }}>
      {config.label}
     </span>
    )}
