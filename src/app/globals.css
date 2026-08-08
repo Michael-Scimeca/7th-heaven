@@ -820,26 +820,26 @@ select::placeholder,
 
   50% {
     border-radius: 5.2px / 11px;
-    transform: translateX(8.7px) scale(1.545, 0.727);
+    transform: translateX(7px) scale(1.3, 0.8);
     animation-timing-function: cubic-bezier(0, 0, 0.3, 1.5);
   }
 
   100% {
     border-radius: 8px;
-    transform: translateX(24px) scale(1);
+    transform: translateX(20px) scale(1);
   }
 }
 
 @keyframes squish-out {
   0% {
     border-radius: 8px;
-    transform: translateX(24px) scale(1);
+    transform: translateX(20px) scale(1);
     animation-timing-function: cubic-bezier(.75, 0, 1, 1);
   }
 
   50% {
     border-radius: 5.2px / 11px;
-    transform: translateX(2.2px) scale(1.545, 0.727);
+    transform: translateX(3px) scale(1.3, 0.8);
     animation-timing-function: cubic-bezier(0, 0, 0.3, 1.5);
   }
 
