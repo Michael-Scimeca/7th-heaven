@@ -57,14 +57,14 @@ const PRESET_NAMES = [...Object.keys(COLOR_PRESETS), "Custom"];
 const DEFAULTS = {
   numCircles: 22,
   circleSize: 24,
-  blur: 3,
-  glow: 10,
+  blur: 0,
+  glow: 0,
   speed: 0.12,
   opacity: 1,
   palette: "Purple",
   tailScale: 1.0,
-  gooey: true,
-  gooeyStrength: 8,
+  gooey: false,
+  gooeyStrength: 0,
 };
 
 function interpolateHex(color1: string, color2: string, factor: number): string {
