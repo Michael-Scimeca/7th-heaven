@@ -150,17 +150,17 @@ export default function CruisePage() {
   const heroVideoRef = useRef<HTMLVideoElement>(null);
 
   const [heroMaskSettings, setHeroMaskSettings] = useState({
-    fadeStart: 50,
-    fadeEnd: 85,
+    fadeStart: 73,
+    fadeEnd: 100,
     maskAngle: 'to bottom',
     videoBlur: 0,
-    videoBrightness: 100,
+    videoBrightness: 90,
     videoContrast: 100,
     videoOpacity: 100,
-    beforeHeight: 30,
-    beforeBlur: 20,
+    beforeHeight: 0,
+    beforeBlur: 0,
     beforeBgOpacity: 85,
-    beforeZIndex: 30,
+    beforeZIndex: 10,
   });
 
   useEffect(() => {
