@@ -201,7 +201,6 @@ textarea {
   background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
-  border: var(--input-border-width) solid var(--input-border-color) !important;
   border-radius: var(--input-border-radius) !important;
   color: var(--input-text-color) !important;
   padding: var(--input-padding-y) var(--input-padding-x);
