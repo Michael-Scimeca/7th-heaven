@@ -145,7 +145,8 @@ export function Footer() {
           ) : (
             <form
               suppressHydrationWarning
-              action={async () => {
+              onSubmit={async (e) => {
+                e.preventDefault();
                 const digits = smsPhone.replace(/\D/g, '');
                 if (digits.length < 10 || !smsZip || smsZip.length < 5) return;
                 setSmsStatus('sending');
@@ -182,6 +183,7 @@ export function Footer() {
                   className="w-24 sm:w-28 px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
                 />
                 <select aria-label="Select option"
+                  suppressHydrationWarning
                   value={smsDistance}
                   onChange={e => setSmsDistance(e.target.value)}
                   className="w-24 sm:w-24 px-2.5 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none shrink-0"
