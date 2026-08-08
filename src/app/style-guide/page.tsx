@@ -783,11 +783,12 @@ export default function StyleGuidePage() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Gooey Dropdown (Neon Theme)</h3>
               <GooeyDropdown
-                options={dropdownOptions}
-                value={selectedDropdown}
-                onChange={setSelectedDropdown}
-                theme="neon"
-                id="styleguide-neon"
+                label="Select Show Location"
+                accentColor="#a855f7"
+                items={dropdownOptions.map(opt => ({
+                  label: `${opt.icon} ${opt.label}`,
+                  onClick: () => setSelectedDropdown(opt.value),
+                }))}
               />
             </div>
 
@@ -795,23 +796,25 @@ export default function StyleGuidePage() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Gooey Dropdown (Dark Theme)</h3>
               <GooeyDropdown
-                options={dropdownOptions}
-                value={selectedDropdown}
-                onChange={setSelectedDropdown}
-                theme="dark"
-                id="styleguide-dark"
+                label="Select Show Location"
+                accentColor="#0891b2"
+                items={dropdownOptions.map(opt => ({
+                  label: `${opt.icon} ${opt.label}`,
+                  onClick: () => setSelectedDropdown(opt.value),
+                }))}
               />
             </div>
 
-            {/* Gooey Dropdown Disabled */}
+            {/* Gooey Dropdown Compact Accent */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-white/50 uppercase tracking-wider">Disabled Dropdown</h3>
+              <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Gooey Dropdown (Pink Accent)</h3>
               <GooeyDropdown
-                options={dropdownOptions}
-                value={selectedDropdown}
-                onChange={setSelectedDropdown}
-                disabled={true}
-                id="styleguide-disabled"
+                label="Select Show Location"
+                accentColor="#db2777"
+                items={dropdownOptions.map(opt => ({
+                  label: `${opt.icon} ${opt.label}`,
+                  onClick: () => setSelectedDropdown(opt.value),
+                }))}
               />
             </div>
 
