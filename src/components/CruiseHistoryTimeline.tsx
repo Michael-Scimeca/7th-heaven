@@ -511,9 +511,44 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (l) l.off('scroll', onScroll);
     };
   }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
+  const [maskSettings, setMaskSettings] = useState({
+    itinTopFadeStart: 0,
+    itinTopFadeEnd: 10,
+    itinBottomFadeStart: 85,
+    itinBottomFadeEnd: 100,
+    itinBgOpacity: 90,
+    itinBlur: 16,
+  });
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
+      if (saved) {
+        setMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
+      }
+    } catch { }
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail) {
+        setMaskSettings(prev => ({ ...prev, ...customEvent.detail }));
+      }
+    };
+    window.addEventListener('hero-mask-update', handleUpdate);
+    return () => window.removeEventListener('hero-mask-update', handleUpdate);
+  }, []);
 
   return (
-    <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip border-t border-cyan-500/20">
+    <div
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip transition-all duration-150"
+      style={{
+        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${maskSettings.itinTopFadeEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${maskSettings.itinBottomFadeEnd}%)`,
+        backdropFilter: `blur(${maskSettings.itinBlur}px)`,
+        WebkitBackdropFilter: `blur(${maskSettings.itinBlur}px)`,
+        background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
+      }}
+    >
       {/* Section Header — Synced to Global Layout Padding (25px Mobile / 32px Desktop) */}
       <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px]">
         <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
