@@ -89,8 +89,24 @@ export default function CruiseHeroMaskEditor() {
 
       {/* Floating Settings Drawer Portal */}
       {isOpen && createPortal(
-        <div className="fixed inset-0 z-[100] flex justify-end bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="w-full max-w-md bg-[#080810] border-l border-cyan-500/30 text-white h-full overflow-y-auto p-6 flex flex-col justify-between shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex justify-end pointer-events-none p-4 md:p-6 animate-fadeIn">
+          {/* Style tag for visible custom scrollbar */}
+          <style>{`
+            .custom-hero-editor-scroll::-webkit-scrollbar {
+              width: 8px !important;
+              display: block !important;
+            }
+            .custom-hero-editor-scroll::-webkit-scrollbar-track {
+              background: rgba(255, 255, 255, 0.08) !important;
+              border-radius: 4px !important;
+            }
+            .custom-hero-editor-scroll::-webkit-scrollbar-thumb {
+              background: #06b6d4 !important;
+              border-radius: 4px !important;
+              box-shadow: 0 0 10px rgba(6, 182, 212, 0.6) !important;
+            }
+          `}</style>
+          <div className="pointer-events-auto w-full max-w-md bg-[#080810]/95 backdrop-blur-2xl border border-cyan-500/40 text-white h-[calc(100vh-120px)] max-h-[calc(100vh-120px)] my-auto overflow-y-auto p-6 flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.85)] rounded-2xl custom-hero-editor-scroll">
             <div>
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
