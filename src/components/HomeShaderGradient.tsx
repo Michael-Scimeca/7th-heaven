@@ -150,6 +150,12 @@ export default function HomeShaderGradient() {
         cameraZoom: GRADIENT_SETTINGS.cameraZoom
       });
 
+      // Completely disable WebGL watermark rendering pass inside NeatGradient canvas
+      if (neatInstance) {
+        (neatInstance as any)._licensed = true;
+        (neatInstance as any)._renderWatermark = () => {};
+      }
+
       // Remove any Neat watermark link injected into DOM
       setTimeout(() => {
         if (canvasRef.current?.parentElement) {
