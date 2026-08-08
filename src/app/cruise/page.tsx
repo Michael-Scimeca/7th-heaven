@@ -24,8 +24,6 @@ const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItine
 const CruiseVideoGallery = dynamic(() => import("@/components/CruiseVideoGallery"), { ssr: false });
 const CruiseHistoryTimeline = dynamic(() => import("@/components/CruiseHistoryTimeline"), { ssr: false });
 
-const CruiseHeroMaskEditor = dynamic(() => import("@/components/CruiseHeroMaskEditor"), { ssr: false });
-
 function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
   const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#9333ea", "#ec4899", "#8b5cf6", "#64748b"];
   return itinData.map((day, i) => ({
@@ -148,39 +146,6 @@ export default function CruisePage() {
   const router = useRouter();
   const { isLoggedIn, member, openModal } = useMember();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-
-  const [heroMaskSettings, setHeroMaskSettings] = useState({
-    fadeStart: 73,
-    fadeEnd: 100,
-    maskAngle: 'to bottom',
-    videoBlur: 0,
-    videoBrightness: 90,
-    videoContrast: 100,
-    videoOpacity: 100,
-    beforeHeight: 0,
-    beforeBlur: 0,
-    beforeBgOpacity: 85,
-    beforeZIndex: 10,
-  });
-
-  useEffect(() => {
-    // Restore saved settings on mount if available
-    try {
-      const saved = localStorage.getItem('7h_cruise_hero_mask_v2');
-      if (saved) {
-        setHeroMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
-      }
-    } catch { }
-
-    const handleUpdate = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      if (customEvent.detail) {
-        setHeroMaskSettings(prev => ({ ...prev, ...customEvent.detail }));
-      }
-    };
-    window.addEventListener('hero-mask-update', handleUpdate);
-    return () => window.removeEventListener('hero-mask-update', handleUpdate);
-  }, []);
 
   // Pause hero video when scrolled out of view
   useEffect(() => {
@@ -641,19 +606,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
   return (
     <div className="min-h-screen overflow-x-hidden max-w-full bg-transparent text-white pt-0">
-      {/* Interactive Hero Video Mask & Blur Live Edit UI Tool */}
-      <React.Suspense fallback={null}>
-        <CruiseHeroMaskEditor />
-      </React.Suspense>
-
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
       <section className="-mt-[88px] pt-[120px] md:pt-[140px] relative flex flex-col justify-center overflow-hidden pb-[32px] md:pb-20 text-white min-h-[460px] md:min-h-[640px]">
-        {/* Cruise Hero Video Background Overlay with Bottom Masking & Video Blur */}
+        {/* Cruise Hero Video Background Overlay with Bottom Clipping Mask */}
         <div
           className="absolute inset-0 z-0 overflow-hidden"
           style={{
-            maskImage: `linear-gradient(${heroMaskSettings.maskAngle}, black 0%, black ${heroMaskSettings.fadeStart}%, transparent ${heroMaskSettings.fadeEnd}%)`,
-            WebkitMaskImage: `linear-gradient(${heroMaskSettings.maskAngle}, black 0%, black ${heroMaskSettings.fadeStart}%, transparent ${heroMaskSettings.fadeEnd}%)`,
+            maskImage: 'linear-gradient(to bottom, black 0%, black 73%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 73%, transparent 100%)',
           }}
         >
           <video
@@ -664,9 +624,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             playsInline
             className="w-full h-full object-cover scale-105"
             style={{
-              filter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
-              WebkitFilter: `blur(${heroMaskSettings.videoBlur}px) brightness(${heroMaskSettings.videoBrightness}%) contrast(${heroMaskSettings.videoContrast}%)`,
-              opacity: heroMaskSettings.videoOpacity / 100,
+              filter: 'blur(0px) brightness(90%) contrast(100%)',
+              WebkitFilter: 'blur(0px) brightness(90%) contrast(100%)',
+              opacity: 1,
             }}
             poster="/images/cruise-hero.png"
           >
@@ -674,15 +634,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </video>
         </div>
 
-        {/* Higher Z-Index 30px ::before Blur Strip at Bottom of Hero Video */}
+        {/* Bottom ::before Blur Strip Overlay */}
         <div
-          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none hero-bottom-blur-strip"
+          className="absolute bottom-0 left-0 right-0 w-full pointer-events-none hero-bottom-blur-strip z-10"
           style={{
-            height: `${heroMaskSettings.beforeHeight}px`,
-            zIndex: heroMaskSettings.beforeZIndex,
-            backdropFilter: `blur(${heroMaskSettings.beforeBlur}px)`,
-            WebkitBackdropFilter: `blur(${heroMaskSettings.beforeBlur}px)`,
-            background: `linear-gradient(to bottom, transparent, rgba(6, 6, 12, ${heroMaskSettings.beforeBgOpacity / 100}))`,
+            height: '0px',
+            backdropFilter: 'blur(0px)',
+            WebkitBackdropFilter: 'blur(0px)',
+            background: 'linear-gradient(to bottom, transparent, rgba(6, 6, 12, 0.85))',
           }}
         />
 
