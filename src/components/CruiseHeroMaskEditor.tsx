@@ -1,28 +1,36 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Sliders, X, RotateCcw, Copy, Check, Eye, EyeOff, Sparkles, Layers } from 'lucide-react';
+import { Sliders, X, RotateCcw, Copy, Check, Eye, Sparkles, Layers, MapPin } from 'lucide-react';
 
 export interface HeroMaskSettings {
-  // Top Mask Gradient
-  topFadeStart: number;      // % (0 - 50) default 0
-  topFadeEnd: number;        // % (0 - 50) default 20
+  // Hero Top Mask Gradient
+  topFadeStart: number;      // % (0 - 50)
+  topFadeEnd: number;        // % (0 - 50)
   
-  // Bottom Mask Gradient
-  bottomFadeStart: number;   // % (50 - 100) default 73
-  bottomFadeEnd: number;     // % (50 - 100) default 100
+  // Hero Bottom Mask Gradient
+  bottomFadeStart: number;   // % (50 - 100)
+  bottomFadeEnd: number;     // % (50 - 100)
   
-  // Video Filters
+  // Hero Video Filters
   videoBlur: number;         // px (0 - 20)
   videoBrightness: number;   // % (50 - 150)
   videoContrast: number;     // % (50 - 150)
   videoOpacity: number;      // % (0 - 100)
   
-  // Bottom ::before Blur Strip Overlay
+  // Hero Bottom ::before Blur Strip Overlay
   beforeHeight: number;      // px (0 - 200)
   beforeBlur: number;        // px (0 - 80)
   beforeBgOpacity: number;   // % (0 - 100)
   beforeZIndex: number;      // z-index (1 - 50)
+
+  // Official Itinerary Container Mask & Blur Controls
+  itinTopFadeStart: number;    // % (0 - 30)
+  itinTopFadeEnd: number;      // % (0 - 40)
+  itinBottomFadeStart: number; // % (60 - 100)
+  itinBottomFadeEnd: number;   // % (70 - 100)
+  itinBgOpacity: number;       // % (0 - 100)
+  itinBlur: number;            // px (0 - 40)
 }
 
 export const DEFAULT_HERO_MASK_SETTINGS: HeroMaskSettings = {
@@ -38,6 +46,12 @@ export const DEFAULT_HERO_MASK_SETTINGS: HeroMaskSettings = {
   beforeBlur: 0,
   beforeBgOpacity: 85,
   beforeZIndex: 10,
+  itinTopFadeStart: 0,
+  itinTopFadeEnd: 10,
+  itinBottomFadeStart: 85,
+  itinBottomFadeEnd: 100,
+  itinBgOpacity: 90,
+  itinBlur: 16,
 };
 
 export default function CruiseHeroMaskEditor() {
@@ -49,7 +63,7 @@ export default function CruiseHeroMaskEditor() {
   useEffect(() => {
     setMounted(true);
     try {
-      const saved = localStorage.getItem('7h_cruise_hero_mask_v3');
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
       if (saved) {
         setSettings({ ...DEFAULT_HERO_MASK_SETTINGS, ...JSON.parse(saved) });
       }
@@ -67,23 +81,23 @@ export default function CruiseHeroMaskEditor() {
 
   const handleSave = () => {
     try {
-      localStorage.setItem('7h_cruise_hero_mask_v3', JSON.stringify(settings));
-      alert('Settings saved to browser storage!');
+      localStorage.setItem('7h_cruise_hero_mask_v4', JSON.stringify(settings));
+      alert('Hero & Itinerary Studio settings saved!');
     } catch { }
   };
 
   const handleReset = () => {
     setSettings(DEFAULT_HERO_MASK_SETTINGS);
     try {
-      localStorage.removeItem('7h_cruise_hero_mask_v3');
+      localStorage.removeItem('7h_cruise_hero_mask_v4');
     } catch { }
   };
 
   const generateCSS = () => {
-    return `/* 7th Heaven Hero Video Top & Bottom Mask CSS */
+    return `/* 7th Heaven Hero & Official Itinerary Section Mask CSS */
 .hero-video-mask {
-  mask-image: linear-gradient(to bottom, transparent 0%, black ${settings.topFadeEnd}%, black ${settings.bottomFadeStart}%, transparent ${settings.bottomFadeEnd}%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black ${settings.topFadeEnd}%, black ${settings.bottomFadeStart}%, transparent ${settings.bottomFadeEnd}%);
+  mask-image: linear-gradient(to bottom, transparent ${settings.topFadeStart}%, black ${settings.topFadeEnd}%, black ${settings.bottomFadeStart}%, transparent ${settings.bottomFadeEnd}%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.topFadeStart}%, black ${settings.topFadeEnd}%, black ${settings.bottomFadeStart}%, transparent ${settings.bottomFadeEnd}%);
 }
 
 .hero-video-element {
@@ -92,18 +106,12 @@ export default function CruiseHeroMaskEditor() {
   opacity: ${settings.videoOpacity / 100};
 }
 
-.hero-bottom-strip::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: ${settings.beforeHeight}px;
-  z-index: ${settings.beforeZIndex};
-  backdrop-filter: blur(${settings.beforeBlur}px);
-  -webkit-backdrop-filter: blur(${settings.beforeBlur}px);
-  background: linear-gradient(to bottom, transparent, rgba(6, 6, 12, ${settings.beforeBgOpacity / 100}));
+.official-itinerary-section {
+  mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${settings.itinTopFadeEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${settings.itinBottomFadeEnd}%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent ${settings.itinTopFadeStart}%, black ${settings.itinTopFadeEnd}%, black ${settings.itinBottomFadeStart}%, transparent ${settings.itinBottomFadeEnd}%);
+  backdrop-filter: blur(${settings.itinBlur}px);
+  -webkit-backdrop-filter: blur(${settings.itinBlur}px);
+  background: rgba(11, 19, 41, ${settings.itinBgOpacity / 100});
 }`;
   };
 
@@ -124,7 +132,7 @@ export default function CruiseHeroMaskEditor() {
           className="fixed bottom-6 right-6 z-50 bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-4 py-3 rounded-full shadow-[0_0_25px_rgba(6,182,212,0.6)] border border-cyan-300/40 flex items-center gap-2 transition-all hover:scale-105"
         >
           <Sliders className="w-5 h-5" />
-          <span className="text-xs uppercase tracking-wider">HERO & CONTAINER CSS STUDIO</span>
+          <span className="text-xs uppercase tracking-wider">PAGE & ITINERARY CSS STUDIO</span>
         </button>
       )}
 
@@ -141,8 +149,8 @@ export default function CruiseHeroMaskEditor() {
                 <Sliders className="w-4 h-4 text-cyan-400" />
               </div>
               <div>
-                <h3 className="text-sm font-black uppercase tracking-wider text-cyan-300">HERO & MASK STUDIO</h3>
-                <p className="text-[10px] text-gray-400">Top & Bottom Masking Studio</p>
+                <h3 className="text-sm font-black uppercase tracking-wider text-cyan-300">HERO & ITINERARY STUDIO</h3>
+                <p className="text-[10px] text-gray-400">Controls for Hero Video & Official Itinerary</p>
               </div>
             </div>
             <div className="flex items-center gap-1.5">
@@ -170,19 +178,124 @@ export default function CruiseHeroMaskEditor() {
               scrollbarColor: '#06b6d4 rgba(12, 16, 29, 0.8)',
             }}
           >
-            {/* 1. TOP MASK GRADIENT */}
+            {/* 📍 1. OFFICIAL ITINERARY SECTION MASK & BG */}
+            <div className="bg-purple-950/30 p-3.5 rounded-xl border border-purple-500/30 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-purple-400" /> OFFICIAL ITINERARY CONTAINER
+                </span>
+                <span className="text-[10px] text-purple-300/70 font-mono">#itinerary</span>
+              </div>
+
+              {/* Itinerary Top Fade Start */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Itinerary Top Mask Start</span>
+                  <span className="text-purple-300 font-mono">{settings.itinTopFadeStart}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="30"
+                  value={settings.itinTopFadeStart}
+                  onChange={e => updateSetting('itinTopFadeStart', Number(e.target.value))}
+                  className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Itinerary Top Fade End */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Itinerary Top Mask End</span>
+                  <span className="text-purple-300 font-mono">{settings.itinTopFadeEnd}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={settings.itinTopFadeEnd}
+                  onChange={e => updateSetting('itinTopFadeEnd', Number(e.target.value))}
+                  className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Itinerary Bottom Fade Start */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Itinerary Bottom Mask Start</span>
+                  <span className="text-purple-300 font-mono">{settings.itinBottomFadeStart}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="50"
+                  max="95"
+                  value={settings.itinBottomFadeStart}
+                  onChange={e => updateSetting('itinBottomFadeStart', Number(e.target.value))}
+                  className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Itinerary Bottom Fade End */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Itinerary Bottom Mask End</span>
+                  <span className="text-purple-300 font-mono">{settings.itinBottomFadeEnd}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="70"
+                  max="100"
+                  value={settings.itinBottomFadeEnd}
+                  onChange={e => updateSetting('itinBottomFadeEnd', Number(e.target.value))}
+                  className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Itinerary Background Opacity */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Itinerary Dark BG Opacity</span>
+                  <span className="text-purple-300 font-mono">{settings.itinBgOpacity}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.itinBgOpacity}
+                  onChange={e => updateSetting('itinBgOpacity', Number(e.target.value))}
+                  className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Itinerary Backdrop Blur */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Itinerary Backdrop Blur</span>
+                  <span className="text-purple-300 font-mono">{settings.itinBlur}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={settings.itinBlur}
+                  onChange={e => updateSetting('itinBlur', Number(e.target.value))}
+                  className="w-full accent-purple-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+            </div>
+
+            {/* 🎬 2. HERO TOP MASK GRADIENT */}
             <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> TOP MASK GRADIENT
+                  <Sparkles className="w-3.5 h-3.5" /> HERO TOP MASK GRADIENT
                 </span>
-                <span className="text-[10px] text-gray-400">Fade In</span>
               </div>
 
               {/* Top Fade Start */}
               <div>
                 <div className="flex justify-between text-xs mb-1 font-medium">
-                  <span className="text-gray-300">Top Fade Start</span>
+                  <span className="text-gray-300">Hero Top Fade Start</span>
                   <span className="text-cyan-400 font-mono">{settings.topFadeStart}%</span>
                 </div>
                 <input
@@ -198,7 +311,7 @@ export default function CruiseHeroMaskEditor() {
               {/* Top Fade End */}
               <div>
                 <div className="flex justify-between text-xs mb-1 font-medium">
-                  <span className="text-gray-300">Top Fade End (Solid Black)</span>
+                  <span className="text-gray-300">Hero Top Fade End</span>
                   <span className="text-cyan-400 font-mono">{settings.topFadeEnd}%</span>
                 </div>
                 <input
@@ -212,19 +325,18 @@ export default function CruiseHeroMaskEditor() {
               </div>
             </div>
 
-            {/* 2. BOTTOM MASK GRADIENT */}
+            {/* 🎬 3. HERO BOTTOM MASK GRADIENT */}
             <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> BOTTOM MASK GRADIENT
+                  <Sparkles className="w-3.5 h-3.5" /> HERO BOTTOM MASK GRADIENT
                 </span>
-                <span className="text-[10px] text-gray-400">Fade Out</span>
               </div>
 
               {/* Bottom Fade Start */}
               <div>
                 <div className="flex justify-between text-xs mb-1 font-medium">
-                  <span className="text-gray-300">Bottom Fade Start</span>
+                  <span className="text-gray-300">Hero Bottom Fade Start</span>
                   <span className="text-cyan-400 font-mono">{settings.bottomFadeStart}%</span>
                 </div>
                 <input
@@ -240,7 +352,7 @@ export default function CruiseHeroMaskEditor() {
               {/* Bottom Fade End */}
               <div>
                 <div className="flex justify-between text-xs mb-1 font-medium">
-                  <span className="text-gray-300">Bottom Fade End (Transparent)</span>
+                  <span className="text-gray-300">Hero Bottom Fade End</span>
                   <span className="text-cyan-400 font-mono">{settings.bottomFadeEnd}%</span>
                 </div>
                 <input
@@ -254,10 +366,10 @@ export default function CruiseHeroMaskEditor() {
               </div>
             </div>
 
-            {/* 3. VIDEO FILTERS */}
+            {/* 🎥 4. VIDEO FILTERS */}
             <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
               <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                <Eye className="w-3.5 h-3.5" /> VIDEO FILTERS
+                <Eye className="w-3.5 h-3.5" /> HERO VIDEO FILTERS
               </span>
 
               {/* Video Blur */}
@@ -325,7 +437,7 @@ export default function CruiseHeroMaskEditor() {
               </div>
             </div>
 
-            {/* 4. ::BEFORE BLUR STRIP OVERLAY */}
+            {/* 🥞 5. ::BEFORE BLUR OVERLAY STRIP */}
             <div className="bg-cyan-950/30 p-3.5 rounded-xl border border-cyan-500/20 space-y-3">
               <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5" /> ::BEFORE BLUR OVERLAY STRIP

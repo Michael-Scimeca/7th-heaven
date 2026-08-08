@@ -162,11 +162,17 @@ export default function CruisePage() {
     beforeBlur: 0,
     beforeBgOpacity: 85,
     beforeZIndex: 10,
+    itinTopFadeStart: 0,
+    itinTopFadeEnd: 10,
+    itinBottomFadeStart: 85,
+    itinBottomFadeEnd: 100,
+    itinBgOpacity: 90,
+    itinBlur: 16,
   });
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('7h_cruise_hero_mask_v3');
+      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
       if (saved) {
         setHeroMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
       }
@@ -1674,8 +1680,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
-        {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED) ── */}
-        <section id="itinerary" className="py-20 w-full max-w-none px-0 overflow-x-clip">
+        {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED WITH LIVE TOP & BOTTOM MASKING) ── */}
+        <section
+          id="itinerary"
+          className="py-20 w-full max-w-none px-0 overflow-x-clip transition-all duration-150"
+          style={{
+            maskImage: `linear-gradient(to bottom, transparent ${heroMaskSettings.itinTopFadeStart}%, black ${heroMaskSettings.itinTopFadeEnd}%, black ${heroMaskSettings.itinBottomFadeStart}%, transparent ${heroMaskSettings.itinBottomFadeEnd}%)`,
+            WebkitMaskImage: `linear-gradient(to bottom, transparent ${heroMaskSettings.itinTopFadeStart}%, black ${heroMaskSettings.itinTopFadeEnd}%, black ${heroMaskSettings.itinBottomFadeStart}%, transparent ${heroMaskSettings.itinBottomFadeEnd}%)`,
+            backdropFilter: `blur(${heroMaskSettings.itinBlur}px)`,
+            WebkitBackdropFilter: `blur(${heroMaskSettings.itinBlur}px)`,
+            background: `rgba(11, 19, 41, ${heroMaskSettings.itinBgOpacity / 100})`,
+          }}
+        >
           <div className="text-center max-w-3xl mx-auto mb-12 px-4">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
