@@ -423,13 +423,13 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
     <div
       id="cruise-chat-root"
       style={{
-        border: '2px solid var(--chat-border-color, rgba(168, 85, 247, 0.6))',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--color-bg-glass, rgba(18, 18, 24, 0.45))',
       }}
       className="p-4 rounded-3xl backdrop-blur-md flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100vh-4rem)] overflow-hidden text-white transition-all duration-300"
     >
-      <div className="py-2 px-1 border-b border-white/15 flex items-center justify-between z-10 relative">
+      <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
             💬

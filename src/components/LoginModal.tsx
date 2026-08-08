@@ -587,7 +587,7 @@ export default function LoginModal() {
         {/* Close */}
         <button onClick={closeModal}
           aria-label="Close login modal"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer z-20"
         >
           <X className="w-4 h-4" />
         </button>
@@ -693,7 +693,7 @@ function LoginModalBodyContent(props: any) {
 
       {/* Prominent High-Contrast Sliding Toggle Tabs */}
       {modalMode !== "forgot" && (
-        <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/20 mb-4 max-w-sm mx-auto shadow-inner select-none">
+        <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
           <div
             className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
             style={{
@@ -732,7 +732,7 @@ function LoginModalBodyContent(props: any) {
             aria-label="Account Type"
             value={loginRole}
             onChange={(e) => setLoginRole(e.target.value as any)}
-            className="bg-black/80 text-white font-extrabold text-xs uppercase tracking-wider px-3 py-1.5 border border-white/20 outline-none focus:border-[var(--color-accent)] cursor-pointer"
+            className="bg-black/80 text-white font-extrabold text-xs uppercase tracking-wider px-3 py-1.5 border border-white/10 outline-none focus:border-[var(--color-accent)] cursor-pointer"
           >
             <option value="fan">Fan / Visitor</option>
             <option value="crew">Band / Crew</option>
@@ -781,7 +781,7 @@ function LoginModalBodyContent(props: any) {
               value={pinCode}
               onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
               placeholder="123456"
-              className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black text-xl"
+              className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black text-xl"
               required
             />
           </div>
@@ -1006,14 +1006,14 @@ function LoginModalBodyContent(props: any) {
             <button type="button"
               onClick={() => handleOAuthLogin('google')}
               disabled={loading}
-              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
+              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
             >
               <span>Google</span>
             </button>
             <button type="button"
               onClick={() => handleOAuthLogin('facebook')}
               disabled={loading}
-              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
+              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
             >
               <span>Facebook</span>
             </button>

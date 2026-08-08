@@ -126,8 +126,8 @@ export default function StyleGuidePage() {
               onClick={() => saveTheme()}
               disabled={isSaving}
               className={`px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 ${hasUnsavedChanges
-                  ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
-                  : "bg-white/10 text-white/50 cursor-default"
+                ? "bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_20px_rgba(147,51,234,0.4)]"
+                : "bg-white/10 text-white/50 cursor-default"
                 }`}
             >
               {isSaving ? "Saving..." : "Save Theme Tokens"}
@@ -146,8 +146,8 @@ export default function StyleGuidePage() {
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
                 className={`px-4 py-2.5 rounded-xl font-extrabold text-xs whitespace-nowrap transition flex items-center gap-2 border ${isActive
-                    ? "bg-purple-600/30 text-purple-300 border-purple-500/50 shadow-md"
-                    : "bg-transparent text-white/60 hover:text-white border-transparent hover:border-white/10"
+                  ? "bg-purple-600/30 text-purple-300 border-purple-500/50 shadow-md"
+                  : "bg-transparent text-white/60 hover:text-white border-transparent hover:border-white/10"
                   }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -734,7 +734,7 @@ export default function StyleGuidePage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border-2 border-purple-500/40 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)] p-4 sm:p-6">
+          <div className="rounded-2xl border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.25)]">
             <CruiseChat activeChannel="general" />
           </div>
         </section>

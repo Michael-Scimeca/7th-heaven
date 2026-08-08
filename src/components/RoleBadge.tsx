@@ -16,7 +16,7 @@ const roleConfig = {
   label: 'FAN',
   color: 'text-white/70',
   bg: 'bg-white/[0.08]',
-  border: 'border-white/[0.12]',
+  border: 'border-white/10',
   glow: '',
  },
  crew: {

@@ -384,7 +384,7 @@ export function Header() {
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
                     ) : (
-                      <div className="w-full h-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white font-black text-sm shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
+                      <div className="w-full h-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white font-black text-sm shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
                         {initials}
                       </div>
                     )}

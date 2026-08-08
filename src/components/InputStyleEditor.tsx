@@ -132,7 +132,7 @@ export const PRESETS: { name: string; icon: string; settings: Partial<InputStyle
     icon: "👻",
     settings: {
       bgRed: 12, bgGreen: 8, bgBlue: 23, bgOpacity: 0.8,
-      blurAmount: 12, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.08)",
+      blurAmount: 12, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)",
       borderRadius: 12, textColor: "#ffffff", placeholderOpacity: 0.35,
       focusBorderColor: "#38bdf8", focusGlowOpacity: 0.3, paddingY: 12, paddingX: 16,
       checkboxAccentColor: "#38bdf8", checkboxSize: 18, checkboxRadius: 4,
