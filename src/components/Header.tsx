@@ -236,14 +236,11 @@ export function Header() {
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${
                     active
-                      ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                      ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
                       : "!text-white hover:!text-[#c084fc]"
                   }`}
                 >
                   {link.label}
-                  {active && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
-                  )}
                 </Link>
               );
             })}
@@ -253,7 +250,7 @@ export function Header() {
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${
                 isNavActive("/live")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
                   : "!text-white hover:!text-[#c084fc]"
               }`}
             >
@@ -264,9 +261,6 @@ export function Header() {
                 </span>
               )}
               LIVE
-              {isNavActive("/live") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
-              )}
             </Link>
           </nav>
 
@@ -303,15 +297,12 @@ export function Header() {
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/cruise")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
                   : "!text-white hover:!text-[#c084fc]"
               }`}
             >
               CRUISE
               <CruiseWaveAnimation />
-              {isNavActive("/cruise") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
-              )}
             </Link>
 
             {/* Book Us link */}
@@ -319,14 +310,11 @@ export function Header() {
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/book")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
                   : "!text-white hover:!text-[#c084fc]"
               }`}
             >
               BOOK US
-              {isNavActive("/book") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
-              )}
             </Link>
 
             {/* Contact link */}
@@ -334,14 +322,11 @@ export function Header() {
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
                 isNavActive("/contact")
-                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_8px_rgba(192,132,252,0.6)]"
+                  ? "!text-[#c084fc] font-extrabold drop-shadow-[0_0_12px_rgba(192,132,252,0.8)]"
                   : "!text-white hover:!text-[#c084fc]"
               }`}
             >
               CONTACT
-              {isNavActive("/contact") && (
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#c084fc] rounded-full shadow-[0_0_8px_#c084fc]" />
-              )}
             </Link>
 
             {/* Cart Icon (only in nav bar when NOT signed in) */}
