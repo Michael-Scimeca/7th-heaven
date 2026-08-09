@@ -4,7 +4,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
-import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail } from "lucide-react";
+import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare } from "lucide-react";
 import { SanityTourDate } from "@/lib/sanity";
 import "leaflet/dist/leaflet.css";
 import TourMap from "./TourMap";
@@ -202,7 +202,7 @@ function getShowIcon(show: any): string {
 const typeOptions = ["Unplugged", "Outdoor", "21+", "All Ages", "Special Event"];
 
 // Shared dropdown styles
-const selectClass = "appearance-none bg-transparent border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.55rem] font-bold uppercase tracking-wider text-white cursor-pointer transition-all duration-200 focus:outline-none";
+const selectClass = "appearance-none bg-transparent border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.5rem] font-bold uppercase tracking-wider text-white cursor-pointer transition-all duration-200 focus:outline-none";
 const activeSelect = "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
 function getGoogleCalendarUrl(show: any) {
@@ -290,12 +290,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [notifyPopupShow, setNotifyPopupShow] = useState<any>(null);
 
   // ── Tour List Font & Layout Customizer states ──
-  const [tourFontSize, setTourFontSize] = useState("13px");
+  const [tourFontSize, setTourFontSize] = useState("15px");
   const [tourFontFamily, setTourFontFamily] = useState("var(--font-body)");
   const [tourRowPadding, setTourRowPadding] = useState("4px");
   const [tourRowGap, setTourRowGap] = useState("0px");
   const [tourRowHeight, setTourRowHeight] = useState("40px");
-  const [websiteBtnFontSize, setWebsiteBtnFontSize] = useState("10px");
+  const [websiteBtnFontSize, setWebsiteBtnFontSize] = useState("12px");
   const [isFontCustomizerOpen, setIsFontCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -375,6 +375,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const [formCover, setFormCover] = useState("");
   const [formTicketLink, setFormTicketLink] = useState("");
   const [formDirectionsLink, setFormDirectionsLink] = useState("");
+  const [formMapUrl, setFormMapUrl] = useState("");
+  const [formParkingInfo, setFormParkingInfo] = useState("");
+  const [formParkingUrl, setFormParkingUrl] = useState("");
   const formIsSoldOutRef = useRef(false);
   const [formIsFestival, setFormIsFestival] = useState(false);
   const [formIsPrivate, setFormIsPrivate] = useState(false);
@@ -396,7 +399,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormAllAges(show.allAges ?? true);
       setFormCover(show.cover || "");
       setFormTicketLink(show.ticketLink || "");
-      setFormDirectionsLink(show.directionsLink || "");
+      setFormDirectionsLink(show.directionsLink || show.mapUrl || "");
+      setFormMapUrl(show.mapUrl || show.directionsLink || "");
+      setFormParkingInfo(show.parkingInfo || "");
+      setFormParkingUrl(show.parkingUrl || "");
       formIsSoldOutRef.current = show.isSoldOut || false;
       setFormIsFestival(show.isFestival || false);
       setFormIsPrivate(show.isPrivate || false);
@@ -430,6 +436,9 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       setFormCover("");
       setFormTicketLink("");
       setFormDirectionsLink("");
+      setFormMapUrl("");
+      setFormParkingInfo("");
+      setFormParkingUrl("");
       formIsSoldOutRef.current = false;
       setFormIsFestival(false);
       setFormIsPrivate(false);
@@ -476,7 +485,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       allAges: formAllAges,
       cover: formCover,
       ticketLink: formTicketLink.trim(),
-      directionsLink: formDirectionsLink.trim(),
+      directionsLink: formDirectionsLink.trim() || formMapUrl.trim(),
+      mapUrl: formMapUrl.trim() || formDirectionsLink.trim(),
+      parkingInfo: formParkingInfo.trim(),
+      parkingUrl: formParkingUrl.trim(),
       isSoldOut: formIsSoldOutRef.current,
       isFestival: formIsFestival,
       isPrivate: formIsPrivate,
@@ -726,77 +738,86 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const isStuckRef = useRef(false);
 
-  // Detect when sticky sort bar locks in — 200px scroll window fade from 1 to 0 before reaching container bottom end (at containerBottom = 130)
+  // Detect when sticky sort bar locks in and linearly fade out near bottom of scroll
   useEffect(() => {
     let rafId: number | null = null;
 
     const updateScroll = () => {
       rafId = null;
       const sortBar = document.getElementById("tour-sort-bar");
-      const container = tableRef.current || document.getElementById("tour-table-container");
       const sentinel = sentinelRef.current;
-      if (!sortBar || !container) return;
+      const container = tableRef.current || document.getElementById("tour-table-container");
+
+      const docEl = document.documentElement;
+      const scrollHeight = docEl.scrollHeight;
+      const clientHeight = window.innerHeight || docEl.clientHeight;
+      const currentScrollPosition = window.scrollY || docEl.scrollTop;
+      const maxScroll = Math.max(0, scrollHeight - clientHeight);
+      const docDistanceFromBottom = maxScroll - currentScrollPosition;
 
       const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
-      const containerBottom = container.getBoundingClientRect().bottom;
+      const containerBottom = container ? container.getBoundingClientRect().bottom : 999;
+      const isAboveSentinel = sentinelTop <= 80;
 
-      const isAboveSentinel = sentinelTop <= 92;
-      const stuck = isAboveSentinel && containerBottom > 130;
+      // Distance remaining before hitting the end of scrollable area
+      // (whichever comes first: tour container bottom reaching 130px sticky position, or page max scroll)
+      const containerDistanceFromEnd = containerBottom - 130;
+      const distanceRemaining = Math.min(docDistanceFromBottom, containerDistanceFromEnd);
 
-      let opacity = 1;
-      if (isAboveSentinel) {
-        if (containerBottom <= 130) {
-          opacity = 0;
-        } else if (containerBottom < 330) {
-          // 200px fade-out window: containerBottom goes from 330 (100% opacity) down to 130 (0% opacity)
-          opacity = Math.max(0, Math.min(1, (containerBottom - 130) / 200));
-        }
-      }
+      // Hard-clamp opacity between 0 and 1 — prevents negative overscroll from flipping math or snapping back to 1
+      const opacity = isAboveSentinel
+        ? Math.max(0, Math.min(1, distanceRemaining / 130))
+        : 1;
 
-      // Direct DOM manipulation for opacity and pointerEvents — bypasses React re-render completely during scroll!
-      const finalOpacity = stuck ? opacity : 1;
-      sortBar.style.opacity = String(finalOpacity);
-      sortBar.style.pointerEvents = (!stuck || finalOpacity > 0.05) ? 'auto' : 'none';
+      if (!sortBar) return;
 
-      // Synchronize bottom tour date rows fade out with sort bar as table container reaches bottom end
+      // Direct DOM manipulation — scroll-position-driven recalculation
+      sortBar.style.opacity = String(opacity);
+      sortBar.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
+
       const rowsContainer = document.getElementById("tour-rows-container");
       if (rowsContainer) {
-        if (isAboveSentinel && containerBottom < 330) {
-          const rowsOpacity = Math.max(0, Math.min(1, (containerBottom - 130) / 200));
-          rowsContainer.style.opacity = String(rowsOpacity);
-          rowsContainer.style.transition = 'opacity 0.05s linear';
-        } else {
-          rowsContainer.style.opacity = '1';
-        }
+        rowsContainer.style.opacity = String(opacity);
       }
 
-      // Only trigger React state update if stuck boolean state actually changed
+      const stuck = isAboveSentinel && distanceRemaining > 0;
       if (isStuckRef.current !== stuck) {
         isStuckRef.current = stuck;
         setIsSortBarStuck(stuck);
       }
 
-      if (isAboveSentinel && containerBottom > 100) {
+      if (isAboveSentinel && distanceRemaining > 0) {
         document.documentElement.classList.add('tour-sort-stuck');
       } else {
         document.documentElement.classList.remove('tour-sort-stuck');
       }
     };
 
-    const handleScroll = () => {
+    const handleScrollOrResize = () => {
       if (rafId === null) {
         rafId = requestAnimationFrame(updateScroll);
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScrollOrResize, { passive: true });
+    window.addEventListener("resize", handleScrollOrResize, { passive: true });
+
+    // Also bind to Lenis smooth scroll instance if active on window
+    const lenis = (window as any).__lenis;
+    if (lenis) {
+      lenis.on("scroll", handleScrollOrResize);
+    }
+
     updateScroll();
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("scroll", handleScrollOrResize);
+      window.removeEventListener("resize", handleScrollOrResize);
+      const l = (window as any).__lenis;
+      if (l) {
+        try { l.off("scroll", handleScrollOrResize); } catch { }
+      }
       document.documentElement.classList.remove('tour-sort-stuck');
     };
   }, []);
@@ -998,21 +1019,15 @@ ${filterLine}
       {/* Style override tag for font & layout customizer */}
       <style dangerouslySetInnerHTML={{
         __html: `
-      #tour-table-container,
-      #tour-table-container span,
       #tour-table-container a,
       #tour-table-container button,
       #tour-table-container select,
       #tour-table-container input {
-        font-size: ${tourFontSize} !important;
         font-family: ${tourFontFamily} !important;
       }
-      #tour-sort-bar,
-      #tour-sort-bar span,
       #tour-sort-bar select,
-      #tour-sort-bar input,
       #tour-sort-bar option {
-        font-size: calc(${tourFontSize} - 4px) !important;
+        font-family: ${tourFontFamily} !important;
       }
       #tour-table-container .tour-row-item {
         padding-top: ${tourRowPadding} !important;
@@ -1023,7 +1038,7 @@ ${filterLine}
         gap: ${tourRowGap} !important;
       }
       #tour-table-container .tour-badge {
-        font-size: 9px !important;
+        font-size: 13px !important;
         padding-top: 1px !important;
         padding-bottom: 1px !important;
         line-height: 1 !important;
@@ -1177,16 +1192,13 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-[100] hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-6 px-6 bg-transparent border-0' : 'w-full bg-transparent border-0'} items-center text-white`}>
-            <span className="text-[0.6rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+          <div id="tour-sort-bar" className={`sticky top-[80px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-6 px-6 bg-[#090514]/90 backdrop-blur-md border-0' : 'w-full bg-transparent border-0'} items-center text-white`}>
+            <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown
                 placeholder="MONTH"
-                defaultSelectedId={activeMonth}
-                customers={[
-                  { id: "All", name: "MONTH" },
-                  ...months.map((m) => ({ id: m, name: m })),
-                ]}
+                defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
+                customers={months.map((m) => ({ id: m, name: m }))}
                 onSelect={(opt) => setActiveMonth(opt.id)}
               />
             </div>
@@ -1194,24 +1206,21 @@ ${filterLine}
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[0.6rem] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
-              {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[0.6rem] cursor-pointer z-10"><X className="w-3 h-3" /></button>)}
+              <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full max-w-[200px] bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[1.08rem] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+              {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
             </div>
             <div className="relative">
               <GooeyMessagesDropdown
                 placeholder="CITY"
-                defaultSelectedId={activeCity}
-                customers={[
-                  { id: "All", name: "CITY" },
-                  ...locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` })),
-                ]}
+                defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
+                customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
                 onSelect={(opt) => setActiveCity(opt.id)}
               />
             </div>
-            <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+            <span className="text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-            <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-            <span className="text-[0.7rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+            <span className="text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+            <span className="text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
             {member?.role === 'admin' && (
               <div className="text-right" />
             )}
@@ -1241,24 +1250,24 @@ ${filterLine}
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-sm text-white transition-colors duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white transition-colors duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
-                    <span className="font-[var(--font-heading)] font-extrabold text-sm uppercase  text-[var(--color-accent)]">{show.day}</span>
-                    <span className="text-white font-bold text-base">{show.date}</span>
-                    <span className="font-black text-white text-base">{show.venue}</span>
-                    <span className="text-white/80 font-medium text-sm">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
-                    <span className="flex items-center gap-2 flex-wrap text-left">
+                    <span className="font-[var(--font-heading)] font-extrabold text-[21px] uppercase text-[var(--color-accent)]">{show.day}</span>
+                    <span className="text-white font-bold text-[23px]">{show.date}</span>
+                    <span className="font-black text-white text-[23px]">{show.venue}</span>
+                    <span className="text-white/80 font-medium text-[19px]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="flex items-center gap-2 flex-wrap text-left text-[21px]">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
-                          {show.doorsTime && <span className="text-white/60 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
-                          {show.playTime && <span className="text-rose-400 font-extrabold text-[0.8rem] whitespace-nowrap">Show: {show.playTime}</span>}
-                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 text-[var(--font-size-3xs)] font-medium whitespace-nowrap">Event: {show.time}</span>}
-                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold whitespace-nowrap">{show.time}</span>}
+                          {show.doorsTime && <span className="text-white/60 text-xs font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
+                          {show.playTime && <span className="text-rose-400 font-extrabold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
+                          {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 text-xs font-medium whitespace-nowrap">Event: {show.time}</span>}
+                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[21px] whitespace-nowrap">{show.time}</span>}
                         </div>
                       ) : null}
                       {isShowToday(show) && (
-                        <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
+                        <span className="text-xs font-black uppercase tracking-wider text-rose-600 ml-1.5 whitespace-nowrap animate-pulse">
                           {getCountdownString(show)}
                         </span>
                       )}
@@ -1286,16 +1295,57 @@ ${filterLine}
                             </button>
                           )}
                           <div className="w-7 h-7 flex items-center justify-center shrink-0">
-                            {show.mapUrl ? (() => {
-                              const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                            {(() => {
+                              const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
+                              const rawMapUrl = show.mapUrl || show.directionsLink;
+                              const gUrl = rawMapUrl
+                                ? (rawMapUrl.includes('maps.apple.com')
+                                  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
+                                  : rawMapUrl)
+                                : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                               const showType = getShowType(show.info || '');
                               const cfg = typeConfig[showType] || typeConfig.full;
                               return (
-                                <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ color: cfg.color }} className="flex items-center justify-center p-1 text-black hover:opacity-75 transition-opacity">
+                                <a
+                                  href={gUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
+                                  style={{ color: cfg.color }}
+                                  className={`flex items-center justify-center p-1 transition-opacity ${
+                                    hasExplicitMap ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
+                                  }`}
+                                >
                                   <MapPin className="w-5.5 h-5.5" />
                                 </a>
                               );
-                            })() : null}
+                            })()}
+                          </div>
+                          <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                            {(() => {
+                              const hasExplicitParking = Boolean(show.parkingUrl || show.parkingInfo);
+                              const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
+                              const showType = getShowType(show.info || '');
+                              const cfg = typeConfig[showType] || typeConfig.full;
+                              return (
+                                <a
+                                  href={pUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title={
+                                    hasExplicitParking
+                                      ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
+                                      : "Search Parking (Parking info not added)"
+                                  }
+                                  style={{ color: cfg.color }}
+                                  className={`flex items-center justify-center p-1 transition-opacity ${
+                                    hasExplicitParking ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
+                                  }`}
+                                >
+                                  <Car className="w-5.5 h-5.5" />
+                                </a>
+                              );
+                            })()}
                           </div>
                           <div className="w-7 h-7 flex items-center justify-center relative calendar-dropdown-container shrink-0">
                             <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === rowId ? null : rowId)} title="Add to Calendar" className="flex items-center justify-center p-1 text-white/80 hover:text-white transition-colors cursor-pointer bg-transparent border-none">
@@ -1333,7 +1383,7 @@ ${filterLine}
                           href={show.websiteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest px-3 py-1 bg-[var(--color-accent)] text-white hover:bg-[rgba(255,10,61,0.9)] transition-colors duration-300 rounded-sm h-6 min-w-[76px]"
+                          className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
                           style={{ fontSize: websiteBtnFontSize }}
                         >
                           Website
@@ -1373,31 +1423,31 @@ ${filterLine}
                     {/* Header Row: Date & Time */}
                     <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
                       <div className="flex items-baseline gap-2">
-                        <span className="font-[var(--font-heading)] font-bold text-xs uppercase  text-[var(--color-accent)]">{show.day}</span>
-                        <span className="text-white font-bold text-base">{show.date}</span>
+                        <span className="font-[var(--font-heading)] font-bold text-[15px] uppercase text-[var(--color-accent)]">{show.day}</span>
+                        <span className="text-white font-bold text-[19px]">{show.date}</span>
                       </div>
                       <div className="flex flex-col items-end gap-1">
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex flex-col items-end gap-0.5">
                             {show.doorsTime && (
-                              <span className="text-white/60 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
+                              <span className="text-white/60 text-xs font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-rose-400 text-xs font-extrabold px-2 py-0.5 bg-rose-500/15 border border-rose-500/25 rounded whitespace-nowrap">
+                              <span className="text-rose-400 text-[15px] font-extrabold px-2 py-0.5 bg-rose-500/15 border border-rose-500/25 rounded whitespace-nowrap">
                                 Show: {show.playTime}
                               </span>
                             )}
                             {show.time && (
-                              <span className="text-white/80 text-[var(--font-size-3xs)] font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
+                              <span className="text-white/80 text-xs font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
                                 {show.playTime ? `Event: ${show.time}` : show.time}
                               </span>
                             )}
                           </div>
                         )}
                         {isShowToday(show) && (
-                          <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-rose-600 animate-pulse">
+                          <span className="text-xs font-black uppercase tracking-wider text-rose-600 animate-pulse">
                             {getCountdownString(show)}
                           </span>
                         )}
@@ -1406,9 +1456,9 @@ ${filterLine}
 
                     {/* Details: Venue & Location */}
                     <div>
-                      <h4 className="text-lg font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                      <h4 className="text-[21px] font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {show.city && (
-                        <p className="text-xs text-white/70 flex items-center gap-1 mt-1 font-semibold">
+                        <p className="text-[15px] text-white/70 flex items-center gap-1 mt-1 font-semibold">
                           {show.city}{show.state ? `, ${show.state}` : ""}
                         </p>
                       )}
@@ -1443,13 +1493,54 @@ ${filterLine}
                     {!isPrivate && (
                       <div className="flex items-center gap-3 mt-1.5">
                         {/* Maps Directions */}
-                        {show.mapUrl && (() => {
-                          const gUrl = show.mapUrl.includes('maps.apple.com') ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city} ${show.state}`)}` : show.mapUrl;
+                        {(() => {
+                          const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
+                          const rawMapUrl = show.mapUrl || show.directionsLink;
+                          const gUrl = rawMapUrl
+                            ? (rawMapUrl.includes('maps.apple.com')
+                              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
+                              : rawMapUrl)
+                            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
                           const showType = getShowType(show.info || '');
                           const cfg = typeConfig[showType] || typeConfig.full;
                           return (
-                            <a href={gUrl} target="_blank" rel="noopener noreferrer" title="Get Directions" style={{ backgroundColor: cfg.color }} className="w-9 h-9 flex items-center justify-center rounded-md text-black hover:opacity-90 transition-colors duration-300 shrink-0">
+                            <a
+                              href={gUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
+                              style={{ backgroundColor: cfg.color }}
+                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${
+                                hasExplicitMap ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
+                              }`}
+                            >
                               <MapPin className="w-4 h-4" />
+                            </a>
+                          );
+                        })()}
+
+                        {/* Parking Directions */}
+                        {(() => {
+                          const hasExplicitParking = Boolean(show.parkingUrl || show.parkingInfo);
+                          const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
+                          const showType = getShowType(show.info || '');
+                          const cfg = typeConfig[showType] || typeConfig.full;
+                          return (
+                            <a
+                              href={pUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={
+                                hasExplicitParking
+                                  ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
+                                  : "Search Parking (Parking info not added)"
+                              }
+                              style={{ backgroundColor: cfg.color }}
+                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${
+                                hasExplicitParking ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
+                              }`}
+                            >
+                              <Car className="w-4 h-4" />
                             </a>
                           );
                         })()}
@@ -1627,9 +1718,22 @@ ${filterLine}
                       placeholder="https://..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                   <div>
-                    <label htmlFor="tour-form-directions-link" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions Link (URL)</label>
-                    <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => setFormDirectionsLink(e.target.value)}
-                      placeholder="https://maps.apple.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                    <label htmlFor="tour-form-directions-link" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Directions / Google Maps (URL)</label>
+                    <input aria-label="Input field" id="tour-form-directions-link" type="url" value={formDirectionsLink} onChange={e => { setFormDirectionsLink(e.target.value); setFormMapUrl(e.target.value); }}
+                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="tour-form-parking-url" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Directions Link (URL)</label>
+                    <input aria-label="Input field" id="tour-form-parking-url" type="url" value={formParkingUrl} onChange={e => setFormParkingUrl(e.target.value)}
+                      placeholder="https://maps.google.com/..." className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
+                  </div>
+                  <div>
+                    <label htmlFor="tour-form-parking-info" className="text-xs uppercase tracking-[0.15em] text-white/30 block mb-1.5 font-bold">Parking Info / Notes</label>
+                    <input aria-label="Input field" id="tour-form-parking-info" type="text" value={formParkingInfo} onChange={e => setFormParkingInfo(e.target.value)}
+                      placeholder="e.g. Free lot behind building" className="w-full bg-white/[0.03] border border-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors" />
                   </div>
                 </div>
 

@@ -4,6 +4,7 @@
 import Image from 'next/image';
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw } from "lucide-react";
 import { SanityBandMember, urlFor } from "@/lib/sanity";
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
@@ -111,6 +112,39 @@ function MemberVideoThumbnail({
   );
 }
 
+// 🎭 Smooth Cosine Ease Gradient Generator (Eliminates linear hard stop breaks)
+function generateSmoothMaskGradient(
+  start: number,
+  end: number,
+  minOp: number,
+  direction: string
+) {
+  if (direction === "radial-gradient") {
+    return `radial-gradient(ellipse at center, black ${start}%, rgba(0,0,0,${minOp / 100}) ${end}%)`;
+  }
+  const effectiveStart = Math.min(start, end - 1);
+  const steps = 12;
+  const minOpacityFrac = minOp / 100;
+  const stops: string[] = [`black 0%`];
+
+  if (effectiveStart > 0) {
+    stops.push(`black ${effectiveStart}%`);
+  }
+
+  for (let i = 1; i < steps; i++) {
+    const t = i / steps;
+    // Cosine ease-in-out curve (zero derivative at start & end) for silky smooth fade without Mach band lines
+    const ease = (1 - Math.cos(Math.PI * t)) / 2;
+    const pos = (effectiveStart + (end - effectiveStart) * t).toFixed(1);
+    const alpha = (1 - ease * (1 - minOpacityFrac)).toFixed(3);
+    stops.push(`rgba(0,0,0,${alpha}) ${pos}%`);
+  }
+
+  stops.push(`rgba(0,0,0,${minOpacityFrac}) ${end}%`);
+
+  return `linear-gradient(${direction}, ${stops.join(", ")})`;
+}
+
 interface BioParallaxSliderProps {
   members?: Partial<SanityBandMember>[];
 }
@@ -154,7 +188,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [cardWidth, setCardWidth] = useState<number>(355);
   const [imageHeight, setImageHeight] = useState<number>(460);
   const [imageScale, setImageScale] = useState<number>(1.32);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(22);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(52);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -180,8 +214,8 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(180); // px
   const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px - Top fade distance
   const [topFadeStyle, setTopFadeStyle] = useState<"smooth" | "soft" | "linear" | "sharp">("smooth"); // Smooth top fade curve
-  const [sectionMaskStart, setSectionMaskStart] = useState<number>(35); // % start down image - Bottom smooth fade out (35% chest level)
-  const [sectionMaskEnd, setSectionMaskEnd] = useState<number>(75); // % end down image - Bottom smooth fade out (75% waist level)
+  const [sectionMaskStart, setSectionMaskStart] = useState<number>(35); // % start down image - Bottom smooth fade out
+  const [sectionMaskEnd, setSectionMaskEnd] = useState<number>(85); // % end down image - Bottom smooth fade out
   const [sectionMaskMidpoint, setSectionMaskMidpoint] = useState<number>(50); // % curve midpoint
   const [sectionMaskMinOpacity, setSectionMaskMinOpacity] = useState<number>(0); // % min opacity floor (0% = transparent bottom)
   const [sectionMaskDirection, setSectionMaskDirection] = useState<string>("to bottom");
@@ -249,8 +283,8 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
     if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 180);
     if (savedTop !== null) setSectionMaskTop(parseInt(savedTop, 10) || 0);
     if (savedTopStyle) setTopFadeStyle((savedTopStyle as any) || "smooth");
-    if (savedStart) setSectionMaskStart(parseInt(savedStart, 10) || 70);
-    if (savedEnd) setSectionMaskEnd(parseInt(savedEnd, 10) || 100);
+    if (savedStart) setSectionMaskStart(parseInt(savedStart, 10) || 35);
+    if (savedEnd) setSectionMaskEnd(parseInt(savedEnd, 10) || 85);
     if (savedMid) setSectionMaskMidpoint(parseInt(savedMid, 10) || 50);
     if (savedMinOp) setSectionMaskMinOpacity(parseInt(savedMinOp, 10) || 0);
     if (savedDir) setSectionMaskDirection((savedDir as any) || "to bottom");
@@ -348,7 +382,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       setCardWidth(355);
       setImageHeight(460);
       setImageScale(1.42);
-      setImageOffsetY(22);
+      setImageOffsetY(52);
       setFocalScale(1.28);
       setGap(24);
       setParallaxDepth(0.14);
@@ -514,7 +548,27 @@ maskTop: ${sectionMaskTop}px`;
     targetXRef.current = safeIdx * itemTotalWidth;
   };
 
-  // Pointer drag handlers — Live 1:1 visual dragging during move, slide transition on release
+  // Trackpad & mouse wheel momentum scroll effect
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 1) {
+        e.preventDefault();
+        const maxTarget = (displayMembers.length - 1) * itemTotalWidth;
+        velocityRef.current = e.deltaX * 0.8;
+        targetXRef.current = Math.max(0, Math.min(maxTarget, targetXRef.current + e.deltaX * 1.2));
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, [displayMembers.length, itemTotalWidth]);
+
+  // Pointer drag handlers — Live 1:1 visual dragging during move, smooth momentum snap on release
   const handlePointerDown = (e: React.PointerEvent) => {
     isDraggingRef.current = true;
     dragStartXRef.current = e.clientX;
@@ -526,7 +580,7 @@ maskTop: ${sectionMaskTop}px`;
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current || hasTriggeredRef.current) return;
+    if (!isDraggingRef.current) return;
 
     const deltaX = lastClientXRef.current - e.clientX;
     lastClientXRef.current = e.clientX;
@@ -535,39 +589,24 @@ maskTop: ${sectionMaskTop}px`;
     const maxTarget = (displayMembers.length - 1) * itemTotalWidth;
     const totalDelta = dragStartXRef.current - e.clientX;
 
-    // Trigger slide change immediately as soon as drag reaches threshold in either direction
-    if (totalDelta >= dragThresholdRef.current) {
-      hasTriggeredRef.current = true;
-      goToSlide(dragStartIdxRef.current + 1);
-      return;
-    } else if (totalDelta <= -dragThresholdRef.current) {
-      hasTriggeredRef.current = true;
-      goToSlide(dragStartIdxRef.current - 1);
-      return;
-    }
-
-    // Physical 1:1 visual dragging while under threshold
-    const totalDragOffset = totalDelta * dragSens;
-    const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDragOffset));
+    // Physical 1:1 visual dragging with smooth boundary dampening
+    const newX = Math.max(0, Math.min(maxTarget, dragStartTargetRef.current + totalDelta * 1.15));
     targetXRef.current = newX;
-    currentXRef.current = newX;
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDraggingRef.current) return;
     isDraggingRef.current = false;
 
-    if (!hasTriggeredRef.current) {
-      const totalDelta = dragStartXRef.current - e.clientX;
-      if (totalDelta >= dragThresholdRef.current) {
-        goToSlide(dragStartIdxRef.current + 1);
-      } else if (totalDelta <= -dragThresholdRef.current) {
-        goToSlide(dragStartIdxRef.current - 1);
-      } else {
-        const nearestIdx = Math.round(currentXRef.current / itemTotalWidth);
-        goToSlide(nearestIdx);
-      }
-    }
+    // Calculate inertia target based on drag release velocity
+    const momentumOffset = velocityRef.current * 18;
+    const projectTarget = targetXRef.current + momentumOffset;
+    const nearestIdx = Math.max(
+      0,
+      Math.min(displayMembers.length - 1, Math.round(projectTarget / itemTotalWidth))
+    );
+
+    goToSlide(nearestIdx);
     hasTriggeredRef.current = false;
   };
 
@@ -732,7 +771,7 @@ maskTop: ${sectionMaskTop}px`;
                               ? (() => {
                                   const maskStr = useRawMask && customRawMask.trim()
                                     ? customRawMask.trim()
-                                    : `linear-gradient(${sectionMaskDirection}, black 0%, black ${sectionMaskStart}%, rgba(0,0,0,${sectionMaskMinOpacity / 100}) ${sectionMaskEnd}%)`;
+                                    : generateSmoothMaskGradient(sectionMaskStart, sectionMaskEnd, sectionMaskMinOpacity, sectionMaskDirection);
 
                                   return {
                                     WebkitMaskImage: maskStr,
@@ -879,248 +918,334 @@ maskTop: ${sectionMaskTop}px`;
         </div>
       </div>
 
-      {/* ── Floating Mask Gradient Editor Button ── */}
-      <button
-        type="button"
-        onClick={() => setIsMaskEditorOpen(!isMaskEditorOpen)}
-        className="fixed bottom-6 right-6 z-[9999] px-4 py-2.5 bg-[#090514]/95 hover:bg-[#120a26] text-white border border-purple-500/40 rounded-full shadow-[0_10px_35px_rgba(168,85,247,0.4)] backdrop-blur-md text-xs font-black uppercase tracking-wider flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
-      >
-        <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-        🎭 Mask Gradient Editor
-      </button>
+      {/* 🎭 Interactive Floating Mask & Image Control Studio Panel UI */}
+      <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end pointer-events-auto select-none">
+        {/* Collapsed Control Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setIsMaskEditorOpen(!isMaskEditorOpen)}
+          className="px-4 py-3 rounded-full bg-black/85 hover:bg-black backdrop-blur-2xl border border-purple-500/40 hover:border-purple-400 text-white text-xs font-mono font-extrabold tracking-wider flex items-center gap-2.5 shadow-[0_8px_32px_rgba(168,85,247,0.35)] transition-all transform hover:scale-105 cursor-pointer"
+        >
+          <Sliders className="w-4 h-4 text-purple-400 animate-pulse" />
+          <span>Image Mask Controls 🎭</span>
+          <span className={`w-2 h-2 rounded-full ${sectionMaskEnabled ? "bg-emerald-400 shadow-[0_0_8px_#34d399]" : "bg-red-400"}`} />
+        </button>
 
-      {/* ── Mask Gradient Editor Drawer / Modal ── */}
-      {isMaskEditorOpen && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-end bg-black/60 backdrop-blur-sm p-4 sm:p-6 transition-all animate-[fadeIn_0.2s_ease-out]">
-          <div className="w-full max-w-md bg-[#0c0817] border border-purple-500/30 rounded-2xl p-6 text-white shadow-[0_25px_80px_rgba(0,0,0,0.9)] max-h-[90vh] overflow-y-auto relative flex flex-col gap-5">
+        {/* Expanded Studio Control Drawer */}
+        {isMaskEditorOpen && (
+          <div className="mt-3 w-80 sm:w-96 bg-black/90 backdrop-blur-2xl border border-purple-500/30 rounded-3xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-white text-xs space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-200">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div>
-                <h3 className="font-black text-lg text-white tracking-wide flex items-center gap-2">
-                  <span>🎭 Mask Gradient Editor</span>
-                </h3>
-                <p className="text-xs text-white/50 mt-0.5">Control image bottom/top fade out & opacity</p>
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-purple-400" />
+                <h4 className="font-extrabold uppercase tracking-wider text-sm text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-purple-400">
+                  Cutout Mask Studio
+                </h4>
               </div>
               <button
                 type="button"
                 onClick={() => setIsMaskEditorOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Enable / Disable Mask Toggle */}
-            <div className="flex items-center justify-between bg-white/[0.04] p-3 rounded-xl border border-white/10">
-              <span className="text-xs font-bold uppercase tracking-wider text-white/80">Enable Section Mask</span>
+            {/* Main Mask Toggle */}
+            <div className="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/10">
+              <div className="flex items-center gap-2.5">
+                {sectionMaskEnabled ? (
+                  <Eye className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <EyeOff className="w-4 h-4 text-white/40" />
+                )}
+                <span className="font-bold">Bottom Fade Mask</span>
+              </div>
               <button
                 type="button"
                 onClick={() => setSectionMaskEnabled(!sectionMaskEnabled)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-colors cursor-pointer ${
-                  sectionMaskEnabled ? "bg-purple-600 text-white" : "bg-white/10 text-white/40"
+                className={`px-3.5 py-1.5 rounded-full font-mono text-[11px] font-extrabold tracking-wider transition-all cursor-pointer ${
+                  sectionMaskEnabled
+                    ? "bg-emerald-500 text-black shadow-[0_0_12px_rgba(16,185,129,0.4)]"
+                    : "bg-white/10 text-white/60 hover:bg-white/20"
                 }`}
               >
-                {sectionMaskEnabled ? "Active" : "Disabled"}
+                {sectionMaskEnabled ? "ACTIVE" : "OFF"}
               </button>
             </div>
 
-            {/* Presets */}
-            <div>
-              <label className="text-xs font-bold text-white/60 uppercase tracking-wider block mb-2">Fade Presets</label>
-              <div className="grid grid-cols-2 gap-2">
+            {/* Tab Selector */}
+            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/10">
+              {[
+                { id: "preset", label: "Fade Mask" },
+                { id: "member", label: "Image Size" },
+                { id: "stops", label: "Direction" },
+              ].map((tab) => (
                 <button
                   type="button"
-                  onClick={() => {
-                    setUseRawMask(false);
-                    setSectionMaskDirection("to bottom");
-                    setSectionMaskStart(67);
-                    setSectionMaskEnd(91);
-                    setSectionMaskMinOpacity(0);
-                  }}
-                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
-                >
-                  📉 Bottom Soft Fade (67%-91%)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUseRawMask(false);
-                    setSectionMaskDirection("to bottom");
-                    setSectionMaskStart(45);
-                    setSectionMaskEnd(85);
-                    setSectionMaskMinOpacity(0);
-                  }}
-                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
-                >
-                  📉 Bottom High Fade (45%-85%)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUseRawMask(false);
-                    setSectionMaskDirection("to top");
-                    setSectionMaskStart(60);
-                    setSectionMaskEnd(95);
-                    setSectionMaskMinOpacity(0);
-                  }}
-                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
-                >
-                  📈 Top Fade (60%-95%)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setUseRawMask(true);
-                    setCustomRawMask("linear-gradient(to bottom, transparent 0%, black 15%, black 70%, transparent 95%)");
-                  }}
-                  className="px-3 py-2 bg-white/5 hover:bg-purple-600/30 border border-white/10 rounded-lg text-xs font-bold text-white/80 text-left transition-colors cursor-pointer"
-                >
-                  ↔️ Top & Bottom Dual Fade
-                </button>
-              </div>
-            </div>
-
-            {/* Mask Direction */}
-            <div>
-              <label className="text-xs font-bold text-white/60 uppercase tracking-wider block mb-2">Gradient Direction</label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => { setUseRawMask(false); setSectionMaskDirection("to bottom"); }}
-                  className={`px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                    !useRawMask && sectionMaskDirection === "to bottom"
-                      ? "bg-purple-600 text-white border border-purple-400/50"
-                      : "bg-white/5 text-white/60 border border-white/10"
+                  key={tab.id}
+                  onClick={() => setMaskStudioTab(tab.id as "preset" | "member" | "stops")}
+                  className={`flex-1 py-1.5 rounded-xl font-mono text-[10px] font-bold transition-all cursor-pointer ${
+                    maskStudioTab === tab.id
+                      ? "bg-purple-600 text-white shadow-md"
+                      : "text-white/60 hover:text-white hover:bg-white/5"
                   }`}
                 >
-                  ⬇️ To Bottom (Fade at Bottom)
+                  {tab.label}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => { setUseRawMask(false); setSectionMaskDirection("to top"); }}
-                  className={`px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                    !useRawMask && sectionMaskDirection === "to top"
-                      ? "bg-purple-600 text-white border border-purple-400/50"
-                      : "bg-white/5 text-white/60 border border-white/10"
-                  }`}
-                >
-                  ⬆️ To Top (Fade at Top)
-                </button>
+              ))}
+            </div>
+
+            {/* Quick Presets */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-mono uppercase tracking-wider text-purple-300/80 font-bold block">
+                Quick Fade Presets
+              </label>
+              <div className="grid grid-cols-4 gap-1">
+                {[
+                  { label: "Micro 2%", start: 93, end: 95, minOp: 0 },
+                  { label: "Tight 5%", start: 90, end: 95, minOp: 0 },
+                  { label: "Smooth", start: 65, end: 95, minOp: 0 },
+                  { label: "Deep", start: 40, end: 80, minOp: 0 },
+                ].map((preset) => (
+                  <button
+                    type="button"
+                    key={preset.label}
+                    onClick={() => {
+                      setSectionMaskEnabled(true);
+                      setSectionMaskStart(preset.start);
+                      setSectionMaskEnd(preset.end);
+                      setSectionMaskMinOpacity(preset.minOp);
+                    }}
+                    className="px-1 py-1.5 rounded-xl bg-white/5 hover:bg-purple-600/30 border border-white/10 hover:border-purple-400/50 text-[10px] font-bold text-white/90 hover:text-white transition-all cursor-pointer text-center"
+                  >
+                    {preset.label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Sliders */}
-            <div className="space-y-4 bg-white/[0.03] p-4 rounded-xl border border-white/10">
-              {/* Fade Start Position */}
-              <div>
-                <div className="flex justify-between items-center text-xs font-bold text-white/80 mb-1">
-                  <span>Fade Start Position (Solid Cutoff)</span>
-                  <span className="text-purple-400 font-mono">{sectionMaskStart}%</span>
+            {/* Tab 1: Fade Mask Controls */}
+            {maskStudioTab === "preset" && (
+              <div className="space-y-3.5 pt-1">
+                {/* Fade Distance Span / Tightness Slider (Shortest possible fade height) */}
+                <div className="space-y-1 bg-purple-950/40 p-2.5 rounded-2xl border border-purple-500/30">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-extrabold text-purple-200">Fade Height Span (Short/Tight)</span>
+                    <span className="font-mono text-purple-300 font-extrabold text-xs">
+                      {Math.max(1, sectionMaskEnd - sectionMaskStart)}% height
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="50"
+                    step="1"
+                    value={Math.max(1, sectionMaskEnd - sectionMaskStart)}
+                    onChange={(e) => {
+                      const newSpan = Number(e.target.value);
+                      setSectionMaskStart(Math.max(0, sectionMaskEnd - newSpan));
+                    }}
+                    className="w-full h-1.5 bg-purple-900/60 rounded-lg appearance-none cursor-pointer accent-purple-400"
+                  />
+                  <span className="text-[9px] text-purple-300/70 block">
+                    * Drag to make fade height as short as 1%!
+                  </span>
                 </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={sectionMaskStart}
-                  onChange={(e) => { setUseRawMask(false); setSectionMaskStart(Number(e.target.value)); }}
-                  className="w-full accent-purple-500 cursor-pointer"
-                />
-              </div>
 
-              {/* Fade End Position */}
-              <div>
-                <div className="flex justify-between items-center text-xs font-bold text-white/80 mb-1">
-                  <span>Fade End Position (Complete Fade)</span>
-                  <span className="text-purple-400 font-mono">{sectionMaskEnd}%</span>
+                {/* Fade Start % (Full 0-100% control with slider + direct high-contrast numeric input box) */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-white/80">Fade Start Height</span>
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={sectionMaskStart}
+                        onChange={(e) => setSectionMaskStart(Math.max(0, Math.min(100, Number(e.target.value))))}
+                        className="w-14 px-2 py-0.5 bg-purple-950/90 border border-purple-400 text-white font-mono font-extrabold text-xs text-center rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-300"
+                      />
+                      <span className="font-mono text-purple-300/80 text-[11px]">%</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={sectionMaskStart}
+                    onChange={(e) => setSectionMaskStart(Number(e.target.value))}
+                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
                 </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={sectionMaskEnd}
-                  onChange={(e) => { setUseRawMask(false); setSectionMaskEnd(Number(e.target.value)); }}
-                  className="w-full accent-purple-500 cursor-pointer"
-                />
-              </div>
 
-              {/* Bottom Opacity Floor */}
-              <div>
-                <div className="flex justify-between items-center text-xs font-bold text-white/80 mb-1">
-                  <span>Fade Min Opacity (Floor)</span>
-                  <span className="text-purple-400 font-mono">{sectionMaskMinOpacity}%</span>
+                {/* Fade End % (Full 0-100% control with slider + direct high-contrast numeric input box) */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-white/80">Fade End (Baseline)</span>
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={sectionMaskEnd}
+                        onChange={(e) => setSectionMaskEnd(Math.max(0, Math.min(100, Number(e.target.value))))}
+                        className="w-14 px-2 py-0.5 bg-purple-950/90 border border-purple-400 text-white font-mono font-extrabold text-xs text-center rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-300"
+                      />
+                      <span className="font-mono text-purple-300/80 text-[11px]">%</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={sectionMaskEnd}
+                    onChange={(e) => setSectionMaskEnd(Number(e.target.value))}
+                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
                 </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={sectionMaskMinOpacity}
-                  onChange={(e) => { setUseRawMask(false); setSectionMaskMinOpacity(Number(e.target.value)); }}
-                  className="w-full accent-purple-500 cursor-pointer"
-                />
+
+                {/* Floor Min Opacity Floor % (Full 0-100% control) */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-white/80">Floor Min Opacity</span>
+                    <div className="flex items-center gap-1">
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={sectionMaskMinOpacity}
+                        onChange={(e) => setSectionMaskMinOpacity(Math.max(0, Math.min(100, Number(e.target.value))))}
+                        className="w-14 px-2 py-0.5 bg-purple-950/90 border border-purple-400 text-white font-mono font-extrabold text-xs text-center rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-300"
+                      />
+                      <span className="font-mono text-purple-300/80 text-[11px]">%</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={sectionMaskMinOpacity}
+                    onChange={(e) => setSectionMaskMinOpacity(Number(e.target.value))}
+                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Raw Custom CSS Input */}
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold text-white/60 uppercase tracking-wider">Custom CSS Mask String</label>
-                <button
-                  type="button"
-                  onClick={() => setUseRawMask(!useRawMask)}
-                  className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                    useRawMask ? "bg-purple-500 text-white" : "bg-white/10 text-white/40"
-                  }`}
-                >
-                  {useRawMask ? "Using Custom CSS" : "Use Custom CSS"}
-                </button>
+            {/* Tab 2: Image Size & Position */}
+            {maskStudioTab === "member" && (
+              <div className="space-y-3.5 pt-1">
+                {/* Image Vertical Offset px */}
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-semibold text-white/80">Image Y-Offset</span>
+                    <span className="font-mono text-purple-300 font-bold">{imageOffsetY}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-50"
+                    max="150"
+                    step="1"
+                    value={imageOffsetY}
+                    onChange={(e) => setImageOffsetY(Number(e.target.value))}
+                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
+                </div>
+
+                {/* Image Zoom Scale */}
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-semibold text-white/80">Image Scale Zoom</span>
+                    <span className="font-mono text-purple-300 font-bold">{imageScale.toFixed(2)}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.8"
+                    max="2.0"
+                    step="0.02"
+                    value={imageScale}
+                    onChange={(e) => setImageScale(Number(e.target.value))}
+                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
+                </div>
+
+                {/* Container Height */}
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[11px]">
+                    <span className="font-semibold text-white/80">Container Height</span>
+                    <span className="font-mono text-purple-300 font-bold">{imageHeight}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="300"
+                    max="650"
+                    step="5"
+                    value={imageHeight}
+                    onChange={(e) => setImageHeight(Number(e.target.value))}
+                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
+                </div>
               </div>
-              <input
-                type="text"
-                value={customRawMask}
-                placeholder="linear-gradient(to bottom, black 0%, black 67%, transparent 91%)"
-                onChange={(e) => {
-                  setCustomRawMask(e.target.value);
-                  setUseRawMask(true);
-                }}
-                className="w-full bg-black/60 border border-white/15 rounded-lg px-3 py-2 text-xs font-mono text-purple-300 focus:outline-none focus:border-purple-400 placeholder:text-white/20"
-              />
-            </div>
+            )}
 
-            {/* Current CSS Value Preview */}
-            <div className="bg-black/80 border border-white/10 p-3 rounded-lg text-[11px] font-mono text-white/70">
-              <span className="text-white/40 block text-[9px] uppercase font-bold tracking-wider mb-1">Active mask-image:</span>
-              <span className="text-purple-300 break-all">
-                {useRawMask && customRawMask.trim()
-                  ? customRawMask.trim()
-                  : `linear-gradient(${sectionMaskDirection}, black 0%, black ${sectionMaskStart}%, rgba(0,0,0,${sectionMaskMinOpacity / 100}) ${sectionMaskEnd}%)`}
-              </span>
-            </div>
+            {/* Tab 3: Mask Direction */}
+            {maskStudioTab === "stops" && (
+              <div className="space-y-3 pt-1">
+                <label className="text-[10px] font-mono uppercase tracking-wider text-purple-300/80 font-bold block">
+                  Gradient Fade Direction
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: "Top to Bottom", value: "to bottom" },
+                    { label: "Bottom to Top", value: "to top" },
+                    { label: "Diagonal 45°", value: "135deg" },
+                    { label: "Radial Center", value: "radial-gradient" },
+                  ].map((dir) => (
+                    <button
+                      type="button"
+                      key={dir.value}
+                      onClick={() => setSectionMaskDirection(dir.value)}
+                      className={`px-3 py-2 rounded-xl font-mono text-[10px] font-bold transition-all cursor-pointer border ${
+                        sectionMaskDirection === dir.value
+                          ? "bg-purple-600 text-white border-purple-400 shadow-md"
+                          : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      {dir.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
-            {/* Action Buttons */}
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/10">
+            {/* Reset & Safety Note */}
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-white/50">
+              <span>* Text overlays sit at z-[100] (100% unmasked)</span>
               <button
                 type="button"
                 onClick={() => {
-                  const currentMaskStr = useRawMask && customRawMask.trim()
-                    ? customRawMask.trim()
-                    : `linear-gradient(${sectionMaskDirection}, black 0%, black ${sectionMaskStart}%, rgba(0,0,0,${sectionMaskMinOpacity / 100}) ${sectionMaskEnd}%)`;
-                  navigator.clipboard.writeText(`mask-image: ${currentMaskStr};`);
+                  setSectionMaskEnabled(true);
+                  setSectionMaskStart(65);
+                  setSectionMaskEnd(95);
+                  setSectionMaskMinOpacity(0);
+                  setImageOffsetY(52);
+                  setImageScale(1.32);
+                  setImageHeight(460);
+                  setSectionMaskDirection("to bottom");
                 }}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                className="flex items-center gap-1 font-mono hover:text-white transition-colors cursor-pointer text-purple-400 font-bold"
               >
-                📋 Copy CSS
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsMaskEditorOpen(false)}
-                className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer shadow-md shadow-purple-600/30"
-              >
-                Done
+                <RotateCcw className="w-3 h-3" />
+                <span>Reset All</span>
               </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

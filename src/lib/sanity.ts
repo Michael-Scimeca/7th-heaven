@@ -62,6 +62,10 @@ export interface SanityTourDate {
  cover?: string;
  ticketLink?: string;
  directionsLink?: string;
+ mapUrl?: string;
+ parkingInfo?: string;
+ parkingUrl?: string;
+ websiteUrl?: string;
  isSoldOut: boolean;
  isFestival: boolean;
  isPrivate?: boolean;

@@ -91,18 +91,30 @@ const FALLBACK_PANEL_WIDTH = 220;
 const FALLBACK_PANEL_HEIGHT = 160;
 
 export default function GooeyMessagesDropdown({
-  title = "Customers",
+  title = "",
   badge = "",
   placeholder = "Select Customer",
   customers = DEFAULT_CUSTOMERS,
   defaultSelectedId,
   onSelect,
   className = "",
-  activeBg = "bg-[rgb(127,20,198)]",
-  defaultBg = "bg-[rgb(127,20,198)]",
+  activeBg = "bg-[#2f2f3c]",
+  defaultBg = "bg-[#2f2f3c]",
 }: GooeyMessagesDropdownProps) {
   const [open, setOpen] = useState(false);
+  const [isMorphComplete, setIsMorphComplete] = useState(false);
   const [selectedId, setSelectedId] = useState<string | undefined>(defaultSelectedId);
+
+  useEffect(() => {
+    if (!open) return;
+    const timer = setTimeout(() => {
+      setIsMorphComplete(true);
+    }, 420);
+    return () => {
+      clearTimeout(timer);
+      setIsMorphComplete(false);
+    };
+  }, [open]);
   // How wide the trigger button actually renders at, so the goo shape
   // sitting behind it (and the panel's horizontal center) can match it
   // exactly. Text labels longer than BUTTON_MIN_WIDTH make the button grow
@@ -120,6 +132,7 @@ export default function GooeyMessagesDropdown({
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelContentRef = useRef<HTMLDivElement>(null);
+  const innerContentRef = useRef<HTMLDivElement>(null);
 
   const selected = customers.find((c) => c.id === selectedId);
   const triggerText = selected ? selected.name : placeholder;
@@ -138,15 +151,16 @@ export default function GooeyMessagesDropdown({
     return () => ro.disconnect();
   }, [triggerText]);
 
-  // The panel content is always mounted (only its opacity/pointer-events
-  // toggle with `open`), so its real width and height can be measured continuously.
+  // The inner content is measured (unclipped) so panelWidth and panelHeight
+  // adapt perfectly, while panelContentRef acts as the scrolling viewport.
   useLayoutEffect(() => {
-    const el = panelContentRef.current;
+    const el = innerContentRef.current;
     if (!el) return;
     const measure = () => {
-      const measuredW = Math.max(el.offsetWidth, triggerWidth);
+      const measuredW = Math.max(el.offsetWidth + 28, triggerWidth);
+      const measuredH = Math.min(el.offsetHeight + 8, 280);
       setPanelWidth(measuredW);
-      setPanelHeight(el.offsetHeight);
+      setPanelHeight(measuredH);
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -168,6 +182,29 @@ export default function GooeyMessagesDropdown({
     return () => {
       document.removeEventListener("mousedown", handlePointer);
       document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  // Prevent background window scroll when hovering and scrolling the dropdown list
+  useEffect(() => {
+    const el = panelContentRef.current;
+    if (!open || !el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.stopPropagation();
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const delta = e.deltaY;
+      const isUp = delta < 0;
+      const isDown = delta > 0;
+
+      if ((isUp && scrollTop <= 0) || (isDown && scrollTop + clientHeight >= scrollHeight - 1)) {
+        e.preventDefault();
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", handleWheel);
     };
   }, [open]);
 
@@ -214,6 +251,11 @@ export default function GooeyMessagesDropdown({
             <div
               className={`absolute ${currentBg} transition-[width,height,left,top,border-radius,background-color] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]`}
               style={shapeStyle}
+              onTransitionEnd={(e) => {
+                if (open && (e.propertyName === "height" || e.propertyName === "width")) {
+                  setIsMorphComplete(true);
+                }
+              }}
             />
             <div
               className={`absolute ${currentBg} rounded-full transition-colors duration-300`}
@@ -229,56 +271,64 @@ export default function GooeyMessagesDropdown({
 
         <div
           ref={panelContentRef}
-          className={`absolute bg-transparent py-[6px] px-[12px] w-max opacity-0 -translate-y-1 pointer-events-none transition-[opacity,transform] duration-150 ease ${open ? "!opacity-100 !translate-y-0 !pointer-events-auto !duration-200 !delay-[400ms]" : ""
+          className={`absolute bg-transparent py-1 px-3 custom-scrollbar opacity-0 -translate-y-1 transition-opacity duration-200 ease ${open && isMorphComplete ? "!opacity-100 !translate-y-0 pointer-events-auto" : "pointer-events-none"
             }`}
           role="listbox"
-          aria-hidden={!open}
+          aria-hidden={!open || !isMorphComplete}
           style={{
+            width: panelWidth,
+            maxHeight: panelHeight,
+            overflowY: open && isMorphComplete ? "auto" : "hidden",
             left: -triggerWidth / 2,
             top: triggerHeight + GAP_BELOW_BUTTON,
           }}
         >
-          {(title || badge) && (
-            <div className="flex items-center justify-between mb-2">
-              {title && <span className="text-base font-medium text-white leading-[1.2]">{title}</span>}
-              {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
-            </div>
-          )}
+          <div ref={innerContentRef} className="w-max">
+            {(title || badge) && (
+              <div className="flex items-center justify-between mb-2">
+                {title && <span className="text-base font-medium text-white leading-[1.2]">{title}</span>}
+                {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
+              </div>
+            )}
 
-          <ul className="list-none m-0 p-0 flex flex-col">
-            {customers.map((c) => (
-              <li key={c.id} className="border-b border-white/10 last:border-b-0">
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={c.id === selectedId}
-                  tabIndex={open ? 0 : -1}
-                  className={`block w-full text-left py-2 px-2 -mx-2 rounded-lg text-[13px] sm:text-[14px] font-[800] whitespace-nowrap cursor-pointer transition-colors duration-150 ${c.id === selectedId ? "text-white" : "text-[#d1d1d1]"
-                    }`}
-                  onClick={() => {
-                    setSelectedId(c.id);
-                    onSelect?.(c);
-                    setOpen(false);
-                  }}
-                >
-                  {c.name}
-                </button>
-              </li>
-            ))}
-          </ul>
+            <ul className={`list-none m-0 p-0 flex flex-col pr-1 transition-opacity duration-200 ease-out ${open && isMorphComplete ? "opacity-100" : "opacity-0"
+              }`}>
+              {customers.map((c) => (
+                <li key={c.id} className="border-b border-white/10 last:border-b-0">
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={c.id === selectedId}
+                    tabIndex={open && isMorphComplete ? 0 : -1}
+                    className={`block w-full text-left pt-0 pb-1 px-3 -mx-2 rounded-lg !text-[19px] font-[600] whitespace-nowrap cursor-pointer transition-colors duration-150 ${c.id === selectedId ? "text-purple-400 font-bold" : "text-[#d1d1d1]"
+                      }`}
+                    onClick={() => {
+                      const isSelected = c.id === selectedId;
+                      const nextId = isSelected ? undefined : c.id;
+                      setSelectedId(nextId);
+                      onSelect?.(isSelected ? { id: "All", name: placeholder } : c);
+                      setOpen(false);
+                    }}
+                  >
+                    {c.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
       <button
         ref={triggerRef}
         type="button"
-        className={`relative z-50 min-w-[52px] px-4 py-4 rounded-full ${currentBg} shadow-[0_4px_14px_rgba(0,0,0,0.18)] flex items-center justify-center gap-1.5 cursor-pointer`}
+        className={`relative z-50 min-w-[52px] px-4 py-4 rounded-full ${currentBg} flex items-center justify-center gap-1.5 cursor-pointer`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={triggerText}
       >
-        <span className="text-[12px] font-[800] uppercase tracking-wide text-white leading-none text-center whitespace-nowrap">
+        <span className="text-[17px] font-[800] uppercase tracking-wide text-white leading-none text-center whitespace-nowrap">
           {triggerText}
         </span>
         <svg

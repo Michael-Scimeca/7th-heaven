@@ -174,7 +174,7 @@ export default function ProximityDemoPage() {
             {/* iPhone mockup */}
             <div className="relative mx-auto w-[320px]">
               {/* Phone frame */}
-              <div className="bg-[rgb(127,20,198)] rounded-[2.5rem] border-[6px] border-[#333] shadow-[0_30px_80px_rgba(0,0,0,0.6)] overflow-hidden">
+              <div className="bg-[#2f243f] rounded-[2.5rem] border-[6px] border-[#333] shadow-[0_30px_80px_rgba(0,0,0,0.6)] overflow-hidden">
                 {/* Status bar */}
                 <div className="  px-6 pt-3 pb-1 flex items-center justify-between">
                   <span className="text-white text-xs font-semibold">9:41</span>

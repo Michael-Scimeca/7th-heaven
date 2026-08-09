@@ -78,6 +78,25 @@ const tourDate = {
    type: "url",
   },
   {
+   name: "mapUrl",
+   title: "Google Maps / Directions URL",
+   type: "url",
+   description: "Custom Google Maps or directions URL for venue",
+  },
+  {
+   name: "parkingInfo",
+   title: "Parking Information / Notes",
+   type: "text",
+   rows: 2,
+   description: "Details or notes about venue parking",
+  },
+  {
+   name: "parkingUrl",
+   title: "Parking Directions Link",
+   type: "url",
+   description: "Direct link to parking map or directions",
+  },
+  {
    name: "isSoldOut",
    title: "Sold Out",
    type: "boolean",

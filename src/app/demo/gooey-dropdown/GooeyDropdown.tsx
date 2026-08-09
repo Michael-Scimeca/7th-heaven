@@ -87,7 +87,19 @@ export default function GooeyDropdown({
     className = "",
 }: GooeyDropdownProps) {
     const [open, setOpen] = useState(false);
+    const [isMorphComplete, setIsMorphComplete] = useState(false);
     const [triggerSize, setTriggerSize] = useState({ width: 120, height: 46 });
+
+    useEffect(() => {
+        if (!open) return;
+        const timer = setTimeout(() => {
+            setIsMorphComplete(true);
+        }, 480);
+        return () => {
+            clearTimeout(timer);
+            setIsMorphComplete(false);
+        };
+    }, [open]);
 
     const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
     const filterId = `gooey-filter-${rawId}`;
@@ -170,6 +182,11 @@ export default function GooeyDropdown({
                         backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
                         WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
                     }}
+                    onTransitionEnd={(e) => {
+                        if (open && (e.propertyName === "height" || e.propertyName === "width")) {
+                            setIsMorphComplete(true);
+                        }
+                    }}
                 />
                 <div
                     className={styles.triggerShape}
@@ -214,9 +231,9 @@ export default function GooeyDropdown({
 
                 <ul
                     className={styles.menu}
-                    data-open={open}
+                    data-open={open && isMorphComplete}
                     role="menu"
-                    aria-hidden={!open}
+                    aria-hidden={!open || !isMorphComplete}
                     style={{ width: panelWidth, paddingTop: triggerSize.height + 6 }}
                 >
                     {items.map((item, i) => {

@@ -14,6 +14,10 @@ export interface BookingSlot {
   doorsTime?: string;
   cover?: string;
   ticketLink?: string;
+  directionsLink?: string;
+  mapUrl?: string;
+  parkingInfo?: string;
+  parkingUrl?: string;
   isFestival?: boolean;
   notes?: string;
   useSeparateInfo?: boolean;
@@ -41,6 +45,10 @@ export function CalendarPicker({
   onSelectType,
   customDetails,
   onCustomDetailsChange,
+  mapUrl,
+  onMapUrlChange,
+  parkingInfo,
+  onParkingInfoChange,
   label,
   required,
   blockedDates = EMPTY_BLOCKED_DATES,
@@ -55,6 +63,10 @@ export function CalendarPicker({
   onSelectType?: (t: string) => void;
   customDetails?: string;
   onCustomDetailsChange?: (d: string) => void;
+  mapUrl?: string;
+  onMapUrlChange?: (m: string) => void;
+  parkingInfo?: string;
+  onParkingInfoChange?: (p: string) => void;
   label: string;
   required?: boolean;
   blockedDates?: string[];
@@ -321,6 +333,32 @@ export function CalendarPicker({
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
               </div>
+            </div>
+
+            {/* Google Maps / Directions URL */}
+            <div>
+              <label htmlFor="cal-map-url" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">Google Maps / Directions Link</label>
+              <input aria-label="Input field"
+                id="cal-map-url"
+                type="url"
+                placeholder="https://maps.google.com/?q=..."
+                value={mapUrl || ""}
+                onChange={(e) => onMapUrlChange?.(e.target.value)}
+                className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:border-cyan-400 transition-colors rounded-lg shadow-inner placeholder:text-white/30"
+              />
+            </div>
+
+            {/* Parking Info / Directions */}
+            <div>
+              <label htmlFor="cal-parking-info" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">Parking Info & Directions</label>
+              <input aria-label="Input field"
+                id="cal-parking-info"
+                type="text"
+                placeholder="Free lot behind venue / Valet parking..."
+                value={parkingInfo || ""}
+                onChange={(e) => onParkingInfoChange?.(e.target.value)}
+                className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:border-cyan-400 transition-colors rounded-lg shadow-inner placeholder:text-white/30"
+              />
             </div>
           </div>
         </div>

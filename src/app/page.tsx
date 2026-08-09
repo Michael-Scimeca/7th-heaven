@@ -7,6 +7,7 @@ import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSett
 
 // Above-the-fold, needed for initial render
 import VideoSection from "@/components/VideoSection";
+import HomeVideoShowcase from "@/components/HomeVideoShowcase";
 import Logo from "@/components/Logo";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroUpcomingShows from "@/components/HeroUpcomingShows";
@@ -188,6 +189,9 @@ export default async function Home() {
       <section id="band" className="relative w-full bg-transparent overflow-hidden py-0">
         <BioParallaxSlider />
       </section>
+
+      {/* ====== FEATURED VIDEO SHOWCASE (30-Second Autoplay Previews) ====== */}
+      <HomeVideoShowcase />
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
       <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">

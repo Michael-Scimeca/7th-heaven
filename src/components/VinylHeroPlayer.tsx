@@ -289,6 +289,31 @@ export default function VinylHeroPlayer({
     };
   }, [isPlaying]);
 
+  // Auto-pause hero audio track when the viewer scrolls hero completely out of view
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") return;
+
+    const getHero = () => document.getElementById("hero") || document.querySelector(".morph-pick");
+    const heroEl = getHero();
+    if (!heroEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          const audio = audioRef.current;
+          if (audio && !audio.paused) {
+            audio.pause();
+            setIsPlaying(false);
+          }
+        }
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, []);
+
   // Whenever the active album or track changes, reload the audio source.
   // React updating the src= prop on <audio> does NOT trigger a browser reload —
   // we must set .src and call .load() imperatively.
@@ -305,20 +330,32 @@ export default function VinylHeroPlayer({
   }, [activeAlbumIdx, activeTrackIdx]);
 
   useEffect(() => {
-    const handlePlayHeroMusic = () => {
+    const handleToggleHeroMusic = () => {
       const audio = audioRef.current;
       if (!audio) return;
-      if (!audio.src) {
-        const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
-        if (url) audio.src = url;
+      if (isPlaying || !audio.paused) {
+        audio.pause();
+        setIsPlaying(false);
+      } else {
+        if (!audio.src) {
+          const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
+          if (url) audio.src = url;
+        }
+        audio.play()
+          .then(() => setIsPlaying(true))
+          .catch((err) => {
+            console.warn("Hero audio play failed:", err);
+            setIsPlaying(false);
+          });
       }
-      audio.play()
-        .then(() => setIsPlaying(true))
-        .catch((err) => console.warn("Hero audio play failed:", err));
     };
-    window.addEventListener("7h-play-hero-music", handlePlayHeroMusic);
-    return () => window.removeEventListener("7h-play-hero-music", handlePlayHeroMusic);
-  }, [activeAlbumIdx, activeTrackIdx]);
+    window.addEventListener("7h-play-hero-music", handleToggleHeroMusic);
+    window.addEventListener("7h-toggle-hero-music", handleToggleHeroMusic);
+    return () => {
+      window.removeEventListener("7h-play-hero-music", handleToggleHeroMusic);
+      window.removeEventListener("7h-toggle-hero-music", handleToggleHeroMusic);
+    };
+  }, [activeAlbumIdx, activeTrackIdx, isPlaying]);
 
   const currentAlbum = ALBUMS[activeAlbumIdx];
   const currentTrack = currentAlbum.tracks[activeTrackIdx] || currentAlbum.tracks[0];
@@ -352,15 +389,21 @@ export default function VinylHeroPlayer({
   };
 
   const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying || !audio.paused) {
+      audio.pause();
       setIsPlaying(false);
     } else {
-      setIsPlaying(true);
-      audioRef.current.play()
+      if (!audio.src) {
+        const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
+        if (url) audio.src = url;
+      }
+      audio.play()
+        .then(() => setIsPlaying(true))
         .catch((err) => {
           console.warn("Audio play failed:", err);
+          setIsPlaying(false);
         });
     }
   };

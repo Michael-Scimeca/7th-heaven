@@ -419,8 +419,6 @@ header {
 html.tour-sort-stuck header,
 html.media-category-stuck header {
   height: var(--header-mask-height, 228px) !important;
-  background-color: rgba(5, 3, 15, var(--header-mask-opacity, 0.6)) !important;
-  background: rgba(5, 3, 15, var(--header-mask-opacity, 0.6)) !important;
   backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
   -webkit-backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
   mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;

@@ -12,8 +12,8 @@ import {
 } from "@/context/VideoSnapshotContext";
 
 const ALBUM_VIDEOS: Record<string, string> = {
-  "be-here": "/movie/hero-colorinmostion.mp4",
-  "01-be-here": "/movie/hero-colorinmostion.mp4",
+  "be-here": "/movie/cruise.mp4",
+  "01-be-here": "/movie/cruise.mp4",
   "color-in-motion": "/movie/hero-colorinmostion.mp4",
   "07-color-in-motion": "/movie/hero-colorinmostion.mp4",
   "luminous": "/movie/luminous.mp4",
@@ -214,8 +214,18 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   useEffect(() => {
     const video = videoRef.current;
     if (video && !isYouTube) {
+      const setTimeAt10 = () => {
+        if (video.currentTime < 10) {
+          try { video.currentTime = 10; } catch (_) {}
+        }
+      };
+      video.addEventListener("loadedmetadata", setTimeAt10, { once: true });
+      video.addEventListener("canplay", setTimeAt10, { once: true });
+      video.addEventListener("playing", setTimeAt10, { once: true });
       video.load();
-      video.play().catch(() => {});
+      video.play().then(() => {
+        setTimeAt10();
+      }).catch(() => {});
     }
   }, [videoSrc, isYouTube]);
 
@@ -252,9 +262,17 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const handleLoadedMetadata = useCallback(() => {
     const video = videoRef.current;
     if (video && video.currentTime < 10) {
-      video.currentTime = 10;
+      try { video.currentTime = 10; } catch (_) {}
     }
   }, []);
+
+  const handleCanPlay = useCallback(() => {
+    const video = videoRef.current;
+    if (video && video.currentTime < 10) {
+      try { video.currentTime = 10; } catch (_) {}
+    }
+    captureFrame();
+  }, [captureFrame]);
 
   const handleHeroClick = useCallback(() => {
     const video = videoRef.current;
@@ -288,7 +306,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         <video
           key={videoSrc}
           ref={videoRef}
-          onCanPlay={captureFrame}
+          onCanPlay={handleCanPlay}
           onLoadedMetadata={handleLoadedMetadata}
           autoPlay
           muted
