@@ -746,6 +746,7 @@ export default function HomeVideoShowcase() {
                     {/* 1. infinite */}
                     <button
                       type="button"
+                      aria-label="Toggle infinite slide looping"
                       onClick={() => setSmooothyInfinite(!smooothyInfinite)}
                       className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer text-xs font-bold text-white/90"
                     >
@@ -758,6 +759,7 @@ export default function HomeVideoShowcase() {
                     {/* 2. snap */}
                     <button
                       type="button"
+                      aria-label="Toggle position snapping"
                       onClick={() => setSmooothySnap(!smooothySnap)}
                       className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer text-xs font-bold text-white/90"
                     >
@@ -770,6 +772,7 @@ export default function HomeVideoShowcase() {
                     {/* 3. variableWidth */}
                     <button
                       type="button"
+                      aria-label="Toggle variable width"
                       onClick={() => setSmooothyVariableWidth(!smooothyVariableWidth)}
                       className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer text-xs font-bold text-white/90"
                     >
@@ -782,6 +785,7 @@ export default function HomeVideoShowcase() {
                     {/* 4. vertical */}
                     <button
                       type="button"
+                      aria-label="Toggle vertical scroll"
                       onClick={() => setSmooothyVertical(!smooothyVertical)}
                       className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer text-xs font-bold text-white/90"
                     >
@@ -794,6 +798,7 @@ export default function HomeVideoShowcase() {
                     {/* 11. scrollInput */}
                     <button
                       type="button"
+                      aria-label="Toggle mouse wheel scroll input"
                       onClick={() => setSmooothyScrollInput(!smooothyScrollInput)}
                       className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer text-xs font-bold text-white/90 col-span-1 sm:col-span-2"
                     >
@@ -806,6 +811,7 @@ export default function HomeVideoShowcase() {
                     {/* 13. virtualScroll */}
                     <button
                       type="button"
+                      aria-label="Toggle virtual scroll windowing"
                       onClick={() => setSmooothyVirtualScroll(!smooothyVirtualScroll)}
                       className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer text-xs font-bold text-white/90 col-span-1 sm:col-span-2"
                     >
