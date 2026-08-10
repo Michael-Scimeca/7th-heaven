@@ -247,7 +247,7 @@ export default function GooeyMessagesDropdown({
 
       <div className="absolute left-1/2 top-0 z-40 pointer-events-none">
         <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
-          <div style={{ filter: `url(#${filterId})` }}>
+          <div style={{ filter: open ? `url(#${filterId})` : "none" }}>
             <div
               className={`absolute ${currentBg} transition-[width,height,left,top,border-radius,background-color] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]`}
               style={shapeStyle}

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 interface ProximityNotifyProps {
   nextShow?: {
@@ -382,17 +383,18 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center"
                         />
                       </div>
-                      <div className="input-glow-border rounded-xl shrink-0">
-                        <select
-                          value={radius}
-                          onChange={(e) => setRadius(e.target.value)}
-                          className="bg-white/5 border border-white/10 rounded-xl px-2 py-3 text-xs text-white/70 outline-none transition-colors cursor-pointer text-center"
-                        >
-                          <option value="25" className="bg-zinc-900">25 mi</option>
-                          <option value="50" className="bg-zinc-900">50 mi</option>
-                          <option value="100" className="bg-zinc-900">100 mi</option>
-                          <option value="200" className="bg-zinc-900">200 mi</option>
-                        </select>
+                      <div className="shrink-0 flex items-center">
+                        <GooeyMessagesDropdown
+                          placeholder={`${radius} mi`}
+                          defaultSelectedId={String(radius)}
+                          customers={[
+                            { id: "25", name: "25 mi" },
+                            { id: "50", name: "50 mi" },
+                            { id: "100", name: "100 mi" },
+                            { id: "200", name: "200 mi" },
+                          ]}
+                          onSelect={(opt) => setRadius(opt.id)}
+                        />
                       </div>
                     </div>
                   </div>

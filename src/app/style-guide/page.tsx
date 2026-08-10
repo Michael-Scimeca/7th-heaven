@@ -792,51 +792,18 @@ export default function StyleGuidePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {/* Gooey Dropdown Neon Theme */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Gooey Dropdown (Neon Theme)</h3>
-              <GooeyDropdown
-                label="Select Show Location"
-                accentColor="#a855f7"
-                items={dropdownOptions.map(opt => ({
-                  label: `${opt.icon} ${opt.label}`,
-                  onClick: () => setSelectedDropdown(opt.value),
-                }))}
-              />
-            </div>
-
-            {/* Gooey Dropdown Dark Theme */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Gooey Dropdown (Dark Theme)</h3>
-              <GooeyDropdown
-                label="Select Show Location"
-                accentColor="#0891b2"
-                items={dropdownOptions.map(opt => ({
-                  label: `${opt.icon} ${opt.label}`,
-                  onClick: () => setSelectedDropdown(opt.value),
-                }))}
-              />
-            </div>
-
-            {/* Gooey Dropdown Compact Accent */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Gooey Dropdown (Pink Accent)</h3>
-              <GooeyDropdown
-                label="Select Show Location"
-                accentColor="#db2777"
-                items={dropdownOptions.map(opt => ({
-                  label: `${opt.icon} ${opt.label}`,
-                  onClick: () => setSelectedDropdown(opt.value),
-                }))}
-              />
-            </div>
-
-            {/* Pill Filter Dropdown (CITY ▼ Standard) */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Pill Filter Dropdown (`CITY ▼`)</h3>
-              <div className="input-glow-border rounded-full inline-block">
+            {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
+            <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Default Site Pill Dropdown (`CITY ▼`)</h3>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
+              </div>
+              <p className="text-xs text-white/50">
+                Gooey animated glass filter pill dropdown with selection popup menu. Used across Tour List filters, booking forms, and site-wide dropdown controls.
+              </p>
+              <div className="pt-2">
                 <GooeyMessagesDropdown
                   placeholder="CITY"
                   customers={[
