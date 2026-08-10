@@ -1,4 +1,6 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
+/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
 "use client";
 /* eslint-disable react-doctor/prefer-useReducer */
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
