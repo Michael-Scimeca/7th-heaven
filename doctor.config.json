@@ -7,6 +7,9 @@
     "deslop/unused-file": "off",
     "react-doctor/deslop-unused-file": "off",
     "react-doctor/no-static-element-interactions": "off",
-    "react-doctor/prefer-useReducer": "off"
+    "react-doctor/prefer-useReducer": "off",
+    "react-doctor/no-state-in-handlers-only": "off",
+    "react-doctor/state-only-used-in-handlers": "off",
+    "react-doctor/no-transition-all": "off"
   }
 }

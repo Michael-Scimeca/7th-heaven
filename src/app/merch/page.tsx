@@ -1,5 +1,6 @@
 /* eslint-disable react-doctor/no-giant-component */
-/* eslint-disable react-doctor/state-only-used-in-handlers */
+/* oxlint-disable react-doctor/no-state-in-handlers-only, react-doctor/state-only-used-in-handlers */
+/* eslint-disable react-doctor/no-state-in-handlers-only, react-doctor/state-only-used-in-handlers */
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
