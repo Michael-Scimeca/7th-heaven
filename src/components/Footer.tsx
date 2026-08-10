@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { useState, useEffect, useCallback } from "react";
 import { useTransition } from "@/context/TransitionContext";
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
@@ -188,18 +189,19 @@ export function Footer() {
                     className="w-full px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
                   />
                 </div>
-                <select aria-label="Select option"
-                  suppressHydrationWarning
-                  value={smsDistance}
-                  onChange={e => setSmsDistance(e.target.value)}
-                  className="w-24 sm:w-24 px-2.5 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg cursor-pointer appearance-none shrink-0"
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}
-                >
-                  <option value="25" className="bg-[var(--card-bg)] text-[var(--text-color)]">25 mi</option>
-                  <option value="50" className="bg-[var(--card-bg)] text-[var(--text-color)]">50 mi</option>
-                  <option value="100" className="bg-[var(--card-bg)] text-[var(--text-color)]">100 mi</option>
-                  <option value="200" className="bg-[var(--card-bg)] text-[var(--text-color)]">200 mi</option>
-                </select>
+                <div className="shrink-0 flex items-center">
+                  <GooeyMessagesDropdown
+                    placeholder={`${smsDistance} mi`}
+                    defaultSelectedId={String(smsDistance)}
+                    customers={[
+                      { id: "25", name: "25 mi" },
+                      { id: "50", name: "50 mi" },
+                      { id: "100", name: "100 mi" },
+                      { id: "200", name: "200 mi" },
+                    ]}
+                    onSelect={(opt) => setSmsDistance(opt.id)}
+                  />
+                </div>
               </div>
               <button aria-label="Action button"
                 type="submit"

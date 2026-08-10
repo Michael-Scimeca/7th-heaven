@@ -738,77 +738,71 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const isStuckRef = useRef(false);
 
-  // Detect when sticky sort bar locks in and linearly fade out near bottom of scroll
+  // Rebuilt date sort bar scroll-driven fade from scratch using plain vanilla JS
   useEffect(() => {
     let rafId: number | null = null;
 
-    const updateScroll = () => {
+    const updateScrollFade = () => {
       rafId = null;
       const sortBar = document.getElementById("tour-sort-bar");
-      const sentinel = sentinelRef.current;
-      const container = tableRef.current || document.getElementById("tour-table-container");
+      if (!sortBar) return;
 
       const docEl = document.documentElement;
       const scrollHeight = docEl.scrollHeight;
       const clientHeight = window.innerHeight || docEl.clientHeight;
-      const currentScrollPosition = window.scrollY || docEl.scrollTop;
-      const maxScroll = Math.max(0, scrollHeight - clientHeight);
-      const docDistanceFromBottom = maxScroll - currentScrollPosition;
+      const currentScrollPosition = window.scrollY || docEl.scrollTop || 0;
 
+      const maxScroll = Math.max(0, scrollHeight - clientHeight);
+      const distanceFromBottom = maxScroll - currentScrollPosition;
+
+      // Hard-clamp: opacity = Math.max(0, Math.min(1, distanceFromBottom / 130))
+      // >= 130 -> opacity = 1
+      // <= 0 -> opacity = 0 (stays 0 through overscroll/negative values)
+      // 0..130 -> linear transition distanceFromBottom / 130
+      const opacity = Math.max(0, Math.min(1, distanceFromBottom / 130));
+
+      // Console logging for verification on scroll ticks
+      console.log(
+        `[TourSortBar Scroll] scrollTop: ${Math.round(currentScrollPosition)}, scrollHeight: ${scrollHeight}, clientHeight: ${clientHeight}, maxScroll: ${maxScroll}, distanceFromBottom: ${Math.round(distanceFromBottom)}, opacity: ${opacity.toFixed(3)}`
+      );
+
+      // Direct DOM style application
+      sortBar.style.opacity = String(opacity);
+      sortBar.style.pointerEvents = opacity > 0.05 ? "auto" : "none";
+
+      // Detect when sticky sort bar locks in via sentinel
+      const sentinel = sentinelRef.current;
       const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
-      const containerBottom = container ? container.getBoundingClientRect().bottom : 999;
       const isAboveSentinel = sentinelTop <= 80;
 
-      // Distance remaining before hitting the end of scrollable area
-      // (whichever comes first: tour container bottom reaching 130px sticky position, or page max scroll)
-      const containerDistanceFromEnd = containerBottom - 130;
-      const distanceRemaining = Math.min(docDistanceFromBottom, containerDistanceFromEnd);
-
-      // Hard-clamp opacity between 0 and 1 — prevents negative overscroll from flipping math or snapping back to 1
-      const opacity = isAboveSentinel
-        ? Math.max(0, Math.min(1, distanceRemaining / 130))
-        : 1;
-
-      if (!sortBar) return;
-
-      // Direct DOM manipulation — scroll-position-driven recalculation
-      sortBar.style.opacity = String(opacity);
-      sortBar.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
-
-      const rowsContainer = document.getElementById("tour-rows-container");
-      if (rowsContainer) {
-        rowsContainer.style.opacity = String(opacity);
+      if (isStuckRef.current !== isAboveSentinel) {
+        isStuckRef.current = isAboveSentinel;
+        setIsSortBarStuck(isAboveSentinel);
       }
 
-      const stuck = isAboveSentinel && distanceRemaining > 0;
-      if (isStuckRef.current !== stuck) {
-        isStuckRef.current = stuck;
-        setIsSortBarStuck(stuck);
-      }
-
-      if (isAboveSentinel && distanceRemaining > 0) {
-        document.documentElement.classList.add('tour-sort-stuck');
+      if (isAboveSentinel) {
+        document.documentElement.classList.add("tour-sort-stuck");
       } else {
-        document.documentElement.classList.remove('tour-sort-stuck');
+        document.documentElement.classList.remove("tour-sort-stuck");
       }
     };
 
     const handleScrollOrResize = () => {
       if (rafId === null) {
-        rafId = requestAnimationFrame(updateScroll);
+        rafId = requestAnimationFrame(updateScrollFade);
       }
     };
 
     window.addEventListener("scroll", handleScrollOrResize, { passive: true });
     window.addEventListener("resize", handleScrollOrResize, { passive: true });
 
-    // Also bind to Lenis smooth scroll instance if active on window
+    // Also bind to Lenis smooth scroll instance if active
     const lenis = (window as any).__lenis;
     if (lenis) {
       lenis.on("scroll", handleScrollOrResize);
     }
 
-    updateScroll();
+    updateScrollFade();
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
@@ -816,9 +810,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       window.removeEventListener("resize", handleScrollOrResize);
       const l = (window as any).__lenis;
       if (l) {
-        try { l.off("scroll", handleScrollOrResize); } catch { }
+        try {
+          l.off("scroll", handleScrollOrResize);
+        } catch {}
       }
-      document.documentElement.classList.remove('tour-sort-stuck');
+      document.documentElement.classList.remove("tour-sort-stuck");
     };
   }, []);
 
