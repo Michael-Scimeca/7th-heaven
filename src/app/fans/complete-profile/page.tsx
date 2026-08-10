@@ -163,8 +163,8 @@ export default function CompleteProfilePage() {
                 <label htmlFor="complete-profile-username" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">
                   Choose Your Username
                 </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-sm">@</span>
+                <div className="relative input-glow-border rounded-xl">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-sm z-10">@</span>
                   <input aria-label="Input field"
                     id="complete-profile-username"
                     type="text"
@@ -172,7 +172,7 @@ export default function CompleteProfilePage() {
                     onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
                     placeholder="your_username"
                     maxLength={24}
-                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
+                    className="w-full pl-8 pr-3 py-2.5 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
                     required
                   />
                 </div>
@@ -208,14 +208,16 @@ export default function CompleteProfilePage() {
                 {wantNotifications && (
                   <div className="ml-1">
                     <label htmlFor="complete-profile-zip" className="text-[var(--font-size-3xs)] uppercase tracking-[0.15em] text-white/40 mb-1 block">Zip Code</label>
-                    <input aria-label="Input field"
-                      id="complete-profile-zip"
-                      type="text"
-                      value={zipCode}
-                      onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                      placeholder="e.g. 60601"
-                      className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors"
-                    />
+                    <div className="input-glow-border rounded-xl">
+                      <input aria-label="Input field"
+                        id="complete-profile-zip"
+                        type="text"
+                        value={zipCode}
+                        onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                        placeholder="e.g. 60601"
+                        className="w-full px-3 py-2 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                      />
+                    </div>
                   </div>
                 )}
 

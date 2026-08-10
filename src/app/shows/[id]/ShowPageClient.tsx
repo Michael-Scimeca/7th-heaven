@@ -467,14 +467,16 @@ export default function ShowPageClient({
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
-                        <input aria-label="Input field"
-                          type="email"
-                          required
-                          placeholder="yourname@domain.com"
-                          value={notifyEmail}
-                          onChange={(e) => setNotifyEmail(e.target.value)}
-                          className="flex-1 bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/50 transition-colors"
-                        />
+                        <div className="flex-1 input-glow-border rounded-xl">
+                          <input aria-label="Input field"
+                            type="email"
+                            required
+                            placeholder="yourname@domain.com"
+                            value={notifyEmail}
+                            onChange={(e) => setNotifyEmail(e.target.value)}
+                            className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none transition-colors rounded-xl"
+                          />
+                        </div>
                         <button aria-label="Action button"
                           type="submit"
                           disabled={notifyLoading}
