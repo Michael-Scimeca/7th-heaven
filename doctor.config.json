@@ -17,6 +17,8 @@
     "react-doctor/html-no-nested-interactive": "off",
     "react-doctor/prefer-tag-over-role": "off",
     "react-doctor/no-async-event-handler-without-reentry-guard": "off",
-    "react-doctor/rerender-state-only-in-handlers": "off"
+    "react-doctor/rerender-state-only-in-handlers": "off",
+    "deslop/unused-export": "off",
+    "react-doctor/deslop-unused-export": "off"
   }
 }
