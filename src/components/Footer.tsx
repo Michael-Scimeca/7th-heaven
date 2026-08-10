@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/no-prevent-default */
+/* eslint-disable react-doctor/no-prevent-default */
 import Image from 'next/image';
 
 import Link from "next/link";

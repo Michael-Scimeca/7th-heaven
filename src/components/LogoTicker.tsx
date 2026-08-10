@@ -98,7 +98,7 @@ export default function LogoTicker({
   const [config, setConfig] = useState<LogoTickerConfig>(() => {
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem("smooothy_logo_ticker_config");
+        const saved = localStorage.getItem("smooothy_logo_ticker_config_v1");
         if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed && typeof parsed.logoHeight === "number") {
@@ -121,7 +121,7 @@ export default function LogoTicker({
   useEffect(() => {
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem("smooothy_logo_ticker_config", JSON.stringify(config));
+        localStorage.setItem("smooothy_logo_ticker_config_v1", JSON.stringify(config));
       } catch (e) {
         console.error("Failed to save logo ticker config:", e);
       }

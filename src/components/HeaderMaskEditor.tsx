@@ -28,7 +28,7 @@ export default function HeaderMaskEditor() {
   useEffect(() => {
     setMounted(true);
     try {
-      const saved = localStorage.getItem("7th_header_mask_settings");
+      const saved = localStorage.getItem("7th_header_mask_settings_v1");
       if (saved) {
         setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(saved) });
       }
@@ -47,7 +47,7 @@ export default function HeaderMaskEditor() {
     root.style.setProperty("--header-mask-opacity", `${settings.bgOpacity / 100}`);
 
     try {
-      localStorage.setItem("7th_header_mask_settings", JSON.stringify(settings));
+      localStorage.setItem("7th_header_mask_settings_v1", JSON.stringify(settings));
     } catch {
       // Ignore
     }

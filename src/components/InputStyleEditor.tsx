@@ -151,7 +151,7 @@ export default function InputStyleEditor() {
   useEffect(() => {
     setMounted(true);
     try {
-      const saved = localStorage.getItem("7th_input_style_settings");
+      const saved = localStorage.getItem("7th_input_style_settings_v1");
       if (saved) {
         setSettings({ ...DEFAULT_INPUT_SETTINGS, ...JSON.parse(saved) });
       }
@@ -199,7 +199,7 @@ export default function InputStyleEditor() {
     root.style.setProperty("--link-hover-color", s.linkHoverColor || "#e879f9");
 
     try {
-      localStorage.setItem("7th_input_style_settings", JSON.stringify(s));
+      localStorage.setItem("7th_input_style_settings_v1", JSON.stringify(s));
     } catch {
       // Ignore
     }

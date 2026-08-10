@@ -257,7 +257,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [positionConfigs, setPositionConfigs] = useState<PositionSlideMaskConfig[]>(() => {
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem("smooothy_position_configs");
+        const saved = localStorage.getItem("smooothy_position_configs_v1");
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length === 5) {
@@ -277,7 +277,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   useEffect(() => {
     if (typeof window !== "undefined") {
       try {
-        localStorage.setItem("smooothy_position_configs", JSON.stringify(positionConfigs));
+        localStorage.setItem("smooothy_position_configs_v1", JSON.stringify(positionConfigs));
       } catch (e) {
         console.error("Failed to save position configs:", e);
       }
@@ -1265,7 +1265,7 @@ lerpSpeed: ${lerpSpeed}`;
                   type="button"
                   onClick={() => {
                     try {
-                      localStorage.setItem("smooothy_position_configs", JSON.stringify(positionConfigs));
+                      localStorage.setItem("smooothy_position_configs_v1", JSON.stringify(positionConfigs));
                     } catch (e) {
                       console.error("Failed to save position configs:", e);
                     }
