@@ -272,15 +272,7 @@ export default function MediaPage() {
                   ref={(el) => {
                     videoItemRefs.current[index] = el;
                   }}
-                  role="button"
-                  tabIndex={0}
                   onClick={() => handleTitleClick(index)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleTitleClick(index);
-                    }
-                  }}
                   className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-10"
                 >
                   <div className="flex items-center gap-3 mb-3">

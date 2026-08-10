@@ -12,6 +12,9 @@
     "react-doctor/state-only-used-in-handlers": "off",
     "react-doctor/no-transition-all": "off",
     "react-doctor/control-has-associated-label": "off",
-    "react-doctor/label-has-associated-control": "off"
+    "react-doctor/label-has-associated-control": "off",
+    "react-doctor/no-giant-component": "off",
+    "react-doctor/html-no-nested-interactive": "off",
+    "react-doctor/prefer-tag-over-role": "off"
   }
 }

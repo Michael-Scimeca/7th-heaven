@@ -446,10 +446,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; SMS alerts for nearby shows.</span>
                     </button>
 
-                    <button
-                      type="button"
-                      aria-label="Agree to Terms and Privacy Policy"
-                      className="flex items-start gap-2.5 cursor-pointer text-left w-full"
+                    <div
+                      className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
                       onClick={() => setAgreeTerms(!agreeTerms)}
                     >
                       <div className={`w-4 h-4 rounded border shrink-0 mt-0.5 flex items-center justify-center transition-colors ${agreeTerms ? "bg-purple-600 border-purple-600" : "border-white/20"}`}>
@@ -458,7 +456,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       <span className="text-xs text-white/40 leading-tight">
                         I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                       </span>
-                    </button>
+                    </div>
                   </div>
 
                   {/* Submit Button */}
