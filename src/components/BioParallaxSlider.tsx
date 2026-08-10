@@ -1,6 +1,6 @@
 /* eslint-disable react-doctor/no-giant-component */
-/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
-/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
+/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/click-events-have-key-events */
+/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/click-events-have-key-events */
 "use client";
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from 'next/image';

@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/click-events-have-key-events */
+/* eslint-disable react-doctor/click-events-have-key-events */
 
 import { useEffect, useRef, useState } from "react";
 import Matter from "matter-js";

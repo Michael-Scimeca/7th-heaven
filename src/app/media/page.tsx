@@ -248,6 +248,7 @@ export default function MediaPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50 w-4 h-4 pointer-events-none" />
             <input
               type="text"
+              aria-label="Search media"
               placeholder="SEARCH MEDIA..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

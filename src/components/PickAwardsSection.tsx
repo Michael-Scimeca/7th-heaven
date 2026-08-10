@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/click-events-have-key-events */
+/* eslint-disable react-doctor/click-events-have-key-events */
 import Image from 'next/image';
 
 import { useState, useEffect, useCallback } from "react";

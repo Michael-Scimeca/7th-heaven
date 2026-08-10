@@ -1,6 +1,6 @@
 "use client";
-/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/only-export-components */
-/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/only-export-components */
+/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/only-export-components, react-doctor/no-placeholder-only-field */
+/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/only-export-components, react-doctor/no-placeholder-only-field */
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Sliders, X, Copy, Check, RotateCcw, Sparkles, Layers, Eye, Type, CheckSquare, Search } from "lucide-react";

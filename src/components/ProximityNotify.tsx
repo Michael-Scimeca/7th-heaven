@@ -335,6 +335,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <input
                       type="text"
+                      aria-label="Full name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
@@ -343,6 +344,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     />
                     <input
                       type="email"
+                      aria-label="Email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -354,6 +356,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <input
                       type="tel"
+                      aria-label="Phone number"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
                       placeholder="Phone number"
@@ -362,6 +365,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     <div className="flex gap-2">
                       <input
                         type="text"
+                        aria-label="Zip code"
                         value={zip}
                         onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
                         required
