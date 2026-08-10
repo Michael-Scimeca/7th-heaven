@@ -159,272 +159,305 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   };
 
   return (
-    <section className="relative py-20 md:py-28 lg:py-36 bg-transparent overflow-hidden" id="proximity-notify">
+    <section className="relative py-16 md:py-24 lg:py-32 bg-transparent overflow-hidden" id="proximity-notify">
 
-      {/* ═══ Full Background — Transparent with subtle glow ═══ */}
-      <div className="absolute inset-0 pointer-events-none select-none">
-        {/* Accent glow behind content area */}
-        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[var(--color-accent)]/[0.04] rounded-full blur-[120px]" />
-      </div>
+      {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
+      <div className="relative z-10 site-container max-w-[1240px] mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-      {/* ═══ Content — Two Column ═══ */}
-      <div className="relative z-10 site-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center max-w-[1100px] mx-auto">
+          {/* ── LEFT COLUMN: Modern Phone Mockup with Floating Reactions (6 Cols) ── */}
+          <div className="lg:col-span-6 flex justify-center w-full">
+            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]">
+              {/* iPhone Outer Device Frame */}
+              <div className="relative w-full aspect-[9/18.5] bg-black/90 rounded-[56px] p-4 border-[3px] border-amber-200/25 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden group">
+                {/* Inner Screen */}
+                <div className="relative w-full h-full rounded-[42px] overflow-hidden bg-zinc-950 flex flex-col justify-between">
+                  {/* Concert Photo Background */}
+                  <Image
+                    src="/images/band-performance.png"
+                    alt="7th Heaven Concert Live Stream"
+                    fill
+                    className="object-cover object-center transform group-hover:scale-105 transition-transform duration-700 brightness-95"
+                    priority
+                  />
 
-          {/* ── LEFT: Heading + Form ── */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-            <h2 className="font-[var(--font-heading)] text-[clamp(2.8rem,6vw,4.5rem)] font-extrabold italic text-white leading-[0.9] tracking-tight mb-4 animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.4s_both]">
-              Never Miss a Show
-            </h2>
-            <p className="text-base text-white/35 max-w-[480px] mb-2 leading-relaxed animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.5s_both]">
-              Get exclusives. Stay connected to the 7th Heaven community.
-            </p>
-            <p className="text-base text-white/50 max-w-[480px] mb-10 leading-relaxed animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.55s_both]">
-              Join <span className="text-white/70 font-semibold">1,000s</span>{' '}of fans getting proximity alerts &amp; show updates.
-            </p>
+                  {/* Dark Gradient Overlay for Status Bar & Contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none" />
 
-            {/* Glass Form Card */}
-            <div className="w-full max-w-[520px] mx-auto lg:mx-0 animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.6s_both]">
-              {status === "success" ? (
-                <div className="bg-[var(--color-accent)]/10 backdrop-blur-xl border border-[var(--color-accent)]/20 p-10 text-center">
-                  <div className="flex items-center justify-center gap-2.5 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                    </div>
-                    <span className="text-white font-bold text-lg">Check your email!</span>
-                  </div>
-                  <p className="text-white/35 text-base mb-1">We&apos;ve sent a confirmation link to your inbox.</p>
-                  <p className="text-white/25 text-sm">Click the link to confirm your account and start getting show alerts.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="bg-black/60 backdrop-blur-md border border-white/[0.05] p-6 sm:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
-                  <div className="space-y-3">
-                    {/* Profile Picture */}
-                    <div className="flex items-center gap-5 mb-4 pb-4 border-b border-white/[0.05]">
-                      <button aria-label="Action button"
-                        type="button"
-                        onClick={() => fileRef.current?.click()}
-                        className={`relative w-16 h-16 rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-colors duration-200 overflow-hidden group ${profilePic
-                          ? 'border-2 border-[var(--color-accent)]/30'
-                          : name.trim()
-                            ? 'bg-gradient-to-br from-[var(--color-accent)] to-[#6b21a8] border-2 border-white/[0.1]  shadow-[var(--color-accent)]/20'
-                            : 'bg-white/[0.06] border-2 border-dashed border-white/[0.15] hover:border-[var(--color-accent)]/50 hover:bg-white/[0.08]'
-                          }`}
-                      >
-                        {profilePic ? (
-                          <Image width={200} height={200} unoptimized src={profilePic} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
-                        ) : name.trim() ? (
-                          <span className="text-2xl font-bold text-white leading-none">{name.trim()[0].toUpperCase()}</span>
-                        ) : (
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                            <circle cx="12" cy="7" r="4" />
-                          </svg>
-                        )}
-                        {/* Hover overlay */}
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                            <circle cx="12" cy="13" r="4" />
-                          </svg>
-                        </div>
-                      </button>
-                      <input aria-label="Input field" ref={fileRef} type="file" accept="image/*" onChange={handleProfilePic} className="hidden" />
-                      <div>
-                        <p className="text-sm text-white/50">{profilePic ? 'Change Photo' : 'Add a Profile Photo'}</p>
-                        <p className="text-xs text-white/20 mt-0.5">Visible to other members at shows</p>
+                  {/* Status Bar (Clock + Icons) */}
+                  <div className="relative z-20 flex items-center justify-between px-7 pt-4 text-white text-[14px] font-semibold tracking-tight">
+                    <span>02:25</span>
+                    {/* Dynamic Island Notch */}
+                    <div className="w-28 h-6 bg-black rounded-full border border-white/10 mx-auto -mt-1 shadow-inner" />
+                    <div className="flex items-center gap-1.5 opacity-90 text-[12px]">
+                      <span>5G</span>
+                      <div className="w-4.5 h-3 border border-white rounded-sm flex items-center p-0.5">
+                        <div className="w-full h-full bg-white rounded-xs" />
                       </div>
                     </div>
+                  </div>
 
-                    {/* Name */}
-                    <input aria-label="Input field"
+                  {/* Floating Live Reaction Bubbles (CSS Animated) */}
+                  <div className="absolute right-6 bottom-14 z-20 w-20 h-80 pointer-events-none flex flex-col items-center justify-end overflow-visible">
+                    {/* Floating Bubble 1 - Heart */}
+                    <div className="absolute bottom-0 p-3.5 rounded-full bg-amber-100/90 text-amber-950 shadow-xl animate-float-up-1">
+                      <svg className="w-6 h-6 fill-amber-950" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                    </div>
+
+                    {/* Floating Bubble 2 - Thumbs Up */}
+                    <div className="absolute bottom-3 p-3.5 rounded-full bg-white/95 text-zinc-900 shadow-xl animate-float-up-2">
+                      <svg className="w-6 h-6 fill-zinc-900" viewBox="0 0 24 24">
+                        <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
+                      </svg>
+                    </div>
+
+                    {/* Floating Bubble 3 - Heart Pill */}
+                    <div className="absolute bottom-6 p-3.5 rounded-full bg-amber-200/90 text-amber-950 shadow-xl animate-float-up-3">
+                      <svg className="w-6 h-6 fill-amber-950" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                    </div>
+
+                    {/* Floating Bubble 4 - Thumbs Up Small */}
+                    <div className="absolute bottom-9 p-2.5 rounded-full bg-white/90 text-zinc-900 shadow-lg animate-float-up-4">
+                      <svg className="w-5 h-5 fill-zinc-900" viewBox="0 0 24 24">
+                        <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.58 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (6 Cols) ── */}
+          <div className="lg:col-span-6 flex flex-col justify-center space-y-8">
+            {/* Header Title */}
+            <div>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-3">
+                Never Miss a Show
+              </h2>
+              <p className="text-purple-200/70 text-base sm:text-lg max-w-xl">
+                Get exclusives. Stay connected to the 7th Heaven community. Join 1,000s of fans getting proximity alerts &amp; show updates.
+              </p>
+            </div>
+
+            {/* Metrics Counter Grid (Styled exactly like Reference Image) */}
+            <div className="grid grid-cols-2 gap-y-6 gap-x-8 max-w-lg py-2">
+              <div>
+                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  Countries
+                </p>
+                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                  7
+                </p>
+              </div>
+
+              <div>
+                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  Followers &amp; Fans
+                </p>
+                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                  +18.000
+                </p>
+              </div>
+
+              <div>
+                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  Impressions
+                </p>
+                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                  2.100.000
+                </p>
+              </div>
+
+              <div>
+                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                  Live Engagements
+                </p>
+                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                  160.000
+                </p>
+              </div>
+            </div>
+
+            {/* Glass Form Card */}
+            <div className="w-full max-w-xl">
+              {status === "success" ? (
+                <div className="bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-8 rounded-3xl text-center shadow-2xl">
+                  <div className="flex items-center justify-center gap-2.5 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                    <span className="text-white font-bold text-xl">Check your email!</span>
+                  </div>
+                  <p className="text-purple-200/70 text-base mb-1">We&apos;ve sent a confirmation link to your inbox.</p>
+                  <p className="text-white/40 text-sm">Click the link to confirm your account and start getting show alerts.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="bg-transparent p-0 space-y-4">
+                  {/* Profile Picture Upload */}
+                  <div className="flex items-center gap-4 pb-3 border-b border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => fileRef.current?.click()}
+                      className={`relative w-14 h-14 rounded-full flex items-center justify-center shrink-0 cursor-pointer transition-all duration-200 overflow-hidden group ${profilePic
+                        ? 'border-2 border-purple-400'
+                        : name.trim()
+                          ? 'bg-gradient-to-br from-purple-600 to-indigo-600 border-2 border-white/20'
+                          : 'bg-white/10 border-2 border-dashed border-white/20 hover:border-purple-400 hover:bg-white/15'
+                        }`}
+                    >
+                      {profilePic ? (
+                        <Image width={200} height={200} unoptimized src={profilePic} alt="Profile" className="absolute inset-0 w-full h-full object-cover" />
+                      ) : name.trim() ? (
+                        <span className="text-xl font-bold text-white leading-none">{name.trim()[0].toUpperCase()}</span>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                          <circle cx="12" cy="7" r="4" />
+                        </svg>
+                      )}
+                    </button>
+                    <input ref={fileRef} type="file" accept="image/*" onChange={handleProfilePic} className="hidden" />
+                    <div>
+                      <p className="text-sm font-semibold text-white/90">{profilePic ? 'Change Photo' : 'Add a Profile Photo'}</p>
+                      <p className="text-xs text-white/40">Visible to other members at shows</p>
+                    </div>
+                  </div>
+
+                  {/* Input Fields */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
                       placeholder="Full name"
-                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-purple-500 focus:outline-none transition-colors"
                     />
-                    {/* Email */}
-                    <input aria-label="Input field"
+                    <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      placeholder="Email"
-                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
+                      placeholder="Email address"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-purple-500 focus:outline-none transition-colors"
                     />
-                    {/* Phone */}
-                    <input aria-label="Input field"
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
                       placeholder="Phone number"
-                      className="w-full bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
+                      className="sm:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-purple-500 focus:outline-none transition-colors"
                     />
-                    {/* Zip + Radius */}
-                    <div className="flex gap-3">
-                      <input aria-label="Input field"
+                    <div className="flex gap-2">
+                      <input
                         type="text"
                         value={zip}
                         onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
                         required
-                        placeholder="Zip code"
+                        placeholder="Zip"
                         maxLength={5}
                         pattern="\d{5}"
-                        className="flex-1 bg-white/[0.05] border border-white/[0.08] px-5 py-4 text-base text-white placeholder:text-white/25 focus:border-[var(--color-accent)]/50 focus:bg-white/[0.07] focus:outline-none transition-colors duration-200"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 focus:border-purple-500 focus:outline-none transition-colors text-center"
                       />
-                      <select aria-label="Select option"
+                      <select
                         value={radius}
                         onChange={(e) => setRadius(e.target.value)}
-                        className="bg-white/[0.05] border border-white/[0.08] px-4 py-4 text-base text-white/40 focus:border-[var(--color-accent)]/50 focus:outline-none transition-colors duration-200 appearance-none cursor-pointer text-center w-[110px]"
+                        className="bg-white/5 border border-white/10 rounded-xl px-2 py-3 text-xs text-white/70 focus:border-purple-500 focus:outline-none transition-colors cursor-pointer text-center"
                       >
-                        <option value="25" className="bg-[var(--color-bg-surface)]">25 mi</option>
-                        <option value="50" className="bg-[var(--color-bg-surface)]">50 mi</option>
-                        <option value="100" className="bg-[var(--color-bg-surface)]">100 mi</option>
-                        <option value="200" className="bg-[var(--color-bg-surface)]">200 mi</option>
+                        <option value="25" className="bg-zinc-900">25 mi</option>
+                        <option value="50" className="bg-zinc-900">50 mi</option>
+                        <option value="100" className="bg-zinc-900">100 mi</option>
+                        <option value="200" className="bg-zinc-900">200 mi</option>
                       </select>
                     </div>
-
-                    {/* Preferences for notifications */}
-                    <div className="pt-3 pb-2 border-t border-white/[0.05]">
-                      <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2.5 text-left">Notification Preferences</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                          <input aria-label="Input field"
-                            type="checkbox"
-                            checked={notifyAreaShows}
-                            onChange={(e) => setNotifyAreaShows(e.target.checked)}
-                            className="w-4 h-4 rounded border-white/20 bg-white/[0.05]  text-[var(--color-accent)] focus:ring-0 focus:ring-offset-0 cursor-pointer"
-                          />
-                          <div className="text-left">
-                            <p className="text-xs font-bold text-white/80">Shows In My Area</p>
-                            <p className="text-[var(--font-size-3xs)] text-white/40">Within {radius} miles of {zip || "Zip"}</p>
-                          </div>
-                        </label>
-                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                          <input aria-label="Next"
-                            type="checkbox"
-                            checked={notifyNextShow}
-                            onChange={(e) => setNotifyNextShow(e.target.checked)}
-                            className="w-4 h-4 rounded border-white/20 bg-white/[0.05]  text-[var(--color-accent)] focus:ring-0 focus:ring-offset-0 cursor-pointer"
-                          />
-                          <div className="text-left">
-                            <p className="text-xs font-bold text-white/80">Next Upcoming Show</p>
-                            <p className="text-[var(--font-size-3xs)] text-white/40">General band alerts</p>
-                          </div>
-                        </label>
-                        <label className="flex items-center gap-2.5 cursor-pointer p-3 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                          <input aria-label="Input field"
-                            type="checkbox"
-                            checked={notifyBrowser}
-                            onChange={(e) => handleBrowserNotifyToggle(e.target.checked)}
-                            className="w-4 h-4 rounded border-white/20 bg-white/[0.05]  text-[var(--color-accent)] focus:ring-0 focus:ring-offset-0 cursor-pointer"
-                          />
-                          <div className="text-left">
-                            <p className="text-xs font-bold text-white/80">Web Browser Alerts</p>
-                            <p className="text-[var(--font-size-3xs)] text-white/40">Desktop/browser popups</p>
-                          </div>
-                        </label>
-                      </div>
-                    </div>
-
-                    <div className="pt-3 pb-2 border-t border-white/[0.05]">
-                      <p className="text-xs uppercase tracking-widest text-white/40 font-bold mb-2.5 text-left">Show Types to Notify For</p>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        {[
-                          { id: "full", label: "Full Band" },
-                          { id: "unplugged", label: "Unplugged" },
-                          { id: "outdoor", label: "Outdoor" },
-                          { id: "casino", label: "Casino" },
-                          { id: "tv", label: "TV Appearance" },
-                          { id: "special", label: "Special Event" }
-                        ].map((type) => {
-                          const isChecked = selectedShowTypes.includes(type.id);
-                          return (
-                            <label
-                              key={type.id}
-                              className={`flex items-center gap-2 cursor-pointer px-3 py-2.5 border  transition-colors duration-200 ${isChecked
-                                ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-white"
-                                : "bg-white/[0.02] border-white/[0.05] text-white/40 hover:border-white/10 hover:text-white/60"
-                                }`}
-                            >
-                              <input aria-label="Previous"
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={() => {
-                                  setSelectedShowTypes(prev =>
-                                    prev.includes(type.id)
-                                      ? prev.filter(t => t !== type.id)
-                                      : [...prev, type.id]
-                                  );
-                                }}
-                                className="sr-only"
-                              />
-                              <span className="text-xs font-semibold tracking-wide">{type.label}</span>
-                            </label>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Notification Agreement */}
-                    <div className="flex items-start gap-3 cursor-pointer pt-1">
-                      <button aria-label="Action button"
-                        type="button"
-                        onClick={() => setAgreeNotify(!agreeNotify)}
-                        className={`relative w-[42px] h-[24px] rounded-full transition-colors duration-300 shrink-0 mt-0.5 ${agreeNotify
-                          ? "bg-[var(--color-accent)] shadow-[0_0_12px_rgba(255,10,61,0.3)]"
-                          : "bg-white/[0.1]"
-                          }`}
-                      >
-                        <div className={`absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-colors duration-300 ${agreeNotify ? "left-[21px]" : "left-[3px]"
-                          }`} />
-                      </button>
-                      <span className="text-sm text-white/40 leading-snug">Enable proximity notifications &amp; SMS alerts for nearby shows. You can manage this anytime in your profile settings.</span>
-                    </div>
-
-                    {/* Terms & Privacy Agreement */}
-                    <div className="flex items-start gap-3 cursor-pointer pt-1">
-                      <button type="button"
-                        aria-label="Agree to terms and privacy policy"
-                        onClick={() => setAgreeTerms(!agreeTerms)}
-                        className={`w-[18px] h-[18px] rounded border-2 shrink-0 mt-0.5 flex items-center justify-center transition-colors duration-200 cursor-pointer ${agreeTerms
-                          ? 'bg-[var(--color-accent)] border-[var(--color-accent)]'
-                          : 'border-white/20 hover:border-white/30'
-                          }`}
-                      >
-                        {agreeTerms && (
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                        )}
-                      </button>
-                      <span className="text-sm text-white/35 leading-snug">
-                        I am 18 years of age or older and agree to the{' '}
-                        <Link href="/terms" className="text-white/50 underline hover:text-white/70 transition-colors">Terms of Service</Link>{' '}and{' '}
-                        <Link href="/privacy" className="text-white/50 underline hover:text-white/70 transition-colors">Privacy Policy</Link>.
-                      </span>
-                    </div>
-
-                    {/* Submit */}
-                    <button aria-label="Action button"
-                      type="submit"
-                      disabled={status === "loading" || !agreeNotify || !agreeTerms}
-                      className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 hover:shadow-[0_8px_30px_-5px_rgba(255,10,61,0.4)] text-white font-bold text-base uppercase tracking-[0.15em] py-4 transition-colors duration-300 cursor-pointer disabled:opacity-50 mt-1"
-                    >
-                      {status === "loading" ? "Creating account..." : "Create Account"}
-                    </button>
                   </div>
 
-                  {/* Data usage notice */}
-                  <p className="text-xs text-white/[0.12] mt-5 leading-relaxed text-center">
-                    Your data is encrypted and stored securely. We will never sell your personal information. You may request data deletion at any time. By creating an account you consent to receive transactional emails related to your account.
-                  </p>
+                  {/* Checkbox Preferences */}
+                  <div className="pt-2 border-t border-white/10 space-y-2">
+                    <p className="text-[11px] uppercase tracking-wider text-white/50 font-bold">Notification Preferences</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={notifyAreaShows}
+                          onChange={(e) => setNotifyAreaShows(e.target.checked)}
+                          className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-0 cursor-pointer"
+                        />
+                        <div>
+                          <p className="text-xs font-bold text-white/90">Area Shows</p>
+                          <p className="text-[10px] text-white/40">Within {radius}mi</p>
+                        </div>
+                      </label>
 
-                  {/* Field validation errors */}
+                      <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={notifyNextShow}
+                          onChange={(e) => setNotifyNextShow(e.target.checked)}
+                          className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-0 cursor-pointer"
+                        />
+                        <div>
+                          <p className="text-xs font-bold text-white/90">Next Show</p>
+                          <p className="text-[10px] text-white/40">Band alerts</p>
+                        </div>
+                      </label>
+
+                      <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={notifyBrowser}
+                          onChange={(e) => handleBrowserNotifyToggle(e.target.checked)}
+                          className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-0 cursor-pointer"
+                        />
+                        <div>
+                          <p className="text-xs font-bold text-white/90">Browser Popups</p>
+                          <p className="text-[10px] text-white/40">Alerts</p>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Agreements */}
+                  <div className="pt-2 space-y-2">
+                    <div className="flex items-start gap-2.5 cursor-pointer" onClick={() => setAgreeNotify(!agreeNotify)}>
+                      <div className={`relative w-8 h-4 rounded-full transition-colors shrink-0 mt-0.5 ${agreeNotify ? "bg-purple-600" : "bg-white/15"}`}>
+                        <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${agreeNotify ? "translate-x-4" : "translate-x-0.5"}`} />
+                      </div>
+                      <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; SMS alerts for nearby shows.</span>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 cursor-pointer" onClick={() => setAgreeTerms(!agreeTerms)}>
+                      <div className={`w-4 h-4 rounded border shrink-0 mt-0.5 flex items-center justify-center transition-colors ${agreeTerms ? "bg-purple-600 border-purple-600" : "border-white/20"}`}>
+                        {agreeTerms && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4"><polyline points="20 6 9 17 4 12" /></svg>}
+                      </div>
+                      <span className="text-xs text-white/40 leading-tight">
+                        I agree to the <Link href="/terms" className="underline hover:text-white">Terms</Link> and <Link href="/privacy" className="underline hover:text-white">Privacy Policy</Link>.
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={status === "loading" || !agreeNotify || !agreeTerms}
+                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm uppercase tracking-wider py-3.5 rounded-xl shadow-lg shadow-purple-600/30 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
+                  </button>
+
+                  {/* Errors */}
                   {Object.keys(fieldErrors).length > 0 && (
-                    <div className="mt-4 space-y-1">
+                    <div className="space-y-1 pt-1">
                       {Object.entries(fieldErrors).map(([field, errors]) => (
-                        <p key={field} className="text-red-400 text-sm">
+                        <p key={field} className="text-red-400 text-xs text-center">
                           <span className="capitalize">{field}</span>: {errors.join(", ")}
                         </p>
                       ))}
@@ -432,18 +465,55 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   )}
 
                   {status === "error" && (
-                    <p className="text-red-400 text-sm mt-4 text-center">{errorMsg || "Something went wrong. Try again."}</p>
+                    <p className="text-red-400 text-xs text-center pt-1">{errorMsg || "Something went wrong. Try again."}</p>
                   )}
                 </form>
               )}
-              <p className="text-xs text-white/[0.12] mt-5 tracking-wide text-center">Already a fan? <span className="text-white/20 underline cursor-pointer">Sign in</span> to enable notifications in your profile settings.</p>
             </div>
           </div>
 
-        </div>{/* close grid */}
+        </div>
       </div>
 
-
+      {/* Floating Reaction CSS Keyframes */}
+      <style>{`
+        @keyframes floatUp1 {
+          0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
+          15% { opacity: 1; transform: translateY(-20px) scale(1) rotate(-6deg); }
+          80% { opacity: 0.9; transform: translateY(-150px) scale(1.1) rotate(6deg); }
+          100% { transform: translateY(-220px) scale(0.7) rotate(-12deg); opacity: 0; }
+        }
+        @keyframes floatUp2 {
+          0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+          20% { opacity: 1; transform: translateY(-30px) scale(1) rotate(8deg); }
+          85% { opacity: 0.85; transform: translateY(-170px) scale(1.05) rotate(-8deg); }
+          100% { transform: translateY(-240px) scale(0.6) rotate(10deg); opacity: 0; }
+        }
+        @keyframes floatUp3 {
+          0% { transform: translateY(0) scale(0.7) rotate(0deg); opacity: 0; }
+          25% { opacity: 1; transform: translateY(-40px) scale(1.1) rotate(-10deg); }
+          75% { opacity: 0.9; transform: translateY(-130px) scale(1) rotate(4deg); }
+          100% { transform: translateY(-200px) scale(0.7) rotate(-6deg); opacity: 0; }
+        }
+        @keyframes floatUp4 {
+          0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+          18% { opacity: 1; transform: translateY(-25px) scale(0.95) rotate(5deg); }
+          82% { opacity: 0.8; transform: translateY(-160px) scale(1) rotate(-5deg); }
+          100% { transform: translateY(-230px) scale(0.6) rotate(8deg); opacity: 0; }
+        }
+        .animate-float-up-1 {
+          animation: floatUp1 4s ease-in-out infinite;
+        }
+        .animate-float-up-2 {
+          animation: floatUp2 4.5s ease-in-out infinite 1.2s;
+        }
+        .animate-float-up-3 {
+          animation: floatUp3 3.8s ease-in-out infinite 2.3s;
+        }
+        .animate-float-up-4 {
+          animation: floatUp4 4.2s ease-in-out infinite 0.7s;
+        }
+      `}</style>
     </section>
   );
 }

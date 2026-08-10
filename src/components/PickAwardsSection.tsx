@@ -52,17 +52,17 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
       const res = await fetch(`/api/picks?userId=${userId}`);
       if (res.ok) {
         const data = await res.json();
-      console.log("[PickAwards] API response:", data);
-      if (data.error) {
-        console.error("[PickAwards] API error:", data.error);
-        return;
-      }
-      if (data.grouped) {
-        setGrouped(data.grouped);
-        setTotalOwned(data.totalOwned);
-        setUniqueTypes(data.uniqueTypes);
-        setTotalTypes(data.totalTypes);
-      }
+        console.log("[PickAwards] API response:", data);
+        if (data.error) {
+          console.error("[PickAwards] API error:", data.error);
+          return;
+        }
+        if (data.grouped) {
+          setGrouped(data.grouped);
+          setTotalOwned(data.totalOwned);
+          setUniqueTypes(data.uniqueTypes);
+          setTotalTypes(data.totalTypes);
+        }
       }
     } catch (err) { console.error("[PickAwards] fetchPicks failed:", err); }
   }, [userId]);

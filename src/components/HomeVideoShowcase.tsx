@@ -166,7 +166,7 @@ export default function HomeVideoShowcase() {
   // 3. YouTube Preview Engine
   const [previewStartSec, setPreviewStartSec] = useState<number>(0);
   const [previewDurationSec, setPreviewDurationSec] = useState<number>(30);
-  const [previewZoomPercent, setPreviewZoomPercent] = useState<number>(350); // %
+  const [previewZoomPercent, setPreviewZoomPercent] = useState<number>(130); // %
   const [playButtonVisibility, setPlayButtonVisibility] = useState<"hover" | "always" | "hidden">("hover");
 
   // 4. Styling, Colors & Buttons
@@ -483,8 +483,6 @@ export default function HomeVideoShowcase() {
   return (
     <section className={`py-16 md:py-24 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
       {/* Background glow accents */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full relative z-10">
         {/* Section Header with Container Padding */}
@@ -530,8 +528,9 @@ export default function HomeVideoShowcase() {
             return (
               <div
                 key={video.id}
-                className={`smooothy-slide group flex flex-col shrink-0 ${hoverAnimation}`}
+                className={`smooothy-slide group flex flex-col shrink-0 max-h-[500px] ${hoverAnimation}`}
                 style={{
+                  maxHeight: "500px",
                   width: smooothyVertical
                     ? "100%"
                     : `${100 / cardsVisible}%`,
@@ -543,7 +542,8 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  className={`relative ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300`}
+                  style={{ maxHeight: "500px" }}
+                  className={`relative max-h-[500px] ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-[0_16px_40px_rgba(0,0,0,0.6)] transition-all duration-300`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />

@@ -12,6 +12,7 @@ import Logo from "@/components/Logo";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import LiveStatusSign from "@/components/LiveStatusSign";
+import LogoTicker, { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
 
 // Lazy-loaded: canvas/rAF components only load when rendered
 const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"));
@@ -158,17 +159,15 @@ export default async function Home() {
     <>
       <LiveStatusSign />
 
-      {/* ====== HERO (Full 100vh Viewport Height) ====== */}
-      <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick" data-pick-label="Play Music" id="hero">
+      {/* ====== HERO (Full 100vh Viewport Height) [HIDDEN FOR NOW] ====== */}
+      {/* <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick" data-pick-label="Play Music" id="hero">
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        {/* Full-bleed Hero Section */}
         <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
-          {/* ── Hero Video + Vinyl Player (client component, synced) ── */}
           <HeroVideoPlayer>
             <HeroLiveThumbs />
           </HeroVideoPlayer>
         </div>
-      </section>
+      </section> */}
 
       {/* Global Announcement Banner */}
       {settings?.announcement?.isActive && settings.announcement.text && (!settings.announcement.expiresAt || new Date(settings.announcement.expiresAt) > now) && (
@@ -180,18 +179,24 @@ export default async function Home() {
         />
       )}
 
-      {/* ====== TOUR LIST (full — same as /tour page) ====== */}
-      <section id="tour" className="bg-transparent py-0">
+      {/* ====== TOUR LIST (full — same as /tour page) [HIDDEN FOR NOW] ====== */}
+      {/* <section id="tour" className="bg-transparent py-0">
         <TourList initialShows={upcomingShows} />
-      </section>
+      </section> */}
 
       {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-hidden py-0">
+      <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0">
         <BioParallaxSlider />
       </section>
 
       {/* ====== FEATURED VIDEO SHOWCASE (30-Second Autoplay Previews) ====== */}
       <HomeVideoShowcase />
+
+      {/* ====== SHARED THE STAGE WITH / AS SEEN ON (scrolling logo tickers) ====== */}
+      <section className="relative w-full py-4">
+        <LogoTicker items={ARTIST_LOGOS} direction="left" />
+        <LogoTicker items={PRESS_LOGOS} direction="right" />
+      </section>
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
       <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">

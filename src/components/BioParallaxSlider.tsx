@@ -4,7 +4,7 @@
 import Image from 'next/image';
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw } from "lucide-react";
+import { Sliders, Eye, EyeOff, Sparkles, X, RotateCcw, Paintbrush, Scissors, Save } from "lucide-react";
 import { SanityBandMember, urlFor } from "@/lib/sanity";
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
@@ -105,45 +105,98 @@ function MemberVideoThumbnail({
       loop
       muted
       playsInline
-      className={`${className} transition-colors duration-500 ${isActive ? "opacity-100 brightness-100" : "opacity-40 brightness-75 group-hover:opacity-80"}`}
+      className={`${className} transition-colors duration-500 opacity-100 brightness-100`}
     >
       <track kind="captions" />
     </video>
   );
 }
 
-// 🎭 Smooth Cosine Ease Gradient Generator (Eliminates linear hard stop breaks)
+// Helper to generate smooth math-based mask gradients
 function generateSmoothMaskGradient(
-  start: number,
-  end: number,
-  minOp: number,
-  direction: string
-) {
-  if (direction === "radial-gradient") {
-    return `radial-gradient(ellipse at center, black ${start}%, rgba(0,0,0,${minOp / 100}) ${end}%)`;
-  }
-  const effectiveStart = Math.min(start, end - 1);
-  const steps = 12;
-  const minOpacityFrac = minOp / 100;
-  const stops: string[] = [`black 0%`];
+  startPct: number,
+  endPct: number,
+  floorOpacityPct: number = 0,
+  direction: "to bottom" | "to top" = "to bottom",
+  easing: "cosine" | "linear" | "ease-in" | "ease-out" | "ease-in-out" = "cosine"
+): string {
+  const steps = 16;
+  const stops: string[] = [];
+  const minAlpha = Math.max(0, Math.min(1, floorOpacityPct / 100));
 
-  if (effectiveStart > 0) {
-    stops.push(`black ${effectiveStart}%`);
-  }
-
-  for (let i = 1; i < steps; i++) {
+  for (let i = 0; i <= steps; i++) {
     const t = i / steps;
-    // Cosine ease-in-out curve (zero derivative at start & end) for silky smooth fade without Mach band lines
-    const ease = (1 - Math.cos(Math.PI * t)) / 2;
-    const pos = (effectiveStart + (end - effectiveStart) * t).toFixed(1);
-    const alpha = (1 - ease * (1 - minOpacityFrac)).toFixed(3);
-    stops.push(`rgba(0,0,0,${alpha}) ${pos}%`);
-  }
+    let easedT = t;
+    if (easing === "cosine") {
+      easedT = (1 - Math.cos(t * Math.PI)) / 2;
+    } else if (easing === "ease-in") {
+      easedT = t * t;
+    } else if (easing === "ease-out") {
+      easedT = t * (2 - t);
+    } else if (easing === "ease-in-out") {
+      easedT = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
 
-  stops.push(`rgba(0,0,0,${minOpacityFrac}) ${end}%`);
+    const pos = startPct + (endPct - startPct) * t;
+    const alpha = (1 - easedT) * (1 - minAlpha) + minAlpha;
+    stops.push(`rgba(0,0,0,${alpha.toFixed(3)}) ${pos.toFixed(1)}%`);
+  }
 
   return `linear-gradient(${direction}, ${stops.join(", ")})`;
 }
+
+export type PositionSlideMaskConfig = {
+  positionIndex: number;
+  slideLabel: string;
+  gradient: {
+    enabled: boolean;
+    color: string;
+    startHeight: number; // 0-100%
+    endHeight: number;   // 0-100%
+    opacity: number;     // 0-100%
+    blendMode: string;
+  };
+  clippingMask: {
+    enabled: boolean;
+    startHeight: number; // 0-100%
+    endHeight: number;   // 0-100%
+    easing: "cosine" | "linear" | "ease-in" | "ease-out" | "ease-in-out";
+    floorOpacity: number; // 0-100%
+  };
+};
+
+const DEFAULT_POSITION_CONFIGS: PositionSlideMaskConfig[] = [
+  {
+    positionIndex: 0,
+    slideLabel: "Slide 1",
+    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
+  },
+  {
+    positionIndex: 1,
+    slideLabel: "Slide 2",
+    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
+  },
+  {
+    positionIndex: 2,
+    slideLabel: "Slide 3",
+    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
+  },
+  {
+    positionIndex: 3,
+    slideLabel: "Slide 4",
+    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
+  },
+  {
+    positionIndex: 4,
+    slideLabel: "Slide 5",
+    gradient: { enabled: true, color: "#000000", startHeight: 75, endHeight: 100, opacity: 35, blendMode: "normal" },
+    clippingMask: { enabled: true, startHeight: 75, endHeight: 98, easing: "linear", floorOpacity: 0 },
+  },
+];
 
 interface BioParallaxSliderProps {
   members?: Partial<SanityBandMember>[];
@@ -157,8 +210,7 @@ const getStaggerDelay = (idx: number) => {
   if (idx === 1) return 120;  // Nick
   if (idx === 3) return 200;  // Richard
   if (idx === 0) return 280;  // Frankie
-  if (idx === 4) return 360;  // Mark
-  return idx * 100;
+  return 360;                 // Mark
 };
 
 export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioParallaxSliderProps) {
@@ -188,7 +240,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [cardWidth, setCardWidth] = useState<number>(355);
   const [imageHeight, setImageHeight] = useState<number>(460);
   const [imageScale, setImageScale] = useState<number>(1.32);
-  const [imageOffsetY, setImageOffsetY] = useState<number>(52);
+  const [imageOffsetY, setImageOffsetY] = useState<number>(0);
   const [gap, setGap] = useState<number>(24);
   const [parallaxDepth, setParallaxDepth] = useState<number>(0.14);
   const [maxSkew, setMaxSkew] = useState<number>(11);
@@ -201,99 +253,66 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [textBottomOffset, setTextBottomOffset] = useState<number>(16); // px
   const [textBackdropOpacity, setTextBackdropOpacity] = useState<number>(0); // % opacity for text background backdrop mask
 
-  // 🎭 Section Fading Clipping Mask States — Professional Studio Suite
-  const [sectionMaskEnabled, setSectionMaskEnabled] = useState<boolean>(true);
-  const [topMaskEnabled, setTopMaskEnabled] = useState<boolean>(false); // false by default = ZERO top head clipping
-  const [topMaskDistance, setTopMaskDistance] = useState<number>(80); // px top fade length
-  const [topMaskMinOpacity, setTopMaskMinOpacity] = useState<number>(0); // % top min opacity floor
-  const [bottomMaskEnabled, setBottomMaskEnabled] = useState<boolean>(true);
-  const [bottomFadeMode, setBottomFadeMode] = useState<"screen-fixed" | "image-relative">("screen-fixed");
-  const [screenBottomFadeHeight, setScreenBottomFadeHeight] = useState<number>(180); // px from bottom of screen
-  const [screenBottomFadeEasing, setScreenBottomFadeEasing] = useState<"smooth" | "soft" | "linear" | "sharp">("smooth");
-  const [maskStudioTab, setMaskStudioTab] = useState<"preset" | "stops" | "member" | "raw">("preset");
-  const [sectionMaskBottom, setSectionMaskBottom] = useState<number>(180); // px
-  const [sectionMaskTop, setSectionMaskTop] = useState<number>(0); // px - Top fade distance
-  const [topFadeStyle, setTopFadeStyle] = useState<"smooth" | "soft" | "linear" | "sharp">("smooth"); // Smooth top fade curve
-  const [sectionMaskStart, setSectionMaskStart] = useState<number>(35); // % start down image - Bottom smooth fade out
-  const [sectionMaskEnd, setSectionMaskEnd] = useState<number>(85); // % end down image - Bottom smooth fade out
-  const [sectionMaskMidpoint, setSectionMaskMidpoint] = useState<number>(50); // % curve midpoint
-  const [sectionMaskMinOpacity, setSectionMaskMinOpacity] = useState<number>(0); // % min opacity floor (0% = transparent bottom)
-  const [sectionMaskDirection, setSectionMaskDirection] = useState<string>("to bottom");
-  const [sectionMaskSideFeather, setSectionMaskSideFeather] = useState<number>(0); // px left/right side feathering
-  const [sectionMaskStrength, setSectionMaskStrength] = useState<number>(75); // % mask strength / drop speed
-  const [sectionMaskFeather, setSectionMaskFeather] = useState<"smooth" | "linear" | "sharp" | "radial">("linear");
-  const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
-  const [isDrawerExpanded, setIsDrawerExpanded] = useState<boolean>(false);
-  const [maskCopied, setMaskCopied] = useState<boolean>(false);
-
-  // 🎛️ 5-Stop Custom Gradient Point Editor States
-  const [gradientStops, setGradientStops] = useState<Array<{ pos: number; opacity: number }>>([
-    { pos: 0, opacity: 100 },
-    { pos: 60, opacity: 100 },
-    { pos: 80, opacity: 50 },
-    { pos: 92, opacity: 15 },
-    { pos: 100, opacity: 0 },
-  ]);
-
-  // 👤 Per-Member Override States
-  const [selectedMemberTarget, setSelectedMemberTarget] = useState<"all" | "adam" | "richard" | "frankie" | "mark" | "nick">("all");
-  const [perMemberMaskStart, setPerMemberMaskStart] = useState<Record<string, number>>({
-    adam: 70,
-    richard: 70,
-    frankie: 70,
-    mark: 70,
-    nick: 70,
+  // 🎭 Position-Based Slide Masking Configurations (0 = Pos 1, 4 = Pos 5) with localStorage persistence
+  const [positionConfigs, setPositionConfigs] = useState<PositionSlideMaskConfig[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("smooothy_position_configs");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length === 5) {
+            const isValid = parsed.every(
+              (c: any) => c?.clippingMask && c.clippingMask.startHeight < c.clippingMask.endHeight
+            );
+            if (isValid) return parsed;
+          }
+        }
+      } catch (e) {
+        console.error("Failed to parse saved position configs:", e);
+      }
+    }
+    return DEFAULT_POSITION_CONFIGS;
   });
 
-  // 📝 Raw Custom CSS Injection Input State
-  const [customRawMask, setCustomRawMask] = useState<string>("");
-  const [useRawMask, setUseRawMask] = useState<boolean>(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("smooothy_position_configs", JSON.stringify(positionConfigs));
+      } catch (e) {
+        console.error("Failed to save position configs:", e);
+      }
+    }
+  }, [positionConfigs]);
+
+  // Default drawer selected slot index (2 = Pos 3 / Active Center)
+  const [selectedPositionIdx, setSelectedPositionIdx] = useState<number>(2);
+  const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
+
+  // 🌊 Dynamic Animated Wave Peak Position State (Glides smoothly toward activeIndex & pauses when settled)
+  const [wavePeakPos, setWavePeakPos] = useState<number>(adamCenterIdx);
 
   useEffect(() => {
-    const savedEnabled = localStorage.getItem("7h_band_section_mask_enabled");
-    const savedTopEnabled = localStorage.getItem("7h_band_top_mask_enabled");
-    const savedTopDist = localStorage.getItem("7h_band_top_mask_dist");
-    const savedTopMinOp = localStorage.getItem("7h_band_top_mask_min_op");
-    const savedBottomEnabled = localStorage.getItem("7h_band_bottom_mask_enabled");
-    const savedFadeMode = localStorage.getItem("7h_band_bottom_fade_mode");
-    const savedScreenHeight = localStorage.getItem("7h_band_screen_bottom_height");
-    const savedScreenEasing = localStorage.getItem("7h_band_screen_bottom_easing");
-    const savedBottom = localStorage.getItem("7h_band_section_mask_bottom");
-    const savedTop = localStorage.getItem("7h_band_section_mask_top");
-    const savedTopStyle = localStorage.getItem("7h_band_top_fade_style");
-    const savedStart = localStorage.getItem("7h_band_section_mask_start");
-    const savedEnd = localStorage.getItem("7h_band_section_mask_end");
-    const savedMid = localStorage.getItem("7h_band_section_mask_mid");
-    const savedMinOp = localStorage.getItem("7h_band_section_mask_min_op");
-    const savedDir = localStorage.getItem("7h_band_section_mask_dir");
-    const savedSide = localStorage.getItem("7h_band_section_mask_side");
-    const savedStrength = localStorage.getItem("7h_band_section_mask_strength");
-    const savedFeather = localStorage.getItem("7h_band_section_mask_feather");
-    const savedRaw = localStorage.getItem("7h_band_section_mask_raw");
-    const savedStops = localStorage.getItem("7h_band_section_mask_stops");
+    let animId: number;
+    let running = true;
 
-    if (savedEnabled !== null) setSectionMaskEnabled(savedEnabled === "true");
-    if (savedTopEnabled !== null) setTopMaskEnabled(savedTopEnabled === "true");
-    if (savedTopDist) setTopMaskDistance(parseInt(savedTopDist, 10) || 80);
-    if (savedTopMinOp) setTopMaskMinOpacity(parseInt(savedTopMinOp, 10) || 0);
-    if (savedBottomEnabled !== null) setBottomMaskEnabled(savedBottomEnabled === "true");
-    if (savedFadeMode) setBottomFadeMode((savedFadeMode as any) || "screen-fixed");
-    if (savedScreenHeight) setScreenBottomFadeHeight(parseInt(savedScreenHeight, 10) || 180);
-    if (savedScreenEasing) setScreenBottomFadeEasing((savedScreenEasing as any) || "smooth");
-    if (savedBottom) setSectionMaskBottom(parseInt(savedBottom, 10) || 180);
-    if (savedTop !== null) setSectionMaskTop(parseInt(savedTop, 10) || 0);
-    if (savedTopStyle) setTopFadeStyle((savedTopStyle as any) || "smooth");
-    if (savedStart) setSectionMaskStart(parseInt(savedStart, 10) || 35);
-    if (savedEnd) setSectionMaskEnd(parseInt(savedEnd, 10) || 85);
-    if (savedMid) setSectionMaskMidpoint(parseInt(savedMid, 10) || 50);
-    if (savedMinOp) setSectionMaskMinOpacity(parseInt(savedMinOp, 10) || 0);
-    if (savedDir) setSectionMaskDirection((savedDir as any) || "to bottom");
-    if (savedSide) setSectionMaskSideFeather(parseInt(savedSide, 10) || 0);
-    if (savedStrength) setSectionMaskStrength(parseInt(savedStrength, 10) || 75);
-    if (savedFeather) setSectionMaskFeather((savedFeather as any) || "linear");
-    if (savedRaw) { setCustomRawMask(savedRaw); setUseRawMask(true); }
-    if (savedStops) { try { setGradientStops(JSON.parse(savedStops)); } catch (_) {} }
-  }, []);
+    const updateWave = () => {
+      if (!running) return;
+      setWavePeakPos((prev) => {
+        const diff = activeIndex - prev;
+        if (Math.abs(diff) < 0.001) {
+          return activeIndex;
+        }
+        animId = requestAnimationFrame(updateWave);
+        return prev + diff * 0.12;
+      });
+    };
+
+    animId = requestAnimationFrame(updateWave);
+    return () => {
+      running = false;
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, [activeIndex]);
 
   // 🎬 Video Pagination Layout Style Options (10 Designs)
   const [paginationStyle, setPaginationStyle] = useState<
@@ -431,12 +450,7 @@ focalScale: ${focalScale}x
 gap: ${gap}px
 parallaxDepth: ${parallaxDepth}
 maxSkew: ${maxSkew}°
-lerpSpeed: ${lerpSpeed}
-
-// Band Section Fade Mask Settings
-maskEnabled: ${sectionMaskEnabled}
-maskBottom: ${sectionMaskBottom}px
-maskTop: ${sectionMaskTop}px`;
+lerpSpeed: ${lerpSpeed}`;
     navigator.clipboard.writeText(config);
     copiedRef.current = true;
     setTimeout(() => { copiedRef.current = false; }, 2000);
@@ -479,7 +493,7 @@ maskTop: ${sectionMaskTop}px`;
         const cardEls = trackRef.current.children;
         for (let i = 0; i < cardEls.length; i++) {
           const card = cardEls[i] as HTMLElement;
-          const imgEl = card.querySelector(".smooothy-img") as HTMLElement | null;
+          const imgEl = (card.querySelector(".smooothy-img-wrapper") || card.querySelector(".smooothy-img")) as HTMLElement | null;
 
           // Distance in slide units from center focal point
           const distFromCenter = Math.abs((currentXRef.current - i * itemTotalWidth) / itemTotalWidth);
@@ -513,9 +527,11 @@ maskTop: ${sectionMaskTop}px`;
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
             const speedScale = imageScale + Math.min(Math.abs(vel) * 0.005, 0.06);
+            const transformStr = `translate3d(${parallaxX}px, ${imageOffsetY}px, 0) scale(${speedScale})`;
+
             imgEl.style.transformOrigin = "bottom center";
-            imgEl.style.transform = `translate3d(${parallaxX}px, ${imageOffsetY}px, 0) scale(${speedScale})`;
-            imgEl.style.opacity = `${opacity}`;
+            imgEl.style.transform = transformStr;
+            imgEl.style.opacity = "1";
 
             if (focalVal > 0.05) {
               const shadowAlpha = (focalVal * 0.60).toFixed(2);
@@ -527,10 +543,10 @@ maskTop: ${sectionMaskTop}px`;
         }
       }
 
-      // Compute active centered slide index
+      // Compute active centered slide index (only trigger setState if index changed)
       const rawIdx = Math.round(currentXRef.current / itemTotalWidth);
       const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, rawIdx));
-      setActiveIndex(safeIdx);
+      setActiveIndex((prev) => (prev !== safeIdx ? safeIdx : prev));
 
       animFrameRef.current = requestAnimationFrame(updatePhysics);
     };
@@ -612,7 +628,7 @@ maskTop: ${sectionMaskTop}px`;
 
   return (
     <div
-      className="w-full max-w-full overflow-visible h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
+      className="w-full max-w-full overflow-x-clip h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
     >
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
@@ -712,7 +728,7 @@ maskTop: ${sectionMaskTop}px`;
       )}
 
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
-      <div className="w-full relative overflow-visible">
+      <div className="w-full relative overflow-x-clip">
 
         {/* 5-CARD FULL-SCREEN CANVAS */}
         <div
@@ -740,12 +756,26 @@ maskTop: ${sectionMaskTop}px`;
               else if (nameLower.includes("nick")) imageSrc = "/images/band-memebers/Nick.png";
               else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/band-memebers/Adam.png";
 
+              // Stage slot index relative to current active centered slide (2 = Active Center, 1 = Left, 0 = Far Left, 3 = Right, 4 = Far Right)
+              const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
+              const slideCfg = positionConfigs[slotIndex] || DEFAULT_POSITION_CONFIGS[slotIndex];
+
+              const clipStyle = slideCfg.clippingMask.enabled
+                ? generateSmoothMaskGradient(
+                    slideCfg.clippingMask.startHeight,
+                    slideCfg.clippingMask.endHeight,
+                    slideCfg.clippingMask.floorOpacity,
+                    "to bottom",
+                    slideCfg.clippingMask.easing
+                  )
+                : undefined;
+
               return (
                 <button
                   type="button"
                   key={i}
                   onClick={() => goToSlide(i)}
-                  style={{ width: `${cardWidth}px` }}
+                  style={{ width: `${cardWidth}px`, isolation: "isolate" }}
                   className="shrink-0 bg-transparent rounded-3xl px-2 pt-0 pb-0 relative overflow-visible cursor-pointer flex flex-col justify-end origin-bottom border-0 outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 ring-0 active:outline-none text-left"
                 >
                   <div className="relative z-10 flex flex-col justify-end h-full overflow-visible">
@@ -763,36 +793,46 @@ maskTop: ${sectionMaskTop}px`;
                           src={imageSrc}
                           alt={m?.name || "Member Photo"}
                           draggable={false}
-                          className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0"
+                          className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
                             maxHeight: `${imageHeight}px`,
                             transform: `scale(${imageScale})`,
-                            ...(sectionMaskEnabled
-                              ? (() => {
-                                  const maskStr = useRawMask && customRawMask.trim()
-                                    ? customRawMask.trim()
-                                    : generateSmoothMaskGradient(sectionMaskStart, sectionMaskEnd, sectionMaskMinOpacity, sectionMaskDirection);
-
-                                  return {
-                                    WebkitMaskImage: maskStr,
-                                    maskImage: maskStr,
-                                    WebkitMaskSize: "100% 100%",
-                                    maskSize: "100% 100%",
-                                    WebkitMaskRepeat: "no-repeat",
-                                    maskRepeat: "no-repeat",
-                                  };
-                                })()
-                              : {})
+                            opacity: 1,
+                            ...(clipStyle ? { WebkitMaskImage: clipStyle, maskImage: clipStyle } : {}),
                           }}
                         />
+
+                        {/* Layer 1: Sibling Overlay Div (Smooth 2D Feathered Radial Gradient Glow with Zero Edge Cuts) */}
+                        {slideCfg.gradient.enabled && (
+                          <div
+                            className="smooothy-overlay-div absolute inset-0 pointer-events-none z-10 transition-all duration-200"
+                            style={{
+                              left: "-82%",
+                              bottom: "0px",
+                              width: "229%",
+                              background: `radial-gradient(ellipse 75% 65% at 50% 100%, ${slideCfg.gradient.color} 0%, ${slideCfg.gradient.color} ${Math.max(0, slideCfg.gradient.startHeight - 15)}%, transparent 100%)`,
+                              opacity: slideCfg.gradient.opacity / 100,
+                              mixBlendMode: slideCfg.gradient.blendMode as any,
+                              WebkitMaskImage: clipStyle
+                                ? `${clipStyle}, linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)`
+                                : "linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)",
+                              maskImage: clipStyle
+                                ? `${clipStyle}, linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)`
+                                : "linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)",
+                              WebkitMaskComposite: "source-in",
+                              maskComposite: "intersect",
+                            }}
+                          />
+                        )}
                       </div>
 
-                      {/* Dynamic Member Info Overlay (z-[100] - Pure White & Bright Purple Text with Live Control) */}
+                      {/* Dynamic Member Info Overlay (z-30 - Pure White & Bright Purple Text with Live Control & Active Slide Opacity Lock) */}
                       {textPos === "left" && (
                         <div
-                          className="absolute left-4 z-[100] flex flex-col items-start text-left pointer-events-none max-w-[90%]"
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] transition-opacity duration-300"
                           style={{
                             bottom: `${textBottomOffset}px`,
+                            opacity: activeIndex === i ? 1 : 0,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
@@ -807,8 +847,8 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "left-glass" && (
                         <div
-                          className="absolute left-4 z-[100] flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3"
-                          style={{ bottom: `${textBottomOffset}px` }}
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
@@ -821,8 +861,8 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "left-accent" && (
                         <div
-                          className="absolute left-4 z-[100] flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1"
-                          style={{ bottom: `${textBottomOffset}px` }}
+                          className="absolute left-4 z-30 flex flex-col items-start text-left pointer-events-none max-w-[90%] pl-0 py-1 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
@@ -835,9 +875,10 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "center" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center text-center pointer-events-none w-full px-2"
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none w-full px-2 transition-opacity duration-300"
                           style={{
                             bottom: `${textBottomOffset}px`,
+                            opacity: activeIndex === i ? 1 : 0,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px" } : {})
                           }}
                         >
@@ -852,8 +893,8 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5 rounded-xl shadow-2xl"
-                          style={{ bottom: `${textBottomOffset}px` }}
+                          className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center text-center pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-2.5 rounded-xl shadow-2xl transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
@@ -866,9 +907,10 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "right" && (
                         <div
-                          className="absolute right-4 z-[100] flex flex-col items-end text-right pointer-events-none max-w-[90%]"
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] transition-opacity duration-300"
                           style={{
                             bottom: `${textBottomOffset}px`,
+                            opacity: activeIndex === i ? 1 : 0,
                             ...(textBackdropOpacity > 0 ? { backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`, padding: "8px 12px", borderRadius: "8px" } : {})
                           }}
                         >
@@ -883,8 +925,8 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "right-glass" && (
                         <div
-                          className="absolute right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3"
-                          style={{ bottom: `${textBottomOffset}px` }}
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] bg-black/85 backdrop-blur-xl border border-white/15 px-4 py-3 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-extrabold text-white tracking-tight leading-tight" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
@@ -897,8 +939,8 @@ maskTop: ${sectionMaskTop}px`;
 
                       {textPos === "right-accent" && (
                         <div
-                          className="absolute right-4 z-50 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1"
-                          style={{ bottom: `${textBottomOffset}px` }}
+                          className="absolute right-4 z-30 flex flex-col items-end text-right pointer-events-none max-w-[90%] border-r-2 border-[var(--color-accent)] pr-3 py-1 transition-opacity duration-300"
+                          style={{ bottom: `${textBottomOffset}px`, opacity: activeIndex === i ? 1 : 0 }}
                         >
                           <h3 className="font-extrabold text-white tracking-tight leading-tight drop-shadow-md" style={{ fontSize: `${nameFontSize}px` }}>
                             {m?.name}
@@ -916,335 +958,411 @@ maskTop: ${sectionMaskTop}px`;
             })}
           </div>
         </div>
-      </div>
 
-      {/* 🎭 Interactive Floating Mask & Image Control Studio Panel UI */}
-      <div className="fixed bottom-6 right-6 z-[999] flex flex-col items-end pointer-events-auto select-none">
-        {/* Collapsed Control Toggle Button */}
-        <button
-          type="button"
-          onClick={() => setIsMaskEditorOpen(!isMaskEditorOpen)}
-          className="px-4 py-3 rounded-full bg-black/85 hover:bg-black backdrop-blur-2xl border border-purple-500/40 hover:border-purple-400 text-white text-xs font-mono font-extrabold tracking-wider flex items-center gap-2.5 shadow-[0_8px_32px_rgba(168,85,247,0.35)] transition-all transform hover:scale-105 cursor-pointer"
-        >
-          <Sliders className="w-4 h-4 text-purple-400 animate-pulse" />
-          <span>Image Mask Controls 🎭</span>
-          <span className={`w-2 h-2 rounded-full ${sectionMaskEnabled ? "bg-emerald-400 shadow-[0_0_8px_#34d399]" : "bg-red-400"}`} />
-        </button>
+        {/* 🎭 Floating Cutout Mask Studio Control Toggle & Panel */}
+        <div className="fixed bottom-6 left-6 z-[200]">
+          <button
+            type="button"
+            onClick={() => setIsMaskEditorOpen(!isMaskEditorOpen)}
+            className="px-4 py-3 rounded-full bg-black/90 hover:bg-black backdrop-blur-2xl border border-purple-500/50 hover:border-purple-400 text-white text-xs font-mono font-extrabold tracking-wider flex items-center gap-2.5 shadow-[0_8px_32px_rgba(168,85,247,0.45)] transition-all transform hover:scale-105 cursor-pointer"
+          >
+            <Sliders className="w-4 h-4 text-purple-400 animate-pulse" />
+            <span>Cutout Mask Studio 🎭</span>
+          </button>
 
-        {/* Expanded Studio Control Drawer */}
-        {isMaskEditorOpen && (
-          <div className="mt-3 w-80 sm:w-96 bg-black/90 backdrop-blur-2xl border border-purple-500/30 rounded-3xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.9)] text-white text-xs space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-200">
-            {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-purple-400" />
-                <h4 className="font-extrabold uppercase tracking-wider text-sm text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-purple-400">
-                  Cutout Mask Studio
-                </h4>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsMaskEditorOpen(false)}
-                className="p-1.5 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Main Mask Toggle */}
-            <div className="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/10">
-              <div className="flex items-center gap-2.5">
-                {sectionMaskEnabled ? (
-                  <Eye className="w-4 h-4 text-emerald-400" />
-                ) : (
-                  <EyeOff className="w-4 h-4 text-white/40" />
-                )}
-                <span className="font-bold">Bottom Fade Mask</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSectionMaskEnabled(!sectionMaskEnabled)}
-                className={`px-3.5 py-1.5 rounded-full font-mono text-[11px] font-extrabold tracking-wider transition-all cursor-pointer ${
-                  sectionMaskEnabled
-                    ? "bg-emerald-500 text-black shadow-[0_0_12px_rgba(16,185,129,0.4)]"
-                    : "bg-white/10 text-white/60 hover:bg-white/20"
-                }`}
-              >
-                {sectionMaskEnabled ? "ACTIVE" : "OFF"}
-              </button>
-            </div>
-
-            {/* Tab Selector */}
-            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/10">
-              {[
-                { id: "preset", label: "Fade Mask" },
-                { id: "member", label: "Image Size" },
-                { id: "stops", label: "Direction" },
-              ].map((tab) => (
+          {/* Expanded Studio Control Drawer */}
+          {isMaskEditorOpen && (
+            <div
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+              className="absolute bottom-16 left-0 w-80 sm:w-96 max-h-[85vh] overflow-y-auto custom-scrollbar bg-black/95 backdrop-blur-2xl border border-purple-500/40 rounded-3xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.95)] text-white text-xs space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-200"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-purple-400" />
+                  <h4 className="font-extrabold uppercase tracking-wider text-sm text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-purple-400">
+                    Cutout Mask Studio
+                  </h4>
+                </div>
                 <button
                   type="button"
-                  key={tab.id}
-                  onClick={() => setMaskStudioTab(tab.id as "preset" | "member" | "stops")}
-                  className={`flex-1 py-1.5 rounded-xl font-mono text-[10px] font-bold transition-all cursor-pointer ${
-                    maskStudioTab === tab.id
-                      ? "bg-purple-600 text-white shadow-md"
-                      : "text-white/60 hover:text-white hover:bg-white/5"
-                  }`}
+                  onClick={() => setIsMaskEditorOpen(false)}
+                  className="p-1.5 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
-                  {tab.label}
+                  <X className="w-4 h-4" />
                 </button>
-              ))}
-            </div>
-
-            {/* Quick Presets */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-mono uppercase tracking-wider text-purple-300/80 font-bold block">
-                Quick Fade Presets
-              </label>
-              <div className="grid grid-cols-4 gap-1">
-                {[
-                  { label: "Micro 2%", start: 93, end: 95, minOp: 0 },
-                  { label: "Tight 5%", start: 90, end: 95, minOp: 0 },
-                  { label: "Smooth", start: 65, end: 95, minOp: 0 },
-                  { label: "Deep", start: 40, end: 80, minOp: 0 },
-                ].map((preset) => (
-                  <button
-                    type="button"
-                    key={preset.label}
-                    onClick={() => {
-                      setSectionMaskEnabled(true);
-                      setSectionMaskStart(preset.start);
-                      setSectionMaskEnd(preset.end);
-                      setSectionMaskMinOpacity(preset.minOp);
-                    }}
-                    className="px-1 py-1.5 rounded-xl bg-white/5 hover:bg-purple-600/30 border border-white/10 hover:border-purple-400/50 text-[10px] font-bold text-white/90 hover:text-white transition-all cursor-pointer text-center"
-                  >
-                    {preset.label}
-                  </button>
-                ))}
               </div>
-            </div>
 
-            {/* Tab 1: Fade Mask Controls */}
-            {maskStudioTab === "preset" && (
-              <div className="space-y-3.5 pt-1">
-                {/* Fade Distance Span / Tightness Slider (Shortest possible fade height) */}
-                <div className="space-y-1 bg-purple-950/40 p-2.5 rounded-2xl border border-purple-500/30">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-extrabold text-purple-200">Fade Height Span (Short/Tight)</span>
-                    <span className="font-mono text-purple-300 font-extrabold text-xs">
-                      {Math.max(1, sectionMaskEnd - sectionMaskStart)}% height
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="50"
-                    step="1"
-                    value={Math.max(1, sectionMaskEnd - sectionMaskStart)}
-                    onChange={(e) => {
-                      const newSpan = Number(e.target.value);
-                      setSectionMaskStart(Math.max(0, sectionMaskEnd - newSpan));
-                    }}
-                    className="w-full h-1.5 bg-purple-900/60 rounded-lg appearance-none cursor-pointer accent-purple-400"
-                  />
-                  <span className="text-[9px] text-purple-300/70 block">
-                    * Drag to make fade height as short as 1%!
+              {/* Member Slide Selector Tabs */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-[10px] font-mono font-bold">
+                  <span className="uppercase text-purple-300/80">Select Stage Position</span>
+                  <span className="text-white font-extrabold">
+                    {["Pos 1 (Far Left)", "Pos 2 (Left)", "Pos 3 (Center)", "Pos 4 (Right)", "Pos 5 (Far Right)"][selectedPositionIdx]}
                   </span>
                 </div>
-
-                {/* Fade Start % (Full 0-100% control with slider + direct high-contrast numeric input box) */}
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-semibold text-white/80">Fade Start Height</span>
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={sectionMaskStart}
-                        onChange={(e) => setSectionMaskStart(Math.max(0, Math.min(100, Number(e.target.value))))}
-                        className="w-14 px-2 py-0.5 bg-purple-950/90 border border-purple-400 text-white font-mono font-extrabold text-xs text-center rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-300"
-                      />
-                      <span className="font-mono text-purple-300/80 text-[11px]">%</span>
-                    </div>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={sectionMaskStart}
-                    onChange={(e) => setSectionMaskStart(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                  />
-                </div>
-
-                {/* Fade End % (Full 0-100% control with slider + direct high-contrast numeric input box) */}
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-semibold text-white/80">Fade End (Baseline)</span>
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={sectionMaskEnd}
-                        onChange={(e) => setSectionMaskEnd(Math.max(0, Math.min(100, Number(e.target.value))))}
-                        className="w-14 px-2 py-0.5 bg-purple-950/90 border border-purple-400 text-white font-mono font-extrabold text-xs text-center rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-300"
-                      />
-                      <span className="font-mono text-purple-300/80 text-[11px]">%</span>
-                    </div>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={sectionMaskEnd}
-                    onChange={(e) => setSectionMaskEnd(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                  />
-                </div>
-
-                {/* Floor Min Opacity Floor % (Full 0-100% control) */}
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-semibold text-white/80">Floor Min Opacity</span>
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={sectionMaskMinOpacity}
-                        onChange={(e) => setSectionMaskMinOpacity(Math.max(0, Math.min(100, Number(e.target.value))))}
-                        className="w-14 px-2 py-0.5 bg-purple-950/90 border border-purple-400 text-white font-mono font-extrabold text-xs text-center rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-300"
-                      />
-                      <span className="font-mono text-purple-300/80 text-[11px]">%</span>
-                    </div>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    value={sectionMaskMinOpacity}
-                    onChange={(e) => setSectionMaskMinOpacity(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                  />
+                <div className="grid grid-cols-5 gap-1 bg-white/5 p-1 rounded-xl border border-white/10 font-mono text-[9px]">
+                  {[0, 1, 2, 3, 4].map((idx) => {
+                    const isSel = selectedPositionIdx === idx;
+                    const labels = ["Pos 1 (Far Left)", "Pos 2 (Left)", "Pos 3 (Center)", "Pos 4 (Right)", "Pos 5 (Far Right)"];
+                    const shortLabels = ["Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5"];
+                    return (
+                      <button
+                        type="button"
+                        key={idx}
+                        onClick={() => {
+                          setSelectedPositionIdx(idx);
+                        }}
+                        title={labels[idx]}
+                        className={`py-1.5 px-0.5 rounded-lg font-extrabold transition-all cursor-pointer text-center leading-tight ${
+                          isSel
+                            ? "bg-purple-600 text-white shadow-md shadow-purple-600/40"
+                            : "text-white/60 hover:text-white hover:bg-white/5"
+                        }`}
+                      >
+                        {shortLabels[idx]}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            )}
 
-            {/* Tab 2: Image Size & Position */}
-            {maskStudioTab === "member" && (
-              <div className="space-y-3.5 pt-1">
-                {/* Image Vertical Offset px */}
-                <div className="space-y-1">
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-semibold text-white/80">Image Y-Offset</span>
-                    <span className="font-mono text-purple-300 font-bold">{imageOffsetY}px</span>
+              {/* 🎨 GROUP 1: COLOR GRADIENT LAYER */}
+              <div className="space-y-2.5 bg-purple-950/40 p-3 rounded-2xl border border-purple-500/30">
+                <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
+                  <div className="flex items-center gap-2 font-bold text-purple-200">
+                    <Paintbrush className="w-3.5 h-3.5 text-purple-400" />
+                    <span>1. Bottom-Up Color Gradient</span>
                   </div>
-                  <input
-                    type="range"
-                    min="-50"
-                    max="150"
-                    step="1"
-                    value={imageOffsetY}
-                    onChange={(e) => setImageOffsetY(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPositionConfigs((prev) =>
+                        prev.map((cfg, idx) =>
+                          idx === selectedPositionIdx
+                            ? { ...cfg, gradient: { ...cfg.gradient, enabled: !cfg.gradient.enabled } }
+                            : cfg
+                        )
+                      );
+                    }}
+                    className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${
+                      positionConfigs[selectedPositionIdx]?.gradient.enabled
+                        ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                        : "bg-white/10 text-white/50 border border-white/10"
+                    }`}
+                  >
+                    {positionConfigs[selectedPositionIdx]?.gradient.enabled ? "Active" : "Disabled"}
+                  </button>
                 </div>
 
-                {/* Image Zoom Scale */}
-                <div className="space-y-1">
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-semibold text-white/80">Image Scale Zoom</span>
-                    <span className="font-mono text-purple-300 font-bold">{imageScale.toFixed(2)}x</span>
+                {positionConfigs[selectedPositionIdx]?.gradient.enabled && (
+                  <div className="space-y-2 pt-1">
+                    {/* Color Swatch & Custom Picker */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-white/80">Gradient Color</span>
+                        <span className="font-mono text-purple-300 font-bold uppercase text-[10px]">
+                          {positionConfigs[selectedPositionIdx]?.gradient.color}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="color"
+                          value={positionConfigs[selectedPositionIdx]?.gradient.color}
+                          onChange={(e) => {
+                            const col = e.target.value;
+                            setPositionConfigs((prev) =>
+                              prev.map((cfg, idx) =>
+                                idx === selectedPositionIdx
+                                  ? { ...cfg, gradient: { ...cfg.gradient, color: col } }
+                                  : cfg
+                              )
+                            );
+                          }}
+                          className="w-7 h-7 rounded-lg bg-transparent border-0 cursor-pointer p-0"
+                        />
+                        <div className="flex items-center gap-1.5 flex-1">
+                          {["#c084fc", "#9333ea", "#38bdf8", "#000000", "#120826"].map((hex) => (
+                            <button
+                              type="button"
+                              key={hex}
+                              onClick={() => {
+                                setPositionConfigs((prev) =>
+                                  prev.map((cfg, idx) =>
+                                    idx === selectedPositionIdx
+                                      ? { ...cfg, gradient: { ...cfg.gradient, color: hex } }
+                                      : cfg
+                                  )
+                                );
+                              }}
+                              className="w-5 h-5 rounded-full border border-white/30 cursor-pointer transition-transform hover:scale-110 shadow-sm"
+                              style={{ backgroundColor: hex }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Gradient Start Height */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-white/80">Start Height</span>
+                        <span className="font-mono text-purple-300 font-bold">
+                          {positionConfigs[selectedPositionIdx]?.gradient.startHeight}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={positionConfigs[selectedPositionIdx]?.gradient.startHeight}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          setPositionConfigs((prev) =>
+                            prev.map((cfg, idx) =>
+                              idx === selectedPositionIdx
+                                ? { ...cfg, gradient: { ...cfg.gradient, startHeight: val } }
+                                : cfg
+                            )
+                          );
+                        }}
+                        className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                      />
+                    </div>
+
+                    {/* Gradient Opacity */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-white/80">Gradient Opacity</span>
+                        <span className="font-mono text-purple-300 font-bold">
+                          {positionConfigs[selectedPositionIdx]?.gradient.opacity}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={positionConfigs[selectedPositionIdx]?.gradient.opacity}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          setPositionConfigs((prev) =>
+                            prev.map((cfg, idx) =>
+                              idx === selectedPositionIdx
+                                ? { ...cfg, gradient: { ...cfg.gradient, opacity: val } }
+                                : cfg
+                            )
+                          );
+                        }}
+                        className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="range"
-                    min="0.8"
-                    max="2.0"
-                    step="0.02"
-                    value={imageScale}
-                    onChange={(e) => setImageScale(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                  />
+                )}
+              </div>
+
+              {/* ✂️ GROUP 2: CLIPPING MASK LAYER */}
+              <div className="space-y-2.5 bg-purple-950/40 p-3 rounded-2xl border border-purple-500/30">
+                <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
+                  <div className="flex items-center gap-2 font-bold text-purple-200">
+                    <Scissors className="w-3.5 h-3.5 text-purple-400" />
+                    <span>2. Bottom-Up Clipping Mask</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPositionConfigs((prev) =>
+                        prev.map((cfg, idx) =>
+                          idx === selectedPositionIdx
+                            ? { ...cfg, clippingMask: { ...cfg.clippingMask, enabled: !cfg.clippingMask.enabled } }
+                            : cfg
+                        )
+                      );
+                    }}
+                    className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${
+                      positionConfigs[selectedPositionIdx]?.clippingMask.enabled
+                        ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                        : "bg-white/10 text-white/50 border border-white/10"
+                    }`}
+                  >
+                    {positionConfigs[selectedPositionIdx]?.clippingMask.enabled ? "Active" : "Disabled"}
+                  </button>
                 </div>
 
-                {/* Container Height */}
-                <div className="space-y-1">
-                  <div className="flex justify-between text-[11px]">
-                    <span className="font-semibold text-white/80">Container Height</span>
-                    <span className="font-mono text-purple-300 font-bold">{imageHeight}px</span>
+                {positionConfigs[selectedPositionIdx]?.clippingMask.enabled && (
+                  <div className="space-y-2 pt-1">
+                    {/* Mask Start Height */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-white/80">Mask Fade Start</span>
+                        <span className="font-mono text-purple-300 font-bold">
+                          {positionConfigs[selectedPositionIdx]?.clippingMask.startHeight}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={positionConfigs[selectedPositionIdx]?.clippingMask.startHeight}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          setPositionConfigs((prev) =>
+                            prev.map((cfg, idx) =>
+                              idx === selectedPositionIdx
+                                ? { ...cfg, clippingMask: { ...cfg.clippingMask, startHeight: val } }
+                                : cfg
+                            )
+                          );
+                        }}
+                        className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                      />
+                    </div>
+
+                    {/* Easing Curve */}
+                    <div className="space-y-1">
+                      <span className="font-semibold text-white/80 block text-[11px]">Easing Curve</span>
+                      <div className="grid grid-cols-3 gap-1">
+                        {(["cosine", "linear", "ease-in", "ease-out", "ease-in-out"] as const).map((curve) => (
+                          <button
+                            type="button"
+                            key={curve}
+                            onClick={() => {
+                              setPositionConfigs((prev) =>
+                                prev.map((cfg, idx) =>
+                                  idx === selectedPositionIdx
+                                    ? { ...cfg, clippingMask: { ...cfg.clippingMask, easing: curve } }
+                                    : cfg
+                                )
+                              );
+                            }}
+                            className={`py-1 px-1.5 rounded-lg text-[10px] font-bold font-mono transition-all cursor-pointer text-center border ${
+                              positionConfigs[selectedPositionIdx]?.clippingMask.easing === curve
+                                ? "bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/40"
+                                : "bg-purple-950/40 text-purple-200/70 border-purple-500/20 hover:text-white hover:bg-purple-800/40"
+                            }`}
+                          >
+                            {curve}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Floor Opacity */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-white/80">Floor Min Opacity</span>
+                        <span className="font-mono text-purple-300 font-bold">
+                          {positionConfigs[selectedPositionIdx]?.clippingMask.floorOpacity}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        value={positionConfigs[selectedPositionIdx]?.clippingMask.floorOpacity}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          setPositionConfigs((prev) =>
+                            prev.map((cfg, idx) =>
+                              idx === selectedPositionIdx
+                                ? { ...cfg, clippingMask: { ...cfg.clippingMask, floorOpacity: val } }
+                                : cfg
+                            )
+                          );
+                        }}
+                        className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                      />
+                    </div>
                   </div>
-                  <input
-                    type="range"
-                    min="300"
-                    max="650"
-                    step="5"
-                    value={imageHeight}
-                    onChange={(e) => setImageHeight(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/15 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                  />
+                )}
+              </div>
+
+              {/* Footer Reset & Save/Copy CSS Buttons */}
+              <div className="pt-2 border-t border-white/10 flex flex-col space-y-2 text-[11px]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    try {
+                      localStorage.setItem("smooothy_position_configs", JSON.stringify(positionConfigs));
+                    } catch (e) {
+                      console.error("Failed to save position configs:", e);
+                    }
+                    const currentCfg = positionConfigs[selectedPositionIdx];
+                    const verticalMaskCSS = generateSmoothMaskGradient(
+                      currentCfg.clippingMask.startHeight,
+                      currentCfg.clippingMask.endHeight,
+                      currentCfg.clippingMask.floorOpacity,
+                      "to bottom",
+                      currentCfg.clippingMask.easing
+                    );
+                    const cssRules = `/* 🎭 7th Heaven Cutout Mask & Gradient CSS Styles (Pos ${selectedPositionIdx + 1}) */
+.smooothy-overlay-div {
+  background: radial-gradient(ellipse 75% 65% at 50% 100%, ${currentCfg.gradient.color} 0%, transparent 100%);
+  opacity: ${(currentCfg.gradient.opacity / 100).toFixed(2)};
+  mask-image: ${verticalMaskCSS}, linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+  -webkit-mask-image: ${verticalMaskCSS}, linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  bottom: 0px;
+}`;
+                    console.log("=== SAVED_CSS_STYLES ===");
+                    console.log(cssRules);
+                    navigator.clipboard?.writeText(cssRules);
+                    alert("✅ CSS Styles Saved & Copied to Clipboard!\n\n" + cssRules);
+                  }}
+                  className="w-full py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold rounded-xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 text-xs"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save CSS Styles</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const codeStr = JSON.stringify(positionConfigs, null, 2);
+                    console.log("=== CURRENT_POSITION_CONFIGS_JSON ===");
+                    console.log(codeStr);
+                    navigator.clipboard?.writeText(codeStr);
+                    alert("Current UI settings copied to clipboard! You can also paste them into our chat.");
+                  }}
+                  className="w-full py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-mono font-bold rounded-xl shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Copy Preset Code to Clipboard</span>
+                </button>
+                <div className="flex items-center justify-between pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPositionConfigs((prev) =>
+                        prev.map((cfg, idx) =>
+                          idx === selectedPositionIdx ? DEFAULT_POSITION_CONFIGS[selectedPositionIdx] : cfg
+                        )
+                      );
+                    }}
+                    className="flex items-center gap-1 font-mono text-purple-400 hover:text-white font-bold transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    <span>Reset Pos {selectedPositionIdx + 1}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPositionConfigs(DEFAULT_POSITION_CONFIGS)}
+                    className="flex items-center gap-1 font-mono text-purple-400 hover:text-white font-bold transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    <span>Reset All 5 Slides</span>
+                  </button>
                 </div>
               </div>
-            )}
-
-            {/* Tab 3: Mask Direction */}
-            {maskStudioTab === "stops" && (
-              <div className="space-y-3 pt-1">
-                <label className="text-[10px] font-mono uppercase tracking-wider text-purple-300/80 font-bold block">
-                  Gradient Fade Direction
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { label: "Top to Bottom", value: "to bottom" },
-                    { label: "Bottom to Top", value: "to top" },
-                    { label: "Diagonal 45°", value: "135deg" },
-                    { label: "Radial Center", value: "radial-gradient" },
-                  ].map((dir) => (
-                    <button
-                      type="button"
-                      key={dir.value}
-                      onClick={() => setSectionMaskDirection(dir.value)}
-                      className={`px-3 py-2 rounded-xl font-mono text-[10px] font-bold transition-all cursor-pointer border ${
-                        sectionMaskDirection === dir.value
-                          ? "bg-purple-600 text-white border-purple-400 shadow-md"
-                          : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white"
-                      }`}
-                    >
-                      {dir.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Reset & Safety Note */}
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-white/50">
-              <span>* Text overlays sit at z-[100] (100% unmasked)</span>
-              <button
-                type="button"
-                onClick={() => {
-                  setSectionMaskEnabled(true);
-                  setSectionMaskStart(65);
-                  setSectionMaskEnd(95);
-                  setSectionMaskMinOpacity(0);
-                  setImageOffsetY(52);
-                  setImageScale(1.32);
-                  setImageHeight(460);
-                  setSectionMaskDirection("to bottom");
-                }}
-                className="flex items-center gap-1 font-mono hover:text-white transition-colors cursor-pointer text-purple-400 font-bold"
-              >
-                <RotateCcw className="w-3 h-3" />
-                <span>Reset All</span>
-              </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

@@ -218,40 +218,65 @@ export default function CursorFollower() {
       setIsVisible(true);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", onLeave);
-    document.addEventListener("mouseenter", onEnter);
-
     let animId: number;
+    let isLoopRunning = false;
+
     const animate = () => {
       if (hasMovedRef.current) {
         let x = coordsRef.current.x;
         let y = coordsRef.current.y;
+        let totalDist = 0;
+
         if (pickElRef.current) {
           pickElRef.current.style.transform = `translate3d(${x - PICK_W / 2}px, ${y - PICK_H / 2}px, 0)`;
         }
+
         circlesRef.current.forEach((c, i) => {
           if (!c.el) return;
           const baseScale = (circlesRef.current.length - i) / circlesRef.current.length;
           const scale = baseScale * tailScale;
           c.el.style.transform = `translate3d(${x - circleSize / 2}px, ${y - circleSize / 2}px, 0) scale(${scale})`;
           c.el.style.opacity = "1";
+          totalDist += Math.abs(x - c.x) + Math.abs(y - c.y);
           c.x = x;
           c.y = y;
           const next = circlesRef.current[i + 1] || circlesRef.current[0];
           x += ((next?.x ?? x) - x) * speed;
           y += ((next?.y ?? y) - y) * speed;
         });
+
+        // Pause loop when cursor trail has completely settled
+        if (totalDist < 0.1) {
+          isLoopRunning = false;
+          return;
+        }
       }
       animId = requestAnimationFrame(animate);
     };
-    animId = requestAnimationFrame(animate);
+
+    const wakeLoop = () => {
+      if (!isLoopRunning) {
+        isLoopRunning = true;
+        animId = requestAnimationFrame(animate);
+      }
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      handleMouseMove(e);
+      wakeLoop();
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseenter", onEnter);
+
+    wakeLoop();
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("mouseenter", onEnter);
-      cancelAnimationFrame(animId);
+      if (animId) cancelAnimationFrame(animId);
     };
   }, [isTouch, numCircles, circleSize, speed, tailScale]);
 

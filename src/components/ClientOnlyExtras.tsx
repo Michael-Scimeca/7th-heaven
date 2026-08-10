@@ -3,11 +3,6 @@ import dynamic from "next/dynamic";
 
 // These components use browser APIs and must be client-only.
 // Wrapping them here (a client component) allows ssr:false inside a Server Component layout.
-const DirectMessageChat = dynamic(
-  () => import("@/components/DirectMessageChat"),
-  { ssr: false }
-);
-
 const DevGuideLine = dynamic(
   () => import("@/components/DevGuideLine"),
   { ssr: false }

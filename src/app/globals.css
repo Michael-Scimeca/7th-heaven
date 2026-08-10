@@ -4,6 +4,8 @@ html,
 body {
   background-color: #000000;
   color: #ffffff;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Lenis smooth scroll */
