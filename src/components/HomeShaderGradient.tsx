@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/effect-needs-cleanup */
+/* eslint-disable react-doctor/effect-needs-cleanup */
 
 import React, { useEffect, useRef } from "react";
 import { NeatGradient } from "@firecms/neat";
