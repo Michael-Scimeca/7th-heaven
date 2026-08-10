@@ -700,6 +700,7 @@ a:hover {
                         </div>
                         <input
                           type="search"
+                          aria-label="Search questions, keywords, or topics"
                           placeholder="Search questions, keywords, or topics..."
                           className="form-input w-full text-sm font-semibold"
                           style={{
@@ -881,18 +882,18 @@ a:hover {
                   <div className="space-y-3">
                     <div>
                       <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-1">Full Name</label>
-                      <input type="text" placeholder="John Smith..." className="form-input w-full" />
+                      <input type="text" aria-label="Full Name" placeholder="John Smith..." className="form-input w-full" />
                     </div>
                     <div>
                       <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-1">Select Event Type</label>
-                      <select className="form-input w-full cursor-pointer">
+                      <select aria-label="Select Event Type" className="form-input w-full cursor-pointer">
                         <option value="1" className="bg-[#0c0817] text-white">Full Band Concert</option>
                         <option value="2" className="bg-[#0c0817] text-white">Unplugged Acoustic</option>
                       </select>
                     </div>
                     <div>
                       <label className="text-xs font-bold uppercase tracking-wider text-white/60 block mb-1">Special Requests</label>
-                      <textarea rows={2} placeholder="Add notes here..." className="form-input w-full" />
+                      <textarea rows={2} aria-label="Special Requests" placeholder="Add notes here..." className="form-input w-full" />
                     </div>
                     <div className="pt-2 border-t border-white/10">
                       <label className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
