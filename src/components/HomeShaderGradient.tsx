@@ -106,6 +106,7 @@ export default function HomeShaderGradient() {
     if (!canvasRef.current) return;
 
     let neatInstance: NeatGradient | null = null;
+    let watermarkTimeout: NodeJS.Timeout | null = null;
     try {
       neatInstance = new NeatGradient({
         ref: canvasRef.current,
@@ -159,7 +160,7 @@ export default function HomeShaderGradient() {
       }
 
       // Remove any Neat watermark link injected into DOM
-      setTimeout(() => {
+      watermarkTimeout = setTimeout(() => {
         if (canvasRef.current?.parentElement) {
           const links = canvasRef.current.parentElement.querySelectorAll("a");
           links.forEach((l) => l.remove());
@@ -261,6 +262,9 @@ export default function HomeShaderGradient() {
       generateGrainTile();
 
       return () => {
+        if (watermarkTimeout) {
+          clearTimeout(watermarkTimeout);
+        }
         if (typeof window !== "undefined") {
           window.removeEventListener("scroll", onScroll);
         }
@@ -275,6 +279,9 @@ export default function HomeShaderGradient() {
     }
 
     return () => {
+      if (watermarkTimeout) {
+        clearTimeout(watermarkTimeout);
+      }
       if (typeof window !== "undefined") {
         window.removeEventListener("scroll", onScroll);
       }
