@@ -430,21 +430,31 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                   {/* Agreements */}
                   <div className="pt-2 space-y-2">
-                    <div className="flex items-start gap-2.5 cursor-pointer" onClick={() => setAgreeNotify(!agreeNotify)}>
+                    <button
+                      type="button"
+                      aria-label="Enable proximity notifications & SMS alerts"
+                      className="flex items-start gap-2.5 cursor-pointer text-left w-full"
+                      onClick={() => setAgreeNotify(!agreeNotify)}
+                    >
                       <div className={`relative w-8 h-4 rounded-full transition-colors shrink-0 mt-0.5 ${agreeNotify ? "bg-purple-600" : "bg-white/15"}`}>
                         <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${agreeNotify ? "translate-x-4" : "translate-x-0.5"}`} />
                       </div>
                       <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; SMS alerts for nearby shows.</span>
-                    </div>
+                    </button>
 
-                    <div className="flex items-start gap-2.5 cursor-pointer" onClick={() => setAgreeTerms(!agreeTerms)}>
+                    <button
+                      type="button"
+                      aria-label="Agree to Terms and Privacy Policy"
+                      className="flex items-start gap-2.5 cursor-pointer text-left w-full"
+                      onClick={() => setAgreeTerms(!agreeTerms)}
+                    >
                       <div className={`w-4 h-4 rounded border shrink-0 mt-0.5 flex items-center justify-center transition-colors ${agreeTerms ? "bg-purple-600 border-purple-600" : "border-white/20"}`}>
                         {agreeTerms && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4"><polyline points="20 6 9 17 4 12" /></svg>}
                       </div>
                       <span className="text-xs text-white/40 leading-tight">
-                        I agree to the <Link href="/terms" className="underline hover:text-white">Terms</Link> and <Link href="/privacy" className="underline hover:text-white">Privacy Policy</Link>.
+                        I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
                       </span>
-                    </div>
+                    </button>
                   </div>
 
                   {/* Submit Button */}

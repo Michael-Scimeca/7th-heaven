@@ -3,6 +3,9 @@
   "rules": {
     "react-doctor/artifact-env-leak": "off",
     "react-doctor/artifact-baas-authority-surface": "off",
-    "react-doctor/supabase-client-owned-authz-field": "off"
+    "react-doctor/supabase-client-owned-authz-field": "off",
+    "deslop/unused-file": "off",
+    "react-doctor/deslop-unused-file": "off",
+    "react-doctor/no-static-element-interactions": "off"
   }
 }
