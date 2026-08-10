@@ -470,21 +470,27 @@ export function BookingManager({ email }: { email?: string }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label htmlFor="cruise-reg-phone" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Phone Number *</label>
-            <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
+            <div className="input-glow-border rounded-lg">
+              <input aria-label="Input field" id="cruise-reg-phone" type="tel" required placeholder="(555) 123-4567" value={regPhone} onChange={e => setRegPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none transition-colors" />
+            </div>
           </div>
           <div>
             <label htmlFor="cruise-reg-party-size" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Party Size *</label>
-            <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors" />
+            <div className="input-glow-border rounded-lg">
+              <input aria-label="Input field" id="cruise-reg-party-size" type="number" required min={1} max={10} value={regPartySize} onChange={e => setRegPartySize(parseInt(e.target.value) || 1)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none transition-colors" />
+            </div>
           </div>
           <div>
             <label htmlFor="cruise-reg-cabin-pref" className="block text-[var(--font-size-4xs)] font-bold text-white/40 uppercase tracking-widest mb-1">Cabin Preference *</label>
-            <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[var(--color-accent)]/50 outline-none transition-colors cursor-pointer">
-              <option value="group_n5">Ocean View</option>
-              <option value="group_if">Infinite Central Park</option>
-              <option value="group_d4">Ocean View Balcony</option>
-              <option value="group_d2">Ocean View Balcony D2</option>
-              <option value="group_i1">Infinite Ocean View Balcony</option>
-            </select>
+            <div className="input-glow-border rounded-lg">
+              <select aria-label="Select option" id="cruise-reg-cabin-pref" value={regCabinPref} onChange={e => setRegCabinPref(e.target.value)} className="w-full bg-[var(--color-bg-card)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white outline-none transition-colors cursor-pointer">
+                <option value="group_n5">Ocean View</option>
+                <option value="group_if">Infinite Central Park</option>
+                <option value="group_d4">Ocean View Balcony</option>
+                <option value="group_d2">Ocean View Balcony D2</option>
+                <option value="group_i1">Infinite Ocean View Balcony</option>
+              </select>
+            </div>
           </div>
         </div>
 

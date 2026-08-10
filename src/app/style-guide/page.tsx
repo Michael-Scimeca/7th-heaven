@@ -596,22 +596,24 @@ export default function StyleGuidePage() {
               {/* Default */}
               <div>
                 <label className="block text-xs font-bold text-white/70 mb-1">Default State</label>
-                <input
-                  type="text"
-                  placeholder="Enter full name..."
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 transition"
-                />
+                <div className="input-glow-border rounded-lg">
+                  <input
+                    type="text"
+                    placeholder="Enter full name..."
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none transition"
+                  />
+                </div>
               </div>
 
               {/* Focused / Active */}
               <div>
-                <label className="block text-xs font-bold text-cyan-300 mb-1">Focused / Active State</label>
-                <div className="input-glow-border rounded-[8px]">
+                <label className="block text-xs font-bold text-purple-300 mb-1">Focused / Active State</label>
+                <div className="input-glow-border rounded-lg active">
                   <input
                     type="text"
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-[8px] bg-white/10 border-none text-white/80 text-xs font-medium outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none text-white/80 text-xs font-medium outline-none transition"
                   />
                 </div>
               </div>

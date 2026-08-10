@@ -199,22 +199,24 @@ export default function AdminFeedPost() {
       <label htmlFor="admin-feed-post-content" className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">
        What&apos;s happening?
       </label>
-      <textarea aria-label="Text input"
-       id="admin-feed-post-content"
-       ref={textareaRef}
-       value={content}
-       onChange={(e) => setContent(e.target.value)}
-       placeholder={
-        postType === "setlist"
-         ? "Now playing: Song Name by Artist..."
-         : postType === "crowd"
-         ? "The crowd is going crazy for..."
-         : "Share what's happening..."
-       }
-       rows={4}
-       className="w-full bg-white/[0.03] border border-white/[0.08] px-4 py-3 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 resize-none transition-colors"
-       maxLength={500}
-      />
+      <div className="input-glow-border rounded-xl">
+        <textarea aria-label="Text input"
+         id="admin-feed-post-content"
+         ref={textareaRef}
+         value={content}
+         onChange={(e) => setContent(e.target.value)}
+         placeholder={
+          postType === "setlist"
+           ? "Now playing: Song Name by Artist..."
+           : postType === "crowd"
+           ? "The crowd is going crazy for..."
+           : "Share what's happening..."
+         }
+         rows={4}
+         className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-base text-white placeholder:text-white/20 outline-none resize-none transition-colors"
+         maxLength={500}
+        />
+      </div>
       <div className="flex justify-between mt-1">
        <span className="text-xs text-white/20">{content.length}/500</span>
        <span className="text-xs" style={{ color: currentType.color }}>
@@ -227,14 +229,16 @@ export default function AdminFeedPost() {
      {(postType === "photo" || postType === "crowd") && (
       <div>
        <label htmlFor="admin-feed-post-image-url" className="text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-2 block">Image URL</label>
-       <input aria-label="Input field"
-        id="admin-feed-post-image-url"
-        type="url"
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-        placeholder="https://..."
-        className="w-full bg-white/[0.03] border border-white/[0.08] px-4 py-2.5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
-       />
+       <div className="input-glow-border rounded-xl">
+         <input aria-label="Input field"
+          id="admin-feed-post-image-url"
+          type="url"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="https://..."
+          className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none transition-colors"
+         />
+       </div>
       </div>
      )}
 

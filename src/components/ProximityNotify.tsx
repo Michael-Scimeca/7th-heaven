@@ -333,7 +333,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                   {/* Input Fields */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="input-purple-dot-container">
+                    <div className="input-glow-border rounded-xl">
                       <input
                         type="text"
                         aria-label="Full name"
@@ -341,10 +341,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         onChange={(e) => setName(e.target.value)}
                         required
                         placeholder="Full name"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 form-input-purple-focus transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
                       />
                     </div>
-                    <div className="input-purple-dot-container">
+                    <div className="input-glow-border rounded-xl">
                       <input
                         type="email"
                         aria-label="Email address"
@@ -352,24 +352,24 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder="Email address"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 form-input-purple-focus transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="sm:col-span-2 input-purple-dot-container">
+                    <div className="sm:col-span-2 input-glow-border rounded-xl">
                       <input
                         type="tel"
                         aria-label="Phone number"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
                         placeholder="Phone number"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 form-input-purple-focus transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
                       />
                     </div>
                     <div className="flex gap-2">
-                      <div className="input-purple-dot-container w-full">
+                      <div className="input-glow-border rounded-xl w-full">
                         <input
                           type="text"
                           aria-label="Zip code"
@@ -379,14 +379,14 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           placeholder="Zip"
                           maxLength={5}
                           pattern="\d{5}"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 form-input-purple-focus transition-colors text-center"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center"
                         />
                       </div>
-                      <div className="input-purple-dot-container shrink-0">
+                      <div className="input-glow-border rounded-xl shrink-0">
                         <select
                           value={radius}
                           onChange={(e) => setRadius(e.target.value)}
-                          className="bg-white/5 border border-white/10 rounded-xl px-2 py-3 text-xs text-white/70 form-input-purple-focus transition-colors cursor-pointer text-center"
+                          className="bg-white/5 border border-white/10 rounded-xl px-2 py-3 text-xs text-white/70 outline-none transition-colors cursor-pointer text-center"
                         >
                           <option value="25" className="bg-zinc-900">25 mi</option>
                           <option value="50" className="bg-zinc-900">50 mi</option>

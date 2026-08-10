@@ -700,22 +700,24 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
           </div>
         ) : (
           <div className="flex flex-col">
-            <form onSubmit={handleSend} className="relative flex items-center">
-              <input aria-label="Input field"
-                type="text"
-                value={newMessage}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setNewMessage(val);
-                  if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
-                    setShowTagMenu(true);
-                  }
-                }}
-                disabled={!member || isSending || member.is_banned}
-                placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
-                className="w-full bg-white/5 border-2 border-white/20 focus:border-purple-400 rounded-2xl pl-3.5 pr-28 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
-                maxLength={500}
-              />
+            <form onSubmit={handleSend} className="relative flex items-center w-full">
+              <div className="input-glow-border rounded-2xl w-full">
+                <input aria-label="Input field"
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setNewMessage(val);
+                    if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
+                      setShowTagMenu(true);
+                    }
+                  }}
+                  disabled={!member || isSending || member.is_banned}
+                  placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
+                  className="w-full bg-white/5 border-2 border-white/20 rounded-2xl pl-3.5 pr-28 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
+                  maxLength={500}
+                />
+              </div>
               <div className="absolute right-1.5 flex items-center gap-1">
                 <button aria-label="Action button"
                   type="button"

@@ -244,15 +244,15 @@ export default function MediaPage() {
           </div>
 
           {/* Search Input */}
-          <div className="relative w-full md:w-64 shrink-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50 w-4 h-4 pointer-events-none" />
+          <div className="relative w-full md:w-64 shrink-0 input-glow-border rounded-lg">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50 w-4 h-4 pointer-events-none z-10" />
             <input
               type="text"
               aria-label="Search media"
               placeholder="SEARCH MEDIA..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="site-input w-full !py-2 !pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg bg-black/40 border border-white/10"
+              className="site-input w-full !py-2 !pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/40 outline-none transition-colors rounded-lg bg-black/40 border border-white/10"
             />
           </div>
         </div>

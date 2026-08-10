@@ -164,26 +164,30 @@ export function Footer() {
               }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
             >
-              <input aria-label="Input field"
-                type="tel"
-                value={smsPhone}
-                onChange={e => setSmsPhone(formatPhone(e.target.value))}
-                placeholder="(555) 123-4567"
-                required
-                suppressHydrationWarning
-                className="flex-1 min-w-[175px] sm:min-w-[190px] px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
-              />
-              <div className="flex gap-2 w-full sm:w-auto shrink-0">
+              <div className="input-glow-border rounded-lg flex-1 min-w-[175px] sm:min-w-[190px]">
                 <input aria-label="Input field"
-                  type="text"
-                  value={smsZip}
-                  onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                  placeholder="Zip code"
+                  type="tel"
+                  value={smsPhone}
+                  onChange={e => setSmsPhone(formatPhone(e.target.value))}
+                  placeholder="(555) 123-4567"
                   required
-                  maxLength={5}
                   suppressHydrationWarning
-                  className="w-24 sm:w-28 px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg"
+                  className="w-full px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
                 />
+              </div>
+              <div className="flex gap-2 w-full sm:w-auto shrink-0">
+                <div className="input-glow-border rounded-lg w-24 sm:w-28">
+                  <input aria-label="Input field"
+                    type="text"
+                    value={smsZip}
+                    onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                    placeholder="Zip code"
+                    required
+                    maxLength={5}
+                    suppressHydrationWarning
+                    className="w-full px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
+                  />
+                </div>
                 <select aria-label="Select option"
                   suppressHydrationWarning
                   value={smsDistance}

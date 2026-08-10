@@ -170,8 +170,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── FILTER & SEARCH CONTROLS ── */}
       <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-3xl shadow-sm mb-8 space-y-6">
 
-        {/* Search input */}
-        <div className="relative">
+        <div className="relative w-full input-glow-border rounded-xl">
           <div className="absolute left-4 inset-y-0 flex items-center justify-center pointer-events-none text-white/50 z-10">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8"></circle>
@@ -183,7 +182,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search venue, festival, city, date, or event name (e.g. Durty Nellies, Hard Rock, Halloween, Cruise)..."
-            className="form-input w-full text-sm font-semibold"
+            className="form-input w-full text-sm font-semibold border-none outline-none"
           />
           {searchQuery && (
             <button aria-label="Clear search"
@@ -194,8 +193,6 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             </button>
           )}
         </div>
-
-
 
         {/* Year Filter Pills */}
         <div>
