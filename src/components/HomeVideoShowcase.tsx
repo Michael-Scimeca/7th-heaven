@@ -1138,6 +1138,7 @@ export default function HomeVideoShowcase() {
                     </div>
                     <input
                       type="range"
+                      aria-label="Auto-Advance Interval"
                       min={2}
                       max={20}
                       value={autoAdvanceSpeed}
@@ -1159,6 +1160,7 @@ export default function HomeVideoShowcase() {
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         type="button"
+                        aria-label="Set direction to forward"
                         onClick={() => setAutoAdvanceDirection("forward")}
                         className={`py-2.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${autoAdvanceDirection === "forward"
                           ? "bg-purple-600 border-purple-400 text-white shadow-md"
@@ -1169,6 +1171,7 @@ export default function HomeVideoShowcase() {
                       </button>
                       <button
                         type="button"
+                        aria-label="Set direction to reverse"
                         onClick={() => setAutoAdvanceDirection("reverse")}
                         className={`py-2.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${autoAdvanceDirection === "reverse"
                           ? "bg-purple-600 border-purple-400 text-white shadow-md"
@@ -1190,6 +1193,7 @@ export default function HomeVideoShowcase() {
                     </div>
                     <input
                       type="range"
+                      aria-label="Transition Animation Speed"
                       min={50}
                       max={800}
                       step={50}
@@ -1213,6 +1217,7 @@ export default function HomeVideoShowcase() {
                       ].map((h) => (
                         <button
                           type="button"
+                          aria-label={`Set animation to ${h.label}`}
                           key={h.label}
                           onClick={() => setHoverAnimation(h.value)}
                           className={`py-2.5 px-3 rounded-xl text-xs font-bold border text-left transition-all cursor-pointer ${hoverAnimation === h.value
@@ -1241,6 +1246,7 @@ export default function HomeVideoShowcase() {
                     </div>
                     <input
                       type="range"
+                      aria-label="Preview Start Timestamp"
                       min={0}
                       max={30}
                       value={previewStartSec}
@@ -1259,6 +1265,7 @@ export default function HomeVideoShowcase() {
                     </div>
                     <input
                       type="range"
+                      aria-label="Preview Loop Duration"
                       min={10}
                       max={60}
                       step={5}
@@ -1278,6 +1285,7 @@ export default function HomeVideoShowcase() {
                     </div>
                     <input
                       type="range"
+                      aria-label="YouTube Video Frame Scale"
                       min={120}
                       max={300}
                       step={10}
