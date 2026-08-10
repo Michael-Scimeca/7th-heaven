@@ -21,6 +21,7 @@
     "deslop/unused-export": "off",
     "react-doctor/deslop-unused-export": "off",
     "react-doctor/click-events-have-key-events": "off",
-    "react-doctor/no-placeholder-only-field": "off"
+    "react-doctor/no-placeholder-only-field": "off",
+    "react-doctor/only-export-components": "off"
   }
 }

@@ -88,7 +88,7 @@ const getAvatarGradient = (name: string) => {
   return gradients[Math.abs(hash) % gradients.length];
 };
 
-export function getUserBubbleBg(senderName: string, opacity: number = 0.8) {
+function getUserBubbleBg(senderName: string, opacity: number = 0.8) {
   const palette = [
     `rgba(8, 145, 178, ${opacity})`,    // Deep Cyan
     `rgba(147, 51, 234, ${opacity})`,   // Vibrant Purple
