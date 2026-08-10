@@ -24,6 +24,11 @@ const GooeyDropdown = dynamic(() => import("@/components/GooeyDropdown"), {
   loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-white/5 rounded-xl border border-white/10">Loading Dropdown...</div>
 });
 
+const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), {
+  ssr: false,
+  loading: () => <div className="p-3 text-center text-xs font-mono text-white/40 bg-white/5 rounded-xl border border-white/10">Loading Pill Dropdown...</div>
+});
+
 import RoleBadge from "@/components/RoleBadge";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
@@ -826,6 +831,23 @@ export default function StyleGuidePage() {
                   onClick: () => setSelectedDropdown(opt.value),
                 }))}
               />
+            </div>
+
+            {/* Pill Filter Dropdown (CITY ▼ Standard) */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+              <h3 className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Pill Filter Dropdown (`CITY ▼`)</h3>
+              <div className="input-glow-border rounded-full inline-block">
+                <GooeyMessagesDropdown
+                  placeholder="CITY"
+                  customers={[
+                    { id: "chicago", name: "Chicago, IL (14)" },
+                    { id: "naperville", name: "Naperville, IL (8)" },
+                    { id: "milwaukee", name: "Milwaukee, WI (5)" },
+                    { id: "vegas", name: "Las Vegas, NV (3)" },
+                  ]}
+                  onSelect={(opt) => setSelectedDropdown(opt.id)}
+                />
+              </div>
             </div>
 
           </div>

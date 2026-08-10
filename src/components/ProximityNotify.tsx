@@ -164,12 +164,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     <section className="relative py-16 md:py-24 lg:py-32 bg-transparent overflow-hidden" id="proximity-notify">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
-      <div className="relative z-10 w-full ml-0 mr-auto px-6 sm:px-8 lg:px-12 max-w-[1400px]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div className="relative z-10 site-container max-w-[1240px] mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
 
-          {/* ── LEFT COLUMN: Modern Phone Mockup with Floating Reactions (6 Cols) ── */}
-          <div className="lg:col-span-6 flex justify-start items-start w-full">
-            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]">
+          {/* ── LEFT COLUMN: Modern Phone Mockup with Floating Reactions (5 Cols) ── */}
+          <div className="lg:col-span-5 flex justify-start items-start w-full">
+            <div className="relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[460px]">
               {/* iPhone Outer Device Frame */}
               <div className="relative w-full aspect-[9/18.5] bg-black/90 rounded-[56px] p-4 border-[3px] border-amber-200/25 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden group">
                 {/* Inner Screen */}
@@ -235,8 +235,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (6 Cols) ── */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-8">
+          {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
+          <div className="lg:col-span-7 flex flex-col justify-start items-start space-y-6">
             {/* Header Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-3">

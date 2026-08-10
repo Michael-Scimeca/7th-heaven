@@ -334,21 +334,21 @@ export default function AudioPlayerSection() {
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
-          <div className="relative mb-6">
+          <div className="relative mb-6 input-glow-border rounded-xl">
             <input aria-label="Search"
               type="text"
               placeholder="Search 700+ songs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-black/40 backdrop-blur-xl border border-white/15 rounded-xl px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-[var(--color-accent)] transition-all font-bold shadow-lg"
+              className="w-full bg-black/40 backdrop-blur-xl border border-white/15 rounded-xl px-4 py-2.5 pl-9 text-xs text-white placeholder:text-white/40 outline-none transition-all font-bold shadow-lg"
             />
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 dark:text-white/40 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 dark:text-white/40 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             {searchQuery && (
               <button aria-label="Search"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs cursor-pointer z-10"
               >
                 ✕
               </button>
