@@ -63,6 +63,28 @@ import {
   Calendar,
 } from "lucide-react";
 
+// Sample Dropdown options (Module Scope)
+const dropdownOptions = [
+  { label: "Chicago, IL — House of Blues", value: "chicago", icon: "🎸" },
+  { label: "Naperville, IL — Ribfest", value: "naperville", icon: "🤘" },
+  { label: "Milwaukee, WI — Summerfest", value: "milwaukee", icon: "⚡" },
+  { label: "Las Vegas, NV — Cruise 2026", value: "vegas", icon: "🚢" },
+];
+
+const sections = [
+  { id: "typography", label: "1. Typography", icon: Type },
+  { id: "colors", label: "2. Color Palette", icon: Palette },
+  { id: "buttons", label: "3. Buttons", icon: MousePointer },
+  { id: "form-elements", label: "4. Form Elements", icon: Layout },
+  { id: "dropdowns", label: "5. Dropdowns", icon: ChevronDown },
+  { id: "chat", label: "6. Chat Component", icon: MessageSquare },
+  { id: "components", label: "7. Cards & Badges", icon: Layers },
+  { id: "borders", label: "8. Borders & Glass", icon: ShieldCheck },
+  { id: "spacing", label: "9. Spacing & Padding", icon: Box },
+  { id: "canvas-studio", label: "10. Canvas & Film Grain", icon: Sliders },
+  { id: "stateroom-perks", label: "11. Staterooms & Perks", icon: Anchor },
+];
+
 export default function StyleGuidePage() {
   const { openModal } = useMember();
   const { tokens, isSaving, hasUnsavedChanges, updateToken, saveTheme, resetToDefaults, exportThemeJson } = useThemeTokens();
@@ -169,34 +191,11 @@ export default function StyleGuidePage() {
     setTimeout(() => setCopiedCanvasSpec(false), 2000);
   };
 
-  // Sample Dropdown options
-  const dropdownOptions = [
-    { label: "Chicago, IL — House of Blues", value: "chicago", icon: "🎸" },
-    { label: "Naperville, IL — Ribfest", value: "naperville", icon: "🤘" },
-    { label: "Milwaukee, WI — Summerfest", value: "milwaukee", icon: "⚡" },
-    { label: "Las Vegas, NV — Cruise 2026", value: "vegas", icon: "🚢" },
-  ];
-
   const handleCopyToken = (varName: string, val: string) => {
     navigator.clipboard.writeText(`${varName}: ${val};`);
     setCopiedToken(varName);
     setTimeout(() => setCopiedToken(null), 2000);
   };
-
-  const sections = [
-    { id: "typography", label: "1. Typography", icon: Type },
-    { id: "colors", label: "2. Color Palette", icon: Palette },
-    { id: "buttons", label: "3. Buttons", icon: MousePointer },
-    { id: "form-elements", label: "4. Form Elements", icon: Layout },
-    { id: "dropdowns", label: "5. Dropdowns", icon: ChevronDown },
-    { id: "chat", label: "6. Chat Component", icon: MessageSquare },
-    { id: "components", label: "7. Cards & Badges", icon: Layers },
-    { id: "borders", label: "8. Borders & Glass", icon: ShieldCheck },
-    { id: "spacing", label: "9. Spacing & Padding", icon: Box },
-    { id: "canvas-studio", label: "10. Canvas & Film Grain", icon: Sliders },
-    { id: "global-containers", label: "11. Global Containers", icon: Settings },
-    { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
-  ];
 
   return (
     <div className="min-h-screen  text-white pt-24 pb-20 px-6 sm:px-8 lg:px-[42px]">

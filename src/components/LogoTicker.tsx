@@ -163,7 +163,7 @@ export default function LogoTicker({
                   className={`w-auto object-contain transition-[height,filter] duration-150 ${
                     config.invert ? "hoy-ticker-logo" : ""
                   }`}
-                  style={{ height: `${config.logoHeight}px` }}
+                  style={{ height: `${config.logoHeight}px`, width: "auto" }}
                   unoptimized
                 />
               </div>
