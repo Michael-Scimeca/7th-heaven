@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/only-export-components */
+/* eslint-disable react-doctor/only-export-components */
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
