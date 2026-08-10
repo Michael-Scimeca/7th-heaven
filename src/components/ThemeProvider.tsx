@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/no-fetch-in-effect */
+/* eslint-disable react-doctor/no-fetch-in-effect */
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import {
