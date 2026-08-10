@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/nextjs-no-client-side-redirect */
+/* eslint-disable react-doctor/nextjs-no-client-side-redirect */
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";

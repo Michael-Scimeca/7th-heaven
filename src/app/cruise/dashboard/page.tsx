@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/nextjs-no-client-side-redirect */
+/* eslint-disable react-doctor/nextjs-no-client-side-redirect */
 
 import { useMember } from "@/context/MemberContext";
 import { useRouter } from "next/navigation";

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Terms of Service — 7th Heaven",
@@ -111,7 +112,7 @@ export default function TermsPage() {
                         <ul className="list-disc pl-5 space-y-2 text-base text-[var(--muted-text)]">
                             <li>All prices are displayed in USD and are subject to change without notice.</li>
                             <li>We reserve the right to refuse or cancel orders at our discretion.</li>
-                            <li>Returns and refunds are governed by our <a href="/returns" className="text-[var(--color-accent)] font-bold hover:underline">Returns Policy</a>.</li>
+                            <li>Returns and refunds are governed by our <Link href="/returns" className="text-[var(--color-accent)] font-bold hover:underline">Returns Policy</Link>.</li>
                         </ul>
                     </div>
 

@@ -557,7 +557,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           WebkitBackdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
           background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
           transform: 'translateZ(0)',
-          willChange: 'transform',
         }}
       />
 

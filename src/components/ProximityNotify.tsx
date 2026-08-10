@@ -177,6 +177,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     src="/images/band-performance.png"
                     alt="7th Heaven Concert Live Stream"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px"
                     className="object-cover object-center transform group-hover:scale-105 transition-transform duration-700 brightness-95"
                     priority
                   />

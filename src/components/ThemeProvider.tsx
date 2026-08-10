@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import {
   ThemeTokens,
   DEFAULT_THEME_TOKENS,
@@ -152,22 +152,22 @@ export function ThemeProvider({
     return true;
   }, []);
 
-  const hasUnsavedChanges = JSON.stringify(tokens) !== JSON.stringify(savedTokens);
+  const hasUnsavedChanges = useMemo(() => JSON.stringify(tokens) !== JSON.stringify(savedTokens), [tokens, savedTokens]);
+
+  const contextValue = useMemo(() => ({
+    tokens,
+    isSaving,
+    hasUnsavedChanges,
+    updateToken,
+    updateTokens,
+    saveTheme,
+    resetToDefaults,
+    exportThemeJson,
+    importThemeJson,
+  }), [tokens, isSaving, hasUnsavedChanges, updateToken, updateTokens, saveTheme, resetToDefaults, exportThemeJson, importThemeJson]);
 
   return (
-    <ThemeContext.Provider
-      value={{
-        tokens,
-        isSaving,
-        hasUnsavedChanges,
-        updateToken,
-        updateTokens,
-        saveTheme,
-        resetToDefaults,
-        exportThemeJson,
-        importThemeJson,
-      }}
-    >
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );

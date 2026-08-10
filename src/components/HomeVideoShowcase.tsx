@@ -319,6 +319,7 @@ export default function HomeVideoShowcase() {
     isSpeedBouncyEnabled,
     cardsVisible,
     totalVideos,
+    startIndex,
   ]);
 
   // Step next slide via Smooothy or state fallback
@@ -414,14 +415,19 @@ export default function HomeVideoShowcase() {
   };
 
   // Auto-rotation timer based on user speed setting
+  const handleNextRef = useRef(handleNext);
+  useEffect(() => {
+    handleNextRef.current = handleNext;
+  });
+
   useEffect(() => {
     if (!isAutoPlayEnabled) return;
     const intervalMs = Math.max(2, autoAdvanceSpeed) * 1000;
     const timer = setInterval(() => {
-      handleNext();
+      handleNextRef.current();
     }, intervalMs);
     return () => clearInterval(timer);
-  }, [isAutoPlayEnabled, autoAdvanceSpeed, handleNext]);
+  }, [isAutoPlayEnabled, autoAdvanceSpeed]);
 
   const getGapPx = () => {
     if (cardGap === "gap-2") return 8;
@@ -549,7 +555,7 @@ export default function HomeVideoShowcase() {
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
 
                   {/* YouTube 30-Second Autoplay Preview Frame */}
-                  <div className="smooothy-parallax-media absolute inset-0 w-full h-full pointer-events-none overflow-hidden transform-gpu will-change-transform transition-transform duration-75 ease-out">
+                  <div className="smooothy-parallax-media absolute inset-0 w-full h-full pointer-events-none overflow-hidden transform-gpu transition-transform duration-75 ease-out">
                     <iframe
                       src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${video.id}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
                       title={video.title}

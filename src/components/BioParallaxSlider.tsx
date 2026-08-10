@@ -288,32 +288,6 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
   const [selectedPositionIdx, setSelectedPositionIdx] = useState<number>(2);
   const [isMaskEditorOpen, setIsMaskEditorOpen] = useState<boolean>(false);
 
-  // 🌊 Dynamic Animated Wave Peak Position State (Glides smoothly toward activeIndex & pauses when settled)
-  const [wavePeakPos, setWavePeakPos] = useState<number>(adamCenterIdx);
-
-  useEffect(() => {
-    let animId: number;
-    let running = true;
-
-    const updateWave = () => {
-      if (!running) return;
-      setWavePeakPos((prev) => {
-        const diff = activeIndex - prev;
-        if (Math.abs(diff) < 0.001) {
-          return activeIndex;
-        }
-        animId = requestAnimationFrame(updateWave);
-        return prev + diff * 0.12;
-      });
-    };
-
-    animId = requestAnimationFrame(updateWave);
-    return () => {
-      running = false;
-      if (animId) cancelAnimationFrame(animId);
-    };
-  }, [activeIndex]);
-
   // 🎬 Video Pagination Layout Style Options (10 Designs)
   const [paginationStyle, setPaginationStyle] = useState<
     "glass-dock" | "circular" | "cyber-hud" | "film-strip" | "minimal" | "left-spine" | "right-spine" | "full-bottom" | "expanded-active" | "diamond"
@@ -789,9 +763,11 @@ lerpSpeed: ${lerpSpeed}`;
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
-                        <img
+                        <Image
                           src={imageSrc}
                           alt={m?.name || "Member Photo"}
+                          width={500}
+                          height={800}
                           draggable={false}
                           className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
@@ -800,6 +776,7 @@ lerpSpeed: ${lerpSpeed}`;
                             opacity: 1,
                             ...(clipStyle ? { WebkitMaskImage: clipStyle, maskImage: clipStyle } : {}),
                           }}
+                          unoptimized
                         />
 
                         {/* Layer 1: Sibling Overlay Div (Smooth 2D Feathered Radial Gradient Glow with Zero Edge Cuts) */}

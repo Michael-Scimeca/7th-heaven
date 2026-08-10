@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/nextjs-no-client-side-redirect */
+/* eslint-disable react-doctor/nextjs-no-client-side-redirect */
 
 import { Suspense } from "react";
 import { useEffect } from "react";

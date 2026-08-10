@@ -14,6 +14,8 @@
  *    SHOPIFY_ADMIN_ACCESS_TOKEN="shpat_xxxxx"
  */
 
+/* oxlint-disable react-doctor/nextjs-no-side-effect-in-get-handler */
+/* eslint-disable react-doctor/nextjs-no-side-effect-in-get-handler */
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 

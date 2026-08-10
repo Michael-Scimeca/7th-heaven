@@ -34,17 +34,13 @@ function VideoThumbnail({ videoId, title }: { videoId: string; title: string }) 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#1a0f2e] via-[#0c0817] to-black flex items-center justify-center overflow-hidden">
       {!failed ? (
-        <img
+        <Image
           src={imgSrc}
           alt={title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          loading="lazy"
-          onLoad={(e) => {
-            const img = e.currentTarget;
-            if (img.naturalWidth <= 120 || img.naturalHeight <= 90) {
-              setFailed(true);
-            }
-          }}
+          fill
+          sizes="(max-width: 768px) 100vw, 300px"
+          className="object-cover group-hover:scale-110 transition-transform duration-700"
+          unoptimized
           onError={() => {
             if (imgSrc.includes('maxresdefault')) {
               setImgSrc(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
@@ -136,7 +132,7 @@ export default function MediaPage() {
     return () => {
       ctx.revert();
     };
-  }, [filteredVideos]);
+  }, [filteredVideos.length, activeFilter, searchQuery]);
 
   const handleTitleClick = (index: number) => {
     const el = videoItemRefs.current[index];

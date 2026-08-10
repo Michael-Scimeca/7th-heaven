@@ -226,6 +226,11 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       video.play().then(() => {
         setTimeAt10();
       }).catch(() => {});
+      return () => {
+        video.removeEventListener("loadedmetadata", setTimeAt10);
+        video.removeEventListener("canplay", setTimeAt10);
+        video.removeEventListener("playing", setTimeAt10);
+      };
     }
   }, [videoSrc, isYouTube]);
 

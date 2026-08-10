@@ -236,9 +236,11 @@ export default function FallingPicks() {
       el.style.width = `${pickW}px`;
       el.style.height = `${pickH}px`;
       el.style.willChange = "transform";
-      el.style.filter = "drop-shadow(0 6px 8px rgba(0,0,0,0.55))";
       const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-      el.innerHTML = pickHtml(palette);
+      const parsed = new DOMParser().parseFromString(pickHtml(palette), "image/svg+xml");
+      if (parsed.documentElement && !parsed.querySelector("parsererror")) {
+        el.appendChild(document.adoptNode(parsed.documentElement));
+      }
       container.appendChild(el);
 
       Composite.add(engine.world, body);

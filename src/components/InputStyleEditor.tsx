@@ -867,7 +867,7 @@ a:hover {
                       <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
-                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <a href="#" onClick={e => e.preventDefault()}>Interactive Custom Link</a> embedded inside.</p>
+                      <p>This is a live preview paragraph demonstrating paragraph text styling with an <button type="button" className="text-cyan-400 font-bold underline cursor-pointer">Interactive Custom Link</button> embedded inside.</p>
                     </div>
                   </div>
                 </div>

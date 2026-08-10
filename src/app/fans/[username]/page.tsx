@@ -9,6 +9,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import ProximityPanel from "@/components/ProximityPanel";
 import DOMPurify from "dompurify";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 import CruiseChat from "@/components/CruiseChat";
 import dynamic from "next/dynamic";
 
@@ -571,7 +572,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   </div>
                   <div
                     className="text-black/80 text-sm leading-relaxed space-y-4 [&_a]:text-cyan-400 [&_a]:underline [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_strong]:text-black [&_strong]:font-bold"
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(cruiseAnnouncement) }}
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(cruiseAnnouncement) }}
                   />
                 </div>
               </div>

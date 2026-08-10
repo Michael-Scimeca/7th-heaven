@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Sliders, Sparkles, X, RotateCcw } from "lucide-react";
 
 export type TickerItem = {
@@ -144,7 +145,7 @@ export default function LogoTicker({
           {track.map((item, i) =>
             item.src ? (
               <div
-                key={i}
+                key={item.src + "-" + i}
                 className="flex shrink-0 items-center justify-center transition-all duration-150"
                 style={{
                   height: `${config.containerHeight}px`,
@@ -152,19 +153,21 @@ export default function LogoTicker({
                   paddingRight: `${config.paddingX}px`,
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={item.src}
                   alt={item.alt ?? ""}
+                  width={200}
+                  height={config.logoHeight}
                   className={`w-auto object-contain transition-all duration-150 ${
                     config.invert ? "hoy-ticker-logo" : ""
                   }`}
                   style={{ height: `${config.logoHeight}px` }}
+                  unoptimized
                 />
               </div>
             ) : (
               <div
-                key={i}
+                key={(item.label || "item") + "-" + i}
                 className="flex shrink-0 items-center gap-6 border-r border-white/20 px-10"
                 style={{ height: `${config.containerHeight}px` }}
               >

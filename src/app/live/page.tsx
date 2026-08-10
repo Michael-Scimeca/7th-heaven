@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Guitar, Piano, Drum, Mic, Eye, Ban, VolumeX, Siren, Radio, Users, ScrollText, AlertTriangle, Smartphone, Bell } from "lucide-react";
 
@@ -313,10 +314,12 @@ export default function LiveHubPage() {
                     <div key={room.name} className="overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
                       {/* Mini feed */}
                       <div className="aspect-video relative">
-                        <img
+                        <Image
                           src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
                           alt={room.title}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="object-cover"
                         />
                         <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold" style={{ background: "#dc2626" }}>
                           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -470,10 +473,12 @@ export default function LiveHubPage() {
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
                 {/* Thumbnail with video concert image */}
                 <div className="aspect-video bg-black/60 relative overflow-hidden">
-                  <img
+                  <Image
                     src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
                     alt={room.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 

@@ -684,7 +684,6 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
           WebkitBackdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
           background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
           transform: 'translateZ(0)',
-          willChange: 'transform',
         }}
       />
       {/* ── Header (Inside Blue Container Box) ── */}

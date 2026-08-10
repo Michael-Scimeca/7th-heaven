@@ -190,8 +190,9 @@ export default function HomeShaderGradient() {
       window.addEventListener("scroll", onScroll, { passive: true });
     }
 
+    let observer: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== "undefined" && canvasRef.current) {
-      const observer = new IntersectionObserver(([entry]) => {
+      observer = new IntersectionObserver(([entry]) => {
         isVisible = entry.isIntersecting;
       }, { threshold: 0.01 });
       observer.observe(canvasRef.current);
@@ -260,15 +261,29 @@ export default function HomeShaderGradient() {
       generateGrainTile();
 
       return () => {
-        window.removeEventListener("scroll", onScroll);
-        cancelAnimationFrame(animFrameId);
+        if (typeof window !== "undefined") {
+          window.removeEventListener("scroll", onScroll);
+        }
+        if (observer) {
+          observer.disconnect();
+        }
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+        }
         neatInstance?.destroy?.();
       };
     }
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(animFrameId);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("scroll", onScroll);
+      }
+      if (observer) {
+        observer.disconnect();
+      }
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+      }
       neatInstance?.destroy?.();
     };
   }, []);
