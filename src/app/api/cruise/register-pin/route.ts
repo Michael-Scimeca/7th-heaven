@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Create Supabase Auth account
-      const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
+      const { data: authUser, error: authError } = await (supabase.auth as any).admin.createUser({
         email: pending.email,
         password: pending.password,
         email_confirm: true,

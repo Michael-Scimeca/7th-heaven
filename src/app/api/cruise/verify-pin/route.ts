@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-const supabase = createClient(
+const supabase: any = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   { auth: { autoRefreshToken: false, persistSession: false } }
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     // 3. Create or update Supabase auth user as a cruise member
     // Try to create a new user first; if they already exist, update their profile
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
-    const existingUser = existingUsers?.users?.find(u => u.email === cleanEmail);
+    const existingUser = existingUsers?.users?.find((u: any) => u.email === cleanEmail);
 
     let userId: string | null = null;
 

@@ -46,13 +46,26 @@
 
 import { useState, useRef, useId, useEffect, useLayoutEffect } from "react";
 
+export interface DropdownOption {
+  label: string;
+  value: string;
+}
+
 export interface GooeyCustomer {
   id: string;
   name: string;
 }
 
 export interface GooeyMessagesDropdownProps {
-  /** Panel header title. Defaults to "Customers". */
+  /** Generic array of options: [{ label, value }] or string[] */
+  options?: (DropdownOption | string)[];
+  /** Currently selected value */
+  selected?: string;
+  /** Callback fired when selected value changes */
+  onChange?: (value: string) => void;
+  /** Label text for form field */
+  label?: string;
+  /** Panel header title. Defaults to "". */
   title?: string;
   /** Badge text, e.g. a count. Pass "" to hide it. */
   badge?: string;
@@ -64,10 +77,21 @@ export interface GooeyMessagesDropdownProps {
   /** Called when the user picks a customer from the list. */
   onSelect?: (customer: GooeyCustomer) => void;
   className?: string;
-  /** Background class when open/active. Defaults to "bg-[rgb(127,20,198)]". */
+  /** Background class when open/active. Defaults to "bg-[#2f2f3c]". */
   activeBg?: string;
-  /** Background class when closed/default. Defaults to "bg-[#1a1a1a]". */
+  /** Background class when closed/default. Defaults to "bg-[#2f2f3c]". */
   defaultBg?: string;
+  /** Expand trigger to full width of parent container with input box styling. */
+  fullWidth?: boolean;
+  /** Remove border outline from trigger. */
+  noBorder?: boolean;
+  /** Make default background transparent. */
+  transparentBg?: boolean;
+  /** Remove horizontal padding from trigger button. */
+  noPadding?: boolean;
+  disabled?: boolean;
+  id?: string;
+  name?: string;
 }
 
 const DEFAULT_CUSTOMERS: GooeyCustomer[] = [
@@ -80,17 +104,16 @@ const DEFAULT_CUSTOMERS: GooeyCustomer[] = [
 ];
 
 const BUTTON_MIN_WIDTH = 52;
-// Fallback only used for the very first paint before the button's real
-// height (now driven by its own py-4 padding, not a fixed height) has
-// been measured.
 const BUTTON_FALLBACK_HEIGHT = 52;
 const GAP_BELOW_BUTTON = 2;
-// Rough fallbacks only used for the very first paint before the real
-// content has been measured (see panelContentRef below).
-const FALLBACK_PANEL_WIDTH = 220;
+const FALLBACK_PANEL_WIDTH = 0;
 const FALLBACK_PANEL_HEIGHT = 160;
 
 export default function GooeyMessagesDropdown({
+  options,
+  selected,
+  onChange,
+  label,
   title = "",
   badge = "",
   placeholder = "Select Customer",
@@ -100,10 +123,23 @@ export default function GooeyMessagesDropdown({
   className = "",
   activeBg = "bg-[#2f2f3c]",
   defaultBg = "bg-[#2f2f3c]",
+  fullWidth = false,
+  noBorder = false,
+  transparentBg = false,
+  noPadding = false,
+  disabled = false,
+  id,
+  name,
 }: GooeyMessagesDropdownProps) {
   const [open, setOpen] = useState(false);
   const [isMorphComplete, setIsMorphComplete] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | undefined>(defaultSelectedId);
+  const [selectedIdState, setSelectedIdState] = useState<string | undefined>(defaultSelectedId);
+
+  const normalizedCustomers: GooeyCustomer[] = options && options.length > 0
+    ? options.map((opt) => typeof opt === "string" ? { id: opt, name: opt } : { id: opt.value, name: opt.label })
+    : customers;
+
+  const activeSelectedId = selected !== undefined ? selected : selectedIdState;
 
   useEffect(() => {
     if (!open) return;
@@ -115,14 +151,9 @@ export default function GooeyMessagesDropdown({
       setIsMorphComplete(false);
     };
   }, [open]);
-  // How wide the trigger button actually renders at, so the goo shape
-  // sitting behind it (and the panel's horizontal center) can match it
-  // exactly. Text labels longer than BUTTON_MIN_WIDTH make the button grow
-  // into a pill instead of getting clipped inside a fixed circle.
+
   const [triggerWidth, setTriggerWidth] = useState(BUTTON_MIN_WIDTH);
   const [triggerHeight, setTriggerHeight] = useState(BUTTON_FALLBACK_HEIGHT);
-  // Actual rendered dimensions of the panel's content (title/badge row, if any,
-  // plus the option list). Measured directly so panel only grows as wide as needed.
   const [panelWidth, setPanelWidth] = useState(FALLBACK_PANEL_WIDTH);
   const [panelHeight, setPanelHeight] = useState(FALLBACK_PANEL_HEIGHT);
 
@@ -134,9 +165,9 @@ export default function GooeyMessagesDropdown({
   const panelContentRef = useRef<HTMLDivElement>(null);
   const innerContentRef = useRef<HTMLDivElement>(null);
 
-  const selected = customers.find((c) => c.id === selectedId);
-  const triggerText = selected ? selected.name : placeholder;
-  const currentBg = open ? activeBg : defaultBg;
+  const selectedItem = normalizedCustomers.find((c) => c.id === activeSelectedId);
+  const triggerText = selectedItem ? selectedItem.name : placeholder;
+  const currentBg = transparentBg ? (open ? activeBg : "bg-transparent") : (open ? activeBg : defaultBg);
 
   useLayoutEffect(() => {
     const el = triggerRef.current;
@@ -151,22 +182,22 @@ export default function GooeyMessagesDropdown({
     return () => ro.disconnect();
   }, [triggerText]);
 
-  // The inner content is measured (unclipped) so panelWidth and panelHeight
-  // adapt perfectly, while panelContentRef acts as the scrolling viewport.
   useLayoutEffect(() => {
+    if (!open) return;
     const el = innerContentRef.current;
     if (!el) return;
-    const measure = () => {
-      const measuredW = Math.max(el.offsetWidth + 28, triggerWidth);
-      const measuredH = Math.min(el.offsetHeight + 8, 280);
-      setPanelWidth(measuredW);
-      setPanelHeight(measuredH);
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [title, badge, customers, triggerWidth]);
+
+    const optionButtons = el.querySelectorAll("button");
+    let maxTextW = 0;
+    optionButtons.forEach((btn: any) => {
+      if (btn.scrollWidth) maxTextW = Math.max(maxTextW, btn.scrollWidth);
+    });
+    const measuredW = Math.max(maxTextW > 0 ? maxTextW + 36 : el.offsetWidth, triggerWidth);
+    const measuredH = Math.min(el.offsetHeight + 8, 280);
+
+    setPanelWidth((prev) => (prev !== measuredW ? measuredW : prev));
+    setPanelHeight((prev) => (prev !== measuredH ? measuredH : prev));
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -185,7 +216,6 @@ export default function GooeyMessagesDropdown({
     };
   }, [open]);
 
-  // Prevent background window scroll when hovering and scrolling the dropdown list
   useEffect(() => {
     const el = panelContentRef.current;
     if (!open || !el) return;
@@ -208,19 +238,20 @@ export default function GooeyMessagesDropdown({
     };
   }, [open]);
 
-  // Local coordinates, relative to the anchor point
+  const targetPanelWidth = fullWidth ? triggerWidth : Math.max(triggerWidth, panelWidth || triggerWidth);
+
   const shapeStyle = open
     ? {
-      width: panelWidth,
+      width: targetPanelWidth,
       height: panelHeight,
-      left: -triggerWidth / 2,
+      left: 0,
       top: triggerHeight + GAP_BELOW_BUTTON,
-      borderRadius: 20,
+      borderRadius: 16,
     }
     : {
       width: triggerWidth,
       height: triggerHeight,
-      left: -triggerWidth / 2,
+      left: 0,
       top: 0,
       borderRadius: 999,
     };
@@ -228,7 +259,7 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative inline-block [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
+      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-50" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
     >
       <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute w-0 h-0 overflow-hidden">
         <defs>
@@ -245,7 +276,7 @@ export default function GooeyMessagesDropdown({
         </defs>
       </svg>
 
-      <div className="absolute left-1/2 top-0 z-40 pointer-events-none">
+      <div className="absolute left-0 top-0 z-40 pointer-events-none">
         <div className="absolute pointer-events-none drop-shadow-[0_10px_28px_rgba(0,0,0,0.18)]">
           <div style={{ filter: open ? `url(#${filterId})` : "none" }}>
             <div
@@ -262,7 +293,7 @@ export default function GooeyMessagesDropdown({
               style={{
                 width: triggerWidth,
                 height: triggerHeight,
-                left: -triggerWidth / 2,
+                left: 0,
                 top: 0,
               }}
             />
@@ -271,42 +302,47 @@ export default function GooeyMessagesDropdown({
 
         <div
           ref={panelContentRef}
-          className={`absolute bg-transparent py-1 px-3 custom-scrollbar opacity-0 -translate-y-1 transition-opacity duration-200 ease ${open && isMorphComplete ? "!opacity-100 !translate-y-0 pointer-events-auto" : "pointer-events-none"
+          className={`absolute bg-transparent py-2 pl-3 pr-1.5 custom-purple-scrollbar opacity-0 -translate-y-1 transition-opacity duration-200 ease ${open && isMorphComplete ? "!opacity-100 !translate-y-0 pointer-events-auto" : "pointer-events-none"
             }`}
           role="listbox"
           aria-hidden={!open || !isMorphComplete}
           style={{
-            width: panelWidth,
+            width: targetPanelWidth,
             maxHeight: panelHeight,
-            overflowY: open && isMorphComplete ? "auto" : "hidden",
-            left: -triggerWidth / 2,
+            overflowY: open ? "auto" : "hidden",
+            left: 0,
             top: triggerHeight + GAP_BELOW_BUTTON,
           }}
         >
-          <div ref={innerContentRef} className="w-max">
+          <div ref={innerContentRef} className="w-full">
             {(title || badge) && (
               <div className="flex items-center justify-between mb-2">
-                {title && <span className="text-base font-medium text-white leading-[1.2]">{title}</span>}
+                {title && <span className="text-sm font-medium text-white leading-[1.2]">{title}</span>}
                 {badge && <span className="text-[10px] font-medium text-[#787878] leading-[1.2]">{badge}</span>}
               </div>
             )}
 
             <ul className={`list-none m-0 p-0 flex flex-col pr-1 transition-opacity duration-200 ease-out ${open && isMorphComplete ? "opacity-100" : "opacity-0"
               }`}>
-              {customers.map((c) => (
+              {normalizedCustomers.map((c) => (
                 <li key={c.id} className="border-b border-white/10 last:border-b-0">
                   <button
                     type="button"
                     role="option"
-                    aria-selected={c.id === selectedId}
+                    aria-selected={c.id === activeSelectedId}
                     tabIndex={open && isMorphComplete ? 0 : -1}
-                    className={`block w-full text-left pt-0 pb-1 px-3 -mx-2 rounded-lg !text-[19px] font-[600] whitespace-nowrap cursor-pointer transition-colors duration-150 ${c.id === selectedId ? "text-purple-400 font-bold" : "text-[#d1d1d1]"
+                    className={`block w-full text-left py-2 px-3 rounded-lg text-xs font-bold whitespace-normal cursor-pointer transition-colors duration-150 ${c.id === activeSelectedId ? "text-purple-300 font-extrabold" : "text-[#d1d1d1] hover:text-white"
                       }`}
                     onClick={() => {
-                      const isSelected = c.id === selectedId;
+                      const isSelected = c.id === activeSelectedId;
                       const nextId = isSelected ? undefined : c.id;
-                      setSelectedId(nextId);
-                      onSelect?.(isSelected ? { id: "All", name: placeholder } : c);
+                      setSelectedIdState(nextId);
+                      onSelect?.(c);
+                      if (nextId !== undefined) {
+                        onChange?.(nextId);
+                      } else {
+                        onChange?.("");
+                      }
                       setOpen(false);
                     }}
                   >
@@ -322,30 +358,32 @@ export default function GooeyMessagesDropdown({
       <button
         ref={triggerRef}
         type="button"
-        className={`relative z-50 min-w-[52px] px-4 py-4 rounded-full ${currentBg} flex items-center justify-center gap-1.5 cursor-pointer`}
+        disabled={disabled}
+        className={`relative z-50 ${fullWidth
+          ? "w-full justify-between text-left"
+          : "min-w-[52px] justify-center text-center"
+          } px-5 py-3 rounded-full ${currentBg} ${noBorder ? "border-none" : ""} flex items-center gap-2 cursor-pointer transition-colors hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={triggerText}
       >
-        <span className="text-[17px] font-[800] uppercase tracking-wide text-white leading-none text-center whitespace-nowrap">
+        <span className={`text-xs font-black uppercase tracking-wider text-white truncate ${fullWidth ? "text-left flex-1" : "text-center whitespace-nowrap"}`}>
           {triggerText}
         </span>
         <svg
-          width="10"
-          height="6"
-          viewBox="0 0 10 6"
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
           fill="none"
-          className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`shrink-0 text-white/70 transition-transform duration-200 ${open ? "rotate-180 text-purple-400" : ""}`}
           aria-hidden="true"
         >
-          <path
-            d="M1 1L5 5L9 1"
-            stroke="#ffffff"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+          <path d="M2 4l4 4 4-4" />
         </svg>
       </button>
     </div>

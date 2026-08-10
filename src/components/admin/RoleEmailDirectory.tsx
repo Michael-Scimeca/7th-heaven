@@ -139,7 +139,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
 
   return (
-    <div className="py-6 pr-6 pl-0 bg-transparent border-t border-black/10 space-y-6 text-black font-sans">
+    <div className="py-6 pr-6 pl-0 bg-transparent border-none space-y-6 text-black font-sans">
 
       {/* Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -150,15 +150,15 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`px-3.5 py-2  text-xs font-black uppercase tracking-wider transition-colors cursor-pointer border flex items-center gap-2 ${activeTab === tab
-                ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
-                : "bg-black/5 border-black/10 text-black/70 hover:bg-black/10 hover:text-black"
+              className={`px-3.5 py-2 text-xs font-black uppercase tracking-wider transition-colors cursor-pointer border-none flex items-center gap-2 rounded-lg ${activeTab === tab
+                ? "bg-[var(--color-accent)] text-white shadow-md"
+                : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
             >
               <span>
                 {tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS"}
               </span>
-              <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-black/10 text-black'}`}>
+              <span className={`px-1.5 py-0.5 rounded-full text-[var(--font-size-3xs)] font-mono font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-white/10 text-white/60'}`}>
                 {counts[tab]}
               </span>
             </button>
@@ -170,7 +170,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleCopyEmails}
-            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] border border-[var(--color-accent)] text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
+            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 border-none text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg shadow-sm"
             title="Copy all email addresses for BCC email dispatch"
           >
             <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
@@ -179,68 +179,76 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-black/5 hover:bg-black/10 border border-black/15 text-black font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5"
+            className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg"
           >
             <span></span> Export CSV
           </button>
         </div>
       </div>
 
-      {/* Search Input */}
-      <div>
-        <input aria-label="Search"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search email directory by name, email, or phone number..."
-          className="search-input w-full bg-[var(--card-bg)] border border-[var(--border-color)] py-3 text-xs text-[var(--text-color)] font-semibold placeholder:text-[var(--placeholder-color)] outline-none focus:border-[var(--color-accent)]"
-        />
+      {/* Global Search Bar (Max 300px) */}
+      <div className="input-glow-border rounded-xl max-w-[300px] w-full">
+        <div className="relative w-full flex items-center bg-white/5 border border-white/10 rounded-xl transition-colors">
+          <svg className="absolute left-3 w-3.5 h-3.5 text-white/50 pointer-events-none z-10" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input aria-label="Search email directory"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search email directory by name or email..."
+            className="w-full text-xs font-semibold pl-8 pr-3 py-2 bg-transparent border-none outline-none text-white placeholder:text-white/40"
+          />
+        </div>
       </div>
 
       {/* Email Table */}
-      <div className="border border-[var(--border-color)] overflow-hidden bg-[var(--card-bg)] shadow-xs">
+      <div className="border-none overflow-hidden bg-transparent">
         <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse border-none">
             <thead>
-              <tr className="bg-[var(--card-bg)] border-b-2 border-[var(--border-color)] text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-[var(--muted-text)] sticky top-0 backdrop-blur-md z-10">
-                <th className="py-3 pr-4 pl-0 border-b border-[var(--border-color)]">Name</th>
-                <th className="py-3 px-4 border-b border-[var(--border-color)]">Email Address</th>
-                <th className="py-3 px-4 border-b border-[var(--border-color)]">Role</th>
-                <th className="py-3 px-4 border-b border-[var(--border-color)]">Phone Number</th>
-                <th className="py-3 px-4 text-right border-b border-[var(--border-color)]">Quick Action</th>
+              <tr className="bg-transparent text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50 sticky top-0 backdrop-blur-md z-10 border-none">
+                <th className="py-3 pr-4 pl-0 border-none">Name</th>
+                <th className="py-3 px-4 border-none">Email Address</th>
+                <th className="py-3 px-4 border-none">Role</th>
+                <th className="py-3 px-4 border-none">Phone Number</th>
+                <th className="py-3 px-4 text-right border-none">Quick Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border-color)] text-xs">
+            <tbody className="divide-y divide-white/10 text-xs">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-[var(--muted-text)] opacity-60 italic font-semibold">
+                  <td colSpan={5} className="py-8 text-center text-white/40 opacity-60 italic font-semibold">
                     No recipients found matching your search.
                   </td>
                 </tr>
               ) : (
                 filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-white/20">
-                    <td className="py-3 pr-4 pl-0 font-bold text-[var(--text-color)] flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 flex items-center justify-center  text-[var(--color-accent)] font-black text-[var(--font-size-3xs)]">
-                        {user.name.charAt(0)}
+                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-none">
+                    <td className="py-3 pr-4 pl-0 font-bold text-white border-none">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-purple-300 font-black text-[var(--font-size-3xs)]">
+                          {user.name.charAt(0)}
+                        </div>
+                        <span>{user.name}</span>
                       </div>
-                      <span>{user.name}</span>
                     </td>
-                    <td className="py-3 px-4  text-[var(--color-accent)] font-mono text-xs font-extrabold select-all">
+                    <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-extrabold select-all border-none">
                       {user.email}
                     </td>
-                    <td className="py-3 px-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-wider border ${getRoleBadgeStyle(user.role)}`}>
+                    <td className="py-3 px-4 border-none">
+                      <span className={`px-2.5 py-1 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${getRoleBadgeStyle(user.role)}`}>
                         {user.role}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-mono text-[var(--muted-text)] font-semibold">
+                    <td className="py-3 px-4 font-mono text-white/50 font-semibold border-none">
                       {user.phone || "—"}
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-3 px-4 text-right border-none">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[var(--card-bg)] hover:   border border-[var(--border-color)] text-[var(--text-color)] font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1 border-none"
                       >
                         Email
                       </a>

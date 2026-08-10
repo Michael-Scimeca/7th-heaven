@@ -165,7 +165,7 @@ export function Footer() {
               }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
             >
-              <div className="input-glow-border rounded-lg flex-1 min-w-[175px] sm:min-w-[190px]">
+              <div className="input-glow-border rounded-lg flex-1 min-w-[175px] sm:min-w-[190px]" suppressHydrationWarning>
                 <input aria-label="Input field"
                   type="tel"
                   value={smsPhone}
@@ -176,8 +176,8 @@ export function Footer() {
                   className="w-full px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
                 />
               </div>
-              <div className="flex gap-2 w-full sm:w-auto shrink-0">
-                <div className="input-glow-border rounded-lg w-24 sm:w-28">
+              <div className="flex gap-2 w-full sm:w-auto shrink-0" suppressHydrationWarning>
+                <div className="input-glow-border rounded-lg w-24 sm:w-28" suppressHydrationWarning>
                   <input aria-label="Input field"
                     type="text"
                     value={smsZip}

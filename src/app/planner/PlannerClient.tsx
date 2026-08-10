@@ -2,6 +2,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect, useSyncExternalStore, useCallback, useRef } from "react";
+import { X } from "lucide-react";
 import { useMember } from "@/context/MemberContext";
 
 interface Booking {
@@ -19,8 +20,16 @@ const typeLabels: Record<string, string> = {
 };
 
 export default function PlannerClient() {
-  const { member, isLoggedIn, hydrated, login, signup } = useMember();
+  const { member, isLoggedIn, hydrated, login, signup, openModal, closeModal, isModalOpen } = useMember();
   const mounted = useSyncExternalStore(() => () => { }, () => true, () => false);
+
+  const handleCloseModal = useCallback(() => {
+    closeModal();
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
+  }, [closeModal]);
+
   const [booking, setBooking] = useState<Booking | null>(null);
   const [allBookings, setAllBookings] = useState<Booking[]>([]);
   const [notes, setNotes] = useState('');
@@ -34,47 +43,46 @@ export default function PlannerClient() {
   const [loginErr, setLoginErr] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [role, setRole] = useState<'fan' | 'crew' | 'planner' | 'cruise'>('planner');
 
-  const loadPlannerBookings = useCallback(async () => {
-    const memberEmail = member?.email || (() => { try { const s = localStorage.getItem('7h_member'); return s ? JSON.parse(s).email : null; } catch { return null; } })();
-    if (!memberEmail) return;
-    try {
-      const res = await fetch(`/api/booking?email=${encodeURIComponent(memberEmail)}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const mapped: Booking[] = data.map((item: any) => ({
-            id: item.bookingId || item.booking_id || '',
-            eventName: item.eventType ? (typeLabels[item.eventType] || item.eventType) : '',
-            eventType: item.eventType || '',
-            date: item.eventDate || item.event_date || '',
-            startTime: item.startTime || item.start_time || '',
-            endTime: item.endTime || item.end_time || '',
-            venueName: item.venueName || item.venue_name || '',
-            venueCity: item.venueCity || item.venue_city || '',
-            venueState: item.venueState || item.venue_state || '',
-            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || '',
-            expectedAttendance: item.expectedAttendance || item.expected_attendance || '',
-            organization: item.organization || '',
-            status: item.status || 'pending',
-            soundSystem: item.soundSystem || item.sound_system || '',
-            stageAvailable: item.stageAvailable || item.stage_available || '',
-            loadInTime: item.loadInTime || item.load_in_time || '',
-            notes: item.details || item.notes || '',
-          }));
-          setAllBookings(mapped);
-          const active = mapped.find(b => b.status !== 'cancelled') || mapped[0];
-          setBooking(active);
-          setNotes(active.notes || '');
-        }
-      }
-    } catch (e) { console.error(e); }
-  }, [member?.email]);
+  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const isDevBypass = urlParams?.get('bypass') === 'true' || urlParams?.get('demo') === 'true';
+  const forceLogin = urlParams?.get('login') === 'true';
+  const hasAccess = !forceLogin && (isDevBypass || (isLoggedIn && member?.role === 'event_planner'));
+
+  const hasAutoOpenedRef = useRef(false);
 
   useEffect(() => {
-    loadPlannerBookings();
-  }, [loadPlannerBookings]);
+    if (hydrated && !hasAccess && !hasAutoOpenedRef.current) {
+      hasAutoOpenedRef.current = true;
+      openModal("login", "planner");
+    }
+  }, [hydrated, hasAccess, openModal]);
 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginErr('');
+    setLoginLoading(true);
+    try {
+      if (mode === 'signup') {
+        const res = await signup(name, email, password, undefined, undefined);
+        if (!res.success) {
+          setLoginErr(res.error || 'Signup failed');
+        } else if (res.confirmationRequired) {
+          setLoginErr('CONFIRMATION_REQUIRED');
+        }
+      } else {
+        const ok = await login(email, password);
+        if (!ok) {
+          setLoginErr('Invalid email or password');
+        }
+      }
+    } catch (err: any) {
+      setLoginErr(err.message || 'Authentication error');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
 
   const isCancellingRef = useRef(false);
 
@@ -104,174 +112,93 @@ export default function PlannerClient() {
     }
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); setLoginErr(''); setLoginLoading(true);
+  const loadPlannerBookings = useCallback(async () => {
+    const memberEmail = member?.email || (() => { try { const s = localStorage.getItem('7h_member'); return s ? JSON.parse(s).email : null; } catch { return null; } })();
+    if (!memberEmail) return;
     try {
-      if (mode === 'signup') {
-        if (!name.trim()) { setLoginErr('Name is required.'); return; }
-        const result = await signup(name.trim(), email, password);
-        if (!result.success) {
-          setLoginErr(result.error || 'Signup failed. Try a different email or stronger password.');
-        } else if (result.confirmationRequired) {
-          setLoginErr('CONFIRMATION_REQUIRED');
-        } else {
-          // Success (auto-login or redirect)
-          window.location.reload();
+      const res = await fetch(`/api/booking?email=${encodeURIComponent(memberEmail)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: Booking[] = data.map((item: any) => ({
+            id: item.bookingId || item.booking_id || '',
+            eventName: item.eventType ? (typeLabels[item.eventType] || item.eventType) : '',
+            eventType: item.eventType || '',
+            date: item.eventDate || item.event_date || '',
+            startTime: item.startTime || item.start_time || '',
+            endTime: item.endTime || item.end_time || '',
+            venueName: item.venueName || item.venue_name || '',
+            venueCity: item.venueCity || item.venue_city || '',
+            venueState: item.venueState || item.venue_state || '',
+            indoorOutdoor: item.indoorOutdoor || item.indoor_outdoor || 'indoor',
+            expectedAttendance: item.expectedAttendance || item.expected_attendance || '250',
+            organization: item.organization || '',
+            status: item.status || 'pending',
+            soundSystem: item.soundSystem || item.sound_system || '',
+            stageAvailable: item.stageAvailable || item.stage_available || '',
+            loadInTime: item.loadInTime || item.load_in_time || '',
+            notes: item.notes || '',
+          }));
+          setAllBookings(mapped);
+          setBooking(mapped[0]);
+          setNotes(mapped[0].notes || '');
         }
-        return;
       }
-      const ok = await login(email, password);
-      if (!ok) setLoginErr('Invalid email or password.');
-    } finally {
-      setLoginLoading(false);
-    }
-  };
+    } catch { }
+  }, [member?.email]);
 
-  const isDevBypass = useSyncExternalStore(
-    () => () => { },
-    () => process.env.NODE_ENV === 'development' && (localStorage.getItem('7h_dev_bypass') === 'true' || new URLSearchParams(window.location.search).get('bypass') === 'true'),
-    () => false
-  );
-  const forceLogin = useSyncExternalStore(
-    () => () => { },
-    () => new URLSearchParams(window.location.search).get('login') === 'true',
-    () => false
-  );
+  useEffect(() => {
+    loadPlannerBookings();
+  }, [loadPlannerBookings]);
 
   if (!mounted || !hydrated) return null;
-  const hasAccess = !forceLogin && (isDevBypass || (isLoggedIn && member?.role === 'event_planner'));
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen    text-[var(--text-color)] pt-24 pb-16">
-        <div className="site-container max-w-2xl mx-auto">
-
-          {/* Sign In / Create Account Card */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] overflow-hidden mb-10 rounded-2xl shadow-xl">
-            <div className="h-1 bg-[var(--color-accent)]" />
-            <div className="p-8 md:p-10">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Planner <span className=" text-[var(--color-accent)]">Portal</span></h2>
-                <p className="text-sm text-[var(--muted-text)] mt-1.5 font-medium">Sign in to manage your event bookings, contracts, and show logistics</p>
-              </div>
-
-              {/* Prominent Tabs */}
-              <div className="grid grid-cols-2 gap-2 p-1.5 bg-white/5 border border-white/10 mb-6 rounded-xl max-w-sm mx-auto">
-                <button aria-label="Action button"
+      <div className="min-h-screen text-[var(--text-color)] pt-24 pb-16 relative">
+        <div className="site-container max-w-4xl mx-auto px-4 space-y-12">
+          {/* Hero Header */}
+          <div className="relative rounded-3xl p-8 sm:p-12 text-center overflow-hidden">
+            <div className="relative z-10 max-w-2xl mx-auto space-y-4">
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+                Planner <span className="text-[#c27aff]">Portal</span>
+              </h1>
+              <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+                Manage your event bookings, view contracts, coordinate load-in setup times, and communicate directly with 7th Heaven management.
+              </p>
+              <div className="pt-4 flex items-center justify-center gap-4 flex-wrap">
+                <button
                   type="button"
-                  onClick={() => { setMode('login'); setLoginErr(''); }}
-                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 ${mode === 'login'
-                    ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
-                    : "text-white/60 hover:text-white hover:bg-white/10"
-                    }`}
+                  onClick={() => openModal("login", "planner")}
+                  className="px-8 py-3.5  bg-[var(--color-accent)] hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.18em] transition-all duration-200 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:shadow-[0_0_40px_rgba(194,122,255,0.6)] rounded-xl cursor-pointer"
                 >
-                  🔑 LOGIN
+                  Sign In to Planner Portal
                 </button>
-                <button aria-label="Action button"
+                <button
                   type="button"
-                  onClick={() => { setMode('signup'); setLoginErr(''); }}
-                  className={`py-3 text-xs sm:text-sm font-black uppercase tracking-[0.15em] rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 ${mode === 'signup'
-                    ? "bg-[var(--color-accent)] text-white shadow-md scale-[1.02]"
-                    : "text-white/60 hover:text-white hover:bg-white/10"
-                    }`}
+                  onClick={() => openModal("signup", "planner")}
+                  className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-xs uppercase tracking-[0.18em] transition-colors rounded-xl cursor-pointer"
                 >
-                  ✨ CREATE ACCOUNT
+                  Create Account
                 </button>
               </div>
-
-              <form onSubmit={handleLogin} className="flex flex-col gap-4 max-w-sm mx-auto">
-                {mode === 'signup' && (
-                  <div>
-                    <label htmlFor="planner-client-name" className="text-xs uppercase tracking-[0.15em] text-[var(--muted-text)] mb-1.5 block font-bold">Full Name</label>
-                    <input aria-label="Input field"
-                      id="planner-client-name"
-                      type="text"
-                      value={name}
-                      onChange={e => setName(e.target.value)}
-                      placeholder="e.g. Sarah Mitchell"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/15 text-base text-white placeholder:text-white/40 rounded-lg outline-none focus:border-purple-500 transition-colors"
-                      required
-                    />
-                  </div>
-                )}
-                <div>
-                  <label htmlFor="planner-client-email" className="text-xs uppercase tracking-[0.15em] text-[var(--muted-text)] mb-1.5 block font-bold">Email</label>
-                  <input aria-label="Input field"
-                    id="planner-client-email"
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="planner@company.com"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/15 text-base text-white placeholder:text-white/40 rounded-lg outline-none focus:border-purple-500 transition-colors"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="planner-client-password" className="text-xs uppercase tracking-[0.15em] text-[var(--muted-text)] mb-1.5 block font-bold">Password</label>
-                  <input aria-label="Input field"
-                    id="planner-client-password"
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/15 text-base text-white placeholder:text-white/40 rounded-lg outline-none focus:border-purple-500 transition-colors"
-                    required
-                  />
-                </div>
-
-                {loginErr === 'CONFIRMATION_REQUIRED' ? (
-                  <div className="bg-emerald-500/10 border  border-[var(--color-accent)]/30 p-4 text-center rounded-xl">
-                    <span className="text-xl block mb-2">📧</span>
-                    <p className="text-sm font-bold text-[var(--color-accent)] uppercase tracking-widest mb-1">Check Your Email</p>
-                    <p className="text-xs text-white/60 leading-relaxed">We&apos;ve sent a verification link to <strong className="text-white">{email}</strong>. Please confirm to access your dashboard.</p>
-                  </div>
-                ) : (
-                  <>
-                    {loginErr && <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 rounded-lg border border-rose-400/20 text-center font-bold">{loginErr}</p>}
-                    <button aria-label="Action button"
-                      type="submit"
-                      disabled={loginLoading}
-                      className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-base uppercase tracking-[0.18em] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_25px_rgba(255,10,61,0.4)] rounded-lg"
-                    >
-                      {loginLoading ? 'Authenticating...' : mode === 'signup' ? 'CREATE ACCOUNT' : 'SIGN IN'}
-                    </button>
-                  </>
-                )}
-              </form>
             </div>
           </div>
 
-          {/* Book Now Hero */}
-          <div className="relative bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-12 text-center overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
-            <div className="relative">
-              <div className="w-20 h-20 mx-auto mb-6 bg-purple-600/10 border border-purple-600/20 flex items-center justify-center rounded-2xl">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-              </div>
-              <h2 className="text-3xl font-black tracking-tight mb-3">Book <span className=" text-[var(--color-accent)]">7th Heaven</span></h2>
-              <p className="text-white/60 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we&apos;ll get back to you within 24 hours.</p>
-              <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                Book Now
-              </Link>
-            </div>
-          </div>
-
-          {/* What happens next */}
-          <div className="mt-10 grid grid-cols-3 gap-4">
+          {/* Feature Highlights Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { step: "1", title: "Submit Request", desc: "Fill out event details, venue info, and your preferred date." },
               { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
               { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
-            ].map((item, i) => (
-              <div key={`step-anon-${item.step}`} className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 text-center rounded-2xl">
-                <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black  text-[var(--color-accent)]">{item.step}</div>
-                <h4 className="text-sm font-bold mb-1 text-white">{item.title}</h4>
-                <p className="text-xs text-white/50 leading-relaxed">{item.desc}</p>
+            ].map((item) => (
+              <div key={`step-anon-${item.step}`} className="p-6 text-center rounded-2xl">
+                <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-sm font-black text-[#c27aff]">{item.step}</div>
+                <h4 className="text-base font-bold mb-1 text-white">{item.title}</h4>
+                <p className="text-xs text-white/60 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
-
         </div>
       </div>
     );
@@ -424,8 +351,10 @@ export default function PlannerClient() {
                   <div className="flex items-center gap-2"><span className="text-base">📝</span><h3 className="text-sm font-bold text-white">Event Notes</h3></div>
                   {notesSaved && <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-2 py-0.5 rounded-full border  border-[var(--color-accent)]/30">✓ Saved</span>}
                 </div>
-                <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
-                  className="w-full bg-white/5 border border-white/15 px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:border-purple-500/50 resize-none transition-colors rounded-lg" />
+                <div className="input-glow-border rounded-xl">
+                  <textarea aria-label="Text input" value={notes} onChange={e => { setNotes(e.target.value); setNotesSaved(false); }} placeholder="Parking info, green room needs, AV contact..." rows={5}
+                    className="w-full bg-white/5 border border-white/15 px-3 py-2.5 text-xs text-white placeholder:text-white/30 outline-none focus:outline-none resize-none transition-colors rounded-lg" />
+                </div>
                 <button aria-label="Action button" onClick={async () => { setNotesSaving(true); try { await fetch('/api/booking', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: booking.id, notes }) }); setNotesSaved(true); setTimeout(() => setNotesSaved(false), 3000); } catch { } setNotesSaving(false); }} disabled={notesSaving}
                   className="mt-3 w-full py-2 bg-purple-600/10 hover:bg-purple-600 border border-purple-600/20 hover:border-transparent  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer disabled:opacity-50">
                   {notesSaving ? 'Saving...' : 'Save Notes'}

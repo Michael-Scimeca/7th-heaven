@@ -449,7 +449,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           ADMIN
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
                             CRUISE
                           </span>
                         )}
@@ -464,7 +464,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           CREW
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
                             CRUISE
                           </span>
                         )}
@@ -479,7 +479,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           EVENT PLANNER
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
                             CRUISE
                           </span>
                         )}
@@ -489,7 +489,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                   if (isCruiseOnly) {
                     return (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
                         CRUISE MEMBER
                       </span>
                     );
@@ -501,7 +501,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
                           FAN
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
                           CRUISE MEMBER
                         </span>
                       </>
@@ -1014,7 +1014,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-start gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs font-black uppercase tracking-[0.2em] text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
+                          <span className="text-xs font-black uppercase tracking-[0.2em] text-purple-400bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
                         </div>
                         <h3 className="text-lg font-black text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
                         <p className="text-white/60 text-sm max-w-lg leading-relaxed">

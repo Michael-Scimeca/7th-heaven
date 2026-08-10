@@ -13,7 +13,8 @@ if (typeof window !== "undefined") {
       if (
         typeof args[0] === "string" &&
         (args[0].includes("THREE.Clock: This module has been deprecated") ||
-         args[0].includes("Clock: This module has been deprecated"))
+         args[0].includes("Clock: This module has been deprecated") ||
+         args[0].includes("has either width or height modified, but not the other"))
       ) {
         return;
       }

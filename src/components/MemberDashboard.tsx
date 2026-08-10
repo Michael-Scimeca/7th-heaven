@@ -442,7 +442,7 @@ export default function MemberDashboard() {
                     )}
 
                     <div className="flex justify-between items-center mt-2 pt-2 border-t border-white/5 text-[0.65rem] text-white/30">
-                      {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-cyan-400 shrink-0" /> {photo.venue}</span>}
+                      {photo.venue && <span className="truncate flex items-center gap-1"><MapPin className="w-3 h-3 text-purple-400shrink-0" /> {photo.venue}</span>}
                       <span className="font-mono">{new Date(photo.submittedAt).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</span>
                     </div>
                   </div>

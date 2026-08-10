@@ -36,7 +36,7 @@ export default function CruiseLayoutB() {
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
           {/* Left: text + form */}
           <div className="flex flex-col justify-center px-8 md:px-16 py-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-6 w-fit">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-purple-400text-xs font-bold uppercase tracking-widest mb-6 w-fit">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               Free Signup — No Commitment
             </div>
@@ -117,7 +117,7 @@ export default function CruiseLayoutB() {
                 <p className="text-sm text-white/40 leading-relaxed mb-4">{island.desc}</p>
                 <div className="flex flex-wrap gap-2">
                   {island.highlights.map(h => (
-                    <span key={h} className="px-2.5 py-1 bg-cyan-500/5 border border-cyan-500/15 rounded-full text-xs text-cyan-400 font-bold uppercase tracking-widest">{h}</span>
+                    <span key={h} className="px-2.5 py-1 bg-cyan-500/5 border border-cyan-500/15 rounded-full text-xs text-purple-400font-bold uppercase tracking-widest">{h}</span>
                   ))}
                 </div>
               </div>

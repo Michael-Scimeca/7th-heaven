@@ -951,7 +951,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
             {processing ? (
               <div className="py-12 text-center space-y-4">
                 <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
+                <p className="text-xs font-bold text-purple-400uppercase tracking-widest animate-pulse">Processing Secure Payment...</p>
               </div>
             ) : (
               <>
@@ -982,7 +982,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                           <span className="text-white/40 text-[var(--font-size-4xs)] uppercase tracking-wider">Expires 12/28 • Demo Cruiser</span>
                         </div>
                       </div>
-                      <span className="text-[var(--font-size-4xs)] font-black text-cyan-400 uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
+                      <span className="text-[var(--font-size-4xs)] font-black text-purple-400uppercase tracking-wider border border-cyan-500/20 px-1.5 py-0.5 rounded bg-cyan-500/5">
                         Default
                       </span>
                     </div>
@@ -1095,7 +1095,7 @@ export function ImportantLinksWidget() {
 
       <div className="flex justify-between items-end mb-6 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-1">Quick Access</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-400mb-1">Quick Access</h2>
           <p className="text-white font-bold text-lg">Important Links</p>
         </div>
       </div>
@@ -1236,7 +1236,7 @@ const EXCURSIONS = [
 export function ExcursionTeasers() {
   return (
     <div className="bg-[var(--color-bg-surface)] border border-cyan-500/20 p-6">
-      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-5">Band Excursions</h2>
+      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-purple-400mb-5">Band Excursions</h2>
 
       <div className="space-y-3">
         {EXCURSIONS.map((ex, i) => (

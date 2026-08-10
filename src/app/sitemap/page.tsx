@@ -562,7 +562,7 @@ export default function SitemapPage() {
           <div className="w-px h-10 bg-white/10 self-center hidden md:block" />
           <Link
             href="/sitemap/visual"
-            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 text-xs font-black uppercase tracking-widest transition-colors"
+            className="px-6 py-3 border border-cyan-500/20 hover:border-cyan-500/40 text-purple-400text-xs font-black uppercase tracking-widest transition-colors"
           >
             🖼️ Visual Connection Map
           </Link>
@@ -1560,7 +1560,7 @@ export default function SitemapPage() {
         {/* ── ACCOUNT MERGING ARCHITECTURE ── */}
         <section className="mt-16 pt-14 border-t border-white/[0.06]">
           <div className="mb-10">
-            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-cyan-400 border border-cyan-500/30 px-3 py-1 mb-4">System Design</span>
+            <span className="inline-block text-xs font-black uppercase tracking-[0.25em] text-purple-400border border-cyan-500/30 px-3 py-1 mb-4">System Design</span>
             <h2 className="text-2xl font-extrabold tracking-tight mb-2">Account Merging Architecture</h2>
             <p className="text-white/30 text-sm">How Fan and Cruise accounts unify into a single dashboard experience.</p>
           </div>

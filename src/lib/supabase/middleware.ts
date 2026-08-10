@@ -28,7 +28,7 @@ export async function updateSession(request: NextRequest) {
  // Refresh the session — IMPORTANT: don't remove this
  const {
   data: { user },
- } = await supabase.auth.getUser();
+ } = await (supabase.auth as any).getUser();
 
  // Protect /fans, /crew, /admin routes
  const path = request.nextUrl.pathname;

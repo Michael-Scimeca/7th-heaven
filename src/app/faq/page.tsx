@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
 
 interface FAQItem {
@@ -181,25 +182,13 @@ export default function FAQPage() {
         </div>
 
         {/* Search Bar */}
-        <div className="relative mb-10 group max-w-[500px] mx-auto">
-          <div className="absolute left-4 inset-y-0 flex items-center justify-center pointer-events-none text-white/50 z-10">
-            <SearchIcon />
-          </div>
-          <input aria-label="Search"
-            type="search"
-            placeholder="Search questions, keywords, or topics..."
+        <div className="mb-10 max-w-[500px] mx-auto flex justify-center">
+          <SearchInput
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="form-input w-full text-sm font-semibold"
+            onChange={setSearchQuery}
+            placeholder="Search questions, keywords, or topics..."
+            containerClassName="w-full"
           />
-          {searchQuery && (
-            <button aria-label="Search"
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white px-2.5 py-1 text-xs font-bold rounded-md bg-white/10 transition z-10"
-            >
-              Clear
-            </button>
-          )}
         </div>
 
         {/* Category Navigation Tabs */}
@@ -288,7 +277,7 @@ export default function FAQPage() {
           </div>
           <Link
             href="/contact"
-            className="px-6 py-3 rounded-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
+            className="px-6 py-3 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
           >
             Contact Us
           </Link>

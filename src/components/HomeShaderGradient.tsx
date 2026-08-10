@@ -297,6 +297,14 @@ export default function HomeShaderGradient() {
     };
   }, []);
 
+  // Static Film Grain (fixed seed so grain layer does not move or jitter)
+  useEffect(() => {
+    const feTurb = document.querySelector("#globalGrainFilter feTurbulence");
+    if (feTurb) {
+      feTurb.setAttribute("seed", "42");
+    }
+  }, []);
+
   return (
     <>
       {/* Fixed Full-Page Film Grain Overlay Layer — Covers the ENTIRE page over all content */}

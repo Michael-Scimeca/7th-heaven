@@ -69,7 +69,7 @@ export default function CruisePaymentPage() {
       <div className="site-container max-w-xl mx-auto px-6">
         {/* Banner Link Back */}
         <div className="mb-8 text-left">
-          <Link href="/cruise" className="text-xs font-bold uppercase tracking-wider text-cyan-400 hover:text-white transition-colors flex items-center gap-2">
+          <Link href="/cruise" className="text-xs font-bold uppercase tracking-wider text-purple-400hover:text-white transition-colors flex items-center gap-2">
             ← Back to Cruise Page
           </Link>
         </div>

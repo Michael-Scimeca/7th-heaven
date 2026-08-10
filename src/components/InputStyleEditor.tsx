@@ -400,7 +400,7 @@ a:hover {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Background & Blur */}
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🎨 Background & Blur
                     </h4>
                     <div>
@@ -450,7 +450,7 @@ a:hover {
 
                   {/* Border & Geometry */}
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       📐 Border & Geometry
                     </h4>
                     <div>
@@ -494,7 +494,7 @@ a:hover {
 
                   {/* Focus Glow & Colors */}
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       ✨ Focus Glow & Color
                     </h4>
                     <div>
@@ -523,7 +523,7 @@ a:hover {
 
                   {/* Padding & Spacing */}
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       📏 Spacing & Padding
                     </h4>
                     <div>
@@ -558,7 +558,7 @@ a:hover {
               {activeTab === "search" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🔍 Search Bar & Left Icon Styling
                     </h4>
 
@@ -687,30 +687,32 @@ a:hover {
                     {/* Live Search Bar Preview */}
                     <div className="pt-3 border-t border-white/10">
                       <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Live Search Bar Preview</p>
-                      <div className="relative mx-auto" style={{ maxWidth: `${settings.searchMaxWidth ?? 500}px` }}>
-                        <div
-                          className="absolute inset-y-0 flex items-center pointer-events-none z-10"
-                          style={{
-                            left: `${settings.searchIconLeft ?? 16}px`,
-                            color: settings.searchIconColor || "#ffffff",
-                            opacity: settings.searchIconOpacity ?? 0.5,
-                          }}
-                        >
-                          <Search className="w-4 h-4" />
+                      <div className="input-glow-border rounded-xl">
+                        <div className="relative flex items-center">
+                          <div
+                            className="!absolute z-10 pointer-events-none"
+                            style={{
+                              left: `${settings.searchIconLeft ?? 16}px`,
+                              color: settings.searchIconColor || "#ffffff",
+                              opacity: settings.searchIconOpacity ?? 0.5,
+                            }}
+                          >
+                            <Search className="w-4 h-4" />
+                          </div>
+                          <input
+                            type="search"
+                            aria-label="Search questions, keywords, or topics"
+                            placeholder="Search questions, keywords, or topics..."
+                            className="form-input w-full text-sm font-semibold"
+                            style={{
+                              paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
+                              paddingRight: `${settings.searchPaddingRight ?? 48}px`,
+                              paddingTop: `${settings.searchPaddingY ?? 14}px`,
+                              paddingBottom: `${settings.searchPaddingY ?? 14}px`,
+                              borderRadius: `${settings.searchRadius ?? 12}px`,
+                            }}
+                          />
                         </div>
-                        <input
-                          type="search"
-                          aria-label="Search questions, keywords, or topics"
-                          placeholder="Search questions, keywords, or topics..."
-                          className="form-input w-full text-sm font-semibold"
-                          style={{
-                            paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
-                            paddingRight: `${settings.searchPaddingRight ?? 48}px`,
-                            paddingTop: `${settings.searchPaddingY ?? 14}px`,
-                            paddingBottom: `${settings.searchPaddingY ?? 14}px`,
-                            borderRadius: `${settings.searchRadius ?? 12}px`,
-                          }}
-                        />
                       </div>
                     </div>
                   </div>
@@ -720,7 +722,7 @@ a:hover {
               {activeTab === "checkboxes" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
 
@@ -789,7 +791,7 @@ a:hover {
               {activeTab === "typography" && (
                 <div className="space-y-6">
                   <div className="space-y-4 p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400flex items-center gap-2">
                       🔤 Typography & Tag Styling
                     </h4>
 

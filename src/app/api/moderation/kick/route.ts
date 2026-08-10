@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       }
     );
 
-    const { data: { user }, error: authError } = await supabaseUser.auth.getUser();
+    const { data: { user }, error: authError } = await (supabaseUser.auth as any).getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }
@@ -141,7 +141,7 @@ export async function POST(req: Request) {
     }
 
     // 6. Delete user from auth table
-    const { error: deleteAuthError } = await admin.auth.admin.deleteUser(targetProfile.id);
+    const { error: deleteAuthError } = await (admin.auth as any).admin.deleteUser(targetProfile.id);
     if (deleteAuthError) {
       console.error('[moderation/kick] Auth user delete error:', deleteAuthError.message);
     }

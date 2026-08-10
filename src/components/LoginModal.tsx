@@ -2,11 +2,13 @@
 /* eslint-disable react-doctor/no-giant-component */
 /* oxlint-disable react-doctor/no-giant-component */
 
-import { useReducer, useEffect, useCallback } from "react";
+import { useReducer, useEffect, useCallback, useRef, useState } from "react";
 import { Lock, Mail, Zap, Check, X } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
+import { SquishyToggle } from "./SquishyToggle";
+import Dropdown from "@/components/Dropdown";
 // Dev-only: never ships in the production bundle
 const fakeLogins: { email: string; password: string; name: string; username: string; role: string; pin: string }[] =
   process.env.NODE_ENV !== 'production'
@@ -208,14 +210,15 @@ export default function LoginModal() {
         setLoginRole(r as any);
       }
     }
-  }, [openModal, setEmail, setIsInviteFlow, setName, setUsernameField, setModalMode, setPinCode, setLoginRole]);
+    // eslint-disable-next-deps
+  }, []);
 
   // Sync loginRole whenever modal opens (or modalLoginRole changes)
   useEffect(() => {
-    if (modalLoginRole && state.loginRole !== modalLoginRole) {
+    if (isModalOpen && modalLoginRole && state.loginRole !== modalLoginRole) {
       setLoginRole(modalLoginRole as any);
     }
-  }, [modalLoginRole, isModalOpen, state.loginRole, setLoginRole]);
+  }, [modalLoginRole, isModalOpen]);
 
   // DEBUG: Track modalMode changes
   console.log('[LoginModal] render — modalMode:', modalMode, '| isModalOpen:', isModalOpen);
@@ -571,7 +574,7 @@ export default function LoginModal() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <button type="button" aria-label="Close backdrop" className="absolute inset-0  backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
+      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-transparent backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
 
       {/* Modal */}
       <div
@@ -664,491 +667,546 @@ function LoginModalBodyContent(props: any) {
     isAgeConfirmed, setIsAgeConfirmed, closeModal, handleVerifyPin, handleSubmit,
     handleOAuthLogin, login
   } = props;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [thumbRatio, setThumbRatio] = useState(0.35);
+
+  const updateScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollHeight - el.clientHeight;
+    if (maxScroll > 0) {
+      setScrollProgress(el.scrollTop / maxScroll);
+      setThumbRatio(Math.max(0.2, el.clientHeight / el.scrollHeight));
+    } else {
+      setScrollProgress(0);
+      setThumbRatio(1);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScroll();
+    const handleScroll = () => updateScroll();
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      el.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [updateScroll, modalMode, loginRole]);
 
   return (
-    <div className="p-6 max-h-[85vh] overflow-y-auto">
-      {/* Logo */}
-      <div className="text-center mb-5">
-        <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase italic">
-          <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not-italic">HEAVEN</span>
-        </h2>
-        <div className="text-xs sm:text-sm uppercase tracking-[0.18em] font-black text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
-          {modalMode === "forgot" ? (
-            "Reset Your Password"
-          ) : modalMode === "login" ? (
-            "Sign In to Your Account"
-          ) : isInviteFlow ? (
-            "Complete Your Profile"
-          ) : (
-            <span>
-              SIGN UP FOR FREE{" "}
-              <span className="inline-block text-base sm:text-lg font-black text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1 tracking-widest border border-[var(--color-accent)]/40">
-                FAN
-              </span>{" "}
-              MEMBERSHIP
-            </span>
-          )}
-        </div>
+    <div className="relative">
+      {/* Custom Always-Visible Purple Scrollbar Track & Glowing Thumb */}
+      <div className="absolute top-6 bottom-6 right-2.5 w-2 rounded-full bg-white/10 pointer-events-none z-30 overflow-hidden">
+        <div
+          className="w-full bg-gradient-to-b from-[#c27aff] via-[#a855f7] to-[#7c00ff] rounded-full shadow-[0_0_12px_rgba(194,122,255,0.9)] transition-transform duration-75 ease-out"
+          style={{
+            height: `${thumbRatio * 100}%`,
+            transform: `translateY(${scrollProgress * (100 / thumbRatio - 100)}%)`
+          }}
+        />
       </div>
 
-      {/* Prominent High-Contrast Sliding Toggle Tabs */}
-      {modalMode !== "forgot" && (
-        <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
-          <div
-            className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
-            style={{
-              transform: modalMode === "signup" ? "translateX(100%)" : "translateX(0%)",
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => setModalMode("login")}
-            className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
-              ? "text-white font-extrabold"
-              : "text-white/60 hover:text-white"
-              }`}
-          >
-            Sign In
-          </button>
-          <button
-            type="button"
-            onClick={() => setModalMode("signup")}
-            className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
-              ? "text-white font-extrabold"
-              : "text-white/60 hover:text-white"
-              }`}
-          >
-            Sign Up
-          </button>
-        </div>
-      )}
-
-      {/* Role selector dropdown */}
-      {modalMode !== "forgot" && (
-        <div className="flex items-center justify-between gap-2 p-3 bg-white/5 border border-white/10 mb-4">
-          <label htmlFor="login-role-select" className="text-xs uppercase font-extrabold tracking-[0.15em] text-white/80">Account Type:</label>
-          <select
-            id="login-role-select"
-            aria-label="Account Type"
-            value={loginRole}
-            onChange={(e) => setLoginRole(e.target.value as any)}
-            className="bg-black/80 text-white font-extrabold text-xs uppercase tracking-wider px-3 py-1.5 border border-white/10 outline-none focus:border-[var(--color-accent)] cursor-pointer"
-          >
-            <option value="fan">Fan / Visitor</option>
-            <option value="crew">Band / Crew</option>
-            <option value="planner">Event Planner</option>
-            <option value="cruise">Cruise Guest</option>
-          </select>
-        </div>
-      )}
-
-      {/* Special notice for Crew / Planner login */}
-      {modalMode !== "forgot" && loginRole !== 'fan' && (
-        <div className="p-3 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-xs text-purple-200 mb-4 flex items-center gap-2">
-          <Lock className="w-4 h-4 text-purple-400 shrink-0" />
-          <span>
-            Logging in as <strong className="uppercase text-white">{loginRole}</strong>. Access requires an authorized account.
-          </span>
-        </div>
-      )}
-
-      {/* Invite flow banner */}
-      {isInviteFlow && (
-        <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-200 mb-4 flex items-start gap-2">
-          <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-          <div>
-            <span className="font-bold text-white uppercase block">Invited Member Signup</span>
-            Your details have been pre-filled from your invitation. Just set a password to activate your account.
+      <div
+        ref={scrollRef}
+        data-lenis-prevent="true"
+        data-lenis-prevent-wheel="true"
+        className="p-6 pr-8 max-h-[65vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {/* Logo */}
+        <div className="text-center mb-5">
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase italic">
+            <span className=" text-[var(--color-accent)]">7</span>th <span className=" text-[var(--color-accent)] not-italic">HEAVEN</span>
+          </h2>
+          <div className="text-xs sm:text-sm uppercase tracking-[0.18em] font-black text-[var(--color-accent)] mt-2 flex items-center justify-center flex-wrap gap-1">
+            {modalMode === "forgot" ? (
+              "Reset Your Password"
+            ) : modalMode === "login" ? (
+              "Sign In to Your Account"
+            ) : isInviteFlow ? (
+              "Complete Your Profile"
+            ) : (
+              <span>
+                SIGN UP FOR FREE{" "}
+                <span className="inline-block text-base sm:text-lg font-black text-white bg-[var(--color-accent)] px-2.5 py-0.5 rounded-lg shadow-md mx-1 tracking-widest border border-[var(--color-accent)]/40">
+                  FAN
+                </span>{" "}
+                MEMBERSHIP
+              </span>
+            )}
           </div>
         </div>
-      )}
 
-      {/* PIN Verification Step */}
-      {pinSent ? (
-        <div className="flex flex-col gap-4 my-4">
-          <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-[var(--color-accent)]/30 rounded-lg">
-            A 6-digit verification code has been sent to <strong>{signUpPayload?.email || email}</strong>
+        {/* Prominent High-Contrast Sliding Toggle Tabs */}
+        {modalMode !== "forgot" && (
+          <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/10 mb-4 max-w-sm mx-auto shadow-inner select-none">
+            <div
+              className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] transition-transform duration-300 ease-out pointer-events-none"
+              style={{
+                transform: modalMode === "signup" ? "translateX(100%)" : "translateX(0%)",
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setModalMode("login")}
+              className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "login"
+                ? "text-white font-extrabold"
+                : "text-white/60 hover:text-white"
+                }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setModalMode("signup")}
+              className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
+                ? "text-white font-extrabold"
+                : "text-white/60 hover:text-white"
+                }`}
+            >
+              Sign Up
+            </button>
           </div>
+        )}
 
-          <div>
-            <label htmlFor="login-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block text-center">
-              Enter 6-Digit Verification PIN
-            </label>
-            <input
-              id="login-pin-input"
-              type="text"
-              maxLength={6}
-              value={pinCode}
-              onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-              placeholder="123456"
-              className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black text-xl"
-              required
+        {/* Role selector dropdown */}
+        {modalMode !== "forgot" && (
+          <div className="flex items-center justify-between gap-2 my-3 relative z-20">
+            <span className="text-xs uppercase font-extrabold tracking-[0.15em] text-white/80">Account Type:</span>
+            <Dropdown
+              id="login-role-select"
+              selected={loginRole}
+              options={[
+                { label: "Fan / Visitor", value: "fan" },
+                { label: "Band / Crew", value: "crew" },
+                { label: "Event Planner", value: "planner" },
+                { label: "Cruise Guest", value: "cruise" },
+              ]}
+              onChange={(val) => setLoginRole(val as any)}
             />
           </div>
+        )}
 
-          {error && (
-            <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
-          )}
-
-          <button type="button"
-            onClick={handleVerifyPin}
-            disabled={loading || pinCode.length !== 6}
-            className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
-          >
-            {loading ? "Verifying..." : "Verify & Complete Registration"}
-          </button>
-
-          <button type="button"
-            onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
-            className="text-xs font-bold text-white/60 hover:text-white text-center transition-colors mt-1 cursor-pointer"
-          >
-            ← Back to details
-          </button>
-        </div>
-      ) : confirmationRequired ? (
-        <div className="flex flex-col items-center gap-4 my-6 text-center">
-          <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
-            <Mail className="w-6 h-6" />
+        {/* Special notice for Crew / Planner login */}
+        {modalMode !== "forgot" && loginRole !== 'fan' && (
+          <div className="p-3 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-xs text-purple-200 mb-4 flex items-center gap-2">
+            <Lock className="w-4 h-4 text-purple-400 shrink-0" />
+            <span>
+              Logging in as <strong className="uppercase text-white">{loginRole}</strong>. Access requires an authorized account.
+            </span>
           </div>
-          <h3 className="text-lg font-black uppercase text-white tracking-wider">Check Your Email</h3>
-          <p className="text-xs text-white/80 max-w-sm leading-relaxed">
-            We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
-          </p>
-          <button type="button"
-            onClick={() => { setConfirmationRequired(false); setError(""); }}
-            className="w-full py-3 border border-black/10 text-black font-bold text-sm uppercase tracking-widest hover:bg-black/5 transition-colors cursor-pointer"
-          >
-            Got it, thanks
-          </button>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2.5" autoComplete="off" data-form-type="other">
-          <div className="hidden" aria-hidden="true">
-            <input
-              type="text"
-              name="website"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              tabIndex={-1}
-              autoComplete="off"
-            />
+        )}
+
+        {/* Invite flow banner */}
+        {isInviteFlow && (
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-200 mb-4 flex items-start gap-2">
+            <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <span className="font-bold text-white uppercase block">Invited Member Signup</span>
+              Your details have been pre-filled from your invitation. Just set a password to activate your account.
+            </div>
           </div>
+        )}
 
-          {modalMode === "signup" && (
-            <SignUpExtraFields
-              name={name}
-              setName={setName}
-              usernameField={usernameField}
-              setUsernameField={setUsernameField}
-              isInviteFlow={isInviteFlow}
-              loginRole={loginRole}
-              wantNotifications={wantNotifications}
-              setWantNotifications={setWantNotifications}
-              wantNewsletter={wantNewsletter}
-              setWantNewsletter={setWantNewsletter}
-              zipCode={zipCode}
-              setZipCode={setZipCode}
-            />
-          )}
+        {/* PIN Verification Step */}
+        {pinSent ? (
+          <div className="flex flex-col gap-4 my-4">
+            <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-[var(--color-accent)]/30 rounded-lg">
+              A 6-digit verification code has been sent to <strong>{signUpPayload?.email || email}</strong>
+            </div>
 
-          {modalMode === "forgot" && (
-            <div className="flex flex-col gap-4 my-4">
-              {!forgotPinSent ? (
-                <div>
-                  <label htmlFor="forgot-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Email Address</label>
-                  <input
-                    id="forgot-email-input"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
-                    required
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-[var(--color-accent)]/30 rounded-lg">
-                    A verification code has been sent to <strong>{email}</strong>
-                  </div>
+            <div>
+              <label htmlFor="login-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block text-center">
+                Enter 6-Digit Verification PIN
+              </label>
+              <input
+                id="login-pin-input"
+                type="text"
+                maxLength={6}
+                value={pinCode}
+                onChange={(e) => setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                placeholder="123456"
+                className="w-full px-4 py-3 bg-black/60 border border-white/10 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black text-xl"
+                required
+              />
+            </div>
+
+            {error && (
+              <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
+            )}
+
+            <button type="button"
+              onClick={handleVerifyPin}
+              disabled={loading || pinCode.length !== 6}
+              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+            >
+              {loading ? "Verifying..." : "Verify & Complete Registration"}
+            </button>
+
+            <button type="button"
+              onClick={() => { setPinSent(false); setPinCode(""); setError(""); }}
+              className="text-xs font-bold text-white/60 hover:text-white text-center transition-colors mt-1 cursor-pointer"
+            >
+              ← Back to details
+            </button>
+          </div>
+        ) : confirmationRequired ? (
+          <div className="flex flex-col items-center gap-4 my-6 text-center">
+            <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
+              <Mail className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black uppercase text-white tracking-wider">Check Your Email</h3>
+            <p className="text-xs text-white/80 max-w-sm leading-relaxed">
+              We sent a confirmation link to <strong className="text-white">{email}</strong>. Please click the link in that email to confirm your account and sign in.
+            </p>
+            <button type="button"
+              onClick={() => { setConfirmationRequired(false); setError(""); }}
+              className="w-full py-3 border border-black/10 text-black font-bold text-sm uppercase tracking-widest hover:bg-black/5 transition-colors cursor-pointer"
+            >
+              Got it, thanks
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2.5" autoComplete="off" data-form-type="other">
+            <div className="hidden" aria-hidden="true">
+              <input
+                type="text"
+                name="website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {modalMode === "signup" && (
+              <SignUpExtraFields
+                name={name}
+                setName={setName}
+                usernameField={usernameField}
+                setUsernameField={setUsernameField}
+                isInviteFlow={isInviteFlow}
+                loginRole={loginRole}
+                wantNotifications={wantNotifications}
+                setWantNotifications={setWantNotifications}
+                wantNewsletter={wantNewsletter}
+                setWantNewsletter={setWantNewsletter}
+                zipCode={zipCode}
+                setZipCode={setZipCode}
+              />
+            )}
+
+            {modalMode === "forgot" && (
+              <div className="flex flex-col gap-4 my-4">
+                {!forgotPinSent ? (
                   <div>
-                    <label htmlFor="forgot-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Verification PIN</label>
+                    <label htmlFor="forgot-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Email Address</label>
+                    <div className="input-glow-border rounded-xl">
+                      <input
+                        id="forgot-email-input"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="your@email.com"
+                        className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                        required
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-center text-xs text-[var(--color-accent)] bg-emerald-500/10 px-3 py-2 border border-[var(--color-accent)]/30 rounded-lg">
+                      A verification code has been sent to <strong>{email}</strong>
+                    </div>
+                    <div>
+                      <label htmlFor="forgot-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Verification PIN</label>
+                      <div className="input-glow-border rounded-xl">
+                        <input
+                          id="forgot-pin-input"
+                          type="text"
+                          maxLength={6}
+                          value={forgotPinCode}
+                          onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                          placeholder="123456"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center tracking-[0.5em] font-black rounded-xl"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="forgot-new-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">New Password</label>
+                      <div className="input-glow-border rounded-xl">
+                        <input
+                          id="forgot-new-password-input"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {modalMode !== "forgot" && (
+              <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
+                <div>
+                  <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+                    Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
+                  </label>
+                  <div className="input-glow-border rounded-xl">
                     <input
-                      id="forgot-pin-input"
-                      type="text"
-                      maxLength={6}
-                      value={forgotPinCode}
-                      onChange={(e) => setForgotPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                      placeholder="123456"
-                      className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors text-center tracking-[0.5em] font-black"
-                      required
+                      id="login-email-input"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={loginRole === 'planner' ? 'planner@company.com' : loginRole === 'crew' ? 'crew@7thheaven.com' : loginRole === 'cruise' ? 'cruiser@7thheaven.com' : 'your@email.com'}
+                      autoComplete="off"
+                      readOnly={isInviteFlow}
+                      data-lpignore="true"
+                      data-form-type="other"
+                      className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="forgot-new-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">New Password</label>
+                </div>
+                <div>
+                  <label htmlFor="login-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Password</label>
+                  <div className="input-glow-border rounded-xl">
                     <input
-                      id="forgot-new-password-input"
+                      id="login-password-input"
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
-                      required
+                      autoComplete="new-password"
+                      data-lpignore="true"
+                      data-form-type="other"
+                      className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                     />
                   </div>
-                </>
-              )}
-            </div>
-          )}
+                  {modalMode === "login" && (
+                    <button type="button"
+                      onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
+                      className="text-xs font-bold text-purple-300 hover:text-white transition-colors block text-right w-full mt-2 cursor-pointer"
+                    >
+                      Forgot Password?
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
 
-          {modalMode !== "forgot" && (
-            <div className={modalMode === 'signup' ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 my-4' : 'flex flex-col gap-4 my-4'}>
-              <div>
-                <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
-                  Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
+            {modalMode === "signup" && (
+              <div className="flex items-center gap-3.5 my-3 select-none text-left w-full">
+                <SquishyToggle
+                  id="modal-age-confirmed-toggle"
+                  label="I confirm that I am 18 years of age or older"
+                  checked={isAgeConfirmed}
+                  onChange={(checked) => setIsAgeConfirmed(checked)}
+                />
+                <label htmlFor="modal-age-confirmed-toggle" className={`text-xs sm:text-sm font-extrabold leading-snug cursor-pointer ${isAgeConfirmed ? 'text-white' : 'text-white/80'}`}>
+                  I confirm that I am <span className="text-[#c27aff] font-black">18 years of age or older</span>
                 </label>
-                <input
-                  id="login-email-input"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={loginRole === 'planner' ? 'planner@company.com' : loginRole === 'crew' ? 'crew@7thheaven.com' : loginRole === 'cruise' ? 'cruiser@7thheaven.com' : 'your@email.com'}
-                  autoComplete="off"
-                  readOnly={isInviteFlow}
-                  data-lpignore="true"
-                  data-form-type="other"
-                  className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors ${isInviteFlow ? 'opacity-60 cursor-not-allowed' : ''}`}
-                />
               </div>
-              <div>
-                <label htmlFor="login-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Password</label>
-                <input
-                  id="login-password-input"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  autoComplete="new-password"
-                  data-lpignore="true"
-                  data-form-type="other"
-                  className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
-                />
-                {modalMode === "login" && (
-                  <button type="button"
-                    onClick={() => { setModalMode("forgot"); setError(""); setForgotPinSent(false); }}
-                    className="text-xs font-bold text-purple-300 hover:text-white transition-colors block text-right w-full mt-2"
-                  >
-                    Forgot Password?
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
+            )}
 
-          {modalMode === "signup" && (
-            <label className="flex items-center gap-3 my-4 p-3 bg-white/5 border border-white/10 select-none cursor-pointer hover:bg-white/10 transition-colors">
-              <input
-                type="checkbox"
-                checked={isAgeConfirmed}
-                aria-label="I confirm that I am 18 years of age or older"
-                onChange={(e) => setIsAgeConfirmed(e.target.checked)}
-                className="w-5 h-5 rounded-md border-white/30 bg-black/40 text-[var(--color-accent)] focus:ring-0 cursor-pointer accent-[var(--color-accent)] shrink-0"
-              />
-              <span className="text-xs sm:text-sm font-extrabold text-white/90 leading-snug">
-                I confirm that I am <span className="text-purple-300 font-black">18 years of age or older</span>
-              </span>
-            </label>
-          )}
+            {error && (
+              <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
+            )}
 
-          {error && (
-            <p className="text-xs text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20">{error}</p>
-          )}
-
-          <button type="submit"
-            disabled={loading}
-            className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
-          >
-            {loading
-              ? "Processing..."
-              : modalMode === "forgot"
-                ? (forgotPinSent ? "Reset Password" : "Send Verification Code")
-                : modalMode === "login"
-                  ? "Sign In"
-                  : isInviteFlow
-                    ? "Activate Account"
-                    : "Create Account"}
-          </button>
-
-          {modalMode === "forgot" && (
-            <button type="button"
-              onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
-              className="text-xs font-bold text-white/60 hover:text-white text-center transition-colors mt-2 cursor-pointer"
-            >
-              ← Back to Sign In
-            </button>
-          )}
-        </form>
-      )}
-
-      {/* OAuth Social Logins */}
-      {!pinSent && !confirmationRequired && (
-        <>
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10"></div>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-[#0f0b18] px-3 font-extrabold text-white/60 tracking-wider">Or continue with</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3">
-            <button type="button"
-              onClick={() => handleOAuthLogin('google')}
+            <button type="submit"
               disabled={loading}
-              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
+              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
             >
-              <span>Google</span>
+              {loading
+                ? "Processing..."
+                : modalMode === "forgot"
+                  ? (forgotPinSent ? "Reset Password" : "Send Verification Code")
+                  : modalMode === "login"
+                    ? "Sign In"
+                    : isInviteFlow
+                      ? "Activate Account"
+                      : "Create Account"}
             </button>
-            <button type="button"
-              onClick={() => handleOAuthLogin('facebook')}
-              disabled={loading}
-              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
-            >
-              <span>Facebook</span>
-            </button>
-            <button type="button"
-              onClick={() => handleOAuthLogin('apple')}
-              disabled={loading}
-              className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
-            >
-              <span>Apple</span>
-            </button>
-          </div>
-        </>
-      )}
 
-      {/* Quick Demo Login Bar for Testing */}
-      <div className="mt-4 pt-3 border-t border-white/10">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
-          <button type="button"
-            onClick={() => setAdminMode(!adminMode)}
-            className="text-[10px] font-bold text-white/40 hover:text-white underline cursor-pointer"
-          >
-            {adminMode ? "Exit Admin Mode" : "Admin Quick Mode"}
-          </button>
-        </div>
-
-        {adminMode ? (
-          <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-lg flex flex-col gap-2">
-            <span className="text-[11px] font-bold text-red-300 uppercase tracking-wider flex items-center gap-1"><Lock className="w-3 h-3" /> Super Admin Direct Bypass</span>
-            <div className="grid grid-cols-2 gap-2">
-              <input
-                type="email"
-                aria-label="Admin Email Address"
-                placeholder="admin@7thheaven.com"
-                value={adminEmail}
-                onChange={(e) => setAdminEmail(e.target.value)}
-                className="px-2 py-1 bg-black/60 border border-white/20 text-xs text-white placeholder:text-white/30"
-              />
-              <input
-                type="password"
-                aria-label="Admin Password"
-                placeholder="password123"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                className="px-2 py-1 bg-black/60 border border-white/20 text-xs text-white placeholder:text-white/30"
-              />
-            </div>
-            {adminError && <p className="text-[10px] text-red-400">{adminError}</p>}
-            <button type="button"
-              disabled={adminLoading}
-              onClick={async () => {
-                setAdminLoading(true);
-                setAdminError("");
-                try {
-                  await login(adminEmail || "admin@7thheaven.com", adminPassword || "password123");
-                  window.location.href = "/admin";
-                } catch (err: any) {
-                  setAdminError(err.message || "Failed admin login");
-                }
-                setAdminLoading(false);
-              }}
-              className="py-1.5 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs uppercase tracking-widest cursor-pointer disabled:opacity-50"
-            >
-              {adminLoading ? "Logging in..." : "Login as Admin"}
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-5 gap-1.5">
-            <button type="button"
-              onClick={async () => {
-                setAdminMode(false);
-                setLoginRole('fan');
-                setEmail("admin@7thheaven.com");
-                setPassword("password123");
-                await login("admin@7thheaven.com", "password123");
-                window.location.href = "/admin";
-              }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
-            >
-              Admin
-            </button>
-            <button type="button"
-              onClick={async () => {
-                setAdminMode(false);
-                setLoginRole('crew');
-                setEmail("crew@7thheaven.com");
-                setPassword("password123");
-                await login("crew@7thheaven.com", "password123");
-                window.location.href = "/crew";
-              }}
-              className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
-            >
-              Crew
-            </button>
-            <button type="button"
-              onClick={async () => {
-                setAdminMode(false);
-                setLoginRole('planner');
-                setEmail("planner@7thheaven.com");
-                setPassword("password123");
-                await login("planner@7thheaven.com", "password123");
-                window.location.href = "/planner";
-              }}
-              className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
-            >
-              Planner
-            </button>
-            <button type="button"
-              onClick={async () => {
-                setAdminMode(false);
-                setLoginRole('cruise');
-                setEmail("cruise@7thheaven.com");
-                setPassword("password123");
-                await login("cruise@7thheaven.com", "password123");
-                window.location.href = "/cruise/cruise_guest";
-              }}
-              className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
-            >
-              Cruise
-            </button>
-            <button type="button"
-              onClick={async () => {
-                setAdminMode(false);
-                setLoginRole('fan');
-                setEmail("fan@7thheaven.com");
-                setPassword("password123");
-                await login("fan@7thheaven.com", "password123");
-                window.location.href = "/fans/super_fan";
-              }}
-              className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
-            >
-              Fan
-            </button>
-          </div>
+            {modalMode === "forgot" && (
+              <button type="button"
+                onClick={() => { setModalMode("login"); setError(""); setForgotPinSent(false); }}
+                className="text-xs font-bold text-white/60 hover:text-white text-center transition-colors mt-2 cursor-pointer"
+              >
+                ← Back to Sign In
+              </button>
+            )}
+          </form>
         )}
+
+        {/* OAuth Social Logins */}
+        {!pinSent && !confirmationRequired && (
+          <>
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/10"></div>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-[#0f0b18] px-3 font-extrabold text-white/60 tracking-wider">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <button type="button"
+                onClick={() => handleOAuthLogin('google')}
+                disabled={loading}
+                className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
+              >
+                <span>Google</span>
+              </button>
+              <button type="button"
+                onClick={() => handleOAuthLogin('facebook')}
+                disabled={loading}
+                className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
+              >
+                <span>Facebook</span>
+              </button>
+              <button type="button"
+                onClick={() => handleOAuthLogin('apple')}
+                disabled={loading}
+                className="flex items-center justify-center gap-2 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-extrabold text-white transition-colors cursor-pointer disabled:opacity-50"
+              >
+                <span>Apple</span>
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Quick Demo Login Bar for Testing */}
+        <div className="mt-4 pt-3 border-t border-white/10">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
+            <button type="button"
+              onClick={() => setAdminMode(!adminMode)}
+              className="text-[10px] font-bold text-white/40 hover:text-white underline cursor-pointer"
+            >
+              {adminMode ? "Exit Admin Mode" : "Admin Quick Mode"}
+            </button>
+          </div>
+
+          {adminMode ? (
+            <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-lg flex flex-col gap-2">
+              <span className="text-[11px] font-bold text-red-300 uppercase tracking-wider flex items-center gap-1"><Lock className="w-3 h-3" /> Super Admin Direct Bypass</span>
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="email"
+                  aria-label="Admin Email Address"
+                  placeholder="admin@7thheaven.com"
+                  value={adminEmail}
+                  onChange={(e) => setAdminEmail(e.target.value)}
+                  className="px-2 py-1 bg-black/60 border border-white/20 text-xs text-white placeholder:text-white/30"
+                />
+                <input
+                  type="password"
+                  aria-label="Admin Password"
+                  placeholder="password123"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  className="px-2 py-1 bg-black/60 border border-white/20 text-xs text-white placeholder:text-white/30"
+                />
+              </div>
+              {adminError && <p className="text-[10px] text-red-400">{adminError}</p>}
+              <button type="button"
+                disabled={adminLoading}
+                onClick={async () => {
+                  setAdminLoading(true);
+                  setAdminError("");
+                  try {
+                    await login(adminEmail || "admin@7thheaven.com", adminPassword || "password123");
+                    window.location.href = "/admin";
+                  } catch (err: any) {
+                    setAdminError(err.message || "Failed admin login");
+                  }
+                  setAdminLoading(false);
+                }}
+                className="py-1.5 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs uppercase tracking-widest cursor-pointer disabled:opacity-50"
+              >
+                {adminLoading ? "Logging in..." : "Login as Admin"}
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-5 gap-1.5">
+              <button type="button"
+                onClick={async () => {
+                  setAdminMode(false);
+                  setLoginRole('fan');
+                  setEmail("admin@7thheaven.com");
+                  setPassword("password123");
+                  await login("admin@7thheaven.com", "password123");
+                  window.location.href = "/admin";
+                }}
+                className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Admin
+              </button>
+              <button type="button"
+                onClick={async () => {
+                  setAdminMode(false);
+                  setLoginRole('crew');
+                  setEmail("crew@7thheaven.com");
+                  setPassword("password123");
+                  await login("crew@7thheaven.com", "password123");
+                  window.location.href = "/crew";
+                }}
+                className="py-2.5 px-1 bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-emerald-200 hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Crew
+              </button>
+              <button type="button"
+                onClick={async () => {
+                  setAdminMode(false);
+                  setLoginRole('planner');
+                  setEmail("planner@7thheaven.com");
+                  setPassword("password123");
+                  await login("planner@7thheaven.com", "password123");
+                  window.location.href = "/planner";
+                }}
+                className="py-2.5 px-1 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-[var(--color-accent)] hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Planner
+              </button>
+              <button type="button"
+                onClick={async () => {
+                  setAdminMode(false);
+                  setLoginRole('cruise');
+                  setEmail("cruise@7thheaven.com");
+                  setPassword("password123");
+                  await login("cruise@7thheaven.com", "password123");
+                  window.location.href = "/cruise/cruise_guest";
+                }}
+                className="py-2.5 px-1 bg-sky-500/20 hover:bg-sky-500/40 border border-sky-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-sky-200 hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Cruise
+              </button>
+              <button type="button"
+                onClick={async () => {
+                  setAdminMode(false);
+                  setLoginRole('fan');
+                  setEmail("fan@7thheaven.com");
+                  setPassword("password123");
+                  await login("fan@7thheaven.com", "password123");
+                  window.location.href = "/fans/super_fan";
+                }}
+                className="py-2.5 px-1 bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 rounded-lg text-[9.5px] font-extrabold uppercase tracking-wider text-blue-200 hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Fan
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -1208,7 +1266,7 @@ function QuickLoginDemoButtons({
 }) {
   return (
     <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-      <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.2em] text-cyan-400 font-black text-center">1-Click Quick Demo Login (Instant Live Access)</p>
+      <p className="text-[var(--font-size-3xs)] uppercase tracking-[0.2em] text-purple-400font-black text-center">1-Click Quick Demo Login (Instant Live Access)</p>
       <div className="grid grid-cols-5 gap-1.5">
         <button type="button"
           onClick={async () => {
@@ -1307,82 +1365,79 @@ function SignUpExtraFields({
           <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
             Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
           </label>
-          <input
-            id="signup-full-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-            readOnly={isInviteFlow && !!name}
-            className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors  ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
-          />
+          <div className="input-glow-border rounded-xl">
+            <input
+              id="signup-full-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              readOnly={isInviteFlow && !!name}
+              className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+            />
+          </div>
         </div>
         <div>
           <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
             Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
           </label>
-          <input
-            id="signup-username-input"
-            type="text"
-            value={usernameField}
-            onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
-            placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
-            maxLength={24}
-            className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
-          />
+          <div className="input-glow-border rounded-xl">
+            <input
+              id="signup-username-input"
+              type="text"
+              value={usernameField}
+              onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+              placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
+              maxLength={24}
+              className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+            />
+          </div>
         </div>
       </div>
 
       {loginRole === 'fan' && (
         <div className="flex flex-col gap-3">
           {/* Toggles — side by side */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button type="button"
-              onClick={() => setWantNotifications((prev: boolean) => !prev)}
-              className={`flex items-center gap-2.5 w-full px-3.5 py-2.5  border transition-colors cursor-pointer ${wantNotifications
-                ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/50'
-                : 'bg-white/5 border-white/15 hover:border-white/30'
-                }`}
-            >
-              <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${wantNotifications ? 'bg-[var(--color-accent)]' : 'bg-white/20'
-                }`}>
-                <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${wantNotifications ? 'left-[14px]' : 'left-0.5'
-                  }`} />
-              </span>
-              <span className={`text-[13px] font-bold leading-tight text-left ${wantNotifications ? '!text-white' : 'text-white/90'}`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-2">
+            <div className="flex items-center gap-3 w-full select-none">
+              <SquishyToggle
+                id="signup-want-notifications-toggle"
+                label="Show alerts near me"
+                checked={wantNotifications}
+                onChange={(checked) => setWantNotifications(checked)}
+              />
+              <label htmlFor="signup-want-notifications-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
                 Show alerts near me
-              </span>
-            </button>
-            <button type="button"
-              onClick={() => setWantNewsletter((prev: boolean) => !prev)}
-              className={`flex items-center gap-2.5 w-full px-3.5 py-2.5  border transition-colors cursor-pointer ${wantNewsletter
-                ? 'bg-[var(--color-accent)]/20 border-[var(--color-accent)]/50'
-                : 'bg-white/5 border-white/15 hover:border-white/30'
-                }`}
-            >
-              <span className={`w-8 h-4 rounded-full relative transition-colors flex-shrink-0 ${wantNewsletter ? 'bg-[var(--color-accent)]' : 'bg-white/20'
-                }`}>
-                <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-colors ${wantNewsletter ? 'left-[14px]' : 'left-0.5'
-                  }`} />
-              </span>
-              <span className={`text-[13px] font-bold leading-tight text-left ${wantNewsletter ? '!text-white' : 'text-white/90'}`}>
+              </label>
+            </div>
+            <div className="flex items-center gap-3 w-full select-none">
+              <SquishyToggle
+                id="signup-want-newsletter-toggle"
+                label="News & updates"
+                checked={wantNewsletter}
+                onChange={(checked) => setWantNewsletter(checked)}
+              />
+              <label htmlFor="signup-want-newsletter-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
                 News & updates
-              </span>
-            </button>
+              </label>
+            </div>
           </div>
 
           {/* Zip code — only if opted in */}
           {wantNotifications && (
             <div className="pt-1">
               <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code</label>
-              <input
-                id="signup-zip-code"
-                type="text"
-                value={zipCode}
-                onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                placeholder="e.g. 60601"
-                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
-              />
+              <div className="input-glow-border rounded-xl">
+                <input
+                  id="signup-zip-code"
+                  type="text"
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value)}
+                  placeholder="e.g. 60601"
+                  maxLength={10}
+                  className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                />
+              </div>
             </div>
           )}
         </div>

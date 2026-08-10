@@ -158,8 +158,8 @@ export default function LogoTicker({
                 <Image
                   src={item.src}
                   alt={item.alt ?? ""}
-                  width={200}
-                  height={config.logoHeight}
+                  width={0}
+                  height={0}
                   className={`w-auto object-contain transition-[height,filter] duration-150 ${
                     config.invert ? "hoy-ticker-logo" : ""
                   }`}

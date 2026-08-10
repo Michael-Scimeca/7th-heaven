@@ -281,7 +281,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] py-8 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3">
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-black uppercase tracking-widest animate-pulse">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-purple-400text-xs font-black uppercase tracking-widest animate-pulse">
             <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
@@ -312,7 +312,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <div className="flex items-center gap-2 text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1.5 rounded-lg border  border-[var(--color-accent)]/30">
               <span>🎪</span> Table Pickup Ready
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1.5 rounded-lg border border-cyan-500/20">
+            <div className="flex items-center gap-2 text-xs font-bold text-purple-400bg-cyan-500/10 px-3 py-1.5 rounded-lg border border-cyan-500/20">
               <span>📦</span> Nationwide Shipping
             </div>
             <button aria-label="Action button"
@@ -401,7 +401,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                  <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-purple-400border border-cyan-500/30">
                     {activeOrder.fulfillment === "pickup" ? "🎪 Table Pickup" : "📦 Shipped Delivery"}
                   </span>
                   <span className="text-white/40 text-xs">Order #{activeOrder.id.slice(-6)}</span>
@@ -415,7 +415,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             {activeOrder.fulfillment === "pickup" && (
               <div className="flex items-center gap-4 shrink-0">
                 <div className="bg-black/60 border border-cyan-500/40 px-4 py-2 text-center shadow-inner">
-                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-400 block">Table Pickup PIN</span>
+                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-400block">Table Pickup PIN</span>
                   <span className="text-2xl font-black tracking-widest text-white tabular-nums">{activeOrder.pin}</span>
                 </div>
 
@@ -590,7 +590,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                   >
                     <span className="text-xl block mb-1">🎪</span>
                     <span className="text-xs font-black uppercase tracking-wide block text-white">Merch Table Pickup</span>
-                    <span className="text-[var(--font-size-3xs)] text-cyan-400 font-bold block mt-0.5">Free Instant Pickup</span>
+                    <span className="text-[var(--font-size-3xs)] text-purple-400font-bold block mt-0.5">Free Instant Pickup</span>
                   </button>
 
                   {/* Option 2: Home Delivery Shipping */}
@@ -790,7 +790,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
                 />
               </div>
 
-              <p className="text-[var(--font-size-2xs)] font-mono text-cyan-400 tracking-wider">7THHEAVENBAND.COM/QR/MERCH</p>
+              <p className="text-[var(--font-size-2xs)] font-mono text-purple-400tracking-wider">7THHEAVENBAND.COM/QR/MERCH</p>
             </div>
 
             <div className="flex gap-3">

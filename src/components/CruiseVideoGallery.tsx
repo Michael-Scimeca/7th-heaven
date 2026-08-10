@@ -41,7 +41,7 @@ export default function CruiseVideoGallery() {
     <section id="ship-videos" className="py-20 site-container relative z-20">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-3 px-4 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+        <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-purple-400mb-3 px-4 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">
           🎥 Virtual Tours & Video Showcase
         </span>
         <h2
@@ -131,7 +131,7 @@ export default function CruiseVideoGallery() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs font-black uppercase text-cyan-400 tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1.5 text-xs font-black uppercase text-purple-400tracking-wider pt-3 border-t border-white/5 group-hover:translate-x-1 transition-transform">
                   <span>Watch Video Tour</span>
                   <span>→</span>
                 </div>
@@ -147,7 +147,7 @@ export default function CruiseVideoGallery() {
           <div className="relative w-full max-w-5xl   border-2 border-cyan-400 rounded-3xl p-4 md:p-6 overflow-hidden shadow-[0_0_90px_rgba(6,182,212,0.3)]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
               <div>
-                <span className="text-[var(--font-size-3xs)] font-black uppercase text-cyan-400 tracking-widest block">
+                <span className="text-[var(--font-size-3xs)] font-black uppercase text-purple-400tracking-widest block">
                   {activeVideo.category}
                 </span>
                 <h3 className="text-white font-black text-base md:text-xl uppercase tracking-wide">

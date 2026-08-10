@@ -724,7 +724,7 @@ export default function CruiseDashboard() {
                   <span className="text-3xl">📋</span>
                   <div>
                     <h2 className="text-lg md:text-xl font-black uppercase tracking-wider text-white">{guidelines.title}</h2>
-                    <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
+                    <p className="text-xs text-purple-400font-bold uppercase tracking-widest mt-0.5">{guidelines.subtitle}</p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
                     <button aria-label="Action button"
@@ -760,7 +760,7 @@ export default function CruiseDashboard() {
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={e => setGuidelinesSubtitleInput(e.target.value)}
-                        className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2 text-xs text-cyan-400 focus:border-cyan-400 outline-none font-bold"
+                        className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2 text-xs text-purple-400focus:border-cyan-400 outline-none font-bold"
                       />
                     </div>
                     <div>

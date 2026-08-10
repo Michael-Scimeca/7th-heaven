@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await (supabase.auth as any).exchangeCodeForSession(code);
     
     if (!error && data?.user) {
       const user = data.user;

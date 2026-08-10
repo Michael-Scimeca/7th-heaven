@@ -184,7 +184,7 @@ export default function FansPage() {
               {!effectivelyLoggedIn && (
                 <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-none md:whitespace-nowrap">
 
-                  <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <Lock className="w-4 h-4 text-purple-400shrink-0" />
                   <p>
                     You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
                     <button aria-label="Action button"

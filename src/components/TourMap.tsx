@@ -2,10 +2,48 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-// IMPORT LEAFLET CSS - CRITICAL for correct tile rendering
-import "leaflet/dist/leaflet.css";
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
+
+// setOptions() may only be called once, before the first importLibrary() call.
+let googleMapsOptionsSet = false;
 
 import { VENUE_COORDS, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
+
+// SnazzyMaps Style 227862 ("My Custom Map": Royal Purple #3d1b76 & Midnight Water #160533)
+// NOTE: this only takes effect on a real Google Map with NO Map ID set — a Map ID
+// forces Google's cloud-based styling and silently ignores this JSON style array.
+export const SNAZZY_MAPS_227862_STYLE: google.maps.MapTypeStyle[] = [
+  { featureType: "all", elementType: "all", stylers: [{ visibility: "simplified" }, { saturation: "0" }, { color: "#3d1b76" }] },
+  { featureType: "administrative", elementType: "all", stylers: [{ visibility: "simplified" }] },
+  { featureType: "administrative", elementType: "labels.text.fill", stylers: [{ color: "#ffffff" }] },
+  { featureType: "administrative.land_parcel", elementType: "labels.text.fill", stylers: [{ visibility: "simplified" }] },
+  { featureType: "landscape", elementType: "all", stylers: [{ color: "#3d1b76" }, { visibility: "simplified" }] },
+  { featureType: "landscape", elementType: "labels", stylers: [{ visibility: "off" }, { color: "#9479c2" }] },
+  { featureType: "landscape.natural", elementType: "all", stylers: [{ visibility: "simplified" }, { color: "#2c1553" }] },
+  { featureType: "landscape.natural", elementType: "labels.text", stylers: [{ color: "#a78fd1" }, { visibility: "off" }] },
+  { featureType: "landscape.natural", elementType: "labels.text.fill", stylers: [{ color: "#ac94d6" }] },
+  { featureType: "landscape.natural.landcover", elementType: "all", stylers: [{ visibility: "simplified" }, { color: "#2c1553" }] },
+  { featureType: "poi", elementType: "all", stylers: [{ visibility: "off" }] },
+  { featureType: "poi.business", elementType: "all", stylers: [{ visibility: "off" }] },
+  { featureType: "road", elementType: "all", stylers: [{ saturation: -100 }, { lightness: 45 }] },
+  { featureType: "road", elementType: "geometry", stylers: [{ visibility: "simplified" }, { color: "#3d1b76" }] },
+  { featureType: "road", elementType: "labels", stylers: [{ visibility: "simplified" }] },
+  { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#967fbd" }] },
+  { featureType: "road", elementType: "labels.text.stroke", stylers: [{ visibility: "simplified" }] },
+  { featureType: "road.highway", elementType: "all", stylers: [{ visibility: "simplified" }] },
+  { featureType: "road.highway", elementType: "geometry", stylers: [{ visibility: "simplified" }, { color: "#6037a5" }] },
+  { featureType: "road.highway", elementType: "labels", stylers: [{ visibility: "off" }, { color: "#917bb6" }] },
+  { featureType: "road.highway", elementType: "labels.text", stylers: [{ color: "#2c1c48" }, { visibility: "simplified" }] },
+  { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#2e1b4e" }, { visibility: "simplified" }] },
+  { featureType: "road.highway", elementType: "labels.text.stroke", stylers: [{ visibility: "simplified" }, { hue: "#5f00ff" }] },
+  { featureType: "road.arterial", elementType: "geometry", stylers: [{ color: "#4d317c" }] },
+  { featureType: "road.arterial", elementType: "labels.text.fill", stylers: [{ color: "#4f3280" }] },
+  { featureType: "road.arterial", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+  { featureType: "transit", elementType: "all", stylers: [{ visibility: "off" }] },
+  { featureType: "water", elementType: "all", stylers: [{ color: "#3d1b76" }, { visibility: "on" }] },
+  { featureType: "water", elementType: "geometry", stylers: [{ color: "#160533" }] },
+  { featureType: "water", elementType: "labels", stylers: [{ visibility: "simplified" }, { color: "#3d1b76" }] }
+];
 
 // Haversine distance in miles
 function distanceMiles(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -44,6 +82,16 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
 }
 
+interface MarkerHandle {
+  overlay: google.maps.OverlayView;
+  infoWindow: google.maps.InfoWindow;
+  venue: string;
+  date: string;
+  city: string;
+  lat: number;
+  lng: number;
+}
+
 interface TourMapProps {
   shows?: ShowData[];
   nextShowVenue?: string;
@@ -53,14 +101,15 @@ interface TourMapProps {
 
 export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick }: TourMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const markersRef = useRef<any[]>([]);
+  const mapInstanceRef = useRef<google.maps.Map | null>(null);
+  const markersRef = useRef<MarkerHandle[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
   const [isLoaded, setIsLoaded] = useState(false);
   const [markerCount, setMarkerCount] = useState(0);
   const [legendOpen, setLegendOpen] = useState(false);
-  const [L, setL] = useState<any>(null);
-  const [map, setMap] = useState<any>(null);
+  const [googleReady, setGoogleReady] = useState(false);
+  const [mapLoadError, setMapLoadError] = useState<string | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   // ── Directional Map Gradient Customizer states ──
   const [mapGradTop, setMapGradTop] = useState(false);
@@ -146,106 +195,61 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     setTimeout(() => setMapGradCopied(false), 2000);
   };
 
-  // Preconnect to tile CDN for faster loading.
-  // Guards against Strict Mode double-mount: existence check prevents duplicate <link>,
-  // and link.remove() is a safe no-op on already-detached nodes (unlike removeChild which throws).
-  useEffect(() => {
-    const PRECONNECT_HREF = "https://a.basemaps.cartocdn.com";
-    if (document.head.querySelector(`link[href="${PRECONNECT_HREF}"]`)) return;
-    const link = document.createElement("link");
-    link.rel = "preconnect";
-    link.href = PRECONNECT_HREF;
-    link.crossOrigin = "anonymous";
-    document.head.appendChild(link);
-    return () => { link.remove(); }; // safe no-op if already detached
-  }, []);
-
+  // Load the Google Maps JavaScript API once.
   useEffect(() => {
     let active = true;
-    const loadLeaflet = async () => {
-      try {
-        const module = await import("leaflet");
-        if (active) setL(module);
-      } catch (e) {
-        console.warn("Failed to load Leaflet:", e);
-      }
-    };
-    loadLeaflet();
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    if (!apiKey) {
+      setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+      console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
+      return;
+    }
+    if (!googleMapsOptionsSet) {
+      setOptions({ key: apiKey, v: "weekly" });
+      googleMapsOptionsSet = true;
+    }
+    importLibrary("maps")
+      .then(() => { if (active) setGoogleReady(true); })
+      .catch((e: unknown) => {
+        console.warn("[TourMap] Failed to load Google Maps:", e);
+        if (active) setMapLoadError("Failed to load Google Maps");
+      });
     return () => { active = false; };
   }, []);
 
-  // Initialize Leaflet Map once L is loaded
+  // Initialize the Google Map once the API script is ready.
   useEffect(() => {
-    if (!L || !mapRef.current || mapInstanceRef.current) return;
-
-    // Fix Next.js default icon issues
-    delete (L.Icon.Default.prototype as any)._getIconUrl;
+    if (!googleReady || !mapRef.current || mapInstanceRef.current) return;
 
     // Center on Chicagoland — most shows are in the IL suburbs
-    const mapInstance = L.map(mapRef.current, {
-      center: [42.0, -88.0],
+    const mapInstance = new google.maps.Map(mapRef.current, {
+      center: { lat: 42.0, lng: -88.0 },
       zoom: 12,
-      zoomSnap: 0.1,
-      zoomDelta: 0.1,
+      // IMPORTANT: no mapId here — a Map ID switches the map to Google's cloud-based
+      // styling and silently ignores the `styles` JSON array below.
+      styles: SNAZZY_MAPS_227862_STYLE,
+      disableDefaultUI: true,
       zoomControl: false,
-      attributionControl: false,
-      scrollWheelZoom: false,
-      dragging: true,
+      scrollwheel: false,
+      gestureHandling: "greedy",
+      clickableIcons: false,
+      keyboardShortcuts: false,
     });
 
-    const baseLayer = L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-      { maxZoom: 18, subdomains: "abcd" }
-    ).addTo(mapInstance);
-
-    baseLayer.once("load", () => setIsLoaded(true));
-
-    // Close tooltips when clicked
-    mapInstance.on('tooltipopen', (e: any) => {
-      const tooltip = e.tooltip;
-      const container = tooltip.getElement();
-      if (container) {
-        container.style.pointerEvents = 'auto';
-        container.style.cursor = 'pointer';
-        container.onclick = () => {
-          mapInstance.closeTooltip(tooltip);
-        };
-      }
-    });
-
-    // Close popups when clicked (unless clicking a link)
-    mapInstance.on('popupopen', (e: any) => {
-      const popup = e.popup;
-      const source = popup?._source;
-      if (onPinClickRef.current && source?.options?.venueName) {
-        onPinClickRef.current(source.options.venueName, source.options.showDate);
-      }
-
-      const container = popup.getElement();
-      if (container) {
-        container.style.cursor = 'pointer';
-        container.onclick = (event: MouseEvent) => {
-          const target = event.target as HTMLElement;
-          if (target.closest('a')) return; // Allow clicking links
-          mapInstance.closePopup(popup);
-        };
-      }
+    const tilesListener = google.maps.event.addListenerOnce(mapInstance, "tilesloaded", () => {
+      setIsLoaded(true);
     });
 
     setMap(mapInstance);
     mapInstanceRef.current = mapInstance;
 
-    // Force a resize check to fix broken tiles on initial load
-    const timerId = setTimeout(() => mapInstance.invalidateSize(), 500);
-
     return () => {
-      clearTimeout(timerId);
-      mapInstance.off();
-      mapInstance.remove();
+      google.maps.event.removeListener(tilesListener);
+      google.maps.event.clearInstanceListeners(mapInstance);
       mapInstanceRef.current = null;
       setMap(null);
     };
-  }, [L]);
+  }, [googleReady]);
 
   const onPinClickRef = useRef(onPinClick);
   useEffect(() => {
@@ -272,13 +276,62 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
   // Draw and Update Markers
   useEffect(() => {
-    if (!L || !map) return () => { };
+    if (!googleReady || !map) return () => { };
 
     for (const m of markersRef.current) {
-      m.marker.off();
-      m.marker.remove();
+      m.overlay.setMap(null);
+      m.infoWindow.close();
     }
     markersRef.current = [];
+
+    // Custom HTML marker overlay — Google's AdvancedMarkerElement requires a Map ID,
+    // which would break the JSON `styles` array above, so we draw our own pin + hover
+    // tooltip as a plain positioned <div> the same way the old Leaflet divIcon did.
+    class VenueMarkerOverlay extends google.maps.OverlayView {
+      private position: google.maps.LatLng;
+      private html: string;
+      private onClickCb: () => void;
+      div: HTMLDivElement | null = null;
+
+      constructor(position: google.maps.LatLng, html: string, onClickCb: () => void) {
+        super();
+        this.position = position;
+        this.html = html;
+        this.onClickCb = onClickCb;
+      }
+
+      onAdd() {
+        const div = document.createElement("div");
+        div.style.position = "absolute";
+        div.style.transform = "translate(-50%, -100%)";
+        div.innerHTML = this.html;
+        div.addEventListener("click", (e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest("a")) return; // let "Google Location" link through
+          e.stopPropagation();
+          this.onClickCb();
+        });
+        google.maps.OverlayView.preventMapHitsAndGesturesFrom(div);
+        this.div = div;
+        this.getPanes()?.overlayMouseTarget.appendChild(div);
+      }
+
+      draw() {
+        if (!this.div) return;
+        const projection = this.getProjection();
+        if (!projection) return;
+        const point = projection.fromLatLngToDivPixel(this.position);
+        if (point) {
+          this.div.style.left = `${point.x}px`;
+          this.div.style.top = `${point.y}px`;
+        }
+      }
+
+      onRemove() {
+        if (this.div?.parentNode) this.div.parentNode.removeChild(this.div);
+        this.div = null;
+      }
+    }
 
     const showGroups: Record<string, GroupedVenue> = {};
 
@@ -357,16 +410,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const textColor = isLightColor ? '#000000' : '#ffffff';
       const showLetter = v.type === 'unplugged' ? 'U' : v.type === 'outdoor' ? 'O' : v.type === 'casino' ? 'C' : v.type === 'tv' ? 'T' : v.type === 'fundraiser' ? 'G' : v.type === 'special' ? 'S' : 'F';
 
-      const icon = L.divIcon({
-        className: `custom-venue-marker ${isBouncing ? "next-show-parent" : ""}`,
-        html: `<div style="--glow-color: ${cfg.color}" class="${isBouncing ? "next-show-bounce" : ""} relative">
+      const pinHtml = `<div class="custom-venue-marker">
+        <div style="--glow-color: ${cfg.color}; filter: drop-shadow(0 4px 10px ${cfg.color}99);" class="${isBouncing ? "next-show-bounce" : ""} relative">
           <svg width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${cfg.color}" stroke="${isBouncing ? '#fff' : 'rgba(255,255,255,0.3)'}" stroke-width="${isBouncing ? '4' : '2'}"/>
-            <text x="50" y="45" dy="0.35em" fill="${textColor}" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
+            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${cfg.color}" style="fill: ${cfg.color} !important;" stroke="${isBouncing ? '#fff' : 'rgba(255,255,255,0.4)'}" stroke-width="${isBouncing ? '4' : '2'}"/>
+            <text x="50" y="45" dy="0.35em" fill="${textColor}" style="fill: ${textColor} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
           </svg>
           ${isBouncing ? `<div class="next-show-ring" style="--ring-color: ${cfg.color}"></div>` : ""}
           <div class="marker-label">${v.venue}</div>
-          
+
           <!-- Custom HTML Tooltip (Pure CSS Managed) -->
           <div class="custom-tooltip-card">
             <div style="background:rgba(8, 8, 18, 0.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:white; padding:12px 16px; width:max-content; min-width:200px; border:1px solid ${cfg.color}aa; font-family:system-ui,sans-serif; border-radius:8px; box-shadow:0 6px 24px rgba(0,0,0,0.6); position:relative; text-align:left;">
@@ -381,29 +433,22 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             : isNext
               ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">⚡ Up Next</div>'
               : ""}
-              
+
               <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
-                <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:opacity 0.2s;">
+                <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); transition:opacity 0.2s;">
                   📍 Google Location
                 </a>
                 <div style="font-size:10px; color:rgba(255,255,255,0.45); margin-top:2px; text-align:center; font-weight:500;">👉 Click pin for details</div>
               </div>
-              
+
               <!-- Arrow border -->
               <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid ${cfg.color}aa; z-index:1; pointer-events:none;"></div>
               <!-- Arrow fill -->
               <div style="position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(-1px); width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid rgba(8, 8, 18, 0.7); z-index:2; pointer-events:none;"></div>
             </div>
           </div>
-        </div>`,
-        iconSize: [w, h],
-        iconAnchor: [w / 2, h],
-      });
-
-      const marker = L.marker([v.lat, v.lng], { icon, zIndexOffset: isBouncing ? 1000 : 0, venueName: v.venue, showDate: firstShow.date } as any).addTo(map);
-
-      // Store marker reference for Near Me feature
-      markersRef.current.push({ marker, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
+        </div>
+      </div>`;
 
       // Build listing of shows for popup
       const showsListHtml = v.shows.map((s, idx) => {
@@ -435,15 +480,15 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         `;
       }).join('');
 
-      marker.bindPopup(`
-        <div style="background:#080812; color:white; padding:14px 16px; min-width:200px; max-height:280px; overflow-y:auto; border:1px solid ${cfg.color}44; font-family:system-ui,sans-serif; border-radius:8px;">
+      const popupHtml = `
+        <div style="background:#080812; color:white; padding:14px 16px; min-width:200px; max-width:280px; max-height:280px; overflow-y:auto; border:1px solid ${cfg.color}44; font-family:system-ui,sans-serif; border-radius:8px;">
           <div style="font-weight:800; font-size:15px; margin-bottom:3px;">${v.venue}</div>
           <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:12px;">${v.city}, ${v.state}</div>
-          
+
           <div style="margin-bottom:12px;">
             ${showsListHtml}
           </div>
-          
+
           ${isNext ? '<div style="font-size:9px; margin-bottom:10px; color:#a855f7; font-weight:700; text-transform:uppercase; letter-spacing:2px;">⚡ Up Next</div>' : ""}
           <div style="display:flex; flex-direction:column; gap:8px;">
             <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:1px; text-decoration:none; padding:8px 12px; border-radius:6px; text-align:center; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(0,0,0,0.4);">
@@ -451,12 +496,30 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
             </a>
           </div>
         </div>
-      `, { className: "venue-popup", offset: [0, -6], maxWidth: 280, minWidth: 200 });
+      `;
 
+      const position = new google.maps.LatLng(v.lat, v.lng);
+
+      const infoWindow = new google.maps.InfoWindow({
+        content: popupHtml,
+        disableAutoPan: false,
+        headerDisabled: true,
+      });
+
+      const overlay = new VenueMarkerOverlay(position, pinHtml, () => {
+        // Close any other open popups before opening this one
+        markersRef.current.forEach(m => { if (m.infoWindow !== infoWindow) m.infoWindow.close(); });
+        infoWindow.setPosition(position);
+        infoWindow.open({ map });
+        onPinClickRef.current?.(v.venue, firstShow.date);
+      });
+      overlay.setMap(map);
+
+      markersRef.current.push({ overlay, infoWindow, venue: v.venue, date: firstShow.date, city: v.city, lat: v.lat, lng: v.lng });
     });
 
     // Center map on active show and zoom in +1 level as default
-    if (filteredVenues.length > 0 && map) {
+    if (filteredVenues.length > 0) {
       // Find active or up next venue (fallback to first venue)
       const activeVenue = filteredVenues.find(v =>
         (nextShowVenue && v.venue === nextShowVenue && v.city === nextShowCity) ||
@@ -468,28 +531,36 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         })
       ) || filteredVenues[0];
 
-      const bounds = L.latLngBounds(filteredVenues.map(v => [v.lat, v.lng]));
-      map.fitBounds(bounds, {
-        paddingTopLeft: [60, 80],
-        paddingBottomRight: [60, 80],
-        maxZoom: 14,
-        animate: false
-      });
+      const bounds = new google.maps.LatLngBounds();
+      filteredVenues.forEach(v => bounds.extend({ lat: v.lat, lng: v.lng }));
+      map.fitBounds(bounds, { top: 80, right: 60, bottom: 80, left: 60 });
 
       if (activeVenue) {
-        const defaultZoom = Math.min(15, map.getZoom() + 1);
-        map.setView([activeVenue.lat, activeVenue.lng], defaultZoom, { animate: true });
+        const boundsListener = google.maps.event.addListenerOnce(map, "idle", () => {
+          const currentZoom = map.getZoom() ?? 12;
+          const defaultZoom = Math.min(15, currentZoom + 1);
+          map.setZoom(defaultZoom);
+          map.panTo({ lat: activeVenue.lat, lng: activeVenue.lng });
+        });
+        return () => {
+          google.maps.event.removeListener(boundsListener);
+          for (const m of markersRef.current) {
+            m.overlay.setMap(null);
+            m.infoWindow.close();
+          }
+          markersRef.current = [];
+        };
       }
     }
 
     return () => {
       for (const m of markersRef.current) {
-        m.marker.off();
-        m.marker.remove();
+        m.overlay.setMap(null);
+        m.infoWindow.close();
       }
       markersRef.current = [];
     };
-  }, [L, map, shows, nextShowVenue, nextShowCity, selectedTypes]);
+  }, [googleReady, map, shows, nextShowVenue, nextShowCity, selectedTypes]);
 
   // Near Me handler
   const handleNearMe = useCallback(() => {
@@ -501,7 +572,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         const userLng = pos.coords.longitude;
 
         // Find closest venue from current markers
-        let closest: any = null;
+        let closest: MarkerHandle | null = null;
         let minDist = Infinity;
 
         markersRef.current.forEach((m) => {
@@ -513,10 +584,14 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         });
 
         if (closest && mapInstanceRef.current) {
-          mapInstanceRef.current.flyTo([closest.lat, closest.lng], 12, { duration: 1.2 });
+          const c = closest as MarkerHandle;
+          mapInstanceRef.current.panTo({ lat: c.lat, lng: c.lng });
+          mapInstanceRef.current.setZoom(12);
           setTimeout(() => {
-            closest.marker.openPopup();
-            if (onPinClick) onPinClick(closest.venue, closest.date);
+            markersRef.current.forEach(m => { if (m !== c) m.infoWindow.close(); });
+            c.infoWindow.setPosition({ lat: c.lat, lng: c.lng });
+            c.infoWindow.open({ map: mapInstanceRef.current! });
+            onPinClick?.(c.venue, c.date);
           }, 1300);
         }
       },
@@ -528,13 +603,13 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   // Zoom handlers
   const handleZoomIn = useCallback(() => {
     if (mapInstanceRef.current) {
-      mapInstanceRef.current.zoomIn(1);
+      mapInstanceRef.current.setZoom((mapInstanceRef.current.getZoom() ?? 12) + 1);
     }
   }, []);
 
   const handleZoomOut = useCallback(() => {
     if (mapInstanceRef.current) {
-      mapInstanceRef.current.zoomOut(1);
+      mapInstanceRef.current.setZoom((mapInstanceRef.current.getZoom() ?? 12) - 1);
     }
   }, []);
 
@@ -830,9 +905,16 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         </button>
       </div>
 
-      {!isLoaded && (
+      {(!isLoaded || mapLoadError) && (
         <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black">
-          <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
+          {mapLoadError ? (
+            <div className="text-center px-6">
+              <p className="text-white/70 text-sm font-semibold mb-1">Map couldn't load</p>
+              <p className="text-white/40 text-xs">{mapLoadError === "Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" ? "Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY in .env.local" : "Check your Google Maps API key and quota."}</p>
+            </div>
+          ) : (
+            <div className="w-6 h-6 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
+          )}
         </div>
       )}
 
@@ -859,48 +941,34 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         .custom-venue-marker:hover {
           z-index: 99999 !important;
         }
-        .venue-popup .leaflet-popup-content-wrapper { background: transparent !important; box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
-        .venue-popup .leaflet-popup-content { margin: 0 !important; width: auto !important; }
-        .venue-popup .leaflet-popup-tip { background: #080812 !important; }
-        .leaflet-container { width: 100%; height: 100%; border: none !important; outline: none !important; }
-        .leaflet-container a { color: white !important; }
-        .leaflet-tile { border: none !important; outline: none !important; }
-        .leaflet-tile-pane { border: none !important; outline: none !important; }
-        
-        /* Premium Dark-Themed Leaflet Zoom Controls */
-        .leaflet-container .leaflet-control-zoom {
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
-          border-radius: 10px !important;
-          overflow: hidden !important;
-          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(133,29,237,0.2) !important;
-          margin: 14px !important;
-          backdrop-filter: blur(12px) !important;
+
+        /* Dark-themed Google InfoWindow to match the popup card design */
+        .gm-style-iw-c {
+          padding: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          border-radius: 8px !important;
+          max-width: 280px !important;
         }
-        .leaflet-container a.leaflet-control-zoom-in,
-        .leaflet-container a.leaflet-control-zoom-out {
-          background-color: rgba(8, 8, 18, 0.92) !important;
-          color: rgba(255, 255, 255, 0.9) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-          transition: all 0.18s ease !important;
-          font-weight: 700 !important;
-          width: 36px !important;
-          height: 36px !important;
-          line-height: 36px !important;
-          font-size: 20px !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
+        .gm-style-iw-d {
+          overflow: auto !important;
+          padding: 0 !important;
         }
-        .leaflet-container a.leaflet-control-zoom-in:hover,
-        .leaflet-container a.leaflet-control-zoom-out:hover {
-          background-color: var(--color-accent, #851ded) !important;
-          color: #ffffff !important;
-          transform: scale(1.08) !important;
+        .gm-style-iw-tc::after {
+          background: #080812 !important;
         }
-        .leaflet-container a.leaflet-control-zoom-out {
-          border-bottom: none !important;
+        .gm-ui-hover-effect {
+          top: 4px !important;
+          right: 4px !important;
+          filter: invert(1);
+          opacity: 0.7;
         }
-        
+        .gm-style .gm-style-iw-t::after {
+          background: linear-gradient(45deg, #080812 50%, transparent 51%, transparent 100%) !important;
+        }
+        /* Google's required attribution/logo — keep visible, just de-emphasize */
+        .gm-style-cc { opacity: 0.6; }
+
         /* Custom CSS Tooltip Card Styling */
         .custom-tooltip-card {
           position: absolute;
@@ -912,10 +980,6 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
           pointer-events: none;
           z-index: 99999;
-        }
-        /* ── SnazzyMaps Style 227862 (Deep Dark Theme without Grid Seams) ── */
-        .snazzy-map-227862 .leaflet-tile-pane {
-          filter: brightness(95%) contrast(105%);
         }
 
         .custom-venue-marker:hover .custom-tooltip-card {
@@ -935,7 +999,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           background: transparent;
           pointer-events: auto;
         }
-        
+
         .marker-label {
           position: absolute;
           top: 102%;
@@ -969,7 +1033,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
           transform: translateX(-50%) scale(1.05);
           z-index: 20;
         }
-        
+
         /* Pulse ring and subtle smooth glow for next show */
         .next-show-bounce {
           position: relative;

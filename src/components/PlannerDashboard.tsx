@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock } from "lucide-react";
+import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock, Navigation } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 
@@ -24,6 +24,8 @@ interface BookingData {
   soundSystem?: string;
   stageAvailable?: string;
   loadInTime?: string;
+  parkingAddress?: string;
+  parkingNotes?: string;
   notes?: string;
 }
 
@@ -33,14 +35,19 @@ const defaultBooking: BookingData = {
   eventType: "unplugged",
   date: "Thu, Aug 6, 2026",
   startTime: "7:00 PM",
-  endTime: "10:00 PM",
-  venueName: "Soldier Field Outdoor Grid",
+  endTime: "10:30 PM",
+  venueName: "Bridges Scoreboard",
   venueCity: "Chicago",
   venueState: "IL",
   indoorOutdoor: "Outdoor",
-  expectedAttendance: "500",
-  organization: "Lakefront Entertainment Group",
-  status: "pending",
+  expectedAttendance: "250",
+  organization: "Scoreboard Entertainment",
+  status: "confirmed",
+  soundSystem: "Yes — full PA system",
+  stageAvailable: "Yes",
+  loadInTime: "3:00 PM",
+  parkingAddress: "980 S Bartlett Rd, Lot B",
+  parkingNotes: "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.",
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; text: string; bar: string }> = {
@@ -647,6 +654,7 @@ export default function PlannerDashboard() {
                   { label: 'Stage availability confirmed', done: !!booking.stageAvailable, detail: booking.stageAvailable || 'Not confirmed' },
                   { label: 'Load-in / setup time', done: !!booking.loadInTime, detail: booking.loadInTime || 'Not set' },
                   { label: 'Expected attendance', done: !!booking.expectedAttendance, detail: booking.expectedAttendance ? `~${booking.expectedAttendance} guests` : 'Not set' },
+                  { label: 'Parking & Directions', done: !!booking.parkingNotes || !!booking.parkingAddress, detail: booking.parkingNotes || booking.parkingAddress || 'Not set' },
                 ].map((item, i) => (
                   <div
                     key={item.label}
@@ -669,6 +677,37 @@ export default function PlannerDashboard() {
                     )}
                   </div>
                 ))}
+              </div>
+
+              {/* ── Google Maps Parking Setup & Directions Card ── */}
+              <div className="mt-4 p-4 bg-purple-600/10 border border-purple-500/20 rounded-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-purple-400" />
+                    <h4 className="text-sm font-bold uppercase tracking-wider text-white">Venue Location & Parking Setup</h4>
+                  </div>
+                  {booking.venueName && (
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                        [booking.parkingAddress || booking.venueName, booking.venueCity, booking.venueState].filter(Boolean).join(", ")
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg text-xs font-bold text-white uppercase tracking-wider transition-colors w-fit"
+                    >
+                      <Navigation className="w-3.5 h-3.5 text-cyan-300" /> Open Google Maps Directions
+                    </a>
+                  )}
+                </div>
+
+                {booking.parkingNotes ? (
+                  <div className="bg-black/40 border border-white/10 p-3 rounded-lg text-xs text-white/80">
+                    <span className="font-bold text-purple-400uppercase tracking-widest block mb-1 text-[10px]">Parking Instructions & Notes:</span>
+                    <p className="whitespace-pre-wrap">{booking.parkingNotes}</p>
+                  </div>
+                ) : (
+                  <p className="text-xs text-white/40 italic">No custom parking notes added yet.</p>
+                )}
               </div>
 
               {(() => {

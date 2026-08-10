@@ -4,6 +4,8 @@
 
 import React, { useState, useMemo } from "react";
 
+import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+
 interface TourShow {
   date: string;
   venue: string;
@@ -40,6 +42,22 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
       time: "4:00 PM",
     };
   }, [tourDates, selectedShowDate]);
+
+  const showOptions = useMemo(() => {
+    if (!tourDates || tourDates.length === 0) {
+      return [{ id: selectedShow.date, name: `${selectedShow.date} – ${selectedShow.venue} (${selectedShow.city || 'IL'})` }];
+    }
+    return tourDates.map(s => ({
+      id: s.date,
+      name: `${s.date} – ${s.venue} (${s.city || 'IL'})`
+    }));
+  }, [tourDates, selectedShow]);
+
+  const audienceOptions = useMemo(() => [
+    { id: "all_fans", name: "All Opted-In SMS & Email Fan Subscribers (1,482 Subscribers)" },
+    { id: "show_fans", name: `Fans Registered for ${selectedShow?.venue || 'Show'} (284 Fans)` },
+    { id: "crew_and_band", name: "Active Band & Crew Roster (42 Members)" }
+  ], [selectedShow?.venue]);
 
   // Apply Preset Templates based on selected show & alert type
   const activeTitle = customTitle || (
@@ -117,11 +135,11 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
   };
 
   return (
-    <div className="py-5 pr-5 pl-0 bg-transparent border-t border-[var(--border-color)] space-y-4 text-[var(--text-color)] font-sans">
+    <div className="py-5 pr-5 pl-0 bg-transparent border-none space-y-4 text-[var(--text-color)] font-sans">
 
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2.5">
-        <div className="p-2.5 bg-transparent border border-[var(--border-color)] flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-transparent border-none flex items-center justify-between">
           <div>
             <span className="text-[8px] font-black uppercase tracking-wider text-rose-400 block">Target Audience</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">{recipientCount.toLocaleString()} Subscribers</span>
@@ -129,7 +147,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-rose-400"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8 a3 3 0 1 1-5.8-1.6"/></svg>
         </div>
 
-        <div className="p-2.5 bg-transparent border border-[var(--border-color)] flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-transparent border-none flex items-center justify-between">
           <div>
             <span className="text-[8px] font-black uppercase tracking-wider text-purple-300 block">SMS Length & Segments</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">{smsLength} Chars ({smsSegments} Segments)</span>
@@ -137,7 +155,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-300"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
         </div>
 
-        <div className="p-2.5 bg-transparent border border-[var(--border-color)] flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-transparent border-none flex items-center justify-between">
           <div>
             <span className="text-[8px] font-black uppercase tracking-wider  text-[var(--color-accent)] block">Twilio SMS Rate</span>
             <span className="text-[11px] font-black text-[var(--text-color)]">${estimatedSmsCost.toFixed(2)} (${smsRatePerSegment}/msg)</span>
@@ -145,7 +163,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-accent)]"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
         </div>
 
-        <div className="p-2.5 bg-transparent border border-[var(--border-color)] flex items-center justify-between shadow-xs">
+        <div className="p-2.5 bg-transparent border-none flex items-center justify-between">
           <div>
             <span className="text-[8px] font-black uppercase tracking-wider text-[var(--color-accent)] block">Total Est. Campaign Cost</span>
             <span className="text-[11px] font-black text-[var(--color-accent)]">${totalEstimatedCost.toFixed(2)}</span>
@@ -163,9 +181,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "cancellation"
-              ? "bg-rose-600 border-rose-600 text-white shadow-md"
-              : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
+            className={`p-2 rounded-lg text-[10px] font-black text-left transition-colors cursor-pointer border-none ${alertType === "cancellation"
+              ? "bg-rose-600 text-white shadow-md"
+              : "bg-transparent text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
               }`}
           >
             <span className="flex items-center gap-1.5">
@@ -177,9 +195,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "time_change"
-              ? "bg-purple-700 border-purple-600 text-white shadow-md"
-              : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
+            className={`p-2 rounded-lg text-[10px] font-black text-left transition-colors cursor-pointer border-none ${alertType === "time_change"
+              ? "bg-purple-700 text-white shadow-md"
+              : "bg-transparent text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
               }`}
           >
             <span className="flex items-center gap-1.5">
@@ -191,9 +209,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "venue_change"
-              ? "bg-[var(--color-accent)] border-[var(--color-accent)] text-white shadow-md"
-              : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
+            className={`p-2 rounded-lg text-[10px] font-black text-left transition-colors cursor-pointer border-none ${alertType === "venue_change"
+              ? "bg-[var(--color-accent)] text-white shadow-md"
+              : "bg-transparent text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
               }`}
           >
             <span className="flex items-center gap-1.5">
@@ -205,9 +223,9 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           <button aria-label="Action button"
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`p-2 rounded-lg border text-[10px] font-black text-left transition-colors cursor-pointer ${alertType === "announcement"
-              ? "bg-cyan-600 border-cyan-600 text-white shadow-md"
-              : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
+            className={`p-2 rounded-lg text-[10px] font-black text-left transition-colors cursor-pointer border-none ${alertType === "announcement"
+              ? "bg-cyan-600 text-white shadow-md"
+              : "bg-transparent text-[var(--muted-text)] hover:bg-white/5 hover:text-[var(--text-color)]"
               }`}
           >
             <span className="flex items-center gap-1.5">
@@ -219,41 +237,35 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
       </div>
 
       {/* Show & Audience Selector Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
         {/* Target Show Selector */}
         <div>
-          <label htmlFor="emg-target-show" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
+          <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
             2. Target Show Date / Venue
           </label>
-          <select aria-label="Select option"
-            id="emg-target-show"
-            value={selectedShowDate}
-            onChange={(e) => setSelectedShowDate(e.target.value)}
-            className="w-full bg-transparent border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-purple-500 cursor-pointer"
-          >
-            {tourDates.map((s) => (
-              <option key={s.date} value={s.date} className="bg-zinc-900 text-white font-semibold">
-                {s.date} — {s.venue} ({s.city || 'IL'})
-              </option>
-            ))}
-          </select>
+          <GooeyMessagesDropdown
+            fullWidth={true}
+            placeholder="Select Show Date / Venue"
+            defaultSelectedId={selectedShowDate || showOptions[0]?.id}
+            customers={showOptions}
+            onSelect={(opt) => setSelectedShowDate(opt.id)}
+            className="w-full"
+          />
         </div>
 
         {/* Target Audience Selector */}
         <div>
-          <label htmlFor="emg-target-audience" className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
+          <label className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
             3. Target Audience
           </label>
-          <select aria-label="Select option"
-            id="emg-target-audience"
-            value={targetAudience}
-            onChange={(e) => setTargetAudience(e.target.value as any)}
-            className="w-full bg-transparent border border-[var(--border-color)] rounded-lg px-3 py-2 text-[11px] font-bold text-[var(--text-color)] focus:outline-none focus:border-purple-500 cursor-pointer"
-          >
-            <option value="all_fans" className="bg-zinc-900 text-white font-semibold">All Opted-In SMS & Email Fan Subscribers (1,482 Subscribers)</option>
-            <option value="show_fans" className="bg-zinc-900 text-white font-semibold">Fans Registered for {selectedShow.venue} (284 Fans)</option>
-            <option value="crew_and_band" className="bg-zinc-900 text-white font-semibold">Active Band & Crew Roster (42 Members)</option>
-          </select>
+          <GooeyMessagesDropdown
+            fullWidth={true}
+            placeholder="Select Target Audience"
+            defaultSelectedId={targetAudience}
+            customers={audienceOptions}
+            onSelect={(opt) => setTargetAudience(opt.id as any)}
+            className="w-full"
+          />
         </div>
       </div>
 
@@ -263,10 +275,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
           4. Delivery Channels & Cost Estimator
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-          <label
-            className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendSms ? "bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] text-[var(--text-color)] shadow-xs" : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)]"
-              }`}
-          >
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
               <input aria-label="Input field" type="checkbox" checked={sendSms} onChange={(e) => setSendSms(e.target.checked)} className="accent-white w-3.5 h-3.5 cursor-pointer" />
               <div>
@@ -279,10 +288,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label
-            className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendEmail ? "bg-[var(--color-accent)]/15 border-[var(--color-accent)]/40 text-[var(--text-color)] shadow-xs" : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)]"
-              }`}
-          >
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
               <input aria-label="Input field" type="checkbox" checked={sendEmail} onChange={(e) => setSendEmail(e.target.checked)} className="accent-white w-3.5 h-3.5 cursor-pointer" />
               <div>
@@ -295,10 +301,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             </div>
           </label>
 
-          <label
-            className={`p-2.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${sendDashboardBanner ? "bg-cyan-500/15 border-cyan-500/40 text-[var(--text-color)] shadow-xs" : "bg-transparent border border-[var(--border-color)] text-[var(--muted-text)]"
-              }`}
-          >
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
               <input aria-label="Input field" type="checkbox" checked={sendDashboardBanner} onChange={(e) => setSendDashboardBanner(e.target.checked)} className="accent-white w-3.5 h-3.5 cursor-pointer" />
               <div>

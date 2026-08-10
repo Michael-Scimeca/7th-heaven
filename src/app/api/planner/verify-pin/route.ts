@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { verifyPin } from '@/lib/pins';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
+const supabase: any = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   { auth: { autoRefreshToken: false, persistSession: false } }
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
     // 3. Upsert a Supabase auth user with planner role
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
-    const existingUser = existingUsers?.users?.find(u => u.email === cleanEmail);
+    const existingUser = existingUsers?.users?.find((u: any) => u.email === cleanEmail);
 
     if (existingUser) {
       // Update their profile role to planner if not already set

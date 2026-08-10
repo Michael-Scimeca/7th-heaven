@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     // Initialize Supabase Admin Client using service key to bypass RLS and perform admin auth tasks
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
+    const supabaseAdmin: any = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: listError.message }, { status: 500 });
     }
 
-    const user = listData.users.find(u => u.email?.toLowerCase() === email.toLowerCase());
+    const user = listData.users.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
     if (!user) {
       if (process.env.NODE_ENV !== 'production') {
         try {

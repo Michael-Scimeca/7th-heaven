@@ -248,7 +248,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-white/90 truncate leading-tight">{show.venue}</p>
-              <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5 flex items-center gap-1"><MapPin className="w-2.5 h-2.5 text-cyan-400 shrink-0" /> {show.city}{show.state ? `, ${show.state}` : ''}</p>
+              <p className="text-[var(--font-size-4xs)] text-white/30 truncate mt-0.5 flex items-center gap-1"><MapPin className="w-2.5 h-2.5 text-purple-400shrink-0" /> {show.city}{show.state ? `, ${show.state}` : ''}</p>
             </div>
             <span className="text-[var(--font-size-4xs)] font-bold text-white/20">→</span>
           </Link>

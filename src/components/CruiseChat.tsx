@@ -648,7 +648,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
       <div className="py-2.5 border-t border-white/10 relative shrink-0">
         {showTagMenu && (
           <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
-            <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 px-2 py-1 flex items-center justify-between">
+            <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
               <span>Tag Admin / Crew Member</span>
               <button aria-label="Action button" onClick={() => setShowTagMenu(false)} className="text-white/40 hover:text-white">✕</button>
             </div>

@@ -275,7 +275,7 @@ export default function HeroDemoPage() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-[#050508]" />
           </div>
           <div className="relative z-10 site-container text-center">
-            <p className="text-xs font-black uppercase tracking-[0.35em] text-cyan-400 mb-6">Departing From Miami · 2027</p>
+            <p className="text-xs font-black uppercase tracking-[0.35em] text-purple-400mb-6">Departing From Miami · 2027</p>
             <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               7th Heaven <span className="accent-gradient-text">Cruise</span>
             </h1>

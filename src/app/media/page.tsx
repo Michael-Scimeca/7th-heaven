@@ -4,11 +4,12 @@ import Image from 'next/image';
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { Palette, Search, Play } from "lucide-react";
+import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const InlineYTPlayer = dynamic(() => import("@/components/InlineYTPlayer"), { ssr: false });
+const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
 
 interface Video {
   id: string;
@@ -27,19 +28,33 @@ interface VideoCategory {
 const thumb = (id: string) => `https://img.youtube.com/vi/${id}/hq720.jpg`;
 const thumbMax = (id: string) => `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 
-function VideoThumbnail({ videoId, title }: { videoId: string; title: string }) {
+function VideoThumbnail({ videoId, title, isActive }: { videoId: string; title: string; isActive?: boolean }) {
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
   const [failed, setFailed] = useState(false);
 
+  const previewUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=20&playsinline=1&modestbranding=1&enablejsapi=1`;
+
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#1a0f2e] via-[#0c0817] to-black flex items-center justify-center overflow-hidden">
-      {!failed ? (
+      {/* 10-Second Video Preview Loop when active starting 10s into video */}
+      {isActive && (
+        <iframe
+          key={videoId}
+          src={previewUrl}
+          title={`${title} Preview`}
+          allow="autoplay; encrypted-media"
+          className="absolute inset-0 w-full h-full object-cover scale-125 pointer-events-none z-0 border-0 opacity-90 transition-opacity duration-700"
+        />
+      )}
+
+      {/* Static Fallback Thumbnail Image */}
+      {!failed && (
         <Image
           src={imgSrc}
           alt={title}
           fill
-          sizes="(max-width: 768px) 100vw, 300px"
-          className="object-cover group-hover:scale-110 transition-transform duration-700"
+          sizes="(max-width: 768px) 100vw, 500px"
+          className={`object-cover transition-opacity duration-700 ${isActive ? "opacity-0" : "opacity-100 group-hover:scale-110"}`}
           unoptimized
           onError={() => {
             if (imgSrc.includes('maxresdefault')) {
@@ -49,10 +64,10 @@ function VideoThumbnail({ videoId, title }: { videoId: string; title: string }) 
             }
           }}
         />
-      ) : null}
+      )}
 
-      {failed && (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#291645] via-[#120a24] to-[#05030a] flex flex-col items-center justify-center p-4 text-center">
+      {failed && !isActive && (
+        <div className="absolute inset-0 bg-gradient-to-br from-[#291645] via-[#120a24] to-[#05030a] flex flex-col items-center justify-center p-4 text-center z-10">
           <div className="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-400/30 flex items-center justify-center mb-2 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
           </div>
@@ -150,7 +165,7 @@ export default function MediaPage() {
           <div className="absolute inset-0">
             {heroPlaying ? (
               <div className="absolute inset-0 w-full h-full">
-                <InlineYTPlayer videoId={featuredVideo.id} title={featuredVideo.title} onClose={() => setHeroPlaying(false)} />
+                <CustomVideoPlayer videoId={featuredVideo.id} title={featuredVideo.title} onClose={() => setHeroPlaying(false)} />
               </div>
             ) : (
               <>
@@ -216,10 +231,10 @@ export default function MediaPage() {
 
       {/* ── CATEGORY FILTER TABS & SEARCH BAR ── */}
       <div className="site-container px-6 mb-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row items-start justify-between gap-6 pb-6 border-b border-white/10">
           {/* Category Tabs */}
-          <div className="flex flex-wrap items-center gap-2 overflow-x-auto max-w-full pb-2 md:pb-0">
-            {categories.map((cat) => {
+          <div className="flex flex-wrap items-center gap-3 overflow-x-auto max-w-full pb-2 md:pb-0">
+            {categories.filter(cat => cat.videos.length > 0).map((cat) => {
               const isActive = activeFilter === cat.category;
               return (
                 <button
@@ -229,8 +244,8 @@ export default function MediaPage() {
                     setActiveIndex(0);
                   }}
                   className={`px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
-                      ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
-                      : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
+                    ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
+                    : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
                     }`}
                 >
                   <span>{cat.category}</span>
@@ -244,26 +259,21 @@ export default function MediaPage() {
           </div>
 
           {/* Search Input */}
-          <div className="relative w-full md:w-64 shrink-0 input-glow-border rounded-lg">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50 w-4 h-4 pointer-events-none z-10" />
-            <input
-              type="text"
-              aria-label="Search media"
-              placeholder="SEARCH MEDIA..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="site-input w-full !py-2 !pl-9 pr-4 text-xs font-bold tracking-widest uppercase text-white placeholder-white/40 outline-none transition-colors rounded-lg bg-black/40 border border-white/10"
-            />
-          </div>
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="SEARCH MEDIA..."
+            width="300px"
+          />
         </div>
       </div>
 
       {/* ── GSAP SCROLL-DRIVEN NAME-LIST / VIDEO REVEAL SECTION ── */}
       <div ref={containerRef} className="site-container px-6 pb-32">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-          {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST */}
-          <div className="w-full lg:w-3/5 space-y-16 md:space-y-24 py-8">
+          {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS) */}
+          <div className="lg:col-span-5 space-y-16 md:space-y-24 ">
             {filteredVideos.map((video, index) => {
               const isActive = activeIndex === index;
               return (
@@ -291,8 +301,8 @@ export default function MediaPage() {
 
                   <h3
                     className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 ${isActive
-                        ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
-                        : "text-white/30 group-hover:text-white/70"
+                      ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
+                      : "text-white/30 group-hover:text-white/70"
                       }`}
                     style={{ fontFamily: "var(--font-barlow-condensed)" }}
                   >
@@ -336,9 +346,9 @@ export default function MediaPage() {
             )}
           </div>
 
-          {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER */}
-          <div className="w-full lg:w-2/5 shrink-0 lg:sticky lg:top-28 z-20">
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-purple-950/20">
+          {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS) */}
+          <div className="lg:col-span-7 shrink-0 lg:sticky lg:top-[120px] z-20">
+            <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border-0 shadow-[0_25px_70px_rgba(0,0,0,0.85)] bg-purple-950/20">
               {filteredVideos.map((video, index) => {
                 const isActive = activeIndex === index;
                 const isPlaying = playingId === video.id;
@@ -347,23 +357,23 @@ export default function MediaPage() {
                   <div
                     key={video.id}
                     className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive
-                        ? "opacity-100 scale-100 pointer-events-auto"
-                        : "opacity-0 scale-105 pointer-events-none"
+                      ? "opacity-100 scale-100 pointer-events-auto"
+                      : "opacity-0 scale-105 pointer-events-none"
                       }`}
                   >
                     {isPlaying ? (
-                      <InlineYTPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
+                      <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                     ) : (
                       <button
                         onClick={() => setPlayingId(video.id)}
                         className="relative w-full h-full cursor-pointer group/card block text-left"
                         aria-label={`Play ${video.title}`}
                       >
-                        <VideoThumbnail videoId={video.id} title={video.title} />
+                        <VideoThumbnail videoId={video.id} title={video.title} isActive={isActive} />
                         <div className="absolute inset-0  group-hover/card:bg-black/50 transition-colors z-10" />
 
                         {/* Play Icon Badge */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover/card:opacity-100 transition-opacity z-20">
+                        <div className="absolute inset-0 hidden group-hover/card:flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
                           <div className="w-16 h-16 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md flex items-center justify-center shadow-[0_0_30px_rgba(255,10,61,0.6)] group-hover/card:scale-110 transition-transform">
                             <Play className="w-7 h-7 fill-white ml-1 text-white" />
                           </div>

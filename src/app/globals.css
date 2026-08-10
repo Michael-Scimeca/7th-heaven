@@ -2,41 +2,26 @@
 
 html,
 body {
-  background-color: #000000;
+  background-color: transparent !important;
+  background: transparent !important;
   color: #ffffff;
   overflow-x: clip;
   max-width: 100vw;
 }
 
-/* Lenis smooth scroll */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
 /* =============================================
-   FULL TRANSPARENT, BORDERLESS & UNBOXED SITE THEME
+   GLOBAL TRANSPARENT BACKGROUND & UNBOXED THEME
+   No page or container on the site has solid black
    ============================================= */
 :root {
-  --color-bg-deep: #030006;
-  --color-bg-surface: rgba(15, 5, 29, 0.55);
-  --color-bg-glass: rgba(18, 18, 24, 0.45);
+  --color-bg-deep: transparent !important;
+  --color-bg-surface: transparent !important;
+  --color-bg-glass: transparent !important;
   --card-bg: transparent !important;
   --surface-base: transparent !important;
   --surface-raised: transparent !important;
   --surface-overlay: transparent !important;
+  --color-section-bg: transparent !important;
   --border-color: rgba(255, 255, 255, 0.1);
   --color-border-main: rgba(255, 255, 255, 0.1);
   --color-border-purple: rgba(147, 51, 234, 0.3);
@@ -45,11 +30,25 @@ html.lenis body {
   --chat-bubble-padding-x: 13px;
   --chat-message-spacing: 13px;
   /* Section & Input Container Overrides */
-  --color-section-bg: transparent;
   --color-section-border: rgba(255, 255, 255, 0.1);
   --color-input-bg: rgba(12, 8, 23, 0.8);
   --color-input-border: rgba(255, 255, 255, 0.15);
   --color-nav-font: #6700ff;
+}
+
+html,
+body,
+main,
+#admin-dashboard-root,
+.site-container,
+section,
+.bg-black,
+.bg-\[\#000000\],
+.bg-\[\#000\],
+.bg-\[\#060609\],
+.bg-\[\#0a0a0f\],
+.bg-\[\#030006\] {
+  background-color: transparent !important;
 }
 
 
@@ -210,11 +209,11 @@ input[type="search"],
 .search-input,
 input[placeholder*="Search"],
 input[placeholder*="search"] {
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C%20255%2C%20255%2C%200.45%29%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C%20255%2C%20255%2C%200.5%29%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat !important;
-  background-position: left 0.85rem center !important;
-  background-size: 1rem 1rem !important;
-  padding-left: 2.75rem !important;
+  background-position: left 0.5rem center !important;
+  background-size: 0.85rem 0.85rem !important;
+  padding-left: 1.75rem !important;
   line-height: 1.25 !important;
   vertical-align: middle !important;
 }
@@ -223,7 +222,7 @@ input[type="search"]:focus,
 .search-input:focus,
 input[placeholder*="Search"]:focus,
 input[placeholder*="search"]:focus {
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22rgba%28236%2C%2072%2C%20153%2C%200.8%29%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23c084fc%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E");
 }
 
 input.no-bg-icon,
@@ -1850,29 +1849,37 @@ html.tour-sort-stuck #tour-sort-bar {
   color: rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Sleek 8px visible scrollbar for panels */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Custom Always-Visible Purple Scrollbar */
+.custom-scrollbar::-webkit-scrollbar,
+.custom-purple-scrollbar::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  display: block !important;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.06);
-  border-radius: 9999px;
+.custom-scrollbar::-webkit-scrollbar-track,
+.custom-purple-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 9999px !important;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--color-accent);
-  border-radius: 9999px;
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.custom-purple-scrollbar::-webkit-scrollbar-thumb {
+  background: #c084fc !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.6) !important;
+  min-height: 32px !important;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6b21a8;
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+.custom-purple-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a855f7 !important;
 }
 
-.custom-scrollbar {
-  scrollbar-width: auto;
-  scrollbar-color: var(--color-accent) rgba(0, 0, 0, 0.06);
+.custom-scrollbar,
+.custom-purple-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: #c084fc rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Prevent transition flash during window resize */
@@ -1915,23 +1922,61 @@ html.tour-sort-stuck #tour-sort-bar {
   height: 100vh;
   z-index: 99999;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .grain-overlay::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+  top: -210px;
+  left: -170px;
+  width: calc(100vw + 370px);
+  height: calc(100vh + 590px);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
   background-repeat: repeat !important;
-  background-size: 200px 200px !important;
+  background-size: 180px 180px !important;
   opacity: var(--canvas-grain-opacity, 0.18);
   mix-blend-mode: var(--canvas-grain-blend, overlay);
   pointer-events: none;
-  animation: none !important;
-  transform: none !important;
+  animation: filmGrainJitter 0.5s steps(8) infinite !important;
+}
+
+@keyframes filmGrainJitter {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  12.5% {
+    transform: translate(-3%, -5%);
+  }
+
+  25% {
+    transform: translate(-8%, 3%);
+  }
+
+  37.5% {
+    transform: translate(4%, -12%);
+  }
+
+  50% {
+    transform: translate(-2%, 12%);
+  }
+
+  62.5% {
+    transform: translate(-7%, 4%);
+  }
+
+  75% {
+    transform: translate(8%, -2%);
+  }
+
+  87.5% {
+    transform: translate(-4%, 8%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* ── Header logo responsive positioning & hover ── */

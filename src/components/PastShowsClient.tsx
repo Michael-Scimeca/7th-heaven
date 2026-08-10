@@ -2,8 +2,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { X, Music } from "lucide-react";
 import Link from "next/link";
+import { Music } from "lucide-react";
+import SearchInput from "@/components/SearchInput";
 
 export interface PastShowItem {
   raw: string;
@@ -120,7 +121,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           <span className=" text-[var(--color-accent)]">Past Shows Archive</span>
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-color)]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6">
           <div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[var(--text-color)] leading-none mb-3">
               Past Shows <span className=" text-[var(--color-accent)]">Archive</span>
@@ -148,105 +149,73 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       </div>
 
       {/* ── STATS BAR ── */}
+      {/* ── STATS BAR ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
+        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
           <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">{totalShowsCount}+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
         </div>
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
+        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
           <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">40+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
         </div>
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
+        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
           <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">500+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
         </div>
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-sm flex flex-col items-center justify-center text-center">
+        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
           <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">5+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
         </div>
       </div>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
-      <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 rounded-3xl shadow-sm mb-8 space-y-6">
-
-        <div className="relative w-full input-glow-border rounded-xl">
-          <div className="absolute left-4 inset-y-0 flex items-center justify-center pointer-events-none text-white/50 z-10">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+      <div className="bg-transparent p-0 border-0 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-6 items-start">
+          {/* Left Column: 30% (3 cols out of 10) */}
+          <div className="md:col-span-3 space-y-3">
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Search venue, city, year..."
+              containerClassName="w-full"
+            />
+            <div className="text-xs text-[var(--muted-text)] font-semibold">
+              Showing <span className="font-bold text-[var(--text-color)]">{displayedCount}</span> of {totalShowsCount} shows
+            </div>
           </div>
-          <input aria-label="Search"
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search venue, festival, city, date, or event name (e.g. Durty Nellies, Hard Rock, Halloween, Cruise)..."
-            className="form-input w-full text-sm font-semibold border-none outline-none"
-          />
-          {searchQuery && (
-            <button aria-label="Clear search"
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-white/50 hover:text-white px-2.5 py-1 rounded-md bg-white/10 transition z-10 flex items-center gap-1"
-            >
-              <X className="w-3.5 h-3.5" /> Clear
-            </button>
-          )}
-        </div>
 
-        {/* Year Filter Pills */}
-        <div>
-          <span className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-2.5">
-            Jump to Year:
-          </span>
-          <div className="flex flex-wrap gap-2">
-            <button aria-label="Action button"
-              onClick={() => setSelectedYear("ALL")}
-              className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
-                ? "bg-[var(--color-accent)] text-white shadow-sm"
-                : "   text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
-                }`}
-            >
-              All Years
-            </button>
-            {years.map((y) => (
-              <button aria-label="Previous"
-                key={y.year}
-                onClick={() => {
-                  setSelectedYear(y.year);
-                  setOpenYears((prev) => ({ ...prev, [y.year]: true }));
-                }}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
-                  ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
-                  : "   text-[var(--muted-text)] hover:text-[var(--text-color)] border border-[var(--border-color)]"
+          {/* Right Column: 70% (7 cols out of 10) */}
+          <div className="md:col-span-7 space-y-2">
+            <span className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-1">
+              Jump to Year:
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <button aria-label="Action button"
+                onClick={() => setSelectedYear("ALL")}
+                className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
+                  ? "bg-[var(--color-accent)] text-white shadow-sm"
+                  : "bg-white/5 text-white/70 hover:text-white border-0"
                   }`}
               >
-                {y.year}
+                All Years
               </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Actions & Result Count */}
-        <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] text-xs text-[var(--muted-text)] font-semibold">
-          <div>
-            Showing <span className="font-bold text-[var(--text-color)]">{displayedCount}</span> of {totalShowsCount} shows
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button aria-label="Action button"
-              onClick={expandAll}
-              className="hover: text-[var(--color-accent)] transition-colors underline"
-            >
-              Expand All
-            </button>
-            <span>•</span>
-            <button aria-label="Action button"
-              onClick={collapseAll}
-              className="hover: text-[var(--color-accent)] transition-colors underline"
-            >
-              Collapse All
-            </button>
+              {years.map((y) => (
+                <button aria-label="Previous"
+                  key={y.year}
+                  onClick={() => {
+                    setSelectedYear(y.year);
+                    setOpenYears((prev) => ({ ...prev, [y.year]: true }));
+                  }}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
+                    ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
+                    : "bg-white/5 text-white/70 hover:text-white border-0"
+                    }`}
+                >
+                  {y.year}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -254,7 +223,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
         <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-12 text-center my-8">
-          <Music className="w-10 h-10 text-cyan-400 mx-auto mb-4" />
+          <Music className="w-10 h-10 text-purple-400mx-auto mb-4" />
           <h3 className="text-xl font-bold text-[var(--text-color)] mb-2">No Past Shows Found</h3>
           <p className="text-sm text-[var(--muted-text)] max-w-md mx-auto mb-6">
             We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
@@ -277,12 +246,12 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
             return (
               <div
                 key={yGroup.year}
-                className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm transition-colors"
+                className="rounded-3xl overflow-hidden "
               >
                 {/* Year Header Accordion Bar */}
                 <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-[var(--color-accent)]/10 transition-colors cursor-pointer text-left"
+                  className="w-full pr-6 py-4 flex items-center justify-between hover:bg-[var(--color-accent)]/10 transition-colors cursor-pointer text-left"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">
@@ -292,20 +261,6 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                     <span className="text-sm font-bold text-[var(--text-color)]">
                       {yGroup.shows.length} {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-text)]">
-                    <span>{isOpen ? "Hide" : "Show"}</span>
-                    <svg
-                      className={`w-4 h-4 transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""
-                        }`}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      viewBox="0 0 24 24"
-                    >
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
                   </div>
                 </button>
 
@@ -321,7 +276,7 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                       return (
                         <div
                           key={`${yGroup.year}-${idx}`}
-                          className="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
+                          className=" py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--color-accent)]/10 transition-colors group"
                           style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}
                         >
                           {/* Date & Day */}

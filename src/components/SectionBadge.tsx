@@ -34,7 +34,7 @@ export function SectionBadge({ label, color = "rose", className = "" }: SectionB
 
   return (
     <span
-      className={`text-[12px] font-black uppercase tracking-wider ${c.text} ${c.bg} ${c.border} px-3 py-1 rounded-md border whitespace-nowrap ${className}`}
+      className={`text-[12px] font-black uppercase tracking-wider ${c.text} ${c.bg} px-3 py-1 rounded-md border-none whitespace-nowrap ${className}`}
       style={{ fontSize: "12px" }}
     >
       {label}

@@ -30,7 +30,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
       {/* ── OPTION 2 VARIATIONS SWITCHER TOOLBAR ── */}
       <div className="bg-[var(--color-bg-surface)] border-b border-white/10 px-4 py-3 sticky top-[72px] z-50 flex items-center justify-between flex-wrap gap-2 text-white">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-black uppercase text-cyan-400 tracking-wider flex items-center gap-1">
+          <span className="text-xs font-black uppercase text-purple-400tracking-wider flex items-center gap-1">
             <span>⚡</span> Option 2 Split Showcase Variations:
           </span>
         </div>
@@ -59,7 +59,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
           <div className="site-container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 text-left">
-              <span className="text-xs font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-3 py-1 border border-cyan-500/20">
+              <span className="text-xs font-black uppercase tracking-widest text-purple-400bg-cyan-500/10 px-3 py-1 border border-cyan-500/20">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
               <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mt-4 mb-4">
@@ -125,7 +125,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Left Card */}
             <div className="lg:col-span-7 bg-[#130d24] border border-cyan-500/30 p-8 md:p-10">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-2.5 py-1">
+                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400bg-cyan-500/10 px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
                 </span>
                 <span className="text-xs font-mono text-white/50">{featured.date}</span>
@@ -136,7 +136,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
             {/* Right Branding */}
             <div className="lg:col-span-5">
-              <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-widest">Official Channel</span>
+              <span className="text-xs font-mono text-purple-400font-bold uppercase tracking-widest">Official Channel</span>
               <h1 className="text-4xl md:text-5xl font-black uppercase text-white mt-2 mb-4">
                 7th Heaven <br /><span className="text-cyan-400">News Feed</span>
               </h1>
@@ -154,7 +154,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-cyan-500/30">
             {/* Left Column */}
             <div className="lg:col-span-5 p-8 md:p-12 bg-[#090512] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-cyan-500/30">
-              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-cyan-400 mb-2">OPTION 2D — NEON LINE DIVIDER</span>
+              <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400mb-2">OPTION 2D — NEON LINE DIVIDER</span>
               <h1 className="text-3xl md:text-4xl font-black uppercase text-white leading-tight">
                 7th Heaven <br /><span className="text-cyan-400">Dispatch</span>
               </h1>
@@ -208,7 +208,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
         <section className="relative py-16 md:py-24 overflow-hidden bg-[#080510] text-left border-b border-white/10">
           <div className="site-container grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-4">
-              <span className="text-[var(--font-size-3xs)] font-mono font-bold uppercase tracking-widest text-cyan-400 block mb-2">
+              <span className="text-[var(--font-size-3xs)] font-mono font-bold uppercase tracking-widest text-purple-400block mb-2">
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
               <h1 className="text-4xl font-black uppercase tracking-tight text-white leading-none">

@@ -564,7 +564,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* Section Header — Inside Container Box */}
       <div className="text-center max-w-4xl mx-auto mb-16 px-[25px] md:px-[32px] relative z-20">
-        <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400 block mb-1">
+        <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-purple-400block mb-1">
           25+ Years Legacy Pathway
         </span>
         <h3
@@ -906,7 +906,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     }`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-2">
-                    <span className="text-lg font-black text-cyan-400 font-mono">
+                    <span className="text-lg font-black text-purple-400font-mono">
                       {hist.year}
                     </span>
                     <span className="text-[var(--font-size-4xs)] font-extrabold uppercase tracking-widest text-white/30 font-mono">

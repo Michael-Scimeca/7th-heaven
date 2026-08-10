@@ -735,8 +735,10 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   const tableRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const sortBarRef = useRef<HTMLDivElement>(null);
 
   const isStuckRef = useRef(false);
+  const sortBarOpacityRef = useRef(1);
 
   // Rebuilt date sort bar scroll-driven fade from scratch using plain vanilla JS
   useEffect(() => {
@@ -744,27 +746,45 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
     const updateScrollFade = () => {
       rafId = null;
-      const sortBar = document.getElementById("tour-sort-bar");
+      const sortBar = sortBarRef.current;
       if (!sortBar) return;
 
       const docEl = document.documentElement;
-      const scrollHeight = docEl.scrollHeight;
+      const bodyEl = document.body;
+      const scrollHeight = Math.max(docEl.scrollHeight, bodyEl ? bodyEl.scrollHeight : 0);
       const clientHeight = window.innerHeight || docEl.clientHeight;
-      const currentScrollPosition = window.scrollY || docEl.scrollTop || 0;
+      const currentScrollPosition = window.scrollY || docEl.scrollTop || (bodyEl ? bodyEl.scrollTop : 0) || 0;
 
       const maxScroll = Math.max(0, scrollHeight - clientHeight);
-      const distanceFromBottom = maxScroll - currentScrollPosition;
+      const docDistanceFromBottom = maxScroll - currentScrollPosition;
 
-      // Hard-clamp: opacity = Math.max(0, Math.min(1, distanceFromBottom / 130))
-      // >= 130 -> opacity = 1
-      // <= 0 -> opacity = 0 (stays 0 through overscroll/negative values)
-      // 0..130 -> linear transition distanceFromBottom / 130
-      const opacity = Math.max(0, Math.min(1, distanceFromBottom / 130));
+      // Track distance to bottom of tour list container specifically
+      const container = tableRef.current;
+      const containerBottom = container ? container.getBoundingClientRect().bottom : 9999;
+      const stickyBarTop = 88;
+      const sortBarHeight = sortBar.offsetHeight || 50;
+      const tourListRemaining = containerBottom - (stickyBarTop + sortBarHeight);
 
-      // Console logging for verification on scroll ticks
-      console.log(
-        `[TourSortBar Scroll] scrollTop: ${Math.round(currentScrollPosition)}, scrollHeight: ${scrollHeight}, clientHeight: ${clientHeight}, maxScroll: ${maxScroll}, distanceFromBottom: ${Math.round(distanceFromBottom)}, opacity: ${opacity.toFixed(3)}`
-      );
+      // Distance remaining before reaching the end of scrollable area
+      // (whichever comes first: bottom of tour list table reaching sticky bar, or document bottom)
+      const distanceRemaining = Math.min(docDistanceFromBottom, tourListRemaining);
+
+      // Hard-clamp:
+      // distanceRemaining >= 130 -> opacity = 1
+      // distanceRemaining <= 0   -> opacity = 0 (stays 0 through negative/overscroll values)
+      // 0..130                   -> linear transition distanceRemaining / 130
+      const opacity = Math.max(0, Math.min(1, distanceRemaining / 130));
+      sortBarOpacityRef.current = opacity;
+
+      // Diagnostic logging on every scroll tick for verification
+      console.log("[TourSortBar Scroll]", {
+        scrollTop: Math.round(currentScrollPosition),
+        maxScroll: Math.round(maxScroll),
+        docDist: Math.round(docDistanceFromBottom),
+        tourListDist: Math.round(tourListRemaining),
+        distanceRemaining: Math.round(distanceRemaining),
+        opacity: opacity.toFixed(3),
+      });
 
       // Direct DOM style application
       sortBar.style.opacity = String(opacity);
@@ -1188,7 +1208,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[88px] z-40 hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-all duration-200`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-40 hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown

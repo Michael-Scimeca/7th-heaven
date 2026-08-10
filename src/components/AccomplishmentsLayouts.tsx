@@ -98,7 +98,7 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
                 <span className="text-4xl font-black text-cyan-400">
                   {s.number}
                 </span>
-                <span className="px-2.5 py-0.5 rounded text-[var(--font-size-4xs)] font-mono font-bold uppercase bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                <span className="px-2.5 py-0.5 rounded text-[var(--font-size-4xs)] font-mono font-bold uppercase bg-cyan-500/10 text-purple-400border border-cyan-500/30">
                   {s.badge}
                 </span>
               </div>

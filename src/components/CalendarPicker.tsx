@@ -112,7 +112,7 @@ export function CalendarPicker({
     <div className="bg-transparent border-0 p-0 w-full shadow-none">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-white font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-cyan-400">*</span>}</h3>
+          <h3 className="text-white font-extrabold tracking-wider uppercase text-sm">{label} {required && <span className="text-[#c27aff]">*</span>}</h3>
           <p className="text-white/60 text-xs mt-1 uppercase tracking-wide">Select one or more dates to secure your slot</p>
         </div>
       </div>
@@ -252,43 +252,27 @@ export function CalendarPicker({
             {/* Show Start Time */}
             <div>
               <label htmlFor="cal-show-start-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the show start?</label>
-              <div className="relative">
-                <select aria-label="Select option"
-                  id="cal-show-start-time"
-                  value={startTime}
-                  onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
-                >
-                  <option value="" disabled className="bg-[#0c0817] text-white">Select Show Start Time</option>
-                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[#0c0817] text-white">{time}</option>
-                  ))}
-                </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-              </div>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Show Start Time"
+                defaultSelectedId={startTime}
+                customers={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onStartTimeChange(opt.id)}
+                className="w-full"
+              />
             </div>
 
             {/* Show Finish Time */}
             <div>
               <label htmlFor="cal-show-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the show finish?</label>
-              <div className="relative">
-                <select aria-label="Select option"
-                  id="cal-show-finish-time"
-                  value={endTime}
-                  onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
-                >
-                  <option value="" disabled className="bg-[#0c0817] text-white">Select Show Finish Time</option>
-                  {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[#0c0817] text-white">{time}</option>
-                  ))}
-                </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-              </div>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Show Finish Time"
+                defaultSelectedId={endTime}
+                customers={["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onEndTimeChange(opt.id)}
+                className="w-full"
+              />
             </div>
 
             <div className="border-t border-white/10 pt-2" />
@@ -296,69 +280,57 @@ export function CalendarPicker({
             {/* Band Start Time */}
             <div>
               <label htmlFor="cal-band-start-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the band go on?</label>
-              <div className="relative">
-                <select aria-label="Select option"
-                  id="cal-band-start-time"
-                  value={startTime}
-                  onChange={(e) => onStartTimeChange(e.target.value)}
-                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
-                >
-                  <option value="" disabled className="bg-[#0c0817] text-white">Select Band Start Time</option>
-                  {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[#0c0817] text-white">{time}</option>
-                  ))}
-                </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-              </div>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Band Start Time"
+                defaultSelectedId={startTime}
+                customers={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onStartTimeChange(opt.id)}
+                className="w-full"
+              />
             </div>
 
             {/* Band Finish Time */}
             <div>
               <label htmlFor="cal-band-finish-time" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">When does the band finish?</label>
-              <div className="relative">
-                <select aria-label="Select option"
-                  id="cal-band-finish-time"
-                  value={endTime}
-                  onChange={(e) => onEndTimeChange(e.target.value)}
-                  className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-bold tracking-wider py-3 px-4 text-xs outline-none focus:border-cyan-400 transition-colors appearance-none cursor-pointer rounded-lg shadow-inner"
-                >
-                  <option value="" disabled className="bg-[#0c0817] text-white">Select Band Finish Time</option>
-                  {["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(time => (
-                    <option key={time} value={time} className="bg-[#0c0817] text-white">{time}</option>
-                  ))}
-                </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-              </div>
+              <GooeyMessagesDropdown
+                fullWidth={true}
+                placeholder="Select Band Finish Time"
+                defaultSelectedId={endTime}
+                customers={["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM"].map(t => ({ id: t, name: t }))}
+                onSelect={(opt) => onEndTimeChange(opt.id)}
+                className="w-full"
+              />
             </div>
 
             {/* Google Maps / Directions URL */}
             <div>
               <label htmlFor="cal-map-url" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">Google Maps / Directions Link</label>
-              <input aria-label="Input field"
-                id="cal-map-url"
-                type="url"
-                placeholder="https://maps.google.com/?q=..."
-                value={mapUrl || ""}
-                onChange={(e) => onMapUrlChange?.(e.target.value)}
-                className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:border-cyan-400 transition-colors rounded-lg shadow-inner placeholder:text-white/30"
-              />
+              <div className="input-glow-border rounded-xl">
+                <input aria-label="Input field"
+                  id="cal-map-url"
+                  type="url"
+                  placeholder="https://maps.google.com/?q=..."
+                  value={mapUrl || ""}
+                  onChange={(e) => onMapUrlChange?.(e.target.value)}
+                  className="w-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:outline-none transition-colors rounded-xl shadow-inner placeholder:text-white/30"
+                />
+              </div>
             </div>
 
             {/* Parking Info / Directions */}
             <div>
               <label htmlFor="cal-parking-info" className="text-[10px] font-bold uppercase tracking-wider text-white/60 block mb-1">Parking Info & Directions</label>
-              <input aria-label="Input field"
-                id="cal-parking-info"
-                type="text"
-                placeholder="Free lot behind venue / Valet parking..."
-                value={parkingInfo || ""}
-                onChange={(e) => onParkingInfoChange?.(e.target.value)}
-                className="w-full bg-[var(--color-input-bg)] backdrop-blur-md border border-[var(--color-input-border)] text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:border-cyan-400 transition-colors rounded-lg shadow-inner placeholder:text-white/30"
-              />
+              <div className="input-glow-border rounded-xl">
+                <input aria-label="Input field"
+                  id="cal-parking-info"
+                  type="text"
+                  placeholder="Free lot behind venue / Valet parking..."
+                  value={parkingInfo || ""}
+                  onChange={(e) => onParkingInfoChange?.(e.target.value)}
+                  className="w-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-medium tracking-wide py-2.5 px-3.5 text-xs outline-none focus:outline-none transition-colors rounded-xl shadow-inner placeholder:text-white/30"
+                />
+              </div>
             </div>
           </div>
         </div>

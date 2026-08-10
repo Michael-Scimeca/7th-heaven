@@ -11,7 +11,7 @@ import { requireAdminSession, requireCrewSession } from "@/lib/supabase/server";
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+) as any;
 
 const roomService = new RoomServiceClient(
   process.env.NEXT_PUBLIC_LIVEKIT_URL!,
@@ -65,7 +65,7 @@ export async function adminBanUser(userId: string) {
   }
 
   // In Supabase Auth, removing a user from `auth.users` automatically cascades to `profiles`.
-  const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+  const { error } = await (supabaseAdmin.auth as any).admin.deleteUser(userId);
 
   if (error) {
     console.error("Failed to ban user from auth:", error);

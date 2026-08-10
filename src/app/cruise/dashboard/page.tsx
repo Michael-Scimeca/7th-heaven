@@ -165,7 +165,7 @@ export default function CruiseDashboardGate() {
         <div className="text-center mb-8">
           <span className="text-5xl block mb-4 animate-[bounce_2s_infinite]">🚢</span>
           <h1 className="text-2xl font-black uppercase tracking-widest text-white">Cruise Hub</h1>
-          <p className="text-xs text-cyan-400 font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
+          <p className="text-xs text-purple-400font-bold uppercase tracking-widest mt-1">Exclusive Passenger Community</p>
         </div>
 
         <div className="bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/10 overflow-hidden">

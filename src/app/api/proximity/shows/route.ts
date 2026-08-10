@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
 
-    const nearbyShows = (shows || []).flatMap((show) => {
+    const nearbyShows = (shows || []).flatMap((show: any) => {
       if (!show.latitude || !show.longitude) return [];
       const dist = haversine(userLat!, userLng!, show.latitude, show.longitude);
       if (dist > radius) return [];

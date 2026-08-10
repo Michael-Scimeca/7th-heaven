@@ -1,20 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import {
-  LiveKitRoom,
-  GridLayout,
-  ParticipantTile,
-  RoomAudioRenderer,
-  useTracks,
-  useParticipants,
-  ControlBar,
-  useRoomContext,
-} from '@livekit/components-react';
-import '@livekit/components-styles';
-import { Track, Room } from 'livekit-client';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-
 import React from 'react';
 import { AlertTriangle, Mic } from 'lucide-react';
 
@@ -39,7 +26,7 @@ class LiveKitErrorBoundary extends React.Component<
   static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
+  componentDidCatch(error: Error) {
     console.warn('[LiveKit] Component error caught:', error.message);
   }
   render() {
@@ -50,7 +37,7 @@ class LiveKitErrorBoundary extends React.Component<
             <p className="text-white/40 text-sm">Stream connection interrupted</p>
             <button aria-label="Action button"
               onClick={() => this.setState({ hasError: false, error: null })}
-              className="mt-2 text-xs  text-[var(--color-accent)] underline hover: text-[var(--color-accent)]"
+              className="mt-2 text-xs text-[var(--color-accent)] underline hover:text-[var(--color-accent)]"
             >
               Retry
             </button>
@@ -73,6 +60,35 @@ export function LiveKitStream({
   const [token, setToken] = useState('');
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
+  const [lk, setLk] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    Promise.all([
+      import('@livekit/components-react'),
+      import('livekit-client'),
+    ]).then(([reactMod, clientMod]) => {
+      if (mounted) {
+        // @ts-ignore
+        import('@livekit/components-styles/prefabs').catch(() => {});
+        setLk({
+          LiveKitRoom: reactMod.LiveKitRoom,
+          GridLayout: reactMod.GridLayout,
+          ParticipantTile: reactMod.ParticipantTile,
+          RoomAudioRenderer: reactMod.RoomAudioRenderer,
+          ControlBar: reactMod.ControlBar,
+          useTracks: reactMod.useTracks,
+          useParticipants: reactMod.useParticipants,
+          useRoomContext: reactMod.useRoomContext,
+          Track: clientMod.Track,
+          Room: clientMod.Room,
+        });
+      }
+    }).catch((err) => {
+      console.warn('[LiveKit] Dynamic import unavailable:', err);
+    });
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -106,7 +122,7 @@ export function LiveKitStream({
 
   if (error) {
     return (
-      <div className={`flex items-center justify-center bg-black/40  p-8 ${className}`}>
+      <div className={`flex items-center justify-center bg-black/40 p-8 ${className}`}>
         <div className="text-center">
           <p className="text-red-400 text-sm font-medium mb-2 flex items-center justify-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Stream Error</p>
           <p className="text-white/30 text-xs max-w-sm">{error}</p>
@@ -115,9 +131,9 @@ export function LiveKitStream({
     );
   }
 
-  if (!token || !url) {
+  if (!token || !url || !lk) {
     return (
-      <div className={`flex items-center justify-center bg-black/40  ${className}`}>
+      <div className={`flex items-center justify-center bg-black/40 ${className}`}>
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
           <p className="text-white/40 text-sm">Connecting to stream...</p>
@@ -125,6 +141,8 @@ export function LiveKitStream({
       </div>
     );
   }
+
+  const { LiveKitRoom, RoomAudioRenderer } = lk;
 
   return (
     <LiveKitRoom
@@ -142,31 +160,30 @@ export function LiveKitStream({
     >
       <RoomAudioRenderer />
       <LiveKitErrorBoundary>
-        {isPublisher ? <PublisherView /> : <ViewerView room={room} />}
+        {isPublisher ? <PublisherView lk={lk} /> : <ViewerView lk={lk} room={room} />}
       </LiveKitErrorBoundary>
     </LiveKitRoom>
   );
 }
 
 // Crew member view — shows ONLY their own camera + controls
-function PublisherView() {
+function PublisherView({ lk }: { lk: any }) {
+  const { useTracks, ParticipantTile, ControlBar, useRoomContext, Track, Room } = lk;
   const tracks = useTracks([
     { source: Track.Source.Camera, withPlaceholder: false },
   ]);
 
-  // Only show local camera track — exclude screen share and remote viewers
   const localCameraTrack = tracks.filter(
-    t => t.participant.isLocal && t.source === Track.Source.Camera
+    (t: any) => t.participant.isLocal && t.source === Track.Source.Camera
   );
 
   const room = useRoomContext();
 
-  // Automatically switch to Built-in Microphone on mount if available
   useEffect(() => {
     const selectDefaultMic = async () => {
       try {
         const devices = await Room.getLocalDevices('audioinput');
-        const builtIn = devices.find(d =>
+        const builtIn = devices.find((d: any) =>
           d.label.toLowerCase().includes('built-in') ||
           d.label.toLowerCase().includes('macbook') ||
           d.label.toLowerCase().includes('internal')
@@ -179,7 +196,7 @@ function PublisherView() {
       }
     };
     if (room) selectDefaultMic();
-  }, [room]);
+  }, [room, Room]);
 
   return (
     <div className="h-full flex flex-col">
@@ -193,7 +210,6 @@ function PublisherView() {
             <div className="w-8 h-8 border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
           </div>
         )}
-        {/* Default Live indicator removed to prevent duplicating the custom dashboard overlay */}
       </div>
       <ControlBar
         variation="minimal"
@@ -205,21 +221,20 @@ function PublisherView() {
 }
 
 // Fan viewer — watches only remote camera feeds (not their own)
-function ViewerView({ room }: { room: string }) {
+function ViewerView({ lk, room }: { lk: any; room: string }) {
+  const { useParticipants, useTracks, ParticipantTile, GridLayout, Track } = lk;
   const participants = useParticipants();
   const tracks = useTracks([
     { source: Track.Source.Camera, withPlaceholder: false },
     { source: Track.Source.Microphone, withPlaceholder: false },
   ]);
 
-  // Only show remote camera tracks (no screen share, no local viewer)
   const remoteCameraTracks = tracks.filter(
-    t => !t.participant.isLocal && t.source === Track.Source.Camera
+    (t: any) => !t.participant.isLocal && t.source === Track.Source.Camera
   );
-  const remoteParticipants = participants.filter(p => !p.isLocal);
+  const remoteParticipants = participants.filter((p: any) => !p.isLocal);
 
   if (remoteCameraTracks.length === 0) {
-    // Check if there ARE remote participants (crew is connected but camera off/denied)
     if (remoteParticipants.length > 0) {
       return (
         <div className="h-full flex items-center justify-center">

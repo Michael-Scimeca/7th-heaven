@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import SearchInput from "@/components/SearchInput";
 
 const InputStyleEditor = dynamic(() => import("@/components/InputStyleEditor"), {
   ssr: false,
@@ -267,7 +268,7 @@ export default function StyleGuidePage() {
         {/* SECTION 1: TYPOGRAPHY */}
         <section id="typography" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
               <Type className="w-6 h-6" /> 1. Typography System
             </h2>
             <p className="text-white/60 text-xs mt-1">
@@ -291,7 +292,7 @@ export default function StyleGuidePage() {
 
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <span className="text-xs font-mono text-cyan-400 font-bold">H2 Section Heading — 3rem (48px) / Bold 800</span>
+                <span className="text-xs font-mono text-purple-400font-bold">H2 Section Heading — 3rem (48px) / Bold 800</span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-wide text-white mt-1">
                   Upcoming Tour Dates & Venues
                 </h2>
@@ -398,7 +399,7 @@ export default function StyleGuidePage() {
           {/* White Standard Callout */}
           <div className="p-5 rounded-2xl bg-white/[0.03] border border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-mono font-black text-cyan-400 uppercase tracking-widest block mb-1">
+              <span className="text-xs font-mono font-black text-purple-400uppercase tracking-widest block mb-1">
                 Standardized White Palette Rules
               </span>
               <h3 className="text-lg font-bold text-white">The Two White Palette: Solid White & 0.5 White</h3>
@@ -524,7 +525,7 @@ export default function StyleGuidePage() {
 
             {/* Cyan Neon */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Cyan Neon Action</h3>
+              <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Cyan Neon Action</h3>
               <div className="flex flex-wrap items-center gap-4">
                 <button className="px-5 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
                   Default
@@ -596,7 +597,7 @@ export default function StyleGuidePage() {
 
             {/* Text Inputs */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Text Inputs</h3>
+              <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Text Inputs</h3>
 
               {/* Default */}
               <div>
@@ -653,18 +654,13 @@ export default function StyleGuidePage() {
 
               {/* Search input with icon */}
               <div>
-                <label className="block text-xs font-bold text-white/70 mb-1">Search Bar</label>
-                <div className="relative flex items-center">
-                  <Search className="w-4 h-4 absolute left-3.5 text-gray-400 z-10 pointer-events-none" />
-                  <input
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder="Search shows, venues, tours, or keywords..."
-                    style={{ paddingLeft: "3rem" }}
-                    className="no-bg-icon w-full pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/50 text-xs font-medium outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/50 transition"
-                  />
-                </div>
+                <label className="block text-xs font-bold text-white/70 mb-1">Search Bar (Global Reusable Component)</label>
+                <SearchInput
+                  value={searchInput}
+                  onChange={setSearchInput}
+                  placeholder="Search shows, venues, tours, or keywords..."
+                  containerClassName="w-full"
+                />
               </div>
 
               {/* Textarea */}
@@ -770,7 +766,7 @@ export default function StyleGuidePage() {
                   <SquishyToggle
                     id="style-guide-disabled-toggle"
                     checked={false}
-                    onChange={() => {}}
+                    onChange={() => { }}
                     disabled
                     label="Disabled toggle"
                   />
@@ -784,7 +780,7 @@ export default function StyleGuidePage() {
         {/* SECTION 5: DROPDOWNS */}
         <section id="dropdowns" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
               <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
             </h2>
             <p className="text-white/60 text-xs mt-1">
@@ -797,7 +793,7 @@ export default function StyleGuidePage() {
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
             <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Default Site Pill Dropdown (`CITY ▼`)</h3>
+                <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Default Site Pill Dropdown (`CITY ▼`)</h3>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
               </div>
               <p className="text-xs text-white/50">
@@ -884,7 +880,7 @@ export default function StyleGuidePage() {
           {/* Chat Bubble Customizer UI Control Bar */}
           <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+              <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider flex items-center gap-2">
                 <Sliders className="w-4 h-4" /> Chat Bubble UI Controls Studio
               </h3>
 
@@ -1244,7 +1240,7 @@ export default function StyleGuidePage() {
 
           {/* Role Badges */}
           <div className="space-y-3">
-            <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Role & Section Badges</h3>
+            <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Role & Section Badges</h3>
             <div className="flex flex-wrap items-center gap-3">
               <RoleBadge role="admin" />
               <RoleBadge role="crew" />
@@ -1313,7 +1309,7 @@ export default function StyleGuidePage() {
         {/* SECTION 8: BORDERS & GLASS */}
         <section id="borders" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
               <ShieldCheck className="w-6 h-6" /> 8. Border & Glass Standard
             </h2>
             <p className="text-white/60 text-xs mt-1">
@@ -1389,8 +1385,8 @@ export default function StyleGuidePage() {
             <button
               onClick={handleCopyCanvasSpec}
               className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
-                  ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
-                  : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
+                ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
                 }`}
             >
               {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -1429,8 +1425,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op
-                          ? "bg-emerald-600 border-emerald-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-emerald-600 border-emerald-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {op}%
@@ -1461,8 +1457,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz
-                          ? "bg-emerald-600 border-emerald-400 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-emerald-600 border-emerald-400 text-white"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {sz}
@@ -1487,8 +1483,8 @@ export default function StyleGuidePage() {
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val
-                          ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
-                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                        ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
+                        : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
                       {mode.label}
@@ -1674,7 +1670,7 @@ export default function StyleGuidePage() {
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section id="stateroom-perks" className="scroll-mt-36 border-0 rounded-3xl p-0 space-y-6 overflow-hidden">
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
               <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
             </h2>
             <p className="text-white/60 text-xs mt-1">
@@ -1948,7 +1944,7 @@ export default function StyleGuidePage() {
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left bg-transparent">
                 <h2 className="text-sm font-black uppercase tracking-wider text-white">7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                <p className="text-xs text-cyan-400 font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
+                <p className="text-xs text-purple-400font-extrabold uppercase mt-1">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
                 <p className="text-[10px] text-white/60 font-bold uppercase mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS (877-683-9753)</p>
               </div>
 
@@ -1960,30 +1956,30 @@ export default function StyleGuidePage() {
                 </div>
                 <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
                   {/* Name */}
-                  <div className="booking-cell border-0 py-3 px-0 focus-within:bg-cyan-500/10 transition-colors col-span-2" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-name" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
+                  <div className="booking-cell border-0 py-3 px-0   col-span-2" suppressHydrationWarning>
+                    <label htmlFor="sg-guest1-name" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Full Legal Name (as spelled on passport) *</label>
                     <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Phone */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-phone" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Phone Number *</label>
+                  <div className="booking-cell border-0 py-3 px-0 md:pr-3" suppressHydrationWarning>
+                    <label htmlFor="sg-guest1-phone" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Phone Number *</label>
                     <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* Email */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-email" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Email Address *</label>
+                  <div className="booking-cell border-0 py-3 px-0 md:pl-3  " suppressHydrationWarning>
+                    <label htmlFor="sg-guest1-email" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Email Address *</label>
                     <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                   {/* T-Shirt Size */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 focus-within:bg-cyan-500/10 transition-colors relative" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">T-Shirt Size</label>
+                  <div className="booking-cell border-0 py-3 px-0 md:pr-3   relative" suppressHydrationWarning>
+                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">T-Shirt Size</label>
                     <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white focus:outline-none cursor-pointer appearance-none rounded-lg">
                       {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817] text-white font-bold">{sz}</option>)}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 focus-within:bg-cyan-500/10 transition-colors" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-crown" className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
+                  <div className="booking-cell border-0 py-3 px-0 md:pl-3  " suppressHydrationWarning>
+                    <label htmlFor="sg-guest1-crown" className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-1.5">Crown & Anchor Number (if applicable)</label>
                     <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base font-semibold text-white placeholder:text-white/40 focus:outline-none rounded-lg" />
                   </div>
                 </div>
@@ -1991,7 +1987,7 @@ export default function StyleGuidePage() {
                 {/* Toggles */}
                 <div className="grid grid-cols-1 md:grid-cols-2 border-0 gap-y-2 mt-2">
                   <div className="booking-cell border-0 py-3 px-0 md:pr-3 flex flex-col justify-between">
-                    <span className="booking-label block text-xs font-black text-cyan-400 uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
+                    <span className="booking-label block text-xs font-black text-purple-400uppercase tracking-wider mb-2.5">Do you want travel protection insurance? *</span>
                     <div className="flex gap-3">
                       {["yes", "no"].map(opt => (
                         <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
@@ -2042,19 +2038,19 @@ export default function StyleGuidePage() {
                 </p>
                 <ul className="space-y-3 text-xs text-white/80 leading-relaxed mb-6">
                   <li className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
                     <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
                     <span>We match rates & automatically re-roll your room if prices drop before final payment!</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                    <HelpCircle className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
                     <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
                     <span><strong>Group Rate:</strong> Gratuities fully included.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
@@ -2067,10 +2063,10 @@ export default function StyleGuidePage() {
                     <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="text-cyan-400 hover:text-white underline font-bold transition-colors">info@NTDVacations.com</a>
                   </p>
                   <p className="text-white/80">
-                    <CreditCard className="w-4 h-4 text-cyan-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin.
+                    <CreditCard className="w-4 h-4 text-purple-400inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin.
                   </p>
                   <p className="text-white/80">
-                    <Calendar className="w-4 h-4 text-cyan-400 inline mr-1.5" /><strong>Final Payment:</strong> October 1, 2026.
+                    <Calendar className="w-4 h-4 text-purple-400inline mr-1.5" /><strong>Final Payment:</strong> October 1, 2026.
                   </p>
                 </div>
               </div>
@@ -2078,10 +2074,10 @@ export default function StyleGuidePage() {
               {/* Column 2: Passport Requirements */}
               <div className="bg-transparent border-0 p-0 relative text-left">
                 <div className="flex items-center gap-3 mb-4">
-                  <Compass className="w-6 h-6 text-cyan-400 shrink-0" />
+                  <Compass className="w-6 h-6 text-purple-400shrink-0" />
                   <h3 className="text-lg font-black uppercase text-white tracking-wide">Passport Requirements</h3>
                 </div>
-                <p className="text-xs font-black text-cyan-400 uppercase tracking-widest mb-4">
+                <p className="text-xs font-black text-purple-400uppercase tracking-widest mb-4">
                   Essential travel document guidelines
                 </p>
                 <div className="space-y-4 text-xs text-white/80 leading-relaxed">

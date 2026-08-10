@@ -56,7 +56,7 @@ export default function DevGuideLine() {
               e.preventDefault();
               setEnabled(false);
             }}
-            className="ml-1.5 px-2 py-1 text-cyan-400 hover:text-red-400 hover:bg-red-500/20 rounded font-bold transition-colors cursor-pointer text-xs leading-none z-[9999999]"
+            className="ml-1.5 px-2 py-1 text-purple-400hover:text-red-400 hover:bg-red-500/20 rounded font-bold transition-colors cursor-pointer text-xs leading-none z-[9999999]"
             title="Hide guide overlay (Press Alt+G to restore)"
           >
             ✕

@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import type { User, Session } from '@supabase/supabase-js';
+type User = any;
+type Session = any;
 import type { Profile, UserRole } from '@/lib/supabase/types';
 
 interface AuthState {

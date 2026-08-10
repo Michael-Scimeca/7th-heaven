@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       }
     );
 
-    const { data: { user }, error: authError } = await supabaseUser.auth.getUser();
+    const { data: { user }, error: authError } = await (supabaseUser.auth as any).getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
     }

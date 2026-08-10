@@ -5,8 +5,10 @@ import Link from "next/link";
 import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
-import { Guitar, Mic, PartyPopper, Sparkles, Check, AlertTriangle, Star, Shield, ClipboardList, Zap, Lightbulb, Calendar as CalendarIcon, Plus, X, ChevronDown, ChevronRight, Megaphone } from "lucide-react";
+import { Guitar, Mic, PartyPopper, Sparkles, Check, AlertTriangle, Star, Shield, ClipboardList, Zap, Lightbulb, Calendar as CalendarIcon, Plus, X, ChevronDown, ChevronRight, Megaphone, MapPin, Navigation, Clock, Compass, FileText, Bookmark, Save, CheckCircle2, Trash2, Building2 } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import Dropdown from "@/components/Dropdown";
+import SquishyToggle from "@/components/SquishyToggle";
 
 const eventTypes = [
   { id: "full_band", label: "Full Band", icon: Guitar, desc: "High energy, full 5-piece concert setup" },
@@ -24,7 +26,45 @@ const budgetRanges = [
   "Prefer not to say",
 ];
 
+interface SavedAddress {
+  id: string;
+  label: string;
+  venueName: string;
+  parkingAddress: string;
+  venueCity: string;
+  venueState: string;
+  parkingNotes?: string;
+}
 
+const DEFAULT_SAVED_ADDRESSES: SavedAddress[] = [
+  {
+    id: "preset-1",
+    label: "Bridges Scoreboard - Bartlett",
+    venueName: "Bridges Scoreboard",
+    parkingAddress: "980 S Bartlett Rd",
+    venueCity: "Bartlett",
+    venueState: "IL",
+    parkingNotes: "Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd."
+  },
+  {
+    id: "preset-2",
+    label: "The Arcada Theatre - St. Charles",
+    venueName: "The Arcada Theatre",
+    parkingAddress: "105 E Main St",
+    venueCity: "St. Charles",
+    venueState: "IL",
+    parkingNotes: "Loading dock located in alley behind venue on 1st St."
+  },
+  {
+    id: "preset-3",
+    label: "House of Blues - Chicago",
+    venueName: "House of Blues",
+    parkingAddress: "329 N Dearborn St",
+    venueCity: "Chicago",
+    venueState: "IL",
+    parkingNotes: "Stage door load-in via Marina City garage lower level."
+  }
+];
 
 export default function BookPage() {
   return (
@@ -117,14 +157,31 @@ function MiniDatePicker({ label, value, onChange }: { label: string; value: stri
   );
 }
 
-const InputField = ({ label, required, id, ...props }: { label: string; required?: boolean; id?: string } & React.InputHTMLAttributes<HTMLInputElement>) => {
+const InputField = ({ label, labelRight, required, id, ...props }: { label: string; labelRight?: React.ReactNode; required?: boolean; id?: string } & React.InputHTMLAttributes<HTMLInputElement>) => {
   const inputId = id || props.name || `book-input-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
   return (
     <div>
-      <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <label htmlFor={inputId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">{label}{required && " *"}</label>
+        {labelRight}
+      </div>
       <div className="input-glow-border rounded-lg">
         <input aria-label="Input field" id={inputId} {...props} required={required}
           className="w-full bg-white/5 border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+        />
+      </div>
+    </div>
+  );
+};
+
+const TextAreaField = ({ label, required, id, ...props }: { label: string; required?: boolean; id?: string } & React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {
+  const textareaId = id || props.name || `book-textarea-${label.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+  return (
+    <div>
+      <label htmlFor={textareaId} className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block mb-2">{label}{required && " *"}</label>
+      <div className="input-glow-border rounded-lg">
+        <textarea id={textareaId} {...props} required={required}
+          className="w-full bg-white/5 border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[95px]"
         />
       </div>
     </div>
@@ -201,10 +258,15 @@ function BookPageContent() {
     backlineProvided: "",
     ageRestriction: "",
     loadInTime: "",
+    parkingAddress: "",
+    parkingNotes: "",
     details: "",
     hearAbout: "",
     website: "", // Honeypot
   });
+  const [hasParkingNotes, setHasParkingNotes] = useState(false);
+  const [isLoadInUnsure, setIsLoadInUnsure] = useState(false);
+  const [showMapPicker, setShowMapPicker] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [accountPassword, setAccountPassword] = useState("");
@@ -228,6 +290,89 @@ function BookPageContent() {
   // Alternate dates (multi-date hold)
   const [altDate1, setAltDate1] = useState("");
   const [altDate2, setAltDate2] = useState("");
+
+  // Saved addresses state & management
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>(DEFAULT_SAVED_ADDRESSES);
+  const [addressNotification, setAddressNotification] = useState<string | null>(null);
+  const [selectedSavedAddressId, setSelectedSavedAddressId] = useState<string>("");
+
+  useEffect(() => {
+    try {
+      const localSaved = localStorage.getItem("7th_heaven_saved_addresses");
+      if (localSaved) {
+        const parsed = JSON.parse(localSaved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setSavedAddresses(parsed);
+        }
+      }
+    } catch {
+      // Ignore errors
+    }
+  }, []);
+
+  const handleSaveCurrentAddress = (customLabel?: string) => {
+    if (!formData.parkingAddress && !formData.venueName) {
+      setAddressNotification("Please enter a venue name or address first.");
+      setTimeout(() => setAddressNotification(null), 3000);
+      return;
+    }
+
+    const label = customLabel || formData.venueName || formData.parkingAddress || "Saved Address";
+    const newAddr: SavedAddress = {
+      id: `saved-${Date.now()}`,
+      label,
+      venueName: formData.venueName || "",
+      parkingAddress: formData.parkingAddress || "",
+      venueCity: formData.venueCity || "",
+      venueState: formData.venueState || "IL",
+      parkingNotes: formData.parkingNotes || "",
+    };
+
+    setSavedAddresses(prev => {
+      const filtered = prev.filter(a => a.id !== newAddr.id && a.label.toLowerCase() !== label.toLowerCase());
+      const updated = [newAddr, ...filtered];
+      try {
+        localStorage.setItem("7th_heaven_saved_addresses", JSON.stringify(updated));
+      } catch { }
+      return updated;
+    });
+
+    setSelectedSavedAddressId(newAddr.id);
+    setAddressNotification(`Saved "${label}" to your saved locations!`);
+    setTimeout(() => setAddressNotification(null), 3500);
+  };
+
+  const handleSelectSavedAddress = (item: SavedAddress) => {
+    setSelectedSavedAddressId(item.id);
+    setFormData(prev => ({
+      ...prev,
+      venueName: item.venueName || prev.venueName,
+      parkingAddress: item.parkingAddress || prev.parkingAddress,
+      venueCity: item.venueCity || prev.venueCity,
+      venueState: item.venueState || prev.venueState,
+      parkingNotes: item.parkingNotes || prev.parkingNotes || "",
+    }));
+
+    if (item.parkingNotes) {
+      setHasParkingNotes(true);
+    }
+
+    setAddressNotification(`Loaded "${item.label}" into venue form!`);
+    setTimeout(() => setAddressNotification(null), 3000);
+  };
+
+  const handleDeleteSavedAddress = (id: string) => {
+    setSavedAddresses(prev => {
+      const updated = prev.filter(a => a.id !== id);
+      try {
+        localStorage.setItem("7th_heaven_saved_addresses", JSON.stringify(updated));
+      } catch { }
+      return updated;
+    });
+    if (selectedSavedAddressId === id) {
+      setSelectedSavedAddressId("");
+    }
+  };
 
   // Synchronize first booking slot date to formData.eventDate for legacy/display compatibility
   useEffect(() => {
@@ -466,8 +611,10 @@ function BookPageContent() {
     if (!selectedType) errors.push("Please select an event type.");
     if (!formData.name.trim()) errors.push("Full name is required.");
     if (!formData.email.trim()) errors.push("Email is required.");
+    if (!formData.phone.trim()) errors.push("Phone number is required.");
     if (bookingSlots.length === 0) errors.push("Please select at least one show date on the calendar.");
     if (!formData.startTime) errors.push("Start time is required.");
+    if (!formData.endTime) errors.push("End time is required.");
     if (!formData.venueName.trim()) errors.push("Venue name is required.");
     if (!formData.venueCity.trim()) errors.push("Venue city is required.");
 
@@ -476,8 +623,8 @@ function BookPageContent() {
       errors.push("Please enter a valid email address.");
     }
 
-    // Phone format (if provided)
-    if (formData.phone && formData.phone.replace(/\D/g, '').length < 10) {
+    // Phone format
+    if (!formData.phone || formData.phone.replace(/\D/g, '').length < 10) {
       errors.push("Phone number must be at least 10 digits.");
     }
 
@@ -844,7 +991,7 @@ function BookPageContent() {
                     <p className="text-white/60 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
                   </div>
                 </div>
-                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg shrink-0">
+                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 !text-white font-extrabold text-xs uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg shrink-0">
                   Planner Portal →
                 </Link>
               </div>
@@ -885,7 +1032,7 @@ function BookPageContent() {
 
             {/* Step 1: Event Schedule & Format */}
             <div className="bg-transparent border-0 p-0 shadow-none relative">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[#c27aff] mb-6 flex items-center gap-3">
                 Event Schedule & Format
               </h2>
               <div className="mb-6 p-0 bg-transparent border-0 flex items-start gap-3">
@@ -915,7 +1062,7 @@ function BookPageContent() {
                 {/* Alternate Dates */}
                 <div className="mt-6 p-0 bg-transparent border-0">
                   <div className="flex items-center gap-3 mb-4">
-                    <CalendarIcon className="w-5 h-5 text-cyan-400 shrink-0" />
+                    <CalendarIcon className="w-5 h-5 text-[#c27aff] shrink-0" />
                     <div>
                       <h4 className="text-base font-bold uppercase tracking-widest text-white">Flexible? Add Backup Dates</h4>
                       <p className="text-base text-white/60">Increase your chances — we&apos;ll try your preferred date first</p>
@@ -1011,25 +1158,22 @@ function BookPageContent() {
                             {/* Format */}
                             <div>
                               <label htmlFor={`slot-format-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">Show Format</label>
-                              <div className="relative">
-                                <select aria-label="Select option"
-                                  id={`slot-format-${slot.id}`}
-                                  value={slot.eventType}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: e.target.value } : s);
-                                    setBookingSlots(updated);
-                                  }}
-                                  className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
-                                >
-                                  <option value="full_band" className="bg-[#0c0817] text-white">Full Band</option>
-                                  <option value="unplugged" className="bg-[#0c0817] text-white">Unplugged</option>
-                                  <option value="private" className="bg-[#0c0817] text-white">Private Event</option>
-                                  <option value="custom" className="bg-[#0c0817] text-white">Custom Booking</option>
-                                </select>
-                                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </div>
-                              </div>
+                              <Dropdown
+                                id={`slot-format-${slot.id}`}
+                                fullWidth={true}
+                                selected={slot.eventType}
+                                options={[
+                                  { label: "Full Band", value: "full_band" },
+                                  { label: "Unplugged", value: "unplugged" },
+                                  { label: "Private Event", value: "private" },
+                                  { label: "Custom Booking", value: "custom" },
+                                ]}
+                                onChange={(val) => {
+                                  const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, eventType: val } : s);
+                                  setBookingSlots(updated);
+                                }}
+                                className="w-full"
+                              />
                               {slot.eventType === 'custom' && (
                                 <input aria-label="Input field"
                                   type="text"
@@ -1048,45 +1192,31 @@ function BookPageContent() {
                             <div className="grid grid-cols-2 gap-2">
                               <div>
                                 <label htmlFor={`slot-start-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">Start Time</label>
-                                <div className="relative">
-                                  <select aria-label="Select option"
-                                    id={`slot-start-${slot.id}`}
-                                    value={slot.startTime}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
-                                  >
-                                    {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                                      <option key={t} value={t} className="bg-[#0c0817] text-white">{t}</option>
-                                    ))}
-                                  </select>
-                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                  </div>
-                                </div>
+                                <Dropdown
+                                  id={`slot-start-${slot.id}`}
+                                  fullWidth={true}
+                                  selected={slot.startTime}
+                                  options={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"]}
+                                  onChange={(val) => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, startTime: val } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full"
+                                />
                               </div>
                               <div>
                                 <label htmlFor={`slot-end-${slot.id}`} className="text-[var(--font-size-3xs)] font-bold uppercase tracking-widest text-white/50 block mb-1.5">End Time</label>
-                                <div className="relative">
-                                  <select aria-label="Select option"
-                                    id={`slot-end-${slot.id}`}
-                                    value={slot.endTime}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: e.target.value } : s);
-                                      setBookingSlots(updated);
-                                    }}
-                                    className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
-                                  >
-                                    {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"].map(t => (
-                                      <option key={t} value={t} className="bg-[#0c0817] text-white">{t}</option>
-                                    ))}
-                                  </select>
-                                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                  </div>
-                                </div>
+                                <Dropdown
+                                  id={`slot-end-${slot.id}`}
+                                  fullWidth={true}
+                                  selected={slot.endTime}
+                                  options={["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM", "1:00 AM", "2:00 AM"]}
+                                  onChange={(val) => {
+                                    const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, endTime: val } : s);
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full"
+                                />
                               </div>
                             </div>
                           </div>
@@ -1315,27 +1445,218 @@ function BookPageContent() {
 
             {/* Step 2: Contact Information */}
             <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both]">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
                 Contact Information
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
                 <InputField label="Organization" name="organization" value={formData.organization} onChange={handleChange} placeholder="Venue or company name" />
                 <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@email.com" />
-                <InputField label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" />
+                <InputField label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} required placeholder="(555) 123-4567" />
               </div>
             </div>
 
-            {/* Step 3: Venue Details */}
-            <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both]">
-              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
-                Venue Details
+            {/* Step 3: Venue Details & Event Schedule */}
+            <div className="bg-transparent border-0 p-0 shadow-none relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6">
+              <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-[#c27aff] mb-6 flex items-center gap-3">
+                <MapPin className="w-5 h-5 text-[#c27aff]" /> Venue & Event Logistics
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <InputField label="Load-in / Setup Time" name="loadInTime" value={formData.loadInTime} onChange={handleChange} placeholder="e.g. 3:00 PM, 2 hours before" />
-                <InputField label="Venue Name" name="venueName" value={formData.venueName} onChange={handleChange} placeholder="Venue name" />
-                <InputField label="City" name="venueCity" value={formData.venueCity} onChange={handleChange} required placeholder="Chicago" />
-                <InputField label="State" name="venueState" value={formData.venueState} onChange={handleChange} required placeholder="IL" />
+
+              {/* Show Event Start & End Times */}
+              <div className="space-y-4">
+                <div className="border-b border-white/10 pb-2.5">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-[#c27aff]" /> Event Times & Schedule
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+                  <InputField label="Show Start Time" name="startTime" value={formData.startTime} onChange={handleChange} required placeholder="e.g. 7:00 PM" />
+                  <InputField label="Show End Time" name="endTime" value={formData.endTime} onChange={handleChange} required placeholder="e.g. 10:30 PM" />
+
+                  <div className="space-y-1.5">
+                    <InputField
+                      label="Load-in / Setup Time"
+                      name="loadInTime"
+                      value={isLoadInUnsure ? "Unsure — Band admin will confirm & email setup time" : formData.loadInTime}
+                      onChange={handleChange}
+                      disabled={isLoadInUnsure}
+                      placeholder="e.g. 5:00 PM (2 hrs before)"
+                      labelRight={
+                        <div className="flex items-center gap-1.5">
+                          <SquishyToggle
+                            id="toggle-loadin-unsure"
+                            checked={isLoadInUnsure}
+                            onChange={(next) => {
+                              setIsLoadInUnsure(next);
+                              if (next) {
+                                setFormData(prev => ({ ...prev, loadInTime: "Unsure — Band admin will confirm & email setup time" }));
+                              } else {
+                                setFormData(prev => ({ ...prev, loadInTime: "" }));
+                              }
+                            }}
+                            label="Unsure?"
+                          />
+                          <span className="text-[11px] font-extrabold text-[#c27aff]">Unsure?</span>
+                        </div>
+                      }
+                    />
+                    <p className="text-[11px] text-purple-300/80 font-medium italic flex items-center gap-1 leading-tight">
+                      <Sparkles className="w-3 h-3 text-[#c27aff] shrink-0" /> Load-in is usually ~2 hours before show start time.
+                    </p>
+                  </div>
+                </div>
+
+                {isLoadInUnsure && (
+                  <div className="p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-xl text-xs text-purple-200 flex items-start gap-3 animate-[fade-in-up_0.15s_ease-out_both] shadow-md">
+                    <Sparkles className="w-4.5 h-4.5 text-[#c27aff] shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <span className="font-extrabold text-white block">Unsure of exact load-in time? No problem!</span>
+                      <span className="text-white/80 leading-relaxed block">
+                        Our 7th Heaven band booking admin will coordinate your event schedule, update the load-in setup time, and send a confirmation email directly to the planner.
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Venue Address & Location Picker */}
+              <div className="space-y-5">
+                <div className="border-b border-white/10 pb-3">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-purple-300 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[#c27aff]" /> Venue Address & Location Setup
+                  </h3>
+                </div>
+
+                {addressNotification && (
+                  <div className="flex items-center gap-2.5 p-3 bg-cyan-950/70 border border-cyan-400/40 rounded-xl text-xs font-bold text-cyan-200 animate-[fade-in_0.15s_ease-out]">
+                    <CheckCircle2 className="w-4 h-4 text-purple-400shrink-0" />
+                    <span>{addressNotification}</span>
+                  </div>
+                )}
+
+
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <InputField label="Venue Name" name="venueName" value={formData.venueName} onChange={handleChange} required placeholder="Venue name (e.g. Bridges Scoreboard)" />
+                  <InputField label="City" name="venueCity" value={formData.venueCity} onChange={handleChange} required placeholder="Chicago" />
+
+                  <InputField label="State" name="venueState" value={formData.venueState} onChange={handleChange} required placeholder="IL" />
+
+                  {/* Row 2 Right: SquishyToggle for custom parking directions */}
+                  <div className="flex items-end pb-0.5 gap-2.5 flex-wrap md:flex-nowrap">
+                    <div className="flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-extrabold text-[#c27aff] select-none shadow-inner">
+                      <SquishyToggle
+                        id="toggle-parking-notes"
+                        checked={hasParkingNotes}
+                        onChange={(next) => {
+                          setHasParkingNotes(next);
+                          if (!next) {
+                            setFormData(prev => ({ ...prev, parkingNotes: "" }));
+                          }
+                        }}
+                        label="Add custom parking directions"
+                      />
+                      <span className="text-[#c27aff] font-extrabold tracking-wide text-xs">
+                        Add custom parking directions
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Interactive Map Picker Modal */}
+                  <MapPickerModal
+                    isOpen={showMapPicker}
+                    onClose={() => setShowMapPicker(false)}
+                    initialAddress={formData.parkingAddress || `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()}
+                    savedAddresses={savedAddresses}
+                    onSelectSaved={handleSelectSavedAddress}
+                    onSaveNewAddress={handleSaveCurrentAddress}
+                    onDeleteSavedAddress={handleDeleteSavedAddress}
+                    onSave={(savedAddr, fullData) => {
+                      if (fullData && (fullData.venueName || fullData.venueCity)) {
+                        handleSelectSavedAddress(fullData as SavedAddress);
+                      } else {
+                        setFormData(prev => ({ ...prev, parkingAddress: savedAddr }));
+                        setAddressNotification(`Updated parking address to: ${savedAddr}`);
+                        setTimeout(() => setAddressNotification(null), 3000);
+                      }
+                    }}
+                  />
+
+
+
+                  {/* Row 4: Parking location link & directions expands when checkbox is checked */}
+                  {hasParkingNotes && (
+                    <div className="md:col-span-2 space-y-4 animate-[fade-in-up_0.15s_ease-out_both] p-4 bg-purple-950/20 border border-purple-500/30 rounded-xl">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
+                          <label htmlFor="parkingAddress" className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">
+                            Google Maps Parking Location or Link
+                          </label>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <button
+                              type="button"
+                              onClick={() => setShowMapPicker(true)}
+                              className="text-xs font-bold text-[#c27aff] hover:text-purple-300 flex items-center gap-1 hover:underline cursor-pointer"
+                            >
+                              <MapPin className="w-3.5 h-3.5" /> Pick on Map
+                            </button>
+                            <span className="text-white/20">•</span>
+                            <a
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                [formData.parkingAddress || formData.venueName, formData.venueCity, formData.venueState, "parking"]
+                                  .filter(Boolean)
+                                  .join(" ") || "Chicago IL parking"
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs font-bold text-purple-300 hover:text-purple-200 flex items-center gap-1 hover:underline"
+                            >
+                              <Compass className="w-3.5 h-3.5 text-purple-300" /> Search Google Maps ↗
+                            </a>
+                            <span className="text-white/20">•</span>
+                            <button
+                              type="button"
+                              onClick={() => handleSaveCurrentAddress()}
+                              className="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 hover:underline cursor-pointer"
+                            >
+                              <Bookmark className="w-3.5 h-3.5" /> Save Link
+                            </button>
+                          </div>
+                        </div>
+                        <div className="input-glow-border rounded-lg">
+                          <input
+                            aria-label="Google Maps Parking Location Link"
+                            id="parkingAddress"
+                            name="parkingAddress"
+                            type="text"
+                            value={formData.parkingAddress}
+                            onChange={handleChange}
+                            placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
+                            className="w-full bg-white/5 border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label htmlFor="parkingNotes" className="text-base font-bold uppercase tracking-[0.15em] text-white/60 block">
+                          Directions for Parking
+                        </label>
+                        <div className="input-glow-border rounded-lg">
+                          <textarea
+                            id="parkingNotes"
+                            name="parkingNotes"
+                            value={formData.parkingNotes}
+                            onChange={handleChange}
+                            rows={3}
+                            placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
+                            className="w-full bg-white/5 border-0 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg resize-y min-h-[90px]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -1345,7 +1666,7 @@ function BookPageContent() {
 
                 {/* Step 4: Technical & Logistics */}
                 <div className="bg-transparent border-0 p-0 shadow-none relative">
-                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-6 flex items-center gap-3">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-6 flex items-center gap-3">
                     Technical & Logistics
                   </h2>
                   <div className="flex flex-col gap-8">
@@ -1364,7 +1685,7 @@ function BookPageContent() {
 
                 {/* Step 5: Additional Options */}
                 <div className="bg-transparent border-0 p-0 shadow-none relative">
-                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                     Production & Extras
                   </h2>
                   <p className="text-white/60 text-lg mb-6">Select any features you&apos;d like the band to bring to your event. Pricing discussed with your band manager.</p>
@@ -1414,7 +1735,7 @@ function BookPageContent() {
 
                 {/* Step 6: Notes & Questions */}
                 <div className="bg-transparent border-0 p-0 shadow-none relative">
-                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2 flex items-center gap-3">
+                  <h2 className="text-lg font-bold uppercase tracking-[0.2em] text-purple-400mb-2 flex items-center gap-3">
                     Notes & Questions
                   </h2>
                   <p className="text-white/60 text-lg mb-4">Anything else you&apos;d like to mention? Special requests, questions, or details for our band manager.</p>
@@ -1561,46 +1882,36 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label htmlFor={`slot-age-limit-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Age Limit</label>
-          <div className="relative">
-            <select aria-label="Select option"
-              id={`slot-age-limit-${slot.id}`}
-              value={slot.ageRestriction || "all_ages"}
-              onChange={(e) => {
-                const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: e.target.value } : s);
-                setBookingSlots(updated);
-              }}
-              className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
-            >
-              <option value="all_ages" className="bg-[#0c0817] text-white">All Ages</option>
-              <option value="21_plus" className="bg-[#0c0817] text-white">21 & Over</option>
-              <option value="18_plus" className="bg-[#0c0817] text-white">18 & Over</option>
-            </select>
-            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
-          </div>
+          <Dropdown
+            id={`slot-age-limit-${slot.id}`}
+            fullWidth={true}
+            selected={slot.ageRestriction || "all_ages"}
+            options={[
+              { label: "All Ages", value: "all_ages" },
+              { label: "21 & Over", value: "21_plus" },
+              { label: "18 & Over", value: "18_plus" },
+            ]}
+            onChange={(val) => {
+              const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, ageRestriction: val } : s);
+              setBookingSlots(updated);
+            }}
+            className="w-full"
+          />
         </div>
         <div>
           <label htmlFor={`slot-doors-time-${slot.id}`} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-widest text-white/50 block mb-1">Doors Time</label>
-          <div className="relative">
-            <select aria-label="Select option"
-              id={`slot-doors-time-${slot.id}`}
-              value={slot.doorsTime || ""}
-              onChange={(e) => {
-                const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: e.target.value } : s);
-                setBookingSlots(updated);
-              }}
-              className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs font-bold py-2.5 pl-3 pr-8 rounded-lg outline-none text-white focus:border-cyan-400 transition-colors cursor-pointer appearance-none shadow-inner"
-            >
-              <option value="" className="bg-[#0c0817] text-white">Same as Start</option>
-              {["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"].map(t => (
-                <option key={t} value={t} className="bg-[#0c0817] text-white">{t}</option>
-              ))}
-            </select>
-            <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
-          </div>
+          <Dropdown
+            id={`slot-doors-time-${slot.id}`}
+            fullWidth={true}
+            placeholder="Same as Start"
+            selected={slot.doorsTime || ""}
+            options={["Same as Start", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"]}
+            onChange={(val) => {
+              const updated = bookingSlots.map(s => s.id === slot.id ? { ...s, doorsTime: val } : s);
+              setBookingSlots(updated);
+            }}
+            className="w-full"
+          />
         </div>
       </div>
 
@@ -1632,6 +1943,178 @@ function BookingSlotMetadataSection({ slot, bookingSlots, setBookingSlots }: { s
             }}
             className="w-full bg-white/5 backdrop-blur-md border border-white/15 text-xs py-2 px-3 rounded-lg outline-none text-white focus:border-cyan-400 placeholder:text-white/30 shadow-inner"
           />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MapPickerModal({
+  isOpen,
+  onClose,
+  initialAddress,
+  savedAddresses = [],
+  onSelectSaved,
+  onSaveNewAddress,
+  onDeleteSavedAddress,
+  onSave,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  initialAddress: string;
+  savedAddresses?: SavedAddress[];
+  onSelectSaved?: (item: SavedAddress) => void;
+  onSaveNewAddress?: (customLabel?: string) => void;
+  onDeleteSavedAddress?: (id: string) => void;
+  onSave: (address: string, fullData?: Partial<SavedAddress>) => void;
+}) {
+  const [addressInput, setAddressInput] = useState(initialAddress || "");
+
+  useEffect(() => {
+    setAddressInput(initialAddress || "");
+  }, [initialAddress]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
+      <div className="bg-[#0f0921] border border-purple-500/40 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl space-y-5 p-6 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-[#c27aff]" />
+            <h3 className="text-lg font-black uppercase tracking-wider text-white">Google Maps Location & Address Picker</h3>
+          </div>
+          <button aria-label="Close modal"
+            type="button"
+            onClick={onClose}
+            className="p-1 text-white/50 hover:text-white transition-colors cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Saved Addresses & Quick Presets List */}
+        {savedAddresses.length > 0 && (
+          <div className="space-y-2.5">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold uppercase tracking-widest text-purple-400block">Saved Locations & Venue Presets</label>
+              <span className="text-[10px] text-white/50 font-normal">Click to auto-fill form</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {savedAddresses.map((item) => (
+                <div
+                  key={item.id}
+                  className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/50 rounded-xl transition-all flex items-start justify-between gap-2 group cursor-pointer"
+                  onClick={() => {
+                    if (onSelectSaved) {
+                      onSelectSaved(item);
+                      onClose();
+                    } else {
+                      onSave(item.parkingAddress, item);
+                      onClose();
+                    }
+                  }}
+                >
+                  <div className="space-y-0.5 min-w-0">
+                    <div className="text-xs font-black text-white truncate flex items-center gap-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-[#c27aff] shrink-0" />
+                      <span className="truncate">{item.label}</span>
+                    </div>
+                    <div className="text-[11px] text-white/60 truncate">
+                      {item.parkingAddress} {item.venueCity ? `, ${item.venueCity}` : ''}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0 opacity-80 group-hover:opacity-100">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onSelectSaved) {
+                          onSelectSaved(item);
+                          onClose();
+                        } else {
+                          onSave(item.parkingAddress, item);
+                          onClose();
+                        }
+                      }}
+                      className="px-2 py-1 bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/40 rounded text-[10px] font-bold text-white uppercase tracking-wider"
+                    >
+                      Use
+                    </button>
+                    {!item.id.startsWith("preset-") && onDeleteSavedAddress && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteSavedAddress(item.id);
+                        }}
+                        className="p-1 text-white/40 hover:text-red-400 transition-colors"
+                        title="Delete saved address"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-2 border-t border-white/10 pt-4">
+          <label className="text-xs font-bold uppercase tracking-widest text-purple-400block">Search Location or Paste Google Maps Address</label>
+          <div className="flex gap-2">
+            <input aria-label="Input field"
+              type="text"
+              value={addressInput}
+              onChange={(e) => setAddressInput(e.target.value)}
+              placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
+              className="flex-1 bg-white/5 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:border-cyan-400 focus:outline-none"
+            />
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2.5 bg-purple-600/40 hover:bg-purple-600/60 border border-purple-400/40 rounded-lg text-xs font-bold text-white uppercase tracking-wider transition-colors inline-flex items-center gap-1.5 shrink-0"
+            >
+              <Navigation className="w-3.5 h-3.5 text-cyan-300" /> Open Map
+            </a>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 flex-wrap">
+          {onSaveNewAddress && (
+            <button
+              type="button"
+              onClick={() => {
+                if (addressInput.trim()) {
+                  onSaveNewAddress(addressInput.trim());
+                }
+              }}
+              className="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600/40 border border-emerald-400/40 rounded-lg text-xs font-bold text-emerald-300 hover:text-white uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <Bookmark className="w-3.5 h-3.5" /> Save to Favorites
+            </button>
+          )}
+          <div className="flex items-center gap-3 ml-auto">
+            <button aria-label="Cancel button"
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider transition-colors"
+            >
+              Cancel
+            </button>
+            <button aria-label="Save button"
+              type="button"
+              onClick={() => {
+                onSave(addressInput);
+                onClose();
+              }}
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 rounded-lg text-xs font-black text-white uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+            >
+              <Check className="w-4 h-4" /> Save Location to Form
+            </button>
+          </div>
         </div>
       </div>
     </div>

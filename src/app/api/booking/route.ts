@@ -516,7 +516,7 @@ export async function PATCH(request: Request) {
     const authError = await requireAdmin(request);
     if (authError) return authError;
 
-    const { bookingId, status, notes } = await request.json();
+    const { bookingId, status, notes, loadInTime, load_in_time, notifyPlannerLoadIn } = await request.json();
 
     const update: any = {
       updated_at: new Date().toISOString(),
@@ -528,6 +528,11 @@ export async function PATCH(request: Request) {
 
     if (notes !== undefined) {
       update.details = notes;
+    }
+
+    const newLoadIn = loadInTime || load_in_time;
+    if (newLoadIn !== undefined) {
+      update.load_in_time = newLoadIn;
     }
 
     if (status === 'cancelled') {
@@ -673,6 +678,40 @@ export async function PATCH(request: Request) {
           html,
         }),
       }).catch(err => console.error('Status notification email failed:', err));
+    }
+
+    // ── Send load-in time notification email if load-in time was updated ──
+    if (data && (notifyPlannerLoadIn || newLoadIn) && (data.planner_email || data.email)) {
+      const emailBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const recipientEmail = data.planner_email || data.email;
+      const loadInVal = newLoadIn || data.load_in_time || 'Confirmed';
+      const loadInHtml = `
+        <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);padding:32px;">
+          <h2 style="color:#a855f7;margin-top:0;">⏰ Load-In & Setup Time Confirmed</h2>
+          <p style="color:rgba(255,255,255,0.8);font-size:15px;line-height:1.6;">
+            Hello <strong>${sanitize(data.planner_name || data.name || 'there')}</strong>,<br/><br/>
+            The 7th Heaven band manager has confirmed the official load-in and setup time for your upcoming show at <strong>${sanitize(data.venue_name || 'the venue')}</strong>:
+          </p>
+          <div style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:12px;padding:20px;margin:20px 0;text-align:center;">
+            <p style="margin:0;font-size:12px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.5);font-weight:700;">Official Load-In Time</p>
+            <p style="margin:6px 0 0;font-size:24px;font-weight:900;color:#38bdf8;">${sanitize(loadInVal)}</p>
+          </div>
+          <p style="color:rgba(255,255,255,0.6);font-size:13px;">
+            Booking ID: <strong style="color:#fff;">${sanitize(bookingId)}</strong><br/>
+            Event Date: <strong style="color:#fff;">${sanitize(data.event_date || 'Scheduled Date')}</strong>
+          </p>
+        </div>
+      `;
+
+      fetch(`${emailBaseUrl}/api/email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: recipientEmail,
+          subject: `⏰ Load-In Setup Time Confirmed — ${bookingId} | 7th Heaven`,
+          html: loadInHtml,
+        }),
+      }).catch(err => console.error('Load-in notification email failed:', err));
     }
 
     return NextResponse.json({ success: true, booking: data });

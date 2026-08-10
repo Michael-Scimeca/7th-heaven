@@ -198,11 +198,6 @@ export default async function Home() {
         <LogoTicker items={PRESS_LOGOS} direction="right" />
       </section>
 
-      {/* ====== MUSIC / AUDIO PLAYER SECTION ====== */}
-      <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">
-        <AudioPlayerSection />
-      </section>
-
       {/* ====== PROXIMITY NOTIFY ====== */}
       <div className="">
         <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
@@ -217,6 +212,11 @@ export default async function Home() {
       <div className="">
         <HomeMerch />
       </div>
+
+      {/* ====== MUSIC / AUDIO PLAYER SECTION (At Very Bottom) ====== */}
+      <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">
+        <AudioPlayerSection />
+      </section>
     </>
   );
 }
