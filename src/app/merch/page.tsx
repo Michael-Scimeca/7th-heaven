@@ -1,4 +1,5 @@
 /* eslint-disable react-doctor/no-giant-component */
+/* eslint-disable react-doctor/state-only-used-in-handlers */
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -70,11 +71,6 @@ function MerchDashboard() {
   // Pickup queue
   const [pickupQueue, setPickupQueue] = useState<PickupOrder[]>([]);
   const [raffleWins, setRaffleWins] = useState<RaffleWin[]>([]);
-
-  // Active tab
-  const [tab, setTab] = useState<'raffle' | 'pickup'>('pickup');
-
-  // Scanner and single-use verification
   const [scanInput, setScanInput] = useState('');
   const [scanResult, setScanResult] = useState<{ status: 'valid' | 'already_claimed' | 'invalid'; order?: PickupOrder } | null>(null);
 

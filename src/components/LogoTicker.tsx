@@ -146,7 +146,7 @@ export default function LogoTicker({
             item.src ? (
               <div
                 key={item.src + "-" + i}
-                className="flex shrink-0 items-center justify-center transition-all duration-150"
+                className="flex shrink-0 items-center justify-center transition-[padding,height] duration-150"
                 style={{
                   height: `${config.containerHeight}px`,
                   paddingLeft: `${config.paddingX}px`,
@@ -158,7 +158,7 @@ export default function LogoTicker({
                   alt={item.alt ?? ""}
                   width={200}
                   height={config.logoHeight}
-                  className={`w-auto object-contain transition-all duration-150 ${
+                  className={`w-auto object-contain transition-[height,filter] duration-150 ${
                     config.invert ? "hoy-ticker-logo" : ""
                   }`}
                   style={{ height: `${config.logoHeight}px` }}
@@ -214,7 +214,7 @@ export default function LogoTicker({
           <button
             type="button"
             onClick={() => setIsStudioOpen(!isStudioOpen)}
-            className="px-4 py-3 rounded-full bg-black/90 hover:bg-black backdrop-blur-2xl border border-purple-500/50 hover:border-purple-400 text-white text-xs font-mono font-extrabold tracking-wider flex items-center gap-2.5 shadow-[0_8px_32px_rgba(168,85,247,0.45)] transition-all transform hover:scale-105 cursor-pointer"
+            className="px-4 py-3 rounded-full bg-black/90 hover:bg-black backdrop-blur-2xl border border-purple-500/50 hover:border-purple-400 text-white text-xs font-mono font-extrabold tracking-wider flex items-center gap-2.5 shadow-[0_8px_32px_rgba(168,85,247,0.45)] transition-transform duration-200 transform hover:scale-105 cursor-pointer"
           >
             <Sliders className="w-4 h-4 text-purple-400 animate-pulse" />
             <span>Logo Size Studio 🏷️</span>
