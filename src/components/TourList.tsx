@@ -773,7 +773,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       // Detect when sticky sort bar locks in via sentinel
       const sentinel = sentinelRef.current;
       const sentinelTop = sentinel ? sentinel.getBoundingClientRect().top : 999;
-      const isAboveSentinel = sentinelTop <= 80;
+      const isAboveSentinel = sentinelTop <= 88;
 
       if (isStuckRef.current !== isAboveSentinel) {
         isStuckRef.current = isAboveSentinel;
@@ -1188,7 +1188,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" className={`sticky top-[80px] z-30 hidden lg:grid ${gridClass} gap-8 py-3.5 ${isSortBarStuck ? 'is-stuck w-screen left-0 right-0 -ml-6 px-6 bg-[#090514]/90 backdrop-blur-md border-0' : 'w-full bg-transparent border-0'} items-center text-white`}>
+          <div id="tour-sort-bar" className={`sticky top-[88px] z-40 hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-all duration-200`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown
