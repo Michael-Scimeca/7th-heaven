@@ -91,6 +91,7 @@ export default function HeaderMaskEditor() {
               </p>
             </div>
             <button
+              aria-label="Close Header Mask Studio"
               onClick={() => setIsOpen(false)}
               className="text-purple-400 hover:text-white text-xs font-bold px-2 py-1 bg-purple-900/30 rounded hover:bg-purple-800/50 cursor-pointer"
             >
@@ -161,6 +162,7 @@ export default function HeaderMaskEditor() {
               </div>
               <input
                 type="range"
+                aria-label="Expanded Mask Height"
                 min={80}
                 max={400}
                 value={settings.height}
@@ -177,6 +179,7 @@ export default function HeaderMaskEditor() {
               </div>
               <input
                 type="range"
+                aria-label="Bottom Fade Start"
                 min={0}
                 max={100}
                 value={settings.fadeStart}
@@ -193,6 +196,7 @@ export default function HeaderMaskEditor() {
               </div>
               <input
                 type="range"
+                aria-label="Bottom Fade End"
                 min={50}
                 max={100}
                 value={settings.fadeEnd}
@@ -209,6 +213,7 @@ export default function HeaderMaskEditor() {
               </div>
               <input
                 type="range"
+                aria-label="Backdrop Blur Radius"
                 min={0}
                 max={60}
                 value={settings.blurAmount}
@@ -225,6 +230,7 @@ export default function HeaderMaskEditor() {
               </div>
               <input
                 type="range"
+                aria-label="Background Dark Opacity"
                 min={0}
                 max={100}
                 value={settings.bgOpacity}

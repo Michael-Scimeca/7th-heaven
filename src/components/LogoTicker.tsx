@@ -237,6 +237,7 @@ export default function LogoTicker({
                 </div>
                 <button
                   type="button"
+                  aria-label="Close Logo Size Studio"
                   onClick={() => setIsStudioOpen(false)}
                   className="p-1.5 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
@@ -254,6 +255,7 @@ export default function LogoTicker({
                   </div>
                   <input
                     type="range"
+                    aria-label="Logo Image Height"
                     min="16"
                     max="120"
                     step="1"
@@ -271,6 +273,7 @@ export default function LogoTicker({
                   </div>
                   <input
                     type="range"
+                    aria-label="Row Height"
                     min="32"
                     max="160"
                     step="2"
@@ -288,6 +291,7 @@ export default function LogoTicker({
                   </div>
                   <input
                     type="range"
+                    aria-label="Logo Horizontal Gap"
                     min="8"
                     max="96"
                     step="2"
@@ -305,6 +309,7 @@ export default function LogoTicker({
                   </div>
                   <input
                     type="range"
+                    aria-label="Scroll Speed"
                     min="10"
                     max="120"
                     step="2"

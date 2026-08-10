@@ -826,6 +826,7 @@ export default function HomeVideoShowcase() {
                       </div>
                       <input
                         type="range"
+                        aria-label="Drag Sensitivity"
                         min={0.001}
                         max={0.05}
                         step={0.001}
@@ -843,6 +844,7 @@ export default function HomeVideoShowcase() {
                       </div>
                       <input
                         type="range"
+                        aria-label="Inertia Smoothness"
                         min={0.01}
                         max={0.5}
                         step={0.01}
@@ -865,6 +867,7 @@ export default function HomeVideoShowcase() {
                       </div>
                       <input
                         type="range"
+                        aria-label="Scroll Sensitivity"
                         min={0.2}
                         max={3.0}
                         step={0.1}
@@ -882,6 +885,7 @@ export default function HomeVideoShowcase() {
                       </div>
                       <input
                         type="range"
+                        aria-label="Snap Strength"
                         min={0.0}
                         max={0.5}
                         step={0.01}
@@ -899,6 +903,7 @@ export default function HomeVideoShowcase() {
                       </div>
                       <input
                         type="range"
+                        aria-label="Friction Decay Rate"
                         min={0.5}
                         max={0.99}
                         step={0.01}
@@ -916,6 +921,7 @@ export default function HomeVideoShowcase() {
                       </div>
                       <input
                         type="range"
+                        aria-label="Overscroll Elasticity"
                         min={0}
                         max={3.0}
                         step={0.1}
