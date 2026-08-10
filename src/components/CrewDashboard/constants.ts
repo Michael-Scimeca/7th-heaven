@@ -37,11 +37,11 @@ export interface Venue {
 // --- Seed data ---
 
 export const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string }> = {
-  sammy:   { id: 'sammy',   name: 'Sammy D',         email: 'sammy@7thheaven.com',   avatar: 'SD' },
-  michael: { id: 'michael', name: 'Michael Scimeca',  email: 'michael@7thheaven.com', avatar: 'MS' },
-  ryan:    { id: 'ryan',    name: 'Ryan K',           email: 'ryan@7thheaven.com',    avatar: 'RK' },
-  tony:    { id: 'tony',    name: 'Tony M',           email: 'tony@7thheaven.com',    avatar: 'TM' },
-  abbie:   { id: 'abbie',   name: 'Abbie Janssen',   email: 'abbie@7thheaven.com',   avatar: 'AJ' },
+  sammy: { id: 'sammy', name: 'Sammy D', email: 'sammy@7thheaven.com', avatar: 'SD' },
+  michael: { id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com', avatar: 'MS' },
+  ryan: { id: 'ryan', name: 'Ryan K', email: 'ryan@7thheaven.com', avatar: 'RK' },
+  tony: { id: 'tony', name: 'Tony M', email: 'tony@7thheaven.com', avatar: 'TM' },
+  abbie: { id: 'abbie', name: 'Abbie Janssen', email: 'abbie@7thheaven.com', avatar: 'AJ' },
 };
 
 export function getAvatarColor(name: string) {
@@ -51,7 +51,7 @@ export function getAvatarColor(name: string) {
   return colors[Math.abs(hash) % colors.length];
 }
 
-export const COMMON_EMOJIS = ['😊','😂','🔥','❤️','🎉','🤘','🎸','🎶','😍','🙌','💀','👀'];
+export const COMMON_EMOJIS = ['😊', '😂', '🔥', '❤️', '🎉', '🤘', '🎸', '🎶', '😍', '🙌', '💀', '👀'];
 
 export const getShopifyProductAdminUrl = (productGid?: string) => {
   const shopName = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com')
