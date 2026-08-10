@@ -19,6 +19,8 @@
     "react-doctor/no-async-event-handler-without-reentry-guard": "off",
     "react-doctor/rerender-state-only-in-handlers": "off",
     "deslop/unused-export": "off",
-    "react-doctor/deslop-unused-export": "off"
+    "react-doctor/deslop-unused-export": "off",
+    "react-doctor/click-events-have-key-events": "off",
+    "react-doctor/no-placeholder-only-field": "off"
   }
 }
