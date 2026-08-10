@@ -6,6 +6,7 @@
     "react-doctor/supabase-client-owned-authz-field": "off",
     "deslop/unused-file": "off",
     "react-doctor/deslop-unused-file": "off",
-    "react-doctor/no-static-element-interactions": "off"
+    "react-doctor/no-static-element-interactions": "off",
+    "react-doctor/prefer-useReducer": "off"
   }
 }
