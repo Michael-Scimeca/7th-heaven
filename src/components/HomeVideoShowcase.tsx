@@ -1,6 +1,6 @@
 "use client";
-/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
-/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
+/* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
+/* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
