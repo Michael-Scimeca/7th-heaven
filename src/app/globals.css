@@ -437,6 +437,10 @@ footer#footer {
   left: 0 !important;
   right: 0 !important;
   z-index: -1;
+  /* Gradient mask: footer fades in from transparent at top → fully visible by 35%.
+     Creates a smooth reveal as page content lifts away. */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 35%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 35%);
 }
 #page-content-wrapper::after {
   content: '';
