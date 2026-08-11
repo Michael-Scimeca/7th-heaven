@@ -110,7 +110,6 @@ export function Footer() {
         opacity: isCovered ? 0 : 1,
         pointerEvents: isCovered ? 'none' : 'auto',
         transition: 'opacity 0.15s ease',
-        zIndex: -1,
       }}
     >
       <FooterPicks />

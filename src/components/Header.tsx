@@ -214,8 +214,8 @@ export function Header() {
         : "bg-transparent text-white"
         }`}
       style={{
-        maskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))",
-        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))"
+        maskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%))",
+        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 85%), transparent var(--header-mask-fade-end, 100%))"
       }}
       suppressHydrationWarning
     >
