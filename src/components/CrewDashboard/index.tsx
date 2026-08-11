@@ -3285,31 +3285,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                             <div className="flex gap-2 items-end">
                               {/* Input 1: Prize Name */}
-                              <div className="flex-1 flex flex-col gap-1.5">
+                              <div className="flex-1 flex flex-col gap-1.5 no-glow">
                                 {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] block">1. Prize Name</span>}
-                                <input
-                                  type="text"
-                                  aria-label="Raffle prize name"
-                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  value={item.name}
-                                  onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
-                                  placeholder="e.g. VIP Meet & Greet Pass"
-                                  className={`w-full bg-white/5 border rounded-md px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50 shadow-[0_0_10px_rgba(147,51,234,0.1)]' : 'border-white/10 focus:border-[#a78bfa]'}`}
-                                />
+                                <div className="input-glow-border">
+                                  <input
+                                    type="text"
+                                    aria-label="Raffle prize name"
+                                    disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                    value={item.name}
+                                    onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
+                                    placeholder="e.g. VIP Meet & Greet Pass"
+                                    className={`w-full bg-white/5 !border-0 !rounded-none px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
+                                  />
+                                </div>
                               </div>
 
                               {/* Input 2: Entries Needed */}
-                              <div className="w-20 flex flex-col gap-1.5 relative">
+                              <div className="w-20 flex flex-col gap-1.5 relative no-glow">
                                 {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[var(--color-accent)] truncate block">2. Entries</span>}
-                                <input
-                                  type="number"
-                                  aria-label="Minimum entries needed"
-                                  min="1"
-                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  value={item.min || ''}
-                                  onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                  className={`w-full bg-white/5 border rounded-md px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-white/10 focus:border-purple-500'}`}
-                                />
+                                <div className="input-glow-border">
+                                  <input
+                                    type="number"
+                                    aria-label="Minimum entries needed"
+                                    min="1"
+                                    disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                    value={item.min || ''}
+                                    onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
+                                    className={`w-full bg-white/5 !border-0 !rounded-none px-3 py-2 text-xs text-purple-300 font-bold outline-none transition-colors text-center`}
+                                  />
+                                </div>
                                 {/* Floating counter during active raffle */}
                                 {idx === activeQueueIndex && raffleStatus !== 'idle' && (
                                   <div className="absolute -top-5 right-0 text-[var(--font-size-3xs)] text-[var(--color-accent)] font-black uppercase bg-purple-600/10 px-1.5 py-0.5 rounded border border-purple-500/20 whitespace-nowrap overflow-visible z-10 w-auto text-right">
@@ -3319,17 +3323,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               </div>
 
                               {/* Input 3: Prize Qty */}
-                              <div className="w-14 flex flex-col gap-1.5">
+                              <div className="w-14 flex flex-col gap-1.5 no-glow">
                                 {idx === 0 && <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-[#a78bfa] truncate block">3. Qty</span>}
-                                <input
-                                  type="number"
-                                  aria-label="Prize quantity"
-                                  min="1"
-                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  value={item.qty || ''}
-                                  onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                  className={`w-full bg-white/5 border rounded-md px-3 py-2 text-xs text-white outline-none transition-colors text-center ${idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50' : 'border-white/10 focus:border-[#a78bfa]'}`}
-                                />
+                                <div className="input-glow-border">
+                                  <input
+                                    type="number"
+                                    aria-label="Prize quantity"
+                                    min="1"
+                                    disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                    value={item.qty || ''}
+                                    onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
+                                    className={`w-full bg-white/5 !border-0 !rounded-none px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
+                                  />
+                                </div>
                               </div>
 
                               {/* Action Buttons */}
