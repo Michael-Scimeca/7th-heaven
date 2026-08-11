@@ -109,6 +109,9 @@ export function Footer() {
       const contentBottom = contentArea?.getBoundingClientRect().bottom ?? winH;
       const footerHeight = footerEl?.offsetHeight ?? 420;
 
+      // Keep spacer height in sync with actual footer height so revealPct hits 1
+      document.documentElement.style.setProperty('--footer-reveal-height', `${footerHeight}px`);
+
       // 0 when contentBottom === winH (footer not yet uncovered)
       // 1 when contentBottom === winH - footerHeight (footer fully uncovered)
       const pct = Math.max(0, Math.min(1, (winH - contentBottom) / footerHeight));
@@ -138,14 +141,20 @@ export function Footer() {
       id="footer"
       suppressHydrationWarning
       style={(() => {
-        // Build the mask: clips the footer to the revealed portion only.
-        // As revealPct goes 0→1, the visible slice opens from top to bottom.
-        // Top 35% of the revealed slice has a gradient fade-in for a soft edge.
-        const p = revealPct * 100;                      // 0–100
-        const fadeEnd = Math.min(p, p * 0.35);          // fade zone top
+        // Mask opens bottom-to-top: as page content lifts off the footer, the
+        // BOTTOM portion of the footer is uncovered first (content edge moves up).
+        // revealPct=0 → fully clipped; revealPct=1 → fully visible.
+        const p = revealPct * 100;             // 0–100
+        const visibleStart = 100 - p;          // top of the visible portion (%)
+        const fadeZone = 12;                   // gradient fade width (% of footer)
+        const fadeStart = Math.min(100, visibleStart + fadeZone); // where solid begins
+
         const mask = p <= 0
-          ? 'linear-gradient(to bottom, transparent 0%, transparent 100%)'
-          : `linear-gradient(to bottom, transparent 0%, black ${fadeEnd.toFixed(1)}%, black ${p.toFixed(1)}%, transparent ${p.toFixed(1)}%)`;
+          ? 'linear-gradient(to bottom, transparent 0%, transparent 100%)'   // all hidden
+          : p >= 100
+            ? 'linear-gradient(to bottom, black 0%, black 100%)'             // all visible
+            : `linear-gradient(to bottom, transparent 0%, transparent ${visibleStart.toFixed(1)}%, black ${fadeStart.toFixed(1)}%, black 100%)`;
+
         return {
           opacity: isCovered ? 0 : 1,
           pointerEvents: (isCovered || revealPct < 0.02) ? 'none' : 'auto',
