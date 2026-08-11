@@ -802,8 +802,12 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
       if (isAboveSentinel) {
         document.documentElement.classList.add("tour-sort-stuck");
+        // Set sentinel height = sort bar height in the SAME JS tick as position:fixed kicks in.
+        // This prevents layout shift because the spacer appears before the browser repaints.
+        if (sentinel) sentinel.style.height = sortBar.offsetHeight + 'px';
       } else {
         document.documentElement.classList.remove("tour-sort-stuck");
+        if (sentinel) sentinel.style.height = '0px';
       }
     };
 
@@ -1206,10 +1210,10 @@ ${filterLine}
             </div>
           </div>
 
-          {/* Sentinel — detects when sticky sort bar locks in */}
-          <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          {/* Layout spacer: prevents row-list jump when sort bar lifts to position:fixed */}
-          {isSortBarStuck && <div className="hidden lg:block h-[57px]" aria-hidden="true" />}
+          {/* Sentinel — also acts as layout spacer when sort bar lifts to position:fixed.
+              Height is set synchronously via DOM in the scroll handler (same tick as class toggle)
+              to prevent any layout shift. */}
+          <div ref={sentinelRef} className="hidden lg:block" style={{ height: 0 }} aria-hidden="true" />
           <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-40 hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
