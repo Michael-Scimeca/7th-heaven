@@ -946,7 +946,7 @@ lerpSpeed: ${lerpSpeed}`;
             className="px-4 py-3 rounded-full bg-black/90 hover:bg-black backdrop-blur-2xl border border-purple-500/50 hover:border-purple-400 text-white text-xs font-mono font-extrabold tracking-wider flex items-center gap-2.5 shadow-[0_8px_32px_rgba(168,85,247,0.45)] transition-all transform hover:scale-105 cursor-pointer"
           >
             <Sliders className="w-4 h-4 text-purple-400 animate-pulse" />
-            <span>Cutout Mask Studio 🎭</span>
+            <span>Cutout Mask Studio</span>
           </button>
 
           {/* Expanded Studio Control Drawer */}

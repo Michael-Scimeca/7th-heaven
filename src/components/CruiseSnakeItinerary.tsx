@@ -900,7 +900,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Action Mode Toggle */}
                 <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <span className="block text-xs font-bold text-white/90">🎭 Port Circle Action</span>
+                  <span className="block text-xs font-bold text-white/90">Port Circle Action</span>
                   <div className="flex gap-1.5 pt-1">
                     {[
                       { id: 'hide', label: '🙈 Hide & Flip' },

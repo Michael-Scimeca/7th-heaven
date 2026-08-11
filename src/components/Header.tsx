@@ -208,7 +208,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-colors duration-300 pointer-events-none pt-2 ${scrolled
+      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-colors duration-300 pointer-events-none  ${scrolled
         ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}

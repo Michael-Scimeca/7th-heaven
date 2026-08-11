@@ -150,7 +150,7 @@ export default function MediaPage() {
             });
           }
         }
-      } catch {}
+      } catch { }
 
       // 3. Merge custom localStorage videos if present
       try {
@@ -178,13 +178,13 @@ export default function MediaPage() {
             }
           });
         }
-      } catch {}
+      } catch { }
 
       setCategories(baseCategories);
       if (baseCategories.length > 0 && !activeFilter) {
         setActiveFilter(baseCategories[0].category);
       }
-    } catch {}
+    } catch { }
   }, [activeFilter]);
 
   useEffect(() => {
@@ -378,14 +378,7 @@ export default function MediaPage() {
         </section>
       )}
 
-      {/* ── FLOATING LAYOUT OPTIONS LINK ── */}
-      <Link
-        href="/media/layout-demo"
-        className="fixed bottom-6 left-6 z-[999] px-4 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white text-xs font-black uppercase tracking-widest shadow-[0_0_30px_rgba(255,10,61,0.5)] transition-colors hover:scale-105 flex items-center gap-2"
-      >
-        <Palette className="w-4 h-4" />
-        <span>Layout Options</span>
-      </Link>
+
 
       {/* ── CATEGORY FILTER TABS & SEARCH BAR ── */}
       <div className="site-container px-6 mb-12">

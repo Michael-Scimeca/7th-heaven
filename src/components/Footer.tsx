@@ -40,7 +40,11 @@ const FALLBACK_ENDORSEMENTS = [
 ];
 
 const footerLinks = [
+  { href: "/faq", label: "FAQ" },
   { href: "/shows/past", label: "Past Shows Archive" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Service" },
+  { href: "/returns", label: "Returns & Refunds" },
 ];
 
 const FALLBACK_SOCIAL_LINKS = [
@@ -292,27 +296,17 @@ export function Footer() {
       <div className="site-container pt-2 pb-1">
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* Nav Links */}
-          <div className="flex flex-wrap items-center gap-5">
-            {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
-                {link.label}
-              </Link>
+          <div className="flex flex-wrap items-center gap-1">
+            {footerLinks.map((link, i) => (
+              <span key={link.href} className="flex items-center">
+                <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                  {link.label}
+                </Link>
+                {i < footerLinks.length - 1 && (
+                  <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
+                )}
+              </span>
             ))}
-            <button aria-label="Action button"
-              onClick={() => {
-                if (member?.role === 'crew') {
-                  router.push('/crew');
-                } else {
-                  openModal('login');
-                }
-              }}
-              className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors cursor-pointer bg-transparent border-none"
-            >
-              Crew Login
-            </button>
-            <Link href="/planner?login=true" className="text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
-              Planner Login
-            </Link>
           </div>
 
           {/* Social Links */}
@@ -333,15 +327,6 @@ export function Footer() {
 
       {/* Legal Bottom */}
       <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="flex flex-wrap justify-center md:justify-start gap-5 text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] mt-1 md:mt-0">
-          <Link href="/privacy" className="hover:text-[var(--text-color)] transition-colors">Privacy</Link>
-          <Link href="/terms" className="hover:text-[var(--text-color)] transition-colors">Terms</Link>
-          <Link href="/returns" className="hover:text-[var(--text-color)] transition-colors">Returns</Link>
-          <Link href="/sitemap/flowchart" className="hover: text-[var(--color-accent)] transition-colors">Flowchart Sitemap</Link>
-          <Link href="/demo/proximity" className="hover: text-[var(--color-accent)] transition-colors">Dev Demo</Link>
-          <Link href="/admin?login=true" className="hover: text-[var(--color-accent)] transition-colors">Admin</Link>
-          <Link href="/planner?login=true" className="hover: text-[var(--color-accent)] transition-colors">Planner</Link>
-        </div>
         <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>

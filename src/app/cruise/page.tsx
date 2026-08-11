@@ -761,7 +761,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Cancellation & Policy Guidelines — 3-Column Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
             {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
-            <div className="p-6 relative text-left">
+            <div className="py-6 pr-6 pl-0 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
