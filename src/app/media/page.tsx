@@ -342,12 +342,15 @@ export default function MediaPage() {
 
           {!heroPlaying && (
             <div className="relative z-10 site-container flex items-end pb-24 h-screen pointer-events-none">
-              <div className="max-w-lg pointer-events-auto">
+              <div className="max-w-lg pointer-events-auto transform-gpu isolate">
                 <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
                   Featured Media
                 </span>
-                <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                <h1
+                  className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3 transform-gpu isolate"
+                  style={{ fontFamily: "var(--font-barlow-condensed)" }}
+                >
                   {featuredVideo.title}
                 </h1>
                 {featuredVideo.description && (
@@ -462,7 +465,7 @@ export default function MediaPage() {
                   </div>
 
                   <h3
-                    className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 ${isActive
+                    className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 transform-gpu isolate ${isActive
                       ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
                       : "text-white/30 group-hover:text-white/70"
                       }`}
