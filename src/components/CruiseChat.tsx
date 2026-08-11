@@ -127,6 +127,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
   const [isLoading, setIsLoading] = useState(true);
   const [showTagMenu, setShowTagMenu] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [onlineUsers, setOnlineUsers] = useState<{ name: string; avatar: string; role: string }[]>([]);
   const chatLayout = 3;
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -280,6 +281,8 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
     fetchHistory();
     fetchChatPin();
 
+    const presenceKey = member?.name || 'guest_' + Math.random().toString(36).slice(2, 7);
+
     const channel = supabase
       .channel(`room_${room}`)
       .on("broadcast", { event: "pin_update" }, () => { })
@@ -305,12 +308,31 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
           setMessages((prev) => prev.filter((m) => m.id !== oldMsg.id));
         }
       })
-      .subscribe();
+      .on('presence', { event: 'sync' }, () => {
+        const state = channel.presenceState<{ name: string; avatar: string; role: string }>();
+        const users = Object.values(state).flat().map((u) => ({
+          name: u.name || 'Guest',
+          avatar: u.avatar || '?',
+          role: u.role || 'fan',
+        }));
+        // dedupe by name
+        const seen = new Set<string>();
+        setOnlineUsers(users.filter(u => { if (seen.has(u.name)) return false; seen.add(u.name); return true; }));
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED' && member?.name) {
+          await channel.track({
+            name: member.name,
+            avatar: member.avatar || member.name.slice(0, 2).toUpperCase(),
+            role: member.role || 'fan',
+          });
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [fetchHistory, fetchChatPin, supabase]);
+  }, [fetchHistory, fetchChatPin, supabase, member?.name, member?.avatar, member?.role]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -465,10 +487,40 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
             </h3>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
-              <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">Cruisers Online</span>
+              <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">
+                {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
+              </span>
             </div>
           </div>
         </div>
+
+        {/* Online users panel */}
+        {onlineUsers.length > 0 && (
+          <div className="flex items-center gap-1 pr-1 max-w-[55%] overflow-hidden">
+            <div className="flex flex-col gap-0.5 overflow-y-auto max-h-[52px] pr-1 scrollbar-hide">
+              {onlineUsers.map((u) => (
+                <div key={u.name} className="flex items-center gap-1 group">
+                  <div
+                    className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black shrink-0 ring-1"
+                    style={{
+                      background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
+                      ringColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
+                      color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : '#fff',
+                    }}
+                  >
+                    {u.avatar?.slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="text-[8px] font-semibold truncate max-w-[60px]"
+                    style={{ color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : 'rgba(255,255,255,0.6)' }}
+                  >
+                    {u.name}
+                  </span>
+                  <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {member?.is_warned && (
