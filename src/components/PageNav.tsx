@@ -39,33 +39,40 @@ const CATEGORIES = [
     name: "Crew Pages",
     pages: [
       { path: "/crew", label: "Crew Dashboard" },
-      { path: "/crew/verify", label: "Crew Verify" },
-      { path: "/crew-michael", label: "Michael" },
-      { path: "/crew-abbie", label: "Abbie" },
-      { path: "/crew-ryan", label: "Ryan" },
-      { path: "/crew-sam", label: "Sam" },
-      { path: "/crew-tony", label: "Tony" },
-      { path: "/crew-setup-preview", label: "Crew Setup Preview" },
     ]
   },
   {
     name: "Planner Pages",
     pages: [
       { path: "/planner", label: "Planner Dashboard" },
+    ]
+  },
+  {
+    name: "Verification Pages",
+    pages: [
+      { path: "/crew/verify", label: "Crew Verify" },
       { path: "/planner/verify", label: "Planner Verify" },
+      { path: "/cruise/verify", label: "Cruise Verify" },
+      { path: "/crew-setup-preview", label: "Crew Setup Preview" },
     ]
   },
   {
     name: "Admin Pages",
     pages: [
       { path: "/admin", label: "Admin Panel" },
-      { path: "/admin/emails", label: "Email Templates" },
-      { path: "/admin/email-map", label: "Email Map" },
       { path: "/admin/legal", label: "Legal Guide" },
       { path: "/admin/checklist", label: "Ops Checklist" },
       { path: "/admin/features", label: "Admin Features" },
       { path: "/admin/feed", label: "Admin Feed" },
       { path: "/studio", label: "Sanity Studio" },
+    ]
+  },
+  {
+    name: "Email Pages",
+    pages: [
+      { path: "/admin/emails", label: "Email Templates" },
+      { path: "/admin/email-map", label: "Email Map" },
+      { path: "/cruise/email-preview", label: "Email Preview" },
     ]
   },
   {
@@ -81,8 +88,6 @@ const CATEGORIES = [
       { path: "/cruise/payment", label: "Payment" },
       { path: "/cruise/preview", label: "Preview" },
       { path: "/cruise/hero-demo", label: "Hero Demo" },
-      { path: "/cruise/email-preview", label: "Email Preview" },
-      { path: "/cruise/verify", label: "Verify" },
       { path: "/cruise/cancel", label: "Cancel" },
       { path: "/live", label: "Live Hub" },
       { path: "/live/live_michael", label: "Michael Live" },
