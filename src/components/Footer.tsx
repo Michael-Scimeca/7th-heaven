@@ -96,22 +96,23 @@ export function Footer() {
     loadSettings();
   }, [loadSettings]);
 
-  // Scroll-driven reveal: footer starts invisible and fades in as the user
-  // reaches the bottom of the page. Works with Lenis smooth scroll and
-  // falls back to native window.scroll.
-  const [revealOpacity, setRevealOpacity] = useState(0);
+  // Scroll-driven reveal via mask-image (not opacity).
+  // Tracks content-area's bottom edge so the mask opens exactly when page
+  // content lifts off the footer — 1:1 pixel-perfect sync.
+  const [revealPct, setRevealPct] = useState(0); // 0 = hidden, 1 = fully visible
 
   useEffect(() => {
     const updateReveal = () => {
-      const lenis = (window as any).__lenis;
-      const scrollY: number = lenis ? lenis.scroll : window.scrollY;
+      const contentArea = document.querySelector<HTMLElement>('#page-content-wrapper > .content-area');
+      const footerEl = document.getElementById('footer');
       const winH = window.innerHeight;
-      const docH = document.documentElement.scrollHeight;
-      const maxScroll = docH - winH;
-      const distFromBottom = maxScroll - scrollY;
-      // Reveal over the last 420px of scroll (approx footer height)
-      const opacity = Math.max(0, Math.min(1, 1 - distFromBottom / 420));
-      setRevealOpacity(opacity);
+      const contentBottom = contentArea?.getBoundingClientRect().bottom ?? winH;
+      const footerHeight = footerEl?.offsetHeight ?? 420;
+
+      // 0 when contentBottom === winH (footer not yet uncovered)
+      // 1 when contentBottom === winH - footerHeight (footer fully uncovered)
+      const pct = Math.max(0, Math.min(1, (winH - contentBottom) / footerHeight));
+      setRevealPct(pct);
     };
 
     const lenis = (window as any).__lenis;
@@ -136,11 +137,22 @@ export function Footer() {
       className="relative text-[var(--text-color)] pt-8 pb-6 overflow-hidden"
       id="footer"
       suppressHydrationWarning
-      style={{
-        opacity: isCovered ? 0 : revealOpacity,
-        pointerEvents: (isCovered || revealOpacity < 0.05) ? 'none' : 'auto',
-        transition: 'opacity 0.15s ease',
-      }}
+      style={(() => {
+        // Build the mask: clips the footer to the revealed portion only.
+        // As revealPct goes 0→1, the visible slice opens from top to bottom.
+        // Top 35% of the revealed slice has a gradient fade-in for a soft edge.
+        const p = revealPct * 100;                      // 0–100
+        const fadeEnd = Math.min(p, p * 0.35);          // fade zone top
+        const mask = p <= 0
+          ? 'linear-gradient(to bottom, transparent 0%, transparent 100%)'
+          : `linear-gradient(to bottom, transparent 0%, black ${fadeEnd.toFixed(1)}%, black ${p.toFixed(1)}%, transparent ${p.toFixed(1)}%)`;
+        return {
+          opacity: isCovered ? 0 : 1,
+          pointerEvents: (isCovered || revealPct < 0.02) ? 'none' : 'auto',
+          maskImage: mask,
+          WebkitMaskImage: mask,
+        };
+      })()}
     >
       <FooterPicks />
 
