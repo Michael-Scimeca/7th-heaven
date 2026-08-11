@@ -465,29 +465,43 @@ header,
   backface-visibility: hidden;
 }
 
-/* Apply bottom mask gradient + animated height to header element */
-header {
-  mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;
+/* ── Animated Header Reveal Mask ────────────────────────────────────────────
+   @property lets the browser interpolate the gradient stop as a typed number.
+   Normal:  --hm-stop = 100% → mask is solid black  (no visible fade zone, short nav)
+   Stuck:   --hm-stop = 62%  → solid 62% of 228px (~141px) then fades to transparent
+   Both height AND the gradient stop animate together in the same cubic-bezier curve.
+   ─────────────────────────────────────────────────────────────────────────── */
+@property --hm-stop {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
 }
-/* On large screens: set explicit base height so CSS can tween it.
-   height:auto → 228px is not animatable; 88px → 228px is. Mobile stays auto (mobile menu not clipped). */
+
+/* Apply mask + base height to header */
+header {
+  --hm-stop: 100%;
+  mask-image: linear-gradient(to bottom, black 0%, black var(--hm-stop), transparent 100%) !important;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--hm-stop), transparent 100%) !important;
+}
+/* On large screens: explicit base height so height:88px → 228px animates (auto → px cannot tween).
+   Also transition --hm-stop in perfect sync with the height change. */
 @media (min-width: 1024px) {
   header {
     height: 88px;
-    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
     overflow: visible !important;
+    transition:
+      height   0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      --hm-stop 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 }
 
-/* Extend Header backdrop container down with backdrop blur & bottom gradient mask when tour sort bar or media category bar is stuck */
+/* Extend Header backdrop container down with backdrop blur when sort bar / category bar is stuck */
 html.tour-sort-stuck header,
 html.media-category-stuck header {
+  --hm-stop: 62%;
   height: var(--header-mask-height, 228px) !important;
   backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
   -webkit-backdrop-filter: blur(var(--header-mask-blur, 24px)) !important;
-  mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;
   z-index: 50 !important;
 }
 
