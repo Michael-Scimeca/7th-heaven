@@ -12,6 +12,7 @@ import { shiftCoverageRequest } from '@/lib/email-templates';
 import { createClient } from '@/lib/supabase/client';
 import { AlertTriangle, Ban, Trash2, X, Check, Sparkles, Gift, Users, Music, Volume2, Heart, FileText, MapPin, MessageSquare, ChevronDown, Mail, Shield, Siren, Clock } from 'lucide-react';
 import { getShowDateTime } from '@/lib/date-utils';
+import ChatInputBar from '@/components/ChatInputBar';
 
 // ── Constants & types extracted from this file ──
 import {
@@ -3042,23 +3043,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                       </div>
                     </div>
                     {/* Chat message input */}
-                    <div className="relative">
-                      <div className="input-glow-border w-full">
-                        <input
-                          aria-label="Type a message"
-                          value={content}
-                          onChange={e => setContent(e.target.value)}
-                          onKeyDown={e => e.key === 'Enter' && handlePost()}
-                          placeholder="Type a message..."
-                          className="w-full bg-white/5 border-y border-white/20 px-4 py-3 pr-12 text-xs text-white placeholder:text-white/40 outline-none transition-all shadow-md font-medium"
-                        />
-                      </div>
-                      <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center">
-                        <button onClick={handlePost} disabled={!content.trim() || posting} className="h-full px-2.5 bg-purple-700/50 hover:bg-purple-600/70 text-purple-300 rounded-lg flex items-center justify-center transition-colors disabled:opacity-30 shadow-[0_0_10px_rgba(147,51,234,0.2)]" title="Send Chat">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                        </button>
-                      </div>
-                    </div>
+                    <ChatInputBar
+                      value={content}
+                      onChange={setContent}
+                      onSubmit={(e) => { e.preventDefault(); handlePost(); }}
+                      disabled={posting}
+                      placeholder="Type a message..."
+                    />
                   </div>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import { AlertTriangle, Ban, Trash2, LogOut } from "lucide-react";
+import ChatInputBar from "@/components/ChatInputBar";
 
 type ChatMessage = {
   id: string;
@@ -752,66 +753,25 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
           </div>
         ) : (
           <div className="flex flex-col">
-            <form onSubmit={handleSend} className="relative flex items-center w-full">
-              <div className="input-glow-border w-full">
-                <input aria-label="Input field"
-                  type="text"
-                  value={newMessage}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setNewMessage(val);
-                    if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
-                      setShowTagMenu(true);
-                    }
-                  }}
-                  disabled={!member || isSending || member.is_banned}
-                  placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
-                  className="w-full bg-white/5 border-y border-white/20 pl-3.5 pr-28 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
-                  maxLength={500}
-                />
-              </div>
-              <div className="absolute right-1.5 flex items-center gap-1">
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => {
-                    setShowEmojiPicker(!showEmojiPicker);
-                    if (showTagMenu) setShowTagMenu(false);
-                  }}
-                  title="Insert Emoji"
-                  className="w-7 h-7 rounded-lg bg-black/5 hover:bg-black/10 text-black flex items-center justify-center text-sm transition-colors cursor-pointer"
-                >
-                  😀
-                </button>
-                <button aria-label="Action button"
-                  type="button"
-                  onClick={() => {
-                    setShowTagMenu(!showTagMenu);
-                    if (showEmojiPicker) setShowEmojiPicker(false);
-                  }}
-                  title="Tag Admin or Crew"
-                  className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20  text-[var(--color-accent)] font-bold text-xs border border-purple-500/30 transition-colors cursor-pointer"
-                >
-                  @
-                </button>
-                <button aria-label="Action button"
-                  type="submit"
-                  disabled={!newMessage.trim() || !member || isSending || member.is_banned}
-                  className="w-7 h-7 rounded-lg bg-purple-700/50 hover:bg-purple-600/70 text-purple-300 flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30 disabled:hover:bg-purple-700/50 cursor-pointer"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-              </div>
-            </form>
-            <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase tracking-wider mt-2 px-1">
-              <span>KEEP IT RATED PG-13 · NO POLITICS</span>
-              <button aria-label="Action button"
-                type="button"
-                onClick={() => insertTag('@admin')}
-                className="text-white hover:text-white/70 transition-colors cursor-pointer font-bold lowercase tracking-normal"
-              >
-                tag @admin for help
-              </button>
-            </div>
+            <ChatInputBar
+              value={newMessage}
+              onChange={(val) => {
+                setNewMessage(val);
+                if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
+                  setShowTagMenu(true);
+                }
+              }}
+              onSubmit={handleSend}
+              disabled={!member || isSending || member.is_banned}
+              placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
+              maxLength={500}
+              showEmojiBtn
+              onEmojiToggle={() => { setShowEmojiPicker(!showEmojiPicker); if (showTagMenu) setShowTagMenu(false); }}
+              showAtBtn
+              onAtToggle={() => { setShowTagMenu(!showTagMenu); if (showEmojiPicker) setShowEmojiPicker(false); }}
+              showRulesFooter
+              onAdminTag={() => insertTag('@admin')}
+            />
           </div>
         )}
       </div>

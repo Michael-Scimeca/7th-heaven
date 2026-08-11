@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
+import ChatInputBar from "@/components/ChatInputBar";
 
 interface DMMessage {
   id: string;
@@ -194,26 +195,13 @@ export default function DirectMessageChat() {
           </div>
 
           {/* Form Input */}
-          <form
+          <ChatInputBar
+            value={messageText}
+            onChange={setMessageText}
             onSubmit={handleSendMessage}
-            className="p-2 border-t border-white/10 bg-transparent flex items-center gap-1.5 relative"
-          >
-            <div className="input-glow-border w-full">
-              <input aria-label="Input field"
-                type="text"
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-                placeholder="Type your message..."
-                className="w-full bg-white/5 border-y border-white/20 pl-3.5 pr-12 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
-              />
-            </div>
-            <button aria-label="Action button"
-              type="submit"
-              className="absolute right-3.5 w-7 h-7 rounded-lg bg-purple-700/50 hover:bg-purple-600/70 text-purple-300 flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30 cursor-pointer"
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
-            </button>
-          </form>
+            placeholder="Type your message..."
+            className="border-t border-white/10 p-2"
+          />
         </div>
       )}
     </div>

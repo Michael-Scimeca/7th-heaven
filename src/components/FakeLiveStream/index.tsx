@@ -15,6 +15,7 @@ const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mo
 import { useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
 import { supabase } from '@/lib/supabase-client';
+import ChatInputBar from '@/components/ChatInputBar';
 
 const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
   const key = (nameOrInstrument || '').toLowerCase();
@@ -2677,46 +2678,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </div>
                     )}
 
-                    <form onSubmit={e => { e.preventDefault(); handleSend(); }} className="relative flex items-center">
-                      <input aria-label="Input field"
-                        ref={inputRef}
-                        type="text"
-                        value={userMessage}
-                        onChange={e => setUserMessage(e.target.value)}
-                        onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
-                        placeholder="Type a message... use @admin to ask a question"
-                        maxLength={200}
-                        className="w-full bg-white/5 border-y border-white/20 pl-3.5 pr-28 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
-                      />
-                      <div className="absolute right-1.5 flex items-center gap-1">
-                        <button aria-label="Action button"
-                          type="button"
-                          onClick={() => setShowEmojiPicker(v => !v)}
-                          className="w-7 h-7 rounded-lg bg-black/5 hover:bg-black/10 text-black flex items-center justify-center text-sm transition-colors cursor-pointer"
-                        >
-                          😀
-                        </button>
-                        <button aria-label="Action button"
-                          type="button"
-                          className="px-2 py-1 rounded bg-purple-600/10 hover:bg-purple-600/20  text-[var(--color-accent)] font-bold text-xs border border-purple-500/30 transition-colors cursor-pointer"
-                        >
-                          @
-                        </button>
-                        <button aria-label="Action button"
-                          type="submit"
-                          disabled={!userMessage.trim()}
-                          className="w-7 h-7 rounded-lg bg-purple-700/50 hover:bg-purple-600/70 text-purple-300 flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30 disabled:hover:bg-purple-700/50 cursor-pointer"
-                        >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                        </button>
-                      </div>
-                    </form>
-
-                    {/* Chat Rules Helper Text */}
-                    <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase tracking-wider mt-2 px-1">
-                      <span>KEEP IT RATED PG-13 · NO POLITICS</span>
-                      <span className="text-white font-bold lowercase tracking-normal">tag @admin for help</span>
-                    </div>
+                    <ChatInputBar
+                      value={userMessage}
+                      onChange={setUserMessage}
+                      onSubmit={e => { e.preventDefault(); handleSend(); }}
+                      placeholder="Type a message... use @admin to ask a question"
+                      maxLength={200}
+                      showEmojiBtn
+                      onEmojiToggle={() => setShowEmojiPicker(v => !v)}
+                      showAtBtn
+                      showRulesFooter
+                    />
                   </div>
                 </>
               )}
