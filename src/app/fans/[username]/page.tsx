@@ -408,7 +408,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   }
 
   return (
-    <section className="pt-[88px] pb-32 min-h-screen    text-[var(--text-color)] border-t border-[var(--border-color)]">
+    <section className="pt-[88px] min-h-screen text-[var(--text-color)] border-t border-[var(--border-color)]">
       <div className="site-container pt-[25px]">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (

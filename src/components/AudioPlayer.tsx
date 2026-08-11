@@ -461,7 +461,7 @@ export default function AudioPlayerSection() {
           </div>
 
           {/* --- PLAY CONTROLS STRIP (MIDDLE SECTION ONLY) --- */}
-          <div className="bg-transparent border-t border-white/10 h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20">
+          <div className="bg-transparent h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20">
 
             {/* Album Cover & Play Button Overlay */}
             <button
@@ -740,7 +740,7 @@ export default function AudioPlayerSection() {
           <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md cursor-default" onClick={() => setShowLyrics(false)}>
             <div className="relative w-full max-w-[600px] max-h-[85vh] bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden flex flex-col mx-4 cursor-auto" onClick={(e) => e.stopPropagation()}>
               {/* Modal Header */}
-              <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[var(--color-bg-surface)] shrink-0">
+              <div className="flex items-center justify-between px-8 py-5 bg-[var(--color-bg-surface)] shrink-0">
                 <div className="min-w-0">
                   <h3 className="text-lg font-bold text-white truncate">{trackTitle}</h3>
                   <p className="text-xs text-white/40 uppercase tracking-widest mt-1">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}</p>

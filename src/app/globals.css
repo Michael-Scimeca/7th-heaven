@@ -1533,7 +1533,7 @@ select::placeholder,
    top when page content is loading or a transition is in progress. */
 #page-content-wrapper>.content-area {
   min-height: 100svh;
-  padding-bottom: 100px;
+  padding-bottom: 60px;
 }
 
 /* ═══════════════════════════════════════════════════════
