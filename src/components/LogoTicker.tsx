@@ -88,7 +88,7 @@ export default function LogoTicker({
   speedSec: initialSpeedSec = 38,
   bgClassName = "bg-transparent",
   direction = "left",
-  showControls = true,
+  showControls = false,
 }: {
   items?: TickerItem[];
   speedSec?: number;
