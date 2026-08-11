@@ -314,22 +314,34 @@ export default function MediaPage() {
       {featuredVideo && (
         <section className="relative overflow-hidden h-screen w-full mb-12">
           <div className="absolute inset-0">
-            <Image width={200} height={200} unoptimized
-              src={thumbMax(featuredVideo.id)}
-              alt="7th Heaven Media"
-              className="w-full h-full object-cover"
-              onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
-            <button onClick={() => setHeroPlaying(true)}
-              className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
-              aria-label="Play featured video"
-            >
-              <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-colors duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+            {heroPlaying ? (
+              <div className="absolute inset-0 w-full h-full z-20">
+                <CustomVideoPlayer
+                  videoId={featuredVideo.id}
+                  title={featuredVideo.title}
+                  onClose={() => setHeroPlaying(false)}
+                />
               </div>
-            </button>
+            ) : (
+              <>
+                <Image width={200} height={200} unoptimized
+                  src={thumbMax(featuredVideo.id)}
+                  alt="7th Heaven Media"
+                  className="w-full h-full object-cover"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent pointer-events-none" />
+                <button onClick={() => setHeroPlaying(true)}
+                  className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
+                  aria-label="Play featured video"
+                >
+                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-colors duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  </div>
+                </button>
+              </>
+            )}
           </div>
 
           {!heroPlaying && (
@@ -416,7 +428,7 @@ export default function MediaPage() {
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
-              title="Add a YouTube video to the Media Vault & Sanity CMS"
+              title="Add a video to the Media Vault & Sanity CMS"
             >
               <Plus className="w-4 h-4" />
               <span>+ Add Video</span>
@@ -555,19 +567,6 @@ export default function MediaPage() {
         </div>
       </div>
 
-      {/* ── FULL CINEMA CUSTOM YOUTUBE VIDEO PLAYER OVERLAY (Above Header) ── */}
-      {heroPlaying && featuredVideo && (
-        <div className="fixed inset-0 z-[999999] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-[fadeIn_0.2s_ease-out]">
-          <div className="relative w-full max-w-6xl aspect-video rounded-2xl overflow-hidden shadow-[0_0_100px_rgba(147,51,234,0.5)] border border-purple-500/40 bg-black">
-            <CustomVideoPlayer
-              videoId={featuredVideo.id}
-              title={featuredVideo.title}
-              onClose={() => setHeroPlaying(false)}
-            />
-          </div>
-        </div>
-      )}
-
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 text-white px-5 py-3.5 rounded-2xl shadow-[0_0_30px_rgba(168,85,247,0.5)] flex items-center gap-3 animate-[slideUp_0.3s_ease-out]">
@@ -602,19 +601,19 @@ export default function MediaPage() {
             <form onSubmit={handleAddVideoSubmit} className="space-y-4">
               <div>
                 <label className="block text-[10px] font-black uppercase tracking-wider text-purple-300 mb-1">
-                  YouTube URL or Video ID <span className="text-pink-400">*</span>
+                  Video URL or ID <span className="text-pink-400">*</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
-                  placeholder="e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ or dQw4w9WgXcQ"
+                  placeholder="Paste video link or ID..."
                   className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50"
                 />
               </div>
 
-              {/* Live YouTube Thumbnail Preview */}
+              {/* Live Video Thumbnail Preview */}
               {(() => {
                 const parsed = extractYouTubeId(newUrl);
                 if (parsed && parsed.length === 11) {
@@ -633,7 +632,7 @@ export default function MediaPage() {
                       <div>
                         <div className="flex items-center gap-1.5 text-xs font-bold text-purple-300">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>Valid YouTube Video Detected</span>
+                          <span>Valid Video Link Detected</span>
                         </div>
                         <p className="text-[10px] text-white/50 font-mono mt-0.5">ID: {parsed}</p>
                       </div>

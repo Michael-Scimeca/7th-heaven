@@ -203,19 +203,24 @@ export default function CustomVideoPlayer({
       onMouseMove={resetHideTimer}
       onClick={togglePlay}
     >
-      {/* Embedded YouTube Player Container */}
-      <div className="absolute inset-0 w-full h-full scale-[1.05] pointer-events-none">
-        <div id={playerDivId.current} className="w-full h-full" />
+      {/* Embedded Video Player Container (Full-bleed Cover Sizing) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex items-center justify-center">
+        <div
+          id={playerDivId.current}
+          className="w-[177.78vh] min-w-full h-[56.25vw] min-h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.03]"
+        />
       </div>
 
       {/* Fallback Direct iFrame if API isn't initialized yet */}
       {!isReady && (
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&playsinline=1`}
-          title={title}
-          className="absolute inset-0 w-full h-full scale-[1.05] border-0 pointer-events-none"
-          allow="autoplay; encrypted-media"
-        />
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex items-center justify-center">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&cc_load_policy=0&disablekb=1&playsinline=1`}
+            title={title}
+            className="w-[177.78vh] min-w-full h-[56.25vw] min-h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.03] border-0 pointer-events-none"
+            allow="autoplay; encrypted-media"
+          />
+        </div>
       )}
 
       {/* Animated Center Play/Pause Indicator Ring */}
@@ -286,7 +291,7 @@ export default function CustomVideoPlayer({
           />
           {/* Scrubber Handle */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white rounded-full scale-0 group-hover/timeline:scale-100 transition-transform shadow-[0_0_10px_rgba(255,255,255,0.9)]"
+            className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white rounded-full opacity-0 scale-50 group-hover/timeline:opacity-100 group-hover/timeline:scale-100 transition-all duration-200 shadow-[0_0_10px_rgba(255,255,255,0.9)]"
             style={{ left: `calc(${progress}% - 7px)` }}
           />
         </div>
