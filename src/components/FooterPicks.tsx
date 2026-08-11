@@ -112,6 +112,9 @@ export default function FooterPicks() {
       el.style.height = `${pickH}px`;
       el.style.willChange = "transform";
       el.style.opacity = "0.9";
+      // Pre-position at the spawn point so the element never flashes at (0,0)
+      // before the physics interval fires its first transform update.
+      el.style.transform = `translate(${x - pickW / 2}px, ${-60 - pickH / 2}px) rotate(${body.angle}rad)`;
       const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
       el.innerHTML = pickHtml(palette);
       container.appendChild(el);
