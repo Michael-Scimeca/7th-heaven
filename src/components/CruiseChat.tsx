@@ -750,12 +750,12 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                 </button>
               </div>
             </form>
-            <div className="flex items-center justify-between text-[10px] font-bold !text-gray-700 uppercase tracking-wider mt-2 px-1">
+            <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase tracking-wider mt-2 px-1">
               <span>KEEP IT RATED PG-13 · NO POLITICS</span>
               <button aria-label="Action button"
                 type="button"
                 onClick={() => insertTag('@admin')}
-                className="!text-gray-700 hover:!text-gray-900 transition-colors cursor-pointer font-bold lowercase tracking-normal"
+                className="text-white hover:text-white/70 transition-colors cursor-pointer font-bold lowercase tracking-normal"
               >
                 tag @admin for help
               </button>
