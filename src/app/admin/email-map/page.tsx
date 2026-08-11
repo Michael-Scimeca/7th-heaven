@@ -110,7 +110,7 @@ export default function EmailMapPage() {
 
             {/* Entry Point */}
             <div className="flex justify-center">
-              <Node label="EMAIL ENGINE" sub="src/lib/email.ts" icon="📧" color="blue" wide />
+              <Node label="EMAIL ENGINE" sub="src/lib/email.ts" icon="" color="blue" wide />
             </div>
             <Branch cols={4} />
 
@@ -122,10 +122,10 @@ export default function EmailMapPage() {
                 <Node label="FAN ACCOUNT" sub="Auth Triggers" color="purple" />
                 <VertLine />
                 <div className="space-y-1 w-full">
-                  <Node label="WELCOME FAN" sub="welcomeFan" icon="🎸" color="purple" small />
-                  <Node label="RAFFLE ENTRY" sub="raffleEntry" icon="🎟️" color="purple" small />
-                  <Node label="RAFFLE WIN" sub="raffleWin + PIN" icon="🏆" color="purple" small />
-                  <Node label="RAFFLE LOSS" sub="raffleLoss" icon="🎟️" color="purple" small />
+                  <Node label="WELCOME FAN" sub="welcomeFan" icon="" color="purple" small />
+                  <Node label="RAFFLE ENTRY" sub="raffleEntry" icon="" color="purple" small />
+                  <Node label="RAFFLE WIN" sub="raffleWin + PIN" icon="" color="purple" small />
+                  <Node label="RAFFLE LOSS" sub="raffleLoss" icon="" color="purple" small />
                 </div>
               </div>
 
@@ -134,11 +134,11 @@ export default function EmailMapPage() {
                 <Node label="CRUISE HUB" sub="/api/cruise/*" color="cyan" />
                 <VertLine />
                 <div className="space-y-1 w-full">
-                  <Node label="INTEREST CONFIRM" sub="Primary Booker" icon="🚢" color="cyan" small />
-                  <Node label="GUEST NOTIFY" sub="Family/Friends" icon="👤" color="cyan" small />
-                  <Node label="RSVP CANCELLED" sub="Token-based" icon="❌" color="cyan" small />
+                  <Node label="INTEREST CONFIRM" sub="Primary Booker" icon="" color="cyan" small />
+                  <Node label="GUEST NOTIFY" sub="Family/Friends" icon="" color="cyan" small />
+                  <Node label="RSVP CANCELLED" sub="Token-based" icon="" color="cyan" small />
                   <div className="pt-2">
-                    <Node label="CRUISE ACCOUNT" sub="Future Access" icon="🔐" color="cyan" small />
+                    <Node label="CRUISE ACCOUNT" sub="Future Access" icon="" color="cyan" small />
                   </div>
                 </div>
               </div>
@@ -148,10 +148,10 @@ export default function EmailMapPage() {
                 <Node label="BOOKING FLOW" sub="/api/booking/*" color="emerald" />
                 <VertLine />
                 <div className="space-y-1 w-full">
-                  <Node label="REQUEST RECEIVED" sub="Planner Confirm" icon="📋" color="emerald" small />
-                  <Node label="STATUS: APPROVED" sub="Contract Link" icon="✅" color="emerald" small />
-                  <Node label="WELCOME PLANNER" sub="Account Created" icon="🔑" color="emerald" small />
-                  <Node label="STATUS: CANCELLED" sub="Cleanup" icon="🚫" color="emerald" small />
+                  <Node label="REQUEST RECEIVED" sub="Planner Confirm" icon="" color="emerald" small />
+                  <Node label="STATUS: APPROVED" sub="Contract Link" icon="" color="emerald" small />
+                  <Node label="WELCOME PLANNER" sub="Account Created" icon="" color="emerald" small />
+                  <Node label="STATUS: CANCELLED" sub="Cleanup" icon="" color="emerald" small />
                 </div>
               </div>
 
@@ -160,9 +160,9 @@ export default function EmailMapPage() {
                 <Node label="INTERNAL" sub="Site Management" color="red" />
                 <VertLine />
                 <div className="space-y-1 w-full">
-                  <Node label="NEW BOOKING" sub="Admin Notification" icon="⚡" color="red" small />
-                  <Node label="PLANNER CANCEL" sub="Emergency Alert" icon="🚨" color="red" small />
-                  <Node label="NEWSLETTER" sub="Mass Blast" icon="📨" color="red" small />
+                  <Node label="NEW BOOKING" sub="Admin Notification" icon="" color="red" small />
+                  <Node label="PLANNER CANCEL" sub="Emergency Alert" icon="" color="red" small />
+                  <Node label="NEWSLETTER" sub="Mass Blast" icon="" color="red" small />
                 </div>
               </div>
 

@@ -14,7 +14,6 @@ import { useTransition } from "@/context/TransitionContext";
 const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
-  { href: "/shows/past", label: "PAST SHOWS" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
 ];
 
@@ -464,7 +463,6 @@ export function Header() {
 
               <Link href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BAND</Link>
               <Link href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>SHOWS</Link>
-              <Link href="/shows/past" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/shows/past" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>PAST SHOWS</Link>
               <Link href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MERCH</Link>
               <Link href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MEDIA</Link>
               <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>FAN WALL</Link>

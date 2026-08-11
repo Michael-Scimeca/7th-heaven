@@ -1244,9 +1244,6 @@ export default function SitemapPage() {
                 <TreeNode path="/cruise/cancel" label="Cruise Cancellation" color="text-cyan-400/60" />
               </TreeNode>
               <TreeNode path="/shows/[id]" label="Show Page" color=" text-[var(--color-accent)]" />
-              <TreeNode path="/demo" label="Feature Demos" color="text-indigo-400">
-                <TreeNode path="/demo/proximity" label="Proximity Demo" color="text-indigo-400/60" />
-              </TreeNode>
             </div>
 
             {/* Auth / Dashboards */}
@@ -1270,8 +1267,6 @@ export default function SitemapPage() {
                   <TreeNode path="/admin?tab=band" label="🎸 Band & Site Tab" color=" text-[var(--color-accent)]/60" />
                   <TreeNode path="/admin?tab=cruise" label="🚢 Cruise Tab" color="text-cyan-400/60" />
                   <TreeNode path="/admin/emails" label="Email Template Previews" color="text-red-400/60" />
-                  <TreeNode path="/admin/features" label="Feature Flags" color="text-red-400/60" />
-                  <TreeNode path="/admin/feed" label="Feed Moderation" color="text-red-400/60" />
                 </TreeNode>
                 <TreeNode path="/studio" label="Sanity Studio (CMS)" color="text-red-400" />
                 <TreeNode path="/sitemap" label="Site Map (This Page)" color=" text-[var(--color-accent)]" />

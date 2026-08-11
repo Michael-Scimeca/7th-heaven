@@ -34,7 +34,7 @@ export async function POST(request: Request) {
           ${body.replace(/\n/g, '<br/>')}
         </div>
         <div style="padding:16px 24px;border-top:1px solid rgba(255,255,255,0.05);text-align:center;">
-          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.2);">🚢 7th Heaven Cruise — You're receiving this because you registered for the cruise.</p>
+          <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.2);"> 7th Heaven Cruise — You're receiving this because you registered for the cruise.</p>
         </div>
       </div>
     `;
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
           fetch(`${emailBaseUrl}/api/email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ to: email, subject: `🚢 ${subject} — 7th Heaven Cruise`, html }),
+            body: JSON.stringify({ to: email, subject: ` ${subject} — 7th Heaven Cruise`, html }),
           }).then(r => r.ok ? 'ok' : 'fail')
         )
       );

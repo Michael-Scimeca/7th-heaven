@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
 <!-- Body -->
 <tr><td style="background:#0a0a0f;padding:40px 32px;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05);">
     <div style="text-align:center;">
-      <p style="font-size:52px;margin:0 0 16px;">🏆</p>
+      <p style="font-size:52px;margin:0 0 16px;"></p>
       <h1 style="margin:0 0 12px;color:#fff;font-size:28px;font-weight:900;letter-spacing:1px;text-transform:uppercase;">YOU WON THE RAFFLE</h1>
       <p style="margin:0 0 32px;color:#888;font-size:15px;">${displayDescription}</p>
       
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
         <div style="display:inline-block;padding:12px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.5);">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(claimUrl)}" width="140" height="140" alt="Claim QR Code" style="display:block;" />
         </div>
-        <p style="margin:12px 0 0;color:#ef4444;font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">⚠️ SINGLE-USE REDEMPTION ONLY</p>
+        <p style="margin:12px 0 0;color:#ef4444;font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;"> SINGLE-USE REDEMPTION ONLY</p>
       </div>
 
       <a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:14px 36px;border-radius:10px;">Open My Claim Page</a>

@@ -16,8 +16,8 @@ export default function EmailPreviewPage() {
   const guestRows = SAMPLE_GUESTS.map((g, i) => {
     const isChild = g.type === 'child';
     const badge = isChild
-      ? `<span style="display:inline-block;padding:2px 8px;background:rgba(6,182,212,0.15);color:#06b6d4;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">🧒 Child${g.age ? ' · Age ' + g.age : ''}</span>`
-      : `<span style="display:inline-block;padding:2px 8px;background:rgba(138,28,252,0.1);color:#8a1cfc;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">👤 Adult</span>`;
+      ? `<span style="display:inline-block;padding:2px 8px;background:rgba(6,182,212,0.15);color:#06b6d4;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;"> Child${g.age ? ' · Age ' + g.age : ''}</span>`
+      : `<span style="display:inline-block;padding:2px 8px;background:rgba(138,28,252,0.1);color:#8a1cfc;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;"> Adult</span>`;
     const contact = !isChild && (g.email || g.phone)
       ? `<br/><span style="color:rgba(255,255,255,0.25);font-size:11px;">${g.email || ''}${g.email && g.phone ? ' · ' : ''}${g.phone || ''}</span>`
       : '';
@@ -45,7 +45,7 @@ export default function EmailPreviewPage() {
     <!-- Header -->
     <div style="text-align:center;margin-bottom:32px;">
       <h1 style="margin:0;color:#fff;font-size:28px;font-weight:900;font-style:italic;letter-spacing:-0.5px;">
-        🚢 You're on the List!
+         You're on the List!
       </h1>
       <p style="margin:8px 0 0;color:rgba(255,255,255,0.4);font-size:14px;">
         7th Heaven Cruise — Interest Confirmed
@@ -84,7 +84,7 @@ export default function EmailPreviewPage() {
               </div>
             </td>
             <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:right;">
-              <span style="display:inline-block;padding:2px 8px;background:rgba(138,28,252,0.1);color:#8a1cfc;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">👤 Primary</span>
+              <span style="display:inline-block;padding:2px 8px;background:rgba(138,28,252,0.1);color:#8a1cfc;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;"> Primary</span>
             </td>
           </tr>
           ${guestRows}
@@ -172,7 +172,7 @@ export default function EmailPreviewPage() {
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 11, fontWeight: 600, width: 50, textAlign: "right" }}>Subject:</span>
-              <span style={{ color: "#fff", fontSize: 14, fontWeight: 700 }}>🚢 You&apos;re on the Cruise List! — 7th Heaven</span>
+              <span style={{ color: "#fff", fontSize: 14, fontWeight: 700 }}> You&apos;re on the Cruise List! — 7th Heaven</span>
             </div>
           </div>
         </div>
