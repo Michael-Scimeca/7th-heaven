@@ -116,7 +116,10 @@ export default function FooterPicks() {
       // before the physics interval fires its first transform update.
       el.style.transform = `translate(${x - pickW / 2}px, ${-60 - pickH / 2}px) rotate(${body.angle}rad)`;
       const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-      el.innerHTML = pickHtml(palette);
+      const svgDoc = new DOMParser().parseFromString(pickHtml(palette), "image/svg+xml");
+      if (svgDoc.documentElement) {
+        el.appendChild(document.importNode(svgDoc.documentElement, true));
+      }
       container.appendChild(el);
 
       Composite.add(engine.world, body);

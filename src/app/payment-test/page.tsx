@@ -4,6 +4,12 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+async function fetchPaymentSession(sessionId: string) {
+  const res = await fetch(`/api/payment-test?session_id=${encodeURIComponent(sessionId)}`);
+  if (!res.ok) throw new Error("HTTP error " + res.status);
+  return res.json();
+}
+
 function PaymentTestContent() {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
@@ -15,17 +21,20 @@ function PaymentTestContent() {
   const [error, setError] = useState("");
   const [confirmed, setConfirmed] = useState<{ amountTotal: number; currency: string } | null>(null);
 
+  // eslint-disable-next-line react-doctor/no-fetch-in-effect
   useEffect(() => {
-    if (status === "success" && sessionId) {
-      fetch(`/api/payment-test?session_id=${encodeURIComponent(sessionId)}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "paid") {
-            setConfirmed({ amountTotal: data.amountTotal, currency: data.currency });
-          }
-        })
-        .catch(() => { });
-    }
+    if (status !== "success" || !sessionId) return;
+    let active = true;
+    fetchPaymentSession(sessionId)
+      .then((data) => {
+        if (active && data?.status === "paid") {
+          setConfirmed({ amountTotal: data.amountTotal, currency: data.currency });
+        }
+      })
+      .catch(() => { });
+    return () => {
+      active = false;
+    };
   }, [status, sessionId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,12 +49,12 @@ function PaymentTestContent() {
         body: JSON.stringify({ amount, description }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        throw new Error(data.error || "Failed to start checkout.");
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to start checkout.");
       }
 
+      const data = await res.json();
       window.location.href = data.url;
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred.");

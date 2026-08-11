@@ -328,14 +328,12 @@ function BookPageContent() {
       parkingNotes: formData.parkingNotes || "",
     };
 
-    setSavedAddresses(prev => {
-      const filtered = prev.filter(a => a.id !== newAddr.id && a.label.toLowerCase() !== label.toLowerCase());
-      const updated = [newAddr, ...filtered];
-      try {
-        localStorage.setItem("7th_heaven_saved_addresses", JSON.stringify(updated));
-      } catch { }
-      return updated;
-    });
+    const filtered = savedAddresses.filter(a => a.id !== newAddr.id && a.label.toLowerCase() !== label.toLowerCase());
+    const updated = [newAddr, ...filtered];
+    setSavedAddresses(updated);
+    try {
+      localStorage.setItem("7th_heaven_saved_addresses_v1", JSON.stringify(updated));
+    } catch { }
 
     setSelectedSavedAddressId(newAddr.id);
     setAddressNotification(`Saved "${label}" to your saved locations!`);
@@ -362,13 +360,12 @@ function BookPageContent() {
   };
 
   const handleDeleteSavedAddress = (id: string) => {
-    setSavedAddresses(prev => {
-      const updated = prev.filter(a => a.id !== id);
-      try {
-        localStorage.setItem("7th_heaven_saved_addresses", JSON.stringify(updated));
-      } catch { }
-      return updated;
-    });
+    const updated = savedAddresses.filter(a => a.id !== id);
+    setSavedAddresses(updated);
+    try {
+      localStorage.setItem("7th_heaven_saved_addresses_v1", JSON.stringify(updated));
+    } catch { }
+
     if (selectedSavedAddressId === id) {
       setSelectedSavedAddressId("");
     }
@@ -1968,11 +1965,13 @@ function MapPickerModal({
   onDeleteSavedAddress?: (id: string) => void;
   onSave: (address: string, fullData?: Partial<SavedAddress>) => void;
 }) {
+  const [prevInitialAddress, setPrevInitialAddress] = useState(initialAddress);
   const [addressInput, setAddressInput] = useState(initialAddress || "");
 
-  useEffect(() => {
+  if (initialAddress !== prevInitialAddress) {
+    setPrevInitialAddress(initialAddress);
     setAddressInput(initialAddress || "");
-  }, [initialAddress]);
+  }
 
   if (!isOpen) return null;
 

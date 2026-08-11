@@ -210,15 +210,14 @@ export default function LoginModal() {
         setLoginRole(r as any);
       }
     }
-    // eslint-disable-next-deps
-  }, []);
+  }, [openModal, setLoginRole, setEmail, setIsInviteFlow, setName, setUsernameField, setModalMode, setPinCode]);
 
   // Sync loginRole whenever modal opens (or modalLoginRole changes)
   useEffect(() => {
     if (isModalOpen && modalLoginRole && state.loginRole !== modalLoginRole) {
       setLoginRole(modalLoginRole as any);
     }
-  }, [modalLoginRole, isModalOpen]);
+  }, [modalLoginRole, isModalOpen, state.loginRole, setLoginRole]);
 
   // DEBUG: Track modalMode changes
   console.log('[LoginModal] render — modalMode:', modalMode, '| isModalOpen:', isModalOpen);

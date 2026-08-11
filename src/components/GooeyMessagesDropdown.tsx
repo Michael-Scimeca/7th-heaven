@@ -197,7 +197,7 @@ export default function GooeyMessagesDropdown({
 
     setPanelWidth((prev) => (prev !== measuredW ? measuredW : prev));
     setPanelHeight((prev) => (prev !== measuredH ? measuredH : prev));
-  }, [open]);
+  }, [open, triggerWidth]);
 
   useEffect(() => {
     if (!open) return;

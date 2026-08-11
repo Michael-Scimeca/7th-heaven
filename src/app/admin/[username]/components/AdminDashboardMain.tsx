@@ -4290,7 +4290,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <input
                                   type="text"
                                   autoFocus
-                                  defaultValue={b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : ""}
                                   value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
                                   onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
                                   onKeyDown={async (e) => {
@@ -4471,7 +4470,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap pt-1">
                                   <input
                                     type="text"
-                                    defaultValue={b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : ""}
                                     value={loadInInputs[b.bookingId] !== undefined ? loadInInputs[b.bookingId] : (b.loadInTime && !b.loadInTime.includes("Unsure") ? b.loadInTime : "")}
                                     onChange={(e) => setLoadInInputs(prev => ({ ...prev, [b.bookingId]: e.target.value }))}
                                     placeholder="e.g. 5:00 PM (2 hours before show)"

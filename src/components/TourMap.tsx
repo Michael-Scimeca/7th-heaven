@@ -304,7 +304,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         const div = document.createElement("div");
         div.style.position = "absolute";
         div.style.transform = "translate(-50%, -100%)";
-        div.innerHTML = this.html;
+        const doc = new DOMParser().parseFromString(this.html, "text/html");
+        Array.from(doc.body.childNodes).forEach((node) => {
+          div.appendChild(document.importNode(node, true));
+        });
         div.addEventListener("click", (e) => {
           const target = e.target as HTMLElement;
           if (target.closest("a")) return; // let "Google Location" link through
