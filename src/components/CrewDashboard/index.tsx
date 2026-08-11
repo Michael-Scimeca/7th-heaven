@@ -3030,7 +3030,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onChange={e => setGlobalPinText(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
                         placeholder="Pin a message to all fans..."
-                        className="w-full bg-emerald-500/[0.08] border border-b-0  border-[var(--color-accent)]/30 rounded-none px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none focus:border-emerald-500/50 transition-colors"
+                        className="w-full bg-emerald-500/[0.08] !border-0 !rounded-none px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none transition-colors"
                       />
                       <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center z-10">
                         <button
