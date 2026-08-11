@@ -423,42 +423,6 @@ select option {
   color: #ffffff !important;
 }
 
-/* ── Reveal Footer ───────────────────────────────────────────────────────────
-   Footer is fixed at viewport bottom, z:-1 (behind all content).
-   Page content scrolls over it. When content's bottom edge lifts past the
-   footer, the footer is revealed — the classic "curtain" reveal effect.
-
-   page-content-wrapper needs:
-     1. A solid background so it visually covers the fixed footer while in view
-     2. A bottom shadow for the "page edge / curtain" look
-     3. A ::after spacer that adds extra scroll height so the footer can be
-        fully revealed (fixed elements have no height in normal flow)
-   ─────────────────────────────────────────────────────────────────────────── */
-
-footer#footer {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: -1;
-}
-
-/* Page wrapper: solid background covers fixed footer while scrolling.
-   Box-shadow at the bottom creates the lifting "curtain edge" effect. */
-#page-content-wrapper {
-  background: var(--bg-color);
-  box-shadow: 0 40px 80px 60px var(--bg-color);
-}
-
-/* Spacer: adds scroll room equal to the footer's approximate height so the
-   full footer can be scrolled into view. Adjust --footer-reveal-height if
-   the footer height changes significantly. */
-#page-content-wrapper::after {
-  content: '';
-  display: block;
-  height: var(--footer-reveal-height, 420px);
-  pointer-events: none;
-}
 
 /* Sticky Tour Sort Bar — Transparent, 24px horizontal padding, z-index 100 (sits above header backdrop blur layer) */
 #tour-sort-bar {
