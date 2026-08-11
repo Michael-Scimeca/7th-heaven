@@ -342,7 +342,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         onChange={(e) => setName(e.target.value)}
                         required
                         placeholder="Full name"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all"
                       />
                     </div>
                     <div className="input-glow-border rounded-xl">
@@ -353,7 +353,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder="Email address"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all"
                       />
                     </div>
                   </div>
@@ -366,7 +366,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         value={phone}
                         onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
                         placeholder="Phone number"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all"
                       />
                     </div>
                     <div className="flex gap-2">
@@ -380,7 +380,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           placeholder="Zip"
                           maxLength={5}
                           pattern="\d{5}"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 outline-none transition-colors text-center"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all text-center"
                         />
                       </div>
                       <div className="shrink-0 flex items-center">

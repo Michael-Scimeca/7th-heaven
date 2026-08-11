@@ -191,7 +191,7 @@ export default function ProximityPanel() {
               placeholder="60601"
               value={zip}
               onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
-              className="w-full bg-white/5 border border-white/15 text-white text-sm font-mono px-4 py-3 outline-none focus:border-[var(--color-accent)] transition-colors placeholder:text-white/30"
+              className="w-full bg-white/5 border border-white/15 rounded-xl text-white text-sm font-mono px-4 py-3 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 shadow-[0_0_15px_rgba(168,85,247,0.15)] focus:shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all placeholder:text-white/30"
             />
           </div>
           <div>
@@ -200,10 +200,10 @@ export default function ProximityPanel() {
               id="proximity-radius-select"
               value={radius}
               onChange={e => setRadius(Number(e.target.value))}
-              className="w-full bg-white/5 border border-white/15 text-white text-sm px-4 py-3 outline-none focus:border-[var(--color-accent)] transition-colors appearance-none cursor-pointer"
+              className="w-full bg-white/5 border border-white/15 rounded-xl text-white text-sm px-4 py-3 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 shadow-[0_0_15px_rgba(168,85,247,0.15)] focus:shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all appearance-none cursor-pointer"
             >
               {RADIUS_OPTIONS.map(r => (
-                <option key={r} value={r} className="    text-white">{r} miles</option>
+                <option key={r} value={r} className="bg-[#0f0921] text-white">{r} miles</option>
               ))}
             </select>
           </div>
