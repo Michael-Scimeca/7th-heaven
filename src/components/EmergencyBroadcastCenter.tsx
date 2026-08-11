@@ -5,6 +5,7 @@
 import React, { useState, useMemo } from "react";
 
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 interface TourShow {
   date: string;
@@ -277,7 +278,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
-              <input aria-label="Input field" type="checkbox" checked={sendSms} onChange={(e) => setSendSms(e.target.checked)} className="accent-white w-3.5 h-3.5 cursor-pointer" />
+              <SquishyToggle id="send-sms" label="Send via Twilio SMS" checked={sendSms} onChange={setSendSms} />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
@@ -290,7 +291,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
 
           <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
-              <input aria-label="Input field" type="checkbox" checked={sendEmail} onChange={(e) => setSendEmail(e.target.checked)} className="accent-white w-3.5 h-3.5 cursor-pointer" />
+              <SquishyToggle id="send-email" label="Send via email broadcast" checked={sendEmail} onChange={setSendEmail} />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -303,7 +304,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
 
           <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
-              <input aria-label="Input field" type="checkbox" checked={sendDashboardBanner} onChange={(e) => setSendDashboardBanner(e.target.checked)} className="accent-white w-3.5 h-3.5 cursor-pointer" />
+              <SquishyToggle id="send-dashboard-banner" label="Send fan wall banner" checked={sendDashboardBanner} onChange={setSendDashboardBanner} />
               <div>
                 <span className="text-[10px] font-black text-[var(--text-color)] flex items-center gap-1.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>

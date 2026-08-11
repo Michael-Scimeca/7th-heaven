@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 // --- COUNTDOWN TICKER ---
 export function EmbarkationCountdown() {
@@ -566,12 +567,11 @@ export function BookingManager({ email }: { email?: string }) {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <input aria-label="Input field"
-                  type="checkbox"
+                <SquishyToggle
                   id="anon-check"
+                  label="Hide my name from passenger list"
                   checked={formData.anonymous}
-                  onChange={e => setFormData({ ...formData, anonymous: e.target.checked })}
-                  className="accent-[var(--color-accent)] cursor-pointer"
+                  onChange={(v) => setFormData({ ...formData, anonymous: v })}
                 />
                 <label htmlFor="anon-check" className="text-xs font-bold text-black/70 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
               </div>

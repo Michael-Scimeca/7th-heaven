@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { SquishyToggle } from "@/components/SquishyToggle";
 import { useMember } from "@/context/MemberContext";
 
 interface NearbyShow {
@@ -172,12 +173,12 @@ export default function ProximityPanel() {
             <p className="text-sm font-bold text-white">Enable Proximity Notifications</p>
             <p className="text-xs text-white/40 mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
-          <button aria-label="Action button"
-            onClick={() => setNotificationsEnabled(!notificationsEnabled)}
-            className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${notificationsEnabled ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
-          >
-            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-colors duration-300 ${notificationsEnabled ? "left-7" : "left-1"}`} />
-          </button>
+          <SquishyToggle
+            id="proximity-notifications-toggle"
+            label="Enable proximity notifications"
+            checked={notificationsEnabled}
+            onChange={setNotificationsEnabled}
+          />
         </div>
 
         {/* Zip + Radius */}

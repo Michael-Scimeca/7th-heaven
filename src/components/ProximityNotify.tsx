@@ -10,6 +10,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 interface ProximityNotifyProps {
   nextShow?: {
@@ -404,11 +405,11 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     <p className="text-[11px] uppercase tracking-wider text-white/50 font-bold">Notification Preferences</p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
-                        <input
-                          type="checkbox"
+                        <SquishyToggle
+                          id="notify-area-shows"
+                          label="Notify me about area shows"
                           checked={notifyAreaShows}
-                          onChange={(e) => setNotifyAreaShows(e.target.checked)}
-                          className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-0 cursor-pointer"
+                          onChange={setNotifyAreaShows}
                         />
                         <div>
                           <p className="text-xs font-bold text-white/90">Area Shows</p>
@@ -417,11 +418,11 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       </label>
 
                       <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
-                        <input
-                          type="checkbox"
+                        <SquishyToggle
+                          id="notify-next-show"
+                          label="Notify me about the next show"
                           checked={notifyNextShow}
-                          onChange={(e) => setNotifyNextShow(e.target.checked)}
-                          className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-0 cursor-pointer"
+                          onChange={setNotifyNextShow}
                         />
                         <div>
                           <p className="text-xs font-bold text-white/90">Next Show</p>
@@ -430,11 +431,11 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       </label>
 
                       <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
-                        <input
-                          type="checkbox"
+                        <SquishyToggle
+                          id="notify-browser"
+                          label="Enable browser popup notifications"
                           checked={notifyBrowser}
-                          onChange={(e) => handleBrowserNotifyToggle(e.target.checked)}
-                          className="w-4 h-4 rounded border-white/20 bg-white/5 text-purple-600 focus:ring-0 cursor-pointer"
+                          onChange={handleBrowserNotifyToggle}
                         />
                         <div>
                           <p className="text-xs font-bold text-white/90">Browser Popups</p>
@@ -446,24 +447,29 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
                   {/* Agreements */}
                   <div className="pt-2 space-y-2">
-                    <button
-                      type="button"
-                      aria-label="Enable proximity notifications & SMS alerts"
-                      className="flex items-start gap-2.5 cursor-pointer text-left w-full"
-                      onClick={() => setAgreeNotify(!agreeNotify)}
-                    >
-                      <div className={`relative w-8 h-4 rounded-full transition-colors shrink-0 mt-0.5 ${agreeNotify ? "bg-purple-600" : "bg-white/15"}`}>
-                        <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${agreeNotify ? "translate-x-4" : "translate-x-0.5"}`} />
+                    <div className="flex items-start gap-2.5 cursor-pointer text-left w-full" onClick={() => setAgreeNotify(!agreeNotify)}>
+                      <div className="shrink-0 mt-0.5">
+                        <SquishyToggle
+                          id="agree-notify"
+                          label="Enable proximity notifications & SMS alerts"
+                          checked={agreeNotify}
+                          onChange={setAgreeNotify}
+                        />
                       </div>
                       <span className="text-xs text-white/50 leading-tight">Enable proximity notifications &amp; SMS alerts for nearby shows.</span>
-                    </button>
+                    </div>
 
                     <div
                       className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
                       onClick={() => setAgreeTerms(!agreeTerms)}
                     >
-                      <div className={`w-4 h-4 rounded border shrink-0 mt-0.5 flex items-center justify-center transition-colors ${agreeTerms ? "bg-purple-600 border-purple-600" : "border-white/20"}`}>
-                        {agreeTerms && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4"><polyline points="20 6 9 17 4 12" /></svg>}
+                      <div className="shrink-0 mt-0.5">
+                        <SquishyToggle
+                          id="agree-terms"
+                          label="Agree to terms and privacy policy"
+                          checked={agreeTerms}
+                          onChange={setAgreeTerms}
+                        />
                       </div>
                       <span className="text-xs text-white/40 leading-tight">
                         I agree to the <Link href="/terms" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="underline hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.

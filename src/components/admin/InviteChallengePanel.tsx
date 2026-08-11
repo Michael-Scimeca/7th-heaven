@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 interface Show {
   _id: string;
@@ -142,12 +143,12 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       <p className="text-sm font-bold text-white">Enable challenge for this show</p>
                       <p className="text-xs text-white/30 mt-0.5">Fans will see this on the show page</p>
                     </div>
-                    <button aria-label="Action button"
-                         onClick={() => setChallenge((c) => ({ ...c, enabled: !c.enabled }))}
-                      className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${challenge.enabled ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
-                    >
-                      <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-colors ${challenge.enabled ? "left-6" : "left-0.5"}`} />
-                    </button>
+                    <SquishyToggle
+                      id="challenge-enabled"
+                      label="Enable challenge for this show"
+                      checked={challenge.enabled}
+                      onChange={(v) => setChallenge((c) => ({ ...c, enabled: v }))}
+                    />
                   </div>
 
                   {challenge.enabled && (

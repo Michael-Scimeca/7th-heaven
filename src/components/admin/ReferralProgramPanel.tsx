@@ -4,6 +4,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useCallback } from "react";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 interface Milestone {
   threshold: number;
@@ -176,17 +177,13 @@ export default function ReferralProgramPanel() {
               When disabled, the referral section is hidden from the Fan Dashboard
             </p>
           </div>
-          <button aria-label="Action button"
-            onClick={toggleEnabled}
+          <SquishyToggle
+            id="referral-enabled"
+            label="Enable referral program"
+            checked={enabled}
+            onChange={(v) => { if (!toggling) { toggleEnabled(); void v; } }}
             disabled={toggling}
-            className={`w-12 h-6 rounded-full relative transition-colors shrink-0 cursor-pointer ${enabled ? "bg-purple-600" : "bg-white/10"
-              } ${toggling ? "opacity-50" : ""}`}
-          >
-            <span
-              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-colors ${enabled ? "left-6" : "left-0.5"
-                }`}
-            />
-          </button>
+          />
         </div>
 
         {/*  Metrics Strip  */}
