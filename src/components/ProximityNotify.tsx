@@ -404,7 +404,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   <div className="pt-2 border-t border-white/10 space-y-2">
                     <p className="text-[11px] uppercase tracking-wider text-white/50 font-bold">Notification Preferences</p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                      <label className="flex items-center gap-2 cursor-pointer transition-colors">
                         <SquishyToggle
                           id="notify-area-shows"
                           label="Notify me about area shows"
@@ -417,7 +417,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                      <label className="flex items-center gap-2 cursor-pointer transition-colors">
                         <SquishyToggle
                           id="notify-next-show"
                           label="Notify me about the next show"
@@ -430,7 +430,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                      <label className="flex items-center gap-2 cursor-pointer transition-colors">
                         <SquishyToggle
                           id="notify-browser"
                           label="Enable browser popup notifications"
