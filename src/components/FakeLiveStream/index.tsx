@@ -1312,44 +1312,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           </div>
         </div>
 
-        {/* ── CAM SWITCHER TABS ── */}
-        <div
-          className="shrink-0 flex items-center gap-1 site-container py-1.5 overflow-x-auto"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-        >
-          <span className="text-xs shrink-0 mr-1" style={{ color: 'rgba(255,255,255,0.4)' }}>CAM</span>
-          {(['mike', 'sammy', 'ryan', 'tony'] as const).map(key => {
-            const cfg = CREW_CONFIG[key];
-            const feedSlug = key === 'mike' ? 'michael' : key;
-            const isFeedLive = liveFeedStatuses[feedSlug] === 'true';
-            return (
-              <button aria-label="Action button"
-                key={key}
-                onClick={() => {
-                  setActiveFeedId(key);
-                  const feedSlug = key === 'mike' ? 'michael' : key;
-                  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-                  if (currentPath.startsWith('/live/live_')) {
-                    router.push(`/live/live_${feedSlug}`);
-                  } else if (currentPath.startsWith('/live/')) {
-                    router.push(`/live/${feedSlug}`);
-                  }
-                }}
-                className="flex items-center gap-1.5 px-3  rounded-lg text-xs font-bold  shrink-0"
-                style={{
 
-                  color: activeFeedId === key ? cfg.color : 'rgba(255,255,255,0.6)',
-                }}
-              >
-                <span>{getInstrumentIcon(cfg.name, "w-3.5 h-3.5")}</span>
-                <span>{cfg.name}</span>
-                {isFeedLive && (
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse shadow-[0_0_8px_#dc2626]" style={{ background: '#dc2626' }} />
-                )}
-              </button>
-            );
-          })}
-        </div>
+
 
         {/* ── MAIN: video + chat ── */}
         <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">

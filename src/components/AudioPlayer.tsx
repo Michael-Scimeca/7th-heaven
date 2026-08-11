@@ -461,7 +461,7 @@ export default function AudioPlayerSection() {
           </div>
 
           {/* --- PLAY CONTROLS STRIP (MIDDLE SECTION ONLY) --- */}
-          <div className="bg-transparent h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20">
+          <div className="bg-transparent border-t border-white/10 h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20">
 
             {/* Album Cover & Play Button Overlay */}
             <button
