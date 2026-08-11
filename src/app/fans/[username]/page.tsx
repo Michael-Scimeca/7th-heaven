@@ -1083,10 +1083,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
 
               {/* Main Column */}
-              <div className="lg:col-span-2 space-y-8">
+              <div className="lg:col-span-2 space-y-0">
 
                 {/* Tour Memories Gallery & Upload */}
                 <div className="space-y-6 pt-4 border-t border-black/10">
