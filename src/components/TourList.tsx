@@ -1208,7 +1208,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-40 hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
+          <div id="tour-sort-bar" ref={sortBarRef} className={`sticky top-[82px] z-[60] hidden lg:grid ${gridClass} gap-8 py-3 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/95 backdrop-blur-xl border border-purple-500/40 rounded-2xl px-5 shadow-[0_15px_40px_rgba(0,0,0,0.9)]' : 'bg-transparent border-0'} items-center text-white transition-all duration-200 transform-gpu isolate`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown
