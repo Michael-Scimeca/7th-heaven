@@ -40,7 +40,7 @@ const FALLBACK_ENDORSEMENTS = [
 ];
 
 const footerLinks = [
-  { href: "/shows/past", label: "Past Shows" },
+  { href: "/shows/past", label: "Past Shows Archive" },
 ];
 
 const FALLBACK_SOCIAL_LINKS = [

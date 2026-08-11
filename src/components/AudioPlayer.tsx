@@ -189,7 +189,7 @@ export default function AudioPlayerSection() {
                     window.dispatchEvent(new CustomEvent("7h-album-change", { detail: { albumId: album.id } }));
                   }
                 }}
-                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 px-1.5 rounded-md ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0' : 'hover:bg-white/10'}`}
+                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 rounded-md ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0' : 'hover:bg-white/10'}`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
@@ -330,7 +330,7 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-10 pr-6 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}

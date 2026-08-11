@@ -2,9 +2,7 @@
 /* oxlint-disable react-doctor/only-export-components */
 /* eslint-disable react-doctor/only-export-components */
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Sliders, Sparkles, X, RotateCcw } from "lucide-react";
 
 export type TickerItem = {
   label?: string;
@@ -88,47 +86,13 @@ export default function LogoTicker({
   speedSec: initialSpeedSec = 38,
   bgClassName = "bg-transparent",
   direction = "left",
-  showControls = true,
 }: {
   items?: TickerItem[];
   speedSec?: number;
   bgClassName?: string;
   direction?: "left" | "right";
-  showControls?: boolean;
 }) {
-  // Live Config State with localStorage persistence & automatic migration to new screenshot preset
-  const [config, setConfig] = useState<LogoTickerConfig>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("smooothy_logo_ticker_config_v1");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed && typeof parsed.logoHeight === "number") {
-            // Update old small defaults to new saved screenshot settings if logo height was <= 40
-            if (parsed.logoHeight <= 40) {
-              return DEFAULT_TICKER_CONFIG;
-            }
-            return parsed;
-          }
-        }
-      } catch (e) {
-        console.error("Failed to parse logo ticker config:", e);
-      }
-    }
-    return DEFAULT_TICKER_CONFIG;
-  });
-
-  const [isStudioOpen, setIsStudioOpen] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem("smooothy_logo_ticker_config_v1", JSON.stringify(config));
-      } catch (e) {
-        console.error("Failed to save logo ticker config:", e);
-      }
-    }
-  }, [config]);
+  const config = DEFAULT_TICKER_CONFIG;
 
   // render the list 3x back-to-back so it fills the width immediately
   const track = [...items, ...items, ...items];
@@ -209,8 +173,8 @@ export default function LogoTicker({
         `}</style>
       </div>
 
-      {/* 🏷️ Interactive Logo Size Studio Floating Drawer */}
-      {showControls && direction === "left" && (
+      {/* Logo Size Studio removed */}
+      {false && (
         <div className="fixed bottom-6 left-52 z-[200]">
           <button
             type="button"
