@@ -1208,7 +1208,14 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} className={`sticky top-[80px] z-[9999] hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#0a0518]/95 backdrop-blur-2xl border border-purple-500/50 rounded-2xl px-5 shadow-[0_20px_60px_rgba(0,0,0,0.95)]' : 'bg-transparent border-0'} items-center text-white transition-all duration-200 transform-gpu isolate`}>
+          {/* Spacer that reserves layout space when bar is fixed */}
+          {isSortBarStuck && <div className="hidden lg:block h-[57px]" aria-hidden="true" />}
+          <div
+            id="tour-sort-bar"
+            ref={sortBarRef}
+            style={isSortBarStuck ? { position: 'fixed', top: '80px', left: 0, right: 0, zIndex: 9999 } : {}}
+            className={`${isSortBarStuck ? 'fixed' : 'sticky top-[80px]'} hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/95 backdrop-blur-2xl border-b border-purple-500/30 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.9)]' : 'bg-transparent border-0'} items-center text-white transition-all duration-200 transform-gpu`}
+          >
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown
