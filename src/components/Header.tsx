@@ -234,11 +234,10 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${
-                    active
+                  className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
                       ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
                       : "text-white/80 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -248,11 +247,10 @@ export function Header() {
             {/* Live Stream link */}
             <Link
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${
-                isNavActive("/live")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
                   ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
                   : "text-white/80 hover:text-white"
-              }`}
+                }`}
             >
               {hasLiveStreams && (
                 <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-0.5 text-[7px] font-black uppercase tracking-wider text-white bg-red-600/80 border border-red-400/50 px-1.5 py-[0.5px] rounded-full whitespace-nowrap font-sans scale-90">
@@ -275,13 +273,11 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer group transition-colors duration-200 flex items-center justify-center m-0 p-0 ${
-              mobileOpen ? "z-[10001]" : "z-50"
-            } ${
-              isNavActive("/")
+            className={`shrink-0 min-w-0 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer group transition-colors duration-200 flex items-center justify-center m-0 p-0 ${mobileOpen ? "z-[10001]" : "z-50"
+              } ${isNavActive("/")
                 ? "!text-[#6700ff]"
                 : "text-white hover:!text-[#6700ff]"
-            }`}
+              }`}
             title="7th Heaven — Go to Home Page"
           >
             <div className="w-[150px] sm:w-[180px] lg:w-[220px] h-[36px] sm:h-[40px] flex items-center justify-center">
@@ -295,11 +291,10 @@ export function Header() {
             {/* Cruise link */}
             <Link
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
-                isNavActive("/cruise")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                   ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
                   : "text-white/80 hover:text-white"
-              }`}
+                }`}
             >
               CRUISE
               {isNavActive("/cruise") && <CruiseWaveAnimation />}
@@ -308,11 +303,10 @@ export function Header() {
             {/* Book Us link */}
             <Link
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
-                isNavActive("/book")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                   ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
                   : "text-white/80 hover:text-white"
-              }`}
+                }`}
             >
               BOOK US
             </Link>
@@ -320,11 +314,10 @@ export function Header() {
             {/* Contact link */}
             <Link
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${
-                isNavActive("/contact")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                   ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
                   : "text-white/80 hover:text-white"
-              }`}
+                }`}
             >
               CONTACT
             </Link>
