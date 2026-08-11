@@ -96,6 +96,36 @@ export function Footer() {
     loadSettings();
   }, [loadSettings]);
 
+  // Scroll-driven reveal: footer starts invisible and fades in as the user
+  // reaches the bottom of the page. Works with Lenis smooth scroll and
+  // falls back to native window.scroll.
+  const [revealOpacity, setRevealOpacity] = useState(0);
+
+  useEffect(() => {
+    const updateReveal = () => {
+      const lenis = (window as any).__lenis;
+      const scrollY: number = lenis ? lenis.scroll : window.scrollY;
+      const winH = window.innerHeight;
+      const docH = document.documentElement.scrollHeight;
+      const maxScroll = docH - winH;
+      const distFromBottom = maxScroll - scrollY;
+      // Reveal over the last 420px of scroll (approx footer height)
+      const opacity = Math.max(0, Math.min(1, 1 - distFromBottom / 420));
+      setRevealOpacity(opacity);
+    };
+
+    const lenis = (window as any).__lenis;
+    if (lenis) lenis.on('scroll', updateReveal);
+    window.addEventListener('scroll', updateReveal, { passive: true });
+    updateReveal();
+
+    return () => {
+      const l = (window as any).__lenis;
+      if (l) l.off('scroll', updateReveal);
+      window.removeEventListener('scroll', updateReveal);
+    };
+  }, []);
+
   // Hide footer when the overlay is at full coverage (isCovered=true).
   // This is driven by the overlay animation event — not the route change —
   // so it stays perfectly in sync with the transition reveal.
@@ -107,8 +137,8 @@ export function Footer() {
       id="footer"
       suppressHydrationWarning
       style={{
-        opacity: isCovered ? 0 : 1,
-        pointerEvents: isCovered ? 'none' : 'auto',
+        opacity: isCovered ? 0 : revealOpacity,
+        pointerEvents: (isCovered || revealOpacity < 0.05) ? 'none' : 'auto',
         transition: 'opacity 0.15s ease',
       }}
     >
