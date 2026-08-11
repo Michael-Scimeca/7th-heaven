@@ -423,6 +423,28 @@ select option {
   color: #ffffff !important;
 }
 
+/* ── Reveal Footer ───────────────────────────────────────────────────────────
+   footer is position:fixed bottom:0 z:-1 — always at viewport bottom,
+   painted behind normal flow content (z:auto > z:-1 in stacking order).
+   Page sections have their own solid dark backgrounds, so the footer stays
+   hidden while content is in view. As content scrolls past, footer is revealed.
+   ::after spacer = scroll room so the footer can be fully exposed.
+   No background on page-content-wrapper needed — avoids the solid-black issue.
+   ─────────────────────────────────────────────────────────────────────────── */
+footer#footer {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: -1;
+}
+#page-content-wrapper::after {
+  content: '';
+  display: block;
+  height: var(--footer-reveal-height, 420px);
+  pointer-events: none;
+}
+
 
 /* Sticky Tour Sort Bar — Transparent, 24px horizontal padding, z-index 100 (sits above header backdrop blur layer) */
 #tour-sort-bar {
