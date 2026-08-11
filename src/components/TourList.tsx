@@ -740,7 +740,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const isStuckRef = useRef(false);
   const sortBarOpacityRef = useRef(1);
 
-  // Scroll handler — detects when the sticky sort bar locks to the top
+  // Rebuilt date sort bar scroll-driven fade from scratch using plain vanilla JS
   useEffect(() => {
     let rafId: number | null = null;
 
@@ -748,6 +748,47 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       rafId = null;
       const sortBar = sortBarRef.current;
       if (!sortBar) return;
+
+      const docEl = document.documentElement;
+      const bodyEl = document.body;
+      const scrollHeight = Math.max(docEl.scrollHeight, bodyEl ? bodyEl.scrollHeight : 0);
+      const clientHeight = window.innerHeight || docEl.clientHeight;
+      const currentScrollPosition = window.scrollY || docEl.scrollTop || (bodyEl ? bodyEl.scrollTop : 0) || 0;
+
+      const maxScroll = Math.max(0, scrollHeight - clientHeight);
+      const docDistanceFromBottom = maxScroll - currentScrollPosition;
+
+      // Track distance to bottom of tour list container specifically
+      const container = tableRef.current;
+      const containerBottom = container ? container.getBoundingClientRect().bottom : 9999;
+      const stickyBarTop = 88;
+      const sortBarHeight = sortBar.offsetHeight || 50;
+      const tourListRemaining = containerBottom - (stickyBarTop + sortBarHeight);
+
+      // Distance remaining before reaching the end of scrollable area
+      // (whichever comes first: bottom of tour list table reaching sticky bar, or document bottom)
+      const distanceRemaining = Math.min(docDistanceFromBottom, tourListRemaining);
+
+      // Hard-clamp:
+      // distanceRemaining >= 130 -> opacity = 1
+      // distanceRemaining <= 0   -> opacity = 0 (stays 0 through negative/overscroll values)
+      // 0..130                   -> linear transition distanceRemaining / 130
+      const opacity = Math.max(0, Math.min(1, distanceRemaining / 130));
+      sortBarOpacityRef.current = opacity;
+
+      // Diagnostic logging on every scroll tick for verification
+      console.log("[TourSortBar Scroll]", {
+        scrollTop: Math.round(currentScrollPosition),
+        maxScroll: Math.round(maxScroll),
+        docDist: Math.round(docDistanceFromBottom),
+        tourListDist: Math.round(tourListRemaining),
+        distanceRemaining: Math.round(distanceRemaining),
+        opacity: opacity.toFixed(3),
+      });
+
+      // Direct DOM style application
+      sortBar.style.opacity = String(opacity);
+      sortBar.style.pointerEvents = opacity > 0.05 ? "auto" : "none";
 
       // Detect when sticky sort bar locks in via sentinel
       const sentinel = sentinelRef.current;
@@ -791,7 +832,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       if (l) {
         try {
           l.off("scroll", handleScrollOrResize);
-        } catch {}
+        } catch { }
       }
       document.documentElement.classList.remove("tour-sort-stuck");
     };
@@ -1021,8 +1062,8 @@ ${filterLine}
     `}} />
 
       {/* Table */}
-      <section className="py-0 relative z-50" ref={tableRef} id="tour-table-container">
-        <div className="w-full px-6 relative">
+      <section className="py-0 relative" ref={tableRef} id="tour-table-container">
+        <div className="w-full px-6 relative site-container">
 
           {!hideMap && (
             <div
@@ -1167,14 +1208,9 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          {/* Spacer that reserves layout space when bar is fixed */}
+          {/* Layout spacer: prevents row-list jump when sort bar lifts to position:fixed */}
           {isSortBarStuck && <div className="hidden lg:block h-[57px]" aria-hidden="true" />}
-          <div
-            id="tour-sort-bar"
-            ref={sortBarRef}
-            style={isSortBarStuck ? { position: 'fixed', top: '80px', left: 0, right: 0, zIndex: 9999 } : {}}
-            className={`${isSortBarStuck ? 'fixed' : 'sticky top-[80px]'} hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/95 backdrop-blur-2xl border-b border-purple-500/30 px-6 shadow-[0_8px_32px_rgba(0,0,0,0.9)]' : 'bg-transparent border-0'} items-center text-white transition-all duration-200 transform-gpu`}
-          >
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-40 hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown
@@ -1296,9 +1332,8 @@ ${filterLine}
                                   rel="noopener noreferrer"
                                   title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
                                   style={{ color: cfg.color }}
-                                  className={`flex items-center justify-center p-1 transition-opacity ${
-                                    hasExplicitMap ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
-                                  }`}
+                                  className={`flex items-center justify-center p-1 transition-opacity ${hasExplicitMap ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
+                                    }`}
                                 >
                                   <MapPin className="w-5.5 h-5.5" />
                                 </a>
@@ -1322,9 +1357,8 @@ ${filterLine}
                                       : "Search Parking (Parking info not added)"
                                   }
                                   style={{ color: cfg.color }}
-                                  className={`flex items-center justify-center p-1 transition-opacity ${
-                                    hasExplicitParking ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
-                                  }`}
+                                  className={`flex items-center justify-center p-1 transition-opacity ${hasExplicitParking ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
+                                    }`}
                                 >
                                   <Car className="w-5.5 h-5.5" />
                                 </a>
@@ -1494,9 +1528,8 @@ ${filterLine}
                               rel="noopener noreferrer"
                               title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
                               style={{ backgroundColor: cfg.color }}
-                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${
-                                hasExplicitMap ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
-                              }`}
+                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${hasExplicitMap ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
+                                }`}
                             >
                               <MapPin className="w-4 h-4" />
                             </a>
@@ -1520,9 +1553,8 @@ ${filterLine}
                                   : "Search Parking (Parking info not added)"
                               }
                               style={{ backgroundColor: cfg.color }}
-                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${
-                                hasExplicitParking ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
-                              }`}
+                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${hasExplicitParking ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
+                                }`}
                             >
                               <Car className="w-4 h-4" />
                             </a>

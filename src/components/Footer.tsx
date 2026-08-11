@@ -102,22 +102,15 @@ export function Footer() {
 
   return (
     <footer
-      className="relative sticky bottom-0 z-0 bg-[#050508] text-[var(--text-color)] pt-12 pb-8 overflow-hidden group/footer"
+      className="relative text-[var(--text-color)] pt-8 pb-6 overflow-hidden"
       id="footer"
       suppressHydrationWarning
       style={{
         opacity: isCovered ? 0 : 1,
         pointerEvents: isCovered ? 'none' : 'auto',
         transition: 'opacity 0.15s ease',
-        maskImage: 'linear-gradient(to bottom, transparent 0px, black 16px, black 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 16px, black 100%)',
       }}
     >
-      {/* ── GRAZING MASK & AMBIENT LASER BEAM OVERLAY ── */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-500/80 via-pink-500/90 to-transparent z-30 shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
-      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[85%] h-44 bg-gradient-to-b from-purple-600/20 via-pink-600/5 to-transparent blur-3xl pointer-events-none z-0" />
-      <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-purple-950/40 via-transparent to-transparent pointer-events-none z-0" />
-
       <div className="site-container relative z-10">
 
         {/* Book The Band — Bold CTA (Planner only) */}

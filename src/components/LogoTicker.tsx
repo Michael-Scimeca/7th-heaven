@@ -88,7 +88,7 @@ export default function LogoTicker({
   speedSec: initialSpeedSec = 38,
   bgClassName = "bg-transparent",
   direction = "left",
-  showControls = false,
+  showControls = true,
 }: {
   items?: TickerItem[];
   speedSec?: number;
@@ -160,9 +160,8 @@ export default function LogoTicker({
                   alt={item.alt ?? ""}
                   width={0}
                   height={0}
-                  className={`w-auto object-contain transition-[height,filter] duration-150 ${
-                    config.invert ? "hoy-ticker-logo" : ""
-                  }`}
+                  className={`w-auto object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
+                    }`}
                   style={{ height: `${config.logoHeight}px`, width: "auto" }}
                   unoptimized
                 />
@@ -327,11 +326,10 @@ export default function LogoTicker({
                   <button
                     type="button"
                     onClick={() => setConfig((prev) => ({ ...prev, invert: !prev.invert }))}
-                    className={`px-3 py-1 rounded-full text-[10px] font-mono font-extrabold uppercase transition-all cursor-pointer ${
-                      config.invert
+                    className={`px-3 py-1 rounded-full text-[10px] font-mono font-extrabold uppercase transition-all cursor-pointer ${config.invert
                         ? "bg-purple-600 text-white shadow-md shadow-purple-600/40"
                         : "bg-white/10 text-white/50 border border-white/10"
-                    }`}
+                      }`}
                   >
                     {config.invert ? "White Enabled" : "Original Colors"}
                   </button>
