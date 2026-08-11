@@ -224,7 +224,7 @@ export default function FanUploadForm() {
   };
 
   return (
-    <div className="border border-[var(--border-color)] bg-[var(--card-bg)] p-6 lg:p-8 shadow-md text-[var(--text-color)] rounded-2xl">
+    <div className="text-[var(--text-color)]">
       <div className="flex items-center gap-3 mb-6">
         <span className="w-10 h-10 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/50 flex flex-col items-center justify-center text-[var(--color-accent)]">📸</span>
         <div>
