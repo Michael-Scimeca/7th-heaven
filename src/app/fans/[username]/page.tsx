@@ -1089,7 +1089,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-2 space-y-0">
 
                 {/* Tour Memories Gallery & Upload */}
-                <div className="space-y-6 pt-4 border-t border-black/10">
+                <div className="space-y-6 pt-4 border-t border-black/10 pr-8">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-2xl font-black italic tracking-tight">Tour Memories</h3>
                     <Link href="/fan-photo-wall" className="text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Global Fan Wall →</Link>
