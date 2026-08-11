@@ -477,25 +477,6 @@ div:has(> textarea:focus):not(.no-glow):not([class*="glow-border"])::after {
   opacity: 1;
 }
 
-/* Purple dot indicator ::before */
-div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"])):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::before,
-div:has(> select):not(.no-glow):not([class*="glow-border"])::before {
-  content: "";
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
-  width: 6px;
-  height: 6px;
-  background-color: #c084fc;
-  border-radius: 9999px;
-  box-shadow: 0 0 8px #c084fc, 0 0 12px #a855f7;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 30;
-}
-
 div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::before,
 div:has(> select:focus):not(.no-glow):not([class*="glow-border"])::before {
   transform: translateX(-50%) scale(1);
