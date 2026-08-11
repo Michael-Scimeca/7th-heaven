@@ -2686,7 +2686,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
                         placeholder="Type a message... use @admin to ask a question"
                         maxLength={200}
-                        className="w-full bg-white/10 border border-white/20 pl-3.5 pr-28 py-2.5 text-xs text-white font-medium outline-none focus:border-[#c084fc] focus:bg-white/15 transition-colors placeholder:text-white/40 placeholder:text-[9px] shadow-sm rounded-lg"
+                        className="w-full bg-white/5 border-y border-white/20 pl-3.5 pr-28 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40"
                       />
                       <div className="absolute right-1.5 flex items-center gap-1">
                         <button aria-label="Action button"
@@ -2705,7 +2705,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         <button aria-label="Action button"
                           type="submit"
                           disabled={!userMessage.trim()}
-                          className="w-7 h-7 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)] text-white flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(138,28,252,0.3)] disabled:opacity-30 disabled:hover:bg-[var(--color-accent)] cursor-pointer"
+                          className="w-7 h-7 rounded-lg bg-purple-700/50 hover:bg-purple-600/70 text-purple-300 flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30 disabled:hover:bg-purple-700/50 cursor-pointer"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                         </button>
