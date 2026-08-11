@@ -314,30 +314,22 @@ export default function MediaPage() {
       {featuredVideo && (
         <section className="relative overflow-hidden h-screen w-full mb-12">
           <div className="absolute inset-0">
-            {heroPlaying ? (
-              <div className="absolute inset-0 w-full h-full">
-                <CustomVideoPlayer videoId={featuredVideo.id} title={featuredVideo.title} onClose={() => setHeroPlaying(false)} />
+            <Image width={200} height={200} unoptimized
+              src={thumbMax(featuredVideo.id)}
+              alt="7th Heaven Media"
+              className="w-full h-full object-cover"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
+            <button onClick={() => setHeroPlaying(true)}
+              className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
+              aria-label="Play featured video"
+            >
+              <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-colors duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
               </div>
-            ) : (
-              <>
-                <Image width={200} height={200} unoptimized
-                  src={thumbMax(featuredVideo.id)}
-                  alt="7th Heaven Media"
-                  className="w-full h-full object-cover"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = thumb(featuredVideo.id); }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/80 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
-                <button onClick={() => setHeroPlaying(true)}
-                  className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer group/play"
-                  aria-label="Play featured video"
-                >
-                  <div className="w-24 h-24 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover/play:bg-[var(--color-accent)] group-hover/play:scale-110 transition-colors duration-300 shadow-[0_0_60px_rgba(255,10,61,0.8)]">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="white" className="ml-1.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                  </div>
-                </button>
-              </>
-            )}
+            </button>
           </div>
 
           {!heroPlaying && (
@@ -560,9 +552,21 @@ export default function MediaPage() {
               })}
             </div>
           </div>
-
         </div>
       </div>
+
+      {/* ── FULL CINEMA CUSTOM YOUTUBE VIDEO PLAYER OVERLAY (Above Header) ── */}
+      {heroPlaying && featuredVideo && (
+        <div className="fixed inset-0 z-[999999] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 animate-[fadeIn_0.2s_ease-out]">
+          <div className="relative w-full max-w-6xl aspect-video rounded-2xl overflow-hidden shadow-[0_0_100px_rgba(147,51,234,0.5)] border border-purple-500/40 bg-black">
+            <CustomVideoPlayer
+              videoId={featuredVideo.id}
+              title={featuredVideo.title}
+              onClose={() => setHeroPlaying(false)}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Toast Notification */}
       {toastMessage && (
