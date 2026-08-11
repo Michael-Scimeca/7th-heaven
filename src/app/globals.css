@@ -433,7 +433,8 @@ select option {
 html.tour-sort-stuck #tour-sort-bar {
   /* position:fixed escapes ALL parent stacking contexts — z-9999 now beats header z-50 at root level */
   position: fixed !important;
-  top: 80px !important;
+  /* top must exactly match the sticky top-[88px] value to avoid any visual jump on transition */
+  top: 88px !important;
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
