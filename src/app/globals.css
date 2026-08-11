@@ -303,11 +303,7 @@ textarea:focus-visible,
 .form-input-purple-focus:focus,
 .form-input-purple-focus:focus-within,
 .form-input-purple-focus:focus-visible {
-  border-color: #a855f7 !important;
-  box-shadow:
-    0 0 0 2px rgba(168, 85, 247, 0.35),
-    0 0 20px rgba(168, 85, 247, 0.5),
-    inset 0 0 10px rgba(168, 85, 247, 0.12) !important;
+
   outline: none !important;
   background: rgba(168, 85, 247, 0.08) !important;
   transition: all 0.2s ease-in-out !important;
@@ -436,6 +432,77 @@ textarea:focus-visible,
   }
 }
 
+/* =============================================
+   AUTO GLOW BORDER — universal input wrapper
+   Any div/label that DIRECTLY wraps an input,
+   select, or textarea gets the same spinning ring
+   as .input-glow-border, with zero extra markup.
+   Add .no-glow to opt out.
+   ============================================= */
+
+/* Wrapper setup */
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"])):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"]),
+div:has(> select):not(.no-glow):not([class*="glow-border"]),
+div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Spinning ring ::after */
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"])):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
+div:has(> select):not(.no-glow):not([class*="glow-border"])::after,
+div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
+  filter: blur(2px);
+  animation: border-angle-spin 5s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* Reveal on focus-within or hover */
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):hover):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
+div:has(> select:focus):not(.no-glow):not([class*="glow-border"])::after,
+div:has(> select:hover):not(.no-glow):not([class*="glow-border"])::after,
+div:has(> textarea:focus):not(.no-glow):not([class*="glow-border"])::after {
+  opacity: 1;
+}
+
+/* Purple dot indicator ::before */
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"])):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::before,
+div:has(> select):not(.no-glow):not([class*="glow-border"])::before {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 6px;
+  height: 6px;
+  background-color: #c084fc;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px #c084fc, 0 0 12px #a855f7;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::before,
+div:has(> select:focus):not(.no-glow):not([class*="glow-border"])::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+
 select option {
   background-color: #0c0d12 !important;
   color: #ffffff !important;
@@ -457,6 +524,7 @@ footer#footer {
   z-index: -1;
   /* mask-image is set dynamically in Footer.tsx scroll handler */
 }
+
 #page-content-wrapper::after {
   content: '';
   display: block;

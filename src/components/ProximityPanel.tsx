@@ -4,6 +4,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import { GlowInput, GlowSelect } from "@/components/GlowInput";
 import { useMember } from "@/context/MemberContext";
 
 interface NearbyShow {
@@ -185,28 +186,29 @@ export default function ProximityPanel() {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
             <label htmlFor="proximity-zip-input" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Your Zip Code</label>
-            <input aria-label="Input field"
+            <GlowInput
               id="proximity-zip-input"
+              aria-label="Your zip code"
               type="text"
               maxLength={5}
               placeholder="60601"
               value={zip}
               onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
-              className="w-full bg-white/5 border border-white/15 rounded-xl text-white text-sm font-mono px-4 py-3 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 shadow-[0_0_15px_rgba(168,85,247,0.15)] focus:shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all placeholder:text-white/30"
+              className="font-mono"
             />
           </div>
           <div>
             <label htmlFor="proximity-radius-select" className="text-xs uppercase tracking-widest font-bold text-white/60 mb-2 block">Radius</label>
-            <select aria-label="Select option"
+            <GlowSelect
               id="proximity-radius-select"
+              aria-label="Radius"
               value={radius}
               onChange={e => setRadius(Number(e.target.value))}
-              className="w-full bg-white/5 border border-white/15 rounded-xl text-white text-sm px-4 py-3 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 shadow-[0_0_15px_rgba(168,85,247,0.15)] focus:shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all appearance-none cursor-pointer"
             >
               {RADIUS_OPTIONS.map(r => (
                 <option key={r} value={r} className="bg-[#0f0921] text-white">{r} miles</option>
               ))}
-            </select>
+            </GlowSelect>
           </div>
         </div>
 
