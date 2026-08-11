@@ -328,33 +328,35 @@ export default function FanUploadForm() {
               <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label htmlFor="fan-upload-venue" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Venue / Event <span className=" text-[var(--color-accent)]">*</span></label>
-                  <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
-                    className="w-full bg-white/5 !border-0 !border-none !outline-none !rounded-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
-                    style={{ border: '0', outline: 'none', borderRadius: 0 }}
-                  />
+                  <div>
+                    <input aria-label="Input field" id="fan-upload-venue" type="text" name="venue" placeholder="e.g. Durty Nellies" required
+                      className="w-full bg-white/5 !border-0 !border-none !outline-none !rounded-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      style={{ border: '0', outline: 'none', borderRadius: 0 }}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="fan-upload-date" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Date <span className=" text-[var(--color-accent)]">*</span></label>
-                  <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
-                    className="w-full bg-white/5 !border-0 !border-none !outline-none !rounded-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
-                    style={{ border: '0', outline: 'none', borderRadius: 0 }}
-                  />
+                  <div>
+                    <input aria-label="Input field" id="fan-upload-date" type="date" name="date" required
+                      className="w-full bg-white/5 !border-0 !border-none !outline-none !rounded-none px-4 py-2.5 text-sm text-white focus:ring-1 focus:ring-[var(--color-accent)] transition-all [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none cursor-pointer"
+                      style={{ border: '0', outline: 'none', borderRadius: 0 }}
+                    />
+                  </div>
                 </div>
                 <div className="md:col-span-2">
                   <label htmlFor="fan-upload-caption" className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--muted-text)] block mb-1.5 px-1">Caption</label>
-                  <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
-                    className="w-full bg-white/5 !border-0 !border-none !outline-none !rounded-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
-                    style={{ border: '0', outline: 'none', borderRadius: 0 }}
-                  />
+                  <div>
+                    <input aria-label="Input field" id="fan-upload-caption" type="text" name="caption" placeholder="Short description..."
+                      className="w-full bg-white/5 !border-0 !border-none !outline-none !rounded-none px-4 py-2.5 text-sm text-white placeholder:text-white/40 focus:ring-1 focus:ring-[var(--color-accent)] transition-all"
+                      style={{ border: '0', outline: 'none', borderRadius: 0 }}
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-start gap-2 mt-1 px-1">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40 mt-0.5 shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                <p className="text-xs text-[var(--muted-text)] leading-relaxed">
-                  By uploading, you grant 7th Heaven a perpetual, royalty-free, worldwide license to use, reproduce, modify, and display your submitted photo(s) for promotional, social media, and commercial purposes. You confirm you own the rights to the image or have permission from the rights holder.
-                </p>
-              </div>
+
+
 
               <button aria-label="Action button"
                 type={isLoggedIn ? "submit" : "button"}
