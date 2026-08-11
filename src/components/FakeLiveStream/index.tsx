@@ -2713,9 +2713,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     </form>
 
                     {/* Chat Rules Helper Text */}
-                    <div className="flex items-center justify-between text-[10px] font-bold !text-gray-700 uppercase tracking-wider mt-2 px-1">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-white uppercase tracking-wider mt-2 px-1">
                       <span>KEEP IT RATED PG-13 · NO POLITICS</span>
-                      <span className="!text-gray-700 font-bold lowercase tracking-normal">tag @admin for help</span>
+                      <span className="text-white font-bold lowercase tracking-normal">tag @admin for help</span>
                     </div>
                   </div>
                 </>
