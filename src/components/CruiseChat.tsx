@@ -645,7 +645,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         />
       </div>
 
-      <div className="border-t border-white/10 relative shrink-0">
+      <div className="relative shrink-0">
         {showTagMenu && (
           <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0f0e1d] border border-cyan-500/40 p-2 z-30 animate-[slideUp_0.15s_ease-out]">
             <div className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400px-2 py-1 flex items-center justify-between">
@@ -744,7 +744,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                 <button aria-label="Action button"
                   type="submit"
                   disabled={!newMessage.trim() || !member || isSending || member.is_banned}
-                  className="w-7 h-7 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(8,145,178,0.3)] disabled:opacity-30 disabled:hover:bg-cyan-600 cursor-pointer"
+                  className="w-7 h-7 rounded-lg bg-purple-700/50 hover:bg-purple-600/70 text-purple-300 flex items-center justify-center transition-colors shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30 disabled:hover:bg-purple-700/50 cursor-pointer"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                 </button>
