@@ -6,6 +6,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase-client";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
+import SearchInput from "@/components/SearchInput";
 
 const MEMBER_SEEDS: Record<string, { id: string; name: string; email: string; avatar: string; role: string }> = {
   sammy: { id: "sammy", name: "Sammy D", email: "sammy@7thheaven.com", avatar: "SD", role: "Vocalist" },
@@ -602,11 +603,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                   {/* Search */}
                   <div className="flex items-center gap-2 flex-wrap">
-                    <input aria-label="Search"
+                    <SearchInput
                       value={search}
-                      onChange={e => setSearch(e.target.value)}
+                      onChange={setSearch}
                       placeholder="Search messages…"
-                      className="bg-[var(--color-bg-surface)] border border-white/[0.08] rounded-lg px-3 py-1.5 text-xs text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)]/40 w-44"
+                      containerClassName="max-w-[300px]"
+                      ariaLabel="Search messages"
                     />
                     <select aria-label="Select option"
                       value={roleFilter}

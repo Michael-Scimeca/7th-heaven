@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import SearchInput from "@/components/SearchInput";
 
 const PICK_TYPES = [
   { id: "purple", name: "Classic Purple", rarity: "Common", color: "#a855f7", chance: "60%" },
@@ -184,13 +185,12 @@ export default function AwardPicksPanel() {
         <label htmlFor="search-fan-input" className="text-xs uppercase tracking-[0.15em] text-white/40 mb-2 block">
           Select Fan {selectedFan && <span className=" text-[var(--color-accent)]">→ {selectedFan.full_name || selectedFan.email}</span>}
         </label>
-        <input aria-label="Search"
+        <SearchInput
           id="search-fan-input"
-          type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={setSearch}
           placeholder="Search by name, email, or username..."
-          className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 text-sm text-white placeholder:text-white/20 outline-none focus:border-[var(--color-accent)] transition-colors rounded-lg mb-3"
+          containerClassName="max-w-[300px] mb-3"
         />
 
         <div className="max-h-48 overflow-y-auto border border-white/5 rounded-lg">

@@ -416,7 +416,7 @@ export default function MediaPage() {
               value={searchQuery}
               onChange={setSearchQuery}
               placeholder="SEARCH MEDIA..."
-              width="280px"
+              containerClassName="max-w-[300px]"
             />
             <button
               onClick={() => setIsAddModalOpen(true)}

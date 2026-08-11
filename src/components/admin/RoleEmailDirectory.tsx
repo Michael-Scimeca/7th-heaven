@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import SearchInput from "@/components/SearchInput";
 
 export interface RoleUser {
   id: string;
@@ -187,21 +188,13 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       </div>
 
       {/* Global Search Bar (Max 300px) */}
-      <div className="input-glow-border rounded-xl max-w-[300px] w-full">
-        <div className="relative w-full flex items-center bg-white/5 border border-white/10 rounded-xl transition-colors">
-          <svg className="absolute left-3 w-3.5 h-3.5 text-white/50 pointer-events-none z-10" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input aria-label="Search email directory"
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search email directory by name or email..."
-            className="w-full text-xs font-semibold pl-8 pr-3 py-2 bg-transparent border-none outline-none text-white placeholder:text-white/40"
-          />
-        </div>
-      </div>
+      <SearchInput
+        value={search}
+        onChange={setSearch}
+        placeholder="Search email directory by name or email..."
+        containerClassName="max-w-[300px]"
+        ariaLabel="Search email directory"
+      />
 
       {/* Email Table */}
       <div className="border-none overflow-hidden bg-transparent">
