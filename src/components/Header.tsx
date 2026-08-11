@@ -210,13 +210,9 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-colors duration-300 pointer-events-none pt-2 ${scrolled
-        ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
+        ? "bg-[#050508]/85 backdrop-blur-md border-b border-white/10 text-[var(--text-color)] shadow-2xl"
         : "bg-transparent text-white"
         }`}
-      style={{
-        maskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))",
-        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))"
-      }}
       suppressHydrationWarning
     >
       <div className="w-full max-w-full site-container">
