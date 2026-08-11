@@ -740,7 +740,7 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
   const isStuckRef = useRef(false);
   const sortBarOpacityRef = useRef(1);
 
-  // Rebuilt date sort bar scroll-driven fade from scratch using plain vanilla JS
+  // Scroll handler — detects when the sticky sort bar locks to the top
   useEffect(() => {
     let rafId: number | null = null;
 
@@ -748,47 +748,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       rafId = null;
       const sortBar = sortBarRef.current;
       if (!sortBar) return;
-
-      const docEl = document.documentElement;
-      const bodyEl = document.body;
-      const scrollHeight = Math.max(docEl.scrollHeight, bodyEl ? bodyEl.scrollHeight : 0);
-      const clientHeight = window.innerHeight || docEl.clientHeight;
-      const currentScrollPosition = window.scrollY || docEl.scrollTop || (bodyEl ? bodyEl.scrollTop : 0) || 0;
-
-      const maxScroll = Math.max(0, scrollHeight - clientHeight);
-      const docDistanceFromBottom = maxScroll - currentScrollPosition;
-
-      // Track distance to bottom of tour list container specifically
-      const container = tableRef.current;
-      const containerBottom = container ? container.getBoundingClientRect().bottom : 9999;
-      const stickyBarTop = 88;
-      const sortBarHeight = sortBar.offsetHeight || 50;
-      const tourListRemaining = containerBottom - (stickyBarTop + sortBarHeight);
-
-      // Distance remaining before reaching the end of scrollable area
-      // (whichever comes first: bottom of tour list table reaching sticky bar, or document bottom)
-      const distanceRemaining = Math.min(docDistanceFromBottom, tourListRemaining);
-
-      // Hard-clamp:
-      // distanceRemaining >= 130 -> opacity = 1
-      // distanceRemaining <= 0   -> opacity = 0 (stays 0 through negative/overscroll values)
-      // 0..130                   -> linear transition distanceRemaining / 130
-      const opacity = Math.max(0, Math.min(1, distanceRemaining / 130));
-      sortBarOpacityRef.current = opacity;
-
-      // Diagnostic logging on every scroll tick for verification
-      console.log("[TourSortBar Scroll]", {
-        scrollTop: Math.round(currentScrollPosition),
-        maxScroll: Math.round(maxScroll),
-        docDist: Math.round(docDistanceFromBottom),
-        tourListDist: Math.round(tourListRemaining),
-        distanceRemaining: Math.round(distanceRemaining),
-        opacity: opacity.toFixed(3),
-      });
-
-      // Direct DOM style application
-      sortBar.style.opacity = String(opacity);
-      sortBar.style.pointerEvents = opacity > 0.05 ? "auto" : "none";
 
       // Detect when sticky sort bar locks in via sentinel
       const sentinel = sentinelRef.current;
