@@ -430,19 +430,11 @@ select option {
   transition: opacity 0.05s linear;
 }
 
-html.tour-sort-stuck #tour-sort-bar {
-  /* position:fixed escapes ALL parent stacking contexts — z-9999 now beats header z-50 at root level */
-  position: fixed !important;
-  /* top must exactly match the sticky top-[88px] value to avoid any visual jump on transition */
-  top: 88px !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  z-index: 9999 !important;
-  /* Align grid columns with site-container content — not a padding class */
-  padding-left: var(--page-padding-x) !important;
-  padding-right: var(--page-padding-x) !important;
-}
+/* html.tour-sort-stuck #tour-sort-bar: no position override needed.
+   Sort bar remains sticky top-[88px] z-[60] always.
+   z-[60] > header z-50 at ROOT context because page-content-wrapper (the only ancestor
+   that created a stacking context via z-10) has had z-10 removed — position:relative alone
+   does NOT create a stacking context. */
 
 #media-category-bar {
   position: sticky !important;

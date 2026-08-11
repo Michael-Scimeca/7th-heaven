@@ -198,7 +198,7 @@ export default async function RootLayout({
             <Providers>
               <ScrollToTop />
               <SmoothScroll>
-                <div id="page-content-wrapper" className="flex flex-col min-h-screen relative z-10">
+                <div id="page-content-wrapper" className="flex flex-col min-h-screen relative">
                   <Header />
                   {/* content-area class + CSS guarantees min-height: 100svh so footer
                       can NEVER appear before page content loads */}
