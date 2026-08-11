@@ -1062,7 +1062,7 @@ ${filterLine}
     `}} />
 
       {/* Table */}
-      <section className="py-0 relative" ref={tableRef} id="tour-table-container">
+      <section className="py-0 relative z-50" ref={tableRef} id="tour-table-container">
         <div className="w-full px-6 relative">
 
           {!hideMap && (
@@ -1208,7 +1208,7 @@ ${filterLine}
 
           {/* Sentinel — detects when sticky sort bar locks in */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} className={`sticky top-[80px] z-[100] hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#0a0518]/95 backdrop-blur-2xl border border-purple-500/50 rounded-2xl px-5 shadow-[0_20px_60px_rgba(0,0,0,0.95)]' : 'bg-transparent border-0'} items-center text-white transition-all duration-200 transform-gpu isolate`}>
+          <div id="tour-sort-bar" ref={sortBarRef} className={`sticky top-[80px] z-[9999] hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#0a0518]/95 backdrop-blur-2xl border border-purple-500/50 rounded-2xl px-5 shadow-[0_20px_60px_rgba(0,0,0,0.95)]' : 'bg-transparent border-0'} items-center text-white transition-all duration-200 transform-gpu isolate`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown

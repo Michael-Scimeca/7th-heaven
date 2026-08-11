@@ -210,9 +210,13 @@ export function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-colors duration-300 pointer-events-none pt-2 ${scrolled
-        ? "bg-[#050508]/85 backdrop-blur-md border-b border-white/10 text-[var(--text-color)] shadow-2xl"
+        ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}
+      style={{
+        maskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))",
+        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%))"
+      }}
       suppressHydrationWarning
     >
       <div className="w-full max-w-full site-container">
@@ -231,8 +235,8 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                      ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                      : "text-white/80 hover:text-white"
+                    ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                    : "text-white/80 hover:text-white"
                     }`}
                 >
                   {link.label}
@@ -244,8 +248,8 @@ export function Header() {
             <Link
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                  : "text-white/80 hover:text-white"
+                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               {hasLiveStreams && (
@@ -288,8 +292,8 @@ export function Header() {
             <Link
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
-                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                  : "text-white/80 hover:text-white"
+                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               CRUISE
@@ -300,8 +304,8 @@ export function Header() {
             <Link
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
-                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                  : "text-white/80 hover:text-white"
+                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               BOOK US
@@ -311,8 +315,8 @@ export function Header() {
             <Link
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
-                  ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                  : "text-white/80 hover:text-white"
+                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               CONTACT
