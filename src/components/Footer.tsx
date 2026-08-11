@@ -10,6 +10,7 @@ import { useMember } from "@/context/MemberContext";
 import { useState, useEffect, useCallback } from "react";
 import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import FooterPicks from "@/components/FooterPicks";
 
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
@@ -112,6 +113,9 @@ export function Footer() {
         zIndex: -1,
       }}
     >
+      <FooterPicks />
+
+      <div className="relative z-10">
       <div className="site-container relative z-10">
 
         {/* Book The Band — Bold CTA (Planner only) */}
@@ -291,6 +295,7 @@ export function Footer() {
         <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>
+      </div>
       </div>
     </footer>
   );

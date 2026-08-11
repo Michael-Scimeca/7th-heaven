@@ -776,16 +776,6 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
       const opacity = Math.max(0, Math.min(1, distanceRemaining / 130));
       sortBarOpacityRef.current = opacity;
 
-      // Diagnostic logging on every scroll tick for verification
-      console.log("[TourSortBar Scroll]", {
-        scrollTop: Math.round(currentScrollPosition),
-        maxScroll: Math.round(maxScroll),
-        docDist: Math.round(docDistanceFromBottom),
-        tourListDist: Math.round(tourListRemaining),
-        distanceRemaining: Math.round(distanceRemaining),
-        opacity: opacity.toFixed(3),
-      });
-
       // Direct DOM style application
       sortBar.style.opacity = String(opacity);
       sortBar.style.pointerEvents = opacity > 0.05 ? "auto" : "none";
@@ -800,7 +790,11 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
         setIsSortBarStuck(isAboveSentinel);
       }
 
-      if (isAboveSentinel) {
+      // tour-sort-stuck drives the header's extended height + blur.
+      // Only apply it when the bar is BOTH stuck AND still visible (opacity > 0).
+      // When the bar fades out at the bottom of the list, remove the class so
+      // the header returns to its normal height — no extended blur with nothing to show.
+      if (isAboveSentinel && opacity > 0) {
         document.documentElement.classList.add("tour-sort-stuck");
       } else {
         document.documentElement.classList.remove("tour-sort-stuck");
@@ -1208,7 +1202,7 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-[60] hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#090514]/90 backdrop-blur-md border-0 rounded-2xl px-4 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-[60] hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck border-0 rounded-2xl shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative">
               <GooeyMessagesDropdown

@@ -469,6 +469,8 @@ header,
 header {
   mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;
   -webkit-mask-image: linear-gradient(to bottom, black 0%, black var(--header-mask-fade-start, 70%), transparent var(--header-mask-fade-end, 100%)) !important;
+  /* Smooth height collapse when tour-sort-stuck class is removed */
+  transition: height 0.3s ease !important;
 }
 
 /* Extend Header backdrop container down with backdrop blur & bottom gradient mask when tour sort bar or media category bar is stuck */
