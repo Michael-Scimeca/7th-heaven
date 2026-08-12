@@ -218,8 +218,8 @@ export default function VerifyPage() {
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
         <p className="text-xs font-black uppercase tracking-[0.3em]  text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
-        <h1 className="text-white font-black text-2xl uppercase tracking-widest">Raffle Verifier</h1>
-        <p className="text-white/30 text-xs mt-1">Enter the fan's PIN to verify their win</p>
+        <h1 className="text-white font-black text-2xl uppercase tracking-widest">Crew PIN Verification</h1>
+        <p className="text-white/30 text-xs mt-1">Enter your 6-digit PIN to verify crew access</p>
       </div>
 
       <div className="w-full max-w-sm relative z-10">
@@ -327,7 +327,7 @@ export default function VerifyPage() {
             </div>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="text-white/40 text-sm mb-5">
-              This PIN doesn't match any raffle winner. Ask the fan to show the email or claim page.
+              This PIN doesn't match any crew access code. Please check your PIN and try again.
             </p>
             <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
               Try Again
