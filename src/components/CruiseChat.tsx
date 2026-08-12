@@ -505,7 +505,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
                     className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black shrink-0 ring-1"
                     style={{
                       background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
-                      ringColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
+                      borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
                       color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : '#fff',
                     }}
                   >
