@@ -1024,6 +1024,197 @@ export default function StyleGuidePage() {
               </div>
             </div>
 
+            {/* Auth Modal Modules */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Auth Modal Modules (Sign In · Sign Up)</h3>
+              <p className="text-[10px] text-white/40">Full glassmorphism authentication modal cards as used in <code className="text-purple-300 font-mono">LoginModal.tsx</code> for fan and member login/signup.</p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {/* ── Sign In Modal Card ── */}
+                <div className="flex flex-col items-center">
+                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Auth</p>
+                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Sign In Modal</h4>
+                  <p className="text-white/30 text-[10px] mb-4">Existing member login interface</p>
+                  <div
+                    className="rounded-3xl p-6 w-full no-glow relative"
+                    style={{
+                      background: "rgba(18, 10, 34, 0.85)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                    }}
+                  >
+                    {/* Close Button */}
+                    <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/60 text-xs cursor-pointer hover:bg-white/20 transition">✕</div>
+
+                    {/* Logo Header */}
+                    <div className="text-center mb-5">
+                      <h2 className="text-2xl font-black tracking-tighter uppercase italic text-white">
+                        <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
+                      </h2>
+                      <div className="text-xs uppercase tracking-[0.18em] font-black text-[var(--color-accent)] mt-1">
+                        SIGN IN TO YOUR ACCOUNT
+                      </div>
+                    </div>
+
+                    {/* Mode Tabs */}
+                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-lg mb-4 select-none">
+                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
+                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white text-center">Sign In</button>
+                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white/60 text-center">Sign Up</button>
+                    </div>
+
+                    {/* Account Type */}
+                    <div className="flex items-center justify-between gap-2 my-4">
+                      <span className="text-xs uppercase font-extrabold tracking-[0.15em] text-white/80">ACCOUNT TYPE:</span>
+                      <div className="bg-[#242630] border border-white/10 px-3 py-1.5 rounded-2xl text-xs font-bold text-white flex items-center gap-2 cursor-pointer">
+                        FAN / VISITOR <span className="text-[10px]">▼</span>
+                      </div>
+                    </div>
+
+                    {/* Form Fields */}
+                    <div className="space-y-3 mb-4">
+                      <div>
+                        <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
+                        <div className="input-glow-border rounded-xl">
+                          <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
+                        <div className="input-glow-border rounded-xl">
+                          <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[11px] font-bold text-purple-300 hover:underline cursor-pointer">Forgot Password?</span>
+                      </div>
+                    </div>
+
+                    {/* Submit CTA */}
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 font-black text-xs uppercase tracking-widest rounded-lg mb-4 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                      SIGN IN
+                    </button>
+
+                    {/* Divider & Socials */}
+                    <div className="relative text-center my-4">
+                      <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
+                      <span className="relative bg-[#120a22] px-3 text-[9px] font-black uppercase tracking-widest text-white/40">OR CONTINUE WITH</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      <button className="py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white text-center hover:bg-white/10 transition">Google</button>
+                      <button className="py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white text-center hover:bg-white/10 transition">Facebook</button>
+                      <button className="py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white text-center hover:bg-white/10 transition">Apple</button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Sign Up Modal Card ── */}
+                <div className="flex flex-col items-center">
+                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Auth</p>
+                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Sign Up Modal</h4>
+                  <p className="text-white/30 text-[10px] mb-4">New fan registration interface</p>
+                  <div
+                    className="rounded-3xl p-6 w-full no-glow relative"
+                    style={{
+                      background: "rgba(18, 10, 34, 0.85)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                    }}
+                  >
+                    {/* Close Button */}
+                    <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/60 text-xs cursor-pointer hover:bg-white/20 transition">✕</div>
+
+                    {/* Logo Header */}
+                    <div className="text-center mb-5">
+                      <h2 className="text-2xl font-black tracking-tighter uppercase italic text-white">
+                        <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
+                      </h2>
+                      <div className="text-xs uppercase tracking-[0.18em] font-black text-[var(--color-accent)] mt-1 flex items-center justify-center gap-1 flex-wrap">
+                        SIGN UP FOR FREE <span className="text-xs font-black text-white bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
+                      </div>
+                    </div>
+
+                    {/* Mode Tabs */}
+                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-lg mb-4 select-none">
+                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] translate-x-full" />
+                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white/60 text-center">Sign In</button>
+                      <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white text-center">Sign Up</button>
+                    </div>
+
+                    {/* Account Type */}
+                    <div className="flex items-center justify-between gap-2 my-4">
+                      <span className="text-xs uppercase font-extrabold tracking-[0.15em] text-white/80">ACCOUNT TYPE:</span>
+                      <div className="bg-[#242630] border border-white/10 px-3 py-1.5 rounded-2xl text-xs font-bold text-white flex items-center gap-2 cursor-pointer">
+                        FAN / VISITOR <span className="text-[10px]">▼</span>
+                      </div>
+                    </div>
+
+                    {/* Form Fields */}
+                    <div className="space-y-3 mb-4">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                          <div className="input-glow-border rounded-xl">
+                            <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
+                          <div className="input-glow-border rounded-xl">
+                            <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3 pt-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-4 rounded-full bg-white/20 relative p-0.5"><div className="w-3 h-3 rounded-full bg-white" /></div>
+                          <span className="text-[10px] font-bold text-white/80">Show alerts near me</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-4 rounded-full bg-white/20 relative p-0.5"><div className="w-3 h-3 rounded-full bg-white" /></div>
+                          <span className="text-[10px] font-bold text-white/80">News & updates</span>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
+                          <div className="input-glow-border rounded-xl">
+                            <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
+                          <div className="input-glow-border rounded-xl">
+                            <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-1">
+                        <div className="w-8 h-4 rounded-full bg-white/20 relative p-0.5"><div className="w-3 h-3 rounded-full bg-white" /></div>
+                        <span className="text-[10px] font-bold text-white/80">I confirm that I am <strong className="text-purple-300">18 years of age or older</strong></span>
+                      </div>
+                    </div>
+
+                    {/* Submit CTA */}
+                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 font-black text-xs uppercase tracking-widest rounded-lg mb-2 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                      CREATE ACCOUNT
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             {/* Checkboxes & Radios */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
               <h3 className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Checkboxes & Radio Controls</h3>
