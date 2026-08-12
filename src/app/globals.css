@@ -383,9 +383,19 @@ textarea:focus-visible,
   opacity: 1;
 }
 
+.input-glow-border:has(textarea) {
+  display: block !important;
+  width: 100%;
+}
+
 .input-glow-border:has(textarea)::after {
   inset: -1.5px !important;
-  height: auto !important;
+}
+
+.input-glow-border:has(textarea) > textarea,
+div:has(> textarea) > textarea {
+  display: block !important;
+  vertical-align: bottom !important;
 }
 
 /* Universal auto-glow for textarea elements */
@@ -394,6 +404,7 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
   isolation: isolate;
   border-radius: 8px;
   width: 100%;
+  display: block;
 }
 
 div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
