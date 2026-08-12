@@ -1049,7 +1049,7 @@ function LoginModalBodyContent(props: any) {
 
             <button type="submit"
               disabled={loading}
-              className="w-full max-w-sm mx-auto block py-2.5 px-6 bg-[var(--color-accent)] text-white font-extrabold text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(124,0,255,0.4)]"
+              className="w-full py-3.5 px-6 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-xl text-white font-black text-xs sm:text-sm uppercase tracking-[0.15em] hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.4)]"
             >
               {loading
                 ? "Processing..."
