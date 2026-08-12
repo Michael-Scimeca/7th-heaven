@@ -162,6 +162,7 @@ export function Footer() {
         return {
           opacity: isCovered ? 0 : 1,
           pointerEvents: (isCovered || revealPct < 0.02) ? 'none' : 'auto',
+          zIndex: (isCovered || revealPct < 0.02) ? -1 : 1,
           maskImage: mask,
           WebkitMaskImage: mask,
         };
