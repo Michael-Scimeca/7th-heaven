@@ -39,7 +39,7 @@ function PlannerVerifyContent() {
   const emailParam = searchParams.get("email") || "";
 
   const [email, setEmail] = useState(emailParam);
-  const [step, setStep] = useState<"email" | "pin">(emailParam ? "pin" : "email");
+  const [step, setStep] = useState<"email" | "pin">("pin");
   const [digits, setDigits] = useState(["", "", "", "", "", ""]);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(0);
   const [status, setStatus] = useState<"idle" | "requesting" | "submitting" | "success" | "error">("idle");
@@ -182,7 +182,6 @@ function PlannerVerifyContent() {
         {renderBg()}
         <div style={CARD_STYLE}>
 
-          <div style={{ fontSize: 48, marginBottom: 16 }}>📋</div>
           <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>Planner Access</h1>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: "0 0 32px", lineHeight: 1.6 }}>
             Enter the email you used when booking 7th Heaven.
@@ -242,14 +241,15 @@ function PlannerVerifyContent() {
           </div>
         ) : (
           <>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>🔐</div>
-            <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>Enter Your PIN</h1>
-            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: "0 0 6px", lineHeight: 1.6 }}>
-              We sent a 6-digit code to:
+            <h1 style={{ color: "#fff", fontWeight: 900, fontSize: 26, margin: "0 0 8px" }}>PLANNER ACCESS PIN</h1>
+            <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, margin: email ? "0 0 6px" : "0 0 24px", lineHeight: 1.6 }}>
+              {email ? "We sent a 6-digit code to:" : "Enter your 6-digit PIN to access your Planner Dashboard"}
             </p>
-            <p style={{ color: "#a855f7", fontWeight: 700, fontSize: 14, margin: "0 0 32px", background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)", borderRadius: 8, padding: "6px 12px", display: "inline-block" }}>
-              {email}
-            </p>
+            {email && (
+              <p style={{ color: "#a855f7", fontWeight: 700, fontSize: 14, margin: "0 0 24px", background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)", borderRadius: 8, padding: "6px 12px", display: "inline-block" }}>
+                {email}
+              </p>
+            )}
 
             <form onSubmit={handleSubmit}>
               {/* 6 digit boxes */}
@@ -305,15 +305,25 @@ function PlannerVerifyContent() {
               </button>
             </form>
 
-            <button aria-label="Action button"
-              onClick={handleResend}
-              disabled={resendStatus !== "idle"}
-              style={{ background: "none", border: "none", color: resendStatus === "sent" ? "#34d399" : "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
-            >
-              {resendStatus === "sending" ? "Sending…" : resendStatus === "sent" ? "✓ New PIN sent!" : "Resend PIN"}
-            </button>
+            <div className="space-y-2 mt-4">
+              <button aria-label="Action button"
+                onClick={handleResend}
+                disabled={resendStatus !== "idle"}
+                style={{ background: "none", border: "none", color: resendStatus === "sent" ? "#34d399" : "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
+              >
+                {resendStatus === "sending" ? "Sending…" : resendStatus === "sent" ? "✓ New PIN sent!" : "Resend PIN"}
+              </button>
 
-            <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 24 }}>
+              <button aria-label="Action button"
+                type="button"
+                onClick={() => setStep("email")}
+                style={{ display: "block", margin: "8px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}
+              >
+                Need a PIN sent to your email?
+              </button>
+            </div>
+
+            <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 20 }}>
               ⏰ PIN expires in 10 minutes · Only admins can create planner accounts
             </p>
           </>
