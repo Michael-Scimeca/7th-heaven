@@ -13,6 +13,7 @@ import { createClient } from '@/lib/supabase/client';
 import { AlertTriangle, Ban, Trash2, X, Check, Sparkles, Gift, Users, Music, Volume2, Heart, FileText, MapPin, MessageSquare, ChevronDown, Mail, Shield, Siren, Clock } from 'lucide-react';
 import { getShowDateTime } from '@/lib/date-utils';
 import ChatInputBar from '@/components/ChatInputBar';
+import SquishyToggle from '@/components/SquishyToggle';
 
 // ── Constants & types extracted from this file ──
 import {
@@ -2724,18 +2725,20 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             <div className="py-2 space-y-2.5 text-white">
               {/* Switch Feed and Fan page links moved from header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 no-glow">
                   <span className="text-xs text-white/60 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
-                  <select
-                    aria-label="Switch Dashboard Feed"
-                    className=" border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
-                    onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
-                    value={`/crew-${defaultMemberId || memberSlug}`}
-                  >
-                    {Object.values(MEMBER_SEEDS).map(member => (
-                      <option key={member.id} value={`/crew-${member.id}`}>{member.name}</option>
-                    ))}
-                  </select>
+                  <div className="input-glow-border shrink-0">
+                    <select
+                      aria-label="Switch Dashboard Feed"
+                      className="border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+                      onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
+                      value={`/crew-${defaultMemberId || memberSlug}`}
+                    >
+                      {Object.values(MEMBER_SEEDS).map(member => (
+                        <option key={member.id} value={`/crew-${member.id}`}>{member.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <Link
@@ -3220,13 +3223,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </div>
                         </div>
 
-                        <label className="flex items-center gap-2 mb-4 cursor-pointer group">
-                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${globalDrop ? 'bg-white border-white' : 'border-white/20 group-hover:border-white/40 bg-black'}`}>
-                            {globalDrop && <span className="text-black text-[var(--font-size-3xs)] font-bold">✓</span>}
-                          </div>
-                          <input type="checkbox" className="hidden" checked={globalDrop} onChange={e => setGlobalDrop(e.target.checked)} />
-                          <span className="text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-widest">Drop on ALL live streams (Global)</span>
-                        </label>
+                        <div className="flex items-center gap-3 mb-4 no-glow">
+                          <SquishyToggle
+                            id="global-drop-toggle"
+                            checked={globalDrop}
+                            onChange={setGlobalDrop}
+                            label="Drop on ALL live streams (Global)"
+                          />
+                          <label htmlFor="global-drop-toggle" className="text-xs font-bold text-white/60 hover:text-white transition-colors uppercase tracking-widest cursor-pointer select-none">
+                            Drop on ALL live streams (Global)
+                          </label>
+                        </div>
 
                         <button
                           type="button"
@@ -3452,18 +3459,20 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
                       </p>
 
-                      <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-[300px] mt-2">
-                        <input
-                          type="text"
-                          aria-label="Custom flagged keyword"
-                          value={newCustomWord}
-                          onChange={e => setNewCustomWord(e.target.value)}
-                          placeholder="e.g. ticket-scalper"
-                          className="flex-1 bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white outline-none focus:border-purple-500/50 font-bold placeholder:text-white/30"
-                        />
+                      <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-[340px] mt-2 no-glow">
+                        <div className="input-glow-border flex-1">
+                          <input
+                            type="text"
+                            aria-label="Custom flagged keyword"
+                            value={newCustomWord}
+                            onChange={e => setNewCustomWord(e.target.value)}
+                            placeholder="e.g. ticket-scalper"
+                            className="w-full bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                          />
+                        </div>
                         <button
                           type="submit"
-                          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-600 text-white font-black text-xs uppercase tracking-wider transition-colors"
+                          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
                         >
                           Add Keyword
                         </button>
@@ -3568,7 +3577,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
 
         {/* LIVE SETLIST & FAN LIKES */}
-        <div className={`xl:col-span-2 bg-transparent border border-white/10 overflow-hidden flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'} mt-6`}>
+        <div className={`xl:col-span-2 bg-transparent overflow-hidden flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'} mt-6`}>
           <div className="w-full text-left py-4 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-transparent select-none group">
             <button
               type="button"

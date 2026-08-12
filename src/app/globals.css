@@ -127,7 +127,6 @@ input[type="checkbox"]:checked {
    invisible hit-target input can cover the full pill instead of being
    forced down to an 18px box. */
 .squishy-toggle input[type="checkbox"] {
-  all: revert !important;
   position: absolute !important;
   inset: 0 !important;
   z-index: 10 !important;

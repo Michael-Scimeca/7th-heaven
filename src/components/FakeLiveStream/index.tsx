@@ -2041,28 +2041,30 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         </p>
                       </div>
 
-                      <div className="flex gap-2">
-                        <input aria-label="Previous"
-                          type="text"
-                          value={newCustomWord}
-                          onChange={e => setNewCustomWord(e.target.value)}
-                          onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                              e.preventDefault();
-                              handleAddCustomWord(newCustomWord);
-                              setNewCustomWord('');
-                            }
-                          }}
-                          placeholder="e.g. ticket-scalper"
-                          className="flex-1 bg-white border border-black/10 rounded-lg px-3 py-1.5 text-xs text-black outline-none focus:border-[#ec4899]/50 font-bold"
-                        />
+                      <div className="flex gap-2 no-glow">
+                        <div className="input-glow-border flex-1">
+                          <input aria-label="Custom flagged keyword input"
+                            type="text"
+                            value={newCustomWord}
+                            onChange={e => setNewCustomWord(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleAddCustomWord(newCustomWord);
+                                setNewCustomWord('');
+                              }
+                            }}
+                            placeholder="e.g. ticket-scalper"
+                            className="w-full bg-white/5 border border-white/15 rounded-lg px-3 py-1.5 text-xs text-white outline-none font-bold placeholder:text-white/30"
+                          />
+                        </div>
                         <button aria-label="Action button"
                           type="button"
                           onClick={() => {
                             handleAddCustomWord(newCustomWord);
                             setNewCustomWord('');
                           }}
-                          className="px-4 py-1.5 bg-[var(--color-accent-pink)]/20 hover:bg-[var(--color-accent-pink)]/30 border border-[#ec4899]/30 hover:border-[#ec4899]/50 text-[var(--color-accent-pink)] font-bold text-xs rounded-lg transition-colors"
+                          className="px-4 py-1.5 bg-[var(--color-accent-pink)]/20 hover:bg-[var(--color-accent-pink)]/30 border border-[#ec4899]/30 hover:border-[#ec4899]/50 text-[var(--color-accent-pink)] font-bold text-xs rounded-lg transition-colors shrink-0 cursor-pointer"
                         >
                           Add
                         </button>
