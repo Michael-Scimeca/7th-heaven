@@ -185,7 +185,7 @@ export default async function Home() {
       </section>
 
       {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0">
+      <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]" style={{ marginTop: '80px' }}>
         <BioParallaxSlider />
       </section>
 

@@ -604,7 +604,8 @@ lerpSpeed: ${lerpSpeed}`;
 
   return (
     <div
-      className="w-full max-w-full overflow-x-clip h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0"
+      style={{ marginTop: '80px' }}
+      className="w-full max-w-full overflow-x-clip h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0 mt-[80px]"
     >
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
