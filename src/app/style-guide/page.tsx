@@ -836,10 +836,10 @@ export default function StyleGuidePage() {
 
             {/* Verify Module Cards */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
-              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Verify Module Cards (Crew · Planner · Cruise)</h3>
-              <p className="text-[10px] text-white/40">Full glassmorphism verify card modules as used on <code className="text-purple-300 font-mono">/crew/verify</code>, <code className="text-purple-300 font-mono">/planner/verify</code>, and <code className="text-purple-300 font-mono">/cruise/verify</code>.</p>
+              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
+              <p className="text-[10px] text-white/40">Full glassmorphism verify card modules as used on <code className="text-purple-300 font-mono">/crew/verify</code>, <code className="text-purple-300 font-mono">/planner/verify</code>, <code className="text-purple-300 font-mono">/cruise/verify</code>, and <code className="text-purple-300 font-mono">/admin</code> (2FA).</p>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
                 {/* ── Crew Verify Card ── */}
                 <div className="flex flex-col items-center">
@@ -967,6 +967,47 @@ export default function StyleGuidePage() {
                     <div className="flex items-center justify-center gap-2 mt-3">
                       <div className="flex-1 h-px bg-white/[0.08]" />
                       <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Admin 2FA Verify Card ── */}
+                <div className="flex flex-col items-center">
+                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Admin</p>
+                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
+                  <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN after login</p>
+                  <div
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    style={{
+                      background: "var(--color-bg-glass)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid var(--color-border-main)",
+                    }}
+                  >
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
+                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                          <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                        </div>
+                      ))}
+                    </div>
+                    <button aria-label="Action button" disabled
+                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                    >Access My Dashboard →</button>
+                    <div className="mt-3 text-center">
+                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
+                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                    </div>
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Login</p>
+                    <div className="flex items-center justify-center gap-2 mt-3">
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · ADMIN ACCESS</span>
                       <div className="flex-1 h-px bg-white/[0.08]" />
                     </div>
                   </div>
