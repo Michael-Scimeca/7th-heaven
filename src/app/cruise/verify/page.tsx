@@ -15,7 +15,6 @@ function CruiseVerifyContent() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
-  const [focusedIndex, setFocusedIndex] = useState<number | null>(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
@@ -448,30 +447,23 @@ function CruiseVerifyContent() {
                 <form onSubmit={handleSubmit}>
                   <div className="pin-row">
                     {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                      <div
+                      <input aria-label="Input field"
                         key={i}
-                        className={`input-glow-border pin-box-wrapper w-11 h-14 rounded-xl shrink-0 transition-all duration-200 ${focusedIndex === i ? 'active scale-[1.05] z-10' : ''}`}
-                      >
-                        <input aria-label="Input field"
-                          ref={el => { inputRefs.current[i] = el; }}
-                          type="text"
-                          inputMode="numeric"
-                          maxLength={1}
-                          value={d}
-                          style={{ padding: 0 }}
-                          onFocus={() => setFocusedIndex(i)}
-                          onBlur={() => setFocusedIndex(null)}
-                          onChange={e => handleDigit(i, e.target.value)}
-                          onKeyDown={e => handleKeyDown(i, e)}
-                          onPaste={handlePaste}
-                          className={[
-                            "pin-input w-full h-full text-center text-xl font-black rounded-xl bg-white/10 border-none text-white !p-0 outline-none transition-all duration-200 tabular-nums",
-                            focusedIndex === i ? "text-white bg-purple-950/70 shadow-[0_0_20px_rgba(168,85,247,0.5)]" : "",
-                            d ? "filled text-purple-300 bg-white/15" : "text-white/40 hover:bg-white/15",
-                            status === "error" ? "error" : "",
-                          ].join(" ")}
-                        />
-                      </div>
+                        ref={el => { inputRefs.current[i] = el; }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={d}
+                        style={{ padding: 0 }}
+                        onChange={e => handleDigit(i, e.target.value)}
+                        onKeyDown={e => handleKeyDown(i, e)}
+                        onPaste={handlePaste}
+                        className={[
+                          "pin-input",
+                          d ? "filled" : "",
+                          status === "error" ? "error" : "",
+                        ].join(" ")}
+                      />
                     ))}
                   </div>
 
