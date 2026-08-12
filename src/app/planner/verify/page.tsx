@@ -255,7 +255,7 @@ function PlannerVerifyContent() {
               {/* 6 digit boxes */}
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                  <div key={i} className="!w-11 !h-14 rounded-xl shrink-0">
+                  <div key={i} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                     <input aria-label="Input field"
                       ref={el => { inputRefs.current[i] = el; }}
                       type="text"
@@ -269,7 +269,7 @@ function PlannerVerifyContent() {
                       onKeyDown={e => handleKeyDown(i, e)}
                       className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
                         ${focusedIndex === i
-                          ? 'border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.85)] bg-purple-950/60 scale-[1.06] z-10 relative'
+                          ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
                           : d
                             ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
                             : 'border-white/20 text-white/40 hover:border-white/40'
