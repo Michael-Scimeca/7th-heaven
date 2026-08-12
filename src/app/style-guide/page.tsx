@@ -115,6 +115,9 @@ export default function StyleGuidePage() {
   const [selectedDropdown, setSelectedDropdown] = useState("chicago");
 
   /* ── PIN Input Demo State ── */
+  const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
+  const [pinDefaultFocusedIndex, setPinDefaultFocusedIndex] = useState<number | null>(null);
+  const pinDefaultRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [pinDigits, setPinDigits] = useState<string[]>(["7", "H", "", "", "", ""]);
   const [pinFocusedIndex, setPinFocusedIndex] = useState<number | null>(null);
   const [pinError, setPinError] = useState(false);
@@ -136,6 +139,18 @@ export default function StyleGuidePage() {
   const handlePinKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && !pinDigits[idx] && idx > 0) {
       pinRefs.current[idx - 1]?.focus();
+    }
+  };
+
+  const handlePinDefaultDigit = (idx: number, val: string) => {
+    const clean = val.replace(/[^0-9a-zA-Z]/g, "").slice(-1).toUpperCase();
+    setPinDefaultDigits(prev => { const n = [...prev]; n[idx] = clean; return n; });
+    if (clean && idx < 5) pinDefaultRefs.current[idx + 1]?.focus();
+  };
+
+  const handlePinDefaultKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !pinDefaultDigits[idx] && idx > 0) {
+      pinDefaultRefs.current[idx - 1]?.focus();
     }
   };
   // Interactive Chat Bubble UI Control States
@@ -716,17 +731,28 @@ export default function StyleGuidePage() {
               <div>
                 <label className="block text-xs font-bold text-white/70 mb-2">Default State</label>
                 <div className="flex items-center gap-1.5 no-glow">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={`pin-default-${i}`} className="!w-11 !h-14 rounded-xl shrink-0">
+                  {pinDefaultDigits.map((digit, i) => (
+                    <div key={`pin-default-${i}`} className="!w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
                       <input
                         aria-label={`Default PIN digit ${i + 1}`}
+                        ref={el => { pinDefaultRefs.current[i] = el; }}
                         type="text"
                         inputMode="numeric"
                         maxLength={1}
-                        readOnly
+                        value={digit}
                         placeholder="·"
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 placeholder-white/20"
+                        onFocus={() => setPinDefaultFocusedIndex(i)}
+                        onBlur={() => setPinDefaultFocusedIndex(null)}
+                        onChange={e => handlePinDefaultDigit(i, e.target.value)}
+                        onKeyDown={e => handlePinDefaultKeyDown(i, e)}
+                        className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
+                          ${pinDefaultFocusedIndex === i
+                            ? 'border-white/40 text-white'
+                            : digit
+                              ? 'border-white/30 text-white/70'
+                              : 'border-white/20 text-white/40 hover:border-white/30'
+                          }`}
                       />
                     </div>
                   ))}
