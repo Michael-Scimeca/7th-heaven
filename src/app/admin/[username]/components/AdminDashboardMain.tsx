@@ -12984,6 +12984,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       )}
     </div>
-    </div >
+    </div>
+
   );
 }
