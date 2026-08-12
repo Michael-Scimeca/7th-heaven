@@ -937,7 +937,7 @@ select::placeholder,
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 8px;
-  --radius-xl: 0px;
+  --radius-xl: 8px;
   --radius-2xl: 0px;
   --radius-3xl: 24px;
   --radius-4xl: 0px;

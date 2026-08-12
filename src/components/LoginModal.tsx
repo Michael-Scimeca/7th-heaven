@@ -807,15 +807,7 @@ function LoginModalBodyContent(props: any) {
           </div>
         )}
 
-        {/* Special notice for Crew / Planner login */}
-        {modalMode !== "forgot" && loginRole !== 'fan' && (
-          <div className="p-3 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30 text-xs text-purple-200 mb-4 flex items-center gap-2">
-            <Lock className="w-4 h-4 text-purple-400 shrink-0" />
-            <span>
-              Logging in as <strong className="uppercase text-white">{loginRole}</strong>. Access requires an authorized account.
-            </span>
-          </div>
-        )}
+
 
         {/* Invite flow banner */}
         {isInviteFlow && (
