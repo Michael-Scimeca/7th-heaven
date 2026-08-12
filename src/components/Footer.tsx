@@ -179,7 +179,7 @@ export function Footer() {
 
       {/* SMS Text Alerts */}
       <div className="site-container pt-0 pb-2" suppressHydrationWarning>
-        <div className="max-w-lg" suppressHydrationWarning>
+        <div className="max-w-2xl" suppressHydrationWarning>
           <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
             <Smartphone className="w-5 h-5 text-[var(--color-accent)]" />
             <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-[var(--text-color)]">Text Alerts</h3>
@@ -251,7 +251,7 @@ export function Footer() {
               <button aria-label="Action button"
                 type="submit"
                 disabled={smsStatus === 'sending'}
-                className="w-full sm:w-auto px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
               >
                 {smsStatus === 'sending' ? '...' : <><Smartphone className="w-4 h-4" /> Subscribe</>}
               </button>
