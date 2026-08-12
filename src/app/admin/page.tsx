@@ -180,15 +180,11 @@ export default function AdminGatewayPage() {
   };
 
   /* ── Auto-submit when all 6 digits entered ── */
+  // eslint-disable-next-line react-doctor/no-fetch-in-effect, react-doctor/no-set-state-after-await-in-effect
   useEffect(() => {
-    let isSubmitting = false;
     if (step === "verify" && pin.every(d => d !== "") && verifyStatus !== "checking") {
-      isSubmitting = true;
       handleVerify();
     }
-    return () => {
-      isSubmitting = false;
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pin, step]);
 

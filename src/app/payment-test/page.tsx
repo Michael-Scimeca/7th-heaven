@@ -16,9 +16,9 @@ function ProductCard({
   product: ShopProduct;
   onAdd: (variantId: string) => void;
 }) {
-  const [selectedVariantId, setSelectedVariantId] = useState(product.variants[0].id);
+  const [userSelectedVariantId, setUserSelectedVariantId] = useState<string | null>(null);
   const selectedVariant =
-    product.variants.find((v) => v.id === selectedVariantId) || product.variants[0];
+    product.variants.find((v) => v.id === userSelectedVariantId) || product.variants[0];
 
   return (
     <div className="bg-white/[0.04] border border-white/[0.12] rounded-2xl overflow-hidden flex flex-col">
@@ -51,9 +51,9 @@ function ProductCard({
               <button
                 key={variant.id}
                 type="button"
-                onClick={() => setSelectedVariantId(variant.id)}
+                onClick={() => setUserSelectedVariantId(variant.id)}
                 className={`px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${
-                  selectedVariantId === variant.id
+                  selectedVariant.id === variant.id
                     ? "bg-[var(--color-accent)] text-white"
                     : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
                 }`}
