@@ -346,15 +346,6 @@ textarea:focus-visible,
   width: 100%;
 }
 
-
-
-.input-glow-border:focus-within::before,
-.input-glow-border:hover::before,
-.input-glow-border.active::before {
-  transform: translateX(-50%) scale(1);
-  opacity: 1;
-}
-
 /* Thin masked ring, painted ON TOP of the field. Because mask cuts a
    transparent hole in the middle, it only paints a ~1px band around
    the edge — it doesn't matter what the input's own background looks
@@ -362,8 +353,8 @@ textarea:focus-visible,
 .input-glow-border::after {
   content: "";
   position: absolute;
-  inset: -1.5px;
-  z-index: 1;
+  inset: 0;
+  z-index: -1;
   pointer-events: none !important;
   border-radius: inherit;
   padding: 2px;
@@ -388,14 +379,9 @@ textarea:focus-visible,
   width: 100%;
 }
 
-.input-glow-border:has(textarea)::after {
-  inset: -1.5px !important;
-}
-
 .input-glow-border:has(textarea) > textarea,
 div:has(> textarea) > textarea {
   display: block !important;
-  vertical-align: bottom !important;
 }
 
 /* Universal auto-glow for textarea elements */
@@ -410,8 +396,8 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
 div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
   content: "";
   position: absolute;
-  inset: -1.5px;
-  z-index: 1;
+  inset: 0;
+  z-index: -1;
   pointer-events: none !important;
   border-radius: inherit;
   padding: 2px;
@@ -432,8 +418,7 @@ div:has(> textarea:hover):not(.no-glow):not([class*="glow-border"])::after {
 
 .input-glow-border>* {
   position: relative;
-  z-index: 2;
-  pointer-events: auto !important;
+  z-index: 1;
 }
 
 @keyframes border-angle-spin {
