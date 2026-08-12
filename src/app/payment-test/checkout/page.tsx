@@ -26,12 +26,13 @@ export default function NorthCheckoutPage() {
 
   // Deferred to an effect (not a lazy useState initializer) to avoid an
   // SSR/client hydration mismatch — see the same note in NorthCartContext.
+  // eslint-disable-next-line react-doctor/no-initialize-state, react-hooks/set-state-in-effect
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTac(localStorage.getItem("7h_north_tac_v1"));
     setAmount(localStorage.getItem("7h_north_amount_v1"));
     setTranNbr(localStorage.getItem("7h_north_tran_nbr_v1"));
     setMockMode(localStorage.getItem("7h_north_mock_v1") === "1");
+    // eslint-disable-next-line react-doctor/no-initialize-state
     setReady(true);
   }, []);
 

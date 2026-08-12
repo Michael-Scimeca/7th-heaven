@@ -6,7 +6,7 @@
 // — extended so each size/format/color variant is its own line item (the
 // original tutorial's cart only keyed on a single product id).
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 
 export type CartLineItem = {
   /** The variant id (e.g. "logo-tee-M") — unique cart line-item key. */
@@ -114,7 +114,7 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(CART_STORAGE_KEY);
   };
 
-  const value: CartContextValue = {
+  const value: CartContextValue = useMemo(() => ({
     items: cartItems,
     loading,
     setLoading,
@@ -125,7 +125,7 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
     getTotalCost,
     getNumberOfCartItems,
     clearCart,
-  };
+  }), [cartItems, loading]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

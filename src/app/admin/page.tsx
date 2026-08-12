@@ -188,9 +188,14 @@ export default function AdminGatewayPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pin, step]);
 
-  // Support local storage dev bypass
+  const [is2FAVerified, setIs2FAVerified] = useState(false);
+
+  // Support local storage dev bypass & 2FA check
   useEffect(() => {
     if (hydrated && typeof window !== 'undefined') {
+      if (sessionStorage.getItem('7h_admin_2fa_verified') === 'true') {
+        setIs2FAVerified(true);
+      }
       const devBypass = localStorage.getItem('7h_dev_bypass') === 'true';
       if (devBypass) {
         sessionStorage.setItem("7h_admin_2fa_verified", "true");
@@ -204,7 +209,7 @@ export default function AdminGatewayPage() {
   }
 
   // If logged in as admin with 2FA verified, show loading while redirect takes place
-  if (isLoggedIn && member?.role === 'admin' && typeof window !== 'undefined' && sessionStorage.getItem('7h_admin_2fa_verified') === 'true') {
+  if (isLoggedIn && member?.role === 'admin' && is2FAVerified) {
     return (
       <div className="fixed inset-0 h-screen w-screen   text-white flex items-center justify-center">
         <div className="text-center">
