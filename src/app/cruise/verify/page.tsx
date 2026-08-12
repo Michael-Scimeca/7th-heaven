@@ -136,16 +136,16 @@ function CruiseVerifyContent() {
         .verify-card {
           position: relative;
           width: 100%;
-          max-width: 380px;
-          background: rgba(15, 6, 28, 0.92);
-          backdrop-filter: blur(24px);
-          border: 1px solid rgba(168,85,247,0.3);
+          max-width: 420px;
+          background: rgba(18, 10, 34, 0.85);
+          backdrop-filter: blur(32px) saturate(180%);
+          -webkit-backdrop-filter: blur(32px) saturate(180%);
+          border: 1px solid rgba(168, 85, 247, 0.4);
           border-radius: 24px;
-          padding: 32px 28px 28px;
+          padding: 36px 28px 28px;
           box-shadow:
-            0 0 0 1px rgba(255,255,255,0.04) inset,
-            0 32px 80px rgba(0,0,0,0.8),
-            0 0 100px rgba(168,85,247,0.25);
+            0 0 35px rgba(168, 85, 247, 0.25),
+            0 30px 90px rgba(0, 0, 0, 0.7);
           animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes cardIn {
