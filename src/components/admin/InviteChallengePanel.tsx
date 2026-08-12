@@ -146,7 +146,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                     <SquishyToggle
                       id="challenge-enabled"
                       label="Enable challenge for this show"
-                      checked={challenge.enabled}
+                      checked={!!challenge.enabled}
                       onChange={(v) => setChallenge((c) => ({ ...c, enabled: v }))}
                     />
                   </div>

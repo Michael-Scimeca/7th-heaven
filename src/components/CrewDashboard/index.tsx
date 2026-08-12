@@ -2727,10 +2727,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-white">
                 <div className="flex items-center gap-3 no-glow">
                   <span className="text-xs text-white/60 uppercase font-black tracking-wider font-sans">Switch Dashboard Feed:</span>
-                  <div className="input-glow-border shrink-0">
+                  <div className="input-glow-border !w-fit inline-block">
                     <select
                       aria-label="Switch Dashboard Feed"
-                      className="border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
+                      className="w-full bg-white/5 border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-[var(--color-accent)] transition-colors cursor-pointer"
                       onChange={(e) => { if (e.target.value) window.location.href = e.target.value; }}
                       value={`/crew-${defaultMemberId || memberSlug}`}
                     >
