@@ -67,6 +67,11 @@ import {
   HelpCircle,
   CreditCard,
   Calendar,
+  Maximize2,
+  Trash2,
+  CheckCircle,
+  Mail,
+  Zap,
 } from "lucide-react";
 
 // Sample Dropdown options (Module Scope)
@@ -85,10 +90,11 @@ const sections = [
   { id: "dropdowns", label: "5. Dropdowns", icon: ChevronDown },
   { id: "chat", label: "6. Chat Component", icon: MessageSquare },
   { id: "components", label: "7. Cards & Badges", icon: Layers },
-  { id: "borders", label: "8. Borders & Glass", icon: ShieldCheck },
-  { id: "spacing", label: "9. Spacing & Padding", icon: Box },
-  { id: "canvas-studio", label: "10. Canvas & Film Grain", icon: Sliders },
-  { id: "stateroom-perks", label: "11. Staterooms & Perks", icon: Anchor },
+  { id: "modals", label: "8. Modals & Dialogs", icon: Maximize2 },
+  { id: "borders", label: "9. Borders & Glass", icon: ShieldCheck },
+  { id: "spacing", label: "10. Spacing & Padding", icon: Box },
+  { id: "canvas-studio", label: "11. Canvas & Film Grain", icon: Sliders },
+  { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
 ];
 
 export default function StyleGuidePage() {
@@ -112,6 +118,12 @@ export default function StyleGuidePage() {
   const [pinDigits, setPinDigits] = useState<string[]>(["7", "H", "", "", "", ""]);
   const [pinFocusedIndex, setPinFocusedIndex] = useState<number | null>(null);
   const [pinError, setPinError] = useState(false);
+
+  /* ── Modal Demo State ── */
+  const [showGlassModal, setShowGlassModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [confirmResult, setConfirmResult] = useState<string | null>(null);
   const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handlePinDigit = (idx: number, val: string) => {
@@ -1427,11 +1439,209 @@ export default function StyleGuidePage() {
           </div>
         </section>
 
-        {/* SECTION 8: BORDERS & GLASS */}
+        {/* SECTION 8: MODALS & DIALOGS */}
+        <section id="modals" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
+            </h2>
+            <p className="text-white/60 text-xs mt-1">
+              Standard modal patterns: glassmorphism shell, confirmation/alert dialogs, and the global login/signup auth modal.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {/* 1 — Glassmorphism Modal Shell */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-mono font-bold text-cyan-400 uppercase">Glass Shell</span>
+                <h4 className="text-lg font-bold text-white">Glassmorphism Modal</h4>
+                <p className="text-xs text-white/60 mt-1">
+                  The frosted-glass card used for verify screens, PIN entry, and success states.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowGlassModal(true)}
+                className="px-4 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
+              </button>
+            </div>
+
+            {/* 2 — Confirmation / Alert Dialog */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-mono font-bold text-amber-400 uppercase">Confirm / Alert</span>
+                <h4 className="text-lg font-bold text-white">Confirmation Dialog</h4>
+                <p className="text-xs text-white/60 mt-1">
+                  Destructive action confirmation with cancel/confirm buttons.
+                </p>
+                {confirmResult && (
+                  <p className={`text-xs mt-2 font-bold ${confirmResult === 'confirmed' ? 'text-red-400' : 'text-white/50'}`}>
+                    Result: {confirmResult === 'confirmed' ? '✓ Confirmed' : '✕ Cancelled'}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
+                className="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> Open Confirm Dialog
+              </button>
+            </div>
+
+            {/* 3 — Login / Auth Modal */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-mono font-bold text-emerald-400 uppercase">Auth Modal</span>
+                <h4 className="text-lg font-bold text-white">Login & Signup Modal</h4>
+                <p className="text-xs text-white/60 mt-1">
+                  Site-wide auth modal with login/signup toggle, form validation, and role selection.
+                </p>
+              </div>
+              <button
+                onClick={() => openModal("login")}
+                className="px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Lock className="w-3.5 h-3.5" /> Launch Login Modal
+              </button>
+            </div>
+          </div>
+
+          {/* Alert / Success Toast Demo (inline) */}
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Alert / Success Toast Patterns</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Success */}
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold text-emerald-300">Success</p>
+                  <p className="text-[10px] text-emerald-200/70 mt-0.5">Your PIN has been verified successfully.</p>
+                </div>
+              </div>
+              {/* Warning */}
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold text-amber-300">Warning</p>
+                  <p className="text-[10px] text-amber-200/70 mt-0.5">Your session will expire in 5 minutes.</p>
+                </div>
+              </div>
+              {/* Error */}
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+                <X className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold text-red-300">Error</p>
+                  <p className="text-[10px] text-red-200/70 mt-0.5">Invalid PIN. Please try again.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Glassmorphism Modal Portal ── */}
+          {showGlassModal && (
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+              <button
+                type="button"
+                aria-label="Close backdrop"
+                className="absolute inset-0 bg-black/60 backdrop-blur-md border-0 p-0 cursor-default"
+                onClick={() => setShowGlassModal(false)}
+              />
+              <div
+                className="relative w-full max-w-sm rounded-3xl px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease] text-center"
+                style={{
+                  background: "var(--color-bg-glass)",
+                  backdropFilter: "blur(32px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                  border: "1px solid var(--color-border-main)",
+                }}
+              >
+                <button
+                  onClick={() => setShowGlassModal(false)}
+                  aria-label="Close modal"
+                  className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+
+                <div className="w-14 h-14 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4">
+                  <Zap className="w-7 h-7 text-purple-400" />
+                </div>
+                <h3 className="text-lg font-black text-white uppercase tracking-wider mb-1">Glassmorphism Shell</h3>
+                <p className="text-xs text-white/60 mb-6">
+                  This is the standard frosted-glass modal card used across verify screens, PIN entry, and success states.
+                </p>
+
+                <div className="space-y-3">
+                  <div className="input-glow-border rounded-lg w-full">
+                    <input
+                      type="text"
+                      placeholder="Enter your email..."
+                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white/80 placeholder-white/40 text-xs font-medium outline-none transition"
+                    />
+                  </div>
+                  <button
+                    onClick={() => setShowGlassModal(false)}
+                    className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Confirmation Dialog Portal ── */}
+          {showConfirmModal && (
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+              <button
+                type="button"
+                aria-label="Close backdrop"
+                className="absolute inset-0 bg-black/60 backdrop-blur-md border-0 p-0 cursor-default"
+                onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
+              />
+              <div
+                className="relative w-full max-w-sm rounded-3xl px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease]"
+                style={{
+                  background: "var(--color-bg-surface)",
+                  backdropFilter: "blur(32px) saturate(180%)",
+                  WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                  border: "1px solid var(--color-border-main)",
+                }}
+              >
+                <div className="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="w-7 h-7 text-red-400" />
+                </div>
+                <h3 className="text-lg font-black text-white uppercase tracking-wider text-center mb-1">Delete Item?</h3>
+                <p className="text-xs text-white/60 text-center mb-6">
+                  This action cannot be undone. The item will be permanently removed from your account.
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
+                    className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
+                    className="flex-1 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* SECTION 9: BORDERS & GLASS */}
         <section id="borders" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
-              <ShieldCheck className="w-6 h-6" /> 8. Border & Glass Standard
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <ShieldCheck className="w-6 h-6" /> 9. Border & Glass Standard
             </h2>
             <p className="text-white/60 text-xs mt-1">
               Confirming all dividers and component boundaries use our standardized global border color: <code className="text-cyan-300 font-mono">rgba(255, 255, 255, 0.08)</code>.
@@ -1460,11 +1670,11 @@ export default function StyleGuidePage() {
           </div>
         </section>
 
-        {/* SECTION 9: SPACING & PADDING TOKENS */}
+        {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section id="spacing" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
             <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
-              <Box className="w-6 h-6" /> 9. Spacing & Page Padding Scale
+              <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
             </h2>
             <p className="text-white/60 text-xs mt-1">
               Standardized responsive page padding scale: <code className="text-purple-300 font-mono">px-6 sm:px-8 lg:px-[42px]</code> (24px Mobile / 32px Tablet / 42px Desktop).
@@ -1492,12 +1702,12 @@ export default function StyleGuidePage() {
           </div>
         </section>
 
-        {/* SECTION 10: CANVAS SHADER & FILM GRAIN STUDIO */}
+        {/* SECTION 11: CANVAS SHADER & FILM GRAIN STUDIO */}
         <section id="canvas-studio" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
               <h2 className="text-2xl font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
-                <Sliders className="w-6 h-6" /> 10. Canvas Shader & Full-Page Film Grain Studio
+                <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
               </h2>
               <p className="text-white/60 text-xs mt-1">
                 Interactive real-time controller for background WebGL shader parameters and full-page film grain overlay system.
