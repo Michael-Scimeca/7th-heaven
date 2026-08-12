@@ -666,12 +666,14 @@ export default function StyleGuidePage() {
               {/* Textarea */}
               <div>
                 <label className="block text-xs font-bold text-white/70 mb-1">Textarea Input</label>
-                <textarea
-                  rows={4}
-                  value={textareaInput}
-                  onChange={(e) => setTextareaInput(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-1 focus:ring-purple-400/50 transition resize-none"
-                />
+                <div className="input-glow-border w-full rounded-lg">
+                  <textarea
+                    rows={4}
+                    value={textareaInput}
+                    onChange={(e) => setTextareaInput(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-0 transition resize-none"
+                  />
+                </div>
               </div>
             </div>
 

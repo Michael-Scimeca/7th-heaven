@@ -346,22 +346,7 @@ textarea:focus-visible,
   width: 100%;
 }
 
-/* Ambient purple top glow flare */
-.input-glow-border::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%) scale(0);
-  width: 50%;
-  height: 24px;
-  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.7), transparent 70%);
-  filter: blur(6px);
-  pointer-events: none;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-  z-index: 3;
-}
+
 
 .input-glow-border:focus-within::before,
 .input-glow-border:hover::before,
@@ -399,7 +384,39 @@ textarea:focus-visible,
 }
 
 .input-glow-border:has(textarea)::after {
-  height: 96% !important;
+  inset: -1.5px !important;
+  height: auto !important;
+}
+
+/* Universal auto-glow for textarea elements */
+div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
+  position: relative;
+  isolation: isolate;
+  border-radius: 8px;
+  width: 100%;
+}
+
+div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--border-angle), #c084fc 0%, #a855f7 25%, #ec4899 50%, #8b5cf6 75%, #c084fc 100%);
+  animation: border-angle-spin 3.5s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+div:has(> textarea:focus):not(.no-glow):not([class*="glow-border"])::after,
+div:has(> textarea:hover):not(.no-glow):not([class*="glow-border"])::after {
+  opacity: 1;
 }
 
 .input-glow-border>* {
