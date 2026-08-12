@@ -272,7 +272,7 @@ function PlannerVerifyContent() {
               {/* 6 digit boxes */}
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                  <div key={i} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
+                  <div key={i} className="!w-11 !h-14 rounded-xl shrink-0">
                     <input aria-label="Input field"
                       ref={el => { inputRefs.current[i] = el; }}
                       type="text"
@@ -340,8 +340,11 @@ function PlannerVerifyContent() {
               </button>
             </div>
 
-            <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 20 }}>
-              PIN expires in 10 minutes · Only admins can create planner accounts
+            <p className="flex items-center justify-center gap-1.5" style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 20 }}>
+              <svg className="w-3.5 h-3.5 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
             </p>
           </>
         )}
