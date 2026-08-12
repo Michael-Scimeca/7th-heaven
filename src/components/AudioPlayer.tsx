@@ -175,6 +175,9 @@ export default function AudioPlayerSection() {
     if (maxScroll > 0) {
       setSidebarScrollProgress((target.scrollTop / maxScroll) * 100);
       setSidebarThumbHeight(Math.max(15, (target.clientHeight / target.scrollHeight) * 100));
+    } else {
+      setSidebarScrollProgress(0);
+      setSidebarThumbHeight(100);
     }
   };
 
@@ -228,8 +231,18 @@ export default function AudioPlayerSection() {
     if (maxScroll > 0) {
       setTracklistScrollProgress((target.scrollTop / maxScroll) * 100);
       setTracklistThumbHeight(Math.max(15, (target.clientHeight / target.scrollHeight) * 100));
+    } else {
+      setTracklistScrollProgress(0);
+      setTracklistThumbHeight(100);
     }
   };
+
+  useEffect(() => {
+    if (tracklistScrollRef.current) {
+      tracklistScrollRef.current.scrollTop = 0;
+      setTracklistScrollProgress(0);
+    }
+  }, [activeAlbumIndex, searchQuery]);
 
   const handleTracklistTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = tracklistScrollRef.current;
@@ -463,13 +476,10 @@ export default function AudioPlayerSection() {
             </div>
           </div>
 
-          <div className="relative flex-1 min-h-0 flex items-stretch">
+          <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
             <div
               ref={sidebarScrollRef}
               data-lenis-prevent="true"
-              data-lenis-prevent-wheel="true"
-              data-lenis-prevent-touch="true"
-              onWheel={(e) => e.stopPropagation()}
               onScroll={handleSidebarScroll}
               className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-contain no-scrollbar min-h-0"
               style={{ overscrollBehavior: "contain" }}
@@ -501,13 +511,10 @@ export default function AudioPlayerSection() {
         <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
 
           {/* Tracklist */}
-          <div className="relative flex-1 min-h-0 flex items-stretch">
+          <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
             <div
               ref={tracklistScrollRef}
               data-lenis-prevent="true"
-              data-lenis-prevent-wheel="true"
-              data-lenis-prevent-touch="true"
-              onWheel={(e) => e.stopPropagation()}
               onScroll={handleTracklistScroll}
               className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
               style={{
