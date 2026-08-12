@@ -5,6 +5,7 @@ import { resolveInitialRole } from '@/lib/role-config';
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
+  const roleParam = searchParams.get('role');
   const next = searchParams.get('next') ?? '/fans';
 
   if (code) {
@@ -22,6 +23,7 @@ export async function GET(request: Request) {
         .single();
 
       let resolvedUsername = profile?.username;
+      let userRole = profile?.role || roleParam || resolveInitialRole(user.email || '');
       let isNewUser = false;
 
       if (!profile) {
@@ -30,8 +32,8 @@ export async function GET(request: Request) {
         const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
         const email = user.email || '';
         
-        // Auto-role assignment by email — lists are configured via ADMIN_EMAILS, CREW_EMAILS, etc. env vars
-        const role = resolveInitialRole(email);
+        const role = roleParam || resolveInitialRole(email);
+        userRole = role;
 
         // Base username suggestions
         const baseUsername = user.user_metadata?.username || fullName.trim().toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 20);
@@ -54,6 +56,12 @@ export async function GET(request: Request) {
         });
       }
       
+      // Role-based redirects
+      if (userRole === 'admin') return NextResponse.redirect(`${origin}/admin`);
+      if (userRole === 'crew') return NextResponse.redirect(`${origin}/crew`);
+      if (userRole === 'planner') return NextResponse.redirect(`${origin}/planner`);
+      if (userRole === 'cruise') return NextResponse.redirect(`${origin}/cruise/cruise_guest`);
+
       // New OAuth users → complete profile page; returning users → dashboard
       if (isNewUser) {
         return NextResponse.redirect(`${origin}/fans/complete-profile`);
