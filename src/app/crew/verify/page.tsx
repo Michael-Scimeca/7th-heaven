@@ -262,10 +262,35 @@ export default function VerifyPage() {
             <button aria-label="Action button"
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
-              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer rounded-xl"
+              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer rounded-xl mb-4"
             >
               {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>
+
+            <div className="space-y-2 mt-4 text-center">
+              <button aria-label="Action button"
+                type="button"
+                onClick={reset}
+                style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
+              >
+                Resend PIN
+              </button>
+
+              <button aria-label="Action button"
+                type="button"
+                onClick={() => openModal("login")}
+                style={{ display: "block", margin: "8px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}
+              >
+                Need a PIN sent to your email?
+              </button>
+            </div>
+
+            <p className="flex items-center justify-center gap-1.5" style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 20 }}>
+              <svg className="w-3.5 h-3.5 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>PIN expires in 10 minutes · Crew access only</span>
+            </p>
           </div>
         )}
 
@@ -341,9 +366,6 @@ export default function VerifyPage() {
           </div>
         )}
 
-        <p className="text-white/20 text-[var(--font-size-2xs)] text-center mt-6 uppercase tracking-widest">
-          Crew access only · 7th Heaven
-        </p>
       </div>
     </div>
   );

@@ -360,7 +360,9 @@ textarea:focus-visible,
   padding: 1.5px;
   background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
   animation: border-angle-spin 5s linear infinite;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   opacity: 0;
   transition: opacity 0.25s ease-in-out;
