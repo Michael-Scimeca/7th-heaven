@@ -788,14 +788,8 @@ function LoginModalBodyContent(props: any) {
                     setLoginRole(role.id as any);
                     if (role.id === "admin") {
                       setAdminMode(true);
-                      setEmail("admin@7thheaven.com");
-                      setPassword("password123");
                     } else {
-                      if (adminMode) {
-                        setAdminMode(false);
-                        setEmail("");
-                        setPassword("");
-                      }
+                      setAdminMode(false);
                     }
                   }}
                   className={`py-1.5 px-1.5 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
