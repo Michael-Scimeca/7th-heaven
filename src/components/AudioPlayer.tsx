@@ -237,11 +237,51 @@ export default function AudioPlayerSection() {
     }
   };
 
+  // Recalculate tracklist scroll metrics when album or search query changes
   useEffect(() => {
-    if (tracklistScrollRef.current) {
-      tracklistScrollRef.current.scrollTop = 0;
+    const el = tracklistScrollRef.current;
+    if (!el) return;
+    el.scrollTop = 0;
+    const maxScroll = el.scrollHeight - el.clientHeight;
+    if (maxScroll > 0) {
       setTracklistScrollProgress(0);
+      setTracklistThumbHeight(Math.max(15, (el.clientHeight / el.scrollHeight) * 100));
+    } else {
+      setTracklistScrollProgress(0);
+      setTracklistThumbHeight(100);
     }
+  }, [activeAlbumIndex, searchQuery]);
+
+  // Recalculate scroll metrics on window resize & mount
+  useEffect(() => {
+    const updateMetrics = () => {
+      if (sidebarScrollRef.current) {
+        const sEl = sidebarScrollRef.current;
+        const sMax = sEl.scrollHeight - sEl.clientHeight;
+        if (sMax > 0) {
+          setSidebarThumbHeight(Math.max(15, (sEl.clientHeight / sEl.scrollHeight) * 100));
+        } else {
+          setSidebarThumbHeight(100);
+        }
+      }
+      if (tracklistScrollRef.current) {
+        const tEl = tracklistScrollRef.current;
+        const tMax = tEl.scrollHeight - tEl.clientHeight;
+        if (tMax > 0) {
+          setTracklistThumbHeight(Math.max(15, (tEl.clientHeight / tEl.scrollHeight) * 100));
+        } else {
+          setTracklistThumbHeight(100);
+        }
+      }
+    };
+
+    updateMetrics();
+    const timer = setTimeout(updateMetrics, 100);
+    window.addEventListener("resize", updateMetrics);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateMetrics);
+    };
   }, [activeAlbumIndex, searchQuery]);
 
   // Non-passive wheel event listener for sidebar scroll container
@@ -527,7 +567,7 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleSidebarTrackClick}
-              className={`w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 ${sidebarThumbHeight >= 98 ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}
+              className={`w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 ${sidebarThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
             >
               <div
                 onMouseDown={handleSidebarThumbMouseDown}
@@ -632,7 +672,7 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleTracklistTrackClick}
-              className={`w-2.5 my-8 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 98 ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}
+              className={`w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
             >
               <div
                 onMouseDown={handleTracklistThumbMouseDown}
