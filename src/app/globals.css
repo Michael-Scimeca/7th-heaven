@@ -340,6 +340,7 @@ textarea:focus-visible,
   position: relative;
   isolation: isolate;
   display: inline-block;
+  overflow: hidden;
 }
 
 .input-glow-border:not([class*="w-"]) {
@@ -2053,14 +2054,14 @@ div:has(canvas)>a,
   pointer-events: none !important;
 }
 
-/* Global Input Border Radius Enforcement: 8px */
-input,
+/* Global Input Border Radius Enforcement: 8px (except pin-input) */
+input:not(.pin-input),
 select,
 textarea,
 .site-input,
 .form-input,
-.input-glow-border,
-.input-glow-border::after,
-.input-glow-border>* {
+.input-glow-border:not(.pin-box-wrapper),
+.input-glow-border:not(.pin-box-wrapper)::after,
+.input-glow-border:not(.pin-box-wrapper)>* {
   border-radius: 8px !important;
 }

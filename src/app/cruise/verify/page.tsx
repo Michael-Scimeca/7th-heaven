@@ -447,23 +447,24 @@ function CruiseVerifyContent() {
                 <form onSubmit={handleSubmit}>
                   <div className="pin-row">
                     {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                      <input aria-label="Input field"
-                        key={i}
-                        ref={el => { inputRefs.current[i] = el; }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={d}
-                        style={{ padding: 0 }}
-                        onChange={e => handleDigit(i, e.target.value)}
-                        onKeyDown={e => handleKeyDown(i, e)}
-                        onPaste={handlePaste}
-                        className={[
-                          "pin-input",
-                          d ? "filled" : "",
-                          status === "error" ? "error" : "",
-                        ].join(" ")}
-                      />
+                      <div key={i} className="input-glow-border pin-box-wrapper w-11 h-14 rounded-xl shrink-0">
+                        <input aria-label="Input field"
+                          ref={el => { inputRefs.current[i] = el; }}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={d}
+                          style={{ padding: 0 }}
+                          onChange={e => handleDigit(i, e.target.value)}
+                          onKeyDown={e => handleKeyDown(i, e)}
+                          onPaste={handlePaste}
+                          className={[
+                            "pin-input w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums",
+                            d ? "filled" : "",
+                            status === "error" ? "error" : "",
+                          ].join(" ")}
+                        />
+                      </div>
                     ))}
                   </div>
 
