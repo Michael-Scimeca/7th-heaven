@@ -1077,16 +1077,15 @@ export default function StyleGuidePage() {
                     <div className="my-3 space-y-1.5">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
-                        <span className="text-[10px] font-bold text-purple-300 hover:underline cursor-pointer">Login to Admin</span>
                       </div>
-                      <div className="grid grid-cols-4 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
-                        {(['fan', 'crew', 'planner', 'cruise'] as const).map((r) => (
+                      <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                        {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
                           <button
                             key={r}
                             type="button"
-                            onClick={() => setSignInRole(r)}
-                            className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${
-                              signInRole === r
+                            onClick={() => setSignInRole(r as any)}
+                            className={`py-1.5 px-1 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${
+                              signInRole === (r as any)
                                 ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                                 : "text-white/50 hover:text-white/90"
                             }`}

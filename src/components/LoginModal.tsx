@@ -773,41 +773,33 @@ function LoginModalBodyContent(props: any) {
           <div className="my-3 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
-              {modalMode === "login" && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (!adminMode) {
-                      setAdminMode(true);
-                      setEmail("admin@7thheaven.com");
-                      setPassword("password123");
-                      setLoginRole("crew");
-                    } else {
-                      setAdminMode(false);
-                      setEmail("");
-                      setPassword("");
-                      setLoginRole("fan");
-                    }
-                  }}
-                  className="text-[10px] font-bold text-purple-300 hover:text-purple-100 hover:underline transition cursor-pointer"
-                >
-                  {adminMode ? "Exit Admin Mode" : "Login to Admin"}
-                </button>
-              )}
             </div>
-            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-4"}`}>
+            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
                 { id: "planner", label: "Planner" },
-                ...(modalMode === "signup" ? [] : [{ id: "cruise", label: "Cruise" }]),
+                ...(modalMode === "signup" ? [] : [{ id: "cruise", label: "Cruise" }, { id: "admin", label: "Admin" }]),
               ].map((role) => (
                 <button
                   key={role.id}
                   type="button"
-                  onClick={() => setLoginRole(role.id as any)}
-                  className={`py-1.5 px-2 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
-                    loginRole === role.id
+                  onClick={() => {
+                    setLoginRole(role.id as any);
+                    if (role.id === "admin") {
+                      setAdminMode(true);
+                      setEmail("admin@7thheaven.com");
+                      setPassword("password123");
+                    } else {
+                      if (adminMode) {
+                        setAdminMode(false);
+                        setEmail("");
+                        setPassword("");
+                      }
+                    }
+                  }}
+                  className={`py-1.5 px-1.5 text-[10px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center ${
+                    loginRole === role.id || (role.id === 'admin' && adminMode)
                       ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
                       : "text-white/50 hover:text-white/90 hover:bg-white/5"
                   }`}
