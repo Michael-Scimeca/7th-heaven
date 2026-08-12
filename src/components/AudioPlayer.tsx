@@ -480,6 +480,12 @@ export default function AudioPlayerSection() {
             <div
               ref={sidebarScrollRef}
               data-lenis-prevent="true"
+              onWheel={(e) => {
+                const target = e.currentTarget;
+                if (target.scrollHeight > target.clientHeight) {
+                  target.scrollTop += e.deltaY;
+                }
+              }}
               onScroll={handleSidebarScroll}
               className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-contain no-scrollbar min-h-0"
               style={{ overscrollBehavior: "contain" }}
@@ -493,7 +499,7 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleSidebarTrackClick}
-              className="w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-colors"
+              className={`w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 ${sidebarThumbHeight >= 98 ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}
             >
               <div
                 onMouseDown={handleSidebarThumbMouseDown}
@@ -515,6 +521,12 @@ export default function AudioPlayerSection() {
             <div
               ref={tracklistScrollRef}
               data-lenis-prevent="true"
+              onWheel={(e) => {
+                const target = e.currentTarget;
+                if (target.scrollHeight > target.clientHeight) {
+                  target.scrollTop += e.deltaY;
+                }
+              }}
               onScroll={handleTracklistScroll}
               className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
               style={{
@@ -598,7 +610,7 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleTracklistTrackClick}
-              className="w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-colors z-20"
+              className={`w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 98 ? 'opacity-20 pointer-events-none' : 'opacity-100'}`}
             >
               <div
                 onMouseDown={handleTracklistThumbMouseDown}
