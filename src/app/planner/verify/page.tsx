@@ -234,10 +234,26 @@ function PlannerVerifyContent() {
 
         {/* Success state */}
         {status === "success" ? (
-          <div>
-            <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
-            <h2 style={{ color: "#34d399", fontWeight: 900, fontSize: 22, margin: "0 0 8px" }}>Access Granted!</h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>Redirecting to your Planner Dashboard…</p>
+          <div className="py-4">
+            <h2 style={{ color: "#34d399", fontWeight: 900, fontSize: 24, margin: "0 0 10px" }}>Access Granted!</h2>
+            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, margin: "0 0 24px" }}>Your PIN has been verified successfully.</p>
+            <a
+              href="/planner"
+              style={{
+                display: "inline-block",
+                width: "100%",
+                background: "linear-gradient(135deg,#10b981,#059669)",
+                borderRadius: 12,
+                padding: "14px",
+                color: "#fff",
+                fontWeight: 800,
+                fontSize: 15,
+                textDecoration: "none",
+                boxShadow: "0 0 20px rgba(16,185,129,0.4)"
+              }}
+            >
+              Access My Dashboard →
+            </a>
           </div>
         ) : (
           <>
@@ -324,7 +340,7 @@ function PlannerVerifyContent() {
             </div>
 
             <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 20 }}>
-              ⏰ PIN expires in 10 minutes · Only admins can create planner accounts
+              PIN expires in 10 minutes · Only admins can create planner accounts
             </p>
           </>
         )}
