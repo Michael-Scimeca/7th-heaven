@@ -300,8 +300,9 @@ function CruiseVerifyContent() {
         }
         .submit-btn:active:not(:disabled) { transform: translateY(0); }
         .submit-btn:disabled {
-          background: rgba(168,85,247,0.2);
-          color: rgba(255,255,255,0.3);
+          background: rgba(168,85,247,0.15);
+          color: rgba(255,255,255,0.4);
+          opacity: 0.35;
           cursor: not-allowed;
           box-shadow: none;
         }

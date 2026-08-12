@@ -262,7 +262,17 @@ export default function VerifyPage() {
             <button aria-label="Action button"
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
-              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer rounded-xl mb-4"
+              style={{
+                opacity: fullPin.length < 6 ? 0.35 : 1,
+                background: fullPin.length < 6
+                  ? "rgba(168,85,247,0.15)"
+                  : "linear-gradient(135deg, #7c00ff, #a855f7)",
+                border: "none",
+                color: fullPin.length < 6 ? "rgba(255,255,255,0.4)" : "#fff",
+                boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
+                transition: "all 0.25s ease",
+              }}
+              className="w-full py-3.5 font-black text-xs uppercase tracking-widest cursor-pointer rounded-xl mb-4 disabled:cursor-not-allowed"
             >
               {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>

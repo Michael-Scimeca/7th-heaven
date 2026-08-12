@@ -307,14 +307,16 @@ function PlannerVerifyContent() {
                 disabled={pin.length !== 6 || status === "submitting"}
                 style={{
                   width: "100%",
+                  opacity: pin.length !== 6 ? 0.35 : 1,
                   background: pin.length !== 6 || status === "submitting"
-                    ? "rgba(168,85,247,0.2)"
+                    ? "rgba(168,85,247,0.15)"
                     : "linear-gradient(135deg,#7c00ff,#a855f7)",
                   border: "none", borderRadius: 12, padding: "14px",
-                  color: "#fff", fontWeight: 800, fontSize: 15,
+                  color: pin.length !== 6 ? "rgba(255,255,255,0.4)" : "#fff",
+                  fontWeight: 800, fontSize: 15,
                   cursor: pin.length !== 6 || status === "submitting" ? "not-allowed" : "pointer",
-                  boxShadow: pin.length === 6 ? "0 0 20px rgba(168,85,247,0.35)" : "none",
-                  transition: "background 0.2s, box-shadow 0.2s",
+                  boxShadow: pin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
+                  transition: "all 0.25s ease",
                   marginBottom: 16,
                 }}
               >
