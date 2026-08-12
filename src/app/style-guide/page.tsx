@@ -858,7 +858,7 @@ export default function StyleGuidePage() {
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
                     <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                       {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`crew-pin-${i}`} className="w-9 h-12 rounded-xl shrink-0">
+                        <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
                           <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
                             className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                         </div>
@@ -897,7 +897,7 @@ export default function StyleGuidePage() {
                   >
                     <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                       {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`planner-pin-${i}`} className="w-9 h-12 rounded-xl shrink-0">
+                        <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
                           <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
                             className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                         </div>
@@ -941,7 +941,7 @@ export default function StyleGuidePage() {
                     </div>
                     <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
                       {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`cruise-pin-${i}`} className="w-9 h-12 rounded-xl shrink-0">
+                        <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
                           <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
                             className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
                         </div>
