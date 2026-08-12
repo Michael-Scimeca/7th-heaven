@@ -46,6 +46,16 @@ function PlannerVerifyContent() {
   const [errorMsg, setErrorMsg] = useState("");
   const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (step === "email") {
+      const timer = setTimeout(() => {
+        emailInputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
 
   const handleRequestPin = useCallback(async (targetEmail: string) => {
     setStatus("requesting");
@@ -179,20 +189,18 @@ function PlannerVerifyContent() {
             We'll send a 6-digit PIN to verify your identity.
           </p>
           <form onSubmit={e => { e.preventDefault(); handleRequestPin(email); }}>
-            <input aria-label="Input field"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              style={{
-                width: "100%", boxSizing: "border-box",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: 12, padding: "14px 16px",
-                color: "#fff", fontSize: 15, outline: "none", marginBottom: 16,
-              }}
-            />
+            <div className="input-glow-border rounded-xl mb-4">
+              <input aria-label="Input field"
+                ref={emailInputRef}
+                autoFocus
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                className="w-full bg-white/5 border border-white/15 focus:border-purple-400 focus:shadow-[0_0_25px_rgba(168,85,247,0.85),inset_0_0_15px_rgba(168,85,247,0.3)] focus:bg-purple-950/40 rounded-xl px-4 py-3.5 text-base text-white placeholder:text-white/40 outline-none transition-all duration-200"
+              />
+            </div>
             {errorMsg && (
               <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 8, padding: "10px 14px", color: "#f87171", fontSize: 13, marginBottom: 16 }}>
                 {errorMsg}
