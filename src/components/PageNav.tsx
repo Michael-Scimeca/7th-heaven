@@ -82,7 +82,6 @@ const CATEGORIES = [
     name: "Misc",
     pages: [
       { path: "/admin/legal", label: "Legal & Compliance Verify" },
-      { path: "/cruise/payment", label: "Payment" },
       { path: "/features", label: "Features" },
       { path: "/style-guide", label: "Style Guide" },
     ]
