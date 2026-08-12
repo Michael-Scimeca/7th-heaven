@@ -59,7 +59,7 @@ const CATEGORIES = [
   {
     name: "Admin Pages",
     pages: [
-      { path: "/admin", label: "Admin Panel" },
+      { path: "/admin", label: "Admin Dashboard" },
       { path: "/studio", label: "Sanity Studio" },
     ]
   },
@@ -72,14 +72,19 @@ const CATEGORIES = [
     ]
   },
   {
+    name: "Merch Pages",
+    pages: [
+      { path: "/merch", label: "Merch Store" },
+      { path: "/qr/merch", label: "QR Merch" },
+    ]
+  },
+  {
     name: "Misc",
     pages: [
       { path: "/admin/legal", label: "Legal & Compliance Verify" },
       { path: "/cruise/payment", label: "Payment" },
       { path: "/features", label: "Features" },
       { path: "/style-guide", label: "Style Guide" },
-      { path: "/sitemap/flowchart", label: "Flowchart" },
-      { path: "/qr/merch", label: "QR Merch" },
     ]
   },
 ];
