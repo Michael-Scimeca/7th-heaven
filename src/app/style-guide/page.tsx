@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -107,6 +107,25 @@ export default function StyleGuidePage() {
   const [radioState, setRadioState] = useState("full_band");
   const [toggleState, setToggleState] = useState(true);
   const [selectedDropdown, setSelectedDropdown] = useState("chicago");
+
+  /* ── PIN Input Demo State ── */
+  const [pinDigits, setPinDigits] = useState<string[]>(["7", "H", "", "", "", ""]);
+  const [pinFocusedIndex, setPinFocusedIndex] = useState<number | null>(null);
+  const [pinError, setPinError] = useState(false);
+  const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const handlePinDigit = (idx: number, val: string) => {
+    const clean = val.replace(/[^0-9a-zA-Z]/g, "").slice(-1).toUpperCase();
+    setPinDigits(prev => { const n = [...prev]; n[idx] = clean; return n; });
+    setPinError(false);
+    if (clean && idx < 5) pinRefs.current[idx + 1]?.focus();
+  };
+
+  const handlePinKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !pinDigits[idx] && idx > 0) {
+      pinRefs.current[idx - 1]?.focus();
+    }
+  };
   // Interactive Chat Bubble UI Control States
   const [bubbleRadius, setBubbleRadius] = useState<number>(16);
   const [bubbleBorderWidth, setBubbleBorderWidth] = useState<number>(0);
@@ -674,6 +693,106 @@ export default function StyleGuidePage() {
                     className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-none text-white/80 placeholder-white/40 text-xs font-medium outline-none focus:ring-0 transition resize-none"
                   />
                 </div>
+              </div>
+            </div>
+
+            {/* PIN / OTP Digit Input */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-5 md:col-span-2">
+              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">PIN / OTP Digit Input</h3>
+
+              {/* Default State */}
+              <div>
+                <label className="block text-xs font-bold text-white/70 mb-2">Default State</label>
+                <div className="flex items-center gap-1.5 no-glow">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={`pin-default-${i}`} className="!w-11 !h-14 rounded-xl shrink-0">
+                      <input
+                        aria-label={`Default PIN digit ${i + 1}`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        readOnly
+                        placeholder="·"
+                        style={{ padding: 0 }}
+                        className="w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 placeholder-white/20"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Interactive / Focused State */}
+              <div>
+                <label className="block text-xs font-bold text-purple-300 mb-2">Interactive (Focus a box)</label>
+                <div className="flex items-center gap-1.5 no-glow">
+                  {pinDigits.map((digit, i) => (
+                    <div key={`pin-focus-${i}`} className="!w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                      <input
+                        aria-label={`PIN digit ${i + 1}`}
+                        ref={el => { pinRefs.current[i] = el; }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        style={{ padding: 0 }}
+                        onFocus={() => setPinFocusedIndex(i)}
+                        onBlur={() => setPinFocusedIndex(null)}
+                        onChange={e => handlePinDigit(i, e.target.value)}
+                        onKeyDown={e => handlePinKeyDown(i, e)}
+                        className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
+                          ${pinFocusedIndex === i
+                            ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                            : digit
+                              ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                              : 'border-white/20 text-white/40 hover:border-white/40'
+                          }`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Filled State */}
+              <div>
+                <label className="block text-xs font-bold text-emerald-400 mb-2">Filled State</label>
+                <div className="flex items-center gap-1.5 no-glow">
+                  {["7", "H", "C", "R", "E", "W"].map((d, i) => (
+                    <div key={`pin-filled-${i}`} className="!w-11 !h-14 rounded-xl shrink-0">
+                      <input
+                        aria-label={`Filled PIN digit ${i + 1}`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={d}
+                        readOnly
+                        style={{ padding: 0 }}
+                        className="w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Error State */}
+              <div>
+                <label className="block text-xs font-bold text-red-400 mb-2">Error State</label>
+                <div className="flex items-center gap-1.5 no-glow">
+                  {["X", "X", "X", "X", "X", "X"].map((d, i) => (
+                    <div key={`pin-error-${i}`} className="!w-11 !h-14 rounded-xl shrink-0">
+                      <input
+                        aria-label={`Error PIN digit ${i + 1}`}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={d}
+                        readOnly
+                        style={{ padding: 0 }}
+                        className="w-full h-full text-center text-xl font-black rounded-xl border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <span className="text-[10px] text-red-400 mt-1.5 block">Invalid PIN. Please try again.</span>
               </div>
             </div>
 

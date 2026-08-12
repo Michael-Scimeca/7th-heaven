@@ -353,9 +353,9 @@ textarea:focus-visible,
 .input-glow-border::after {
   content: "";
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none !important;
+  inset: -1.5px;
+  z-index: 2;
+  pointer-events: none;
   border-radius: inherit;
   padding: 2px;
   background: conic-gradient(from var(--border-angle), #c084fc 0%, #a855f7 25%, #ec4899 50%, #8b5cf6 75%, #c084fc 100%);
@@ -379,9 +379,14 @@ textarea:focus-visible,
   width: 100%;
 }
 
-.input-glow-border:has(textarea) > textarea,
-div:has(> textarea) > textarea {
+.input-glow-border:has(textarea)::after {
+  inset: -1.5px !important;
+}
+
+.input-glow-border:has(textarea)>textarea,
+div:has(> textarea)>textarea {
   display: block !important;
+  vertical-align: bottom !important;
 }
 
 /* Universal auto-glow for textarea elements */
