@@ -161,6 +161,11 @@ export default function AudioPlayerSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<"all" | "original" | "medley" | "cover" | "holiday">("all");
 
+  const sidebarScrollRef = useRef<HTMLDivElement | null>(null);
+  const isDraggingSidebarRef = useRef(false);
+  const startYRef = useRef(0);
+  const startScrollTopRef = useRef(0);
+
   const [sidebarScrollProgress, setSidebarScrollProgress] = useState(0);
   const [sidebarThumbHeight, setSidebarThumbHeight] = useState(25);
 
@@ -171,6 +176,42 @@ export default function AudioPlayerSection() {
       setSidebarScrollProgress((target.scrollTop / maxScroll) * 100);
       setSidebarThumbHeight(Math.max(15, (target.clientHeight / target.scrollHeight) * 100));
     }
+  };
+
+  const handleSidebarTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = sidebarScrollRef.current;
+    if (!container) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const percentage = clickY / rect.height;
+    container.scrollTop = percentage * (container.scrollHeight - container.clientHeight);
+  };
+
+  const handleSidebarThumbMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const container = sidebarScrollRef.current;
+    if (!container) return;
+    isDraggingSidebarRef.current = true;
+    startYRef.current = e.clientY;
+    startScrollTopRef.current = container.scrollTop;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingSidebarRef.current || !sidebarScrollRef.current) return;
+      const deltaY = moveEvent.clientY - startYRef.current;
+      const trackHeight = sidebarScrollRef.current.clientHeight;
+      const scrollRatio = sidebarScrollRef.current.scrollHeight / trackHeight;
+      sidebarScrollRef.current.scrollTop = startScrollTopRef.current + deltaY * scrollRatio;
+    };
+
+    const onMouseUp = () => {
+      isDraggingSidebarRef.current = false;
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
   };
 
   const originalCds = albums.filter(a => {
@@ -342,7 +383,7 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pr-3 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
@@ -371,6 +412,7 @@ export default function AudioPlayerSection() {
 
           <div className="relative flex-1 min-h-0 flex items-stretch">
             <div
+              ref={sidebarScrollRef}
               data-lenis-prevent="true"
               data-lenis-prevent-wheel="true"
               data-lenis-prevent-touch="true"
@@ -385,10 +427,14 @@ export default function AudioPlayerSection() {
               {renderAlbumList(holidayCds, "Holiday CD's")}
             </div>
 
-            {/* Permanent Custom Purple Scrollbar Track & Thumb */}
-            <div className="w-2 mb-6 ml-1 bg-purple-950/40 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 pointer-events-none shadow-[0_0_8px_rgba(147,51,234,0.2)]">
+            {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
+            <div
+              onClick={handleSidebarTrackClick}
+              className="w-2.5 mb-6 ml-1 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-colors"
+            >
               <div
-                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 transition-all duration-75"
+                onMouseDown={handleSidebarThumbMouseDown}
+                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
                 style={{
                   height: `${sidebarThumbHeight}%`,
                   top: `${(sidebarScrollProgress * (100 - sidebarThumbHeight)) / 100}%`
