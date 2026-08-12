@@ -247,7 +247,7 @@ export default function VerifyPage() {
                     onKeyDown={e => handleKeyDown(i, e)}
                     className={`w-full h-full text-center text-2xl font-black rounded-xl border-2 bg-black/70 outline-none transition-all duration-200 tabular-nums
                       ${focusedIndex === i
-                        ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/60 scale-[1.06] z-10 relative'
+                        ? 'border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.85)] bg-purple-950/60 scale-[1.06] z-10 relative'
                         : digit
                           ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
                           : 'border-white/20 text-white/40 hover:border-white/40'
