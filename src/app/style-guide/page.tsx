@@ -1212,18 +1212,17 @@ export default function StyleGuidePage() {
                             <div className="input-glow-border rounded-xl flex-1">
                               <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
                             </div>
-                            <div className="relative shrink-0">
-                              <select
-                                value={previewRadius}
-                                onChange={(e) => setPreviewRadius(e.target.value)}
-                                className="appearance-none bg-[#242630] border border-white/20 px-3 py-2 pr-7 rounded-full text-xs font-black text-white cursor-pointer outline-none hover:bg-[#2c2e3b] transition-colors uppercase tracking-wider shadow-sm"
-                              >
-                                <option value="15" className="bg-[#1a1b23] text-white">15 MI</option>
-                                <option value="25" className="bg-[#1a1b23] text-white">25 MI</option>
-                                <option value="50" className="bg-[#1a1b23] text-white">50 MI</option>
-                                <option value="100" className="bg-[#1a1b23] text-white">100 MI</option>
-                              </select>
-                              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/60 text-[9px] pointer-events-none">▼</span>
+                            <div className="shrink-0 relative z-30">
+                              <GooeyDropdown
+                                label={`${previewRadius} MI`}
+                                accentColor="#7c00ff"
+                                items={[
+                                  { label: "15 MI", onClick: () => setPreviewRadius("15") },
+                                  { label: "25 MI", onClick: () => setPreviewRadius("25") },
+                                  { label: "50 MI", onClick: () => setPreviewRadius("50") },
+                                  { label: "100 MI", onClick: () => setPreviewRadius("100") },
+                                ]}
+                              />
                             </div>
                           </div>
                         </div>

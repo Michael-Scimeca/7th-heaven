@@ -939,7 +939,7 @@ select::placeholder,
   --radius-lg: 0px;
   --radius-xl: 0px;
   --radius-2xl: 0px;
-  --radius-3xl: 0px;
+  --radius-3xl: 24px;
   --radius-4xl: 0px;
   --radius-full: 9999px;
 
@@ -981,9 +981,11 @@ select::placeholder,
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }

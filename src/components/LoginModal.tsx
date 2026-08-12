@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
 import { SquishyToggle } from "./SquishyToggle";
+import GooeyDropdown from "./GooeyDropdown";
 import Dropdown from "@/components/Dropdown";
 // Dev-only: never ships in the production bundle
 const fakeLogins: { email: string; password: string; name: string; username: string; role: string; pin: string }[] =
@@ -1460,20 +1461,17 @@ function SignUpExtraFields({
                     className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
                   />
                 </div>
-                <div className="relative shrink-0">
-                  <select
-                    id="signup-alert-radius"
-                    aria-label="Alert Search Radius"
-                    value={alertRadius}
-                    onChange={(e) => setAlertRadius?.(e.target.value)}
-                    className="appearance-none bg-[#242630] border border-white/20 px-4 py-3 pr-8 rounded-full text-xs sm:text-sm font-black text-white cursor-pointer outline-none hover:bg-[#2c2e3b] transition-colors uppercase tracking-wider shadow-sm"
-                  >
-                    <option value="15" className="bg-[#1a1b23] text-white">15 MI</option>
-                    <option value="25" className="bg-[#1a1b23] text-white">25 MI</option>
-                    <option value="50" className="bg-[#1a1b23] text-white">50 MI</option>
-                    <option value="100" className="bg-[#1a1b23] text-white">100 MI</option>
-                  </select>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 text-[10px] pointer-events-none">▼</span>
+                <div className="shrink-0 relative z-30">
+                  <GooeyDropdown
+                    label={`${alertRadius || "50"} MI`}
+                    accentColor="#7c00ff"
+                    items={[
+                      { label: "15 MI", onClick: () => setAlertRadius?.("15") },
+                      { label: "25 MI", onClick: () => setAlertRadius?.("25") },
+                      { label: "50 MI", onClick: () => setAlertRadius?.("50") },
+                      { label: "100 MI", onClick: () => setAlertRadius?.("100") },
+                    ]}
+                  />
                 </div>
               </div>
             </div>
