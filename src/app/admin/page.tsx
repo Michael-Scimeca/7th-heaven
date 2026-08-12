@@ -66,6 +66,10 @@ export default function AdminGatewayPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
+      if (!res.ok) {
+        console.warn("Failed to send PIN: HTTP status", res.status);
+        return;
+      }
       const data = await res.json();
       if (!data.success) {
         console.warn("Failed to send PIN:", data.error);
@@ -90,6 +94,8 @@ export default function AdminGatewayPage() {
         await sendPin(adminEmail);
         setStep("verify");
       }
+    } catch (err: any) {
+      setAdminLoginError(err.message || 'Login failed');
     } finally {
       setAdminLoginLoading(false);
     }
@@ -137,6 +143,11 @@ export default function AdminGatewayPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, pin: fullPin }),
       });
+      if (!res.ok) {
+        setVerifyStatus("error");
+        setVerifyError("Verification server error.");
+        return;
+      }
       const data = await res.json();
 
       if (data.success) {
@@ -170,9 +181,14 @@ export default function AdminGatewayPage() {
 
   /* ── Auto-submit when all 6 digits entered ── */
   useEffect(() => {
+    let isSubmitting = false;
     if (step === "verify" && pin.every(d => d !== "") && verifyStatus !== "checking") {
+      isSubmitting = true;
       handleVerify();
     }
+    return () => {
+      isSubmitting = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pin, step]);
 

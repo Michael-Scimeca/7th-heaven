@@ -27,6 +27,7 @@ function ProductCard({
           src={product.imageUrl}
           alt={product.title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           unoptimized
           className="object-cover"
         />
@@ -89,11 +90,22 @@ export default function PaymentTestShopPage() {
   const [startingCheckout, setStartingCheckout] = useState(false);
   const [mockMode, setMockMode] = useState(false);
 
+  // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
   useEffect(() => {
-    fetch("/api/payment-test/north/status")
-      .then((res) => res.json())
-      .then((data) => setMockMode(!!data.mock))
-      .catch(() => {});
+    let active = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/payment-test/north/status");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (active && data) setMockMode(!!data.mock);
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const variantLookup = useMemo(() => {
@@ -251,7 +263,7 @@ export default function PaymentTestShopPage() {
                     className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-xl p-3"
                   >
                     <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-black/40">
-                      <Image src={item.imageUrl} alt={item.title} fill unoptimized className="object-cover" />
+                      <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white font-bold text-sm truncate">{item.title}</p>

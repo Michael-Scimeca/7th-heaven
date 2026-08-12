@@ -46,9 +46,9 @@ export function getNorthConfig(): NorthConfig {
     terminalNbr: process.env.NEXT_PUBLIC_NORTH_TERMINAL_NBR,
   };
 
-  const missing = Object.entries(required)
-    .filter(([, v]) => !v)
-    .map(([k]) => k);
+  const missing = Object.keys(required).filter(
+    (key) => !required[key as keyof typeof required]
+  );
 
   if (missing.length > 0) {
     throw new Error(
@@ -131,6 +131,10 @@ export async function requestTac(
     body: body.toString(),
     cache: "no-store",
   });
+
+  if (!res.ok) {
+    throw new Error(`North key exchange HTTP error: ${res.status}`);
+  }
 
   const xml = await res.text();
   const tac = parseTacFromXml(xml);

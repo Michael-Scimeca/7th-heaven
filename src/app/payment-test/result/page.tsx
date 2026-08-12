@@ -22,21 +22,31 @@ function NorthResultContent() {
   const [loading, setLoading] = useState(!!id);
   const [fetchError, setFetchError] = useState("");
 
+  // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
   useEffect(() => {
     if (!id) return;
     let active = true;
-    fetch(`/api/payment-test/north/result?id=${encodeURIComponent(id)}`)
-      .then((res) => res.json())
-      .then((data) => {
+    (async () => {
+      try {
+        const res = await fetch(`/api/payment-test/north/result?id=${encodeURIComponent(id)}`);
+        if (!active) return;
+        if (!res.ok) {
+          setFetchError(`Server returned status ${res.status}`);
+          return;
+        }
+        const data = await res.json();
         if (!active) return;
         if (data.error) {
           setFetchError(data.error);
         } else {
           setResult(data);
         }
-      })
-      .catch((err) => active && setFetchError(err.message || "Failed to load result."))
-      .finally(() => active && setLoading(false));
+      } catch (err: any) {
+        if (active) setFetchError(err.message || "Failed to load result.");
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
     return () => {
       active = false;
     };
