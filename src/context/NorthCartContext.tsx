@@ -6,7 +6,8 @@
 // — extended so each size/format/color variant is its own line item (the
 // original tutorial's cart only keyed on a single product id).
 
-import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useCallback, ReactNode } from "react";
+
 
 export type CartLineItem = {
   /** The variant id (e.g. "logo-tee-M") — unique cart line-item key. */
@@ -67,52 +68,51 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
   }, [cartItems, hydrated]);
 
-  const getCartItemQuantity = (variantId: string) => {
+  const getCartItemQuantity = useCallback((variantId: string) => {
     return cartItems.find((item) => item.id === variantId)?.quantity ?? 0;
-  };
+  }, [cartItems]);
 
-  const addOneItemToCart = (item: Omit<CartLineItem, "quantity">) => {
-    const existingQuantity = getCartItemQuantity(item.id);
+  const addOneItemToCart = useCallback((item: Omit<CartLineItem, "quantity">) => {
+    const existingQuantity = cartItems.find((ci) => ci.id === item.id)?.quantity ?? 0;
     if (existingQuantity === 0) {
-      setCartItems([...cartItems, { ...item, quantity: 1 }]);
+      setCartItems((prev) => [...prev, { ...item, quantity: 1 }]);
     } else {
-      setCartItems(
-        cartItems.map((ci) =>
+      setCartItems((prev) =>
+        prev.map((ci) =>
           ci.id === item.id ? { ...ci, quantity: ci.quantity + 1 } : ci
         )
       );
     }
-  };
+  }, [cartItems]);
 
-  const deleteItemFromCart = (variantId: string) => {
+  const deleteItemFromCart = useCallback((variantId: string) => {
     setCartItems((prev) => prev.filter((item) => item.id !== variantId));
-  };
+  }, []);
 
-  const removeOneItemFromCart = (variantId: string) => {
-    const quantity = getCartItemQuantity(variantId);
-    if (quantity <= 1) {
-      deleteItemFromCart(variantId);
-    } else {
-      setCartItems(
-        cartItems.map((item) =>
-          item.id === variantId ? { ...item, quantity: item.quantity - 1 } : item
-        )
+  const removeOneItemFromCart = useCallback((variantId: string) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === variantId);
+      if (!existing || existing.quantity <= 1) {
+        return prev.filter((item) => item.id !== variantId);
+      }
+      return prev.map((item) =>
+        item.id === variantId ? { ...item, quantity: item.quantity - 1 } : item
       );
-    }
-  };
+    });
+  }, []);
 
-  const getTotalCost = () => {
+  const getTotalCost = useCallback(() => {
     return cartItems.reduce((total, item) => total + item.quantity * item.unitPrice, 0);
-  };
+  }, [cartItems]);
 
-  const getNumberOfCartItems = () => {
+  const getNumberOfCartItems = useCallback(() => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
-  };
+  }, [cartItems]);
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCartItems([]);
     localStorage.removeItem(CART_STORAGE_KEY);
-  };
+  }, []);
 
   const value: CartContextValue = useMemo(() => ({
     items: cartItems,
@@ -125,7 +125,8 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
     getTotalCost,
     getNumberOfCartItems,
     clearCart,
-  }), [cartItems, loading]);
+  }), [cartItems, loading, getCartItemQuantity, addOneItemToCart, removeOneItemFromCart, deleteItemFromCart, getTotalCost, getNumberOfCartItems, clearCart]);
+
 
   // eslint-disable-next-line react-doctor/context-provider-value-from-unmemoized-local-literal
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
