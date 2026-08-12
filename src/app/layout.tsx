@@ -208,7 +208,7 @@ export default async function RootLayout({
                     </PageTransition>
                   </div>
                   <Footer />
-                  <SanityLive />
+                  {isDraftMode && <SanityLive />}
                   {isDraftMode && <VisualEditing />}
                   <PageNav />
                   <ClientOnlyExtras />

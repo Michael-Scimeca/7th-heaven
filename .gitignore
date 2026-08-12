@@ -65,3 +65,6 @@ sim_curl2.sh
 
 # Local Netlify folder
 .netlify
+
+# Original uncompressed hero videos (kept locally as backups)
+public/movie/hero-colorinmostion-original.mp4
