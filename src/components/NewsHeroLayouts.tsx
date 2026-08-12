@@ -59,7 +59,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
           <div className="site-container relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 text-left">
-              <span className="text-xs font-black uppercase tracking-widest text-purple-400bg-cyan-500/10 px-3 py-1 border border-cyan-500/20">
+              <span className="text-xs font-black uppercase tracking-widest text-purple-400   px-3 py-1 border border-cyan-500/20">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
               <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mt-4 mb-4">
@@ -125,7 +125,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             {/* Left Card */}
             <div className="lg:col-span-7 bg-[#130d24] border border-cyan-500/30 p-8 md:p-10">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400bg-cyan-500/10 px-2.5 py-1">
+                <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-widest text-purple-400   px-2.5 py-1">
                   OPTION 2C — REVERSED LEFT CARD
                 </span>
                 <span className="text-xs font-mono text-white/50">{featured.date}</span>

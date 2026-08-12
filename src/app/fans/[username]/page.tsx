@@ -449,7 +449,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           ADMIN
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
                           </span>
                         )}
@@ -464,7 +464,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           CREW
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
                           </span>
                         )}
@@ -479,7 +479,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           EVENT PLANNER
                         </span>
                         {showCruise && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
                             CRUISE
                           </span>
                         )}
@@ -489,7 +489,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
                   if (isCruiseOnly) {
                     return (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
                         CRUISE MEMBER
                       </span>
                     );
@@ -501,7 +501,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
                           FAN
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-cyan-500/10 text-purple-400border-cyan-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
                           CRUISE MEMBER
                         </span>
                       </>
@@ -563,7 +563,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
             {/* Captain's Log */}
             {cruiseAnnouncement && (
               <div className="relative overflow-hidden bg-gradient-to-br from-cyan-50 to-[#0a0a0f] border border-cyan-500/30 mb-8 shadow-md">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-64 h-64    rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500" />
                 <div className="p-6 md:p-8 relative z-10">
                   <div className="flex items-center gap-3 mb-5">
@@ -1014,7 +1014,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <div className="flex items-start gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs font-black uppercase tracking-[0.2em] text-purple-400bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
+                          <span className="text-xs font-black uppercase tracking-[0.2em] text-purple-400   px-2.5 py-1 rounded-full border border-cyan-500/20">Limited Spots</span>
                         </div>
                         <h3 className="text-lg font-black text-white uppercase tracking-wide mb-1">7th Heaven is Setting Sail!</h3>
                         <p className="text-white/60 text-sm max-w-lg leading-relaxed">

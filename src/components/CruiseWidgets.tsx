@@ -691,7 +691,7 @@ export function BookingManager({ email }: { email?: string }) {
                   <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 px-2 py-1 rounded">
                     <span>🎸</span> Band VIP Pass Included
                   </div>
-                  <div className="flex items-center gap-1.5 text-cyan-300 font-medium bg-cyan-500/10 border border-cyan-500/20 px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5 text-cyan-300 font-medium    border border-cyan-500/20 px-2 py-1 rounded">
                     <span>📅</span> Check-in: 45 Days Prior
                   </div>
                   <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
@@ -959,14 +959,14 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('saved'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'saved' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use Saved Card
                   </button>
                   <button aria-label="Action button"
                     type="button"
                     onClick={() => { setTab('new'); setError(''); }}
-                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
+                    className={`flex-1 py-1.5 rounded-lg text-[var(--font-size-3xs)] font-black uppercase tracking-wider transition-colors cursor-pointer ${tab === 'new' ? '   border border-cyan-500/20 text-cyan-400' : 'text-white/40 border border-transparent'}`}
                   >
                     Use New Card
                   </button>

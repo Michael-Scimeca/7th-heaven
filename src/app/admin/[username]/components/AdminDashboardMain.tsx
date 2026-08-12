@@ -7743,7 +7743,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <button
                   onClick={() => { setCruiseEmailOpen(!cruiseEmailOpen); setCruiseEmailResult(null); }}
                   disabled={cruiseSelectedEmails.length === 0}
-                  className="px-4 py-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-purple-400text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
+                  className="px-4 py-2    hover:bg-cyan-500/20 border border-cyan-500/30 text-purple-400text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
                   Email {cruiseSelectedEmails.length > 0 ? `(${cruiseSelectedEmails.length})` : ''}
@@ -12278,7 +12278,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
                   <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
+                      <div className="w-10 h-10    border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
                       <div>
                         <h3 className="text-base md:text-lg font-black italic tracking-wide text-white">Cruise Information & Guidelines</h3>
                         <p className="text-[0.65rem] text-purple-400font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
@@ -12376,11 +12376,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
 
                 <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20  p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden`}>
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-cyan-500/10 transition-colors duration-700 pointer-events-none" />
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:   transition-colors duration-700 pointer-events-none" />
                   <div className="relative z-10 flex flex-col gap-6">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 shrink-0 bg-cyan-500/10 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
+                        <div className="w-12 h-12 shrink-0    border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
                         <div>
                           <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
                           <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>

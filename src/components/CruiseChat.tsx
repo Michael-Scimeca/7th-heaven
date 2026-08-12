@@ -482,7 +482,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
           <div>
             <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
               Passenger Lounge
-              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-cyan-500/10 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
+              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300    border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
                 LIVE
               </span>
             </h3>

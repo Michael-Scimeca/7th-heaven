@@ -281,7 +281,7 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] py-8 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-3">
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-purple-400text-xs font-black uppercase tracking-widest animate-pulse">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full    border border-cyan-500/30 text-purple-400text-xs font-black uppercase tracking-widest animate-pulse">
             <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
@@ -312,12 +312,12 @@ export default function MerchQRClient({ initialProducts }: { initialProducts: an
             <div className="flex items-center gap-2 text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 px-3 py-1.5 rounded-lg border  border-[var(--color-accent)]/30">
               <span>🎪</span> Table Pickup Ready
             </div>
-            <div className="flex items-center gap-2 text-xs font-bold text-purple-400bg-cyan-500/10 px-3 py-1.5 rounded-lg border border-cyan-500/20">
+            <div className="flex items-center gap-2 text-xs font-bold text-purple-400   px-3 py-1.5 rounded-lg border border-cyan-500/20">
               <span>📦</span> Nationwide Shipping
             </div>
             <button aria-label="Action button"
               onClick={() => setShowQRSignModal(true)}
-              className="flex items-center gap-1.5 text-xs font-bold text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 text-xs font-bold text-cyan-300    hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-cyan-500/30 transition-colors cursor-pointer"
             >
               <span>🖨️</span> Printable Venue QR Sign
             </button>

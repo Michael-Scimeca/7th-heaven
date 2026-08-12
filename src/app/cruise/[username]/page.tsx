@@ -659,12 +659,12 @@ export default function CruiseDashboard() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[9px] font-black tracking-[0.15em] uppercase text-cyan-300 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/30">Priority Update</span>
+                    <span className="text-[9px] font-black tracking-[0.15em] uppercase text-cyan-300    px-2 py-0.5 rounded-full border border-cyan-500/30">Priority Update</span>
                   </div>
                   <h3 className="text-lg font-black tracking-wide text-white uppercase">{announcementTitle || "Cruise Notice"}</h3>
                 </div>
                 {isAdmin && !isEditingAnnouncement && (
-                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+                  <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(true)} className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-xl    border border-cyan-500/30">
                     ✏️ Edit Announcement
                   </button>
                 )}
@@ -734,7 +734,7 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30"
+                      className="ml-auto text-xs font-bold text-cyan-300 hover:text-white uppercase tracking-widest cursor-pointer transition-colors px-3 py-1.5 rounded-xl    border border-cyan-500/30"
                     >
                       ✏️ Edit Guidelines
                     </button>

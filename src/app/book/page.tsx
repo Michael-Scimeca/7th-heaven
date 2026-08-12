@@ -934,18 +934,16 @@ function BookPageContent() {
           {isLoggedIn && member && (
             <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/10">
               <div className="flex items-center gap-4">
-                <div className="relative w-14 h-14 rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-lg font-black text-cyan-300">
+                <div className="relative w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black text-purple-300">
                   {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
-                  <span className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${member.role === 'event_planner' ? 'bg-purple-600' : 'bg-cyan-500'
-                    } border-2 border-white flex items-center justify-center`}>
+                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-purple-600 border-2 border-white flex items-center justify-center">
                     <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? <ClipboardList className="w-2.5 h-2.5" /> : <Star className="w-2.5 h-2.5 fill-white" />}</span>
                   </span>
                 </div>
                 <div className="text-left">
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-black italic tracking-tight text-white">{member.name}</h2>
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full ${member.role === 'event_planner' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-                      }`}>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-base font-bold uppercase tracking-[0.15em] border rounded-full bg-purple-500/20 text-purple-300 border-purple-500/30">
                       {member.role === 'event_planner' ? <><ClipboardList className="w-3.5 h-3.5" /> Event Planner</> : member.role === 'admin' ? <><Shield className="w-3.5 h-3.5" /> Admin</> : member.role === 'crew' ? <><Shield className="w-3.5 h-3.5" /> Crew</> : <><Star className="w-3.5 h-3.5" /> Fan</>}
                     </span>
                   </div>
@@ -1081,8 +1079,8 @@ function BookPageContent() {
               </div>
               {/* Pricing hint per type */}
               {selectedType && (
-                <div className="px-5 py-3 bg-cyan-500/10 border border-cyan-400/30 rounded-xl text-base text-white/80 mb-4">
-                  <span className="text-cyan-300 font-bold">Pricing Guide:</span>{" "}
+                <div className="px-5 py-3   15 border border-purple-500/30 rounded-xl text-base text-white/80 mb-4">
+                  <span className="text-purple-300 font-bold">Pricing Guide:</span>{" "}
                   {selectedType === "full_band" && "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                   {selectedType === "unplugged" && "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
                   {selectedType === "private" && "Private events start at $4,000. Includes custom setlist and dedicated coordination."}

@@ -361,7 +361,7 @@ const siteStructure = [
 const getNodeColor = (type: string) => {
   switch (type) {
     case 'page': return {
-      text: 'text-cyan-400', border: 'border-cyan-500/20', activeBorder: 'border-cyan-500', bg: 'bg-cyan-500/5', activeBg: 'bg-cyan-500/10', glow: 'shadow-[0_0_15px_rgba(34,211,238,0.15)]', icon: '🌐'
+      text: 'text-cyan-400', border: 'border-cyan-500/20', activeBorder: 'border-cyan-500', bg: 'bg-cyan-500/5', activeBg: '  ', glow: 'shadow-[0_0_15px_rgba(34,211,238,0.15)]', icon: '🌐'
     };
     case 'module': return {
       text: 'text-pink-400', border: 'border-pink-500/20', activeBorder: 'border-pink-500', bg: 'bg-pink-500/5', activeBg: 'bg-pink-500/10', glow: 'shadow-[0_0_15px_rgba(244,63,94,0.15)]', icon: '⚙️'
@@ -1929,7 +1929,7 @@ const NODE_COLOR_MAP: Record<string, string> = {
   purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
   red: "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
   amber: "border-purple-500/30 bg-purple-600/5 hover:border-purple-400/50 hover:bg-purple-600/10",
-  cyan: "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
+  cyan: "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:  ",
   teal: "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
   blue: "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
 };

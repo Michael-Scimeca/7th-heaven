@@ -93,12 +93,12 @@ export default function AccomplishmentsLayouts({ accomplishments }: Accomplishme
               className={`relative p-7 rounded-3xl   border border-cyan-500/30 backdrop-blur-xl hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-colors group overflow-hidden ${i === 0 || i === 3 ? "md:col-span-2" : ""
                 }`}
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
+              <div className="absolute top-0 right-0 w-24 h-24    rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-colors" />
               <div className="flex justify-between items-center mb-4">
                 <span className="text-4xl font-black text-cyan-400">
                   {s.number}
                 </span>
-                <span className="px-2.5 py-0.5 rounded text-[var(--font-size-4xs)] font-mono font-bold uppercase bg-cyan-500/10 text-purple-400border border-cyan-500/30">
+                <span className="px-2.5 py-0.5 rounded text-[var(--font-size-4xs)] font-mono font-bold uppercase    text-purple-400border border-cyan-500/30">
                   {s.badge}
                 </span>
               </div>
