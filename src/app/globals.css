@@ -363,6 +363,9 @@ textarea:focus-visible,
   position: relative;
   isolation: isolate;
   display: inline-block;
+}
+
+.input-glow-border:not([class*="w-"]) {
   width: 100%;
 }
 
