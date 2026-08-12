@@ -51,8 +51,13 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
-  // Hydrate from localStorage after mount (avoids SSR/client markup mismatch).
+  // Hydrate from localStorage after mount. Intentionally deferred to an
+  // effect rather than a useState lazy initializer: reading localStorage
+  // during the initial client render would make that render's output (cart
+  // count, etc.) diverge from the server-rendered markup and trigger a
+  // hydration mismatch.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCartItems(readCartFromStorage());
     setHydrated(true);
   }, []);

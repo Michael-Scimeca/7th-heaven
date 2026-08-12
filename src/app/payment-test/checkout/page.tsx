@@ -19,7 +19,10 @@ export default function NorthCheckoutPage() {
   const [expDate, setExpDate] = useState("2512"); // YYMM
   const [cvv2, setCvv2] = useState("123");
 
+  // Deferred to an effect (not a lazy useState initializer) to avoid an
+  // SSR/client hydration mismatch — see the same note in NorthCartContext.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTac(localStorage.getItem("7h_north_tac_v1"));
     setAmount(localStorage.getItem("7h_north_amount_v1"));
     setReady(true);

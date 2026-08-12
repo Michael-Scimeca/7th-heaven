@@ -21,11 +21,9 @@ export async function POST(req: NextRequest) {
     const { tac, tranNbr } = await requestTac(formattedAmount);
 
     return NextResponse.json({ tac, amount: formattedAmount, tranNbr });
-  } catch (err: any) {
+  } catch (err) {
     console.error("[payment-test/north/tac] error:", err);
-    return NextResponse.json(
-      { error: err?.message || "Failed to get a TAC from North." },
-      { status: 500 }
-    );
+    const message = err instanceof Error ? err.message : "Failed to get a TAC from North.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

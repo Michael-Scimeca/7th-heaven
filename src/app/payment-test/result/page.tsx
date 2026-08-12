@@ -19,14 +19,11 @@ function NorthResultContent() {
   const cart = useNorthCart();
 
   const [result, setResult] = useState<ResultData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!id);
   const [fetchError, setFetchError] = useState("");
 
   useEffect(() => {
-    if (!id) {
-      setLoading(false);
-      return;
-    }
+    if (!id) return;
     let active = true;
     fetch(`/api/payment-test/north/result?id=${encodeURIComponent(id)}`)
       .then((res) => res.json())

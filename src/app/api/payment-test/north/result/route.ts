@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
       maskedAccountNbr: data.masked_account_nbr,
       raw: data.raw,
     });
-  } catch (err: any) {
+  } catch (err) {
     console.error("[payment-test/north/result] GET error:", err);
     return NextResponse.json({ error: "Lookup failed" }, { status: 500 });
   }

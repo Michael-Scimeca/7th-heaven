@@ -140,8 +140,9 @@ export default function PaymentTestShopPage() {
       localStorage.setItem("7h_north_amount_v1", data.amount);
       localStorage.setItem("7h_north_tran_nbr_v1", data.tranNbr);
       router.push("/payment-test/checkout");
-    } catch (err: any) {
-      setCheckoutError(err.message || "Something went wrong starting checkout.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong starting checkout.";
+      setCheckoutError(message);
       setStartingCheckout(false);
     }
   };
