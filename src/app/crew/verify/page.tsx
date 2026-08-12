@@ -267,30 +267,43 @@ export default function VerifyPage() {
               {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>
 
-            <div className="space-y-2 mt-4 text-center">
+            {/* Resend section */}
+            <div className="mt-4 text-center">
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>
+                Didn&apos;t receive the code?
+              </p>
               <button aria-label="Action button"
                 type="button"
                 onClick={reset}
-                style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#a855f7",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
               >
-                Resend PIN
-              </button>
-
-              <button aria-label="Action button"
-                type="button"
-                onClick={() => openModal("login")}
-                style={{ display: "block", margin: "8px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 12, cursor: "pointer", textDecoration: "underline" }}
-              >
-                Need a PIN sent to your email?
+                Resend Code
               </button>
             </div>
 
-            <p className="flex items-center justify-center gap-1.5" style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, marginTop: 20 }}>
-              <svg className="w-3.5 h-3.5 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>PIN expires in 10 minutes · Crew access only</span>
-            </p>
+            <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "18px 0" }} />
+
+            {/* Back link */}
+            <Link href="/crew" style={{ display: "block", textAlign: "center", color: "rgba(255,255,255,0.4)", fontSize: 12, textDecoration: "none" }}>
+              ← Back to Crew Page
+            </Link>
+
+            {/* Brand footer */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 16 }}>
+              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>
+                7TH HEAVEN · CREW ACCESS
+              </span>
+              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+            </div>
           </div>
         )}
 
