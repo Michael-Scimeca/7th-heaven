@@ -172,22 +172,7 @@ export function Footer() {
       <div className="relative z-10">
       <div className="site-container relative z-10">
 
-        {/* Book The Band — Bold CTA (Planner only) */}
-        {isPlanner && (
-          <div className="mb-10">
-            <h2 className="font-[var(--font-heading)] text-[clamp(1.5rem,3vw,2.2rem)] font-black uppercase tracking-tight text-[var(--text-color)] mb-1">
-              Book The Band
-            </h2>
-            <div className="w-20 h-[3px] bg-[var(--color-accent)] mb-8" />
 
-            <a href={`tel:${bookingPhone.replace(/-/g, '')}`} className="block font-[var(--font-heading)] text-[clamp(2.2rem,6vw,4rem)] font-extrabold italic text-[var(--text-color)] hover: text-[var(--color-accent)] transition-colors leading-[1.1] tracking-tight">
-              {bookingPhone}
-            </a>
-            <a href={`mailto:${bookingEmail}`} className="block font-[var(--font-heading)] text-[clamp(2rem,5.5vw,3.5rem)] font-extrabold italic  text-[var(--color-accent)] hover:text-[var(--text-color)] transition-colors leading-[1.1] tracking-tight">
-              {bookingEmail}
-            </a>
-          </div>
-        )}
 
       </div>
 
