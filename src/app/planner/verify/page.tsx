@@ -253,7 +253,7 @@ function PlannerVerifyContent() {
 
             <form onSubmit={handleSubmit}>
               {/* 6 digit boxes */}
-              <div className="flex items-center justify-center gap-2.5 mb-6 no-glow" onPaste={handlePaste}>
+              <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
                   <div key={i} className="!w-11 !h-14 rounded-xl shrink-0">
                     <input aria-label="Input field"
@@ -262,11 +262,12 @@ function PlannerVerifyContent() {
                       inputMode="numeric"
                       maxLength={1}
                       value={d}
+                      style={{ padding: 0 }}
                       onFocus={() => setFocusedIndex(i)}
                       onBlur={() => setFocusedIndex(null)}
                       onChange={e => handleDigit(i, e.target.value)}
                       onKeyDown={e => handleKeyDown(i, e)}
-                      className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 p-0 outline-none transition-all duration-200 tabular-nums
+                      className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
                         ${focusedIndex === i
                           ? 'border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.85)] bg-purple-950/60 scale-[1.06] z-10 relative'
                           : d
@@ -341,7 +342,7 @@ const CARD_STYLE: React.CSSProperties = {
   WebkitBackdropFilter: "blur(32px) saturate(180%)",
   border: "1px solid var(--color-border-main)",
   borderRadius: 24,
-  padding: "48px 40px",
+  padding: "48px 20px",
   width: "100%",
   maxWidth: 480,
   textAlign: "center",

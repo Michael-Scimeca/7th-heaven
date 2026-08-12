@@ -227,12 +227,12 @@ export default function VerifyPage() {
         {/* PIN Input Form */}
         {result !== 'valid' && (
           <div
-            className="rounded-3xl p-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out no-glow"
+            className="rounded-3xl px-4 py-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out no-glow"
             style={MODAL_GLASS_STYLE}
           >
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
-            <div className="flex items-center justify-center gap-2.5 mb-6 no-glow" onPaste={handlePaste}>
+            <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
                 <div key={i} className="!w-11 !h-14 rounded-xl shrink-0">
                   <input aria-label="Input field"
@@ -241,11 +241,12 @@ export default function VerifyPage() {
                     inputMode="numeric"
                     maxLength={1}
                     value={digit}
+                    style={{ padding: 0 }}
                     onFocus={() => setFocusedIndex(i)}
                     onBlur={() => setFocusedIndex(null)}
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
-                    className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 p-0 outline-none transition-all duration-200 tabular-nums
+                    className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
                       ${focusedIndex === i
                         ? 'border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.85)] bg-purple-950/60 scale-[1.06] z-10 relative'
                         : digit
