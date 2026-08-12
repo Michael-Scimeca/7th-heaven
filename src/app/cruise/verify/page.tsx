@@ -108,7 +108,7 @@ function CruiseVerifyContent() {
           position: absolute;
           inset: 0;
           background: url('/sitemap-screenshots/cruise.png') center top / cover no-repeat;
-          filter: blur(3px) brightness(0.35);
+          filter: blur(4px) brightness(0.3);
           pointer-events: none;
           transform: scale(1.05);
         }
@@ -117,9 +117,9 @@ function CruiseVerifyContent() {
         .cruise-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(2, 8, 24, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          background: rgba(10, 4, 20, 0.75);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
         }
 
         /* Modal container */
@@ -137,40 +137,20 @@ function CruiseVerifyContent() {
           position: relative;
           width: 100%;
           max-width: 380px;
-          background: rgba(4, 16, 37, 0.95);
+          background: rgba(15, 6, 28, 0.92);
           backdrop-filter: blur(24px);
-          border: 1px solid rgba(6,182,212,0.25);
+          border: 1px solid rgba(168,85,247,0.3);
           border-radius: 24px;
           padding: 32px 28px 28px;
           box-shadow:
             0 0 0 1px rgba(255,255,255,0.04) inset,
-            0 32px 80px rgba(0,0,0,0.7),
-            0 0 120px rgba(6,182,212,0.1);
+            0 32px 80px rgba(0,0,0,0.8),
+            0 0 100px rgba(168,85,247,0.25);
           animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes cardIn {
           from { opacity: 0; transform: translateY(20px) scale(0.94); }
           to   { opacity: 1; transform: translateY(0)    scale(1); }
-        }
-
-        /* Ship badge — compact */
-        .ship-badge {
-          width: 48px;
-          height: 48px;
-          margin: 0 auto 14px;
-          background: linear-gradient(135deg, rgba(6,182,212,0.25), rgba(14,165,233,0.12));
-          border: 1px solid rgba(6,182,212,0.35);
-          border-radius: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          box-shadow: 0 6px 20px rgba(6,182,212,0.2), 0 0 0 1px rgba(6,182,212,0.1) inset;
-          animation: badgePulse 3s ease-in-out infinite;
-        }
-        @keyframes badgePulse {
-          0%, 100% { box-shadow: 0 6px 20px rgba(6,182,212,0.15), 0 0 0 1px rgba(6,182,212,0.1) inset; }
-          50%       { box-shadow: 0 6px 28px rgba(6,182,212,0.3),  0 0 0 1px rgba(6,182,212,0.2) inset; }
         }
 
         .cruise-eyebrow {
@@ -179,19 +159,19 @@ function CruiseVerifyContent() {
           font-weight: 800;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: rgba(6,182,212,0.8);
-          background: rgba(6,182,212,0.08);
-          border: 1px solid rgba(6,182,212,0.15);
+          color: rgba(168,85,247,0.9);
+          background: rgba(168,85,247,0.12);
+          border: 1px solid rgba(168,85,247,0.3);
           border-radius: 100px;
-          padding: 3px 12px;
+          padding: 4px 14px;
           display: inline-block;
         }
 
-        .eyebrow-wrap { text-align: center; margin-bottom: 14px; }
+        .eyebrow-wrap { text-align: center; margin-bottom: 16px; }
 
         .card-title {
           text-align: center;
-          font-size: 22px;
+          font-size: 24px;
           font-weight: 900;
           color: #fff;
           line-height: 1.2;
@@ -199,17 +179,22 @@ function CruiseVerifyContent() {
         }
         .card-subtitle {
           text-align: center;
-          font-size: 12px;
-          color: rgba(255,255,255,0.4);
+          font-size: 13px;
+          color: rgba(255,255,255,0.45);
           line-height: 1.5;
-          margin-bottom: 2px;
+          margin-bottom: 6px;
         }
         .email-highlight {
           text-align: center;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 700;
-          color: rgba(6,182,212,0.9);
-          margin-bottom: 20px;
+          color: #a855f7;
+          background: rgba(168,85,247,0.15);
+          border: 1px solid rgba(168,85,247,0.3);
+          border-radius: 8px;
+          padding: 6px 12px;
+          display: inline-block;
+          margin: 0 auto 20px;
           word-break: break-all;
         }
 
@@ -221,34 +206,38 @@ function CruiseVerifyContent() {
           margin-bottom: 18px;
         }
         .pin-input {
-          width: 46px;
+          width: 44px;
           height: 54px;
           text-align: center;
-          font-size: 24px;
+          font-size: 20px;
           font-weight: 900;
           font-family: 'Outfit', sans-serif;
-          background: rgba(6,182,212,0.04);
-          border: 2px solid rgba(6,182,212,0.15);
+          background: rgba(0, 0, 0, 0.7);
+          border: 2px solid rgba(255, 255, 255, 0.2);
           border-radius: 12px;
           color: #fff;
           outline: none;
+          padding: 0 !important;
           transition: all 0.2s ease;
           caret-color: transparent;
         }
         .pin-input:focus {
-          border-color: rgba(6,182,212,0.7);
-          background: rgba(6,182,212,0.06);
-          box-shadow: 0 0 0 3px rgba(6,182,212,0.12), 0 0 20px rgba(6,182,212,0.15);
+          border-color: #a855f7;
+          background: rgba(58, 12, 92, 0.8);
+          box-shadow: 0 0 25px rgba(168,85,247,0.95), inset 0 0 15px rgba(168,85,247,0.3);
+          transform: scale(1.08);
+          z-index: 10;
+          position: relative;
         }
         .pin-input.filled {
-          border-color: rgba(6,182,212,0.5);
-          background: rgba(6,182,212,0.05);
-          box-shadow: 0 0 12px rgba(6,182,212,0.1);
+          border-color: rgba(168,85,247,0.8);
+          color: #d8b4fe;
+          box-shadow: 0 0 14px rgba(147,51,234,0.4);
         }
         .pin-input.error {
-          border-color: rgba(239,68,68,0.5);
-          background: rgba(239,68,68,0.05);
-          box-shadow: 0 0 12px rgba(239,68,68,0.1);
+          border-color: rgba(239,68,68,0.7);
+          background: rgba(239,68,68,0.1);
+          box-shadow: 0 0 14px rgba(239,68,68,0.3);
           animation: shake 0.4s ease;
         }
         @keyframes shake {
@@ -261,65 +250,58 @@ function CruiseVerifyContent() {
 
         /* Progress bar */
         .progress-bar-wrap {
-          height: 2px;
-          background: rgba(255,255,255,0.05);
+          height: 3px;
+          background: rgba(255,255,255,0.08);
           border-radius: 10px;
           margin-bottom: 20px;
           overflow: hidden;
         }
         .progress-bar-fill {
           height: 100%;
-          background: linear-gradient(90deg, rgba(6,182,212,0.8), rgba(14,165,233,1));
+          background: linear-gradient(90deg, #7c00ff, #a855f7);
           border-radius: 10px;
           transition: opacity 0.3s ease, transform 0.3s ease;
-          box-shadow: 0 0 8px rgba(6,182,212,0.4);
+          box-shadow: 0 0 12px rgba(168,85,247,0.5);
         }
 
         .error-msg {
           text-align: center;
-          color: rgba(239,68,68,0.9);
-          font-size: 11px;
+          color: #f87171;
+          font-size: 13px;
           font-weight: 700;
-          margin-bottom: 14px;
-          padding: 8px 12px;
-          background: rgba(239,68,68,0.06);
-          border: 1px solid rgba(239,68,68,0.15);
-          border-radius: 10px;
+          margin-bottom: 16px;
+          padding: 10px 14px;
+          background: rgba(239,68,68,0.1);
+          border: 1px solid rgba(239,68,68,0.3);
+          border-radius: 8px;
         }
 
         /* Submit button */
         .submit-btn {
           width: 100%;
-          padding: 13px;
-          background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+          padding: 14px;
+          background: linear-gradient(135deg, #7c00ff, #a855f7);
           border: none;
           border-radius: 12px;
-          color: #020818;
+          color: #fff;
           font-family: 'Outfit', sans-serif;
-          font-size: 13px;
+          font-size: 15px;
           font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
+          letter-spacing: 0.05em;
           cursor: pointer;
-          transition: all 0.25s ease;
-          box-shadow: 0 8px 24px rgba(6,182,212,0.25);
+          transition: all 0.2s ease;
+          box-shadow: 0 0 20px rgba(168,85,247,0.35);
           position: relative;
           overflow: hidden;
         }
-        .submit-btn::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-          opacity: 0;
-          transition: opacity 0.2s;
+        .submit-btn:hover:not(:disabled) {
+          box-shadow: 0 0 30px rgba(168,85,247,0.6);
+          transform: translateY(-1px);
         }
-        .submit-btn:hover:not(:disabled)::before { opacity: 1; }
-        .submit-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(6,182,212,0.35); }
         .submit-btn:active:not(:disabled) { transform: translateY(0); }
         .submit-btn:disabled {
-          background: rgba(255,255,255,0.06);
-          color: rgba(255,255,255,0.2);
+          background: rgba(168,85,247,0.2);
+          color: rgba(255,255,255,0.3);
           cursor: not-allowed;
           box-shadow: none;
         }
@@ -330,87 +312,68 @@ function CruiseVerifyContent() {
           text-align: center;
         }
         .resend-label {
-          font-size: 11px;
-          color: rgba(255,255,255,0.2);
+          font-size: 12px;
+          color: rgba(255,255,255,0.35);
           margin-bottom: 4px;
         }
         .resend-btn {
           background: none;
           border: none;
-          color: rgba(6,182,212,0.7);
+          color: rgba(168,85,247,0.85);
           font-family: 'Outfit', sans-serif;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
           cursor: pointer;
+          text-decoration: underline;
           transition: color 0.2s;
         }
-        .resend-btn:hover:not(:disabled) { color: rgba(6,182,212,1); }
+        .resend-btn:hover:not(:disabled) { color: #a855f7; }
         .resend-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         .divider {
           height: 1px;
-          background: rgba(255,255,255,0.05);
-          margin: 16px 0;
+          background: rgba(255,255,255,0.08);
+          margin: 18px 0;
         }
 
         .back-link {
           display: block;
           text-align: center;
-          color: rgba(255,255,255,0.2);
-          font-size: 11px;
+          color: rgba(255,255,255,0.4);
+          font-size: 12px;
           text-decoration: none;
           transition: color 0.2s;
         }
-        .back-link:hover { color: rgba(255,255,255,0.5); }
+        .back-link:hover { color: #a855f7; }
 
         /* Success state */
         .success-wrap {
           text-align: center;
           padding: 10px 0;
         }
-        .success-icon {
-          width: 64px;
-          height: 64px;
-          margin: 0 auto 16px;
-          background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(14,165,233,0.1));
-          border: 2px solid rgba(6,182,212,0.4);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 32px;
-          animation: successPop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 0 40px rgba(6,182,212,0.2);
-        }
-        @keyframes successPop {
-          from { transform: scale(0.5); opacity: 0; }
-          to   { transform: scale(1);   opacity: 1; }
-        }
         .success-title {
           font-size: 26px;
           font-weight: 900;
-          color: #fff;
+          color: #34d399;
           margin-bottom: 8px;
         }
         .success-sub {
-          font-size: 13px;
-          color: rgba(255,255,255,0.4);
-          margin-bottom: 16px;
+          font-size: 14px;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 24px;
           line-height: 1.6;
         }
-        .success-redirect {
-          font-size: 10px;
+        .success-redirect-btn {
+          display: inline-block;
+          width: 100%;
+          background: linear-gradient(135deg,#10b981,#059669);
+          border-radius: 12px;
+          padding: 14px;
+          color: #fff;
           font-weight: 800;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: rgba(6,182,212,0.8);
-          animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
+          font-size: 15px;
+          text-decoration: none;
+          box-shadow: 0 0 20px rgba(16,185,129,0.4);
         }
 
         /* Brand footer */
@@ -419,19 +382,19 @@ function CruiseVerifyContent() {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          margin-top: 6px;
+          margin-top: 16px;
         }
         .cruise-brand-line {
           flex: 1;
           height: 1px;
-          background: rgba(255,255,255,0.04);
+          background: rgba(255,255,255,0.08);
         }
         .cruise-brand-text {
-          font-size: 8px;
+          font-size: 10px;
           font-weight: 700;
-          letter-spacing: 0.2em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.12);
+          color: rgba(255,255,255,0.25);
         }
       `}</style>
 
@@ -447,19 +410,17 @@ function CruiseVerifyContent() {
           <div className="verify-card">
             {status === "success" ? (
               <div className="success-wrap">
-                <div className="success-icon">🚢</div>
-                <h1 className="success-title">You&apos;re In!</h1>
+                <h1 className="success-title">Access Granted!</h1>
                 <p className="success-sub">
                   Your Cruise Member account is confirmed.<br />
                   Welcome aboard the 7th Heaven Caribbean Cruise.
                 </p>
-                <p className="success-redirect">⚓ Heading to your Cruise Lounge…</p>
+                <Link href="/cruise/dashboard" className="success-redirect-btn">
+                  Access My Dashboard →
+                </Link>
               </div>
             ) : (
               <>
-                {/* Ship badge */}
-                <div className="ship-badge">🛳️</div>
-
                 {/* Eyebrow */}
                 <div className="eyebrow-wrap">
                   <span className="cruise-eyebrow">7th Heaven Caribbean Cruise</span>
@@ -469,7 +430,9 @@ function CruiseVerifyContent() {
                 <p className="card-subtitle">
                   We sent a 6-digit verification code to
                 </p>
-                <p className="email-highlight">{email || "your email address"}</p>
+                <div className="text-center">
+                  <p className="email-highlight">{email || "your email address"}</p>
+                </div>
 
                 {/* Progress bar */}
                 <div className="progress-bar-wrap">
@@ -490,6 +453,7 @@ function CruiseVerifyContent() {
                         inputMode="numeric"
                         maxLength={1}
                         value={d}
+                        style={{ padding: 0 }}
                         onChange={e => handleDigit(i, e.target.value)}
                         onKeyDown={e => handleKeyDown(i, e)}
                         onPaste={handlePaste}
@@ -509,7 +473,7 @@ function CruiseVerifyContent() {
                     disabled={pin.length !== 6 || status === "submitting"}
                     className="submit-btn"
                   >
-                    {status === "submitting" ? "⚓ Verifying…" : "🛳️ Board the Cruise"}
+                    {status === "submitting" ? "Verifying…" : "Access My Dashboard →"}
                   </button>
                 </form>
 
@@ -517,7 +481,7 @@ function CruiseVerifyContent() {
                 <div className="resend-section">
                   <p className="resend-label">Didn&apos;t receive the code?</p>
                   {resendStatus === "sent" ? (
-                    <p style={{ color: "rgba(34,197,94,0.8)", fontSize: 11, fontWeight: 700 }}>
+                    <p style={{ color: "rgba(52,211,153,0.9)", fontSize: 12, fontWeight: 700 }}>
                       ✓ Code resent! Check your inbox.
                     </p>
                   ) : (
@@ -537,7 +501,7 @@ function CruiseVerifyContent() {
                 <Link href="/cruise" className="back-link">← Back to Cruise Page</Link>
 
                 {/* Brand footer */}
-                <div className="cruise-brand" style={{ marginTop: 14 }}>
+                <div className="cruise-brand">
                   <div className="cruise-brand-line" />
                   <span className="cruise-brand-text">7th Heaven · Caribbean Cruise 2025</span>
                   <div className="cruise-brand-line" />
