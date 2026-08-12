@@ -2,6 +2,7 @@
 "use client";
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
+import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 
@@ -237,7 +238,7 @@ function PlannerVerifyContent() {
           <div className="py-4">
             <h2 style={{ color: "#34d399", fontWeight: 900, fontSize: 24, margin: "0 0 10px" }}>Access Granted!</h2>
             <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 14, margin: "0 0 24px" }}>Your PIN has been verified successfully.</p>
-            <a
+            <Link
               href="/planner"
               style={{
                 display: "inline-block",
@@ -253,7 +254,7 @@ function PlannerVerifyContent() {
               }}
             >
               Access My Dashboard →
-            </a>
+            </Link>
           </div>
         ) : (
           <>
