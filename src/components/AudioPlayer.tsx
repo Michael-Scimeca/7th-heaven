@@ -214,6 +214,59 @@ export default function AudioPlayerSection() {
     window.addEventListener("mouseup", onMouseUp);
   };
 
+  const tracklistScrollRef = useRef<HTMLDivElement | null>(null);
+  const isDraggingTracklistRef = useRef(false);
+  const tracklistStartYRef = useRef(0);
+  const tracklistStartScrollTopRef = useRef(0);
+
+  const [tracklistScrollProgress, setTracklistScrollProgress] = useState(0);
+  const [tracklistThumbHeight, setTracklistThumbHeight] = useState(25);
+
+  const handleTracklistScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const maxScroll = target.scrollHeight - target.clientHeight;
+    if (maxScroll > 0) {
+      setTracklistScrollProgress((target.scrollTop / maxScroll) * 100);
+      setTracklistThumbHeight(Math.max(15, (target.clientHeight / target.scrollHeight) * 100));
+    }
+  };
+
+  const handleTracklistTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = tracklistScrollRef.current;
+    if (!container) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const percentage = clickY / rect.height;
+    container.scrollTop = percentage * (container.scrollHeight - container.clientHeight);
+  };
+
+  const handleTracklistThumbMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const container = tracklistScrollRef.current;
+    if (!container) return;
+    isDraggingTracklistRef.current = true;
+    tracklistStartYRef.current = e.clientY;
+    tracklistStartScrollTopRef.current = container.scrollTop;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingTracklistRef.current || !tracklistScrollRef.current) return;
+      const deltaY = moveEvent.clientY - tracklistStartYRef.current;
+      const trackHeight = tracklistScrollRef.current.clientHeight;
+      const scrollRatio = tracklistScrollRef.current.scrollHeight / trackHeight;
+      tracklistScrollRef.current.scrollTop = tracklistStartScrollTopRef.current + deltaY * scrollRatio;
+    };
+
+    const onMouseUp = () => {
+      isDraggingTracklistRef.current = false;
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  };
+
   const originalCds = albums.filter(a => {
     const isMedley = a.title.toLowerCase().includes('medley');
     const isCover = a.title.toLowerCase().includes('cover') || a.title.toLowerCase() === 'unplugged';
@@ -448,88 +501,107 @@ export default function AudioPlayerSection() {
         <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
 
           {/* Tracklist */}
-          <div
-            data-lenis-prevent="true"
-            data-lenis-prevent-wheel="true"
-            data-lenis-prevent-touch="true"
-            onWheel={(e) => e.stopPropagation()}
-            className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 custom-scrollbar h-full min-h-0"
-            style={{
-              overscrollBehavior: "contain",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
-              maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
-            }}
-          >
-            {searchQuery.trim() ? (
-              searchResults.length > 0 ? (
-                searchResults.map(({ track, trackIdx, album, albumIdx }) => {
-                  const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
+          <div className="relative flex-1 min-h-0 flex items-stretch">
+            <div
+              ref={tracklistScrollRef}
+              data-lenis-prevent="true"
+              data-lenis-prevent-wheel="true"
+              data-lenis-prevent-touch="true"
+              onWheel={(e) => e.stopPropagation()}
+              onScroll={handleTracklistScroll}
+              className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
+              style={{
+                overscrollBehavior: "contain",
+                WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
+                maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
+              }}
+            >
+              {searchQuery.trim() ? (
+                searchResults.length > 0 ? (
+                  searchResults.map(({ track, trackIdx, album, albumIdx }) => {
+                    const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
+                    const cleanName = cleanTitle(track.title);
+                    return (
+                      <button
+                        type="button"
+                        key={`${albumIdx}-${trackIdx}`}
+                        className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
+                          setActiveAlbumIndex(albumIdx);
+                          setActiveTrackIndex(trackIdx);
+                          setIsPlaying(true);
+                        }}
+                      >
+                        <div className="flex items-center gap-4 min-w-0">
+                          <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] shrink-0">
+                            {album.title.split(' ')[0]}
+                          </span>
+                          <span className={`text-sm font-bold truncate ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                            {cleanName}
+                          </span>
+                        </div>
+                        <span className="text-[var(--font-size-2xs)] text-white/40 font-mono font-bold">
+                          {getDummyDuration(track.title, trackIdx)}
+                        </span>
+                      </button>
+                    );
+                  })
+                ) : (
+                  <div className="p-8 text-center text-white/40 text-xs font-bold uppercase tracking-widest">
+                    No songs found matching &ldquo;{searchQuery}&rdquo;
+                  </div>
+                )
+              ) : (
+                activeAlbum?.tracks && Array.from(activeAlbum.tracks, (track, idx) => ({ track, idx })).map(({ track, idx }) => {
+                  const isActive = idx === activeTrackIndex;
+                  const trackNumber = String(idx + 1).padStart(2, '0');
                   const cleanName = cleanTitle(track.title);
+
                   return (
                     <button
                       type="button"
-                      key={`${albumIdx}-${trackIdx}`}
+                      key={track.title}
                       className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
-                        setActiveAlbumIndex(albumIdx);
-                        setActiveTrackIndex(trackIdx);
-                        setIsPlaying(true);
+                        if (isActive) togglePlay();
+                        else {
+                          setActiveTrackIndex(idx);
+                          setIsPlaying(true);
+                        }
                       }}
                     >
-                      <div className="flex items-center gap-4 min-w-0">
-                        <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] shrink-0">
-                          {album.title.split(' ')[0]}
+                      <div className="flex items-center gap-5">
+                        <span className={`text-xs font-bold tracking-widest w-6 text-left ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
+                          {trackNumber}
                         </span>
-                        <span className={`text-sm font-bold truncate ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                        <span className={`text-sm font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
                           {cleanName}
                         </span>
                       </div>
-                      <span className="text-[var(--font-size-2xs)] text-white/40 font-mono font-bold">
-                        {getDummyDuration(track.title, trackIdx)}
+
+                      {/* Display duration */}
+                      <span className={`text-xs font-bold tracking-widest mr-2 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
+                        {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
                       </span>
+
                     </button>
                   );
                 })
-              ) : (
-                <div className="p-8 text-center text-white/40 text-xs font-bold uppercase tracking-widest">
-                  No songs found matching &ldquo;{searchQuery}&rdquo;
-                </div>
-              )
-            ) : (
-              activeAlbum?.tracks && Array.from(activeAlbum.tracks, (track, idx) => ({ track, idx })).map(({ track, idx }) => {
-                const isActive = idx === activeTrackIndex;
-                const trackNumber = String(idx + 1).padStart(2, '0');
-                const cleanName = cleanTitle(track.title);
+              )}
+            </div>
 
-                return (
-                  <button
-                    type="button"
-                    key={track.title}
-                    className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
-                      if (isActive) togglePlay();
-                      else {
-                        setActiveTrackIndex(idx);
-                        setIsPlaying(true);
-                      }
-                    }}
-                  >
-                    <div className="flex items-center gap-5">
-                      <span className={`text-xs font-bold tracking-widest w-6 text-left ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
-                        {trackNumber}
-                      </span>
-                      <span className={`text-sm font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
-                        {cleanName}
-                      </span>
-                    </div>
-
-                    {/* Display duration */}
-                    <span className={`text-xs font-bold tracking-widest mr-2 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
-                      {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
-                    </span>
-
-                  </button>
-                );
-              })
-            )}
+            {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
+            <div
+              onClick={handleTracklistTrackClick}
+              className="w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-colors z-20"
+            >
+              <div
+                onMouseDown={handleTracklistThumbMouseDown}
+                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
+                style={{
+                  height: `${tracklistThumbHeight}%`,
+                  top: `${(tracklistScrollProgress * (100 - tracklistThumbHeight)) / 100}%`
+                }}
+              />
+            </div>
           </div>
 
           {/* --- PLAY CONTROLS STRIP (MIDDLE SECTION ONLY) --- */}
