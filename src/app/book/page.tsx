@@ -936,9 +936,6 @@ function BookPageContent() {
               <div className="flex items-center gap-4">
                 <div className="relative w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black text-purple-300">
                   {member.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '?'}
-                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-purple-600 border-2 border-white flex items-center justify-center">
-                    <span className="text-[var(--font-size-4xs)] text-white">{member.role === 'event_planner' ? <ClipboardList className="w-2.5 h-2.5" /> : <Star className="w-2.5 h-2.5 fill-white" />}</span>
-                  </span>
                 </div>
                 <div className="text-left">
                   <div className="flex items-center gap-2">
