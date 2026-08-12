@@ -234,10 +234,7 @@ export default function VerifyPage() {
 
             <div className="flex items-center justify-center gap-2.5 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
-                <div key={i} className="relative !w-11 !h-14 shrink-0">
-                  {focusedIndex === i && (
-                    <span className="absolute -top-2 -left-1.5 w-3.5 h-3.5 rounded-full bg-purple-400 shadow-[0_0_10px_#c084fc,0_0_18px_#a855f7] z-20 pointer-events-none transition-all duration-200" />
-                  )}
+                <div key={i} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                   <input aria-label="Input field"
                     ref={el => { inputRefs.current[i] = el; }}
                     type="text"
@@ -248,12 +245,12 @@ export default function VerifyPage() {
                     onBlur={() => setFocusedIndex(null)}
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
-                    className={`w-full h-full text-center text-2xl font-black rounded-xl border-2 outline-none transition-all duration-200 tabular-nums no-glow
+                    className={`w-full h-full text-center text-xs font-black rounded-xl border-2 bg-black/70 outline-none transition-all duration-200 tabular-nums
                       ${focusedIndex === i
-                        ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/70 scale-[1.06] z-10 relative'
+                        ? 'border-purple-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.85)] bg-purple-950/60 scale-[1.06] z-10 relative'
                         : digit
-                          ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] bg-black/70'
-                          : 'border-white/20 text-white/40 hover:border-white/40 bg-black/70'
+                          ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                          : 'border-white/20 text-white/40 hover:border-white/40'
                       }`}
                   />
                 </div>

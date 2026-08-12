@@ -336,15 +336,16 @@ textarea:focus-visible,
   position: relative;
   isolation: isolate;
   display: inline-block;
-  overflow: hidden;
-  border-radius: 12px;
 }
 
 .input-glow-border:not([class*="w-"]) {
   width: 100%;
 }
 
-
+.input-glow-border:focus-within::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
 
 /* Thin masked ring, painted ON TOP of the field. Because mask cuts a
    transparent hole in the middle, it only paints a ~1px band around
@@ -359,6 +360,7 @@ textarea:focus-visible,
   border-radius: inherit;
   padding: 1.5px;
   background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
+  filter: blur(2px);
   animation: border-angle-spin 5s linear infinite;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
