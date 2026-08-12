@@ -363,8 +363,8 @@ textarea:focus-visible,
   content: "";
   position: absolute;
   inset: -1.5px;
-  z-index: 2;
-  pointer-events: none;
+  z-index: 1;
+  pointer-events: none !important;
   border-radius: inherit;
   padding: 2px;
   background: conic-gradient(from var(--border-angle), #c084fc 0%, #a855f7 25%, #ec4899 50%, #8b5cf6 75%, #c084fc 100%);
@@ -411,8 +411,8 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
   content: "";
   position: absolute;
   inset: -1.5px;
-  z-index: 2;
-  pointer-events: none;
+  z-index: 1;
+  pointer-events: none !important;
   border-radius: inherit;
   padding: 2px;
   background: conic-gradient(from var(--border-angle), #c084fc 0%, #a855f7 25%, #ec4899 50%, #8b5cf6 75%, #c084fc 100%);
@@ -432,7 +432,8 @@ div:has(> textarea:hover):not(.no-glow):not([class*="glow-border"])::after {
 
 .input-glow-border>* {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  pointer-events: auto !important;
 }
 
 @keyframes border-angle-spin {
