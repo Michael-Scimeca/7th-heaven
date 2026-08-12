@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useMember } from '@/context/MemberContext';
+import { ShieldAlert, Lock, Trophy, XCircle } from 'lucide-react';
 
 // All raffle_sync keys across all crew slugs — check any that exist
 function findRaffleByPin(pin: string) {
@@ -159,7 +160,9 @@ export default function VerifyPage() {
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
-          <span className="text-5xl block mb-4">🔐</span>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+            <Lock className="w-8 h-8" />
+          </div>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Login Required</h2>
           <p className="text-white/40 text-sm mb-6">Sign in with your crew account to access PIN verification.</p>
           <button aria-label="Action button"
@@ -182,7 +185,9 @@ export default function VerifyPage() {
           className="relative z-10 w-full max-w-sm rounded-3xl p-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
           style={MODAL_GLASS_STYLE}
         >
-          <span className="text-5xl block mb-4">🚫</span>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
           <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Crew Only</h2>
           <p className="text-white/40 text-sm">This page is for 7th Heaven crew members only.</p>
         </div>
@@ -256,7 +261,9 @@ export default function VerifyPage() {
               <p className="text-white font-black text-lg uppercase tracking-widest">✓ Valid Win</p>
             </div>
             <div className="p-6 text-center">
-              <span className="text-5xl block mb-4">🏆</span>
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
+                <Trophy className="w-8 h-8" />
+              </div>
 
               <div className="bg-purple-600/10 border border-purple-500/30 px-5 py-3 mb-3">
                 <p className="text-purple-300/60 text-[var(--font-size-2xs)] font-black uppercase tracking-[0.2em] mb-1">Winner Account</p>
@@ -292,7 +299,9 @@ export default function VerifyPage() {
             className="rounded-3xl p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out"
             style={MODAL_GLASS_STYLE}
           >
-            <span className="text-5xl block mb-3">❌</span>
+            <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+              <XCircle className="w-8 h-8" />
+            </div>
             <h2 className="text-white font-black text-xl uppercase tracking-wide mb-2">Invalid PIN</h2>
             <p className="text-white/40 text-sm mb-5">
               This PIN doesn't match any raffle winner. Ask the fan to show the email or claim page.
