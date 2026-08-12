@@ -307,12 +307,11 @@ function PlannerVerifyContent() {
                 disabled={pin.length !== 6 || status === "submitting"}
                 style={{
                   width: "100%",
-                  borderRadius: "14px",
                   opacity: pin.length !== 6 ? 0.35 : 1,
                   background: pin.length !== 6 || status === "submitting"
                     ? "rgba(168,85,247,0.15)"
                     : "linear-gradient(135deg,#7c00ff,#a855f7)",
-                  border: "none", padding: "14px",
+                  border: "none", borderRadius: 12, padding: "14px",
                   color: pin.length !== 6 ? "rgba(255,255,255,0.4)" : "#fff",
                   fontWeight: 800, fontSize: 15,
                   cursor: pin.length !== 6 || status === "submitting" ? "not-allowed" : "pointer",

@@ -282,7 +282,7 @@ function CruiseVerifyContent() {
           padding: 14px;
           background: linear-gradient(135deg, #7c00ff, #a855f7);
           border: none;
-          border-radius: 14px !important;
+          border-radius: 12px;
           color: #fff;
           font-family: 'Outfit', sans-serif;
           font-size: 15px;
