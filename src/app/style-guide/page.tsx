@@ -834,6 +834,140 @@ export default function StyleGuidePage() {
               </div>
             </div>
 
+            {/* Verify Module Cards */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Verify Module Cards (Crew · Planner · Cruise)</h3>
+              <p className="text-[10px] text-white/40">Full glassmorphism verify card modules as used on <code className="text-purple-300 font-mono">/crew/verify</code>, <code className="text-purple-300 font-mono">/planner/verify</code>, and <code className="text-purple-300 font-mono">/cruise/verify</code>.</p>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                {/* ── Crew Verify Card ── */}
+                <div className="flex flex-col items-center">
+                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
+                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
+                  <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN to verify crew access</p>
+                  <div
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    style={{
+                      background: "var(--color-bg-glass)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid var(--color-border-main)",
+                    }}
+                  >
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
+                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={`crew-pin-${i}`} className="w-9 h-12 rounded-xl shrink-0">
+                          <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                        </div>
+                      ))}
+                    </div>
+                    <button aria-label="Action button" disabled
+                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                    >Access My Dashboard →</button>
+                    <div className="mt-3 text-center">
+                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
+                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                    </div>
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Crew Page</p>
+                    <div className="flex items-center justify-center gap-2 mt-3">
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CREW ACCESS</span>
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Planner Verify Card ── */}
+                <div className="flex flex-col items-center">
+                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
+                  <p className="text-white/45 text-[10px] mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
+                  <div
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    style={{
+                      background: "var(--color-bg-glass)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid var(--color-border-main)",
+                    }}
+                  >
+                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={`planner-pin-${i}`} className="w-9 h-12 rounded-xl shrink-0">
+                          <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                        </div>
+                      ))}
+                    </div>
+                    <button aria-label="Action button" disabled
+                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                    >Access My Dashboard →</button>
+                    <div className="space-y-1.5 mt-3 text-center">
+                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
+                      <button aria-label="Action button" type="button" style={{ display: "block", margin: "4px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Need a PIN sent to your email?</button>
+                    </div>
+                    <p className="flex items-center justify-center gap-1.5 mt-4" style={{ color: "rgba(255,255,255,0.2)", fontSize: 9 }}>
+                      <svg className="w-3 h-3 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* ── Cruise Verify Card ── */}
+                <div className="flex flex-col items-center">
+                  <div className="mb-2">
+                    <span className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
+                  </div>
+                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
+                  <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
+                  <p className="text-purple-400 font-bold text-[10px] bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
+                  <div
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    style={{
+                      background: "var(--color-bg-glass)",
+                      backdropFilter: "blur(32px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                      border: "1px solid var(--color-border-main)",
+                    }}
+                  >
+                    {/* Progress bar */}
+                    <div className="w-full h-0.5 bg-white/10 rounded-full mb-5 overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-300" style={{ width: "0%" }} />
+                    </div>
+                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={`cruise-pin-${i}`} className="w-9 h-12 rounded-xl shrink-0">
+                          <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                        </div>
+                      ))}
+                    </div>
+                    <button aria-label="Action button" disabled
+                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                    >Access My Dashboard →</button>
+                    <div className="mt-3 text-center">
+                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
+                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                    </div>
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Cruise Page</p>
+                    <div className="flex items-center justify-center gap-2 mt-3">
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
             {/* Checkboxes & Radios */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
               <h3 className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Checkboxes & Radio Controls</h3>
