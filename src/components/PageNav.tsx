@@ -54,7 +54,6 @@ const CATEGORIES = [
       { path: "/planner/verify", label: "Planner Verify" },
       { path: "/cruise/verify", label: "Cruise Verify" },
       { path: "/claim/123456", label: "Raffle Claim Verify" },
-      { path: "/admin/legal", label: "Legal & Compliance Verify" },
     ]
   },
   {
@@ -75,8 +74,7 @@ const CATEGORIES = [
   {
     name: "Misc",
     pages: [
-      { path: "/admin/legal", label: "Legal Guide" },
-      { path: "/admin/checklist", label: "Ops Checklist" },
+      { path: "/admin/legal", label: "Legal & Compliance Verify" },
       { path: "/cruise/payment", label: "Payment" },
       { path: "/features", label: "Features" },
       { path: "/style-guide", label: "Style Guide" },
