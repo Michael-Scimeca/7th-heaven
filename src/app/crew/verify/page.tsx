@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useMember } from '@/context/MemberContext';
 import { ShieldAlert, Lock, Trophy, XCircle } from 'lucide-react';
@@ -261,9 +262,9 @@ export default function VerifyPage() {
             <button aria-label="Action button"
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
-              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer"
+              className="w-full py-3.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(147,51,234,0.7)] cursor-pointer rounded-xl"
             >
-              {result === 'checking' ? 'Checking...' : 'Verify PIN'}
+              {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>
           </div>
         )}
@@ -310,7 +311,11 @@ export default function VerifyPage() {
 
               <p className="text-emerald-400/90 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
 
-              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer">
+              <Link href="/crew" className="w-full block py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
+                Access My Dashboard →
+              </Link>
+
+              <button aria-label="Action button" onClick={reset} className="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                 Verify Another PIN
               </button>
             </div>
