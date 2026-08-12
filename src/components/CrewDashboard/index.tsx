@@ -2664,7 +2664,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       {/* ─── EXACT HEADER LAYOUT ─── */}
       <header>
-        <div className="site-container py-5 flex items-center justify-between">
+        <div className="py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-xl font-bold border border-[var(--color-accent)] relative">
               {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
@@ -2682,7 +2682,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       </header>
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
-      <div className="site-container py-8 space-y-6">
+      <div className="py-8 space-y-6">
 
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
         <div className="transition-colors duration-300 text-white">

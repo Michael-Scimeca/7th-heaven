@@ -238,7 +238,7 @@ export default function FansPage() {
 
         {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
         {isModerator && pendingPhotos.length > 0 && (
-          <div className="site-container mx-auto mb-14 p-6">
+          <div className=" mx-auto mb-14 p-6">
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-sm text-purple-300">
                 <Shield className="w-4 h-4" />
@@ -329,10 +329,10 @@ export default function FansPage() {
 
         {/* Featured Hero Photo */}
         {approvedPhotos.length > 0 && (
-          <div className="site-container mx-auto mb-8">
+          <div className="mx-auto mb-8">
             <button aria-label="Action button"
               type="button"
-              className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer border border-white/10 text-left"
+              className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer text-left"
               onClick={() => setSelectedPhoto(approvedPhotos[0])}
             >
               {approvedPhotos[0].type === "video" ||

@@ -406,7 +406,7 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex lg:hidden w-10 h-10 items-center justify-end -mr-1 relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0"
+              className="flex lg:hidden w-10 h-10 items-center justify-end relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"

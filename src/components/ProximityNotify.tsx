@@ -167,10 +167,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
       <div className="relative z-10 site-container max-w-[1100px] mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center justify-center">
 
           {/* ── LEFT COLUMN: Modern Phone Mockup with Floating Reactions (5 Cols) ── */}
-          <div className="lg:col-span-5 flex justify-center items-center w-full">
+          <div className="md:col-span-5 flex justify-center items-center w-full">
             <div className="relative w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[400px]">
               {/* iPhone Outer Device Frame */}
               <div className="relative w-full aspect-[9/18.5] bg-black/90 rounded-[56px] p-4 border-[3px] border-amber-200/25 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden group">
@@ -238,7 +238,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           </div>
 
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto lg:mx-0">
+          <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full max-w-xl mx-auto md:mx-0">
             {/* Header Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-3">

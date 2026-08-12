@@ -112,11 +112,11 @@ export default function LogoTicker({
             item.src ? (
               <div
                 key={item.src + "-" + i}
-                className="flex shrink-0 items-center justify-center transition-[padding,height] duration-150"
+                className="flex shrink-0 items-center justify-center transition-all duration-150"
                 style={{
-                  height: `${config.containerHeight}px`,
-                  paddingLeft: `${config.paddingX}px`,
-                  paddingRight: `${config.paddingX}px`,
+                  height: "clamp(60px, 10vw, 142px)",
+                  paddingLeft: "clamp(14px, 4vw, 70px)",
+                  paddingRight: "clamp(14px, 4vw, 70px)",
                 }}
               >
                 <Image
@@ -124,17 +124,17 @@ export default function LogoTicker({
                   alt={item.alt ?? ""}
                   width={0}
                   height={0}
-                  className={`w-auto object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
+                  className={`w-auto max-w-full object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
                     }`}
-                  style={{ height: `${config.logoHeight}px`, width: "auto" }}
+                  style={{ height: "clamp(32px, 5.5vw, 82px)", width: "auto", maxHeight: "100%" }}
                   unoptimized
                 />
               </div>
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 items-center gap-6 border-r border-white/20 px-10"
-                style={{ height: `${config.containerHeight}px` }}
+                className="flex shrink-0 items-center gap-6 border-r border-white/20 px-6 sm:px-10"
+                style={{ height: "clamp(60px, 10vw, 142px)" }}
               >
                 {item.icon && <Icon kind={item.icon} />}
                 <div className="flex flex-col leading-tight">

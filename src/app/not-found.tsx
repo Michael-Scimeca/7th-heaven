@@ -10,7 +10,7 @@ export default function NotFound() {
                 {/* Glitch 404 number */}
                 <div className="relative mb-8">
                     <h1
-                        className="text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-transparent select-none"
+                        className="text-6xl font-black leading-none tracking-tighter text-transparent select-none"
                         style={{
                             WebkitTextStroke: "2px rgba(255,10,61,0.3)",
                         }}
@@ -18,7 +18,7 @@ export default function NotFound() {
                         404
                     </h1>
                     <h1
-                        className="absolute inset-0 text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter  text-[var(--color-accent)] select-none animate-pulse"
+                        className="absolute inset-0 text-6xl font-black leading-none tracking-tighter  text-[var(--color-accent)] select-none animate-pulse"
                         style={{ opacity: 0.15 }}
                     >
                         404

@@ -1039,10 +1039,17 @@ ${filterLine}
       #tour-sort-bar option {
         font-family: ${tourFontFamily} !important;
       }
-      #tour-table-container .tour-row-item {
-        padding-top: ${tourRowPadding} !important;
-        padding-bottom: ${tourRowPadding} !important;
-        min-height: ${tourRowHeight} !important;
+      @media (min-width: 1024px) {
+        #tour-table-container .tour-row-item {
+          padding-top: ${tourRowPadding} !important;
+          padding-bottom: ${tourRowPadding} !important;
+          min-height: ${tourRowHeight} !important;
+        }
+      }
+      @media (max-width: 1023px) {
+        #tour-table-container .tour-row-item {
+          min-height: auto !important;
+        }
       }
       #tour-rows-container {
         gap: ${tourRowGap} !important;
@@ -1088,12 +1095,12 @@ ${filterLine}
                     </div>
 
                     {/* Venue name */}
-                    <h3 className="font-[var(--font-heading)] text-[2.2rem] md:text-[3rem] font-black text-white leading-[1] mb-4 uppercase whitespace-nowrap">
+                    <h3 className="font-[var(--font-heading)] text-[clamp(1.8rem,3.2vw,3rem)] font-black text-white leading-[1] mb-4 uppercase whitespace-nowrap">
                       {upNext.venue}
                     </h3>
 
                     {/* Date + Location + Time */}
-                    <div className="flex items-center gap-2 text-[0.85rem] text-white/90 font-bold">
+                    <div className="flex items-center gap-2 text-[clamp(0.75rem,1.2vw,0.85rem)] text-white/90 font-bold whitespace-nowrap">
                       <span>
                         {upNext.day === "Mon" ? "Monday" : upNext.day === "Tue" ? "Tuesday" : upNext.day === "Wed" ? "Wednesday" : upNext.day === "Thu" ? "Thursday" : upNext.day === "Fri" ? "Friday" : upNext.day === "Sat" ? "Saturday" : "Sunday"}, {upNext.date.split(" ")[0]} {upNext.date.split(" ")[1]}
                       </span>
@@ -1194,17 +1201,17 @@ ${filterLine}
               {hasActiveFilters && (
                 <button aria-label="Action button"
                   onClick={clearAll}
-                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap bg-[rgba(255,10,61,0.08)]"
+                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]"
                 >Clear</button>
               )}
             </div>
           </div>
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
-          <div ref={sentinelRef} className="hidden lg:block h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-[60] hidden lg:grid ${gridClass} gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck border-0 rounded-2xl shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
-            <span className="text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-            <div className="relative">
+          <div ref={sentinelRef} className="h-0" aria-hidden="true" />
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-[60] mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck border-0 rounded-2xl shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
+            <span className="hidden lg:inline-block text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+            <div className="relative flex-1 min-w-[120px] lg:min-w-0">
               <GooeyMessagesDropdown
                 placeholder="MONTH"
                 defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
@@ -1212,7 +1219,7 @@ ${filterLine}
                 onSelect={(opt) => setActiveMonth(opt.id)}
               />
             </div>
-            <div className="input-glow-border rounded-xl max-w-[200px] w-full">
+            <div className="input-glow-border rounded-xl w-full sm:w-auto flex-1 min-w-[160px] lg:max-w-[200px] lg:w-full">
               <div className="relative flex items-center w-full">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -1221,7 +1228,7 @@ ${filterLine}
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
-            <div className="relative">
+            <div className="relative flex-1 min-w-[120px] lg:min-w-0">
               <GooeyMessagesDropdown
                 placeholder="CITY"
                 defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
@@ -1229,12 +1236,12 @@ ${filterLine}
                 onSelect={(opt) => setActiveCity(opt.id)}
               />
             </div>
-            <span className="text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+            <span className="hidden lg:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-            <span className="text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-            <span className="text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+            <span className="hidden lg:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+            <span className="hidden lg:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
             {member?.role === 'admin' && (
-              <div className="text-right" />
+              <div className="hidden lg:block text-right" />
             )}
           </div>
 
@@ -1262,7 +1269,7 @@ ${filterLine}
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white transition-colors duration-300 ${isHighlighted ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="font-[var(--font-heading)] font-extrabold text-[21px] uppercase text-[var(--color-accent)]">{show.day}</span>
@@ -1426,12 +1433,12 @@ ${filterLine}
 
                   {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 px-4 text-sm text-[var(--color-text-secondary)] transition-colors duration-300  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "bg-[rgba(255,10,61,0.08)]" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 text-sm text-[var(--color-text-secondary)]  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
                     {/* Header Row: Date & Time */}
-                    <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                    <div className="flex items-center justify-between pb-2.5">
                       <div className="flex items-baseline gap-2">
                         <span className="font-[var(--font-heading)] font-bold text-[15px] uppercase text-[var(--color-accent)]">{show.day}</span>
                         <span className="text-white font-bold text-[19px]">{show.date}</span>
@@ -1501,7 +1508,7 @@ ${filterLine}
 
                     {/* Action Buttons Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-3 mt-1.5">
+                      <div className="flex items-center gap-3 mt-5">
                         {/* Maps Directions */}
                         {(() => {
                           const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
@@ -1511,19 +1518,16 @@ ${filterLine}
                               ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`
                               : rawMapUrl)
                             : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
-                          const showType = getShowType(show.info || '');
-                          const cfg = typeConfig[showType] || typeConfig.full;
                           return (
                             <a
                               href={gUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
-                              style={{ backgroundColor: cfg.color }}
-                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${hasExplicitMap ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
+                              className={`w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 ${hasExplicitMap ? "opacity-100 hover:bg-purple-600/80" : "opacity-50 hover:opacity-80"
                                 }`}
                             >
-                              <MapPin className="w-4 h-4" />
+                              <MapPin className="w-4 h-4 text-white" />
                             </a>
                           );
                         })()}
@@ -1532,8 +1536,6 @@ ${filterLine}
                         {(() => {
                           const hasExplicitParking = Boolean(show.parkingUrl || show.parkingInfo);
                           const pUrl = show.parkingUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`parking near ${show.venue} ${show.city || ''} ${show.state || ''}`)}`;
-                          const showType = getShowType(show.info || '');
-                          const cfg = typeConfig[showType] || typeConfig.full;
                           return (
                             <a
                               href={pUrl}
@@ -1544,11 +1546,10 @@ ${filterLine}
                                   ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
                                   : "Search Parking (Parking info not added)"
                               }
-                              style={{ backgroundColor: cfg.color }}
-                              className={`w-9 h-9 flex items-center justify-center rounded-md text-black transition-opacity shrink-0 ${hasExplicitParking ? "opacity-100 hover:opacity-90" : "opacity-40 hover:opacity-80"
+                              className={`w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 ${hasExplicitParking ? "opacity-100 hover:bg-purple-600/80" : "opacity-50 hover:opacity-80"
                                 }`}
                             >
-                              <Car className="w-4 h-4" />
+                              <Car className="w-4 h-4 text-white" />
                             </a>
                           );
                         })()}
@@ -1558,17 +1559,12 @@ ${filterLine}
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className={`w-9 h-9 flex items-center justify-center rounded-md transition-colors duration-300 cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id)
-                              ? "bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40  text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30"
-                              : "bg-[rgba(255,255,255,0.08)] border-white/10 text-white/60 hover:text-white hover:bg-[rgba(255,255,255,0.15)] hover:border-white/20"
-                              }`}
+                            className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 bg-purple-600/40 border-purple-400/40 text-white hover:bg-purple-600/80`}
                           >
                             {subscribingId === show._id ? (
-                              <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                            ) : subscribedShowIdsSet.has(show._id) ? (
-                              <Bell className="w-4 h-4" />
+                              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                             ) : (
-                              <Bell className="w-4 h-4" />
+                              <Bell className="w-4 h-4 text-white" />
                             )}
                           </button>
                         )}
@@ -1576,8 +1572,8 @@ ${filterLine}
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-[rgba(255,255,255,0.08)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.15)] transition-colors duration-300 cursor-pointer">
-                              <CalendarDays className="w-4 h-4" />
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
+                              <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
                               <div className="absolute left-0 mt-2   border border-white/15 rounded-lg py-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.9)] z-50 min-w-[150px] backdrop-blur-md font-sans">

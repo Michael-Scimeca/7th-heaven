@@ -199,6 +199,72 @@ export default function StyleGuidePage() {
   const [sgGuestInsurance, setSgGuestInsurance] = useState("yes");
   const [sgGuestGratuities, setSgGuestGratuities] = useState("yes");
 
+  /* ── Dedicated Fluid Type Studio Control Panel States ── */
+  const [studioSelectedTier, setStudioSelectedTier] = useState<string>("6xl");
+  const [studioMinFs, setStudioMinFs] = useState<number>(40);
+  const [studioMaxFs, setStudioMaxFs] = useState<number>(56);
+  const [studioMinVw, setStudioMinVw] = useState<number>(1025);
+  const [studioMaxVw, setStudioMaxVw] = useState<number>(1550);
+  const [studioMode, setStudioMode] = useState<"locked" | "chained">("locked");
+  const [copiedStudioFormula, setCopiedStudioFormula] = useState<boolean>(false);
+  const [liveWinW, setLiveWinW] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 1280);
+
+  // Global CSS Export & Modal States
+  const [cssCopied, setCssCopied] = useState<boolean>(false);
+  const [showCssModal, setShowCssModal] = useState<boolean>(false);
+  const [generatedCssExport, setGeneratedCssExport] = useState<string>("");
+
+  useEffect(() => {
+    const handleResize = () => setLiveWinW(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Compute exact CSS clamp values and parameters
+  const computeFluidClamp = (minFsPx: number, maxFsPx: number, minVwPx: number, maxVwPx: number) => {
+    if (minFsPx === maxFsPx || minVwPx === maxVwPx) {
+      return { clampStr: `${(minFsPx / 16).toFixed(4)}rem`, minRem: minFsPx / 16, maxRem: maxFsPx / 16, slopeVw: 0, interceptRem: minFsPx / 16 };
+    }
+    const minRem = minFsPx / 16;
+    const maxRem = maxFsPx / 16;
+    const slope = (maxRem - minRem) / (maxVwPx - minVwPx);
+    const slopeVw = slope * 100;
+    const interceptRem = minRem - slope * minVwPx;
+    const minBound = Math.min(minRem, maxRem);
+    const maxBound = Math.max(minRem, maxRem);
+
+    const clampStr = `clamp(${minBound.toFixed(4)}rem, ${interceptRem.toFixed(4)}rem + ${slopeVw.toFixed(4)}vw, ${maxBound.toFixed(4)}rem)`;
+    return { clampStr, minRem, maxRem, slopeVw, interceptRem };
+  };
+
+  // Synchronize Studio Panel parameters into live DOM style overrides
+  useEffect(() => {
+    // Remove old conflicting tag if present
+    const oldTag = document.getElementById("studio-fluid-override");
+    if (oldTag) oldTag.remove();
+
+    // Sync input values in the detailed table
+    const section = document.getElementById("typography");
+    if (section) {
+      const row = section.querySelector(`[data-tier="${studioSelectedTier}"]`);
+      if (row) {
+        const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+        if (inputs[4]) inputs[4].value = (studioMinFs / 16).toString();
+        if (inputs[5]) inputs[5].value = (studioMaxFs / 16).toString();
+        const labelDMin = row.querySelector("[data-val='dMin']");
+        if (labelDMin) labelDMin.textContent = `${studioMinFs}px`;
+        const labelDMax = row.querySelector("[data-val='dMax']");
+        if (labelDMax) labelDMax.textContent = `${studioMaxFs}px`;
+
+        // Trigger single source-of-truth style rebuild
+        const win = window as any;
+        if (typeof win.__rebuildStyleTag === "function") {
+          win.__rebuildStyleTag();
+        }
+      }
+    }
+  }, [studioSelectedTier, studioMinFs, studioMaxFs, studioMinVw, studioMaxVw, studioMode]);
+
   // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance
   useEffect(() => {
     document.documentElement.style.setProperty("--canvas-grain-opacity", `${canvasGrainOpacity / 100}`);
@@ -317,122 +383,762 @@ export default function StyleGuidePage() {
           })}
         </div>
 
-        {/* SECTION 1: TYPOGRAPHY */}
-        <section id="typography" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+        {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
+        <section id="typography" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400flex items-center gap-2">
-              <Type className="w-6 h-6" /> 1. Typography System
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <Type className="w-6 h-6" /> 1. Fluid Typography System
             </h2>
             <p className="text-white/60 text-xs mt-1">
-              Heading levels H1–H6 shown at actual size, weight, and font family (Barlow / Sans), plus body and label hierarchy.
+              Every text size uses <code className="text-purple-400 font-mono">clamp()</code> for fluid scaling. Edit <strong>Mobile</strong>, <strong>Tablet</strong>, and <strong>Desktop</strong> values — changes apply live to the entire site.
             </p>
           </div>
 
-          {/* Heading Samples */}
-          <div className="space-y-6">
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-purple-400 font-bold">H1 Display — 4.5rem (72px) / Bold 900</span>
-                <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-wider text-white mt-1">
-                  7TH HEAVEN LIVE
-                </h1>
+          {/* ═══════════════════════════════════════════════════════════════════
+             DEDICATED FLUID TYPE STUDIO CONTROL PANEL
+             ═══════════════════════════════════════════════════════════════════ */}
+          {(() => {
+            const studioClamp = computeFluidClamp(studioMinFs, studioMaxFs, studioMinVw, studioMaxVw);
+            const currentComputedPx = (() => {
+              if (liveWinW <= studioMinVw) return studioMinFs;
+              if (liveWinW >= studioMaxVw) return studioMaxFs;
+              const ratio = (liveWinW - studioMinVw) / (studioMaxVw - studioMinVw);
+              return Math.round((studioMinFs + ratio * (studioMaxFs - studioMinFs)) * 10) / 10;
+            })();
+
+            const tiersList = ["6xl", "5xl", "4xl", "3xl", "2xl", "xl", "base", "sm", "xs"];
+
+            const handleCopyStudioFormula = () => {
+              navigator.clipboard.writeText(`font-size: ${studioClamp.clampStr} !important;`);
+              setCopiedStudioFormula(true);
+              setTimeout(() => setCopiedStudioFormula(false), 2000);
+            };
+
+            return (
+              <div className="relative overflow-hidden rounded-3xl border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
+                {/* Glow Backdrop */}
+                <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-purple-600/10 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-pink-600/10 blur-3xl" />
+
+                {/* Studio Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-500/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                      <Sliders className="h-5 w-5 text-purple-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black uppercase tracking-wider text-white flex items-center gap-2">
+                        Fluid Type Studio Controls
+                        <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-full">
+                          .text-{studioSelectedTier}
+                        </span>
+                      </h3>
+                      <p className="text-xs text-white/50">
+                        Linear slope math engine for exact 40px @ 1025px $\rightarrow$ 56px @ 1550px continuous scaling.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleCopyStudioFormula}
+                    className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${
+                      copiedStudioFormula
+                        ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                        : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                    }`}
+                  >
+                    {copiedStudioFormula ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedStudioFormula ? "Formula Copied!" : "Copy CSS clamp()"}</span>
+                  </button>
+                </div>
+
+                {/* Target Element Selector */}
+                <div className="space-y-2 relative z-10">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-300 flex items-center gap-1.5">
+                    <Layers className="w-3 h-3 text-purple-400" /> Target Typography Element / Utility Class:
+                  </span>
+                  <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                    {tiersList.map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setStudioSelectedTier(t)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-mono font-black transition-all ${
+                          studioSelectedTier === t
+                            ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
+                            : "bg-white/[0.04] text-white/60 hover:text-white hover:bg-white/10 border border-white/10"
+                        }`}
+                      >
+                        .text-{t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Controls Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                  {/* 1. Min Font Size */}
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="font-bold text-emerald-400 flex items-center gap-1">
+                        1. Min Font Size:
+                      </span>
+                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                        <input
+                          type="number"
+                          value={studioMinFs}
+                          onChange={(e) => setStudioMinFs(Number(e.target.value))}
+                          className="w-12 bg-transparent text-right text-emerald-300 font-bold outline-none"
+                        />
+                        <span className="text-white/40">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      min="12"
+                      max="128"
+                      value={studioMinFs}
+                      onChange={(e) => setStudioMinFs(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                    />
+                    <p className="text-[10px] text-white/40">
+                      Smallest font size rendered at or below Min Viewport Width ({studioMinVw}px).
+                    </p>
+                  </div>
+
+                  {/* 2. Max Font Size */}
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="font-bold text-purple-400 flex items-center gap-1">
+                        2. Max Font Size:
+                      </span>
+                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                        <input
+                          type="number"
+                          value={studioMaxFs}
+                          onChange={(e) => setStudioMaxFs(Number(e.target.value))}
+                          className="w-12 bg-transparent text-right text-purple-300 font-bold outline-none"
+                        />
+                        <span className="text-white/40">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      min="12"
+                      max="128"
+                      value={studioMaxFs}
+                      onChange={(e) => setStudioMaxFs(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                    />
+                    <p className="text-[10px] text-white/40">
+                      Largest font size rendered at or above Max Viewport Width ({studioMaxVw}px).
+                    </p>
+                  </div>
+
+                  {/* 3. Min Viewport Width */}
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="font-bold text-amber-400 flex items-center gap-1">
+                        3. Min Viewport Width:
+                      </span>
+                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                        <input
+                          type="number"
+                          value={studioMinVw}
+                          onChange={(e) => setStudioMinVw(Number(e.target.value))}
+                          className="w-16 bg-transparent text-right text-amber-300 font-bold outline-none"
+                        />
+                        <span className="text-white/40">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      min="320"
+                      max="1920"
+                      step="5"
+                      value={studioMinVw}
+                      onChange={(e) => setStudioMinVw(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                    />
+                    <p className="text-[10px] text-white/40">
+                      Screen width at which text hits Min Font Size ({studioMinFs}px).
+                    </p>
+                  </div>
+
+                  {/* 4. Max Viewport Width */}
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="font-bold text-cyan-400 flex items-center gap-1">
+                        4. Max Viewport Width:
+                      </span>
+                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                        <input
+                          type="number"
+                          value={studioMaxVw}
+                          onChange={(e) => setStudioMaxVw(Number(e.target.value))}
+                          className="w-16 bg-transparent text-right text-cyan-300 font-bold outline-none"
+                        />
+                        <span className="text-white/40">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      min="320"
+                      max="1920"
+                      step="5"
+                      value={studioMaxVw}
+                      onChange={(e) => setStudioMaxVw(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
+                    />
+                    <p className="text-[10px] text-white/40">
+                      Screen width at which text hits Max Font Size ({studioMaxFs}px).
+                    </p>
+                  </div>
+                </div>
+
+                {/* 5. Below Min Viewport Behavior Toggle */}
+                <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                  <div>
+                    <h4 className="text-xs font-bold text-white flex items-center gap-2">
+                      5. Below {studioMinVw}px Boundary Behavior:
+                    </h4>
+                    <p className="text-[11px] text-white/50">
+                      Choose whether font stays locked at {studioMinFs}px below {studioMinVw}px or chains into Tablet/Mobile ranges.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-white/10 self-start sm:self-auto">
+                    <button
+                      onClick={() => setStudioMode("locked")}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        studioMode === "locked"
+                          ? "bg-purple-500 text-white shadow-md"
+                          : "text-white/50 hover:text-white"
+                      }`}
+                    >
+                      🔒 Lock at {studioMinFs}px
+                    </button>
+                    <button
+                      onClick={() => setStudioMode("chained")}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                        studioMode === "chained"
+                          ? "bg-purple-500 text-white shadow-md"
+                          : "text-white/50 hover:text-white"
+                      }`}
+                    >
+                      🔗 Chain to Tablet ({studioMinFs}px $\rightarrow$ 25px)
+                    </button>
+                  </div>
+                </div>
+
+                {/* Live Formula & Computed Viewport Readout Card */}
+                <div className="rounded-2xl bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
+                      <span className="text-xs font-mono font-black uppercase tracking-wider text-purple-300">
+                        Generated CSS Formula & Live Inspection:
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs font-mono">
+                      <span className="text-white/40">Live Viewport:</span>
+                      <span className="font-bold text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-lg">
+                        {liveWinW}px
+                      </span>
+                      <span className="text-white/40">Computed Size:</span>
+                      <span className="font-bold text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-lg">
+                        {currentComputedPx}px
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Code snippet */}
+                  <div className="overflow-x-auto rounded-xl bg-black/80 p-3 font-mono text-xs text-purple-200 border border-purple-500/20">
+                    <code className="text-purple-400">font-size</code>:{" "}
+                    <span className="text-white font-bold">{studioClamp.clampStr}</span> !important;
+                  </div>
+
+                  {/* Formula Math Breakdown */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px] font-mono text-white/60">
+                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
+                      <span className="block text-white/30 text-[9px] uppercase">Min Rem</span>
+                      <span className="text-emerald-300 font-bold">{studioClamp.minRem.toFixed(4)}rem</span> ({studioMinFs}px)
+                    </div>
+                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
+                      <span className="block text-white/30 text-[9px] uppercase">Max Rem</span>
+                      <span className="text-purple-300 font-bold">{studioClamp.maxRem.toFixed(4)}rem</span> ({studioMaxFs}px)
+                    </div>
+                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
+                      <span className="block text-white/30 text-[9px] uppercase">Slope (vw)</span>
+                      <span className="text-cyan-300 font-bold">{studioClamp.slopeVw.toFixed(4)}vw</span>
+                    </div>
+                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
+                      <span className="block text-white/30 text-[9px] uppercase">Intercept (rem)</span>
+                      <span className="text-amber-300 font-bold">{studioClamp.interceptRem.toFixed(4)}rem</span>
+                    </div>
+                  </div>
+
+                  {/* Live Interactive Sample Node */}
+                  <div className="pt-2 border-t border-white/10">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/40 block mb-2">
+                      Live Sample Render (`.text-{studioSelectedTier}`):
+                    </span>
+                    <div className="rounded-xl bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
+                      <div className={`text-${studioSelectedTier} font-black text-white uppercase tracking-tight text-center leading-none`}>
+                        {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <code className="text-[11px] font-mono text-white/40 bg-black/40 px-3 py-1.5 rounded-lg self-start md:self-auto border border-white/5">
-                text-4xl sm:text-6xl font-black uppercase
-              </code>
-            </div>
+            );
+          })()}
 
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-purple-400font-bold">H2 Section Heading — 3rem (48px) / Bold 800</span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-wide text-white mt-1">
-                  Upcoming Tour Dates & Venues
-                </h2>
+          {/* Fluid Type Scale Editor */}
+          {(() => {
+            const FLUID_SCALE = [
+              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125",  mobMax: "2.25",  tabMin: "2.25",   tabMax: "3.5",    deskMin: "3.5",    deskMax: "8.0",   sample: "9XL HERO (NOW 6XL)", weight: "font-black", extra: "uppercase" },
+              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0",   tabMin: "2.0",    tabMax: "3.0",    deskMin: "3.0",    deskMax: "6.0",   sample: "8XL DISPLAY (NOW 5XL)", weight: "font-black", extra: "uppercase" },
+              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0",    mobMax: "1.75",  tabMin: "1.75",   tabMax: "2.5",    deskMin: "2.5",    deskMax: "4.5",   sample: "7TH HEAVEN (NOW 4XL)", weight: "font-black", extra: "uppercase" },
+              { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875",  mobMax: "1.0",    tabMin: "1.0",    tabMax: "1.25",   deskMin: "1.25",   deskMax: "1.75",  sample: "VIP Backstage Package", weight: "font-extrabold", extra: "" },
+              { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125",  deskMin: "1.125",  deskMax: "1.5",   sample: "Rocking Chicago & Nationwide Since 1985", weight: "font-bold", extra: "" },
+              { key: "xl",  label: "text-xl",  cssProp: "--text-xl",  mobMin: "0.8125", mobMax: "0.875",  tabMin: "0.875",  tabMax: "1.0",    deskMin: "1.0",    deskMax: "1.25",  sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: "font-semibold", extra: "" },
+              { key: "base",label: "text-base",cssProp: "--text-base",mobMin: "0.75",   mobMax: "0.8125", tabMin: "0.8125", tabMax: "0.875",  deskMin: "0.875",  deskMax: "1.0",   sample: "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.", weight: "font-normal", extra: "" },
+              { key: "sm",  label: "text-sm",  cssProp: "--text-sm",  mobMin: "0.6875", mobMax: "0.75",   tabMin: "0.75",   tabMax: "0.8125", deskMin: "0.8125", deskMax: "0.875", sample: "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.", weight: "font-normal", extra: "" },
+              { key: "xs",  label: "text-xs",  cssProp: "--text-xs",  mobMin: "0.625",  mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75",   deskMin: "0.75",   deskMax: "0.75",  sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "font-bold", extra: "uppercase tracking-wider" },
+            ];
+
+            const remToPx = (rem: string | number) => Math.round(parseFloat(String(rem)) * 16);
+
+            // Calculate fluid clamp formula for a specific breakpoint segment
+            const calcSegmentClamp = (w1: number, fs1Rem: number, w2: number, fs2Rem: number) => {
+              if (fs1Rem === fs2Rem) return `${fs1Rem}rem`;
+              const slopeVw = (1600 * (fs2Rem - fs1Rem)) / (w2 - w1);
+              const interceptRem = fs1Rem - (slopeVw * (w1 / 1600));
+              const min = Math.min(fs1Rem, fs2Rem);
+              const max = Math.max(fs1Rem, fs2Rem);
+              return `clamp(${min}rem, ${interceptRem.toFixed(4)}rem + ${slopeVw.toFixed(4)}vw, ${max}rem)`;
+            };
+
+            // Rebuild <style> tag with piecewise continuous fluid clamp per breakpoint segment
+            const rebuildStyleTag = () => {
+              const section = document.getElementById("typography");
+              if (!section) return;
+
+              const mobRules: string[] = [];
+              const tabRules: string[] = [];
+              const deskRules: string[] = [];
+              const mobVars: string[] = [];
+              const tabVars: string[] = [];
+              const deskVars: string[] = [];
+
+              FLUID_SCALE.forEach((tier) => {
+                const row = section.querySelector(`[data-tier="${tier.key}"]`);
+                if (!row) return;
+                const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                const mMin = parseFloat(inputs[0]?.value || tier.mobMin);
+                const mMax = parseFloat(inputs[1]?.value || tier.mobMax);
+                const tMin = mMax; // Strict segment continuity at 678px
+                const tMax = parseFloat(inputs[3]?.value || tier.tabMax);
+                const dMin = tMax; // Strict segment continuity at 1025px
+                const dMax = parseFloat(inputs[5]?.value || tier.deskMax);
+
+                const mClamp = calcSegmentClamp(320, mMin, 678, mMax);
+                const tClamp = calcSegmentClamp(678, tMin, 1024, tMax);
+                const dClamp = calcSegmentClamp(1025, dMin, 1560, dMax);
+
+                mobRules.push(`.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${mClamp} !important; }`);
+                tabRules.push(`.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${tClamp} !important; }`);
+                deskRules.push(`.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${dClamp} !important; }`);
+
+                mobVars.push(`  ${tier.cssProp}: ${mClamp} !important;`);
+                tabVars.push(`  ${tier.cssProp}: ${tClamp} !important;`);
+                deskVars.push(`  ${tier.cssProp}: ${dClamp} !important;`);
+              });
+
+              const css = `
+/* Style Guide — Continuous Segmented Fluid Typography */
+@media (max-width: 677px) {
+  :root, html, body {
+${mobVars.join("\n")}
+  }
+${mobRules.join("\n")}
+}
+@media (min-width: 678px) and (max-width: 1024px) {
+  :root, html, body {
+${tabVars.join("\n")}
+  }
+${tabRules.join("\n")}
+}
+@media (min-width: 1025px) {
+  :root, html, body {
+${deskVars.join("\n")}
+  }
+${deskRules.join("\n")}
+}`;
+
+              let tag = document.getElementById("fluid-type-overrides") as HTMLStyleElement;
+              if (!tag) {
+                tag = document.createElement("style");
+                tag.id = "fluid-type-overrides";
+                document.head.appendChild(tag);
+              }
+              tag.textContent = css;
+            };
+
+            if (typeof window !== "undefined") {
+              (window as any).__rebuildStyleTag = rebuildStyleTag;
+              setTimeout(rebuildStyleTag, 50);
+            }
+
+            return (
+              <div className="space-y-4">
+                {/* Column headers */}
+                <div className="hidden xl:grid grid-cols-[90px_1fr_220px_220px_220px] gap-4 px-4 pb-2 border-b border-white/10">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Utility</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Preview</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400">📱 Mobile Range</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">📟 Tablet Range</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-purple-400">🖥 Desktop Range</span>
+                </div>
+
+                {FLUID_SCALE.map((tier) => {
+                  const isHero = tier.key === "9xl" || tier.key === "8xl" || tier.key === "7xl" || tier.key === "6xl";
+                  const maxLimit = isHero ? 8 : 4; // 128px max for hero display, 64px max for standard text
+
+                  return (
+                    <div key={tier.key} data-tier={tier.key} className="group rounded-2xl bg-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-colors p-4">
+                      <div className="grid grid-cols-1 xl:grid-cols-[90px_1fr_220px_220px_220px] gap-4 items-center">
+                        {/* Label */}
+                        <div className="flex items-center gap-2">
+                          <code className="text-[11px] font-mono font-black text-purple-400 bg-purple-500/10 px-2 py-1 rounded-lg border border-purple-500/20">
+                            {tier.label}
+                          </code>
+                        </div>
+
+                        {/* Live Preview */}
+                        <div data-fluid-sample={tier.key} className={`text-${tier.key} ${tier.weight} ${tier.extra} text-white leading-none tracking-tight min-w-0 overflow-visible py-1`}>
+                          {tier.sample}
+                        </div>
+
+                        {/* Mobile Pill (Green): Left = Min (320px), Right = Max (678px) */}
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center justify-between text-[11px] font-mono font-bold text-emerald-400 px-1">
+                            <span data-val="mMin">{remToPx(tier.mobMin)}px</span>
+                            <span data-val="mMax">{remToPx(tier.mobMax)}px</span>
+                          </div>
+                          <div className="flex items-center gap-2 bg-white/[0.02] border border-emerald-500/40 rounded-full p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                              <input
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMin}
+                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                onInput={(e) => {
+                                  const val = (e.target as HTMLInputElement).value;
+                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  const labelMMin = row?.querySelector("[data-val='mMin']");
+                                  if (labelMMin) labelMMin.textContent = `${remToPx(val)}px`;
+                                  rebuildStyleTag();
+                                }}
+                              />
+                            </div>
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                              <input
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMax}
+                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                onInput={(e) => {
+                                  const val = (e.target as HTMLInputElement).value;
+                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  if (!row) return;
+                                  const labelMMax = row.querySelector("[data-val='mMax']");
+                                  if (labelMMax) labelMMax.textContent = `${remToPx(val)}px`;
+
+                                  // Sync 678px boundary: Mobile Right (mMax) <-> Tablet Left (tMin)
+                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  if (inputs[2] && inputs[2].value !== val) {
+                                    inputs[2].value = val;
+                                    const labelTMin = row.querySelector("[data-val='tMin']");
+                                    if (labelTMin) labelTMin.textContent = `${remToPx(val)}px`;
+                                  }
+
+                                  rebuildStyleTag();
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px] font-mono font-bold text-emerald-400/60 px-1 pt-0.5">
+                            <span>320px</span>
+                            <span>678px</span>
+                          </div>
+                        </div>
+
+                        {/* Tablet Pill (Amber): Left = Min (678px), Right = Max (1025px) */}
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center justify-between text-[11px] font-mono font-bold text-amber-400 px-1">
+                            <span data-val="tMin">{remToPx(tier.tabMin)}px</span>
+                            <span data-val="tMax">{remToPx(tier.tabMax)}px</span>
+                          </div>
+                          <div className="flex items-center gap-2 bg-white/[0.02] border border-amber-500/40 rounded-full p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                              <input
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMin}
+                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                onInput={(e) => {
+                                  const val = (e.target as HTMLInputElement).value;
+                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  if (!row) return;
+                                  const labelTMin = row.querySelector("[data-val='tMin']");
+                                  if (labelTMin) labelTMin.textContent = `${remToPx(val)}px`;
+
+                                  // Sync 678px boundary: Tablet Left (tMin) <-> Mobile Right (mMax)
+                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  if (inputs[1] && inputs[1].value !== val) {
+                                    inputs[1].value = val;
+                                    const labelMMax = row.querySelector("[data-val='mMax']");
+                                    if (labelMMax) labelMMax.textContent = `${remToPx(val)}px`;
+                                  }
+
+                                  rebuildStyleTag();
+                                }}
+                              />
+                            </div>
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                              <input
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMax}
+                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                onInput={(e) => {
+                                  const val = (e.target as HTMLInputElement).value;
+                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  if (!row) return;
+                                  const labelTMax = row.querySelector("[data-val='tMax']");
+                                  if (labelTMax) labelTMax.textContent = `${remToPx(val)}px`;
+
+                                  // Sync 1025px boundary: Tablet Right (tMax) <-> Desktop Left (dMin)
+                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  if (inputs[4] && inputs[4].value !== val) {
+                                    inputs[4].value = val;
+                                    const labelDMin = row.querySelector("[data-val='dMin']");
+                                    if (labelDMin) labelDMin.textContent = `${remToPx(val)}px`;
+                                  }
+
+                                  rebuildStyleTag();
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px] font-mono font-bold text-amber-400/60 px-1 pt-0.5">
+                            <span>678px</span>
+                            <span>1025px</span>
+                          </div>
+                        </div>
+
+                        {/* Desktop Pill (Purple): Left = Min (1025px), Right = Max (1560px) */}
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center justify-between text-[11px] font-mono font-bold text-purple-400 px-1">
+                            <span data-val="dMin">{remToPx(tier.deskMin)}px</span>
+                            <span data-val="dMax">{remToPx(tier.deskMax)}px</span>
+                          </div>
+                          <div className="flex items-center gap-2 bg-white/[0.02] rounded-full p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                              <input
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMin}
+                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                onInput={(e) => {
+                                  const val = (e.target as HTMLInputElement).value;
+                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  if (!row) return;
+                                  const labelDMin = row.querySelector("[data-val='dMin']");
+                                  if (labelDMin) labelDMin.textContent = `${remToPx(val)}px`;
+
+                                  // Sync 1025px boundary: Desktop Left (dMin) <-> Tablet Right (tMax)
+                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  if (inputs[3] && inputs[3].value !== val) {
+                                    inputs[3].value = val;
+                                    const labelTMax = row.querySelector("[data-val='tMax']");
+                                    if (labelTMax) labelTMax.textContent = `${remToPx(val)}px`;
+                                  }
+
+                                  rebuildStyleTag();
+                                }}
+                              />
+                            </div>
+                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-full px-3 py-1.5">
+                              <input
+                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMax}
+                                className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                onInput={(e) => {
+                                  const val = (e.target as HTMLInputElement).value;
+                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  const labelDMax = row?.querySelector("[data-val='dMax']");
+                                  if (labelDMax) labelDMax.textContent = `${remToPx(val)}px`;
+                                  rebuildStyleTag();
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px] font-mono font-bold text-purple-400/60 px-1 pt-0.5">
+                            <span>1025px</span>
+                            <span>1560px</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Action Toolbar */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-mono text-white/40">
+                      💡 Changes update in real time. Click Save to copy global CSS.
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => {
+                        const section = document.getElementById("typography");
+                        if (!section) return;
+
+                        const mobRules: string[] = [];
+                        const tabRules: string[] = [];
+                        const deskRules: string[] = [];
+
+                        FLUID_SCALE.forEach((tier) => {
+                          const row = section.querySelector(`[data-tier="${tier.key}"]`);
+                          if (!row) return;
+                          const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                          const mMin = parseFloat(inputs[0]?.value || tier.mobMin);
+                          const mMax = parseFloat(inputs[1]?.value || tier.mobMax);
+                          const tMin = mMax;
+                          const tMax = parseFloat(inputs[3]?.value || tier.tabMax);
+                          const dMin = tMax;
+                          const dMax = parseFloat(inputs[5]?.value || tier.deskMax);
+
+                          const mClamp = calcSegmentClamp(320, mMin, 678, mMax);
+                          const tClamp = calcSegmentClamp(678, tMin, 1024, tMax);
+                          const dClamp = calcSegmentClamp(1025, dMin, 1560, dMax);
+
+                          mobRules.push(`  :root { ${tier.cssProp}: ${mClamp}; }\n  .${tier.label} { font-size: ${mClamp} !important; }`);
+                          tabRules.push(`  :root { ${tier.cssProp}: ${tClamp}; }\n  .${tier.label} { font-size: ${tClamp} !important; }`);
+                          deskRules.push(`  :root { ${tier.cssProp}: ${dClamp}; }\n  .${tier.label} { font-size: ${dClamp} !important; }`);
+                        });
+
+                        const fullCss = `/* =========================================================================
+   7th Heaven — Piecewise Continuous Fluid Typography (Generated Output)
+   ========================================================================= */
+
+/* Mobile Range (320px -> 678px) */
+@media (max-width: 677px) {
+${mobRules.join("\n")}
+}
+
+/* Tablet Range (678px -> 1024px) */
+@media (min-width: 678px) and (max-width: 1024px) {
+${tabRules.join("\n")}
+}
+
+/* Desktop Range (1025px -> 1560px+) */
+@media (min-width: 1025px) {
+${deskRules.join("\n")}
+}`;
+
+                        setGeneratedCssExport(fullCss);
+                        navigator.clipboard.writeText(fullCss);
+                        setCssCopied(true);
+                        setShowCssModal(true);
+                        setTimeout(() => setCssCopied(false), 3000);
+                      }}
+                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2"
+                    >
+                      <span>💾 Save & Copy Global CSS</span>
+                      {cssCopied && <span className="text-emerald-300 animate-pulse">✓ Copied!</span>}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        const tag = document.getElementById("fluid-type-overrides");
+                        if (tag) tag.remove();
+                        const section = document.getElementById("typography");
+                        if (section) {
+                          section.querySelectorAll<HTMLInputElement>("input[type='range']").forEach((input) => {
+                            input.value = input.defaultValue;
+                          });
+                          FLUID_SCALE.forEach((tier) => {
+                            const row = section.querySelector(`[data-tier="${tier.key}"]`);
+                            if (row) {
+                              const mm = row.querySelector("[data-val='mMin']");
+                              const mx = row.querySelector("[data-val='mMax']");
+                              const tm = row.querySelector("[data-val='tMin']");
+                              const tx = row.querySelector("[data-val='tMax']");
+                              const dm = row.querySelector("[data-val='dMin']");
+                              const dx = row.querySelector("[data-val='dMax']");
+                              if (mm) mm.textContent = `${remToPx(tier.mobMin)}px`;
+                              if (mx) mx.textContent = `${remToPx(tier.mobMax)}px`;
+                              if (tm) tm.textContent = `${remToPx(tier.tabMin)}px`;
+                              if (tx) tx.textContent = `${remToPx(tier.tabMax)}px`;
+                              if (dm) dm.textContent = `${remToPx(tier.deskMin)}px`;
+                              if (dx) dx.textContent = `${remToPx(tier.deskMax)}px`;
+                            }
+                          });
+                        }
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 font-bold text-xs uppercase tracking-wider transition flex items-center gap-2"
+                    >
+                      ↺ Reset All to Defaults
+                    </button>
+                  </div>
+                </div>
+
+                {/* CSS Export Modal Drawer */}
+                {showCssModal && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+                    <div className="relative w-full max-w-3xl bg-[#0d0914] border border-purple-500/30 rounded-2xl p-6 shadow-2xl space-y-4">
+                      <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                        <div className="flex items-center gap-3">
+                          <span className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
+                          <h3 className="text-lg font-black uppercase tracking-wider text-white">
+                            Global CSS Saved to Clipboard
+                          </h3>
+                        </div>
+                        <button
+                          onClick={() => setShowCssModal(false)}
+                          className="text-white/40 hover:text-white text-xl font-bold p-1 transition"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      <p className="text-xs text-white/60">
+                        The CSS below has been copied to your clipboard. Paste this block directly into <code className="text-purple-400 font-mono">src/app/globals.css</code> to make your fluid typography settings permanent globally across the entire site.
+                      </p>
+
+                      <pre className="p-4 rounded-xl bg-black/60 border border-white/10 text-emerald-400 font-mono text-[11px] max-h-80 overflow-y-auto leading-relaxed select-all">
+                        {generatedCssExport}
+                      </pre>
+
+                      <div className="flex justify-end gap-3 pt-2">
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(generatedCssExport);
+                            setCssCopied(true);
+                            setTimeout(() => setCssCopied(false), 2000);
+                          }}
+                          className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition"
+                        >
+                          📋 Copy Again
+                        </button>
+                        <button
+                          onClick={() => setShowCssModal(false)}
+                          className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <code className="text-[11px] font-mono text-white/40 bg-black/40 px-3 py-1.5 rounded-lg self-start md:self-auto border border-white/5">
-                text-3xl sm:text-4xl font-extrabold
-              </code>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-emerald-400 font-bold">H3 Component Title — 2.25rem (36px) / Bold 700</span>
-                <h3 className="text-2xl sm:text-3xl font-bold uppercase text-white mt-1">
-                  VIP Passenger Cruise Package
-                </h3>
-              </div>
-              <code className="text-[11px] font-mono text-white/40 bg-black/40 px-3 py-1.5 rounded-lg self-start md:self-auto border border-white/5">
-                text-2xl sm:text-3xl font-bold
-              </code>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-amber-400 font-bold">H4 Card Header — 1.5rem (24px) / Semibold 600</span>
-                <h4 className="text-xl sm:text-2xl font-semibold text-white mt-1">
-                  House of Blues Sound Check Setup
-                </h4>
-              </div>
-              <code className="text-[11px] font-mono text-white/40 bg-black/40 px-3 py-1.5 rounded-lg self-start md:self-auto border border-white/5">
-                text-xl sm:text-2xl font-semibold
-              </code>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-pink-400 font-bold">H5 Subhead — 1.25rem (20px) / Medium 500</span>
-                <h5 className="text-lg sm:text-xl font-medium text-white/90 mt-1">
-                  Performance Schedule & Stage Specs
-                </h5>
-              </div>
-              <code className="text-[11px] font-mono text-white/40 bg-black/40 px-3 py-1.5 rounded-lg self-start md:self-auto border border-white/5">
-                text-lg sm:text-xl font-medium
-              </code>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-mono text-indigo-400 font-bold">H6 Minor Heading — 1rem (16px) / Medium 500</span>
-                <h6 className="text-base font-semibold text-white/80 uppercase tracking-widest mt-1">
-                  Technical Rider Notes
-                </h6>
-              </div>
-              <code className="text-[11px] font-mono text-white/40 bg-black/40 px-3 py-1.5 rounded-lg self-start md:self-auto border border-white/5">
-                text-base font-semibold uppercase tracking-widest
-              </code>
-            </div>
-          </div>
-
-          {/* Body & Text Styles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/10">
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
-              <span className="text-xs font-mono text-purple-300 font-bold">Body Large — 1.125rem (18px)</span>
-              <p className="text-lg text-white/90 leading-relaxed">
-                7th Heaven is an American rock band formed in Chicagoland. High-energy performances with over 30 years of touring history.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
-              <span className="text-xs font-mono text-cyan-300 font-bold">Body Base — 1rem (16px)</span>
-              <p className="text-base text-white/80 leading-normal">
-                Join our official fan directory for exclusive merchandise discounts, meet & greet announcements, and cruise itinerary updates.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
-              <span className="text-xs font-mono text-emerald-300 font-bold">Small Text — 0.875rem (14px)</span>
-              <p className="text-sm text-white/70">
-                Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable unless canceled.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
-              <span className="text-xs font-mono text-amber-300 font-bold">Caption & Subtle — 0.75rem (12px)</span>
-              <p className="text-xs text-white/50 uppercase tracking-wider font-bold">
-                Last updated 2 hours ago • Verified by Band Management
-              </p>
-            </div>
-          </div>
+            );
+          })()}
         </section>
 
         {/* SECTION 2: COLORS */}
@@ -1118,11 +1824,10 @@ export default function StyleGuidePage() {
                             key={r}
                             type="button"
                             onClick={() => setSignInRole(r as any)}
-                            className={`py-1.5 px-1 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${
-                              signInRole === (r as any)
-                                ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                                : "text-white/50 hover:text-white/90"
-                            }`}
+                            className={`py-1.5 px-1 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any)
+                              ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+                              : "text-white/50 hover:text-white/90"
+                              }`}
                           >
                             {r}
                           </button>
@@ -1161,7 +1866,7 @@ export default function StyleGuidePage() {
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <button className="py-2.5 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5 shadow-sm">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
                         Google
                       </button>
                       <button className="py-2.5 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5 shadow-sm">
@@ -1221,11 +1926,10 @@ export default function StyleGuidePage() {
                             key={r}
                             type="button"
                             onClick={() => setSignUpRole(r)}
-                            className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${
-                              signUpRole === r
-                                ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
-                                : "text-white/50 hover:text-white/90"
-                            }`}
+                            className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${signUpRole === r
+                              ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+                              : "text-white/50 hover:text-white/90"
+                              }`}
                           >
                             {r}
                           </button>
@@ -2227,20 +2931,41 @@ export default function StyleGuidePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-cyan-400">Mobile Page Padding</span>
-              <div className="text-2xl font-black text-white">24px (<code className="text-xs text-white/50 font-mono">px-6</code>)</div>
-              <p className="text-xs text-white/50">Used on screens below 640px viewport width.</p>
+              <div className="text-2xl font-black text-white">16px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
+              <p className="text-xs text-white/50">Used on screens below 768px viewport width.</p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-purple-400">Tablet Page Padding</span>
-              <div className="text-2xl font-black text-white">32px (<code className="text-xs text-white/50 font-mono">px-8</code>)</div>
-              <p className="text-xs text-white/50">Used on screens between 640px and 1024px viewport width.</p>
+              <div className="text-2xl font-black text-white">32px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
+              <p className="text-xs text-white/50">Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2">
               <span className="text-xs font-mono font-bold text-emerald-400">Desktop Page Padding</span>
-              <div className="text-2xl font-black text-white">42px (<code className="text-xs text-white/50 font-mono">lg:px-[42px]</code>)</div>
+              <div className="text-2xl font-black text-white">42px (<code className="text-xs text-white/50 font-mono">var(--page-padding-x)</code>)</div>
               <p className="text-xs text-white/50">Standardized max desktop horizontal container padding.</p>
+            </div>
+          </div>
+
+          {/* Dedicated .site-container Utility Specification Card */}
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <span className="text-xs font-mono font-black text-purple-400 uppercase tracking-widest block">
+                Primary Layout Wrapper Class
+              </span>
+              <h3 className="text-xl font-black text-white flex items-center gap-2">
+                <code className="text-purple-300 font-mono bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
+                <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Active Globally</span>
+              </h3>
+              <p className="text-xs text-white/60 max-w-2xl mt-1">
+                The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code className="text-cyan-300">16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
+              </p>
+            </div>
+            <div className="shrink-0 p-4 rounded-xl bg-black/60 border border-white/10 font-mono text-xs text-purple-300 space-y-1">
+              <div><span className="text-white/40">width:</span> 100%;</div>
+              <div><span className="text-white/40">max-width:</span> 100% !important;</div>
+              <div><span className="text-white/40">padding:</span> 0 var(--page-padding-x);</div>
             </div>
           </div>
         </section>

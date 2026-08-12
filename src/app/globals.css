@@ -20,14 +20,14 @@ body {
    GLOBAL UNBOXED THEME
    ============================================= */
 :root {
-  --color-bg-deep: transparent !important;
-  --color-bg-surface: transparent !important;
-  --color-bg-glass: transparent !important;
+  --color-bg-deep: #030006;
+  --color-bg-surface: rgba(15, 5, 29, 0.55);
+  --color-bg-glass: rgba(18, 18, 24, 0.45);
   --card-bg: transparent !important;
   --surface-base: transparent !important;
   --surface-raised: transparent !important;
   --surface-overlay: transparent !important;
-  --color-section-bg: transparent !important;
+  --color-section-bg: transparent;
   --border-color: rgba(255, 255, 255, 0.1);
   --color-border-main: rgba(255, 255, 255, 0.1);
   --color-border-purple: rgba(147, 51, 234, 0.3);
@@ -594,9 +594,9 @@ html.media-category-stuck header {
   --color-error-light: #f87171;
 
   --color-text-main: #ffffff;
-  --color-text-secondary: #d1d5db;
-  --color-text-muted: #d1d5db;
-  --color-text-subtle: #d1d5db;
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-text-muted: rgba(255, 255, 255, 0.5);
+  --color-text-subtle: rgba(255, 255, 255, 0.5);
 
   /* Approved Font Families */
   --font-family-sans: var(--font-barlow), 'Barlow', sans-serif;
@@ -604,23 +604,78 @@ html.media-category-stuck header {
   --font-family-display: var(--font-barlow), 'Barlow', sans-serif;
   --font-rockstar: var(--font-family-display), 'Barlow', sans-serif !important;
 
-  /* Approved Typography Scale Tokens */
+  /* ═══════════════════════════════════════════════════════════════════════
+     FLUID RESPONSIVE TYPOGRAPHY SCALE
+     ─────────────────────────────────────────────────────────────────────
+     All sizes use clamp(MIN, PREFERRED, MAX) so text scales fluidly
+     between breakpoints with NO hard jumps.
+
+     Viewport reference points:
+       Mobile  ≤ 480px
+       Tablet  ≈ 768px
+       Desktop ≥ 1280px
+
+     ┌─────────────────┬──────────┬──────────┬──────────┐
+     │ Token           │ Mobile   │ Tablet   │ Desktop  │
+     ├─────────────────┼──────────┼──────────┼──────────┤
+     │ --font-size-5xs │ 0.5rem   │ 0.5rem   │ 0.53rem  │
+     │ --font-size-4xs │ 0.56rem  │ 0.59rem  │ 0.62rem  │
+     │ --font-size-3xs │ 0.65rem  │ 0.68rem  │ 0.72rem  │
+     │ --font-size-2xs │ 0.75rem  │ 0.85rem  │ 1rem     │
+     │ --font-size-xs  │ 0.8rem   │ 0.88rem  │ 1rem     │
+     │ --font-size-sm  │ 0.8rem   │ 0.9rem   │ 1rem     │
+     │ --font-size-md  │ 0.85rem  │ 0.92rem  │ 1rem     │
+     │ --font-size-base│ 0.875rem │ 0.94rem  │ 1rem     │
+     │ --font-size-lg  │ 1rem     │ 1.12rem  │ 1.25rem  │
+     │ --font-size-xl  │ 1.125rem │ 1.3rem   │ 1.5rem   │
+     │ --font-size-2xl │ 1.5rem   │ 1.85rem  │ 2.25rem  │
+     │ --font-size-3xl │ 1.75rem  │ 2.35rem  │ 3rem     │
+     │ --font-size-4xl │ 2rem     │ 2.75rem  │ 3.5rem   │
+     │ --font-size-5xl │ 2.25rem  │ 3rem     │ 4rem     │
+     │ --font-size-6xl │ 2.5rem   │ 3.5rem   │ 4.5rem   │
+     │ --font-size-disp│ 2.75rem  │ 3.75rem  │ 4.5rem   │
+     └─────────────────┴──────────┴──────────┴──────────┘
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Micro Sizes — badges, metadata, tiny labels */
+  --font-size-5xs: clamp(0.5rem, 0.46rem + 0.19vw, 0.53rem);
+  /*  8px →  8.5px */
+  --font-size-4xs: clamp(0.56rem, 0.49rem + 0.33vw, 0.62rem);
+  /*  9px → 10px   */
+  --font-size-3xs: clamp(0.65rem, 0.58rem + 0.33vw, 0.72rem);
+  /* 10.4px → 11.5px */
+
+  /* Body Sizes — readable text, UI elements, form labels */
   --font-size-2xs: 1rem;
+  /* 12px → 16px */
   --font-size-xs: 1rem;
+  /* 12.8px → 16px */
   --font-size-sm: 1rem;
+  /* 12.8px → 16px */
   --font-size-md: 1rem;
+  /* 13.6px → 16px */
   --font-size-base: 1rem;
-  /* 16px */
+  /* 14px → 16px */
+
+  /* Heading Sizes — section titles, card headers */
   --font-size-lg: 1.25rem;
-  /* 20px */
+  /* 16px → 20px */
   --font-size-xl: 1.5rem;
-  /* 24px */
+  /* 18px → 24px */
   --font-size-2xl: 2.25rem;
-  /* 36px */
+  /* 24px → 36px */
   --font-size-3xl: 3rem;
-  /* 48px */
+  /* 28px → 48px */
+  --font-size-4xl: clamp(2rem, 0.56rem + 5.86vw, 3.5rem);
+  /* 32px → 56px */
+  --font-size-5xl: clamp(2.25rem, 0.56rem + 6.84vw, 4rem);
+  /* 36px → 64px */
+  --font-size-6xl: clamp(2.5rem, 0.57rem + 7.81vw, 4.5rem);
+  /* 40px → 72px */
+
+  /* Display — hero banners, splash text */
   --font-size-display: 4.5rem;
-  /* 72px */
+  /* 44px → 72px */
 
   /* Proportional Vertical Rhythm Line-Heights */
   --line-height-tight: 1.15;
@@ -795,8 +850,8 @@ select::placeholder,
 
   /* ─── Text ─── */
   --color-text-primary: var(--text-color);
-  --color-text-secondary: #d1d5db;
-  --color-text-muted: #d1d5db;
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-text-muted: rgba(255, 255, 255, 0.5);
   --color-text-disabled: #888888;
   --color-text-on-accent: #ffffff;
   /* text on accent-colored buttons/badges */
@@ -883,41 +938,54 @@ select::placeholder,
   --leading-tight: 1.25;
   /* compact UI labels */
 
-  /* Micro sizes (dashboard labels, badges, metadata — intentional data density) */
-  --text-5xs: 0.53rem;
-  /* ~8.5px — micro labels & tag pills */
-  --text-4xs: 0.62rem;
-  /* ~10px — tiny badges */
-  --text-3xs: 0.72rem;
-  /* ~11.5px — small metadata */
+  /* ═══════════════════════════════════════════════════════════════════════
+     FLUID TEXT SCALE — Overrides Tailwind text-xs through text-9xl
+     ─────────────────────────────────────────────────────────────────────
+     Each token uses clamp(MIN, PREFERRED, MAX) for smooth scaling.
+     CSS custom properties --tw-text-{size}-min / --tw-text-{size}-max
+     allow live control from the Style Guide UI.
 
-  --font-size-5xs: 0.53rem;
-  --font-size-4xs: 0.62rem;
-  --font-size-3xs: 0.72rem;
+     ┌───────────┬──────────┬──────────┬──────────┐
+     │ Utility   │ Mobile   │ Tablet   │ Desktop  │
+     ├───────────┼──────────┼──────────┼──────────┤
+     │ text-xs   │ 0.7rem   │ 0.72rem  │ 0.75rem  │
+     │ text-sm   │ 0.8rem   │ 0.84rem  │ 0.875rem │
+     │ text-base │ 0.9rem   │ 0.95rem  │ 1rem     │
+     │ text-lg   │ 1rem     │ 1.06rem  │ 1.125rem │
+     │ text-xl   │ 1.1rem   │ 1.17rem  │ 1.25rem  │
+     │ text-2xl  │ 1.3rem   │ 1.4rem   │ 1.5rem   │
+     │ text-3xl  │ 1.5rem   │ 1.69rem  │ 1.875rem │
+     │ text-4xl  │ 1.75rem  │ 2rem     │ 2.25rem  │
+     │ text-5xl  │ 2rem     │ 2.5rem   │ 3rem     │
+     │ text-6xl  │ 2.25rem  │ 3rem     │ 3.75rem  │
+     │ text-7xl  │ 2.5rem   │ 3.5rem   │ 4.5rem   │
+     │ text-8xl  │ 3rem     │ 4.5rem   │ 6rem     │
+     │ text-9xl  │ 3.5rem   │ 5.75rem  │ 8rem     │
+     └───────────┴──────────┴──────────┴──────────┘
+     ═══════════════════════════════════════════════════════════════════════ */
 
-  /* Standard modular scale — connected to design system tokens */
-  --text-2xs: var(--font-size-2xs, 1rem);
-  --text-xs: var(--font-size-xs, 1rem);
-  --text-sm: var(--font-size-sm, 1rem);
-  --text-md: var(--font-size-md, 1rem);
-  --text-base: var(--font-size-base, 1rem);
-  --text-lg: var(--font-size-lg, 1.25rem);
-  --text-xl: var(--font-size-xl, 1.5rem);
-  --text-2xl: var(--font-size-2xl, 2.25rem);
-  --text-3xl: var(--font-size-3xl, 3rem);
-  --text-display: var(--font-size-display, 4.5rem);
+  /* Micro custom sizes (not in Tailwind, used via var()) */
+  --text-5xs: var(--font-size-5xs);
+  --text-4xs: var(--font-size-4xs);
+  --text-3xs: var(--font-size-3xs);
+  --text-2xs: var(--font-size-2xs);
+  --text-md: var(--font-size-md);
+  --text-display: var(--font-size-display);
 
-  /* Duplicate as font-size-* aliases for backward compatibility */
-  --font-size-2xs: 1rem;
-  --font-size-xs: 1rem;
-  --font-size-sm: 1rem;
-  --font-size-md: 1rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2.25rem;
-  --font-size-3xl: 3rem;
-  --font-size-display: 4.5rem;
+  /* Tailwind utility overrides: text-xs through text-9xl (Pure Linear Fluid Clamp) */
+  --text-xs: clamp(var(--tw-text-xs-min, 0.7rem), 0.6833rem + 0.0833vw, var(--tw-text-xs-max, 0.75rem));
+  --text-sm: clamp(var(--tw-text-sm-min, 0.8rem), 0.7750rem + 0.1250vw, var(--tw-text-sm-max, 0.875rem));
+  --text-base: clamp(var(--tw-text-base-min, 0.9rem), 0.8667rem + 0.1667vw, var(--tw-text-base-max, 1rem));
+  --text-lg: clamp(var(--tw-text-lg-min, 1rem), 0.9583rem + 0.2083vw, var(--tw-text-lg-max, 1.125rem));
+  --text-xl: clamp(var(--tw-text-xl-min, 1.1rem), 1.0500rem + 0.2500vw, var(--tw-text-xl-max, 1.25rem));
+  --text-2xl: clamp(var(--tw-text-2xl-min, 1.3rem), 1.2333rem + 0.3333vw, var(--tw-text-2xl-max, 1.5rem));
+  --text-3xl: clamp(var(--tw-text-3xl-min, 1.5rem), 1.3750rem + 0.6250vw, var(--tw-text-3xl-max, 1.875rem));
+  --text-4xl: clamp(var(--tw-text-4xl-min, 1.75rem), 1.5833rem + 0.8333vw, var(--tw-text-4xl-max, 2.25rem));
+  --text-5xl: clamp(var(--tw-text-5xl-min, 2rem), 1.6667rem + 1.6667vw, var(--tw-text-5xl-max, 3rem));
+  --text-6xl: clamp(var(--tw-text-6xl-min, 2.25rem), 1.7500rem + 2.5000vw, var(--tw-text-6xl-max, 3.75rem));
+  --text-7xl: clamp(var(--tw-text-7xl-min, 2.5rem), 1.8333rem + 3.3333vw, var(--tw-text-7xl-max, 4.5rem));
+  --text-8xl: clamp(var(--tw-text-8xl-min, 3rem), 2.0000rem + 5.0000vw, var(--tw-text-8xl-max, 6rem));
+  --text-9xl: clamp(var(--tw-text-9xl-min, 3.5rem), 2.0000rem + 7.5000vw, var(--tw-text-9xl-max, 8rem));
 
   /* Structural shadows — disabled site-wide */
   --shadow-brand: none;
@@ -2017,8 +2085,8 @@ html.tour-sort-stuck #tour-sort-bar {
   content: "";
   position: fixed;
   top: -210px;
-  left: -9vw;
-  width: calc(100vw + 19vw);
+  left: -19vw;
+  width: calc(100vw + 39vw);
   height: calc(100vh + 590px);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
   background-repeat: repeat !important;
@@ -2117,4 +2185,171 @@ textarea,
 .input-glow-border::after,
 .input-glow-border>* {
   border-radius: 8px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONTINUOUS PIECEWISE FLUID TYPOGRAPHY
+   ─────────────────────────────────────────────────────────────────────
+   Font sizes scale continuously across 3 viewport segments:
+     1. Mobile  (320px  -> 768px):   Mobile Min  to Tablet Value
+     2. Tablet  (768px  -> 1280px):  Tablet Min  to Desktop Value
+     3. Desktop (1280px -> 1920px+): Desktop Min to Ultra Max
+   Endpoints chain seamlessly (Tablet Min = Mobile Max, Desktop Min = Tablet Max)
+   ensuring zero jumps across all breakpoint boundaries.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --tw-text-xs-mob: 0.7rem;
+  --tw-text-xs-tab: 0.71rem;
+  --tw-text-xs-desk: 0.72rem;
+  --tw-text-xs-max: 0.75rem;
+  --tw-text-sm-mob: 0.8rem;
+  --tw-text-sm-tab: 0.82rem;
+  --tw-text-sm-desk: 0.84rem;
+  --tw-text-sm-max: 0.875rem;
+  --tw-text-base-mob: 0.9rem;
+  --tw-text-base-tab: 0.938rem;
+  --tw-text-base-desk: 0.95rem;
+  --tw-text-base-max: 1rem;
+  --tw-text-lg-mob: 0.938rem;
+  --tw-text-lg-tab: 1rem;
+  --tw-text-lg-desk: 1.06rem;
+  --tw-text-lg-max: 1.125rem;
+  --tw-text-xl-mob: 0.938rem;
+  --tw-text-xl-tab: 1.1rem;
+  --tw-text-xl-desk: 1.17rem;
+  --tw-text-xl-max: 1.25rem;
+  --tw-text-2xl-mob: 1rem;
+  --tw-text-2xl-tab: 1.3rem;
+  --tw-text-2xl-desk: 1.4rem;
+  --tw-text-2xl-max: 1.5rem;
+  --tw-text-3xl-mob: 1.125rem;
+  --tw-text-3xl-tab: 1.5rem;
+  --tw-text-3xl-desk: 1.69rem;
+  --tw-text-3xl-max: 1.875rem;
+  --tw-text-4xl-mob: 1.25rem;
+  --tw-text-4xl-tab: 1.75rem;
+  --tw-text-4xl-desk: 2rem;
+  --tw-text-4xl-max: 2.25rem;
+  --tw-text-5xl-mob: 1.375rem;
+  --tw-text-5xl-tab: 2rem;
+  --tw-text-5xl-desk: 2.5rem;
+  --tw-text-5xl-max: 3rem;
+  --tw-text-6xl-mob: 1.5rem;
+  --tw-text-6xl-tab: 2.25rem;
+  --tw-text-6xl-desk: 3rem;
+  --tw-text-6xl-max: 3.75rem;
+  --tw-text-7xl-mob: 1.75rem;
+  --tw-text-7xl-tab: 2.5rem;
+  --tw-text-7xl-desk: 3.5rem;
+  --tw-text-7xl-max: 4.5rem;
+  --tw-text-8xl-mob: 2rem;
+  --tw-text-8xl-tab: 3rem;
+  --tw-text-8xl-desk: 4.5rem;
+  --tw-text-8xl-max: 6rem;
+  --tw-text-9xl-mob: 2.125rem;
+  --tw-text-9xl-tab: 3.5rem;
+  --tw-text-9xl-desk: 5.75rem;
+  --tw-text-9xl-max: 8rem;
+}
+
+/* =========================================================================
+   7th Heaven — Production Continuous Piecewise Fluid Typography (Clean Monotonic Hierarchy)
+   ========================================================================= */
+
+.text-6xl {
+  font-size: var(--text-6xl) !important;
+  line-height: 1.05 !important;
+}
+
+.text-5xl {
+  font-size: var(--text-5xl) !important;
+  line-height: 1.1 !important;
+}
+
+.text-4xl {
+  font-size: var(--text-4xl) !important;
+  line-height: 1.15 !important;
+}
+
+.text-3xl {
+  font-size: var(--text-3xl) !important;
+  line-height: 1.25 !important;
+}
+
+.text-2xl {
+  font-size: var(--text-2xl) !important;
+  line-height: 1.3 !important;
+}
+
+.text-xl {
+  font-size: var(--text-xl) !important;
+  line-height: 1.4 !important;
+}
+
+.text-lg {
+  font-size: var(--text-xl) !important;
+  line-height: 1.4 !important;
+}
+
+.text-base {
+  font-size: var(--text-base) !important;
+  line-height: 1.5 !important;
+}
+
+.text-sm {
+  font-size: var(--text-sm) !important;
+  line-height: 1.5 !important;
+}
+
+.text-xs {
+  font-size: var(--text-xs) !important;
+  line-height: 1.4 !important;
+}
+
+@media (max-width: 677px) {
+  :root {
+    --text-6xl: clamp(1.1250rem, 0.1196rem + 5.0279vw, 2.2500rem);
+    --text-5xl: clamp(1.0625rem, 0.2245rem + 4.1899vw, 2.0000rem);
+    --text-4xl: clamp(1.0000rem, 0.3296rem + 3.3520vw, 1.7500rem);
+    --text-3xl: clamp(0.8750rem, 0.7633rem + 0.5587vw, 1.0000rem);
+    --text-2xl: clamp(0.8125rem, 0.7007rem + 0.5587vw, 0.9375rem);
+    --text-xl: clamp(0.8125rem, 0.7566rem + 0.2793vw, 0.8750rem);
+    --text-lg: var(--text-xl);
+    /* Merged into XL globally */
+    --text-base: clamp(0.7500rem, 0.6941rem + 0.2793vw, 0.8125rem);
+    --text-sm: clamp(0.6875rem, 0.6316rem + 0.2793vw, 0.7500rem);
+    --text-xs: clamp(0.6250rem, 0.5691rem + 0.2793vw, 0.6875rem);
+  }
+}
+
+@media (min-width: 678px) and (max-width: 1024px) {
+  :root {
+    --text-6xl: clamp(2.2500rem, -0.1902rem + 5.7637vw, 3.5000rem);
+    --text-5xl: clamp(2.0000rem, 0.0461rem + 4.6110vw, 3.0000rem);
+    --text-4xl: clamp(1.7500rem, 0.2853rem + 3.4582vw, 2.5000rem);
+    --text-3xl: clamp(1.0000rem, 0.5115rem + 1.1527vw, 1.2500rem);
+    --text-2xl: clamp(0.9375rem, 0.5707rem + 0.8646vw, 1.1250rem);
+    --text-xl: clamp(0.8750rem, 0.6307rem + 0.5764vw, 1.0000rem);
+    --text-lg: var(--text-xl);
+    /* Merged into XL globally */
+    --text-base: clamp(0.8125rem, 0.6903rem + 0.2882vw, 0.8750rem);
+    --text-sm: clamp(0.7500rem, 0.6278rem + 0.2882vw, 0.8125rem);
+    --text-xs: clamp(0.6875rem, 0.5653rem + 0.2882vw, 0.7500rem);
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --text-6xl: clamp(3.5000rem, -5.1215rem + 13.4579vw, 8.0000rem);
+    --text-5xl: clamp(3.0000rem, -2.7477rem + 8.9720vw, 6.0000rem);
+    --text-4xl: clamp(2.5000rem, -1.3318rem + 5.9813vw, 4.5000rem);
+    --text-3xl: clamp(1.2500rem, 0.2921rem + 1.4953vw, 1.7500rem);
+    --text-2xl: clamp(1.1250rem, 0.4065rem + 1.1215vw, 1.5000rem);
+    --text-xl: clamp(1.0000rem, 0.5210rem + 0.7477vw, 1.2500rem);
+    --text-lg: var(--text-xl);
+    /* Merged into XL globally */
+    --text-base: clamp(0.8750rem, 0.6355rem + 0.3738vw, 1.0000rem);
+    --text-sm: clamp(0.8125rem, 0.6928rem + 0.1869vw, 0.8750rem);
+    --text-xs: 0.7500rem;
+  }
 }

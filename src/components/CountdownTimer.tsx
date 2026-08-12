@@ -90,12 +90,12 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
      <div key={u.label} className={`flex items-center ${compact ? 'gap-1.5' : 'gap-3 md:gap-4'}`}>
       <div className={`flex flex-col items-center ${compact ? 'px-2 py-1 min-w-[44px]' : 'px-3 py-2 min-w-[64px]'}`}>
        <span
-        className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-[23px] sm:text-[25px] font-black' : 'text-[53px] md:text-[3.9rem]'}`}
+        className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-[clamp(18px,2vw,25px)] font-black' : 'text-[clamp(24px,4vw,3.9rem)]'}`}
         style={{ color: numberColor }}
        >
         {String(u.value).padStart(2, "0")}
        </span>
-       <span className={`uppercase tracking-wider ${compact ? 'text-[12px] sm:text-[13px] font-extrabold text-white/70 mt-1 tracking-widest' : 'text-[var(--font-size-3xs)] font-extrabold text-white/60 mt-1.5 tracking-widest'}`}>{u.label}</span>
+       <span className={`uppercase tracking-wider ${compact ? 'text-[12px] sm:text-[13px] font-extrabold text-white/70 mt-1 tracking-widest' : 'text-[clamp(9px,1.2vw,11px)] font-extrabold text-white/60 mt-1.5 tracking-widest'}`}>{u.label}</span>
       </div>
       {i < 3 && <span className={`text-white/40 font-bold ${compact ? 'text-lg' : 'text-4xl'}`}>:</span>}
      </div>

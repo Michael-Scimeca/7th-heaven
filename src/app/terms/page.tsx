@@ -8,14 +8,16 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
     return (
-        <section className="py-32 min-h-screen    text-[var(--text-color)]">
-            <div className="site-container max-w-[900px] mx-auto">
-                <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
-                    Terms of <span className="text-[var(--color-accent)]">Service</span>
-                </h1>
-                <p className="text-sm text-[var(--muted-text)] uppercase tracking-[0.15em] font-bold mb-12">
-                    Last Updated: April 12, 2026
-                </p>
+        <section className="py-32 min-h-screen text-[var(--text-color)]">
+            <div className="w-full text-left">
+                <div className="mb-12 text-left">
+                    <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
+                        Terms of <span className="text-[var(--color-accent)]">Service</span>
+                    </h1>
+                    <p className="text-sm text-[var(--muted-text)] uppercase tracking-[0.15em] font-bold">
+                        Last Updated: April 12, 2026
+                    </p>
+                </div>
 
                 <div className="prose-legal flex flex-col gap-10 text-[var(--text-color)] text-base leading-relaxed">
 

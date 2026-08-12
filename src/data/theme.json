@@ -23,7 +23,6 @@
     "--color-success": "#9333ea",
     "--color-warning": "#9333ea",
     "--color-error": "#ef4444",
-    "--color-error": "#ef4444",
     "--color-info": "#9333ea",
     "--color-section-bg": "transparent",
     "--color-section-border": "rgba(255, 255, 255, 0.1)",

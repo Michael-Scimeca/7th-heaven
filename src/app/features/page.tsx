@@ -1363,7 +1363,7 @@ export default function FeaturesPage() {
             Full Platform Overview · All Features Live & Documented
           </div>
 
-          <h1 className="text-7xl md:text-9xl lg:text-[7rem] font-black uppercase text-white mb-6 leading-[0.9] tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
+          <h1 className="text-6xl font-black uppercase text-white mb-6 leading-[0.9] tracking-tight" style={{ fontFamily: "var(--font-barlow-condensed), var(--font-inter)", fontStyle: "italic" }}>
             Everything<br /><span style={{ color: "#851DEF" }}>Built In.</span>
           </h1>
 

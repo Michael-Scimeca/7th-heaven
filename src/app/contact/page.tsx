@@ -24,7 +24,7 @@ export default async function ContactPage() {
     return (
         <div className="pt-[123px] min-h-[calc(100vh-88px)] flex flex-col justify-center    text-[var(--text-color)]">
             <section className="py-8 md:py-12 flex flex-col justify-center">
-                <div className="site-container w-full flex flex-col justify-center">
+                <div className="w-full flex flex-col justify-center">
                     {/* Header */}
                     <div className="mb-8 text-left">
                         <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight text-left text-[var(--text-color)]">

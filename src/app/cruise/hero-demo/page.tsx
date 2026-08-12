@@ -133,7 +133,7 @@ export default function HeroDemoPage() {
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               7 Nights · 3 Islands · 6 Shows
             </div>
-            <h1 className="text-7xl md:text-[10rem] font-black uppercase italic tracking-tighter text-white drop- leading-[0.85]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+            <h1 className="text-6xl font-black uppercase italic tracking-tighter text-white drop- leading-[0.85]" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Cruise
             </h1>
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40 mt-4 mb-8">
