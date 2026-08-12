@@ -105,6 +105,11 @@
   opacity: 0;
   transform: translateY(-6px);
   transition: opacity 220ms ease, transform 220ms ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.menu li:last-child {
+  border-bottom: none;
 }
 
 .menu[data-open="true"] li {

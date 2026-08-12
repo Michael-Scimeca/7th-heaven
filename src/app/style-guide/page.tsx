@@ -117,6 +117,8 @@ export default function StyleGuidePage() {
   const [previewNews, setPreviewNews] = useState(true);
   const [previewAge, setPreviewAge] = useState(true);
   const [previewRadius, setPreviewRadius] = useState("50");
+  const [signInRole, setSignInRole] = useState<'fan' | 'crew' | 'planner' | 'cruise'>('fan');
+  const [signUpRole, setSignUpRole] = useState<'fan' | 'planner' | 'cruise'>('fan');
 
   /* ── PIN Input Demo State ── */
   const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
@@ -1078,10 +1080,20 @@ export default function StyleGuidePage() {
                         <span className="text-[10px] font-bold text-purple-300 hover:underline cursor-pointer">Login to Admin</span>
                       </div>
                       <div className="grid grid-cols-4 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40">Fan</div>
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Crew</div>
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Planner</div>
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Cruise</div>
+                        {(['fan', 'crew', 'planner', 'cruise'] as const).map((r) => (
+                          <button
+                            key={r}
+                            type="button"
+                            onClick={() => setSignInRole(r)}
+                            className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${
+                              signInRole === r
+                                ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+                                : "text-white/50 hover:text-white/90"
+                            }`}
+                          >
+                            {r}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
@@ -1171,9 +1183,20 @@ export default function StyleGuidePage() {
                     <div className="my-3 space-y-1.5">
                       <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
                       <div className="grid grid-cols-3 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40">Fan</div>
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Planner</div>
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Cruise</div>
+                        {(['fan', 'planner', 'cruise'] as const).map((r) => (
+                          <button
+                            key={r}
+                            type="button"
+                            onClick={() => setSignUpRole(r)}
+                            className={`py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center transition-all cursor-pointer ${
+                              signUpRole === r
+                                ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40"
+                                : "text-white/50 hover:text-white/90"
+                            }`}
+                          >
+                            {r}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
@@ -1215,7 +1238,9 @@ export default function StyleGuidePage() {
                             <div className="shrink-0 relative z-30">
                               <GooeyDropdown
                                 label={`${previewRadius} MI`}
-                                accentColor="#2d2f3d"
+                                accentColor="#242630"
+                                glassOpacity={1.0}
+                                backdropBlur={0}
                                 items={[
                                   { label: "15 MI", onClick: () => setPreviewRadius("15") },
                                   { label: "25 MI", onClick: () => setPreviewRadius("25") },

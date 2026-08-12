@@ -59,8 +59,8 @@ export interface GooeyDropdownProps {
   className?: string;
 }
 
-function hexToRgba(color: string, alpha: number = 0.75): string {
-  if (!color) return `rgba(147, 51, 234, ${alpha})`;
+function hexToRgba(color: string, alpha: number = 1.0): string {
+  if (!color) return `rgba(36, 38, 48, ${alpha})`;
   if (color.startsWith("rgba") || color.startsWith("hsla")) return color;
   let c = color.replace("#", "");
   if (c.length === 3) c = c.split("").map((x) => x + x).join("");
@@ -78,12 +78,12 @@ const PANEL_PADDING_Y = 14;
 export default function GooeyDropdown({
   label,
   items,
-  accentColor = "#9333ea",
+  accentColor = "#242630",
   textColor = "#ffffff",
   panelTextColor,
   transparent = true,
-  glassOpacity = 0.75,
-  backdropBlur = 24,
+  glassOpacity = 1.0,
+  backdropBlur = 0,
   className = "",
 }: GooeyDropdownProps) {
   const [open, setOpen] = useState(false);

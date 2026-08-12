@@ -1464,7 +1464,9 @@ function SignUpExtraFields({
                 <div className="shrink-0 relative z-30">
                   <GooeyDropdown
                     label={`${alertRadius || "50"} MI`}
-                    accentColor="#2d2f3d"
+                    accentColor="#242630"
+                    glassOpacity={1.0}
+                    backdropBlur={0}
                     items={[
                       { label: "15 MI", onClick: () => setAlertRadius?.("15") },
                       { label: "25 MI", onClick: () => setAlertRadius?.("25") },
