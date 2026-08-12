@@ -233,7 +233,7 @@ export default function VerifyPage() {
 
             <div className="flex items-center justify-center gap-2 mb-6 no-glow" onPaste={handlePaste}>
               {Array.from(pin, (digit, i) => ({ digit, i })).map(({ digit, i }) => (
-                <div key={i} className="input-glow-border rounded-xl">
+                <div key={i} className="input-glow-border w-11 h-14 rounded-xl shrink-0">
                   <input aria-label="Input field"
                     ref={el => { inputRefs.current[i] = el; }}
                     type="text"
@@ -242,7 +242,7 @@ export default function VerifyPage() {
                     value={digit}
                     onChange={e => handleDigit(i, e.target.value)}
                     onKeyDown={e => handleKeyDown(i, e)}
-                    className={`w-11 h-14 text-center text-2xl font-black rounded-xl border-2 bg-black/50 outline-none transition-colors tabular-nums
+                    className={`w-full h-full text-center text-2xl font-black rounded-xl border-2 bg-black/50 outline-none transition-colors tabular-nums
                       ${digit ? 'border-purple-500 text-purple-300 shadow-[0_0_12px_rgba(147,51,234,0.3)]' : 'border-white/15 text-white/40'}
                       focus:border-purple-400 focus:shadow-[0_0_18px_rgba(147,51,234,0.6)]`}
                   />
