@@ -609,14 +609,7 @@ export default function FlowchartPage() {
           <h1>🗺️ Platform UX Flowchart & Sitemap</h1>
           <p>Structured with main navigation pages as the top first row, branching down into sub-pages.</p>
         </div>
-        <div style={{ display: "flex", gap: 12 }}>
-          <Link href="/sitemap/visual" className="sitemap-toggle-btn">
-            🖼️ View Interactive Visual Map
-          </Link>
-          <Link href="/sitemap" className="sitemap-toggle-btn">
-            📋 Directory Map
-          </Link>
-        </div>
+
       </header>
 
       {/* Canvas */}

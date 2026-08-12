@@ -78,8 +78,6 @@ const CATEGORIES = [
       { path: "/cruise/payment", label: "Payment" },
       { path: "/features", label: "Features" },
       { path: "/style-guide", label: "Style Guide" },
-      { path: "/sitemap", label: "Sitemap" },
-      { path: "/sitemap/visual", label: "Visual Map" },
       { path: "/sitemap/flowchart", label: "Flowchart" },
       { path: "/qr/merch", label: "QR Merch" },
     ]
