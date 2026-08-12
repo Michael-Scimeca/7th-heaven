@@ -377,17 +377,16 @@ textarea:focus-visible,
 .input-glow-border::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -1.5px;
   z-index: 2;
   pointer-events: none;
   border-radius: inherit;
-  padding: 1.5px;
-  background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
-  filter: blur(2px);
-  animation: border-angle-spin 5s linear infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  padding: 2px;
+  background: conic-gradient(from var(--border-angle), #c084fc 0%, #a855f7 25%, #ec4899 50%, #8b5cf6 75%, #c084fc 100%);
+  animation: border-angle-spin 3.5s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   opacity: 0;
   transition: opacity 0.25s ease-in-out;
