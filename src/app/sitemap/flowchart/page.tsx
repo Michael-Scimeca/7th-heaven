@@ -660,21 +660,21 @@ export default function FlowchartPage() {
 
         {/* Main Flow Columns - Top item in each column is the Nav Header */}
         <div className="columns-grid">
-          {/* Column 1: Band Bio (Purple) */}
+          {/* Column 1: Band Bio (Purple) — now a homepage section, not a standalone route */}
           <div className="flow-column">
             <FlowCard
-              label="Bio"
-              sub="/bio"
-              url="/bio"
+              label="Band"
+              sub="Homepage Section · /#band"
+              url="/#band"
               screenshot="bio.png"
             />
             <div className="node-connector-line" />
 
             <FlowCard
               label="Band Members"
-              sub="/members"
-              url="/members"
-              screenshot="bio.png"
+              sub="Bios inside Band section"
+              url="/#band"
+              screenshot="members.png"
             />
           </div>
 
@@ -682,8 +682,8 @@ export default function FlowchartPage() {
           <div className="flow-column">
             <FlowCard
               label="Music Player (Homepage)"
-              sub="/#music_player"
-              url="/#music_player"
+              sub="/#music"
+              url="/#music"
               screenshot="music.png"
             />
             <div className="node-connector-line" />
@@ -716,11 +716,19 @@ export default function FlowchartPage() {
             />
           </div>
 
-          {/* Column 3: Merch Store (Beige) */}
+          {/* Column 3: Merch (Beige) */}
           <div className="flow-column" style={{ minWidth: "700px" }}>
             <FlowCard
-              label="Store"
-              sub="/store"
+              label="Merch"
+              sub="/merch"
+              url="/merch"
+              screenshot="merch.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Storefront"
+              sub="/store (redirects to /merch)"
               url="/store"
               screenshot="store.png"
             />
@@ -806,13 +814,13 @@ export default function FlowchartPage() {
             />
           </div>
 
-          {/* Column 4: Video Gallery (Purple) */}
+          {/* Column 4: Media (Purple) */}
           <div className="flow-column">
             <FlowCard
-              label="Video"
-              sub="/video"
-              url="/video"
-              screenshot="video.png"
+              label="Media"
+              sub="/media (formerly /video)"
+              url="/media"
+              screenshot="media.png"
             />
             <div className="node-connector-line" />
 
@@ -827,6 +835,163 @@ export default function FlowchartPage() {
               label="Inline Player"
               sub="16:9 Video Player"
               screenshot="video.png"
+            />
+          </div>
+
+          {/* Column 4b: Contact (Coral) */}
+          <div className="flow-column">
+            <FlowCard
+              label="Contact"
+              sub="/contact"
+              url="/contact"
+              screenshot="contact.png"
+            />
+          </div>
+
+          {/* Column 4c: Utility & Info Pages (Blue) */}
+          <div className="flow-column">
+            <div style={{
+              background: "linear-gradient(135deg, rgba(117,213,250,0.15), rgba(117,213,250,0.06))",
+              border: "1px solid rgba(117,213,250,0.3)",
+              borderRadius: "14px",
+              padding: "14px 20px",
+              textAlign: "center",
+              marginBottom: "8px",
+              width: "260px"
+            }}>
+              <div style={{ fontSize: "22px", marginBottom: "4px" }}>📄</div>
+              <div style={{ fontSize: "16px", fontWeight: "900", color: "#bee9fb", letterSpacing: "-0.01em" }}>Utility & Info Pages</div>
+              <div style={{ fontSize: "10px", color: "#75d5fa", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginTop: "2px" }}>Standalone Reference Pages</div>
+            </div>
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="FAQ"
+              sub="/faq"
+              url="/faq"
+              screenshot="faq.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Features"
+              sub="/features"
+              url="/features"
+              screenshot="features.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Style Guide"
+              sub="/style-guide"
+              url="/style-guide"
+              screenshot="style-guide.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Picks"
+              sub="/picks"
+              url="/picks"
+              screenshot="picks.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Ticker"
+              sub="/ticker"
+              url="/ticker"
+              screenshot="ticker.png"
+            />
+          </div>
+
+          {/* Column 4d: Legal & Policies (Lilac) */}
+          <div className="flow-column">
+            <div style={{
+              background: "linear-gradient(135deg, rgba(222,202,255,0.15), rgba(222,202,255,0.06))",
+              border: "1px solid rgba(222,202,255,0.3)",
+              borderRadius: "14px",
+              padding: "14px 20px",
+              textAlign: "center",
+              marginBottom: "8px",
+              width: "260px"
+            }}>
+              <div style={{ fontSize: "22px", marginBottom: "4px" }}>⚖️</div>
+              <div style={{ fontSize: "16px", fontWeight: "900", color: "#f1e9ff", letterSpacing: "-0.01em" }}>Legal & Policies</div>
+              <div style={{ fontSize: "10px", color: "#decaff", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginTop: "2px" }}>Footer Nav Pages</div>
+            </div>
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Privacy Policy"
+              sub="/privacy"
+              url="/privacy"
+              screenshot="privacy.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Terms of Service"
+              sub="/terms"
+              url="/terms"
+              screenshot="terms.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Returns & Refunds"
+              sub="/returns"
+              url="/returns"
+              screenshot="returns.png"
+            />
+          </div>
+
+          {/* Column 4e: Payment Flow (Teal) */}
+          <div className="flow-column">
+            <div style={{
+              background: "linear-gradient(135deg, rgba(127,238,210,0.15), rgba(127,238,210,0.06))",
+              border: "1px solid rgba(127,238,210,0.3)",
+              borderRadius: "14px",
+              padding: "14px 20px",
+              textAlign: "center",
+              marginBottom: "8px",
+              width: "260px"
+            }}>
+              <div style={{ fontSize: "22px", marginBottom: "4px" }}>💳</div>
+              <div style={{ fontSize: "16px", fontWeight: "900", color: "#d3f9ec", letterSpacing: "-0.01em" }}>Payment Flow</div>
+              <div style={{ fontSize: "10px", color: "#7feed2", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1.5px", marginTop: "2px" }}>Checkout & Sandbox Testing</div>
+            </div>
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Payment"
+              sub="/payment"
+              url="/payment"
+              screenshot="payment.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Payment Test"
+              sub="/payment-test — sandbox entry"
+              url="/payment-test"
+              screenshot="payment-test.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Test Checkout"
+              sub="/payment-test/checkout"
+              url="/payment-test/checkout"
+              screenshot="payment-test-checkout.png"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Test Result"
+              sub="/payment-test/result"
+              screenshot="payment-test-result.png"
+              url="/payment-test/result"
             />
           </div>
 
@@ -1749,6 +1914,10 @@ export default function FlowchartPage() {
                     fontSize="12.5px"
                   />
                   <div className="branch-join-line" />
+                  <div className="flow-node-box" style={{ backgroundColor: FLOWCHART_COLORS.darkbeige, width: "300px", minHeight: "48px", padding: "6px", fontSize: "10.5px", color: "#1a1a2e" }}>
+                    Direct Member Shortcuts (dev/QR): /crew-abbie, /crew-michael, /crew-ryan, /crew-sam, /crew-tony — each opens Crew Dashboard preset to that member
+                  </div>
+                  <div className="branch-join-line" />
                   <FlowCard
                     label="📩 Email: Shift Update Report"
                     sub="crew_hours_summary"
@@ -2035,6 +2204,18 @@ export default function FlowchartPage() {
               label="Show Page"
               sub="/shows/[id] — RSVP & Who's Going"
               url="/shows"
+              screenshot="show-page.png"
+              width="300px"
+              height="175px"
+              fontSize="14px"
+            />
+            <div className="node-connector-line" />
+
+            <FlowCard
+              label="Shows Past Archive"
+              sub="/shows/past"
+              url="/shows/past"
+              screenshot="shows.png"
               width="300px"
               height="175px"
               fontSize="14px"
@@ -2176,7 +2357,7 @@ export default function FlowchartPage() {
               sub="[TO: PLANNER & ADMIN] Confirms date is cancelled and calendar is cleared"
               screenshot="email-booking-cancelled-admin.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=booking_cancelled"
+              url="/api/dev/email-preview?id=booking_cancelled_admin"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2267,7 +2448,7 @@ export default function FlowchartPage() {
               sub="[TO: CREW] Notifies crew member that their work calendar was updated"
               screenshot="email-schedule-change-alert.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=schedule_change"
+              url="/api/dev/email-preview?id=schedule_change_alert"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2304,7 +2485,7 @@ export default function FlowchartPage() {
               sub="[TO: ALL CREW] Multi-channel alert broadcasted to crew members' devices"
               screenshot="email-crew-sms-alert-received.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=crew_alert"
+              url="/api/dev/email-preview?id=crew_sms_alert_received"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2329,7 +2510,7 @@ export default function FlowchartPage() {
               sub="[TO: ADMIN] Confirms to broadcasting admin how many messages were sent"
               screenshot="email-crew-sms-dispatched-alert.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=crew_sms_dispatched"
+              url="/api/dev/email-preview?id=crew_sms_dispatched_alert"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2440,7 +2621,7 @@ export default function FlowchartPage() {
               sub="Requester & Accepter receive confirmations. Admin Dashboard updates owner and automatically clears the '⏳ Coverage' status."
               screenshot="email-schedule-change-alert.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=schedule_change"
+              url="/api/dev/email-preview?id=schedule_change_alert"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2605,7 +2786,7 @@ export default function FlowchartPage() {
               sub="[TO: FAN] Notifies user photo is live on the public wall"
               screenshot="email-upload-approved.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=upload_approved"
+              url="/api/dev/email-preview?id=fan_upload_approved"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2630,7 +2811,7 @@ export default function FlowchartPage() {
               sub="[TO: FAN] Notifies user photo was rejected with guidelines link"
               screenshot="email-upload-rejected.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=upload_rejected"
+              url="/api/dev/email-preview?id=fan_upload_rejected"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2685,7 +2866,7 @@ export default function FlowchartPage() {
               sub="[TO: FAN] Confirms registration on Cruise Interest List"
               screenshot="email-cruise-confirm.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=cruise_signup_confirm"
+              url="/api/dev/email-preview?id=cruise_confirmation"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2722,7 +2903,7 @@ export default function FlowchartPage() {
               sub="[TO: PASSENGER] Welcomes member to the private community lounge"
               screenshot="email-cruise-welcome.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=cruise_welcome"
+              url="/api/dev/email-preview?id=cruise_community"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2759,7 +2940,7 @@ export default function FlowchartPage() {
               sub="[TO: PASSENGER] Confirms cancellation details and removal"
               screenshot="email-cruise-cancel.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=cruise_cancel"
+              url="/api/dev/email-preview?id=cruise_cancellation"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2863,7 +3044,7 @@ export default function FlowchartPage() {
               sub="[TO: BUYER] Contains QR code receipt for physical concert pickup"
               screenshot="email-flash-pickup.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=flash_pickup"
+              url="/api/dev/email-preview?id=flash_merch_pickup"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2888,7 +3069,7 @@ export default function FlowchartPage() {
               sub="[TO: BUYER] Shopify receipts and delivery status links"
               screenshot="email-flash-shipping.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=flash_shipping"
+              url="/api/dev/email-preview?id=flash_merch_shipping"
               width="340px"
               height="180px"
               fontSize="14px"
@@ -2949,7 +3130,7 @@ export default function FlowchartPage() {
               sub="[TO: STAFF] Audit warning sent to current admins for secure tracking"
               screenshot="email-new-account-admin-alert.png"
               isEmail={true}
-              url="/api/dev/email-preview?id=new_account_admin"
+              url="/api/dev/email-preview?id=new_account_admin_alert"
               width="340px"
               height="180px"
               fontSize="14px"

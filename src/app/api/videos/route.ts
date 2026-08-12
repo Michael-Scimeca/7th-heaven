@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-export function extractYouTubeId(urlOrId: string): string {
+function extractYouTubeId(urlOrId: string): string {
   const match = urlOrId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
   if (match && match[1]) return match[1];
   const clean = urlOrId.trim();
