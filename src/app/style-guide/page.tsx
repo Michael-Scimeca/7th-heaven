@@ -737,31 +737,41 @@ export default function StyleGuidePage() {
               <div>
                 <label className="block text-xs font-bold text-white/70 mb-2">Default State</label>
                 <div className="flex items-center gap-1.5 no-glow">
-                  {pinDefaultDigits.map((digit, i) => (
-                    <div key={`pin-default-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
-                      <input
-                        aria-label={`Default PIN digit ${i + 1}`}
-                        ref={el => { pinDefaultRefs.current[i] = el; }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={digit}
-                        placeholder="·"
-                        style={{ padding: 0 }}
-                        onFocus={() => setPinDefaultFocusedIndex(i)}
-                        onBlur={() => setPinDefaultFocusedIndex(null)}
-                        onChange={e => handlePinDefaultDigit(i, e.target.value)}
-                        onKeyDown={e => handlePinDefaultKeyDown(i, e)}
-                        className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
-                          ${pinDefaultFocusedIndex === i
-                            ? 'border-white/40 text-white'
-                            : digit
-                              ? 'border-white/30 text-white/70'
-                              : 'border-white/20 text-white/40 hover:border-white/30'
-                          }`}
-                      />
-                    </div>
-                  ))}
+                  {[
+                    { id: "sg-def-slot-0", slotIndex: 0 },
+                    { id: "sg-def-slot-1", slotIndex: 1 },
+                    { id: "sg-def-slot-2", slotIndex: 2 },
+                    { id: "sg-def-slot-3", slotIndex: 3 },
+                    { id: "sg-def-slot-4", slotIndex: 4 },
+                    { id: "sg-def-slot-5", slotIndex: 5 },
+                  ].map(({ id, slotIndex: i }) => {
+                    const digit = pinDefaultDigits[i];
+                    return (
+                      <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                        <input
+                          aria-label={`Default PIN digit ${i + 1}`}
+                          ref={el => { pinDefaultRefs.current[i] = el; }}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={digit}
+                          placeholder="·"
+                          style={{ padding: 0 }}
+                          onFocus={() => setPinDefaultFocusedIndex(i)}
+                          onBlur={() => setPinDefaultFocusedIndex(null)}
+                          onChange={e => handlePinDefaultDigit(i, e.target.value)}
+                          onKeyDown={e => handlePinDefaultKeyDown(i, e)}
+                          className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20
+                            ${pinDefaultFocusedIndex === i
+                              ? 'border-white/40 text-white'
+                              : digit
+                                ? 'border-white/30 text-white/70'
+                                : 'border-white/20 text-white/40 hover:border-white/30'
+                            }`}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -769,30 +779,40 @@ export default function StyleGuidePage() {
               <div>
                 <label className="block text-xs font-bold text-purple-300 mb-2">Interactive (Focus a box)</label>
                 <div className="flex items-center gap-1.5 no-glow">
-                  {pinDigits.map((digit, i) => (
-                    <div key={`pin-focus-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
-                      <input
-                        aria-label={`PIN digit ${i + 1}`}
-                        ref={el => { pinRefs.current[i] = el; }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={digit}
-                        style={{ padding: 0 }}
-                        onFocus={() => setPinFocusedIndex(i)}
-                        onBlur={() => setPinFocusedIndex(null)}
-                        onChange={e => handlePinDigit(i, e.target.value)}
-                        onKeyDown={e => handlePinKeyDown(i, e)}
-                        className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
-                          ${pinFocusedIndex === i
-                            ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
-                            : digit
-                              ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
-                              : 'border-white/20 text-white/40 hover:border-white/40'
-                          }`}
-                      />
-                    </div>
-                  ))}
+                  {[
+                    { id: "sg-foc-slot-0", slotIndex: 0 },
+                    { id: "sg-foc-slot-1", slotIndex: 1 },
+                    { id: "sg-foc-slot-2", slotIndex: 2 },
+                    { id: "sg-foc-slot-3", slotIndex: 3 },
+                    { id: "sg-foc-slot-4", slotIndex: 4 },
+                    { id: "sg-foc-slot-5", slotIndex: 5 },
+                  ].map(({ id, slotIndex: i }) => {
+                    const digit = pinDigits[i];
+                    return (
+                      <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                        <input
+                          aria-label={`PIN digit ${i + 1}`}
+                          ref={el => { pinRefs.current[i] = el; }}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={digit}
+                          style={{ padding: 0 }}
+                          onFocus={() => setPinFocusedIndex(i)}
+                          onBlur={() => setPinFocusedIndex(null)}
+                          onChange={e => handlePinDigit(i, e.target.value)}
+                          onKeyDown={e => handlePinKeyDown(i, e)}
+                          className={`w-full h-full text-center text-xl font-black rounded-xl border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums
+                            ${pinFocusedIndex === i
+                              ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative'
+                              : digit
+                                ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
+                                : 'border-white/20 text-white/40 hover:border-white/40'
+                            }`}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -800,8 +820,15 @@ export default function StyleGuidePage() {
               <div>
                 <label className="block text-xs font-bold text-emerald-400 mb-2">Filled State</label>
                 <div className="flex items-center gap-1.5 no-glow">
-                  {["7", "H", "C", "R", "E", "W"].map((d, i) => (
-                    <div key={`pin-filled-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
+                  {[
+                    { id: "sg-filled-slot-0", char: "7" },
+                    { id: "sg-filled-slot-1", char: "H" },
+                    { id: "sg-filled-slot-2", char: "C" },
+                    { id: "sg-filled-slot-3", char: "R" },
+                    { id: "sg-filled-slot-4", char: "E" },
+                    { id: "sg-filled-slot-5", char: "W" },
+                  ].map(({ id, char: d }, i) => (
+                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                       <input
                         aria-label={`Filled PIN digit ${i + 1}`}
                         type="text"
@@ -821,8 +848,15 @@ export default function StyleGuidePage() {
               <div>
                 <label className="block text-xs font-bold text-red-400 mb-2">Error State</label>
                 <div className="flex items-center gap-1.5 no-glow">
-                  {["X", "X", "X", "X", "X", "X"].map((d, i) => (
-                    <div key={`pin-error-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
+                  {[
+                    { id: "sg-err-slot-0", char: "X" },
+                    { id: "sg-err-slot-1", char: "X" },
+                    { id: "sg-err-slot-2", char: "X" },
+                    { id: "sg-err-slot-3", char: "X" },
+                    { id: "sg-err-slot-4", char: "X" },
+                    { id: "sg-err-slot-5", char: "X" },
+                  ].map(({ id, char: d }, i) => (
+                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                       <input
                         aria-label={`Error PIN digit ${i + 1}`}
                         type="text"

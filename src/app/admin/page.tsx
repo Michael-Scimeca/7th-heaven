@@ -366,8 +366,17 @@ export default function AdminGatewayPage() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
-                {pin.map((digit, i) => (
-                  <div key={`admin-pin-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
+                {[
+                  { id: "admin-pin-slot-0", slotIndex: 0 },
+                  { id: "admin-pin-slot-1", slotIndex: 1 },
+                  { id: "admin-pin-slot-2", slotIndex: 2 },
+                  { id: "admin-pin-slot-3", slotIndex: 3 },
+                  { id: "admin-pin-slot-4", slotIndex: 4 },
+                  { id: "admin-pin-slot-5", slotIndex: 5 },
+                ].map(({ id, slotIndex: i }) => {
+                  const digit = pin[i];
+                  return (
+                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                     <input aria-label={`Admin PIN digit ${i + 1}`}
                       ref={el => { inputRefs.current[i] = el; }}
                       type="text"
@@ -388,7 +397,8 @@ export default function AdminGatewayPage() {
                         }`}
                     />
                   </div>
-                ))}
+                );
+              })}
               </div>
 
               {verifyError && (

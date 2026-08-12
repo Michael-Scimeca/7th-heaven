@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     // ── Dev bypass: use the fixed PIN from fake-logins.json ──
     if (process.env.NODE_ENV !== 'production') {
       try {
-        const fakeLogins = (await import("@/data/fake-logins.json")).default;
+        const fakeLogins = (await import("@/data/fake-logins.json").catch(() => ({ default: [] })) as any).default || [];
         const devUser = fakeLogins.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
         if (devUser?.pin) {
           savePin(email, devUser.pin, 24 * 60 * 60 * 1000); // 24h expiry for dev

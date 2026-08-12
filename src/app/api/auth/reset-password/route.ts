@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       console.error("Failed to list users from Supabase:", listError.message);
       if (process.env.NODE_ENV !== 'production') {
         try {
-          const fakeLogins = (await import("@/data/fake-logins.json")).default;
+          const fakeLogins = (await import("@/data/fake-logins.json").catch(() => ({ default: [] })) as any).default || [];
           const isFake = fakeLogins.some((u: any) => u.email.toLowerCase() === email.toLowerCase());
           if (isFake) {
             console.log(`[DEV BYPASS] Simulating password update for fake user ${email} on list failure`);
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     if (!user) {
       if (process.env.NODE_ENV !== 'production') {
         try {
-          const fakeLogins = (await import("@/data/fake-logins.json")).default;
+          const fakeLogins = (await import("@/data/fake-logins.json").catch(() => ({ default: [] })) as any).default || [];
           const isFake = fakeLogins.some((u: any) => u.email.toLowerCase() === email.toLowerCase());
           if (isFake) {
             console.log(`[DEV BYPASS] Simulating password update for fake user ${email}`);
