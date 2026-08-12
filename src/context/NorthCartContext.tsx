@@ -127,6 +127,7 @@ export function NorthCartProvider({ children }: { children: ReactNode }) {
     clearCart,
   }), [cartItems, loading]);
 
+  // eslint-disable-next-line react-doctor/context-provider-value-from-unmemoized-local-literal
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
