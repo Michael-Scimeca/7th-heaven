@@ -847,7 +847,7 @@ export default function StyleGuidePage() {
                   <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
                   <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN to verify crew access</p>
                   <div
-                    className="input-glow-border active rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
                     style={{
                       background: "var(--color-bg-glass)",
                       backdropFilter: "blur(32px) saturate(180%)",
@@ -887,7 +887,7 @@ export default function StyleGuidePage() {
                   <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
                   <p className="text-white/45 text-[10px] mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
                   <div
-                    className="input-glow-border active rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
                     style={{
                       background: "var(--color-bg-glass)",
                       backdropFilter: "blur(32px) saturate(180%)",
@@ -927,7 +927,7 @@ export default function StyleGuidePage() {
                   <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
                   <p className="text-purple-400 font-bold text-[10px] bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
                   <div
-                    className="input-glow-border active rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
                     style={{
                       background: "var(--color-bg-glass)",
                       backdropFilter: "blur(32px) saturate(180%)",
