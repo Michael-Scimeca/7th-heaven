@@ -212,7 +212,7 @@ function PlannerVerifyContent() {
               style={{
                 width: "100%",
                 background: status === "requesting" ? "rgba(168,85,247,0.2)" : "linear-gradient(135deg,#7c00ff,#a855f7)",
-                border: "none", borderRadius: 12, padding: "14px",
+                border: "none", borderRadius: 8, padding: "14px",
                 color: "#fff", fontWeight: 800, fontSize: 15,
                 cursor: status === "requesting" ? "not-allowed" : "pointer",
                 boxShadow: "0 0 20px rgba(168,85,247,0.35)",
@@ -311,7 +311,7 @@ function PlannerVerifyContent() {
                   background: pin.length !== 6 || status === "submitting"
                     ? "rgba(168,85,247,0.15)"
                     : "linear-gradient(135deg,#7c00ff,#a855f7)",
-                  border: "none", borderRadius: 12, padding: "14px",
+                  border: "none", borderRadius: 8, padding: "14px",
                   color: pin.length !== 6 ? "rgba(255,255,255,0.4)" : "#fff",
                   fontWeight: 800, fontSize: 15,
                   cursor: pin.length !== 6 || status === "submitting" ? "not-allowed" : "pointer",

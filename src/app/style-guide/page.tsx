@@ -866,7 +866,7 @@ export default function StyleGuidePage() {
                     </div>
                     <button aria-label="Action button" disabled
                       style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                     >Access My Dashboard →</button>
                     <div className="mt-3 text-center">
                       <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
@@ -905,7 +905,7 @@ export default function StyleGuidePage() {
                     </div>
                     <button aria-label="Action button" disabled
                       style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                     >Access My Dashboard →</button>
                     <div className="space-y-1.5 mt-3 text-center">
                       <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
@@ -956,7 +956,7 @@ export default function StyleGuidePage() {
                     </div>
                     <button aria-label="Action button" disabled
                       style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                     >Access My Dashboard →</button>
                     <div className="mt-3 text-center">
                       <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
@@ -997,7 +997,7 @@ export default function StyleGuidePage() {
                     </div>
                     <button aria-label="Action button" disabled
                       style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-xl mb-3"
+                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
                     >Access My Dashboard →</button>
                     <div className="mt-3 text-center">
                       <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>

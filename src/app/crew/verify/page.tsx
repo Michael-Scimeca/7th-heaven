@@ -272,7 +272,7 @@ export default function VerifyPage() {
                 boxShadow: fullPin.length === 6 ? "0 0 25px rgba(168,85,247,0.4)" : "none",
                 transition: "all 0.25s ease",
               }}
-              className="w-full py-3.5 font-black text-xs uppercase tracking-widest cursor-pointer rounded-xl mb-4 disabled:cursor-not-allowed"
+              className="w-full py-3.5 font-black text-xs uppercase tracking-widest cursor-pointer rounded-lg mb-4 disabled:cursor-not-allowed"
             >
               {result === 'checking' ? 'Checking...' : 'Access My Dashboard →'}
             </button>
