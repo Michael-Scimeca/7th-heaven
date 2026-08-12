@@ -1102,7 +1102,8 @@ function LoginModalBodyContent(props: any) {
               <button type="button"
                 onClick={() => handleOAuthLogin('apple')}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black hover:bg-zinc-900 border border-white/20 text-xs font-black text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg shadow-sm"
+                style={{ backgroundColor: "#000000" }}
+                className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none text-xs font-black text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg shadow-sm"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
                 <span>Apple</span>
@@ -1267,7 +1268,8 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('apple')}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-black hover:bg-zinc-900 border border-white/20 transition-colors cursor-pointer shadow-sm text-white text-xs font-black rounded-lg"
+          style={{ backgroundColor: "#000000" }}
+          className="flex items-center justify-center gap-2 py-2.5 px-3 hover:bg-zinc-900 border-none transition-colors cursor-pointer shadow-sm text-white text-xs font-black rounded-lg"
           title="Sign in with Apple"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>

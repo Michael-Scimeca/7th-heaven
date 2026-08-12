@@ -113,6 +113,9 @@ export default function StyleGuidePage() {
   const [radioState, setRadioState] = useState("full_band");
   const [toggleState, setToggleState] = useState(true);
   const [selectedDropdown, setSelectedDropdown] = useState("chicago");
+  const [previewAlerts, setPreviewAlerts] = useState(true);
+  const [previewNews, setPreviewNews] = useState(true);
+  const [previewAge, setPreviewAge] = useState(true);
 
   /* ── PIN Input Demo State ── */
   const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
@@ -1119,7 +1122,7 @@ export default function StyleGuidePage() {
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                         Facebook
                       </button>
-                      <button className="py-2.5 bg-black hover:bg-zinc-900 border border-white/20 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+                      <button style={{ backgroundColor: "#000000" }} className="py-2.5 hover:bg-zinc-900 border-none rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5 shadow-sm">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
                         Apple
                       </button>
@@ -1192,11 +1195,11 @@ export default function StyleGuidePage() {
 
                       <div className="grid grid-cols-2 gap-3 pt-1">
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-4 rounded-full bg-white/20 relative p-0.5"><div className="w-3 h-3 rounded-full bg-white" /></div>
+                          <SquishyToggle id="preview-alerts" checked={previewAlerts} onChange={setPreviewAlerts} label="Show alerts near me" />
                           <span className="text-[10px] font-bold text-white/80">Show alerts near me</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-4 rounded-full bg-white/20 relative p-0.5"><div className="w-3 h-3 rounded-full bg-white" /></div>
+                          <SquishyToggle id="preview-news" checked={previewNews} onChange={setPreviewNews} label="News & updates" />
                           <span className="text-[10px] font-bold text-white/80">News & updates</span>
                         </div>
                       </div>
@@ -1217,7 +1220,7 @@ export default function StyleGuidePage() {
                       </div>
 
                       <div className="flex items-center gap-2 pt-1">
-                        <div className="w-8 h-4 rounded-full bg-white/20 relative p-0.5"><div className="w-3 h-3 rounded-full bg-white" /></div>
+                        <SquishyToggle id="preview-age" checked={previewAge} onChange={setPreviewAge} label="Age confirmation" />
                         <span className="text-[10px] font-bold text-white/80">I confirm that I am <strong className="text-purple-300">18 years of age or older</strong></span>
                       </div>
                     </div>
