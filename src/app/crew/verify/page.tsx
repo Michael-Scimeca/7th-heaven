@@ -263,6 +263,7 @@ export default function VerifyPage() {
               onClick={verify}
               disabled={fullPin.length < 6 || result === 'checking'}
               style={{
+                borderRadius: "14px",
                 opacity: fullPin.length < 6 ? 0.35 : 1,
                 background: fullPin.length < 6
                   ? "rgba(168,85,247,0.15)"
