@@ -1215,7 +1215,7 @@ export default function StyleGuidePage() {
                             <div className="shrink-0 relative z-30">
                               <GooeyDropdown
                                 label={`${previewRadius} MI`}
-                                accentColor="#7c00ff"
+                                accentColor="#2d2f3d"
                                 items={[
                                   { label: "15 MI", onClick: () => setPreviewRadius("15") },
                                   { label: "25 MI", onClick: () => setPreviewRadius("25") },
