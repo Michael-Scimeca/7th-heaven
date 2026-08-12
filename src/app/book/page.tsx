@@ -958,40 +958,7 @@ function BookPageContent() {
           )}
 
 
-          {/* Planner Account CTA */}
-          {!isFromPlanner && (
-            member?.role === 'event_planner' ? (
-              <div className="flex items-center justify-between gap-6 mb-8 py-2">
-                <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 flex items-center justify-center shrink-0 rounded-full bg-purple-500/20 border border-purple-500/30">
-                    <span className="text-lg font-black text-purple-300">{member?.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || '👋'}</span>
-                  </div>
-                  <div>
-                    <p className="text-white text-base font-black tracking-tight mb-0.5">Welcome back, <span className="text-purple-400">{member?.name?.split(' ')[0]}</span></p>
-                    <p className="text-white/60 text-base">This booking will be saved to your planner dashboard for easy management and rebooking.</p>
-                  </div>
-                </div>
-                <Link href="/planner" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg shrink-0">
-                  My Dashboard →
-                </Link>
-              </div>
-            ) : (
-              <div className="flex items-center justify-between gap-6 mb-8 py-2">
-                <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 flex items-center justify-center shrink-0 rounded-full bg-purple-500/20 border border-purple-500/30">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-                  </div>
-                  <div>
-                    <p className="text-white text-base font-black tracking-tight mb-0.5">Event Planner? <span className="text-purple-400">Get Your Own Dashboard</span></p>
-                    <p className="text-white/60 text-base">Sign in or create a free planner account — save your details, rebook past events instantly, and track every booking.</p>
-                  </div>
-                </div>
-                <Link href="/planner?login=true" className="px-7 py-3 bg-purple-600 hover:bg-purple-500 !text-white font-extrabold text-xs uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg shrink-0">
-                  Planner Portal →
-                </Link>
-              </div>
-            )
-          )}
+
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {isFromPlanner && (
