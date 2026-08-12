@@ -1108,9 +1108,18 @@ export default function StyleGuidePage() {
                       <span className="relative bg-[#120a22] px-3 text-[9px] font-black uppercase tracking-widest text-white/40">OR CONTINUE WITH</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      <button className="py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white text-center hover:bg-white/10 transition">Google</button>
-                      <button className="py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white text-center hover:bg-white/10 transition">Facebook</button>
-                      <button className="py-2.5 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white text-center hover:bg-white/10 transition">Apple</button>
+                      <button className="py-2.5 bg-white text-slate-900 hover:bg-slate-100 border border-white/80 rounded-lg text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+                        <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.409 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" /><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.108c1.96 3.96 6.047 6.632 10.763 6.632 3.211 0 6.081-1.12 8.08-3.231l-4.04-2.764Z" /><path fill="#4A90E2" d="M23.606 12.276c0-.82-.07-1.536-.25-2.228H12v4.61h6.58c-.315 1.554-1.145 2.71-2.26 3.518l4.04 2.764c2.464-2.366 3.246-6.062 3.246-8.664Z" /><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.905 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z" /></svg>
+                        Google
+                      </button>
+                      <button className="py-2.5 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                        Facebook
+                      </button>
+                      <button className="py-2.5 bg-black hover:bg-zinc-900 border border-white/20 rounded-lg text-xs font-bold text-white text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
+                        Apple
+                      </button>
                     </div>
                   </div>
                 </div>
