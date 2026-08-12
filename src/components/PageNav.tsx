@@ -54,7 +54,7 @@ const CATEGORIES = [
       { path: "/planner/verify", label: "Planner Verify" },
       { path: "/cruise/verify", label: "Cruise Verify" },
       { path: "/claim/123456", label: "Raffle Claim Verify" },
-      { path: "/admin/checklist", label: "Checklist Verify" },
+
       { path: "/admin/legal", label: "Legal & Compliance Verify" },
       { path: "/crew-setup-preview", label: "Crew Setup Preview" },
     ]
