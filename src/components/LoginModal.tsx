@@ -216,12 +216,14 @@ export default function LoginModal() {
     }
   }, [openModal, setLoginRole, setEmail, setIsInviteFlow, setName, setUsernameField, setModalMode, setPinCode]);
 
-  // Sync loginRole whenever modal opens (or modalLoginRole changes)
+  // Sync loginRole when modal initially opens
+  const prevIsOpenRef = useRef(false);
   useEffect(() => {
-    if (isModalOpen && modalLoginRole && state.loginRole !== modalLoginRole) {
+    if (isModalOpen && !prevIsOpenRef.current && modalLoginRole) {
       setLoginRole(modalLoginRole as any);
     }
-  }, [modalLoginRole, isModalOpen, state.loginRole, setLoginRole]);
+    prevIsOpenRef.current = isModalOpen;
+  }, [isModalOpen, modalLoginRole, setLoginRole]);
 
   // DEBUG: Track modalMode changes
   console.log('[LoginModal] render — modalMode:', modalMode, '| isModalOpen:', isModalOpen);
