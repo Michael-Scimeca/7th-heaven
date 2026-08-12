@@ -777,7 +777,18 @@ function LoginModalBodyContent(props: any) {
         {/* Role selector toggle setup */}
         {modalMode !== "forgot" && (
           <div className="my-3 space-y-1.5">
-            <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
+              {modalMode === "login" && (
+                <button
+                  type="button"
+                  onClick={() => setAdminMode(!adminMode)}
+                  className="text-[10px] font-bold text-purple-300 hover:text-purple-100 hover:underline transition cursor-pointer"
+                >
+                  {adminMode ? "Exit Admin Mode" : "Login to Admin"}
+                </button>
+              )}
+            </div>
             <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-3" : "grid-cols-4"}`}>
               {[
                 { id: "fan", label: "Fan" },
@@ -1075,9 +1086,9 @@ function LoginModalBodyContent(props: any) {
               <button type="button"
                 onClick={() => handleOAuthLogin('google')}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-white hover:bg-slate-100 border border-white/80 text-xs font-black text-slate-900 transition-colors cursor-pointer disabled:opacity-50 rounded-lg shadow-sm"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 text-xs font-black text-white transition-colors cursor-pointer disabled:opacity-50 rounded-lg shadow-sm"
               >
-                <svg width="15" height="15" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.409 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" /><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.108c1.96 3.96 6.047 6.632 10.763 6.632 3.211 0 6.081-1.12 8.08-3.231l-4.04-2.764Z" /><path fill="#4A90E2" d="M23.606 12.276c0-.82-.07-1.536-.25-2.228H12v4.61h6.58c-.315 1.554-1.145 2.71-2.26 3.518l4.04 2.764c2.464-2.366 3.246-6.062 3.246-8.664Z" /><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.905 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z" /></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z"/></svg>
                 <span>Google</span>
               </button>
               <button type="button"
@@ -1240,11 +1251,11 @@ function OAuthSocialButtons({ onOAuthLogin }: { onOAuthLogin: (provider: string)
       <div className="grid grid-cols-3 gap-2.5">
         <button type="button"
           onClick={() => onOAuthLogin('google')}
-          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-white hover:bg-slate-100 border border-white/80 transition-colors cursor-pointer shadow-sm text-slate-900 text-xs font-black rounded-lg"
+          className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 transition-colors cursor-pointer shadow-sm text-white text-xs font-black rounded-lg"
           title="Sign in with Google"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.409 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" /><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.108c1.96 3.96 6.047 6.632 10.763 6.632 3.211 0 6.081-1.12 8.08-3.231l-4.04-2.764Z" /><path fill="#4A90E2" d="M23.606 12.276c0-.82-.07-1.536-.25-2.228H12v4.61h6.58c-.315 1.554-1.145 2.71-2.26 3.518l4.04 2.764c2.464-2.366 3.246-6.062 3.246-8.664Z" /><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.905 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z" /></svg>
-          <span className="text-xs font-black text-slate-900">Google</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z"/></svg>
+          <span className="text-xs font-black text-white">Google</span>
         </button>
         <button type="button"
           onClick={() => onOAuthLogin('facebook')}
