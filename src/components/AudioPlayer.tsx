@@ -161,6 +161,18 @@ export default function AudioPlayerSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<"all" | "original" | "medley" | "cover" | "holiday">("all");
 
+  const [sidebarScrollProgress, setSidebarScrollProgress] = useState(0);
+  const [sidebarThumbHeight, setSidebarThumbHeight] = useState(25);
+
+  const handleSidebarScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const maxScroll = target.scrollHeight - target.clientHeight;
+    if (maxScroll > 0) {
+      setSidebarScrollProgress((target.scrollTop / maxScroll) * 100);
+      setSidebarThumbHeight(Math.max(15, (target.clientHeight / target.scrollHeight) * 100));
+    }
+  };
+
   const originalCds = albums.filter(a => {
     const isMedley = a.title.toLowerCase().includes('medley');
     const isCover = a.title.toLowerCase().includes('cover') || a.title.toLowerCase() === 'unplugged';
@@ -357,18 +369,32 @@ export default function AudioPlayerSection() {
             </div>
           </div>
 
-          <div
-            data-lenis-prevent="true"
-            data-lenis-prevent-wheel="true"
-            data-lenis-prevent-touch="true"
-            onWheel={(e) => e.stopPropagation()}
-            className="flex-1 pr-1 pb-8 overflow-y-scroll overscroll-contain custom-purple-scrollbar min-h-0"
-            style={{ overscrollBehavior: "contain" }}
-          >
-            {renderAlbumList(originalCds, "Original CD's")}
-            {renderAlbumList(medleyCds, "Medley CD's")}
-            {renderAlbumList(coverCds, "Cover CD's")}
-            {renderAlbumList(holidayCds, "Holiday CD's")}
+          <div className="relative flex-1 min-h-0 flex items-stretch">
+            <div
+              data-lenis-prevent="true"
+              data-lenis-prevent-wheel="true"
+              data-lenis-prevent-touch="true"
+              onWheel={(e) => e.stopPropagation()}
+              onScroll={handleSidebarScroll}
+              className="flex-1 pr-3 pb-8 overflow-y-auto overscroll-contain no-scrollbar min-h-0"
+              style={{ overscrollBehavior: "contain" }}
+            >
+              {renderAlbumList(originalCds, "Original CD's")}
+              {renderAlbumList(medleyCds, "Medley CD's")}
+              {renderAlbumList(coverCds, "Cover CD's")}
+              {renderAlbumList(holidayCds, "Holiday CD's")}
+            </div>
+
+            {/* Permanent Custom Purple Scrollbar Track & Thumb */}
+            <div className="w-2 mb-6 ml-1 bg-purple-950/40 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 pointer-events-none shadow-[0_0_8px_rgba(147,51,234,0.2)]">
+              <div
+                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 transition-all duration-75"
+                style={{
+                  height: `${sidebarThumbHeight}%`,
+                  top: `${(sidebarScrollProgress * (100 - sidebarThumbHeight)) / 100}%`
+                }}
+              />
+            </div>
           </div>
         </div>
 
