@@ -44,6 +44,7 @@ interface ModalFormState {
   email: string;
   password: string;
   zipCode: string;
+  alertRadius: string;
   wantNotifications: boolean;
   wantNewsletter: boolean;
   error: string;
@@ -75,6 +76,7 @@ const initialFormState: ModalFormState = {
   email: "",
   password: "",
   zipCode: "",
+  alertRadius: "50",
   wantNotifications: false,
   wantNewsletter: true,
   error: "",
@@ -115,6 +117,7 @@ function useLoginFormState() {
   const setEmail = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'email', value: val }), []);
   const setPassword = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'password', value: val }), []);
   const setZipCode = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'zipCode', value: val }), []);
+  const setAlertRadius = useCallback((val: string) => dispatch({ type: 'SET_FIELD', field: 'alertRadius', value: val }), []);
   const setWantNotifications = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
     dispatch({ type: 'SET_FIELD', field: 'wantNotifications', value: typeof val === 'function' ? (val as any)(state.wantNotifications) : val }), [state.wantNotifications]);
   const setWantNewsletter = useCallback((val: boolean | ((prev: boolean) => boolean)) =>
@@ -147,7 +150,7 @@ function useLoginFormState() {
 
   return {
     state, dispatch,
-    setName, setEmail, setPassword, setZipCode, setWantNotifications,
+    setName, setEmail, setPassword, setZipCode, setAlertRadius, setWantNotifications,
     setWantNewsletter, setError, setIsAgeConfirmed, setLoading, setLoginRole,
     setConfirmationRequired, setWebsite, setUsernameField, setPinSent,
     setPinCode, setSignUpPayload, setForgotPinSent, setForgotPinCode,
@@ -162,7 +165,7 @@ export default function LoginModal() {
   const { state } = formState;
 
   const {
-    name, email, password, zipCode, wantNotifications, wantNewsletter,
+    name, email, password, zipCode, alertRadius, wantNotifications, wantNewsletter,
     error, isAgeConfirmed, loading, loginRole, confirmationRequired,
     website, usernameField, pinSent, pinCode, signUpPayload,
     forgotPinSent, forgotPinCode, isInviteFlow, adminMode,
@@ -1370,7 +1373,7 @@ function QuickLoginDemoButtons({
 function SignUpExtraFields({
   name, setName, usernameField, setUsernameField, isInviteFlow,
   loginRole, wantNotifications, setWantNotifications, wantNewsletter,
-  setWantNewsletter, zipCode, setZipCode
+  setWantNewsletter, zipCode, setZipCode, alertRadius = "50", setAlertRadius
 }: {
   name: string;
   setName: (v: string) => void;
@@ -1384,6 +1387,8 @@ function SignUpExtraFields({
   setWantNewsletter: (v: any) => void;
   zipCode: string;
   setZipCode: (v: string) => void;
+  alertRadius?: string;
+  setAlertRadius?: (v: string) => void;
 }) {
   return (
     <div className="flex flex-col gap-4 my-4">
@@ -1451,20 +1456,37 @@ function SignUpExtraFields({
             </div>
           </div>
 
-          {/* Zip code — only if opted in */}
+          {/* Zip code & radius — only if opted in */}
           {wantNotifications && (
             <div className="pt-1">
-              <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code</label>
-              <div className="input-glow-border rounded-xl w-full">
-                <input
-                  id="signup-zip-code"
-                  type="text"
-                  value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value)}
-                  placeholder="e.g. 60601"
-                  maxLength={10}
-                  className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
-                />
+              <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code & Radius</label>
+              <div className="flex items-center gap-2">
+                <div className="input-glow-border rounded-xl flex-1">
+                  <input
+                    id="signup-zip-code"
+                    type="text"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                    placeholder="Zip code"
+                    maxLength={10}
+                    className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                  />
+                </div>
+                <div className="relative shrink-0">
+                  <select
+                    id="signup-alert-radius"
+                    aria-label="Alert Search Radius"
+                    value={alertRadius}
+                    onChange={(e) => setAlertRadius?.(e.target.value)}
+                    className="appearance-none bg-[#242630] border border-white/20 px-4 py-3 pr-8 rounded-full text-xs sm:text-sm font-black text-white cursor-pointer outline-none hover:bg-[#2c2e3b] transition-colors uppercase tracking-wider shadow-sm"
+                  >
+                    <option value="15" className="bg-[#1a1b23] text-white">15 MI</option>
+                    <option value="25" className="bg-[#1a1b23] text-white">25 MI</option>
+                    <option value="50" className="bg-[#1a1b23] text-white">50 MI</option>
+                    <option value="100" className="bg-[#1a1b23] text-white">100 MI</option>
+                  </select>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 text-[10px] pointer-events-none">▼</span>
+                </div>
               </div>
             </div>
           )}

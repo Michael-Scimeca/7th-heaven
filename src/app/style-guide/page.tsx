@@ -116,6 +116,7 @@ export default function StyleGuidePage() {
   const [previewAlerts, setPreviewAlerts] = useState(true);
   const [previewNews, setPreviewNews] = useState(true);
   const [previewAge, setPreviewAge] = useState(true);
+  const [previewRadius, setPreviewRadius] = useState("50");
 
   /* ── PIN Input Demo State ── */
   const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
@@ -1203,6 +1204,30 @@ export default function StyleGuidePage() {
                           <span className="text-[10px] font-bold text-white/80">News & updates</span>
                         </div>
                       </div>
+
+                      {previewAlerts && (
+                        <div className="pt-1">
+                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">Zip Code & Radius</label>
+                          <div className="flex items-center gap-2">
+                            <div className="input-glow-border rounded-xl flex-1">
+                              <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
+                            </div>
+                            <div className="relative shrink-0">
+                              <select
+                                value={previewRadius}
+                                onChange={(e) => setPreviewRadius(e.target.value)}
+                                className="appearance-none bg-[#242630] border border-white/20 px-3 py-2 pr-7 rounded-full text-xs font-black text-white cursor-pointer outline-none hover:bg-[#2c2e3b] transition-colors uppercase tracking-wider shadow-sm"
+                              >
+                                <option value="15" className="bg-[#1a1b23] text-white">15 MI</option>
+                                <option value="25" className="bg-[#1a1b23] text-white">25 MI</option>
+                                <option value="50" className="bg-[#1a1b23] text-white">50 MI</option>
+                                <option value="100" className="bg-[#1a1b23] text-white">100 MI</option>
+                              </select>
+                              <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/60 text-[9px] pointer-events-none">▼</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
