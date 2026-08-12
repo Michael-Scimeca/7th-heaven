@@ -272,7 +272,7 @@ function PlannerVerifyContent() {
               {/* 6 digit boxes */}
               <div className="flex items-center justify-center gap-1.5 mb-6 no-glow" onPaste={handlePaste}>
                 {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                  <div key={i} className="!w-11 !h-14 rounded-xl shrink-0">
+                  <div key={i} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                     <input aria-label="Input field"
                       ref={el => { inputRefs.current[i] = el; }}
                       type="text"

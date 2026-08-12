@@ -205,6 +205,12 @@ function CruiseVerifyContent() {
           justify-content: center;
           margin-bottom: 18px;
         }
+        .pin-input-wrap {
+          width: 44px;
+          height: 54px;
+          border-radius: 12px;
+          flex-shrink: 0;
+        }
         .pin-input {
           width: 44px;
           height: 54px;
@@ -447,23 +453,24 @@ function CruiseVerifyContent() {
                 <form onSubmit={handleSubmit}>
                   <div className="pin-row">
                     {Array.from(digits, (d, i) => ({ d, i })).map(({ d, i }) => (
-                      <input aria-label="Input field"
-                        key={i}
-                        ref={el => { inputRefs.current[i] = el; }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={d}
-                        style={{ padding: 0 }}
-                        onChange={e => handleDigit(i, e.target.value)}
-                        onKeyDown={e => handleKeyDown(i, e)}
-                        onPaste={handlePaste}
-                        className={[
-                          "pin-input",
-                          d ? "filled" : "",
-                          status === "error" ? "error" : "",
-                        ].join(" ")}
-                      />
+                      <div key={i} className="input-glow-border pin-input-wrap">
+                        <input aria-label="Input field"
+                          ref={el => { inputRefs.current[i] = el; }}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={d}
+                          style={{ padding: 0 }}
+                          onChange={e => handleDigit(i, e.target.value)}
+                          onKeyDown={e => handleKeyDown(i, e)}
+                          onPaste={handlePaste}
+                          className={[
+                            "pin-input",
+                            d ? "filled" : "",
+                            status === "error" ? "error" : "",
+                          ].join(" ")}
+                        />
+                      </div>
                     ))}
                   </div>
 
