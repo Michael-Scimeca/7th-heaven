@@ -580,12 +580,11 @@ export default function LoginModal() {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-xl rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease]"
+        className="relative w-full max-w-lg rounded-3xl overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.8)] border border-white/10 animate-[fadeIn_0.3s_ease]"
         style={{
-          background: "var(--color-bg-surface)",
+          background: "#120a22",
           backdropFilter: "blur(32px) saturate(180%)",
           WebkitBackdropFilter: "blur(32px) saturate(180%)",
-          border: "1px solid var(--color-border-main)",
         }}
       >
 
@@ -701,22 +700,11 @@ function LoginModalBodyContent(props: any) {
 
   return (
     <div className="relative">
-      {/* Custom Always-Visible Purple Scrollbar Track & Glowing Thumb */}
-      <div className="absolute top-6 bottom-6 right-2.5 w-2 rounded-full bg-white/10 pointer-events-none z-30 overflow-hidden">
-        <div
-          className="w-full bg-gradient-to-b from-[#c27aff] via-[#a855f7] to-[#7c00ff] rounded-full shadow-[0_0_12px_rgba(194,122,255,0.9)] transition-transform duration-75 ease-out"
-          style={{
-            height: `${thumbRatio * 100}%`,
-            transform: `translateY(${scrollProgress * (100 / thumbRatio - 100)}%)`
-          }}
-        />
-      </div>
-
       <div
         ref={scrollRef}
         data-lenis-prevent="true"
         data-lenis-prevent-wheel="true"
-        className="p-6 pr-8 max-h-[65vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="p-6 sm:p-8 max-h-[85vh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {/* Logo */}
         <div className="text-center mb-5">
