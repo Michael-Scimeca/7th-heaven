@@ -281,7 +281,7 @@ export function Footer() {
       <div className="site-container pt-2 pb-1">
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* Nav Links */}
-          <div className="flex flex-wrap items-center gap-1">
+          <div className="flex flex-wrap items-center gap-1 pl-28 sm:pl-36">
             {footerLinks.map((link, i) => (
               <span key={link.href} className="flex items-center">
                 <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
@@ -311,7 +311,7 @@ export function Footer() {
       </div>
 
       {/* Legal Bottom */}
-      <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 pl-28 sm:pl-36">
         <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
           Designed & Developed by NTD Records © {new Date().getFullYear()}
         </p>

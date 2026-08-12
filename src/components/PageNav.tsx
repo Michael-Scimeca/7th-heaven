@@ -136,10 +136,10 @@ export function PageNav() {
   if (process.env.NODE_ENV !== "development" && process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true") return null;
 
   return (
-    <div className="fixed bottom-8 left-8 z-[9999] font-sans" ref={menuRef}>
+    <div className="fixed bottom-8 left-8 z-[999999] font-sans pointer-events-auto select-none" ref={menuRef}>
       {isOpen && (
         <div
-          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85 backdrop-blur-2xl border border-purple-500/30 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden"
+          className="absolute bottom-full mb-4 left-0 w-[320px] sm:w-[340px] bg-[#0c0817]/85 backdrop-blur-2xl border border-purple-500/30 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto"
           style={{ maxHeight: 'min(80vh, 600px)' }}
         >
           {/* Header — fixed, translucent blur */}
@@ -192,9 +192,14 @@ export function PageNav() {
         </div>
       )}
 
-      <button aria-label="Action button"
-        onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-6 h-12 rounded-full  transition-colors duration-300 font-bold uppercase tracking-widest text-sm ${isOpen
+      <button
+        type="button"
+        aria-label="Action button"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen((prev) => !prev);
+        }}
+        className={`flex items-center gap-2 px-6 h-12 rounded-full transition-colors duration-300 font-bold uppercase tracking-widest text-sm cursor-pointer pointer-events-auto select-none ${isOpen
           ? "bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200"
           : "bg-[var(--color-accent)] text-white shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:scale-105 hover:bg-[var(--color-accent-hover)]"
           }`}
