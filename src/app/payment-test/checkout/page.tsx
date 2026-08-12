@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useNorthCart } from "@/context/NorthCartContext";
@@ -8,10 +9,14 @@ import { useNorthCart } from "@/context/NorthCartContext";
 const BROWSER_POST_URL = "https://services.epxuap.com/browserpost/";
 
 export default function NorthCheckoutPage() {
+  const router = useRouter();
   const cart = useNorthCart();
   const [tac, setTac] = useState<string | null>(null);
   const [amount, setAmount] = useState<string | null>(null);
+  const [tranNbr, setTranNbr] = useState<string | null>(null);
+  const [mockMode, setMockMode] = useState(false);
   const [ready, setReady] = useState(false);
+  const [simulating, setSimulating] = useState<"approved" | "declined" | null>(null);
 
   // North sandbox test card defaults (see the tutorial's Payment.jsx) —
   // safe to prefill since this only works against North's test environment.
@@ -25,8 +30,37 @@ export default function NorthCheckoutPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTac(localStorage.getItem("7h_north_tac_v1"));
     setAmount(localStorage.getItem("7h_north_amount_v1"));
+    setTranNbr(localStorage.getItem("7h_north_tran_nbr_v1"));
+    setMockMode(localStorage.getItem("7h_north_mock_v1") === "1");
     setReady(true);
   }, []);
+
+  const handleSimulate = async (outcome: "approved" | "declined") => {
+    setSimulating(outcome);
+    try {
+      const maskedAccount = "XXXXXXXXXXXX" + accountNbr.slice(-4);
+      const body = new URLSearchParams({
+        TRAN_NBR: tranNbr || "",
+        AUTH_RESP: outcome === "approved" ? "00" : "05",
+        AUTH_RESP_TEXT: outcome === "approved" ? "APPROVAL" : "DECLINED — simulated decline",
+        AUTH_AMOUNT_REQUESTED: amount || "0.00",
+        AUTH_MASKED_ACCOUNT_NBR: maskedAccount,
+      });
+
+      // Hits the exact same endpoint EPX would call in production, so the
+      // Supabase persistence + redirect path gets real coverage here too.
+      const res = await fetch("/api/payment-test/north/result", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+
+      // res.url is the final URL after following the 303 redirect.
+      router.push(res.url.replace(window.location.origin, ""));
+    } catch {
+      setSimulating(null);
+    }
+  };
 
   if (ready && (!tac || !amount)) {
     return (
@@ -64,11 +98,18 @@ export default function NorthCheckoutPage() {
             <h1 className="text-2xl font-black uppercase text-white tracking-wide">
               Card Payment
             </h1>
-            <p className="text-white/40 text-xs mt-1 leading-relaxed">
-              Submitting this form sends your card details directly to North&apos;s servers —
-              they never pass through this site. This uses North&apos;s sandbox test card by
-              default.
-            </p>
+            {mockMode ? (
+              <p className="text-yellow-300 text-xs mt-1 leading-relaxed">
+                🧪 Test mode: no real North credentials are configured, so this won&apos;t
+                contact EPX. Use the simulate buttons below instead of a real submit.
+              </p>
+            ) : (
+              <p className="text-white/40 text-xs mt-1 leading-relaxed">
+                Submitting this form sends your card details directly to North&apos;s servers —
+                they never pass through this site. This uses North&apos;s sandbox test card by
+                default.
+              </p>
+            )}
           </div>
 
           {/* Order summary */}
@@ -97,17 +138,16 @@ export default function NorthCheckoutPage() {
             <span className="text-2xl font-black text-[var(--color-accent)]">${amount}</span>
           </div>
 
-          {/* This is a real, uncontrolled-submit form. On submit the browser
-              navigates away to EPX entirely — no fetch/JS interception, so
-              card data genuinely never touches our server. */}
-          <form action={BROWSER_POST_URL} method="post" className="space-y-4">
+          {/* Card fields — shown either way so the UI looks/feels the same,
+              but in mock mode they're purely cosmetic (only the last 4 of
+              the account number get used, for the fake masked receipt). */}
+          <div className="space-y-4">
             <div>
               <label className="block text-[10px] font-bold uppercase tracking-wider text-white/40 mb-1">
                 Account Number
               </label>
               <input
                 type="text"
-                name="ACCOUNT_NBR"
                 required
                 value={accountNbr}
                 onChange={(e) => setAccountNbr(e.target.value)}
@@ -122,7 +162,6 @@ export default function NorthCheckoutPage() {
                 </label>
                 <input
                   type="text"
-                  name="EXP_DATE"
                   required
                   placeholder="YYMM"
                   value={expDate}
@@ -136,7 +175,6 @@ export default function NorthCheckoutPage() {
                 </label>
                 <input
                   type="text"
-                  name="CVV2"
                   required
                   placeholder="123"
                   value={cvv2}
@@ -145,24 +183,52 @@ export default function NorthCheckoutPage() {
                 />
               </div>
             </div>
+          </div>
 
-            {/* Hidden merchant + transaction fields required by North */}
-            <input type="hidden" name="TRAN_CODE" value={process.env.NEXT_PUBLIC_NORTH_TRAN_CODE || "SALE"} />
-            <input type="hidden" name="CUST_NBR" value={process.env.NEXT_PUBLIC_NORTH_CUST_NBR || ""} />
-            <input type="hidden" name="MERCH_NBR" value={process.env.NEXT_PUBLIC_NORTH_MERCH_NBR || ""} />
-            <input type="hidden" name="DBA_NBR" value={process.env.NEXT_PUBLIC_NORTH_DBA_NBR || ""} />
-            <input type="hidden" name="TERMINAL_NBR" value={process.env.NEXT_PUBLIC_NORTH_TERMINAL_NBR || ""} />
-            <input type="hidden" name="INDUSTRY_TYPE" value={process.env.NEXT_PUBLIC_NORTH_INDUSTRY_TYPE || "E"} />
-            <input type="hidden" name="TAC" value={tac || ""} />
-            <input type="hidden" name="AMOUNT" value={amount || ""} />
+          {mockMode ? (
+            <div className="mt-6 flex gap-3">
+              <button
+                type="button"
+                disabled={simulating !== null}
+                onClick={() => handleSimulate("approved")}
+                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50"
+              >
+                {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
+              </button>
+              <button
+                type="button"
+                disabled={simulating !== null}
+                onClick={() => handleSimulate("declined")}
+                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-black uppercase tracking-widest text-xs rounded-lg transition-colors disabled:opacity-50"
+              >
+                {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
+              </button>
+            </div>
+          ) : (
+            // Real, uncontrolled-submit form. On submit the browser navigates
+            // away to EPX entirely — no fetch/JS interception, so card data
+            // genuinely never touches our server.
+            <form action={BROWSER_POST_URL} method="post" className="mt-6">
+              <input type="hidden" name="ACCOUNT_NBR" value={accountNbr} />
+              <input type="hidden" name="EXP_DATE" value={expDate} />
+              <input type="hidden" name="CVV2" value={cvv2} />
+              <input type="hidden" name="TRAN_CODE" value={process.env.NEXT_PUBLIC_NORTH_TRAN_CODE || "SALE"} />
+              <input type="hidden" name="CUST_NBR" value={process.env.NEXT_PUBLIC_NORTH_CUST_NBR || ""} />
+              <input type="hidden" name="MERCH_NBR" value={process.env.NEXT_PUBLIC_NORTH_MERCH_NBR || ""} />
+              <input type="hidden" name="DBA_NBR" value={process.env.NEXT_PUBLIC_NORTH_DBA_NBR || ""} />
+              <input type="hidden" name="TERMINAL_NBR" value={process.env.NEXT_PUBLIC_NORTH_TERMINAL_NBR || ""} />
+              <input type="hidden" name="INDUSTRY_TYPE" value={process.env.NEXT_PUBLIC_NORTH_INDUSTRY_TYPE || "E"} />
+              <input type="hidden" name="TAC" value={tac || ""} />
+              <input type="hidden" name="AMOUNT" value={amount || ""} />
 
-            <button
-              type="submit"
-              className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black uppercase tracking-widest text-sm rounded-lg transition-colors"
-            >
-              Submit Payment — ${amount}
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-black uppercase tracking-widest text-sm rounded-lg transition-colors"
+              >
+                Submit Payment — ${amount}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>

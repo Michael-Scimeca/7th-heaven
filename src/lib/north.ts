@@ -76,6 +76,17 @@ export function generateTranNbr(): string {
 }
 
 /**
+ * True when NORTH_MOCK_MODE=true in env. In mock mode we never contact EPX —
+ * there are no real North credentials for this project yet. This exists so
+ * the cart → checkout → result flow can be exercised end to end (including
+ * the Supabase persistence) without a live merchant account. It is NOT a
+ * substitute for real credentials and must never be left on in production.
+ */
+export function isNorthMockMode(): boolean {
+  return process.env.NORTH_MOCK_MODE === "true";
+}
+
+/**
  * Extracts the TAC token from EPX's key-exchange XML response.
  * EPX's reference Node implementation just grabs the first <FIELD> element's
  * text content (via jsdom's `querySelector("FIELD").textContent`) — this
@@ -90,10 +101,21 @@ export function parseTacFromXml(xml: string): string {
   return match[1].trim();
 }
 
-/** Calls EPX's key-exchange service and returns a TAC for the given amount. */
-export async function requestTac(amount: string): Promise<{ tac: string; tranNbr: string }> {
-  const config = getNorthConfig();
+/**
+ * Calls EPX's key-exchange service and returns a TAC for the given amount.
+ * In mock mode, skips EPX entirely and returns a fake TAC — see
+ * isNorthMockMode() above.
+ */
+export async function requestTac(
+  amount: string
+): Promise<{ tac: string; tranNbr: string; mock: boolean }> {
   const tranNbr = generateTranNbr();
+
+  if (isNorthMockMode()) {
+    return { tac: `MOCK-TAC-${tranNbr}`, tranNbr, mock: true };
+  }
+
+  const config = getNorthConfig();
 
   const body = new URLSearchParams({
     amount,
@@ -112,5 +134,5 @@ export async function requestTac(amount: string): Promise<{ tac: string; tranNbr
 
   const xml = await res.text();
   const tac = parseTacFromXml(xml);
-  return { tac, tranNbr };
+  return { tac, tranNbr, mock: false };
 }

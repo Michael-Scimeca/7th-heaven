@@ -304,7 +304,9 @@ textarea:focus-visible,
 .form-input-purple-focus:focus-visible {
 
   outline: none !important;
-  background: rgba(168, 85, 247, 0.08) !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), inset 0 0 10px rgba(168, 85, 247, 0.2) !important;
+  background: rgba(168, 85, 247, 0.12) !important;
   transition: all 0.2s ease-in-out !important;
 }
 

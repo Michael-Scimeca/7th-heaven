@@ -18,9 +18,9 @@ export async function POST(req: NextRequest) {
     }
 
     const formattedAmount = numericAmount.toFixed(2);
-    const { tac, tranNbr } = await requestTac(formattedAmount);
+    const { tac, tranNbr, mock } = await requestTac(formattedAmount);
 
-    return NextResponse.json({ tac, amount: formattedAmount, tranNbr });
+    return NextResponse.json({ tac, amount: formattedAmount, tranNbr, mock });
   } catch (err) {
     console.error("[payment-test/north/tac] error:", err);
     const message = err instanceof Error ? err.message : "Failed to get a TAC from North.";

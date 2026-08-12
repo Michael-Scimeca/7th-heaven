@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -87,6 +87,14 @@ export default function PaymentTestShopPage() {
   const [showCart, setShowCart] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
   const [startingCheckout, setStartingCheckout] = useState(false);
+  const [mockMode, setMockMode] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/payment-test/north/status")
+      .then((res) => res.json())
+      .then((data) => setMockMode(!!data.mock))
+      .catch(() => {});
+  }, []);
 
   const variantLookup = useMemo(() => {
     const map = new Map<string, { product: ShopProduct; label: string }>();
@@ -139,6 +147,7 @@ export default function PaymentTestShopPage() {
       localStorage.setItem("7h_north_tac_v1", data.tac);
       localStorage.setItem("7h_north_amount_v1", data.amount);
       localStorage.setItem("7h_north_tran_nbr_v1", data.tranNbr);
+      localStorage.setItem("7h_north_mock_v1", data.mock ? "1" : "0");
       router.push("/payment-test/checkout");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong starting checkout.";
@@ -170,6 +179,15 @@ export default function PaymentTestShopPage() {
             details are entered on a form that posts straight to EPX&apos;s servers — nothing
             sensitive ever touches this app.
           </p>
+
+          {mockMode && (
+            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs font-bold rounded-lg max-w-xl">
+              🧪 TEST MODE — no real North (EPX) credentials are configured. Checkout will use a
+              simulated TAC and let you fake an approved/declined result instead of contacting
+              EPX. Set real credentials in <code className="font-mono">.env.local</code> and turn
+              off <code className="font-mono">NORTH_MOCK_MODE</code> to go live.
+            </div>
+          )}
         </div>
 
         {/* Category tabs + cart button */}
