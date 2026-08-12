@@ -136,7 +136,6 @@ export function PageNav() {
 
   // Only available in development mode or when explicitly enabled
   if (process.env.NODE_ENV !== "development" && process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true") return null;
-  if (pathname?.includes('/verify')) return null;
 
   return (
     <div className="fixed bottom-8 left-8 z-[9999] font-sans" ref={menuRef}>
