@@ -344,10 +344,7 @@ textarea:focus-visible,
   width: 100%;
 }
 
-.input-glow-border:focus-within::before {
-  transform: translateX(-50%) scale(1);
-  opacity: 1;
-}
+
 
 /* Thin masked ring, painted ON TOP of the field. Because mask cuts a
    transparent hole in the middle, it only paints a ~1px band around
