@@ -19,10 +19,12 @@
 
 function parseEmailList(envVar: string | undefined): string[] {
   if (!envVar) return [];
-  return envVar
-    .split(",")
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
+  const list: string[] = [];
+  for (const raw of envVar.split(",")) {
+    const cleaned = raw.trim().toLowerCase();
+    if (cleaned) list.push(cleaned);
+  }
+  return list;
 }
 
 export const ADMIN_EMAILS   = parseEmailList(process.env.ADMIN_EMAILS);

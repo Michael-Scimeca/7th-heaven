@@ -46,9 +46,10 @@ export function getNorthConfig(): NorthConfig {
     terminalNbr: process.env.NEXT_PUBLIC_NORTH_TERMINAL_NBR,
   };
 
-  const missing = Object.keys(required).filter(
-    (key) => !required[key as keyof typeof required]
-  );
+  const missing: string[] = [];
+  for (const [key, val] of Object.entries(required)) {
+    if (!val) missing.push(key);
+  }
 
   if (missing.length > 0) {
     throw new Error(
