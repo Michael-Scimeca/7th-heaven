@@ -947,8 +947,8 @@ function BookPageContent() {
                       {member.role === 'event_planner' ? <><ClipboardList className="w-3.5 h-3.5" /> Event Planner</> : member.role === 'admin' ? <><Shield className="w-3.5 h-3.5" /> Admin</> : member.role === 'crew' ? <><Shield className="w-3.5 h-3.5" /> Crew</> : <><Star className="w-3.5 h-3.5" /> Fan</>}
                     </span>
                   </div>
-                  <p className="text-base text-white/50 font-mono mt-0.5">{member.email}</p>
                 </div>
+              </div>
             </div>
           )}
 
