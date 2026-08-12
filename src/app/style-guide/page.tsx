@@ -915,6 +915,13 @@ export default function StyleGuidePage() {
                       <svg className="w-3 h-3 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
                     </p>
+                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Planner Page</p>
+                    <div className="flex items-center justify-center gap-2 mt-3">
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · PLANNER ACCESS</span>
+                      <div className="flex-1 h-px bg-white/[0.08]" />
+                    </div>
                   </div>
                 </div>
 
