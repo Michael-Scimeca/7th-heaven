@@ -346,6 +346,30 @@ textarea:focus-visible,
   width: 100%;
 }
 
+/* Ambient purple top glow flare */
+.input-glow-border::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 50%;
+  height: 24px;
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.7), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  z-index: 3;
+}
+
+.input-glow-border:focus-within::before,
+.input-glow-border:hover::before,
+.input-glow-border.active::before {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
 /* Thin masked ring, painted ON TOP of the field. Because mask cuts a
    transparent hole in the middle, it only paints a ~1px band around
    the edge — it doesn't matter what the input's own background looks
@@ -359,6 +383,7 @@ textarea:focus-visible,
   border-radius: inherit;
   padding: 1.5px;
   background: conic-gradient(from var(--border-angle), #8e0489 0%, #000000 25%, #42037d 20%, rgb(136 0 255) 75%, #42037d 10%, #8e0489);
+  filter: blur(2px);
   animation: border-angle-spin 5s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
