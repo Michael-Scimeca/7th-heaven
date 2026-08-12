@@ -228,8 +228,15 @@ export default function VerifyPage() {
         {/* PIN Input Form */}
         {result !== 'valid' && (
           <div
-            className="rounded-3xl px-4 py-7 mb-4 shadow-[0_30px_90px_rgba(0,0,0,0.6)] transition-opacity duration-300 ease-out no-glow"
-            style={MODAL_GLASS_STYLE}
+            className="rounded-3xl px-4 py-7 mb-4 transition-opacity duration-300 ease-out no-glow"
+            style={{
+              background: "rgba(18, 10, 34, 0.85)",
+              backdropFilter: "blur(32px) saturate(180%)",
+              WebkitBackdropFilter: "blur(32px) saturate(180%)",
+              border: "1px solid rgba(168, 85, 247, 0.4)",
+              borderRadius: 24,
+              boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+            }}
           >
             <p className="text-xs font-black uppercase tracking-[0.2em] text-white/40 text-center mb-5">Enter 6-Digit PIN</p>
 

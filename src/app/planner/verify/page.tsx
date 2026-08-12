@@ -369,16 +369,16 @@ const PAGE_STYLE: React.CSSProperties = {
 };
 
 const CARD_STYLE: React.CSSProperties = {
-  background: "var(--color-bg-glass)",
+  background: "rgba(18, 10, 34, 0.85)",
   backdropFilter: "blur(32px) saturate(180%)",
   WebkitBackdropFilter: "blur(32px) saturate(180%)",
-  border: "1px solid var(--color-border-main)",
+  border: "1px solid rgba(168, 85, 247, 0.4)",
   borderRadius: 24,
   padding: "48px 20px",
   width: "100%",
   maxWidth: 480,
   textAlign: "center",
-  boxShadow: "0 30px 90px rgba(0, 0, 0, 0.6)",
+  boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
   position: "relative",
   overflow: "hidden",
   zIndex: 10,

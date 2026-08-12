@@ -513,7 +513,7 @@ export default function StyleGuidePage() {
                   type="text"
                   value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
                   onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -522,7 +522,7 @@ export default function StyleGuidePage() {
                   type="text"
                   value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
                   onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -531,7 +531,7 @@ export default function StyleGuidePage() {
                   type="text"
                   value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
                   onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
+                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white font-mono text-xs focus:border-purple-500 outline-none"
                 />
               </div>
             </div>
@@ -554,16 +554,16 @@ export default function StyleGuidePage() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Primary Glow Purple</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(147,51,234,0.4)] transition">
+                <button className="px-5 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(147,51,234,0.4)] transition">
                   Default
                 </button>
-                <button className="px-5 py-2.5 rounded-xl bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(168,85,247,0.6)] ring-2 ring-purple-400 transition">
+                <button className="px-5 py-2.5 rounded-lg bg-purple-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(168,85,247,0.6)] ring-2 ring-purple-400 transition">
                   Hover / Focus State
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-xl bg-purple-600/30 text-white/40 font-extrabold text-xs uppercase tracking-wider cursor-not-allowed border border-white/5">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-purple-600/30 text-white/40 font-extrabold text-xs uppercase tracking-wider cursor-not-allowed border border-white/5">
                   Disabled
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-xl bg-purple-600/50 text-white font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 cursor-wait">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-purple-600/50 text-white font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 cursor-wait">
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Processing...
                 </button>
               </div>
@@ -573,13 +573,13 @@ export default function StyleGuidePage() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Cyan Neon Action</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
+                <button className="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(34,211,238,0.4)] transition">
                   Default
                 </button>
-                <button className="px-5 py-2.5 rounded-xl bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
+                <button className="px-5 py-2.5 rounded-lg bg-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.7)] ring-2 ring-cyan-200 transition">
                   Hover / Active
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-xl bg-cyan-400/20 text-cyan-400/40 font-black text-xs uppercase tracking-wider cursor-not-allowed border border-cyan-500/10">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-cyan-400/20 text-cyan-400/40 font-black text-xs uppercase tracking-wider cursor-not-allowed border border-cyan-500/10">
                   Disabled
                 </button>
               </div>
@@ -589,13 +589,13 @@ export default function StyleGuidePage() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-white/70 uppercase tracking-wider">Secondary Glass</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-xs transition">
+                <button className="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-xs transition">
                   Glass Default
                 </button>
-                <button className="px-5 py-2.5 rounded-xl bg-white/20 border border-white/30 text-white font-bold text-xs ring-2 ring-white/20">
+                <button className="px-5 py-2.5 rounded-lg bg-white/20 border border-white/30 text-white font-bold text-xs ring-2 ring-white/20">
                   Glass Hover
                 </button>
-                <button disabled className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/5 text-white/30 font-bold text-xs cursor-not-allowed">
+                <button disabled className="px-5 py-2.5 rounded-lg bg-white/5 border border-white/5 text-white/30 font-bold text-xs cursor-not-allowed">
                   Glass Disabled
                 </button>
               </div>
@@ -605,10 +605,10 @@ export default function StyleGuidePage() {
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <h3 className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Ghost & Danger Buttons</h3>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="px-4 py-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 text-xs font-bold transition">
+                <button className="px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 text-xs font-bold transition">
                   Ghost Button
                 </button>
-                <button className="px-5 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-extrabold text-xs uppercase tracking-wider transition">
+                <button className="px-5 py-2.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-extrabold text-xs uppercase tracking-wider transition">
                   Danger Action
                 </button>
               </div>
@@ -847,12 +847,14 @@ export default function StyleGuidePage() {
                   <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
                   <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN to verify crew access</p>
                   <div
-                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full no-glow"
                     style={{
-                      background: "var(--color-bg-glass)",
+                      background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(32px) saturate(180%)",
                       WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid var(--color-border-main)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                     }}
                   >
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
@@ -887,12 +889,14 @@ export default function StyleGuidePage() {
                   <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
                   <p className="text-white/45 text-[10px] mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
                   <div
-                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full no-glow"
                     style={{
-                      background: "var(--color-bg-glass)",
+                      background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(32px) saturate(180%)",
                       WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid var(--color-border-main)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                     }}
                   >
                     <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
@@ -934,12 +938,14 @@ export default function StyleGuidePage() {
                   <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
                   <p className="text-purple-400 font-bold text-[10px] bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
                   <div
-                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full no-glow"
                     style={{
-                      background: "var(--color-bg-glass)",
+                      background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(32px) saturate(180%)",
                       WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid var(--color-border-main)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                     }}
                   >
                     {/* Progress bar */}
@@ -978,12 +984,14 @@ export default function StyleGuidePage() {
                   <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
                   <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN after login</p>
                   <div
-                    className="rounded-3xl px-4 py-6 w-full shadow-[0_30px_90px_rgba(0,0,0,0.6)] no-glow"
+                    className="rounded-3xl px-4 py-6 w-full no-glow"
                     style={{
-                      background: "var(--color-bg-glass)",
+                      background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(32px) saturate(180%)",
                       WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid var(--color-border-main)",
+                      border: "1px solid rgba(168, 85, 247, 0.4)",
+                      borderRadius: 24,
+                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
                     }}
                   >
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
@@ -1612,7 +1620,7 @@ export default function StyleGuidePage() {
               <p className="text-xs text-white/60">
                 Standard container card with 1px border <code className="text-purple-300 font-mono">rgba(255,255,255,0.08)</code>.
               </p>
-              <button className="px-4 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/40 text-purple-300 text-xs font-bold transition">
+              <button className="px-4 py-2 rounded-lg bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/40 text-purple-300 text-xs font-bold transition">
                 View Event Details
               </button>
             </div>
@@ -1638,7 +1646,7 @@ export default function StyleGuidePage() {
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2"
+                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2"
               >
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
@@ -1671,7 +1679,7 @@ export default function StyleGuidePage() {
               </div>
               <button
                 onClick={() => setShowGlassModal(true)}
-                className="px-4 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
               </button>
@@ -1693,7 +1701,7 @@ export default function StyleGuidePage() {
               </div>
               <button
                 onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
-                className="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Open Confirm Dialog
               </button>
@@ -1710,7 +1718,7 @@ export default function StyleGuidePage() {
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-extrabold uppercase transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Lock className="w-3.5 h-3.5" /> Launch Login Modal
               </button>
@@ -1792,7 +1800,7 @@ export default function StyleGuidePage() {
                   </div>
                   <button
                     onClick={() => setShowGlassModal(false)}
-                    className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                    className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
                   >
                     Continue
                   </button>
@@ -1829,13 +1837,13 @@ export default function StyleGuidePage() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
-                    className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
-                    className="flex-1 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
+                    className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold uppercase tracking-widest transition cursor-pointer"
                   >
                     Delete
                   </button>
@@ -2233,7 +2241,7 @@ export default function StyleGuidePage() {
                       key={tab.id}
                       type="button"
                       onClick={() => setStateroomTab(tab.id as any)}
-                      className={`w-full p-4 rounded-xl text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id
+                      className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id
                         ? "bg-purple-600/30 text-white"
                         : "bg-white/5 hover:bg-white/10 text-white/80"
                         }`}
