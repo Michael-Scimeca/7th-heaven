@@ -425,7 +425,7 @@ textarea:focus-visible,
    ============================================= */
 
 /* Wrapper setup */
-div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"])):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"]),
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):not([inputmode="numeric"]):not([type="number"]):not(.no-glow)):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"]),
 div:has(> select):not(.no-glow):not([class*="glow-border"]),
 div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
   position: relative;
@@ -433,7 +433,7 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
 }
 
 /* Spinning ring ::after */
-div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"])):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):not([inputmode="numeric"]):not([type="number"]):not(.no-glow)):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
 div:has(> select):not(.no-glow):not([class*="glow-border"])::after,
 div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
   content: "";
@@ -453,15 +453,15 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
 }
 
 /* Reveal on focus-within or hover */
-div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
-div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):hover):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):not([inputmode="numeric"]):not([type="number"]):not(.no-glow):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):not([inputmode="numeric"]):not([type="number"]):not(.no-glow):hover):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::after,
 div:has(> select:focus):not(.no-glow):not([class*="glow-border"])::after,
 div:has(> select:hover):not(.no-glow):not([class*="glow-border"])::after,
 div:has(> textarea:focus):not(.no-glow):not([class*="glow-border"])::after {
   opacity: 1;
 }
 
-div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::before,
+div:has(> input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="range"]):not([inputmode="numeric"]):not([type="number"]):not(.no-glow):focus):not(.no-glow):not(.squishy-toggle):not([class*="glow-border"])::before,
 div:has(> select:focus):not(.no-glow):not([class*="glow-border"])::before {
   transform: translateX(-50%) scale(1);
   opacity: 1;

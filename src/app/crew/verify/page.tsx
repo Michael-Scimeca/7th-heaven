@@ -245,9 +245,9 @@ export default function VerifyPage() {
                   onBlur={() => setFocusedIndex(null)}
                   onChange={e => handleDigit(i, e.target.value)}
                   onKeyDown={e => handleKeyDown(i, e)}
-                  className={`w-11 h-14 text-center text-2xl font-black rounded-xl border-2 bg-black/70 outline-none transition-all duration-200 tabular-nums shrink-0
+                  className={`w-11 h-14 text-center text-2xl font-black rounded-xl border-2 bg-black/70 outline-none transition-all duration-200 tabular-nums shrink-0 no-glow
                     ${focusedIndex === i
-                      ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95),inset_0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/60 scale-[1.06] z-10 relative'
+                      ? 'border-purple-400 text-white shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/60 scale-[1.06] z-10 relative'
                       : digit
                         ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]'
                         : 'border-white/20 text-white/40 hover:border-white/40'
