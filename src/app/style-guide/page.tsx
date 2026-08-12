@@ -1163,9 +1163,8 @@ export default function StyleGuidePage() {
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
-                      <div className="grid grid-cols-4 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                      <div className="grid grid-cols-3 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
                         <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40">Fan</div>
-                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Crew</div>
                         <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Planner</div>
                         <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Cruise</div>
                       </div>

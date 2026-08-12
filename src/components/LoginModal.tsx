@@ -760,7 +760,10 @@ function LoginModalBodyContent(props: any) {
             </button>
             <button
               type="button"
-              onClick={() => setModalMode("signup")}
+              onClick={() => {
+                setModalMode("signup");
+                if (loginRole === "crew") setLoginRole("fan");
+              }}
               className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
                 ? "text-white font-extrabold"
                 : "text-white/60 hover:text-white"
@@ -775,10 +778,10 @@ function LoginModalBodyContent(props: any) {
         {modalMode !== "forgot" && (
           <div className="my-3 space-y-1.5">
             <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block">ACCOUNT TYPE:</span>
-            <div className="grid grid-cols-4 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-3" : "grid-cols-4"}`}>
               {[
                 { id: "fan", label: "Fan" },
-                { id: "crew", label: "Crew" },
+                ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
                 { id: "planner", label: "Planner" },
                 { id: "cruise", label: "Cruise" },
               ].map((role) => (
