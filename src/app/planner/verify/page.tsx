@@ -24,13 +24,13 @@ const renderBg = () => (
         backgroundImage: "url('/images/hero-band-bg.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        filter: "brightness(0.35) blur(10px)",
+        filter: "brightness(0.35) blur(3px)",
         transform: "scale(1.08)",
         zIndex: 0,
         pointerEvents: "none"
       }}
     />
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(12px)", zIndex: 1, pointerEvents: "none" }} />
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(4px)", zIndex: 1, pointerEvents: "none" }} />
   </>
 );
 

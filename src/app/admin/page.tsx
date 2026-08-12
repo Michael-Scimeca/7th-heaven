@@ -225,7 +225,7 @@ export default function AdminGatewayPage() {
           backgroundImage: "url('/images/hero-band-bg.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "brightness(0.35) blur(10px)",
+          filter: "brightness(0.55) blur(3px)",
           transform: "scale(1.08)",
           zIndex: 0,
           pointerEvents: "none"

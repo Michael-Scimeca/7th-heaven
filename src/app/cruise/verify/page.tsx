@@ -108,18 +108,18 @@ function CruiseVerifyContent() {
           position: absolute;
           inset: 0;
           background: url('/images/cruise-verify-bg.jpg') center center / cover no-repeat;
-          filter: brightness(0.45) blur(16px);
+          filter: brightness(0.55) blur(3px);
           pointer-events: none;
-          transform: scale(1.08);
+          transform: scale(1.03);
         }
 
         /* Frosted overlay */
         .cruise-overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at center, rgba(15, 6, 28, 0.45), rgba(8, 2, 16, 0.8));
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: radial-gradient(circle at center, rgba(15, 6, 28, 0.35), rgba(8, 2, 16, 0.75));
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
         }
 
         /* Modal container */
