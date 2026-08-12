@@ -289,7 +289,7 @@ a:hover {
       <button
         aria-label="Open Input Style Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 left-4 z-[9999] px-3.5 py-2.5 bg-[#0c0817]/90 backdrop-blur-xl border border-cyan-400/40 text-cyan-300 rounded-full font-bold text-xs shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:bg-cyan-500/20 hover:border-cyan-400 transition-all flex items-center gap-2 cursor-pointer group"
+        className="fixed bottom-4 left-44 z-[9999] px-3.5 py-2.5 bg-[#0c0817]/90 backdrop-blur-xl border border-cyan-400/40 text-cyan-300 rounded-full font-bold text-xs shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:bg-cyan-500/20 hover:border-cyan-400 transition-all flex items-center gap-2 cursor-pointer group"
       >
         <Sliders className="w-4 h-4 group-hover:rotate-45 transition-transform" />
         <span>Input Style Controls</span>

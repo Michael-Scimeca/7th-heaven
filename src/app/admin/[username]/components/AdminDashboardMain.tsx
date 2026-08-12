@@ -11953,263 +11953,263 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
       <div className="fixed inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_100%)] pointer-events-none" />
-      <div className="site-container relative z-10 px-4 md:px-6">
 
-        {/* === EXECUTIVE ADMIN HERO HEADER === */}
-        <div className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
-          {/* Admin Identity & Badges */}
-          <div className="flex items-center gap-5">
-            <input
-              type="file"
-              ref={adminPhotoInputRef}
-              accept="image/*"
-              className="hidden"
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-                if (!file.type.startsWith("image/")) return;
-                setAdminAvatarUploading(true);
-                try {
-                  const dataUrl = await compressImage(file);
-                  if (dataUrl) {
-                    setAdminAvatarOverride(dataUrl);
-                    try { localStorage.setItem("7h_profile_avatar", dataUrl); } catch { }
-                    try { if (updateAvatar) await updateAvatar(dataUrl); } catch { }
-                  }
-                } catch (err) {
-                  console.error("Avatar upload error:", err);
-                } finally {
-                  setAdminAvatarUploading(false);
+
+      {/* === EXECUTIVE ADMIN HERO HEADER === */}
+      <div className="mb-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6">
+        {/* Admin Identity & Badges */}
+        <div className="flex items-center gap-5">
+          <input
+            type="file"
+            ref={adminPhotoInputRef}
+            accept="image/*"
+            className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              if (!file.type.startsWith("image/")) return;
+              setAdminAvatarUploading(true);
+              try {
+                const dataUrl = await compressImage(file);
+                if (dataUrl) {
+                  setAdminAvatarOverride(dataUrl);
+                  try { localStorage.setItem("7h_profile_avatar", dataUrl); } catch { }
+                  try { if (updateAvatar) await updateAvatar(dataUrl); } catch { }
                 }
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => adminPhotoInputRef.current?.click()}
-              title="Click to upload crew photo"
-              className="relative w-16 h-16 bg-purple-500/10 flex items-center justify-center text-xl font-black  text-[var(--color-accent)] shrink-0 shadow-xs overflow-hidden cursor-pointer group transition-colors"
-            >
-              {isAvatarUrl ? (
-                <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
-              ) : (
-                <span>{(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}</span>
-              )}
-              {/* Hover overlay with camera icon */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[9px] font-bold uppercase transition-opacity">
-                <span className="text-sm"></span>
-                <span>{adminAvatarUploading ? "..." : "Upload"}</span>
-              </div>
-            </button>
-            <div>
-              <div className="flex items-center flex-wrap gap-2.5 mb-1">
-                <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[var(--text-color)]">{effectiveAdmin.name}</h1>
-                <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-wider ${(member?.role || effectiveAdmin.role) === 'crew'
-                  ? 'bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] dark:text-emerald-300'
-                  : 'bg-purple-500/15 border border-purple-500/30 text-purple-300 dark:text-purple-300'
-                  }`}>
-                  {(member?.role || effectiveAdmin.role) === 'crew' ? ' Crew' : ' Admin'}
-                </span>
-                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
-                  God Mode
-                </span>
-              </div>
-              <p className="text-xs font-mono text-[var(--muted-text)] font-semibold">{effectiveAdmin.email}</p>
-              <p className="text-[0.7rem] text-[var(--muted-text)] font-bold mt-0.5">
-                {(member?.role || effectiveAdmin.role) === 'crew'
-                  ? 'Manage setlists, live feeds, community updates, and crew tools.'
-                  : 'Oversee activity, intercept live feeds, and manage community access in real-time.'}
-              </p>
+              } catch (err) {
+                console.error("Avatar upload error:", err);
+              } finally {
+                setAdminAvatarUploading(false);
+              }
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => adminPhotoInputRef.current?.click()}
+            title="Click to upload crew photo"
+            className="relative w-16 h-16 bg-purple-500/10 flex items-center justify-center text-xl font-black  text-[var(--color-accent)] shrink-0 shadow-xs overflow-hidden cursor-pointer group transition-colors"
+          >
+            {isAvatarUrl ? (
+              <img src={activeAdminAvatar} alt={effectiveAdmin.name} className="w-full h-full object-cover" />
+            ) : (
+              <span>{(effectiveAdmin.name || 'Admin').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()}</span>
+            )}
+            {/* Hover overlay with camera icon */}
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-[9px] font-bold uppercase transition-opacity">
+              <span className="text-sm"></span>
+              <span>{adminAvatarUploading ? "..." : "Upload"}</span>
             </div>
-          </div>
-
-          {/* Right Action Cluster & Tab Switcher */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-            {/* Mode Switcher Pills */}
-            <div className="relative flex items-center bg-transparent p-1 rounded-full w-full sm:w-auto justify-center select-none">
-              {/* Sliding background pill */}
-              <div
-                className={`absolute top-1 bottom-1 rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md ${adminTab === 'band'
-                  ? 'left-1 bg-purple-600'
-                  : 'left-[calc(50%+2px)] bg-cyan-600'
-                  }`}
-                style={{ width: 'calc(50% - 4px)' }}
-              />
-
-              <button
-                type="button"
-                onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
-                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
-                  }`}
-              >
-                <span></span>
-                <span>Band & Site</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
-                className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
-                  }`}
-              >
-                <span></span>
-                <span>Cruise</span>
-                {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
-                  <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] font-black px-1 shadow-xs border border-white shrink-0 ml-0.5">
-                    {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
-                  </span>
-                )}
-              </button>
+          </button>
+          <div>
+            <div className="flex items-center flex-wrap gap-2.5 mb-1">
+              <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[var(--text-color)]">{effectiveAdmin.name}</h1>
+              <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-wider ${(member?.role || effectiveAdmin.role) === 'crew'
+                ? 'bg-emerald-500/15 border border-emerald-500/30 text-[var(--color-accent)] dark:text-emerald-300'
+                : 'bg-purple-500/15 border border-purple-500/30 text-purple-300 dark:text-purple-300'
+                }`}>
+                {(member?.role || effectiveAdmin.role) === 'crew' ? ' Crew' : ' Admin'}
+              </span>
+              <span className="flex items-center gap-1.5 px-2.5 py-1 bg-rose-500/15 border border-rose-500/30 rounded-full text-rose-400 dark:text-rose-300 text-[0.6rem] font-black uppercase tracking-wider animate-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
+                God Mode
+              </span>
             </div>
-
-            {/* Exit Link */}
-            <Link
-              href="/"
-              className="text-xs font-black uppercase tracking-wider text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer"
-            >
-              Exit to Site →
-            </Link>
+            <p className="text-xs font-mono text-[var(--muted-text)] font-semibold">{effectiveAdmin.email}</p>
+            <p className="text-[0.7rem] text-[var(--muted-text)] font-bold mt-0.5">
+              {(member?.role || effectiveAdmin.role) === 'crew'
+                ? 'Manage setlists, live feeds, community updates, and crew tools.'
+                : 'Oversee activity, intercept live feeds, and manage community access in real-time.'}
+            </p>
           </div>
         </div>
 
-        {/*  */}
-        {/*   BAND & SITE TAB   */}
-        {/*  */}
-        {adminTab === 'band' && (
-          <>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-              {METRICS.map((metric) => (
-                <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-2xl transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
-                  <p className="text-[0.65rem] font-black uppercase tracking-wider text-[var(--muted-text)] mb-2">{metric.label}</p>
-                  <div className="flex items-end justify-between">
-                    <span className="text-3xl font-black text-white">{metric.value}</span>
-                    <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${metric.color}`}>
-                      {metric.trend}
-                    </span>
-                  </div>
+        {/* Right Action Cluster & Tab Switcher */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+          {/* Mode Switcher Pills */}
+          <div className="relative flex items-center bg-transparent p-1 rounded-full w-full sm:w-auto justify-center select-none">
+            {/* Sliding background pill */}
+            <div
+              className={`absolute top-1 bottom-1 rounded-full transition-colors duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-md ${adminTab === 'band'
+                ? 'left-1 bg-purple-600'
+                : 'left-[calc(50%+2px)] bg-cyan-600'
+                }`}
+              style={{ width: 'calc(50% - 4px)' }}
+            />
+
+            <button
+              type="button"
+              onClick={() => { setAdminTab('band'); adminTabRef.current = 'band'; }}
+              className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'band' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
+                }`}
+            >
+              <span></span>
+              <span>Band & Site</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setAdminTab('cruise'); adminTabRef.current = 'cruise'; setUnreadCruiseChat(0); }}
+              className={`relative z-10 flex-1 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap ${adminTab === 'cruise' ? 'text-white' : 'text-[var(--muted-text)] hover:text-[var(--text-color)]'
+                }`}
+            >
+              <span></span>
+              <span>Cruise</span>
+              {unreadCruiseChat > 0 && adminTab !== 'cruise' && (
+                <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-rose-600 text-white text-[0.55rem] font-black px-1 shadow-xs border border-white shrink-0 ml-0.5">
+                  {unreadCruiseChat > 99 ? '99+' : unreadCruiseChat}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Exit Link */}
+          <Link
+            href="/"
+            className="text-xs font-black uppercase tracking-wider text-black/70 hover:text-black transition-colors flex items-center gap-1.5 py-2 px-1 cursor-pointer"
+          >
+            Exit to Site →
+          </Link>
+        </div>
+      </div>
+
+      {/*  */}
+      {/*   BAND & SITE TAB   */}
+      {/*  */}
+      {adminTab === 'band' && (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {METRICS.map((metric) => (
+              <div key={metric.label} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); } }} onClick={() => { if (metric.label === "Booking Requests") document.getElementById("booking-requests-section")?.scrollIntoView({ behavior: "smooth" }); }} className={`p-4 rounded-2xl transition-colors ${metric.label === 'Booking Requests' ? 'cursor-pointer' : ''}`}>
+                <p className="text-[0.65rem] font-black uppercase tracking-wider text-[var(--muted-text)] mb-2">{metric.label}</p>
+                <div className="flex items-end justify-between">
+                  <span className="text-3xl font-black text-white">{metric.value}</span>
+                  <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${metric.color}`}>
+                    {metric.trend}
+                  </span>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            <div className="flex flex-col gap-4 w-full mt-4">
+          <div className="flex flex-col gap-4 w-full mt-4">
 
 
-              {sectionOrder.map((key, index) => {
-                const dragProps = {
-                  draggable: true,
-                  onDragStart: (e: any) => {
-                    if (!e.target.closest('.drag-handle')) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleDragStart(index);
-                  },
-                  onDragOver: (e: any) => handleDragOver(e, index),
-                  onDragEnd: handleDragEnd,
-                  className: "transition-colors duration-300 " + (draggedIndex === index ? 'opacity-40 scale-[0.98]' : '')
-                };
+            {sectionOrder.map((key, index) => {
+              const dragProps = {
+                draggable: true,
+                onDragStart: (e: any) => {
+                  if (!e.target.closest('.drag-handle')) {
+                    e.preventDefault();
+                    return;
+                  }
+                  handleDragStart(index);
+                },
+                onDragOver: (e: any) => handleDragOver(e, index),
+                onDragEnd: handleDragEnd,
+                className: "transition-colors duration-300 " + (draggedIndex === index ? 'opacity-40 scale-[0.98]' : '')
+              };
 
-                let component = null;
-                switch (key) {
-                  case 'announcements': component = renderAnnouncements(); break;
-                  case 'calendar': component = renderCrewSchedule(); break;
-                  case 'analytics': component = renderAnalytics(); break;
-                  case 'shopify': component = renderShopify(); break;
+              let component = null;
+              switch (key) {
+                case 'announcements': component = renderAnnouncements(); break;
+                case 'calendar': component = renderCrewSchedule(); break;
+                case 'analytics': component = renderAnalytics(); break;
+                case 'shopify': component = renderShopify(); break;
 
-                  case 'bookings': component = renderBookings(); break;
-                  case 'planners': component = renderPlanners(); break;
+                case 'bookings': component = renderBookings(); break;
+                case 'planners': component = renderPlanners(); break;
 
-                  case 'photomod': component = renderPhotoMod(); break;
-                  case 'cruisesignups': component = renderCruiseSignups(); break;
+                case 'photomod': component = renderPhotoMod(); break;
+                case 'cruisesignups': component = renderCruiseSignups(); break;
 
-                  case 'livealerts': component = renderLiveAlerts(); break;
-                  case 'smsblast': component = renderSmsBlast(); break;
-                  case 'crewsms': component = renderCrewSms(); break;
-                  case 'bandsms': component = renderBandSms(); break;
-                  case 'newsletter': component = renderNewsletter(); break;
-                  case 'registry': component = renderRegistry(); break;
-                  case 'crewcreation': component = renderCrewCreation(); break;
-                  case 'admincreation': component = renderAdminCreation(); break;
+                case 'livealerts': component = renderLiveAlerts(); break;
+                case 'smsblast': component = renderSmsBlast(); break;
+                case 'crewsms': component = renderCrewSms(); break;
+                case 'bandsms': component = renderBandSms(); break;
+                case 'newsletter': component = renderNewsletter(); break;
+                case 'registry': component = renderRegistry(); break;
+                case 'crewcreation': component = renderCrewCreation(); break;
+                case 'admincreation': component = renderAdminCreation(); break;
 
-                  case 'bulkinvites': component = renderBulkInvites(); break;
-                }
+                case 'bulkinvites': component = renderBulkInvites(); break;
+              }
 
-                return (
-                  <div key={key} id={"admin-sec-" + key} {...dragProps}>
-                    {component}
-                  </div>
-                );
-              })}
-
-            </div>
-
-            <div className="flex flex-col gap-4 w-full mt-4">
-              <section className="bg-transparent border-t border-white/10 overflow-hidden h-full flex flex-col">
-                <div className="admin-section-header py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent shrink-0">
-                  <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 text-white">
-                    Audit Log
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  </h3>
-                  <span className="text-[0.6rem] text-white/30 uppercase tracking-widest">{auditLog.length} Events</span>
+              return (
+                <div key={key} id={"admin-sec-" + key} {...dragProps}>
+                  {component}
                 </div>
-                <div className="py-6 pr-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px] custom-scrollbar">
-                  {auditLog.map((entry, i) => (
-                    <div key={entry.id} className="flex gap-2.5 relative border-b border-white/15 pb-4 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
-                      {i < auditLog.length - 1 && (
-                        <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/5" />
-                      )}
-                      <div className="shrink-0 mt-1">
-                        <div className={`w-3.5 h-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white/80 leading-relaxed mb-1">{entry.text}</p>
+              );
+            })}
 
-                        {entry.details && (
-                          <div className="mt-1 mb-2">
-                            <button
-                              type="button"
-                              onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                              className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-colors cursor-pointer"
-                            >
-                              {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
-                            </button>
+          </div>
 
-                            {expandedAuditId === entry.id && (
-                              <div className="mt-2 p-3 bg-transparent border border-white/10 space-y-3 text-xs text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
-                                {entry.details.type === 'signin' && (
-                                  <div className="space-y-1.5 font-sans">
-                                    <div className="flex justify-between border-b border-white/5 pb-1">
-                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">User</span>
-                                      <span className="font-mono text-[var(--color-accent)] font-bold">{entry.details.username}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">IP Address</span>
-                                      <span className="font-mono text-white/70">{entry.details.ipAddress}</span>
-                                    </div>
+          <div className="flex flex-col gap-4 w-full mt-4">
+            <section className="bg-transparent border-t border-white/10 overflow-hidden h-full flex flex-col">
+              <div className="admin-section-header py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent shrink-0">
+                <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 text-white">
+                  Audit Log
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                </h3>
+                <span className="text-[0.6rem] text-white/30 uppercase tracking-widest">{auditLog.length} Events</span>
+              </div>
+              <div className="py-6 pr-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px] custom-scrollbar">
+                {auditLog.map((entry, i) => (
+                  <div key={entry.id} className="flex gap-2.5 relative border-b border-white/15 pb-4 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
+                    {i < auditLog.length - 1 && (
+                      <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/5" />
+                    )}
+                    <div className="shrink-0 mt-1">
+                      <div className={`w-3.5 h-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-white/80 leading-relaxed mb-1">{entry.text}</p>
+
+                      {entry.details && (
+                        <div className="mt-1 mb-2">
+                          <button
+                            type="button"
+                            onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-colors cursor-pointer"
+                          >
+                            {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
+                          </button>
+
+                          {expandedAuditId === entry.id && (
+                            <div className="mt-2 p-3 bg-transparent border border-white/10 space-y-3 text-xs text-white/80 animate-[slideDown_0.2s_ease-out] max-w-full md:max-w-[650px] overflow-hidden">
+                              {entry.details.type === 'signin' && (
+                                <div className="space-y-1.5 font-sans">
+                                  <div className="flex justify-between border-b border-white/5 pb-1">
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">User</span>
+                                    <span className="font-mono text-[var(--color-accent)] font-bold">{entry.details.username}</span>
                                   </div>
-                                )}
+                                  <div className="flex justify-between">
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider">IP Address</span>
+                                    <span className="font-mono text-white/70">{entry.details.ipAddress}</span>
+                                  </div>
+                                </div>
+                              )}
 
-                                {entry.details.smsText && (
+                              {entry.details.smsText && (
+                                <div className="space-y-1.5">
+                                  <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block"> SMS Message Body</span>
+                                  <div className="bg-transparent border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-purple-300">
+                                    {entry.details.smsText}
+                                  </div>
+                                </div>
+                              )}
+
+                              {entry.details.emailHtml && (
+                                <div className="space-y-2">
+                                  <div className="border-b border-white/5 pb-1">
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1"> Email Template</span>
+                                    <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
+                                  </div>
+
                                   <div className="space-y-1.5">
-                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block"> SMS Message Body</span>
-                                    <div className="bg-transparent border border-white/5 rounded-lg p-2.5 font-mono text-[var(--font-size-3xs)] whitespace-pre-wrap leading-relaxed text-purple-300">
-                                      {entry.details.smsText}
-                                    </div>
-                                  </div>
-                                )}
-
-                                {entry.details.emailHtml && (
-                                  <div className="space-y-2">
-                                    <div className="border-b border-white/5 pb-1">
-                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block mb-1"> Email Template</span>
-                                      <span className="text-[var(--font-size-3xs)] text-white/90 font-bold">Subject: {entry.details.emailSubject}</span>
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                      <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">Visual Template Render</span>
-                                      <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-lg overflow-hidden p-0.5">
-                                        <iframe
-                                          srcDoc={`
+                                    <span className="text-white/40 font-bold uppercase text-[var(--font-size-4xs)] tracking-wider block">Visual Template Render</span>
+                                    <div className="bg-[var(--color-bg-surface)] border border-white/5 rounded-lg overflow-hidden p-0.5">
+                                      <iframe
+                                        srcDoc={`
                                           <!DOCTYPE html>
                                           <html>
                                             <head>
@@ -12231,388 +12231,388 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             </body>
                                           </html>
                                         `}
-                                          className="w-full h-[180px] border-none bg-[var(--color-bg-surface)]"
-                                          title="Email Preview"
-                                          sandbox="allow-same-origin"
-                                        />
-                                      </div>
+                                        className="w-full h-[180px] border-none bg-[var(--color-bg-surface)]"
+                                        title="Email Preview"
+                                        sandbox="allow-same-origin"
+                                      />
                                     </div>
                                   </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
 
-                        <p className="text-[0.65rem] uppercase tracking-widest text-white/30">{entry.time}</p>
-                      </div>
+                      <p className="text-[0.65rem] uppercase tracking-widest text-white/30">{entry.time}</p>
                     </div>
-                  ))}
-                </div>
-              </section>
-            </div>
-
-          </>
-        )}
-
-        {adminTab === 'cruise' && (
-          <>
-
-            {/* === CRUISE BROADCAST CENTER === */}
-            <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
-                  <div className="w-full h-full   rounded-full flex items-center justify-center">
-                    <span className="text-lg"></span>
                   </div>
-                </div>
-                <div>
-                  <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Command Center</h2>
-                  <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
+                ))}
+              </div>
+            </section>
+          </div>
+
+        </>
+      )}
+
+      {adminTab === 'cruise' && (
+        <>
+
+          {/* === CRUISE BROADCAST CENTER === */}
+          <div id="admin-sec-cruise-command" className="pt-2 mb-6 relative">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-400 flex items-center justify-center shadow-cyan-500/20 p-[1px]">
+                <div className="w-full h-full   rounded-full flex items-center justify-center">
+                  <span className="text-lg"></span>
                 </div>
               </div>
+              <div>
+                <h2 className="text-xl font-black italic tracking-wide text-white uppercase">Cruise Command Center</h2>
+                <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">Manage cruise dashboard announcements, links & chat</p>
+              </div>
+            </div>
 
-              {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
-                {/* Column 1: Cruise Information & Guidelines Editor */}
-                <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
-                  <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10    border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
-                      <div>
-                        <h3 className="text-base md:text-lg font-black italic tracking-wide text-white">Cruise Information & Guidelines</h3>
-                        <p className="text-[0.65rem] text-purple-400font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
-                      </div>
+            {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start mb-6">
+              {/* Column 1: Cruise Information & Guidelines Editor */}
+              <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-cyan-500/20 p-6 md:p-8 shadow-xl">
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/5 flex-wrap gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10    border border-cyan-500/30 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"></div>
+                    <div>
+                      <h3 className="text-base md:text-lg font-black italic tracking-wide text-white">Cruise Information & Guidelines</h3>
+                      <p className="text-[0.65rem] text-purple-400font-bold uppercase tracking-widest leading-relaxed mt-0.5">Welcome Pack content rendered on passenger hub</p>
                     </div>
-                    {adminGuidelinesSaveStatus === 'saved' && (
-                      <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full animate-pulse">
-                        Guidelines Saved!
-                      </span>
-                    )}
-                    {adminGuidelinesSaveStatus === 'error' && (
-                      <span className="text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full">
-                        Error Saving
-                      </span>
-                    )}
+                  </div>
+                  {adminGuidelinesSaveStatus === 'saved' && (
+                    <span className="text-xs font-bold text-[var(--color-accent)] bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full animate-pulse">
+                      Guidelines Saved!
+                    </span>
+                  )}
+                  {adminGuidelinesSaveStatus === 'error' && (
+                    <span className="text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/30 px-3 py-1 rounded-full">
+                      Error Saving
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="admin-guidelines-title" className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Section Title</label>
+                      <input
+                        id="admin-guidelines-title"
+                        type="text"
+                        value={adminGuidelinesTitle}
+                        onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
+                        placeholder="Cruise Information & Guidelines"
+                        className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-black outline-none focus:border-cyan-600 transition-colors font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="admin-guidelines-subtitle" className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Subtitle Badge</label>
+                      <input
+                        id="admin-guidelines-subtitle"
+                        type="text"
+                        value={adminGuidelinesSubtitle}
+                        onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
+                        placeholder="Cruiser Welcome Pack"
+                        className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-cyan-700 outline-none focus:border-cyan-600 transition-colors font-bold"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="admin-guidelines-title" className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Section Title</label>
-                        <input
-                          id="admin-guidelines-title"
-                          type="text"
-                          value={adminGuidelinesTitle}
-                          onChange={(e) => setAdminGuidelinesTitle(e.target.value)}
-                          placeholder="Cruise Information & Guidelines"
-                          className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-black outline-none focus:border-cyan-600 transition-colors font-bold"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="admin-guidelines-subtitle" className="text-[0.6rem] font-bold text-white/50 uppercase tracking-widest block mb-1.5 font-sans">Subtitle Badge</label>
-                        <input
-                          id="admin-guidelines-subtitle"
-                          type="text"
-                          value={adminGuidelinesSubtitle}
-                          onChange={(e) => setAdminGuidelinesSubtitle(e.target.value)}
-                          placeholder="Cruiser Welcome Pack"
-                          className="w-full bg-white border border-black/15 px-4 py-2.5 text-xs !text-cyan-700 outline-none focus:border-cyan-600 transition-colors font-bold"
-                        />
-                      </div>
+                  <div>
+                    <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
+                    <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
+                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
                     </div>
+                  </div>
 
-                    <div>
-                      <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
-                      <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
-                        <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end pt-2 border-t border-white/5">
-                      <button
-                        onClick={async () => {
-                          if (adminGuidelinesUpdatingRef.current) return;
-                          adminGuidelinesUpdatingRef.current = true;
-                          setAdminGuidelinesUpdating(true);
-                          setAdminGuidelinesSaveStatus(null);
-                          try {
-                            const res = await fetch('/api/cruise/guidelines', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({
-                                title: adminGuidelinesTitle,
-                                subtitle: adminGuidelinesSubtitle,
-                                content: adminGuidelinesContent
-                              })
-                            });
-                            if (res.ok) {
-                              setAdminGuidelinesSaveStatus('saved');
-                            } else {
-                              setAdminGuidelinesSaveStatus('error');
-                            }
-                          } catch (err) {
+                  <div className="flex justify-end pt-2 border-t border-white/5">
+                    <button
+                      onClick={async () => {
+                        if (adminGuidelinesUpdatingRef.current) return;
+                        adminGuidelinesUpdatingRef.current = true;
+                        setAdminGuidelinesUpdating(true);
+                        setAdminGuidelinesSaveStatus(null);
+                        try {
+                          const res = await fetch('/api/cruise/guidelines', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              title: adminGuidelinesTitle,
+                              subtitle: adminGuidelinesSubtitle,
+                              content: adminGuidelinesContent
+                            })
+                          });
+                          if (res.ok) {
+                            setAdminGuidelinesSaveStatus('saved');
+                          } else {
                             setAdminGuidelinesSaveStatus('error');
-                          } finally {
-                            adminGuidelinesUpdatingRef.current = false;
-                            setAdminGuidelinesUpdating(false);
                           }
-                        }}
-                        disabled={adminGuidelinesUpdating}
-                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
-                      >
-                        <span>{adminGuidelinesUpdating ? 'Saving...' : ' Save Guidelines'}</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Column 2: Admin Passenger Lounge Live Chat */}
-                <CruiseChat memberOverride={member || effectiveAdmin} />
-              </div>
-
-              {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
-              <div className="grid grid-cols-1 gap-6 relative items-start mb-6">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
-
-                <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20  p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden`}>
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:   transition-colors duration-700 pointer-events-none" />
-                  <div className="relative z-10 flex flex-col gap-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 shrink-0    border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
-                        <div>
-                          <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
-                          <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
-                        </div>
-                      </div>
-                      <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
-                        <span className="text-[0.5rem] font-bold text-purple-400uppercase tracking-widest">Unified Dispatch</span>
-                      </div>
-                    </div>
-
-                    {cruiseSaveStatus && (
-                      <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
-                        {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
-                      </div>
-                    )}
-
-                    {/* 2 Columns Container: Left Form | Right Live Preview */}
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-                      {/* Left Column: Form Inputs & Target Controls */}
-                      <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
-                        <div>
-                          <label htmlFor="admin-cruise-blast-subject" className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
-                          <input
-                            id="admin-cruise-blast-subject"
-                            type="text"
-                            value={cruiseBlastSubject}
-                            onChange={(e) => setCruiseBlastSubject(e.target.value)}
-                            placeholder="e.g. TEST, CAPTAIN'S LOG, or  Cruise Update..."
-                            className="w-full bg-black/40 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-cyan-500/60 transition-colors placeholder:text-white/20 mb-2 font-sans"
-                          />
-                        </div>
-
-                        <div>
-                          <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</span>
-                          <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                            <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
-                          </div>
-                        </div>
-
-                        {/* Target checkboxes */}
-                        <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-white/5">
-                          <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
-                            <input
-                              type="checkbox"
-                              checked={postNoticeToDashboard}
-                              onChange={(e) => setPostNoticeToDashboard(e.target.checked)}
-                              className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
-                            />
-                            <span> Live Banner on Dashboard</span>
-                          </label>
-                          <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
-                            <input
-                              type="checkbox"
-                              checked={sendEmailToPassengers}
-                              onChange={(e) => setSendEmailToPassengers(e.target.checked)}
-                              className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
-                            />
-                            <span> Email Passenger Signups</span>
-                          </label>
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
-                          <button
-                            onClick={async () => {
-                              if (cruiseUpdatingRef.current || !cruiseMessage.trim()) return;
-                              if (sendEmailToPassengers && !confirm("Dispatch live notice & send email blast to all registered cruise passengers?")) return;
-                              cruiseUpdatingRef.current = true;
-                              setCruiseUpdating(true);
-                              setCruiseSaveStatus(null);
-                              try {
-                                const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage);
-                                if (postNoticeToDashboard) {
-                                  await updateCruiseMessage(cleanedNoticeMsg);
-                                }
-                                if (sendEmailToPassengers) {
-                                  const emailSubject = cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice";
-                                  await fetch('/api/cruise/blast', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ subject: emailSubject, body: cleanedNoticeMsg }),
-                                  });
-                                }
-                                setCruiseSaveStatus('saved');
-                              } catch (err) {
-                                setCruiseSaveStatus('error');
-                              } finally {
-                                cruiseUpdatingRef.current = false;
-                                setCruiseUpdating(false);
-                              }
-                            }}
-                            disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
-                            className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
-                          >
-                            <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : ' Dispatch Notice & Email'}</span>
-                          </button>
-                          <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
-                            <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" /></svg>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
-                      <div className="p-4 md:p-5 bg-black/40 border border-white/10 shadow-xl font-sans h-full flex flex-col">
-                        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
-                          <div className="flex items-center gap-2">
-                            <span className="text-base"></span>
-                            <h4 className="text-xs font-black uppercase tracking-widest text-cyan-400">Live Dispatch Preview</h4>
-                          </div>
-                          {/* Live Preview Tab Switcher */}
-                          <div className="flex items-center gap-1.5 bg-black/50 p-1 border border-white/10">
-                            <button
-                              type="button"
-                              onClick={() => setLivePreviewTab('dashboard')}
-                              className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
-                                ? 'bg-cyan-500 text-black shadow-md'
-                                : 'text-white/60 hover:text-white hover:bg-white/5'
-                                }`}
-                            >
-                              Cruise Dashboard Banner
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setLivePreviewTab('email')}
-                              className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'email'
-                                ? 'bg-cyan-500 text-black shadow-md'
-                                : 'text-white/60 hover:text-white hover:bg-white/5'
-                                }`}
-                            >
-                              Email Broadcast
-                            </button>
-                          </div>
-                        </div>
-
-                        <CruiseLivePreview
-                          livePreviewTab={livePreviewTab}
-                          cruiseBlastSubject={cruiseBlastSubject}
-                          cruiseMessage={cruiseMessage}
-                          sanitizeHtml={sanitizeHtml}
-                          cleanWysiwygHtml={cleanWysiwygHtml}
-                          cruiseCommunityBlast={cruiseCommunityBlast}
-                        />
-                      </div>
-                    </div>
+                        } catch (err) {
+                          setAdminGuidelinesSaveStatus('error');
+                        } finally {
+                          adminGuidelinesUpdatingRef.current = false;
+                          setAdminGuidelinesUpdating(false);
+                        }
+                      }}
+                      disabled={adminGuidelinesUpdating}
+                      className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center gap-2"
+                    >
+                      <span>{adminGuidelinesUpdating ? 'Saving...' : ' Save Guidelines'}</span>
+                    </button>
                   </div>
                 </div>
               </div>
+
+              {/* Column 2: Admin Passenger Lounge Live Chat */}
+              <CruiseChat memberOverride={member || effectiveAdmin} />
             </div>
 
-            {/* Full Interactive Cruise Signups Table & Registrants Manager */}
-            <div className="mt-6">
-              {renderCruiseSignups()}
-            </div>
+            {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
+            <div className="grid grid-cols-1 gap-6 relative items-start mb-6">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-cyan-500/10 to-transparent blur-[100px] pointer-events-none rounded-full" />
 
-            {/* Cruise Roster & Signup Stats */}
-            <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
-              <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover: border-[var(--color-accent)]/30 p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-colors duration-700 pointer-events-none" />
-                <div className="relative z-10 flex flex-col gap-5">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
-                    <div>
-                      <h3 className="text-lg font-black italic tracking-wide text-white">Cruise Roster</h3>
-                      <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
-                    </div>
-                  </div>
-
-                  {/* Stats Grid */}
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="bg-black/30 p-3 border border-white/5 text-center">
-                      <p className="text-2xl font-black text-[var(--color-accent)]">{cruiseStats.signups || 0}</p>
-                      <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
-                    </div>
-                    <div className="bg-black/30 p-3 border border-white/5 text-center">
-                      <p className="text-2xl font-black text-white">{cruiseStats.total}</p>
-                      <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
-                    </div>
-                    <div className="bg-black/30 p-3 border border-white/5 text-center">
-                      <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
-                      <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
-                    </div>
-                  </div>
-
-                  {/* Recent Signups */}
-                  {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
-                    <div>
-                      <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
-                      <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
-                        {(cruiseStats.recentSignups || []).map((s) => (
-                          <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-colors group/row">
-                            <div className="w-7 h-7 rounded-full bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center text-[0.5rem] font-black text-[var(--color-accent)] shrink-0">
-                              {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-bold text-white truncate">{s.name}</p>
-                              <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
-                            </div>
-                            <div className="text-right shrink-0">
-                              <p className="text-[0.55rem] text-white/20 font-mono">{s.phone || '—'}</p>
-                              <p className="text-[0.5rem] text-white/15">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
-                            </div>
-                          </div>
-                        ))}
+              <div className={`relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover:border-cyan-500/20  p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden`}>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:   transition-colors duration-700 pointer-events-none" />
+                <div className="relative z-10 flex flex-col gap-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 shrink-0    border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
+                      <div>
+                        <h3 className="text-lg font-black italic tracking-wide text-white">Passenger Notice & Email Broadcast</h3>
+                        <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Post an update to the Cruise Dashboard & email passengers</p>
                       </div>
+                    </div>
+                    <div className="px-3 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2 mt-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_5px_cyan]" />
+                      <span className="text-[0.5rem] font-bold text-purple-400uppercase tracking-widest">Unified Dispatch</span>
+                    </div>
+                  </div>
+
+                  {cruiseSaveStatus && (
+                    <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${cruiseSaveStatus === 'saved' ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                      {cruiseSaveStatus === 'saved' ? ' Update dispatched to cruise dashboard & passenger inboxes!' : ' Failed to update — try again'}
                     </div>
                   )}
 
-                  {/* Download CSV */}
-                  <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border  border-[var(--color-accent)]/30 flex items-center justify-center gap-2 mt-auto">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
-                    Download Full CSV
-                  </button>
-                  <p className="text-[0.5rem] text-white/20 text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
+                  {/* 2 Columns Container: Left Form | Right Live Preview */}
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                    {/* Left Column: Form Inputs & Target Controls */}
+                    <div className="flex flex-col gap-3 bg-black/20 p-4 md:p-5 border border-white/5 h-full">
+                      <div>
+                        <label htmlFor="admin-cruise-blast-subject" className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice Title / Email Subject Line</label>
+                        <input
+                          id="admin-cruise-blast-subject"
+                          type="text"
+                          value={cruiseBlastSubject}
+                          onChange={(e) => setCruiseBlastSubject(e.target.value)}
+                          placeholder="e.g. TEST, CAPTAIN'S LOG, or  Cruise Update..."
+                          className="w-full bg-black/40 border border-white/10 px-4 py-2.5 text-xs text-white outline-none focus:border-cyan-500/60 transition-colors placeholder:text-white/20 mb-2 font-sans"
+                        />
+                      </div>
+
+                      <div>
+                        <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</span>
+                        <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
+                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
+                        </div>
+                      </div>
+
+                      {/* Target checkboxes */}
+                      <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-white/5">
+                        <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={postNoticeToDashboard}
+                            onChange={(e) => setPostNoticeToDashboard(e.target.checked)}
+                            className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
+                          />
+                          <span> Live Banner on Dashboard</span>
+                        </label>
+                        <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={sendEmailToPassengers}
+                            onChange={(e) => setSendEmailToPassengers(e.target.checked)}
+                            className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
+                          />
+                          <span> Email Passenger Signups</span>
+                        </label>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">
+                        <button
+                          onClick={async () => {
+                            if (cruiseUpdatingRef.current || !cruiseMessage.trim()) return;
+                            if (sendEmailToPassengers && !confirm("Dispatch live notice & send email blast to all registered cruise passengers?")) return;
+                            cruiseUpdatingRef.current = true;
+                            setCruiseUpdating(true);
+                            setCruiseSaveStatus(null);
+                            try {
+                              const cleanedNoticeMsg = cleanWysiwygHtml(cruiseMessage);
+                              if (postNoticeToDashboard) {
+                                await updateCruiseMessage(cleanedNoticeMsg);
+                              }
+                              if (sendEmailToPassengers) {
+                                const emailSubject = cruiseBlastSubject.trim() || " Cruise Update & Passenger Notice";
+                                await fetch('/api/cruise/blast', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ subject: emailSubject, body: cleanedNoticeMsg }),
+                                });
+                              }
+                              setCruiseSaveStatus('saved');
+                            } catch (err) {
+                              setCruiseSaveStatus('error');
+                            } finally {
+                              cruiseUpdatingRef.current = false;
+                              setCruiseUpdating(false);
+                            }
+                          }}
+                          disabled={cruiseUpdating || (!postNoticeToDashboard && !sendEmailToPassengers)}
+                          className="px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(6,182,212,0.25)] border border-cyan-400/30 flex items-center justify-center"
+                        >
+                          <span className="relative z-10">{cruiseUpdating ? 'Dispatching...' : ' Dispatch Notice & Email'}</span>
+                        </button>
+                        <button onClick={() => updateCruiseMessage('')} disabled={cruiseUpdating} title="Remove Notice Banner" className="w-10 h-10 flex items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition-colors disabled:opacity-50 group/trash">
+                          <svg className="group-hover/trash:scale-110 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" /></svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Live Real-Time Dispatch Previews (Dashboard Banner + Email Template) */}
+                    <div className="p-4 md:p-5 bg-black/40 border border-white/10 shadow-xl font-sans h-full flex flex-col">
+                      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base"></span>
+                          <h4 className="text-xs font-black uppercase tracking-widest text-cyan-400">Live Dispatch Preview</h4>
+                        </div>
+                        {/* Live Preview Tab Switcher */}
+                        <div className="flex items-center gap-1.5 bg-black/50 p-1 border border-white/10">
+                          <button
+                            type="button"
+                            onClick={() => setLivePreviewTab('dashboard')}
+                            className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'dashboard'
+                              ? 'bg-cyan-500 text-black shadow-md'
+                              : 'text-white/60 hover:text-white hover:bg-white/5'
+                              }`}
+                          >
+                            Cruise Dashboard Banner
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setLivePreviewTab('email')}
+                            className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${livePreviewTab === 'email'
+                              ? 'bg-cyan-500 text-black shadow-md'
+                              : 'text-white/60 hover:text-white hover:bg-white/5'
+                              }`}
+                          >
+                            Email Broadcast
+                          </button>
+                        </div>
+                      </div>
+
+                      <CruiseLivePreview
+                        livePreviewTab={livePreviewTab}
+                        cruiseBlastSubject={cruiseBlastSubject}
+                        cruiseMessage={cruiseMessage}
+                        sanitizeHtml={sanitizeHtml}
+                        cleanWysiwygHtml={cleanWysiwygHtml}
+                        cruiseCommunityBlast={cruiseCommunityBlast}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </>
-        )}
+          </div>
+
+          {/* Full Interactive Cruise Signups Table & Registrants Manager */}
+          <div className="mt-6">
+            {renderCruiseSignups()}
+          </div>
+
+          {/* Cruise Roster & Signup Stats */}
+          <div id="admin-sec-cruise-roster" className="grid grid-cols-1 gap-6 relative items-start mt-6">
+            <div className="relative z-10 bg-[var(--color-bg-surface)]/80 backdrop-blur-xl border border-white/5 hover: border-[var(--color-accent)]/30 p-6 md:p-8 transition-colors duration-500 flex flex-col group overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-emerald-500/10 transition-colors duration-700 pointer-events-none" />
+              <div className="relative z-10 flex flex-col gap-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 shrink-0 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center text-2xl transition-colors duration-500"></div>
+                  <div>
+                    <h3 className="text-lg font-black italic tracking-wide text-white">Cruise Roster</h3>
+                    <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Signups & Passenger Manifest</p>
+                  </div>
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="bg-black/30 p-3 border border-white/5 text-center">
+                    <p className="text-2xl font-black text-[var(--color-accent)]">{cruiseStats.signups || 0}</p>
+                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Bookings</p>
+                  </div>
+                  <div className="bg-black/30 p-3 border border-white/5 text-center">
+                    <p className="text-2xl font-black text-white">{cruiseStats.total}</p>
+                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Total Pax</p>
+                  </div>
+                  <div className="bg-black/30 p-3 border border-white/5 text-center">
+                    <p className="text-lg font-black text-white/60">{cruiseStats.adults}<span className="text-white/20 mx-0.5">/</span>{cruiseStats.children}</p>
+                    <p className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest mt-0.5">Adult / Child</p>
+                  </div>
+                </div>
+
+                {/* Recent Signups */}
+                {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
+                  <div>
+                    <p className="text-[0.55rem] font-bold text-white/30 uppercase tracking-widest mb-2">Recent Signups</p>
+                    <div className="max-h-[220px] overflow-y-auto scrollbar-hide space-y-1.5">
+                      {(cruiseStats.recentSignups || []).map((s) => (
+                        <div key={s.email || s.name} className="flex items-center gap-3 bg-black/20 px-3 py-2.5 rounded-lg border border-white/5 hover: border-[var(--color-accent)]/30 transition-colors group/row">
+                          <div className="w-7 h-7 rounded-full bg-emerald-500/10 border  border-[var(--color-accent)]/30 flex items-center justify-center text-[0.5rem] font-black text-[var(--color-accent)] shrink-0">
+                            {s.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold text-white truncate">{s.name}</p>
+                            <p className="text-[0.55rem] text-white/30 truncate">{s.email}</p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-[0.55rem] text-white/20 font-mono">{s.phone || '—'}</p>
+                            <p className="text-[0.5rem] text-white/15">{s.partySize > 1 ? `${s.partySize} guests` : '1 guest'}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Download CSV */}
+                <button onClick={async () => { const res = await fetch('/api/admin/cruise-export'); if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = '7th-heaven-cruise-roster.csv'; a.click(); URL.revokeObjectURL(url); } }} className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors cursor-pointer shadow-[0_4px_15px_rgba(16,185,129,0.25)] border  border-[var(--color-accent)]/30 flex items-center justify-center gap-2 mt-auto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
+                  Download Full CSV
+                </button>
+                <p className="text-[0.5rem] text-white/20 text-center -mt-2">Includes names, emails, phone numbers, guest details</p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
 
 
-        {showSetPassword && (
-          <CrewSetPasswordModal
-            email={firstLoginEmail}
-            onComplete={() => setShowSetPassword(false)}
-          />
-        )}
+      {showSetPassword && (
+        <CrewSetPasswordModal
+          email={firstLoginEmail}
+          onComplete={() => setShowSetPassword(false)}
+        />
+      )}
 
-        {selectedQrProduct && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
-            <style dangerouslySetInnerHTML={{
-              __html: `
+      {selectedQrProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.2s_ease-out] no-print">
+          <style dangerouslySetInnerHTML={{
+            __html: `
             @media print {
               html, body, main, #__next, div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
                 background: white !important;
@@ -12655,335 +12655,335 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             }
           `}} />
 
-            <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
-              <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
-                <div>
-                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
-                    Print Merchandise QR Code
-                  </h3>
-                  <p className="text-xs text-white/40 mt-1">Generate printable retail labels for the merch table</p>
-                </div>
-                <button
-                  aria-label="Close QR product label modal"
-                  onClick={() => setSelectedQrProduct(null)}
-                  className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                >✕
+          <div className="bg-[var(--color-bg-surface)] border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-[scaleIn_0.2s_ease-out]">
+            <div className="p-6 border-b border-white/5 flex items-center justify-between bg-black/20">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
+                  Print Merchandise QR Code
+                </h3>
+                <p className="text-xs text-white/40 mt-1">Generate printable retail labels for the merch table</p>
+              </div>
+              <button
+                aria-label="Close QR product label modal"
+                onClick={() => setSelectedQrProduct(null)}
+                className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              >✕
 
-                </button>
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <span className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</span>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setQrLinkType('product')}
+                          className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product'
+                            ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
+                            : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                            }`}
+                        >
+                          Product Detail Page
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setQrLinkType('checkout')}
+                          disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
+                          className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
+                            ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
+                            : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
+                            }`}
+                        >
+                          Direct Add to Cart
+                        </button>
+                      </div>
+                    </div>
+
+                    {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
+                      <div>
+                        <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
+                          {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
+                        </label>
+                        <select
+                          id="admin-qr-variant-select"
+                          value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
+                          onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
+                          }}
+                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
+                        >
+                          {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
+                          {selectedQrProduct.variants.map((v: any, vIdx: number) => (
+                            <option key={v.id || v.title} value={vIdx}>
+                              {v.title} — ${v.price.toFixed(2)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
+                      <input
+                        id="admin-qr-subtitle-input"
+                        type="text"
+                        value={qrSubtitle}
+                        onChange={(e) => setQrSubtitle(e.target.value)}
+                        placeholder="Official Merchandise"
+                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5">
+                      <div>
+                        <p className="text-xs font-bold text-white">Show Price Tag</p>
+                        <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
+                      </div>
+                      <button
+                        type="button"
+                        aria-label="Toggle include price tag"
+                        onClick={() => setQrIncludePrice(!qrIncludePrice)}
+                        className={`w-10 h-6 rounded-full p-1 transition-colors cursor-pointer ${qrIncludePrice ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}
+                      >
+                        <div className={`w-4 h-4 bg-white rounded-full transition-transform ${qrIncludePrice ? 'translate-x-4' : 'translate-x-0'}`} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed text-white/60">
+                  <span className="text-purple-300 font-bold block mb-1"> Pro-Tip for Merch Tables</span>
+                  Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
+                </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 custom-scrollbar">
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">1. Select Target Destination</h4>
-                    <div className="space-y-3">
-                      <div>
-                        <span className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Link Destination Type</span>
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setQrLinkType('product')}
-                            className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors cursor-pointer ${qrLinkType === 'product'
-                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
-                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
-                              }`}
-                          >
-                            Product Detail Page
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setQrLinkType('checkout')}
-                            disabled={!selectedQrProduct.variants || selectedQrProduct.variants.length === 0}
-                            className={`px-3 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${qrLinkType === 'checkout'
-                              ? 'bg-[var(--color-accent)]/15 border-[var(--color-accent)]  text-[var(--color-accent)]'
-                              : 'bg-black/20 border-white/10 text-white/40 hover:text-white/60 hover:border-white/20'
-                              }`}
-                          >
-                            Direct Add to Cart
-                          </button>
-                        </div>
-                      </div>
+              <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 p-6 md:p-8">
+                <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
 
-                      {selectedQrProduct.variants && selectedQrProduct.variants.length > 0 && (
-                        <div>
-                          <label htmlFor="admin-qr-variant-select" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">
-                            {qrLinkType === 'checkout' ? 'Product Variant (Required)' : 'Product Variant (Optional)'}
-                          </label>
-                          <select
-                            id="admin-qr-variant-select"
-                            value={selectedQrVariant ? selectedQrProduct.variants.findIndex((v: any) => v.id === selectedQrVariant.id) : '-1'}
-                            onChange={(e) => {
-                              const val = parseInt(e.target.value);
-                              setSelectedQrVariant(val === -1 ? null : selectedQrProduct.variants[val]);
-                            }}
-                            className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
-                          >
-                            {qrLinkType === 'product' && <option value="-1">All Variants (Standard Detail Page)</option>}
-                            {selectedQrProduct.variants.map((v: any, vIdx: number) => (
-                              <option key={v.id || v.title} value={vIdx}>
-                                {v.title} — ${v.price.toFixed(2)}
-                              </option>
-                            ))}
-                          </select>
+                <div className="print-tag-container">
+                  <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
+                    <div className="text-center">
+                      <div className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-black/60 mb-0.5">7th Heaven</div>
+                      <div className="text-[0.5rem] font-bold uppercase tracking-wider text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
+                    </div>
+
+                    <div className="text-center my-2">
+                      <div className="text-sm font-black uppercase tracking-wide leading-tight max-w-[200px] truncate">{selectedQrProduct.title}</div>
+                      {selectedQrVariant && (
+                        <div className="text-[0.55rem] font-bold text-black/50 uppercase mt-0.5">Size / Type: {selectedQrVariant.title}</div>
+                      )}
+                    </div>
+
+                    <div className="p-3 bg-white border border-black/10 flex items-center justify-center">
+                      <QRCode
+                        value={
+                          qrLinkType === 'checkout' && selectedQrVariant
+                            ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
+                            : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
+                        }
+                        size={150}
+                        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        viewBox="0 0 150 150"
+                      />
+                    </div>
+
+                    <div className="text-center w-full">
+                      <p className="text-[0.55rem] font-black uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
+                      {qrIncludePrice && (
+                        <div className="text-lg font-black border-t border-black/10 pt-2 text-black">
+                          ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
                         </div>
                       )}
                     </div>
                   </div>
-
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider  text-[var(--color-accent)] mb-4">2. Customize Tag Label</h4>
-                    <div className="space-y-4">
-                      <div>
-                        <label htmlFor="admin-qr-subtitle-input" className="block text-[0.65rem] font-bold text-white/60 uppercase tracking-widest mb-1.5">Sub-label Text</label>
-                        <input
-                          id="admin-qr-subtitle-input"
-                          type="text"
-                          value={qrSubtitle}
-                          onChange={(e) => setQrSubtitle(e.target.value)}
-                          placeholder="Official Merchandise"
-                          className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white outline-none focus:border-[var(--color-accent)]/50"
-                        />
-                      </div>
-
-                      <div className="flex items-center justify-between p-3 bg-black/20 border border-white/5">
-                        <div>
-                          <p className="text-xs font-bold text-white">Show Price Tag</p>
-                          <p className="text-[0.6rem] text-white/40">Include product price at the bottom of the card</p>
-                        </div>
-                        <button
-                          type="button"
-                          aria-label="Toggle include price tag"
-                          onClick={() => setQrIncludePrice(!qrIncludePrice)}
-                          className={`w-10 h-6 rounded-full p-1 transition-colors cursor-pointer ${qrIncludePrice ? 'bg-[var(--color-accent)]' : 'bg-white/10'}`}
-                        >
-                          <div className={`w-4 h-4 bg-white rounded-full transition-transform ${qrIncludePrice ? 'translate-x-4' : 'translate-x-0'}`} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-purple-500/10 border border-purple-500/20 text-[0.65rem] leading-relaxed text-white/60">
-                    <span className="text-purple-300 font-bold block mb-1"> Pro-Tip for Merch Tables</span>
-                    Generate a **Direct Add to Cart** QR code for each specific size (e.g. Medium vs. Large). When fans scan it, the item is instantly added to their Shopify cart for immediate checkout, keeping the queue moving fast!
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center justify-center bg-black/30 border border-white/5 p-6 md:p-8">
-                  <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/30 mb-4">Live Tag Print Preview (4&quot; × 6&quot;)</p>
-
-                  <div className="print-tag-container">
-                    <div className="print-tag-card bg-white text-black p-8 flex flex-col items-center justify-between border-2 border-dashed border-black/40 rounded-lg w-[260px] h-[390px]">
-                      <div className="text-center">
-                        <div className="text-[0.6rem] font-black uppercase tracking-[0.3em] text-black/60 mb-0.5">7th Heaven</div>
-                        <div className="text-[0.5rem] font-bold uppercase tracking-wider text-black/40">{qrSubtitle || 'Official Merchandise'}</div>
-                      </div>
-
-                      <div className="text-center my-2">
-                        <div className="text-sm font-black uppercase tracking-wide leading-tight max-w-[200px] truncate">{selectedQrProduct.title}</div>
-                        {selectedQrVariant && (
-                          <div className="text-[0.55rem] font-bold text-black/50 uppercase mt-0.5">Size / Type: {selectedQrVariant.title}</div>
-                        )}
-                      </div>
-
-                      <div className="p-3 bg-white border border-black/10 flex items-center justify-center">
-                        <QRCode
-                          value={
-                            qrLinkType === 'checkout' && selectedQrVariant
-                              ? `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/cart/${selectedQrVariant.id.split('/').pop()}:1`
-                              : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com'}/products/${selectedQrProduct.handle}`
-                          }
-                          size={150}
-                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                          viewBox="0 0 150 150"
-                        />
-                      </div>
-
-                      <div className="text-center w-full">
-                        <p className="text-[0.55rem] font-black uppercase tracking-widest text-black/40 mb-2">Scan to Buy Now</p>
-                        {qrIncludePrice && (
-                          <div className="text-lg font-black border-t border-black/10 pt-2 text-black">
-                            ${(selectedQrVariant ? selectedQrVariant.price : selectedQrProduct.minPrice).toFixed(2)}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
-
-              <div className="p-6 border-t border-white/5 bg-black/20 flex items-center justify-end gap-3">
-                <button
-                  onClick={() => setSelectedQrProduct(null)}
-                  className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => window.print()}
-                  className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" /></svg>
-                  Print Label
-                </button>
-              </div>
             </div>
-          </div>
-        )}
-        {activeToast && (
-          <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 transition-opacity duration-300 ease-out">
-            <div className="text-xl"></div>
-            <div>
-              <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-widest">{activeToast.title}</p>
-              <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
-            </div>
-          </div>
-        )}
 
-        {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
-        {showJumpNav && (
-          <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3 backdrop-blur-md max-h-[400px] w-44 font-sans transition-colors duration-300 animate-[fadeIn_0.15s_ease]">
-            <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
-              <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
+            <div className="p-6 border-t border-white/5 bg-black/20 flex items-center justify-end gap-3">
               <button
-                onClick={toggleJumpNav}
-                title="Hide Navigation"
-                className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
+                onClick={() => setSelectedQrProduct(null)}
+                className="px-4 py-2 text-xs font-bold text-white/60 hover:text-white uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
               >
-
+                Cancel
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.65rem] font-black uppercase tracking-widest transition-colors shadow-[0_4px_15px_rgba(255,10,61,0.3)] border border-[var(--color-accent)]/30 flex items-center gap-2 cursor-pointer"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" /></svg>
+                Print Label
               </button>
             </div>
-            {adminTab === 'band' && (
-              <div className="flex bg-white/5 rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
-                <button
-                  type="button"
-                  onClick={() => setSidebarMode('jump')}
-                  className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
-                >
-                  Navigate
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSidebarMode('organize')}
-                  className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
-                >
-                  Arrange
-                </button>
-              </div>
-            )}
-            <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
-              <div className="flex flex-col gap-1 text-xs pr-1">
-                {adminTab === 'band' ? (
-                  sidebarMode === 'jump' ? (
-                    <>
-                      {sectionOrder.map((key) => {
-                        const labelMap: Record<string, { label: string; icon: string }> = {
-                          announcements: { label: 'Band Announcements', icon: '' },
-                          calendar: { label: 'Crew Schedule', icon: '' },
-                          analytics: { label: 'Google Analytics', icon: '' },
-                          shopify: { label: 'Shopify Store', icon: '' },
-                          bookings: { label: 'Booking Requests', icon: '' },
-                          planners: { label: 'Planners Directory', icon: '' },
-                          cruisesignups: { label: 'Cruise Signups', icon: '' },
-                          livealerts: { label: 'Live Alerts', icon: '' },
-                          smsblast: { label: 'SMS Blast', icon: '' },
-                          crewsms: { label: 'Crew SMS', icon: '' },
-                          bandsms: { label: 'Band Member SMS Text', icon: '' },
-                          newsletter: { label: 'Newsletter', icon: '' },
-                          emailflow: { label: 'Email Template Flows', icon: '' },
-                          registry: { label: 'Fan Registry', icon: '' },
-                          crewcreation: { label: 'Crew Management', icon: '' },
-                          admincreation: { label: 'Admin Management', icon: '' },
-                          bulkinvites: { label: 'Bulk Invites', icon: '' },
-                          awardpicks: { label: 'Award Picks', icon: '' }
-                        };
-                        const section = labelMap[key] || { label: key, icon: '' };
-                        return (
-                          <button
-                            key={key}
-                            onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                            className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                          >
-                            <span>{section.icon}</span> {section.label}
-                          </button>
-                        );
-                      })}
-                    </>
-                  ) : (
-                    <>
-                      <div className="text-[var(--font-size-3xs)] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
-                        Drag sections below to reorder layout:
-                      </div>
-                      {sectionOrder.map((key, index) => {
-                        const labelMap: Record<string, { label: string; icon: string }> = {
-                          announcements: { label: 'Band Announcements', icon: '' },
-                          calendar: { label: 'Crew Schedule', icon: '' },
-                          analytics: { label: 'Google Analytics', icon: '' },
-                          shopify: { label: 'Shopify Store', icon: '' },
-                          bookings: { label: 'Booking Requests', icon: '' },
-                          planners: { label: 'Planners Directory', icon: '' },
-                          cruisesignups: { label: 'Cruise Signups', icon: '' },
-                          livealerts: { label: 'Live Alerts', icon: '' },
-                          smsblast: { label: 'SMS Blast', icon: '' },
-                          crewsms: { label: 'Crew SMS', icon: '' },
-                          bandsms: { label: 'Band Member SMS Text', icon: '' },
-                          newsletter: { label: 'Newsletter', icon: '' },
-                          emailflow: { label: 'Email Template Flows', icon: '' },
-                          registry: { label: 'Fan Registry', icon: '' },
-                          crewcreation: { label: 'Crew Management', icon: '' },
-                          admincreation: { label: 'Admin Management', icon: '' },
-                          bulkinvites: { label: 'Bulk Invites', icon: '' },
-                          awardpicks: { label: 'Award Picks', icon: '' }
-                        };
-                        const section = labelMap[key] || { label: key, icon: '' };
-                        return (
-                          <div
-                            key={key}
-                            draggable={true}
-                            onDragStart={(e) => {
-                              e.dataTransfer.effectAllowed = 'move';
-                              e.dataTransfer.setData('text/plain', key);
-                              handleDragStart(index);
-                            }}
-                            onDragOver={(e) => handleDragOver(e, index)}
-                            onDragEnd={handleDragEnd}
-                            className={`py-1.5 px-2 hover:bg-white/5 text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-white/5 shadow-inner' : ''}`}
-                          >
-                            <span className="text-white/20 select-none"></span>
-                            <span>{section.icon}</span>
-                            <span className="truncate">{section.label}</span>
-                          </div>
-                        );
-                      })}
-                    </>
-                  )
+          </div>
+        </div>
+      )}
+      {activeToast && (
+        <div className="fixed bottom-6 right-6 z-[9999] bg-[var(--color-bg-card)] border border-emerald-500/30 text-white px-5 py-4 flex items-start gap-3 transition-opacity duration-300 ease-out">
+          <div className="text-xl"></div>
+          <div>
+            <p className="text-xs font-black text-[var(--color-accent)] uppercase tracking-widest">{activeToast.title}</p>
+            <p className="text-sm text-white/90 font-medium mt-0.5">{activeToast.message}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Quick Scroll Nav / Toggle Button — Removed */}
+      {showJumpNav && (
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[40] hidden xl:flex flex-col bg-[var(--color-bg-surface)]/95 border border-white/10 p-3 backdrop-blur-md max-h-[400px] w-44 font-sans transition-colors duration-300 animate-[fadeIn_0.15s_ease]">
+          <div className="text-[0.6rem] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 px-1 pb-1.5 border-b border-white/5 flex items-center justify-between shrink-0 select-none">
+            <span>{sidebarMode === 'jump' || adminTab !== 'band' ? 'Jump To Section' : 'Organize Layout'}</span>
+            <button
+              onClick={toggleJumpNav}
+              title="Hide Navigation"
+              className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0 ml-1 text-[var(--font-size-3xs)]"
+            >
+
+            </button>
+          </div>
+          {adminTab === 'band' && (
+            <div className="flex bg-white/5 rounded-lg p-0.5 mb-2 border border-white/5 shrink-0 select-none">
+              <button
+                type="button"
+                onClick={() => setSidebarMode('jump')}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+              >
+                Navigate
+              </button>
+              <button
+                type="button"
+                onClick={() => setSidebarMode('organize')}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+              >
+                Arrange
+              </button>
+            </div>
+          )}
+          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
+            <div className="flex flex-col gap-1 text-xs pr-1">
+              {adminTab === 'band' ? (
+                sidebarMode === 'jump' ? (
+                  <>
+                    {sectionOrder.map((key) => {
+                      const labelMap: Record<string, { label: string; icon: string }> = {
+                        announcements: { label: 'Band Announcements', icon: '' },
+                        calendar: { label: 'Crew Schedule', icon: '' },
+                        analytics: { label: 'Google Analytics', icon: '' },
+                        shopify: { label: 'Shopify Store', icon: '' },
+                        bookings: { label: 'Booking Requests', icon: '' },
+                        planners: { label: 'Planners Directory', icon: '' },
+                        cruisesignups: { label: 'Cruise Signups', icon: '' },
+                        livealerts: { label: 'Live Alerts', icon: '' },
+                        smsblast: { label: 'SMS Blast', icon: '' },
+                        crewsms: { label: 'Crew SMS', icon: '' },
+                        bandsms: { label: 'Band Member SMS Text', icon: '' },
+                        newsletter: { label: 'Newsletter', icon: '' },
+                        emailflow: { label: 'Email Template Flows', icon: '' },
+                        registry: { label: 'Fan Registry', icon: '' },
+                        crewcreation: { label: 'Crew Management', icon: '' },
+                        admincreation: { label: 'Admin Management', icon: '' },
+                        bulkinvites: { label: 'Bulk Invites', icon: '' },
+                        awardpicks: { label: 'Award Picks', icon: '' }
+                      };
+                      const section = labelMap[key] || { label: key, icon: '' };
+                      return (
+                        <button
+                          key={key}
+                          onClick={() => document.getElementById(`admin-sec-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                          className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                        >
+                          <span>{section.icon}</span> {section.label}
+                        </button>
+                      );
+                    })}
+                  </>
                 ) : (
                   <>
-                    <button
-                      onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                    >
-                      <span></span> Command Center
-                    </button>
-                    <button
-                      onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                    >
-                      <span></span> Cruise Roster & Links
-                    </button>
-                    <button
-                      onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                      className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
-                    >
-                      <span></span> Cruise Blast
-                    </button>
+                    <div className="text-[var(--font-size-3xs)] text-white/30 mb-2 px-1.5 leading-normal italic select-none">
+                      Drag sections below to reorder layout:
+                    </div>
+                    {sectionOrder.map((key, index) => {
+                      const labelMap: Record<string, { label: string; icon: string }> = {
+                        announcements: { label: 'Band Announcements', icon: '' },
+                        calendar: { label: 'Crew Schedule', icon: '' },
+                        analytics: { label: 'Google Analytics', icon: '' },
+                        shopify: { label: 'Shopify Store', icon: '' },
+                        bookings: { label: 'Booking Requests', icon: '' },
+                        planners: { label: 'Planners Directory', icon: '' },
+                        cruisesignups: { label: 'Cruise Signups', icon: '' },
+                        livealerts: { label: 'Live Alerts', icon: '' },
+                        smsblast: { label: 'SMS Blast', icon: '' },
+                        crewsms: { label: 'Crew SMS', icon: '' },
+                        bandsms: { label: 'Band Member SMS Text', icon: '' },
+                        newsletter: { label: 'Newsletter', icon: '' },
+                        emailflow: { label: 'Email Template Flows', icon: '' },
+                        registry: { label: 'Fan Registry', icon: '' },
+                        crewcreation: { label: 'Crew Management', icon: '' },
+                        admincreation: { label: 'Admin Management', icon: '' },
+                        bulkinvites: { label: 'Bulk Invites', icon: '' },
+                        awardpicks: { label: 'Award Picks', icon: '' }
+                      };
+                      const section = labelMap[key] || { label: key, icon: '' };
+                      return (
+                        <div
+                          key={key}
+                          draggable={true}
+                          onDragStart={(e) => {
+                            e.dataTransfer.effectAllowed = 'move';
+                            e.dataTransfer.setData('text/plain', key);
+                            handleDragStart(index);
+                          }}
+                          onDragOver={(e) => handleDragOver(e, index)}
+                          onDragEnd={handleDragEnd}
+                          className={`py-1.5 px-2 hover:bg-white/5 text-white/70 hover:text-white transition-colors rounded font-medium truncate flex items-center gap-2 cursor-grab active:cursor-grabbing border border-transparent select-none ${draggedIndex === index ? 'border-dashed border-[var(--color-accent)]/50 opacity-40 bg-white/5 shadow-inner' : ''}`}
+                        >
+                          <span className="text-white/20 select-none"></span>
+                          <span>{section.icon}</span>
+                          <span className="truncate">{section.label}</span>
+                        </div>
+                      );
+                    })}
                   </>
-                )}
-              </div>
-            </CustomScrollbar>
-          </div>
-        )}
-      </div>
+                )
+              ) : (
+                <>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-cruise-command')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span></span> Command Center
+                  </button>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-cruise-roster')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span></span> Cruise Roster & Links
+                  </button>
+                  <button
+                    onClick={() => document.getElementById('admin-sec-cruise-blast')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    className="text-left py-1.5 px-2 hover:bg-white/5 hover:text-white text-white/60 transition-colors rounded font-medium truncate flex items-center gap-2 cursor-pointer border-none"
+                  >
+                    <span></span> Cruise Blast
+                  </button>
+                </>
+              )}
+            </div>
+          </CustomScrollbar>
+        </div>
+      )}
     </div>
+    </div >
   );
 }

@@ -619,7 +619,7 @@ lerpSpeed: ${lerpSpeed}`;
                 <button aria-label="Action button"
                   key={idx}
                   type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
+                  onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
                   className={`relative group flex items-center gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                     }`}
                 >
@@ -638,8 +638,8 @@ lerpSpeed: ${lerpSpeed}`;
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div className={`transition-colors duration-300 whitespace-nowrap block text-left ${isActive
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
                     <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
@@ -667,14 +667,14 @@ lerpSpeed: ${lerpSpeed}`;
                 <button aria-label="Action button"
                   key={idx}
                   type="button"
-                     onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
+                  onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
                   className={`relative group flex items-center justify-end gap-2 sm:gap-3.5 cursor-pointer transition-colors duration-300 ${isActive ? "z-20" : ""
                     }`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div className={`transition-colors duration-300 whitespace-nowrap block text-right ${isActive
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
                     }`}>
                     <p className="text-xs sm:text-sm md:text-base font-black text-white leading-none tracking-tight drop-shadow-md">
                       {m?.name || "Band Member"}
@@ -738,12 +738,12 @@ lerpSpeed: ${lerpSpeed}`;
 
               const clipStyle = slideCfg.clippingMask.enabled
                 ? generateSmoothMaskGradient(
-                    slideCfg.clippingMask.startHeight,
-                    slideCfg.clippingMask.endHeight,
-                    slideCfg.clippingMask.floorOpacity,
-                    "to bottom",
-                    slideCfg.clippingMask.easing
-                  )
+                  slideCfg.clippingMask.startHeight,
+                  slideCfg.clippingMask.endHeight,
+                  slideCfg.clippingMask.floorOpacity,
+                  "to bottom",
+                  slideCfg.clippingMask.easing
+                )
                 : undefined;
 
               return (
@@ -995,11 +995,10 @@ lerpSpeed: ${lerpSpeed}`;
                           setSelectedPositionIdx(idx);
                         }}
                         title={labels[idx]}
-                        className={`py-1.5 px-0.5 rounded-lg font-extrabold transition-all cursor-pointer text-center leading-tight ${
-                          isSel
+                        className={`py-1.5 px-0.5 rounded-lg font-extrabold transition-all cursor-pointer text-center leading-tight ${isSel
                             ? "bg-purple-600 text-white shadow-md shadow-purple-600/40"
                             : "text-white/60 hover:text-white hover:bg-white/5"
-                        }`}
+                          }`}
                       >
                         {shortLabels[idx]}
                       </button>
@@ -1026,11 +1025,10 @@ lerpSpeed: ${lerpSpeed}`;
                         )
                       );
                     }}
-                    className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${
-                      positionConfigs[selectedPositionIdx]?.gradient.enabled
+                    className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${positionConfigs[selectedPositionIdx]?.gradient.enabled
                         ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
                         : "bg-white/10 text-white/50 border border-white/10"
-                    }`}
+                      }`}
                   >
                     {positionConfigs[selectedPositionIdx]?.gradient.enabled ? "Active" : "Disabled"}
                   </button>
@@ -1161,11 +1159,10 @@ lerpSpeed: ${lerpSpeed}`;
                         )
                       );
                     }}
-                    className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${
-                      positionConfigs[selectedPositionIdx]?.clippingMask.enabled
+                    className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${positionConfigs[selectedPositionIdx]?.clippingMask.enabled
                         ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
                         : "bg-white/10 text-white/50 border border-white/10"
-                    }`}
+                      }`}
                   >
                     {positionConfigs[selectedPositionIdx]?.clippingMask.enabled ? "Active" : "Disabled"}
                   </button>
@@ -1218,11 +1215,10 @@ lerpSpeed: ${lerpSpeed}`;
                                 )
                               );
                             }}
-                            className={`py-1 px-1.5 rounded-lg text-[10px] font-bold font-mono transition-all cursor-pointer text-center border ${
-                              positionConfigs[selectedPositionIdx]?.clippingMask.easing === curve
+                            className={`py-1 px-1.5 rounded-lg text-[10px] font-bold font-mono transition-all cursor-pointer text-center border ${positionConfigs[selectedPositionIdx]?.clippingMask.easing === curve
                                 ? "bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/40"
                                 : "bg-purple-950/40 text-purple-200/70 border-purple-500/20 hover:text-white hover:bg-purple-800/40"
-                            }`}
+                              }`}
                           >
                             {curve}
                           </button>
