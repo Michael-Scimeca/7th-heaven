@@ -3236,7 +3236,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
-        </div >
+        </div>
         {renderInfoBanner('announcements', 'Band Announcements', 'Post band updates, news, and urgent alerts across the entire public site banner.')}
         < div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }
         }>
@@ -3367,9 +3367,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             </div>
           </div>
-        </div >
+        </div>
       </section >
-    </div >
+    </div>
   );
 
   const renderAnalytics = () => (
@@ -4242,7 +4242,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
       < div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
         <div className="p-0">
@@ -4503,7 +4503,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -4528,7 +4528,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
       < div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
         <div className="p-0" data-lenis-prevent="true">
@@ -4587,7 +4587,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -4610,7 +4610,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
       < div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
         <div className="p-0">
@@ -4650,7 +4650,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -4676,7 +4676,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
       < div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="py-6 pr-6 pl-0" >
         {
@@ -4723,7 +4723,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )
         }
-      </div >
+      </div>
     </section >
   );
 
@@ -5513,7 +5513,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
-        </div >
+        </div>
         {renderInfoBanner('crewsms', 'Crew SMS Alert & Group Setup', 'Select target crew members or saved groups to broadcast emergency text messages or load-in notices.')}
         < div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
           <div className="py-6 pr-0 pl-0">
@@ -6383,7 +6383,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             )}
           </div>
-        </div >
+        </div>
       </section >
     );
   };
@@ -6433,7 +6433,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
-        </div >
+        </div>
 
         {renderInfoBanner('bandsms', 'Band Member SMS Text', 'Broadcast instant SMS alerts or show notices directly to the band members.')}
 
@@ -6821,7 +6821,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             </div>
           </div>
-        </div >
+        </div>
       </section >
     );
   };
@@ -6845,7 +6845,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
       < div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
         <div className="py-6 pr-6 pl-0">
@@ -6917,7 +6917,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </div>
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -6942,7 +6942,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('emailflow', 'Email Template Flows', 'Interactive catalog of the 25 email templates dispatched by actions taken on the Admin Dashboard.')}
 
       < div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
@@ -7066,7 +7066,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           </div>
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -7243,7 +7243,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
       < div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
         <div className="py-6 pr-6 pl-0">
@@ -7376,7 +7376,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -7421,7 +7421,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('admincreation', 'Create Admin Account', 'Register new band administrator or planner accounts with full database access and management permissions.')}
       < div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
         <div className="py-6 pr-6 pl-0">
@@ -7578,7 +7578,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           </div>
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -7601,13 +7601,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
         </div>
-      </div >
+      </div>
       {renderInfoBanner('bulkinvites', 'Bulk Invites', 'Upload CSV lists of emails or phone numbers to bulk-invite members to the crew directory.')}
       < div style={{ display: isSectionOpen('bulkinvites') ? undefined : 'none' }}>
         <div className="py-6 pr-6 pl-0">
           <BulkInvitePanel />
         </div>
-      </div >
+      </div>
     </section >
   );
 
@@ -7705,7 +7705,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
           </div>
-        </div >
+        </div>
         {renderInfoBanner('cruisesignups', 'Cruise Signups', 'View and manage all cruise registrations. Toggle deposit/payment status, check passengers off, select recipients and send emails.')}
         < div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
           <div className="py-6 pr-6 pl-0">
@@ -7891,7 +7891,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </button>
             </div>
           </div>
-        </div >
+        </div>
       </section >
     );
   };
@@ -12983,7 +12983,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </CustomScrollbar>
         </div>
       )}
-    </div>
     </div>
 
   );
