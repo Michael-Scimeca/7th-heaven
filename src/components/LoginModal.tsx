@@ -1381,104 +1381,168 @@ function SignUpExtraFields({
 }) {
   return (
     <div className="flex flex-col gap-4 my-4">
-      {/* Name + Username — side by side */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
-            Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
-          </label>
-          <div className="input-glow-border rounded-xl w-full">
-            <input
-              id="signup-full-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              readOnly={isInviteFlow && !!name}
-              className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
-            />
-          </div>
-        </div>
-        <div>
-          <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
-            Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
-          </label>
-          <div className="input-glow-border rounded-xl w-full">
-            <input
-              id="signup-username-input"
-              type="text"
-              value={usernameField}
-              onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
-              placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
-              maxLength={24}
-              className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
-            />
-          </div>
-        </div>
-      </div>
-
-      {loginRole === 'fan' && (
-        <div className="flex flex-col gap-3">
-          {/* Toggles — side by side */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-2">
-            <div className="flex items-center gap-3 w-full select-none">
-              <SquishyToggle
-                id="signup-want-notifications-toggle"
-                label="Show alerts near me"
-                checked={wantNotifications}
-                onChange={(checked) => setWantNotifications(checked)}
+      {loginRole === 'planner' ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+              Full Name
+            </label>
+            <div className="input-glow-border rounded-xl w-full">
+              <input
+                id="signup-full-name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your full name"
+                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
               />
-              <label htmlFor="signup-want-notifications-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
-                Show alerts near me
-              </label>
-            </div>
-            <div className="flex items-center gap-3 w-full select-none">
-              <SquishyToggle
-                id="signup-want-newsletter-toggle"
-                label="News & updates"
-                checked={wantNewsletter}
-                onChange={(checked) => setWantNewsletter(checked)}
-              />
-              <label htmlFor="signup-want-newsletter-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
-                News & updates
-              </label>
             </div>
           </div>
-
-          {/* Zip code & radius — only if opted in */}
-          {wantNotifications && (
-            <div className="pt-1">
-              <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code & Radius</label>
-              <div className="flex items-center gap-2">
-                <div className="input-glow-border rounded-xl flex-1">
-                  <input
-                    id="signup-zip-code"
-                    type="text"
-                    value={zipCode}
-                    onChange={(e) => setZipCode(e.target.value)}
-                    placeholder="Zip code"
-                    maxLength={10}
-                    className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
-                  />
-                </div>
-                <div className="shrink-0 relative z-30">
-                  <GooeyDropdown
-                    label={`${alertRadius || "50"} MI`}
-                    accentColor="#242630"
-                    glassOpacity={1.0}
-                    backdropBlur={0}
-                    items={[
-                      { label: "15 MI", onClick: () => setAlertRadius?.("15") },
-                      { label: "25 MI", onClick: () => setAlertRadius?.("25") },
-                      { label: "50 MI", onClick: () => setAlertRadius?.("50") },
-                      { label: "100 MI", onClick: () => setAlertRadius?.("100") },
-                    ]}
-                  />
-                </div>
+          <div>
+            <label htmlFor="signup-company-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+              Company / Venue Name
+            </label>
+            <div className="input-glow-border rounded-xl w-full">
+              <input
+                id="signup-company-name"
+                type="text"
+                placeholder="e.g. Dream Events / Venue"
+                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+              />
+            </div>
+          </div>
+        </div>
+      ) : loginRole === 'cruise' ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+              Full Name
+            </label>
+            <div className="input-glow-border rounded-xl w-full">
+              <input
+                id="signup-full-name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your full name"
+                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="signup-cabin-no" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+              Stateroom / Cabin # <span className="text-white/40 normal-case">(optional)</span>
+            </label>
+            <div className="input-glow-border rounded-xl w-full">
+              <input
+                id="signup-cabin-no"
+                type="text"
+                placeholder="e.g. Stateroom 7102"
+                className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Name + Username — side by side */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+                Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
+              </label>
+              <div className="input-glow-border rounded-xl w-full">
+                <input
+                  id="signup-full-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  readOnly={isInviteFlow && !!name}
+                  className={`w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl ${isInviteFlow && name ? 'opacity-60 cursor-not-allowed' : ''}`}
+                />
               </div>
             </div>
-          )}
-        </div>
+            <div>
+              <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
+                Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
+              </label>
+              <div className="input-glow-border rounded-xl w-full">
+                <input
+                  id="signup-username-input"
+                  type="text"
+                  value={usernameField}
+                  onChange={(e) => setUsernameField(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+                  placeholder={name ? nameToUsername(name) : 'e.g. rocknroller_7h'}
+                  maxLength={24}
+                  className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm sm:text-base text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {/* Toggles — side by side */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-2">
+              <div className="flex items-center gap-3 w-full select-none">
+                <SquishyToggle
+                  id="signup-want-notifications-toggle"
+                  label="Show alerts near me"
+                  checked={wantNotifications}
+                  onChange={(checked) => setWantNotifications(checked)}
+                />
+                <label htmlFor="signup-want-notifications-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNotifications ? 'text-white' : 'text-white/80'}`}>
+                  Show alerts near me
+                </label>
+              </div>
+              <div className="flex items-center gap-3 w-full select-none">
+                <SquishyToggle
+                  id="signup-want-newsletter-toggle"
+                  label="News & updates"
+                  checked={wantNewsletter}
+                  onChange={(checked) => setWantNewsletter(checked)}
+                />
+                <label htmlFor="signup-want-newsletter-toggle" className={`text-xs font-bold leading-tight text-left cursor-pointer ${wantNewsletter ? 'text-white' : 'text-white/80'}`}>
+                  News & updates
+                </label>
+              </div>
+            </div>
+
+            {/* Zip code & radius — only if opted in */}
+            {wantNotifications && (
+              <div className="pt-1">
+                <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code & Radius</label>
+                <div className="flex items-center gap-2">
+                  <div className="input-glow-border rounded-xl flex-1">
+                    <input
+                      id="signup-zip-code"
+                      type="text"
+                      value={zipCode}
+                      onChange={(e) => setZipCode(e.target.value)}
+                      placeholder="Zip code"
+                      maxLength={10}
+                      className="w-full px-4 py-3 bg-black/60 border border-white/20 text-sm text-white placeholder:text-white/30 outline-none transition-colors rounded-xl"
+                    />
+                  </div>
+                  <div className="shrink-0 relative z-30">
+                    <GooeyDropdown
+                      label={`${alertRadius || "50"} MI`}
+                      accentColor="#242630"
+                      glassOpacity={1.0}
+                      backdropBlur={0}
+                      items={[
+                        { label: "15 MI", onClick: () => setAlertRadius?.("15") },
+                        { label: "25 MI", onClick: () => setAlertRadius?.("25") },
+                        { label: "50 MI", onClick: () => setAlertRadius?.("50") },
+                        { label: "100 MI", onClick: () => setAlertRadius?.("100") },
+                      ]}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

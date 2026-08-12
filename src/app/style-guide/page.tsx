@@ -1202,55 +1202,89 @@ export default function StyleGuidePage() {
 
                     {/* Form Fields */}
                     <div className="space-y-3 mb-4">
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
-                          <div className="input-glow-border rounded-xl w-full">
-                            <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
-                          </div>
-                        </div>
-                        <div>
-                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
-                          <div className="input-glow-border rounded-xl w-full">
-                            <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3 pt-1">
-                        <div className="flex items-center gap-2">
-                          <SquishyToggle id="preview-alerts" checked={previewAlerts} onChange={setPreviewAlerts} label="Show alerts near me" />
-                          <span className="text-[10px] font-bold text-white/80">Show alerts near me</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <SquishyToggle id="preview-news" checked={previewNews} onChange={setPreviewNews} label="News & updates" />
-                          <span className="text-[10px] font-bold text-white/80">News & updates</span>
-                        </div>
-                      </div>
-
-                      {previewAlerts && (
-                        <div className="pt-1">
-                          <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">Zip Code & Radius</label>
-                          <div className="flex items-center gap-2">
-                            <div className="input-glow-border rounded-xl flex-1">
-                              <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
+                      {signUpRole === 'planner' ? (
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                            <div className="input-glow-border rounded-xl w-full">
+                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
-                            <div className="shrink-0 relative z-30">
-                              <GooeyDropdown
-                                label={`${previewRadius} MI`}
-                                accentColor="#242630"
-                                glassOpacity={1.0}
-                                backdropBlur={0}
-                                items={[
-                                  { label: "15 MI", onClick: () => setPreviewRadius("15") },
-                                  { label: "25 MI", onClick: () => setPreviewRadius("25") },
-                                  { label: "50 MI", onClick: () => setPreviewRadius("50") },
-                                  { label: "100 MI", onClick: () => setPreviewRadius("100") },
-                                ]}
-                              />
+                          </div>
+                          <div>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">COMPANY / VENUE NAME</label>
+                            <div className="input-glow-border rounded-xl w-full">
+                              <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                             </div>
                           </div>
                         </div>
+                      ) : signUpRole === 'cruise' ? (
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                            <div className="input-glow-border rounded-xl w-full">
+                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
+                            <div className="input-glow-border rounded-xl w-full">
+                              <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
+                              <div className="input-glow-border rounded-xl w-full">
+                                <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                              </div>
+                            </div>
+                            <div>
+                              <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
+                              <div className="input-glow-border rounded-xl w-full">
+                                <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-3 pt-1">
+                            <div className="flex items-center gap-2">
+                              <SquishyToggle id="preview-alerts" checked={previewAlerts} onChange={setPreviewAlerts} label="Show alerts near me" />
+                              <span className="text-[10px] font-bold text-white/80">Show alerts near me</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <SquishyToggle id="preview-news" checked={previewNews} onChange={setPreviewNews} label="News & updates" />
+                              <span className="text-[10px] font-bold text-white/80">News & updates</span>
+                            </div>
+                          </div>
+
+                          {previewAlerts && (
+                            <div className="pt-1">
+                              <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">Zip Code & Radius</label>
+                              <div className="flex items-center gap-2">
+                                <div className="input-glow-border rounded-xl flex-1">
+                                  <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" placeholder="Zip code" />
+                                </div>
+                                <div className="shrink-0 relative z-30">
+                                  <GooeyDropdown
+                                    label={`${previewRadius} MI`}
+                                    accentColor="#242630"
+                                    glassOpacity={1.0}
+                                    backdropBlur={0}
+                                    items={[
+                                      { label: "15 MI", onClick: () => setPreviewRadius("15") },
+                                      { label: "25 MI", onClick: () => setPreviewRadius("25") },
+                                      { label: "50 MI", onClick: () => setPreviewRadius("50") },
+                                      { label: "100 MI", onClick: () => setPreviewRadius("100") },
+                                    ]}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </>
                       )}
 
                       <div className="grid grid-cols-2 gap-3">
