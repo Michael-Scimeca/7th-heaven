@@ -159,10 +159,12 @@ export function Footer() {
             ? 'linear-gradient(to bottom, black 0%, black 100%)'             // all visible
             : `linear-gradient(to bottom, transparent 0%, transparent ${visibleStart.toFixed(1)}%, black ${fadeStart.toFixed(1)}%, black 100%)`;
 
+        const isHidden = isCovered || revealPct < 0.02;
         return {
-          opacity: isCovered ? 0 : 1,
-          pointerEvents: (isCovered || revealPct < 0.02) ? 'none' : 'auto',
-          zIndex: (isCovered || revealPct < 0.02) ? -1 : 1,
+          opacity: isHidden ? 0 : Math.min(1, revealPct * 4),
+          visibility: isHidden ? 'hidden' : 'visible',
+          pointerEvents: isHidden ? 'none' : 'auto',
+          zIndex: isHidden ? -1 : 1,
           maskImage: mask,
           WebkitMaskImage: mask,
         };
