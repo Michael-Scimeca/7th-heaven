@@ -3,7 +3,7 @@
 /* impeccable-disable codex-grid-background */
 import Image from 'next/image';
 
-import { useState, useEffect, useRef, useSyncExternalStore } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 // Colors matching the user's sitemap flowchart image
@@ -41,7 +41,10 @@ interface FlowCardProps {
 }
 
 function FlowCard({ label, sub, url, screenshot, overlayScreenshot, isEmail, width = "300px", height = "175px", fontSize = "17.5px" }: FlowCardProps) {
-  const imgVersion = useSyncExternalStore(() => () => {}, () => `?v=${Date.now()}`, () => "");
+  const [imgVersion, setImgVersion] = useState("");
+  useEffect(() => {
+    setImgVersion(`?v=${Date.now()}`);
+  }, []);
 
   const textContent = (
     <div style={{ textAlign: "center", width: "100%", marginBottom: "6px" }}>
@@ -178,7 +181,10 @@ interface EmailListItemProps {
 }
 
 function EmailListItem({ label, sub, screenshot, colorTheme }: EmailListItemProps) {
-  const imgVersion = useSyncExternalStore(() => () => {}, () => `?v=${Date.now()}`, () => "");
+  const [imgVersion, setImgVersion] = useState("");
+  useEffect(() => {
+    setImgVersion(`?v=${Date.now()}`);
+  }, []);
 
   const handleClick = () => {
     if (screenshot) {
