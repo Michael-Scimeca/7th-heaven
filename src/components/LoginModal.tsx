@@ -776,7 +776,19 @@ function LoginModalBodyContent(props: any) {
               {modalMode === "login" && (
                 <button
                   type="button"
-                  onClick={() => setAdminMode(!adminMode)}
+                  onClick={() => {
+                    if (!adminMode) {
+                      setAdminMode(true);
+                      setEmail("admin@7thheaven.com");
+                      setPassword("password123");
+                      setLoginRole("crew");
+                    } else {
+                      setAdminMode(false);
+                      setEmail("");
+                      setPassword("");
+                      setLoginRole("fan");
+                    }
+                  }}
                   className="text-[10px] font-bold text-purple-300 hover:text-purple-100 hover:underline transition cursor-pointer"
                 >
                   {adminMode ? "Exit Admin Mode" : "Login to Admin"}
@@ -1103,55 +1115,26 @@ function LoginModalBodyContent(props: any) {
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-300 flex items-center gap-1"><Zap className="w-3 h-3" /> Quick Demo One-Click Logins:</span>
             <button type="button"
-              onClick={() => setAdminMode(!adminMode)}
+              onClick={() => {
+                if (!adminMode) {
+                  setAdminMode(true);
+                  setEmail("admin@7thheaven.com");
+                  setPassword("password123");
+                  setLoginRole("crew");
+                } else {
+                  setAdminMode(false);
+                  setEmail("");
+                  setPassword("");
+                  setLoginRole("fan");
+                }
+              }}
               className="text-[10px] font-bold text-white/40 hover:text-white underline cursor-pointer"
             >
               {adminMode ? "Exit Admin Mode" : "Admin Quick Mode"}
             </button>
           </div>
 
-          {adminMode ? (
-            <div className="p-3 bg-red-950/40 border border-red-500/30 rounded-lg flex flex-col gap-2">
-              <span className="text-[11px] font-bold text-red-300 uppercase tracking-wider flex items-center gap-1"><Lock className="w-3 h-3" /> Super Admin Direct Bypass</span>
-              <div className="grid grid-cols-2 gap-2">
-                <input
-                  type="email"
-                  aria-label="Admin Email Address"
-                  placeholder="admin@7thheaven.com"
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                  className="px-2 py-1 bg-black/60 border border-white/20 text-xs text-white placeholder:text-white/30"
-                />
-                <input
-                  type="password"
-                  aria-label="Admin Password"
-                  placeholder="password123"
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
-                  className="px-2 py-1 bg-black/60 border border-white/20 text-xs text-white placeholder:text-white/30"
-                />
-              </div>
-              {adminError && <p className="text-[10px] text-red-400">{adminError}</p>}
-              <button type="button"
-                disabled={adminLoading}
-                onClick={async () => {
-                  setAdminLoading(true);
-                  setAdminError("");
-                  try {
-                    await login(adminEmail || "admin@7thheaven.com", adminPassword || "password123");
-                    window.location.href = "/admin";
-                  } catch (err: any) {
-                    setAdminError(err.message || "Failed admin login");
-                  }
-                  setAdminLoading(false);
-                }}
-                className="py-1.5 bg-red-600 hover:bg-red-500 text-white font-extrabold text-xs uppercase tracking-widest cursor-pointer disabled:opacity-50"
-              >
-                {adminLoading ? "Logging in..." : "Login as Admin"}
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-5 gap-1.5">
+          <div className="grid grid-cols-5 gap-1.5">
               <button type="button"
                 onClick={async () => {
                   setAdminMode(false);
@@ -1218,7 +1201,6 @@ function LoginModalBodyContent(props: any) {
                 Fan
               </button>
             </div>
-          )}
         </div>
       </div>
     </div>
