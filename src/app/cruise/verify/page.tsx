@@ -107,8 +107,8 @@ function CruiseVerifyContent() {
         .cruise-bg-image {
           position: absolute;
           inset: 0;
-          background: url('/sitemap-screenshots/cruise.png') center top / cover no-repeat;
-          filter: blur(4px) brightness(0.3);
+          background: url('/images/cruise-verify-bg.jpg') center center / cover no-repeat;
+          filter: brightness(0.55) blur(2px);
           pointer-events: none;
           transform: scale(1.05);
         }
@@ -117,9 +117,9 @@ function CruiseVerifyContent() {
         .cruise-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(10, 4, 20, 0.75);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          background: radial-gradient(circle at center, rgba(15, 6, 28, 0.4), rgba(8, 2, 16, 0.75));
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
         }
 
         /* Modal container */
