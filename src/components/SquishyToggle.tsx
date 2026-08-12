@@ -90,13 +90,13 @@ export function SquishyToggle({
       />
 
       {/* track */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#aeaeae]/40 border border-white/20 transition-colors duration-300 peer-checked: bg-[var(--color-accent)]peer-checked:border-[#c27aff] peer-checked:shadow-[0_0_15px_rgba(194,122,255,0.6)]" />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#aeaeae]/30 border border-white/20 transition-colors duration-300 peer-checked:bg-[#7c00ff]/40 peer-checked:border-[#c27aff] peer-checked:shadow-[0_0_15px_rgba(194,122,255,0.4)]" />
 
       {/* thumb */}
       <div
         ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        className="pointer-events-none absolute left-1 top-1 h-[22px] w-[22px] rounded-full bg-white shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:[transform:translateX(22px)]"
+        className="pointer-events-none absolute left-1 top-1 h-[22px] w-[22px] rounded-full bg-white transition-colors duration-300 peer-checked:bg-[#a855f7] shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:[transform:translateX(22px)]"
       />
     </div>
   );
