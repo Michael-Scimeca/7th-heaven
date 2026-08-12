@@ -1079,13 +1079,13 @@ export default function StyleGuidePage() {
                     <div className="space-y-3 mb-4">
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
-                        <div className="input-glow-border rounded-xl">
+                        <div className="input-glow-border rounded-xl w-full">
                           <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
-                        <div className="input-glow-border rounded-xl">
+                        <div className="input-glow-border rounded-xl w-full">
                           <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                         </div>
                       </div>
@@ -1161,13 +1161,13 @@ export default function StyleGuidePage() {
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">FULL NAME</label>
-                          <div className="input-glow-border rounded-xl">
+                          <div className="input-glow-border rounded-xl w-full">
                             <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
-                          <div className="input-glow-border rounded-xl">
+                          <div className="input-glow-border rounded-xl w-full">
                             <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
@@ -1187,13 +1187,13 @@ export default function StyleGuidePage() {
                       <div className="grid grid-cols-2 gap-3">
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">EMAIL</label>
-                          <div className="input-glow-border rounded-xl">
+                          <div className="input-glow-border rounded-xl w-full">
                             <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>
                         <div>
                           <label className="text-[10px] uppercase tracking-[0.15em] font-extrabold text-white/80 mb-1 block">PASSWORD</label>
-                          <div className="input-glow-border rounded-xl">
+                          <div className="input-glow-border rounded-xl w-full">
                             <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/20 text-xs text-white/50 outline-none rounded-xl" />
                           </div>
                         </div>

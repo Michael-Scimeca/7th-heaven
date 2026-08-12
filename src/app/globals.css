@@ -339,10 +339,7 @@ textarea:focus-visible,
 .input-glow-border {
   position: relative;
   isolation: isolate;
-  display: inline-block;
-}
-
-.input-glow-border:not([class*="w-"]) {
+  display: block;
   width: 100%;
 }
 

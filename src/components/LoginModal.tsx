@@ -903,7 +903,7 @@ function LoginModalBodyContent(props: any) {
                 {!forgotPinSent ? (
                   <div>
                     <label htmlFor="forgot-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Email Address</label>
-                    <div className="input-glow-border rounded-xl">
+                  <div className="input-glow-border rounded-xl w-full">
                       <input
                         id="forgot-email-input"
                         type="email"
@@ -922,7 +922,7 @@ function LoginModalBodyContent(props: any) {
                     </div>
                     <div>
                       <label htmlFor="forgot-pin-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Verification PIN</label>
-                      <div className="input-glow-border rounded-xl">
+                    <div className="input-glow-border rounded-xl w-full">
                         <input
                           id="forgot-pin-input"
                           type="text"
@@ -937,7 +937,7 @@ function LoginModalBodyContent(props: any) {
                     </div>
                     <div>
                       <label htmlFor="forgot-new-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">New Password</label>
-                      <div className="input-glow-border rounded-xl">
+                    <div className="input-glow-border rounded-xl w-full">
                         <input
                           id="forgot-new-password-input"
                           type="password"
@@ -960,7 +960,7 @@ function LoginModalBodyContent(props: any) {
                   <label htmlFor="login-email-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
                     Email {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
                   </label>
-                  <div className="input-glow-border rounded-xl">
+                  <div className="input-glow-border rounded-xl w-full">
                     <input
                       id="login-email-input"
                       type="email"
@@ -977,7 +977,7 @@ function LoginModalBodyContent(props: any) {
                 </div>
                 <div>
                   <label htmlFor="login-password-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Password</label>
-                  <div className="input-glow-border rounded-xl">
+                  <div className="input-glow-border rounded-xl w-full">
                     <input
                       id="login-password-input"
                       type="password"
@@ -1364,7 +1364,7 @@ function SignUpExtraFields({
           <label htmlFor="signup-full-name" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
             Full Name {isInviteFlow && <span className="text-[var(--color-accent)] flex items-center gap-1 inline-flex"><Check className="w-3 h-3" /> on file</span>}
           </label>
-          <div className="input-glow-border rounded-xl">
+          <div className="input-glow-border rounded-xl w-full">
             <input
               id="signup-full-name"
               type="text"
@@ -1380,7 +1380,7 @@ function SignUpExtraFields({
           <label htmlFor="signup-username-input" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">
             Username <span className="text-white/40 normal-case tracking-normal">(optional)</span>
           </label>
-          <div className="input-glow-border rounded-xl">
+          <div className="input-glow-border rounded-xl w-full">
             <input
               id="signup-username-input"
               type="text"
@@ -1426,7 +1426,7 @@ function SignUpExtraFields({
           {wantNotifications && (
             <div className="pt-1">
               <label htmlFor="signup-zip-code" className="text-xs uppercase tracking-[0.15em] font-extrabold text-white/80 mb-2 block">Zip Code</label>
-              <div className="input-glow-border rounded-xl">
+              <div className="input-glow-border rounded-xl w-full">
                 <input
                   id="signup-zip-code"
                   type="text"
