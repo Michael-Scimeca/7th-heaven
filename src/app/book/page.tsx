@@ -949,11 +949,6 @@ function BookPageContent() {
                   </div>
                   <p className="text-base text-white/50 font-mono mt-0.5">{member.email}</p>
                 </div>
-              </div>
-              <div className="hidden md:flex items-center gap-2 text-base text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-xl">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Account data auto-filled
-              </div>
             </div>
           )}
 
