@@ -72,8 +72,8 @@ function hexToRgba(color: string, alpha: number = 1.0): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-const ROW_HEIGHT = 42;
-const PANEL_PADDING_Y = 14;
+const ROW_HEIGHT = 36;
+const PANEL_PADDING_Y = 6;
 
 export default function GooeyDropdown({
   label,
