@@ -310,7 +310,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         }
       })
       .on('presence', { event: 'sync' }, () => {
-        const state = channel.presenceState<{ name: string; avatar: string; role: string }>();
+        const state = channel.presenceState() as Record<string, Array<{ name?: string; avatar?: string; role?: string }>>;
         const users = Object.values(state).flat().map((u) => ({
           name: u.name || 'Guest',
           avatar: u.avatar || '?',
@@ -320,7 +320,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         const seen = new Set<string>();
         setOnlineUsers(users.filter(u => { if (seen.has(u.name)) return false; seen.add(u.name); return true; }));
       })
-      .subscribe(async (status) => {
+      .subscribe(async (status: string) => {
         if (status === 'SUBSCRIBED' && member?.name) {
           await channel.track({
             name: member.name,

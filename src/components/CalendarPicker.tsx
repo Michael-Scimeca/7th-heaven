@@ -355,15 +355,15 @@ export function CalendarPicker({
                     onClick={() => onSelectType && onSelectType(type.id)}
                     className={`w-full text-left p-4 rounded-xl border transition-colors cursor-pointer flex gap-4 items-center group
                        ${isSelected
-                        ? "border-cyan-400 bg-cyan-500/20 text-white shadow-md"
+                        ? "border-purple-500 bg-purple-600/20 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)]"
                         : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10 text-white/80"}
                      `}
                   >
-                    <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? "bg-purple-600/30 text-purple-300" : "bg-white/10 text-white/50"}`}>
                       <TypeIcon className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-cyan-300" : "text-white"}`}>{type.label}</span>
+                      <span className={`text-base font-bold block mb-0.5 tracking-wide ${isSelected ? "text-purple-300 font-black" : "text-white"}`}>{type.label}</span>
                       <span className="text-xs text-white/60 block leading-tight">{type.desc}</span>
                     </div>
                   </button>
@@ -375,7 +375,7 @@ export function CalendarPicker({
                         value={customDetails || ""}
                         onChange={(e) => onCustomDetailsChange?.(e.target.value)}
                         autoFocus
-                        className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/20 text-white text-sm px-4 py-3 focus:outline-none focus:border-cyan-400 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
+                        className="w-full bg-[#0c0817]/80 backdrop-blur-md border border-white/20 text-white text-sm px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors placeholder:text-white/40 rounded-lg shadow-inner"
                       />
                     </div>
                   )}

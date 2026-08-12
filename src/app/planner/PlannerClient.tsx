@@ -205,52 +205,10 @@ export default function PlannerClient() {
   }
 
   if (!booking) {
-    const initials = member?.name ? member.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : '📋';
-    return (
-      <div className="min-h-screen    text-[var(--text-color)] pt-24 pb-16">
-        <div className="site-container max-w-2xl mx-auto">
-          {/* Planner Identity */}
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-lg font-black text-[var(--color-accent)]">{initials}</div>
-            <div>
-              <h1 className="text-xl font-black tracking-tight text-white">{member?.name || 'Event Planner'}</h1>
-              <p className="text-xs text-[var(--muted-text)]">{member?.email || 'Planner Portal'}</p>
-            </div>
-          </div>
-
-          {/* Book Now Hero */}
-          <div className="relative bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-12 text-center overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
-            <div className="relative">
-              <div className="w-20 h-20 mx-auto mb-6 bg-purple-600/10 border border-purple-600/20 flex items-center justify-center rounded-2xl">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
-              </div>
-              <h2 className="text-3xl font-black tracking-tight mb-3 text-white">Book <span className=" text-[var(--color-accent)]">7th Heaven</span></h2>
-              <p className="text-white/60 text-sm max-w-md mx-auto mb-8">Ready to bring the show to your next event? Fill out a quick booking form and we&apos;ll get back to you within 24 hours.</p>
-              <Link href="/book" className="inline-flex items-center gap-2 px-10 py-4 bg-[var(--color-accent)] hover:bg-[#851de7] text-white font-bold text-sm uppercase tracking-[0.15em] transition-colors shadow-md rounded-lg">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                Book Now
-              </Link>
-            </div>
-          </div>
-
-          {/* What happens next */}
-          <div className="mt-10 grid grid-cols-3 gap-4">
-            {[
-              { step: "1", title: "Submit Request", desc: "Fill out event details, venue info, and your preferred date." },
-              { step: "2", title: "We Review", desc: "Our team checks availability and confirms logistics." },
-              { step: "3", title: "You're Booked", desc: "Get confirmed and manage everything from this dashboard." },
-            ].map((item, i) => (
-              <div key={`step-nobook-${item.step}`} className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 text-center rounded-2xl">
-                <div className="w-8 h-8 mx-auto mb-3 rounded-full bg-purple-600/10 border border-purple-600/20 flex items-center justify-center text-xs font-black  text-[var(--color-accent)]">{item.step}</div>
-                <h4 className="text-sm font-bold mb-1 text-white">{item.title}</h4>
-                <p className="text-xs text-white/50 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+    if (typeof window !== 'undefined' && mounted && hydrated) {
+      window.location.href = '/book';
+    }
+    return null;
   }
 
   const st = booking.status;
