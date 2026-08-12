@@ -330,11 +330,11 @@ export default function AudioPlayerSection() {
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-10 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pr-3 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
-          <div className="relative mb-6 input-glow-border rounded-xl pr-3">
+          <div className="relative mb-6 input-glow-border rounded-xl">
             <div className="relative flex items-center w-full">
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/60 pointer-events-none z-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -362,7 +362,7 @@ export default function AudioPlayerSection() {
             data-lenis-prevent-wheel="true"
             data-lenis-prevent-touch="true"
             onWheel={(e) => e.stopPropagation()}
-            className="flex-1 pr-3 pb-8 overflow-y-scroll overscroll-contain custom-purple-scrollbar min-h-0"
+            className="flex-1 pr-1 pb-8 overflow-y-scroll overscroll-contain custom-purple-scrollbar min-h-0"
             style={{ overscrollBehavior: "contain" }}
           >
             {renderAlbumList(originalCds, "Original CD's")}
