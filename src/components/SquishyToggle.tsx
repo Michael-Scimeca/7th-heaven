@@ -90,7 +90,7 @@ export function SquishyToggle({
       />
 
       {/* track */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#aeaeae]/30 border border-white/20 transition-colors duration-300 peer-checked:bg-[#7c00ff]/40 peer-checked:border-[#c27aff] peer-checked:shadow-[0_0_15px_rgba(194,122,255,0.4)]" />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#aeaeae]/20 border-none transition-colors duration-300 peer-checked:bg-[#7c00ff]/30" />
 
       {/* thumb */}
       <div
