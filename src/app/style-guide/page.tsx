@@ -732,7 +732,7 @@ export default function StyleGuidePage() {
                 <label className="block text-xs font-bold text-white/70 mb-2">Default State</label>
                 <div className="flex items-center gap-1.5 no-glow">
                   {pinDefaultDigits.map((digit, i) => (
-                    <div key={`pin-default-${i}`} className="!w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                    <div key={`pin-default-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
                       <input
                         aria-label={`Default PIN digit ${i + 1}`}
                         ref={el => { pinDefaultRefs.current[i] = el; }}
@@ -764,7 +764,7 @@ export default function StyleGuidePage() {
                 <label className="block text-xs font-bold text-purple-300 mb-2">Interactive (Focus a box)</label>
                 <div className="flex items-center gap-1.5 no-glow">
                   {pinDigits.map((digit, i) => (
-                    <div key={`pin-focus-${i}`} className="!w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
+                    <div key={`pin-focus-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0 transition-all duration-200">
                       <input
                         aria-label={`PIN digit ${i + 1}`}
                         ref={el => { pinRefs.current[i] = el; }}
@@ -795,7 +795,7 @@ export default function StyleGuidePage() {
                 <label className="block text-xs font-bold text-emerald-400 mb-2">Filled State</label>
                 <div className="flex items-center gap-1.5 no-glow">
                   {["7", "H", "C", "R", "E", "W"].map((d, i) => (
-                    <div key={`pin-filled-${i}`} className="!w-11 !h-14 rounded-xl shrink-0">
+                    <div key={`pin-filled-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                       <input
                         aria-label={`Filled PIN digit ${i + 1}`}
                         type="text"
@@ -816,7 +816,7 @@ export default function StyleGuidePage() {
                 <label className="block text-xs font-bold text-red-400 mb-2">Error State</label>
                 <div className="flex items-center gap-1.5 no-glow">
                   {["X", "X", "X", "X", "X", "X"].map((d, i) => (
-                    <div key={`pin-error-${i}`} className="!w-11 !h-14 rounded-xl shrink-0">
+                    <div key={`pin-error-${i}`} className="input-glow-border !w-11 !h-14 rounded-xl shrink-0">
                       <input
                         aria-label={`Error PIN digit ${i + 1}`}
                         type="text"
