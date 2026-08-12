@@ -756,7 +756,7 @@ function LoginModalBodyContent(props: any) {
               type="button"
               onClick={() => {
                 setModalMode("signup");
-                if (loginRole === "crew") setLoginRole("fan");
+                if (loginRole === "crew" || loginRole === "cruise") setLoginRole("fan");
               }}
               className={`relative z-10 py-2.5 px-4 text-xs sm:text-sm font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg text-center ${modalMode === "signup"
                 ? "text-white font-extrabold"
@@ -783,12 +783,12 @@ function LoginModalBodyContent(props: any) {
                 </button>
               )}
             </div>
-            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-3" : "grid-cols-4"}`}>
+            <div className={`grid p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-4"}`}>
               {[
                 { id: "fan", label: "Fan" },
                 ...(modalMode === "signup" ? [] : [{ id: "crew", label: "Crew" }]),
                 { id: "planner", label: "Planner" },
-                { id: "cruise", label: "Cruise" },
+                ...(modalMode === "signup" ? [] : [{ id: "cruise", label: "Cruise" }]),
               ].map((role) => (
                 <button
                   key={role.id}

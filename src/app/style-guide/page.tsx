@@ -1182,8 +1182,8 @@ export default function StyleGuidePage() {
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
-                      <div className="grid grid-cols-3 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
-                        {(['fan', 'planner', 'cruise'] as const).map((r) => (
+                      <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                        {(['fan', 'planner'] as const).map((r) => (
                           <button
                             key={r}
                             type="button"
