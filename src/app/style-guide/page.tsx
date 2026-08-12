@@ -1067,11 +1067,14 @@ export default function StyleGuidePage() {
                       <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white/60 text-center">Sign Up</button>
                     </div>
 
-                    {/* Account Type */}
-                    <div className="flex items-center justify-between gap-2 my-4">
-                      <span className="text-xs uppercase font-extrabold tracking-[0.15em] text-white/80">ACCOUNT TYPE:</span>
-                      <div className="bg-[#242630] border border-white/10 px-3 py-1.5 rounded-2xl text-xs font-bold text-white flex items-center gap-2 cursor-pointer">
-                        FAN / VISITOR <span className="text-[10px]">▼</span>
+                    {/* Account Type Toggle */}
+                    <div className="my-3 space-y-1.5">
+                      <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                      <div className="grid grid-cols-4 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40">Fan</div>
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Crew</div>
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Planner</div>
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Cruise</div>
                       </div>
                     </div>
 
@@ -1148,11 +1151,14 @@ export default function StyleGuidePage() {
                       <button className="relative z-10 py-2 text-xs font-black uppercase tracking-widest text-white text-center">Sign Up</button>
                     </div>
 
-                    {/* Account Type */}
-                    <div className="flex items-center justify-between gap-2 my-4">
-                      <span className="text-xs uppercase font-extrabold tracking-[0.15em] text-white/80">ACCOUNT TYPE:</span>
-                      <div className="bg-[#242630] border border-white/10 px-3 py-1.5 rounded-2xl text-xs font-bold text-white flex items-center gap-2 cursor-pointer">
-                        FAN / VISITOR <span className="text-[10px]">▼</span>
+                    {/* Account Type Toggle */}
+                    <div className="my-3 space-y-1.5">
+                      <span className="text-[10px] uppercase font-extrabold tracking-[0.15em] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                      <div className="grid grid-cols-4 p-1 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl gap-1 select-none">
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center bg-gradient-to-r from-[#7c00ff] to-[#a855f7] text-white shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40">Fan</div>
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Crew</div>
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Planner</div>
+                        <div className="py-1.5 px-2 text-[10px] font-black uppercase tracking-wider rounded-lg text-center text-white/50 hover:text-white/90">Cruise</div>
                       </div>
                     </div>
 
