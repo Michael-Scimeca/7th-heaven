@@ -4,11 +4,9 @@
 /* oxlint-disable react-doctor/supabase-client-owned-authz-field */
 
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
+import { getFakeLogins } from "@/lib/get-fake-logins";
 // Dev-only: never ships in the production bundle
-const fakeLogins: { email: string; password: string; name: string; username: string; userRole: string; pin: string }[] =
-  process.env.NODE_ENV !== 'production'
-    ? require("@/data/fake-logins.json")
-    : [];
+const fakeLogins = getFakeLogins();
 import { ADMIN_ALERT_EMAIL } from "@/lib/role-config";
 
 export interface Member {
@@ -229,13 +227,15 @@ export function MemberProvider({ children }: { children: ReactNode }) {
         throw new Error("This account has been banned.");
       }
 
+      const fakeName = fakeUser.name || "Dev User";
+      const fakeUsername = fakeUser.username || "dev_user";
       const fakeMember: Member = {
         id: `fake-${fakeUser.userRole || (fakeUser as any).role}-${Date.now()}`,
-        name: fakeUser.name,
-        username: fakeUser.username,
+        name: fakeName,
+        username: fakeUsername,
         email: fakeUser.email.toLowerCase(),
         joinDate: new Date().toISOString(),
-        avatar: fakeUser.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
+        avatar: fakeName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2),
         points: 100,
         tier: "Gold",
         showsAttended: 5,

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { savePin } from "@/lib/pins";
 import { sendEmail } from "@/lib/email";
 import { isValidEmail } from "@/lib/api-utils";
+import { getFakeLogins } from "@/lib/get-fake-logins";
 
 export async function POST(req: Request) {
   try {
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
     // ── Dev bypass: use the fixed PIN from fake-logins.json ──
     if (process.env.NODE_ENV !== 'production') {
       try {
-        const fakeLogins = (await import("@/data/fake-logins.json").catch(() => ({ default: [] })) as any).default || [];
+        const fakeLogins = getFakeLogins();
         const devUser = fakeLogins.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
         if (devUser?.pin) {
           savePin(email, devUser.pin, 24 * 60 * 60 * 1000); // 24h expiry for dev

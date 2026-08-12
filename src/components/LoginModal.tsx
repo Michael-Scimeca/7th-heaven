@@ -10,11 +10,9 @@ import { isValidEmail } from "@/lib/validation";
 import { SquishyToggle } from "./SquishyToggle";
 import GooeyDropdown from "./GooeyDropdown";
 import Dropdown from "@/components/Dropdown";
+import { getFakeLogins } from "@/lib/get-fake-logins";
 // Dev-only: never ships in the production bundle
-const fakeLogins: { email: string; password: string; name: string; username: string; role: string; pin: string }[] =
-  process.env.NODE_ENV !== 'production'
-    ? require("@/data/fake-logins.json")
-    : [];
+const fakeLogins = getFakeLogins();
 
 /** Convert a display name to a username suggestion: "Jane Doe" → "jane_doe" */
 function nameToUsername(n: string): string {
@@ -414,7 +412,7 @@ export default function LoginModal() {
         const devUser = fakeLogins.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
         if (devUser) {
           try {
-            const ok = await login(email, devUser.password);
+            const ok = await login(email, devUser.password || "");
             if (ok) {
               const slug = devUser.username || usernameField.trim() || nameToUsername(name);
               const role = devUser.role;

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyPin } from "@/lib/pins";
+import { getFakeLogins } from "@/lib/get-fake-logins";
 
 /**
  * Admin 2FA PIN verification endpoint.
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
     // Dev bypass: check fake-logins.json for fixed PINs
     if (process.env.NODE_ENV !== "production") {
       try {
-        const fakeLogins = (await import("@/data/fake-logins.json").catch(() => ({ default: [] })) as any).default || [];
+        const fakeLogins = getFakeLogins();
         const devUser = fakeLogins.find(
           (u: any) =>
             u.email.toLowerCase() === email.toLowerCase() &&
