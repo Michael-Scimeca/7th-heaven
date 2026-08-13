@@ -461,15 +461,16 @@ export default function LiveHubPage() {
         )}
 
         {/* ══════════════════════════════════════════════════
-            STREAM CARDS GRID (FULL BLEED — FRAMELESS)
+            STREAM CARDS GRID WITH MATCHING PAGE PADDING
         ══════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full border-none">
-          {rooms.map((room, i) => (
-            <div
-              key={room.name}
-              className="group bg-black/40 border-none rounded-none overflow-hidden transition-colors duration-300"
-              style={{ "--room-color": room.color } as React.CSSProperties}
-            >
+        <div className="px-6 md:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+            {rooms.map((room, i) => (
+              <div
+                key={room.name}
+                className="group bg-black/40 border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-purple-500/40 hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+                style={{ "--room-color": room.color } as React.CSSProperties}
+              >
               <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
                 {/* Thumbnail with video concert image */}
                 <div className="aspect-video bg-black/60 relative overflow-hidden">
@@ -534,12 +535,12 @@ export default function LiveHubPage() {
                 </button>
               </div>
             </div>
-          ))}
+          </div>
         </div>
 
-        {/* ── SMS ALERTS BANNER (FRAMELESS) ── */}
+        {/* ── SMS ALERTS BANNER ── */}
         {liveAlertsEnabled && (
-          <div className="mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
+          <div className="px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 mb-4">
                 <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
