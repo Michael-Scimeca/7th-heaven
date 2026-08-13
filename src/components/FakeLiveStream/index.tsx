@@ -65,14 +65,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const auth = useAuth();
   const crew = CREW_CONFIG[memberId] ?? CREW_CONFIG.mike;
 
+  const { member: contextMember } = useMember();
+
   // ── Authentication check for live chat access ──
   const [isSignedInUser, setIsSignedInUser] = useState<boolean>(true);
 
   useEffect(() => {
     const checkAuth = () => {
       const isAuth = Boolean(
+        contextMember ||
         auth?.isAuthenticated ||
         auth?.user ||
+        localStorage.getItem('7h_member_v1') ||
+        localStorage.getItem('7h_member') ||
         localStorage.getItem('7h_user') ||
         localStorage.getItem('7h_fan_user') ||
         localStorage.getItem('7h_crew_account') ||
@@ -84,7 +89,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     checkAuth();
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
-  }, [auth?.isAuthenticated, auth?.user]);
+  }, [contextMember, auth?.isAuthenticated, auth?.user]);
 
   // ── Crew live status: check localStorage on mount to know if crew is actually streaming ──
   const [crewIsLive, setCrewIsLive] = useState(false);

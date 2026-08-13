@@ -139,8 +139,12 @@ export default function CruiseChat({
   useEffect(() => {
     const checkAuth = () => {
       const isAuth = Boolean(
+        member ||
+        contextMember ||
         auth?.isAuthenticated ||
         auth?.user ||
+        localStorage.getItem('7h_member_v1') ||
+        localStorage.getItem('7h_member') ||
         localStorage.getItem('7h_user') ||
         localStorage.getItem('7h_fan_user') ||
         localStorage.getItem('7h_crew_account') ||
@@ -151,7 +155,7 @@ export default function CruiseChat({
     checkAuth();
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
-  }, [auth?.isAuthenticated, auth?.user]);
+  }, [member, contextMember, auth?.isAuthenticated, auth?.user]);
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
