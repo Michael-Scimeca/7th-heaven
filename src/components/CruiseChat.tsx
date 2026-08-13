@@ -508,7 +508,7 @@ export default function CruiseChat({
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className={`rounded-3xl backdrop-blur-md flex flex-col h-full min-h-[420px] max-h-[600px] overflow-hidden text-white transition-all duration-300 ${className}`}
+      className={`rounded-3xl backdrop-blur-md flex flex-col h-full min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
     >
       {showHeader && (
         <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
@@ -642,7 +642,7 @@ export default function CruiseChat({
           ref={chatContainerRef}
           data-lenis-prevent
           style={{ gap: 'var(--chat-message-spacing, 13px)' }}
-          className="flex-1 flex flex-col min-h-[300px] max-h-[380px] overflow-y-auto overscroll-contain py-3 px-3 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
+          className="flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain py-3 px-3 relative bg-transparent scrollbar-thin scrollbar-thumb-purple-500/40 hover:scrollbar-thumb-purple-500/70"
         >
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-white/20">

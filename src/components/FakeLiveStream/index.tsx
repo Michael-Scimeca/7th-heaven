@@ -2402,7 +2402,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             <div
               className="w-full lg:w-[360px] xl:w-[400px] flex-1 lg:flex-none flex flex-col min-h-0 overflow-hidden"
               style={{
-                background: 'rgba(12, 7, 24, 0.65)',
                 backdropFilter: 'blur(16px)',
                 borderLeft: '1px solid rgba(255,255,255,0.08)',
               }}
