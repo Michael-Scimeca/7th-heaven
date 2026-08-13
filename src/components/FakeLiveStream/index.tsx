@@ -14,6 +14,7 @@ import dynamic from 'next/dynamic';
 const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
 import { useRouter } from 'next/navigation';
 import { useMember } from '@/context/MemberContext';
+import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase-client';
 import ChatInputBar from '@/components/ChatInputBar';
 
@@ -60,7 +61,29 @@ const CONTENT_RULES: { pattern: RegExp; reason: string }[] = [
 
 export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { memberId?: string; adminMode?: boolean }) {
   const router = useRouter();
+  const auth = useAuth();
   const crew = CREW_CONFIG[memberId] ?? CREW_CONFIG.mike;
+
+  // ── Authentication check for live chat access ──
+  const [isSignedInUser, setIsSignedInUser] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const isAuth = Boolean(
+        auth?.isAuthenticated ||
+        auth?.user ||
+        localStorage.getItem('7h_user') ||
+        localStorage.getItem('7h_fan_user') ||
+        localStorage.getItem('7h_crew_account') ||
+        localStorage.getItem('7h_auth_token') ||
+        localStorage.getItem('sb-1dg5ciuj-auth-token')
+      );
+      setIsSignedInUser(isAuth);
+    };
+    checkAuth();
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
+  }, [auth?.isAuthenticated, auth?.user]);
 
   // ── Crew live status: check localStorage on mount to know if crew is actually streaming ──
   const [crewIsLive, setCrewIsLive] = useState(false);
@@ -2415,7 +2438,45 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 </div>
               </div>
 
-              {activeSidebarTab === 'setlist' ? (
+              {!isSignedInUser ? (
+                /* ─────────────── GUEST LOCKED CHAT PANEL ─────────────── */
+                <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
+                    <MessageSquare className="w-8 h-8" />
+                  </div>
+
+                  <div className="space-y-2 max-w-xs">
+                    <h3 className="text-xl font-black text-white uppercase tracking-tight">
+                      Join the Live Chat
+                    </h3>
+                    <p className="text-xs text-white/60 leading-relaxed font-medium">
+                      Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5 w-full max-w-xs pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
+                      }}
+                      className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <span>Sign Up as a Fan</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
+                      }}
+                      className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider rounded-xl border border-white/15 transition-all cursor-pointer"
+                    >
+                      Sign In to Account
+                    </button>
+                  </div>
+                </div>
+              ) : activeSidebarTab === 'setlist' ? (
                 <div className="flex-1 flex flex-col min-h-0 bg-[#07040d]">
                   {/* Sort Toggle header */}
                   <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-white/10">

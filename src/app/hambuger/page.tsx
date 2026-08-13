@@ -143,7 +143,9 @@ export default function HamburgerTestPage() {
           position: fixed;
           inset: 0;
           z-index: 2147483647;
-          background-color: #d7d7d7;
+          background-color: rgba(215, 215, 215, 0.75);
+          backdrop-filter: blur(24px) saturate(140%);
+          -webkit-backdrop-filter: blur(24px) saturate(140%);
           font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
           min-height: 100vh;
           display: flex;
