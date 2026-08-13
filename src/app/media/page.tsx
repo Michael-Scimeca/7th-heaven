@@ -390,9 +390,9 @@ export default function MediaPage() {
 
       {/* ── CATEGORY FILTER TABS & SEARCH BAR ── */}
       <div className="mb-12">
-        <div className="flex flex-col md:flex-row items-start justify-between gap-6 pb-6 border-b border-white/10">
-          {/* Category Tabs */}
-          <div className="flex flex-wrap items-center gap-3 overflow-x-auto max-w-full pb-2 md:pb-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center pb-6 border-b border-white/10">
+          {/* Category Tabs (7 Cols on LG) */}
+          <div className="lg:col-span-7 flex flex-wrap items-center gap-2.5">
             {categories.map((cat) => {
               if (cat.videos.length === 0) return null;
               const isActive = activeFilter === cat.category;
@@ -403,7 +403,7 @@ export default function MediaPage() {
                     setActiveFilter(cat.category);
                     setActiveIndex(0);
                   }}
-                  className={`px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
+                  className={`px-3.5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
                     ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
                     : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
                     }`}
@@ -418,13 +418,13 @@ export default function MediaPage() {
             })}
           </div>
 
-          {/* Search & Admin Add Video Button */}
-          <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
+          {/* Search & Admin Add Video Button (5 Cols on LG) */}
+          <div className="lg:col-span-5 flex flex-wrap sm:flex-nowrap items-center justify-start lg:justify-end gap-3 w-full">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
               placeholder="SEARCH MEDIA..."
-              containerClassName="min-w-[220px] max-w-[300px] shrink-0"
+              containerClassName="min-w-[220px] max-w-[300px] flex-1 sm:flex-initial"
             />
             <button
               onClick={() => setIsAddModalOpen(true)}

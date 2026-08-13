@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
 
 // Test page for /hambuger — recreation of Max Böck's
 // "Animated Accessible Navigation" CodePen (https://codepen.io/mxbck/pen/xdaGNL)
@@ -8,14 +9,20 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 //  - aria-expanded / hidden toggled on click
 //  - Tab is trapped inside the menu while it's open
 //  - Escape closes the menu and returns focus to the toggle
+//
+// Rendered via a portal straight onto <body> so it isn't tinted by the
+// site's global grain/shader background layers — matches the CodePen 1:1.
 
 const LINKS = ["Home", "Shop", "Blog", "About", "Contact"];
 
 export default function HamburgerTestPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLAnchorElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  useEffect(() => setMounted(true), []);
 
   // TRAP TAB INSIDE NAV WHEN OPEN (+ Escape to close)
   useEffect(() => {
@@ -57,15 +64,11 @@ export default function HamburgerTestPage() {
     setIsOpen((v) => !v);
   };
 
-  return (
+  const demo = (
     <div className="hb-page">
-      <p className="hb-note">
-        Test page — animated accessible hamburger nav, ported from{" "}
-        <a href="https://codepen.io/mxbck/pen/xdaGNL" target="_blank" rel="noreferrer">
-          Max Böck&rsquo;s CodePen
-        </a>
-        . Click the icon top-right of the screen below.
-      </p>
+      <a href="/" className="hb-back">
+        ← Back to site
+      </a>
 
       <div className="viewport">
         <header className="header">
@@ -137,24 +140,32 @@ export default function HamburgerTestPage() {
 
       <style jsx>{`
         .hb-page {
-          min-height: 60vh;
+          position: fixed;
+          inset: 0;
+          z-index: 2147483647;
+          background-color: #d7d7d7;
+          font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+          min-height: 100vh;
           display: flex;
           flex-direction: column;
-          align-items: center;
           justify-content: center;
-          gap: 24px;
-          padding: 48px 16px;
+          overflow: auto;
         }
-        .hb-note {
-          max-width: 420px;
-          text-align: center;
+        .hb-back {
+          position: fixed;
+          top: 16px;
+          left: 16px;
           font-size: 0.8rem;
-          letter-spacing: 0.04em;
-          color: rgba(255, 255, 255, 0.55);
+          font-weight: 600;
+          letter-spacing: 0.03em;
+          color: #555;
+          text-decoration: none;
+          background: rgba(255, 255, 255, 0.8);
+          padding: 6px 12px;
+          border-radius: 100px;
         }
-        .hb-note a {
-          color: var(--color-accent, #ff0a3d);
-          text-decoration: underline;
+        .hb-back:hover {
+          color: #111;
         }
 
         .viewport {
@@ -169,8 +180,6 @@ export default function HamburgerTestPage() {
           position: relative;
           overflow: hidden;
           background-color: #fff;
-          border-radius: 12px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
         }
 
         .header {
@@ -184,9 +193,9 @@ export default function HamburgerTestPage() {
 
         .gallery {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-          grid-auto-rows: 90px;
-          grid-gap: 14px;
+          grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+          grid-auto-rows: 130px;
+          grid-gap: 20px;
         }
         .gallery :global(.gallery__item) {
           height: 100%;
@@ -251,7 +260,7 @@ export default function HamburgerTestPage() {
           text-align: center;
           text-transform: uppercase;
           letter-spacing: 5px;
-          font-size: 1.1rem;
+          font-size: 1.25rem;
           text-decoration: none;
           padding: 1rem;
         }
@@ -348,4 +357,7 @@ export default function HamburgerTestPage() {
       `}</style>
     </div>
   );
+
+  if (!mounted) return null;
+  return createPortal(demo, document.body);
 }
