@@ -136,11 +136,11 @@ export default function HomeVideoShowcase() {
   const [smooothyVariableWidth, setSmooothyVariableWidth] = useState<boolean>(false);
   const [smooothyVertical, setSmooothyVertical] = useState<boolean>(false);
   const [smooothyScrollInput, setSmooothyScrollInput] = useState<boolean>(false);
-  const [smooothyDragSensitivity, setSmooothyDragSensitivity] = useState<number>(0.002);
-  const [smooothyLerpFactor, setSmooothyLerpFactor] = useState<number>(0.070);
-  const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] = useState<number>(1.20);
+  const [smooothyDragSensitivity, setSmooothyDragSensitivity] = useState<number>(0.003);
+  const [smooothyLerpFactor, setSmooothyLerpFactor] = useState<number>(0.080);
+  const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] = useState<number>(1.40);
   const [smooothySnapStrength, setSmooothySnapStrength] = useState<number>(0.00);
-  const [smooothySpeedDecay, setSmooothySpeedDecay] = useState<number>(0.68);
+  const [smooothySpeedDecay, setSmooothySpeedDecay] = useState<number>(0.90);
   const [smooothyBounceLimit, setSmooothyBounceLimit] = useState<number>(2.5);
   const [smooothyOffsetPreset, setSmooothyOffsetPreset] = useState<"standard" | "center" | "full">("standard");
   const [smooothyVirtualScroll, setSmooothyVirtualScroll] = useState<boolean>(false);
@@ -156,14 +156,14 @@ export default function HomeVideoShowcase() {
   const [aspectRatio, setAspectRatio] = useState<string>("aspect-[4/5]");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-3xl");
-  const [borderStyle, setBorderStyle] = useState<string>("");
+  const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
 
   // 2. Motion & Auto-Advance
   const [isAutoPlayEnabled, setIsAutoPlayEnabled] = useState<boolean>(false);
   const [autoAdvanceSpeed, setAutoAdvanceSpeed] = useState<number>(8); // seconds
   const [autoAdvanceDirection, setAutoAdvanceDirection] = useState<"forward" | "reverse">("forward");
   const [transitionSpeed, setTransitionSpeed] = useState<number>(200); // ms
-  const [hoverAnimation, setHoverAnimation] = useState<string>("transition-none");
+  const [hoverAnimation, setHoverAnimation] = useState<string>("transition-transform duration-300 hover:-translate-y-2");
 
   // 3. YouTube Preview Engine
   const [previewStartSec, setPreviewStartSec] = useState<number>(0);
@@ -463,17 +463,17 @@ export default function HomeVideoShowcase() {
     setAspectRatio("aspect-[4/5]");
     setCardGap("gap-6");
     setBorderRadius("rounded-3xl");
-    setBorderStyle("");
+    setBorderStyle("border border-white/10");
 
     setIsAutoPlayEnabled(false);
     setAutoAdvanceSpeed(8);
     setAutoAdvanceDirection("forward");
     setTransitionSpeed(200);
-    setHoverAnimation("transition-none");
+    setHoverAnimation("transition-transform duration-300 hover:-translate-y-2");
 
     setPreviewStartSec(0);
     setPreviewDurationSec(30);
-    setPreviewZoomPercent(240);
+    setPreviewZoomPercent(200);
     setPlayButtonVisibility("hover");
 
     setPlayButtonColor("bg-purple-600 hover:bg-purple-500");
