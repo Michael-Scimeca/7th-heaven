@@ -212,18 +212,6 @@ const SidebarDateButton = React.memo(({
           <p className="text-[8.5px] text-white/30 truncate leading-tight">{show.city}{show.state ? `, ${show.state}` : ''}</p>
         )}
       </div>
-      {shiftCount > 0 && (
-        <div className="relative group/badge shrink-0">
-          <span className="text-[8px] font-black bg-emerald-500/15 text-[var(--color-accent)]/80 px-1.5 py-0.5 rounded cursor-help">
-            {shiftCount}
-          </span>
-          {/* Tooltip */}
-          <div className="absolute right-0 bottom-full mb-1.5 opacity-0 invisible group-hover/badge:opacity-100 group-hover/badge:visible transition-colors duration-150 bg-[#1c1d22] text-white text-[9px] font-bold py-1 px-2 rounded border border-slate-700/50 shadow-xl whitespace-nowrap z-50 pointer-events-none flex items-center gap-1">
-            <span>ℹ</span>
-            <span>{shiftCount} active {shiftCount === 1 ? 'shift' : 'shifts'} scheduled</span>
-          </div>
-        </div>
-      )}
     </button>
   );
 });
@@ -3379,25 +3367,25 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
           {/* 1. Executive Top Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Active Users</span>
               <span className="text-2xl font-black text-[#c27aff] block">{gaData.activeUsers}</span>
               <span className="text-[0.55rem] font-bold text-[#c27aff] uppercase tracking-widest mt-1 block"> Live Right Now</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Total Sessions</span>
               <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.sessions.toLocaleString()}</span>
               <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Last 30 Days</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Page Views</span>
               <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.pageViews.toLocaleString()}</span>
               <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Sitewide Traffic</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Conversion Rate</span>
               <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.conversionRate}</span>
               <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
@@ -3480,7 +3468,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
 
             {/* Device & Browser Hardware */}
-            <div className="bg-[var(--card-bg)] p-5 shadow-xs flex flex-col justify-between">
+            <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs flex flex-col justify-between">
               <div>
                 <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                   <span> User Devices & Browsers</span>
@@ -3539,59 +3527,59 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-black/20 text-[var(--muted-text)] font-black uppercase tracking-wider border-b border-[var(--border-color)]">
-                    <th className="p-3">Page Path</th>
+                  <tr className="text-[var(--muted-text)] font-black uppercase tracking-wider border-b border-[var(--border-color)]">
+                    <th className="pt-3 pb-3">Page Path</th>
                     <th className="p-3">Views</th>
                     <th className="p-3">Users</th>
                     <th className="p-3">Avg Time</th>
                     <th className="p-3">Bounce</th>
-                    <th className="p-3 text-right">Key Event</th>
+                    <th className="pt-3 pb-3 text-right">Key Event</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border-color)] font-semibold text-[var(--text-color)]">
                   <tr className="">
-                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/shows (Tour Schedule)</td>
+                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/shows (Tour Schedule)</td>
                     <td className="p-3 font-mono">3,840</td>
                     <td className="p-3 font-mono">2,910</td>
                     <td className="p-3 font-mono">1m 42s</td>
                     <td className="p-3 font-mono text-[var(--color-accent)]">24%</td>
-                    <td className="p-3 text-right font-mono font-bold text-[#c27aff]">842 Ticket Clicks</td>
+                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">842 Ticket Clicks</td>
                   </tr>
 
                   <tr className="">
-                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
+                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
                     <td className="p-3 font-mono">2,120</td>
                     <td className="p-3 font-mono">1,640</td>
                     <td className="p-3 font-mono">2m 15s</td>
                     <td className="p-3 font-mono text-[var(--color-accent)]">19%</td>
-                    <td className="p-3 text-right font-mono font-bold text-[#c27aff]">148 Pre-Bookings</td>
+                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">148 Pre-Bookings</td>
                   </tr>
 
                   <tr className="">
-                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/ (Homepage)</td>
+                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/ (Homepage)</td>
                     <td className="p-3 font-mono">1,650</td>
                     <td className="p-3 font-mono">1,410</td>
                     <td className="p-3 font-mono">1m 05s</td>
                     <td className="p-3 font-mono text-purple-300">38%</td>
-                    <td className="p-3 text-right font-mono font-bold text-[#c27aff]">410 Banner Clicks</td>
+                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">410 Banner Clicks</td>
                   </tr>
 
                   <tr className="">
-                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/merch (Shopify Store)</td>
+                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/merch (Shopify Store)</td>
                     <td className="p-3 font-mono">640</td>
                     <td className="p-3 font-mono">510</td>
                     <td className="p-3 font-mono">3m 10s</td>
                     <td className="p-3 font-mono text-[var(--color-accent)]">15%</td>
-                    <td className="p-3 text-right font-mono font-bold text-[var(--color-accent)]">94 Orders Placed</td>
+                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[var(--color-accent)]">94 Orders Placed</td>
                   </tr>
 
                   <tr className="">
-                    <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/bio & media (Band Roster)</td>
+                    <td className="pt-3 pb-3 font-mono font-bold  text-[var(--color-accent)]">/bio & media (Band Roster)</td>
                     <td className="p-3 font-mono">180</td>
                     <td className="p-3 font-mono">145</td>
                     <td className="p-3 font-mono">0m 52s</td>
                     <td className="p-3 font-mono text-purple-300">45%</td>
-                    <td className="p-3 text-right font-mono font-bold text-[#c27aff]">120 Video Plays</td>
+                    <td className="pt-3 pb-3 text-right font-mono font-bold text-[#c27aff]">120 Video Plays</td>
                   </tr>
                 </tbody>
               </table>
@@ -4887,13 +4875,31 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="space-y-4">
             <div>
               <label htmlFor="sms-selected-show-select" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
-              <select
+              <Dropdown
                 id="sms-selected-show-select"
-                value={smsSelectedShow}
-                onChange={e => {
-                  setSmsSelectedShow(e.target.value);
+                fullWidth={true}
+                placeholder="— Select an upcoming show —"
+                selected={smsSelectedShow}
+                options={[
+                  { label: "— Select an upcoming show —", value: "" },
+                  ...smsShows.map((show: any) => {
+                    const dateStr = (() => {
+                      try {
+                        const d = new Date(show.date + 'T12:00:00');
+                        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                      } catch { return show.date; }
+                    })();
+                    const loc = show.state ? `${show.city}, ${show.state}` : show.city;
+                    return {
+                      label: `${dateStr} — ${show.venue} (${loc}) ${show.time ? `@ ${show.time}` : ''}`,
+                      value: show._id || show.date,
+                    };
+                  }),
+                ]}
+                onChange={(val) => {
+                  setSmsSelectedShow(val);
                   setSmsResult(null);
-                  const show = smsShows.find((s: any) => s._id === e.target.value);
+                  const show = smsShows.find((s: any) => (s._id === val || s.date === val));
                   if (show) {
                     const location = show.state ? `${show.city}, ${show.state}` : show.city;
                     const dateStr = (() => {
@@ -4927,25 +4933,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     setSmsPreview('');
                   }
                 }}
-                className="w-full bg-white/5 text-white border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-rose-500/50 transition-colors appearance-none cursor-pointer"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff40' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
-              >
-                <option value="">— Select an upcoming show —</option>
-                {smsShows.map((show: any, idx: number) => {
-                  const dateStr = (() => {
-                    try {
-                      const d = new Date(show.date + 'T12:00:00');
-                      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                    } catch { return show.date; }
-                  })();
-                  const loc = show.state ? `${show.city}, ${show.state}` : show.city;
-                  return (
-                    <option key={show._id || `${show.date}-${show.venue}`} value={show._id || show.date}>
-                      {dateStr} — {show.venue} ({loc}) {show.time ? `@ ${show.time}` : ''}
-                    </option>
-                  );
-                })}
-              </select>
+              />
             </div>
 
             {/* Twilio Gateway & Cost Summary Bar */}
@@ -5482,7 +5470,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         {renderInfoBanner('crewsms', 'Crew SMS Alert & Group Setup', 'Select target crew members or saved groups to broadcast emergency text messages or load-in notices.')}
         <div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
-          <div className="py-6 pr-0 pl-0">
+          <div className="py-6 pl-0">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column: Member List (Choose Recipients) */}
               <div className="lg:col-span-2 space-y-4">
@@ -5502,7 +5490,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
                   </span>
                 </div>
-                <CustomScrollbar height={650} className="bg-transparent border-none p-0 py-2">
+                <CustomScrollbar height={650} className="bg-transparent border-none p-0 py-2 pr-4">
                   <ul className="flex flex-col gap-0 list-none p-0 m-0">
                     {(() => {
                       const selectedCrewPhonesSet = new Set(selectedCrewPhones);
@@ -5559,9 +5547,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         }}
                                       />
                                     ) : (
-                                      <div className={`w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md flex items-center justify-center text-xs font-black uppercase text-white shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
-                                        {r.name.slice(0, 2)}
-                                      </div>
+                                      <div className={`w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md shrink-0 ${!r.phone ? 'opacity-40' : ''}`} />
                                     );
                                   })()}
 
@@ -6408,9 +6394,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       }}
                                     />
                                   ) : (
-                                    <div className="w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md flex items-center justify-center text-xs font-black uppercase text-white shrink-0">
-                                      {r.name.slice(0, 2)}
-                                    </div>
+                                    <div className="w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md shrink-0" />
                                   );
                                 })()}
 
@@ -6607,9 +6591,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   {r.avatar ? (
                                     <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
                                   ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-purple-600/30 border border-purple-400/50 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-purple-200 shrink-0">
-                                      {r.name.slice(0, 2)}
-                                    </div>
+                                    <div className="w-6.5 h-6.5 rounded-full bg-purple-600/30 border border-purple-400/50 shrink-0" />
                                   )}
                                   <div className="truncate">
                                     <span className="font-bold text-white block leading-none">{r.name}</span>
@@ -9371,7 +9353,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
-            border-left: none !important;
+           
           }
           .wiw-sticky-corner {
             position: sticky;
@@ -10127,7 +10109,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </span>
                     </div>
                   </div>
-                  <CustomScrollbar className="flex-1 min-h-0 flex flex-col gap-0.5" height={320} direction="vertical">
+                  <CustomScrollbar className="flex-1 min-h-0 flex flex-col gap-0.5" direction="vertical">
                     {(() => {
                       if (upcomingTourDatesWithLabels.length === 0) {
                         return <div className="px-2 py-3 text-[var(--font-size-3xs)] text-white/20 italic text-center">No upcoming tour dates synced</div>;
@@ -10156,93 +10138,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             </div>
 
-            {/* Crew Hours Leaderboard */}
-            <div className="border-t border-white/5 shrink-0">
-              <button
-                type="button"
-                onClick={() => setShowLeaderboard(prev => !prev)}
-                className="w-full px-4 py-2.5 flex items-center justify-between cursor-pointer border-none bg-transparent hover:bg-white/[0.02] transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-xs"></span>
-                  <span className="text-[var(--font-size-2xs)] font-bold text-white/60 uppercase tracking-wider">Crew Hours Leaderboard</span>
-                </div>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className={`text-white/30 transition-transform ${showLeaderboard ? '' : '-rotate-90'}`}><polyline points="6 9 12 15 18 9" /></svg>
-              </button>
 
-              {showLeaderboard && (
-                <div className="px-4 pb-4">
-                  {/* Period Tabs */}
-                  <div className="flex items-center gap-1 mb-3 -ml-3">
-                    {(['day', 'week', 'month', 'year'] as const).map(period => (
-                      <button
-                        key={period}
-                        type="button"
-                        onClick={() => setLeaderboardPeriod(period)}
-                        className={`px-3 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md border-none cursor-pointer transition-colors ${leaderboardPeriod === period
-                          ? 'bg-purple-500/15 text-purple-300'
-                          : 'bg-transparent text-white/30 hover:text-white/60 hover:bg-white/5'
-                          }`}
-                      >
-                        {period}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Leaderboard Bars */}
-                  {(() => {
-                    const maxHours = leaderboardRankings.length > 0 ? leaderboardRankings[0].hours : 1;
-
-                    if (leaderboardRankings.length === 0) {
-                      return (
-                        <div className="text-center py-3 text-[var(--font-size-2xs)] text-white/20 italic">No hours logged for this period</div>
-                      );
-                    }
-
-                    return (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                        {leaderboardRankings.slice(0, 9).map((member, idx) => {
-                          const pct = Math.round((member.hours / maxHours) * 100);
-                          const medalEmoji = idx === 0 ? '' : idx === 1 ? '' : idx === 2 ? '' : '';
-                          const barColor = idx === 0 ? 'bg-purple-500/30' : idx === 1 ? 'bg-slate-400/20' : idx === 2 ? 'bg-orange-700/20' : 'bg-white/5';
-
-                          return (
-                            <div key={member.id} className="flex items-center gap-2.5 bg-transparent rounded-lg px-0 py-2 border border-white/5 hover:border-white/10 transition-colors">
-                              {/* Rank */}
-                              <span className="text-[var(--font-size-3xs)] font-black text-white/20 w-3 shrink-0 text-left">
-                                {medalEmoji || `${idx + 1}`}
-                              </span>
-
-                              {/* Avatar */}
-                              {(() => {
-                                const initials = member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-                                const color = member.color || getAvatarColor(member.name);
-                                return (
-                                  <div className="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[var(--font-size-4xs)] text-white shrink-0" style={{ backgroundColor: color }}>
-                                    {initials}
-                                  </div>
-                                );
-                              })()}
-
-                              {/* Name + Bar */}
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between mb-0.5">
-                                  <span className="text-[var(--font-size-3xs)] font-bold text-white/70 truncate">{member.name}</span>
-                                  <span className="text-[var(--font-size-3xs)] font-black text-purple-300/80 ml-2 shrink-0">{member.hours.toFixed(1)}h</span>
-                                </div>
-                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                                  <div className={`h-full rounded-full ${barColor} transition-colors`} style={{ width: `${pct}%` }} />
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  })()}
-                </div>
-              )}
-            </div>
 
             {/* Shift Config Modal / Side Drawer */}
             {activeDropDay && draggedCrewMemberId && (() => {
@@ -12212,7 +12108,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
               <div className="py-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px]">
                 {auditLog.map((entry, i) => (
-                  <div key={entry.id} className="flex gap-2.5 relative border-b border-white/15 pb-4 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
+                  <div key={entry.id} className="flex gap-2.5 relative border-b border-white/15 last:border-b-0 pb-4 last:pb-0 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
                     {i < auditLog.length - 1 && (
                       <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/5" />
                     )}

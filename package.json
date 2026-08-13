@@ -52,6 +52,7 @@
     "scss-unused": "^0.0.3",
     "smooothy": "^0.0.35",
     "stripe": "^22.2.0",
+    "styled-components": "^6.5.2",
     "swiper": "^14.0.6",
     "three": "^0.185.1",
     "twilio": "^5.13.1",

@@ -256,7 +256,7 @@ function CruiseVerifyContent() {
 
         /* Progress bar */
         .progress-bar-wrap {
-          height: 3px;
+          height: 0px;
           background: rgba(255,255,255,0.08);
           border-radius: 10px;
           margin-bottom: 20px;

@@ -344,6 +344,11 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         }}
       />
 
+      {/* ── Top-Down Black Gradient Overlay for Top Header Navigation ── */}
+      <div
+        className="absolute top-0 left-0 right-0 h-44 md:h-64 z-[2] pointer-events-none bg-gradient-to-b from-black/85 via-black/40 to-transparent"
+      />
+
       {/* ── Bottom-Up Black Gradient Overlay ── */}
       <div
         className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none transition-colors duration-150"

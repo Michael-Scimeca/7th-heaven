@@ -7,6 +7,8 @@ export interface HeroMaskSettings {
   // Hero Top Mask Gradient
   topFadeStart: number;      // % (0 - 50)
   topFadeEnd: number;        // % (0 - 50)
+  topGradientHeight?: number; // px (0 - 400)
+  topGradientOpacity?: number;// % (0 - 100)
   
   // Hero Bottom Mask Gradient
   bottomFadeStart: number;   // % (50 - 100)
@@ -44,6 +46,8 @@ export interface HeroMaskSettings {
 export const DEFAULT_HERO_MASK_SETTINGS: HeroMaskSettings = {
   topFadeStart: 0,
   topFadeEnd: 15,
+  topGradientHeight: 240,
+  topGradientOpacity: 85,
   bottomFadeStart: 73,
   bottomFadeEnd: 100,
   videoBlur: 0,
@@ -494,6 +498,38 @@ export default function CruiseHeroMaskEditor() {
                   max="50"
                   value={settings.topFadeEnd}
                   onChange={e => updateSetting('topFadeEnd', Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Top Dark Overlay Gradient Height */}
+              <div className="pt-2 border-t border-cyan-500/20">
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Top Dark Gradient Height</span>
+                  <span className="text-cyan-400 font-mono">{settings.topGradientHeight ?? 240}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="400"
+                  value={settings.topGradientHeight ?? 240}
+                  onChange={e => updateSetting('topGradientHeight' as any, Number(e.target.value))}
+                  className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
+                />
+              </div>
+
+              {/* Top Dark Overlay Gradient Opacity */}
+              <div>
+                <div className="flex justify-between text-xs mb-1 font-medium">
+                  <span className="text-gray-300">Top Dark Gradient Opacity</span>
+                  <span className="text-cyan-400 font-mono">{settings.topGradientOpacity ?? 85}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.topGradientOpacity ?? 85}
+                  onChange={e => updateSetting('topGradientOpacity' as any, Number(e.target.value))}
                   className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-gray-700 rounded-lg"
                 />
               </div>

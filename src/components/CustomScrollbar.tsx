@@ -217,7 +217,7 @@ export default function CustomScrollbar({
           minWidth: 0,
           overflowY: showVertical ? "scroll" : "hidden",
           overflowX: showHorizontal ? "auto" : "hidden",
-          paddingBottom: showHorizontal ? thumbWidth + 12 : undefined,
+          paddingBottom: showHorizontal ? 0 : undefined,
           scrollbarWidth: "none",
           // @ts-ignore
           msOverflowStyle: "none",
@@ -246,7 +246,7 @@ export default function CustomScrollbar({
           style={{
             position: "absolute",
             top: 4 + topOffset,
-            right: 3,
+            right: 1,
             bottom: showHorizontal ? thumbWidth + 8 : 4,
             width: thumbWidth + 2,
             backdropFilter: "blur(12px)",

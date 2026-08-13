@@ -154,6 +154,8 @@ export default function CruisePage() {
   const [heroMaskSettings, setHeroMaskSettings] = useState({
     topFadeStart: 0,
     topFadeEnd: 15,
+    topGradientHeight: 240,
+    topGradientOpacity: 85,
     bottomFadeStart: 73,
     bottomFadeEnd: 100,
     videoBlur: 0,
@@ -689,6 +691,15 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             <source src="/movie/cruise.mp4" type="video/mp4" />
           </video>
         </div>
+
+        {/* Top Dark Gradient Overlay for Nav Header Legibility */}
+        <div
+          className="absolute top-0 left-0 right-0 pointer-events-none z-[1] transition-all duration-150 hero-top-dark-gradient"
+          style={{
+            height: `${heroMaskSettings.topGradientHeight ?? 240}px`,
+            background: `linear-gradient(to bottom, rgba(6, 6, 12, ${(heroMaskSettings.topGradientOpacity ?? 85) / 100}) 0%, rgba(6, 6, 12, ${((heroMaskSettings.topGradientOpacity ?? 85) * 0.45) / 100}) 55%, transparent 100%)`,
+          }}
+        />
 
         {/* Bottom ::before Blur Strip Overlay */}
         <div
