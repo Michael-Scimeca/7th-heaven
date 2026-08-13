@@ -95,6 +95,7 @@ const sections = [
   { id: "spacing", label: "10. Spacing & Padding", icon: Box },
   { id: "canvas-studio", label: "11. Canvas & Film Grain", icon: Sliders },
   { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
+  { id: "crew-scheduling", label: "13. Crew Scheduling & Groups", icon: Calendar },
 ];
 
 export default function StyleGuidePage() {
@@ -2060,35 +2061,36 @@ ${deskRules.join("\n")}
               <h3 className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Checkboxes & Radio Controls</h3>
 
               <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center gap-3 cursor-pointer">
+                  <SquishyToggle
+                    id="sg-newsletter-toggle"
+                    label="Subscribe to official band newsletter announcements"
                     checked={checkboxState}
-                    onChange={(e) => setCheckboxState(e.target.checked)}
-                    className="w-4 h-4 rounded border-white/20 bg-white/10 text-purple-600 focus:ring-purple-500 accent-purple-600 cursor-pointer"
+                    onChange={setCheckboxState}
                   />
                   <span className="text-xs text-white/90 font-bold">Subscribe to official band newsletter announcements</span>
-                </label>
+                </div>
 
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
+                <div className="flex items-center gap-3 cursor-pointer">
+                  <SquishyToggle
+                    id="sg-unchecked-toggle"
+                    label="Unchecked state"
                     checked={false}
-                    readOnly
-                    className="w-4 h-4 rounded border-white/20 bg-white/10 accent-purple-600 cursor-pointer"
+                    onChange={() => {}}
                   />
                   <span className="text-xs text-white/60">Unchecked state</span>
-                </label>
+                </div>
 
-                <label className="flex items-center gap-3 cursor-not-allowed opacity-40">
-                  <input
-                    type="checkbox"
-                    disabled
+                <div className="flex items-center gap-3 opacity-40">
+                  <SquishyToggle
+                    id="sg-disabled-toggle"
+                    label="Disabled checked state"
+                    disabled={true}
                     checked={true}
-                    className="w-4 h-4 rounded border-white/10 bg-white/5 cursor-not-allowed"
+                    onChange={() => {}}
                   />
                   <span className="text-xs text-white/40">Disabled checked state</span>
-                </label>
+                </div>
               </div>
 
               <div className="pt-3 border-t border-white/10 space-y-2">
@@ -3720,6 +3722,191 @@ ${deskRules.join("\n")}
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
+        <section id="crew-scheduling" className="scroll-mt-36 border-0 rounded-3xl p-0 space-y-8 overflow-hidden">
+          <div className="border-b border-white/10 px-0 py-4 pb-4">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
+            </h2>
+            <p className="text-white/60 text-xs mt-1">
+              Complete UI specification and live previews of the OpenShifts grid cell controls, Select Crew Group popover module, Create New Crew Group glass modal, and Shift Drawer candidate assignment cards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
+            <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                  <div>
+                    <h3 className="text-sm font-black uppercase text-white tracking-widest">OpenShifts Cell & Group Popover</h3>
+                    <p className="text-xs text-white/50">Grid cell action buttons & frosted glass group selection popover</p>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-extrabold uppercase border border-purple-500/30">Module Preview</span>
+                </div>
+
+                {/* OpenShifts Cell Controls Mockup */}
+                <div className="space-y-3">
+                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block">1. OpenShifts Grid Cell Buttons</span>
+                  <div className="p-3 bg-[#0d0d14] border border-white/10 rounded-xl space-y-2 max-w-sm">
+                    <div className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
+                      <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
+                    </div>
+
+                    <div className="flex gap-2 w-full">
+                      <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
+                        <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5 text-center leading-tight">Add Crew Group</span>
+                      </div>
+                      <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
+                        <span className="text-xs text-purple-400 font-bold group-hover:text-purple-300">+</span>
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 mt-0.5 text-center leading-tight">Create Group</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Select Crew Group Popover Spec */}
+                <div className="space-y-3 mt-6">
+                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest block">2. Frosted Glass Select Crew Group Popover</span>
+                  <div
+                    className="w-full max-w-sm bg-[#14151f]/80 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl p-4 flex flex-col gap-2 font-sans"
+                    style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
+                  >
+                    <div className="text-sm text-white/90 font-black uppercase tracking-wider px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                      <span>Select Crew Group</span>
+                      <span className="text-xs text-white/50 font-bold px-2 py-0.5 bg-white/5 rounded-full border border-white/10">3 saved</span>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      {[
+                        { name: "Kitchen", count: "4 members" },
+                        { name: "Managers", count: "2 members" },
+                        { name: "Production Tech Crew", count: "6 members" },
+                      ].map((grp, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          className="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
+                        >
+                          <span className="w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner">+</span>
+                          <div className="min-w-0 flex-1 flex items-center justify-between">
+                            <span className="truncate text-sm tracking-wide font-extrabold">{grp.name}</span>
+                            <span className="text-[10px] text-white/40 font-semibold">{grp.count}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MODULE 2: Create New Crew Group Modal Spec */}
+            <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div>
+                  <h3 className="text-sm font-black uppercase text-white tracking-widest">Create New Crew Group Glass Modal</h3>
+                  <p className="text-xs text-white/50">Modal container, input spacing, toggle checklist & role preset pills</p>
+                </div>
+                <span className="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-extrabold uppercase border border-purple-500/30">Modal Spec</span>
+              </div>
+
+              {/* Modal Frame Mockup */}
+              <div className="bg-black/30 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl font-sans">
+                {/* Header */}
+                <div className="p-4 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                  <div>
+                    <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
+                    <p className="text-[9px] text-white/40 uppercase tracking-widest font-bold mt-0.5">Select members and customize their shift slots</p>
+                  </div>
+                  <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm">✕</button>
+                </div>
+
+                {/* Body */}
+                <div className="px-4 pt-5 pb-3 space-y-3.5 max-h-96 overflow-y-auto custom-scrollbar">
+                  {/* Group Name input */}
+                  <div className="mt-1 space-y-1.5">
+                    <label className="text-[9px] uppercase tracking-wider text-white/50 font-extrabold block">Group Name</label>
+                    <input
+                      type="text"
+                      readOnly
+                      value="Weekend Tech Crew"
+                      className="w-full px-3.5 py-2.5 bg-transparent border border-white/10 rounded-xl text-xs text-white font-bold"
+                    />
+                  </div>
+
+                  {/* Member selection list item */}
+                  <div className="space-y-1.5 pt-2">
+                    <span className="text-[9px] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
+                    <div className="p-3 bg-transparent border border-white/10 rounded-xl space-y-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-4 bg-purple-600 rounded-full relative cursor-pointer">
+                            <div className="w-3.5 h-3.5 bg-white rounded-full absolute top-0.25 right-0.5 shadow-sm" />
+                          </div>
+                          <div className="w-7 h-7 rounded-full bg-purple-600 border border-purple-400/40 text-[10px] font-black text-white flex items-center justify-center">
+                            AJ
+                          </div>
+                          <div>
+                            <p className="text-xs font-bold text-white">Abbie Janssen</p>
+                            <span className="text-[8px] text-white/40 uppercase font-semibold block">STAGE MANAGER</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Time Frame box */}
+                      <div className="p-2.5 bg-transparent border border-white/10 space-y-2 rounded-lg">
+                        <div className="flex items-center justify-between">
+                          <span className="uppercase tracking-wider text-purple-300 font-extrabold text-[9.5px]">Time Frame 1</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[10px] text-white font-bold">5:00 PM</div>
+                          <div className="p-1.5 bg-white/5 border border-white/10 rounded text-[10px] text-white font-bold">10:00 PM</div>
+                        </div>
+
+                        {/* Role Pills Showcase */}
+                        <div className="pt-1">
+                          <span className="uppercase tracking-wider text-white/50 mb-1 block font-bold text-[8px]">Roles / Duties</span>
+                          <div className="flex flex-wrap gap-1">
+                            {["STAGE HAND", "AUDIO MIX", "LIGHTS", "STAGE MANAGER"].map(preset => {
+                              const isSelected = preset === "STAGE MANAGER" || preset === "LIGHTS";
+                              return (
+                                <span
+                                  key={preset}
+                                  className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border font-sans ${isSelected
+                                    ? 'bg-purple-600 text-white border-purple-500 shadow-xs'
+                                    : 'bg-white/5 border-white/10 text-white/70'
+                                    }`}
+                                >
+                                  {isSelected ? `✓ ${preset}` : preset}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="p-4 border-t border-white/10 bg-transparent flex items-center justify-between gap-3 shrink-0">
+                  <button type="button" className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer">
+                    Cancel
+                  </button>
+                  <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30">
+                    Save Group
+                  </button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 

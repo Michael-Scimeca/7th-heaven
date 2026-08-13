@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 interface RequirementItem {
   id: string;
@@ -477,13 +478,14 @@ export default function AdminLegalPage() {
                   >
                     <div className="flex items-start justify-between gap-4 mb-2">
                       <div className="flex items-start gap-3">
-                        <input
-                          aria-label={`Toggle inspection for ${req.title}`}
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={() => toggleCheck(req.id)}
-                          className="mt-1 accent-white w-4 h-4 rounded cursor-pointer shrink-0"
-                        />
+                        <div className="mt-0.5 shrink-0">
+                          <SquishyToggle
+                            id={`legal-toggle-${req.id}`}
+                            label={`Toggle inspection for ${req.title}`}
+                            checked={!!isChecked}
+                            onChange={() => toggleCheck(req.id)}
+                          />
+                        </div>
                         <div>
                           <h4 className={`text-sm font-bold transition-colors ${isChecked ? 'text-white' : 'text-rose-200'}`}>
                             {req.title}

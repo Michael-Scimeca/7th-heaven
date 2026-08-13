@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { ClipboardList, FileText, Check, CheckSquare, Square, PartyPopper, Lightbulb, History, Calendar, MapPin, Clock, Navigation } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 interface BookingData {
   id: string;
@@ -260,14 +261,17 @@ export default function PlannerDashboard() {
                 </div>
 
                 {plannerMode === 'signup' && (
-                  <label className="flex items-start gap-2.5 my-1.5 select-none cursor-pointer">
-                    <input aria-label="Input field" type="checkbox" checked={plannerAgeConfirmed} onChange={e => setPlannerAgeConfirmed(e.target.checked)}
-                      className="mt-0.5 w-3.5 h-3.5 rounded border-white/15 bg-white/[0.03]  text-[var(--color-accent)] focus:ring-0 cursor-pointer accent-fuchsia-600"
-                      onClick={(e) => e.stopPropagation()} />
+                  <div className="flex items-center gap-2.5 my-1.5 select-none cursor-pointer" onClick={() => setPlannerAgeConfirmed(!plannerAgeConfirmed)}>
+                    <SquishyToggle
+                      id="planner-age-confirm-toggle"
+                      label="I confirm that I am 18 years of age or older"
+                      checked={plannerAgeConfirmed}
+                      onChange={setPlannerAgeConfirmed}
+                    />
                     <span className="text-[var(--font-size-2xs)] font-semibold text-white/70 leading-tight">
                       I confirm that I am <span className="text-white font-bold">18 years of age or older</span>
                     </span>
-                  </label>
+                  </div>
                 )}
 
                 {plannerLoginError && (

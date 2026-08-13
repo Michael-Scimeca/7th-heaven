@@ -49,6 +49,10 @@ export interface GooeyDropdownProps {
   textColor?: string;
   /** Text color for menu items (defaults to textColor). */
   panelTextColor?: string;
+  /** Color for the dropdown chevron arrow. */
+  chevronColor?: string;
+  /** Whether to show the chevron arrow (defaults to true). */
+  showChevron?: boolean;
   /** Keep closed trigger pill transparent (defaults to true). */
   transparent?: boolean;
   /** Opacity for the glass background (0.1 to 1.0, defaults to 0.75). */
@@ -57,6 +61,10 @@ export interface GooeyDropdownProps {
   backdropBlur?: number;
   /** Extra classes on the outer wrapper. */
   className?: string;
+  /** Extra classes on the trigger button. */
+  buttonClassName?: string;
+  /** Optional max height for scrollable items list (in px). */
+  maxHeight?: number;
 }
 
 function hexToRgba(color: string, alpha: number = 1.0): string {
@@ -81,10 +89,14 @@ export default function GooeyDropdown({
   accentColor = "#242630",
   textColor = "#ffffff",
   panelTextColor,
+  chevronColor,
+  showChevron = true,
   transparent = true,
   glassOpacity = 1.0,
   backdropBlur = 0,
   className = "",
+  buttonClassName = "",
+  maxHeight,
 }: GooeyDropdownProps) {
   const [open, setOpen] = useState(false);
   const [isMorphComplete, setIsMorphComplete] = useState(false);
@@ -148,14 +160,15 @@ export default function GooeyDropdown({
   // Keep the panel exactly as wide as the trigger pill — it should only grow
   // downward, never bulge past the trigger's left/right edges.
   const panelWidth = triggerSize.width;
-  const panelHeight = PANEL_PADDING_Y * 2 + items.length * ROW_HEIGHT;
+  const contentHeight = PANEL_PADDING_Y * 2 + items.length * ROW_HEIGHT;
+  const targetHeight = maxHeight ? Math.min(contentHeight, maxHeight) : contentHeight;
 
   const panelStyle = open
-    ? { width: panelWidth, height: triggerSize.height + panelHeight, borderRadius: 22 }
+    ? { width: panelWidth, height: triggerSize.height + targetHeight, borderRadius: 16 }
     : { width: triggerSize.width, height: triggerSize.height, borderRadius: 999 };
 
   return (
-    <div ref={wrapRef} className={`${styles.wrap} ${className}`}>
+    <div ref={wrapRef} className={`${styles.wrap} ${className}`} data-open={open}>
       {/* Filter lives once per instance so multiple dropdowns don't fight
           over the same id. Zero-size + hidden so it renders nothing itself. */}
       <svg width="0" height="0" aria-hidden="true" focusable="false" className={styles.svgDefs}>
@@ -204,29 +217,32 @@ export default function GooeyDropdown({
         <button
           ref={triggerRef}
           type="button"
-          className={styles.trigger}
+          className={`${styles.trigger} ${buttonClassName}`}
           style={{ color: textColor }}
           onClick={toggle}
           aria-haspopup="menu"
           aria-expanded={open}
         >
-          {label}
-          <svg
-            width="10"
-            height="6"
-            viewBox="0 0 10 6"
-            fill="none"
-            className={styles.chevron}
-            data-open={open}
-          >
-            <path
-              d="M1 1L5 5L9 1"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <span>{label}</span>
+          {showChevron && (
+            <svg
+              width="10"
+              height="6"
+              viewBox="0 0 10 6"
+              fill="none"
+              className={styles.chevron}
+              data-open={open}
+            >
+              <path
+                d="M1 1L5 5L9 1"
+                stroke={chevronColor ?? "currentColor"}
+                fill="none"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </button>
 
         <ul
@@ -234,7 +250,12 @@ export default function GooeyDropdown({
           data-open={open && isMorphComplete}
           role="menu"
           aria-hidden={!open || !isMorphComplete}
-          style={{ width: panelWidth, paddingTop: triggerSize.height + 6 }}
+          style={{
+            width: panelWidth,
+            paddingTop: triggerSize.height + 6,
+            maxHeight: maxHeight ? targetHeight + triggerSize.height : undefined,
+            overflowY: maxHeight && contentHeight > maxHeight ? "auto" : "visible",
+          }}
         >
           {items.map((item, i) => {
             const delay = open ? 70 + i * 45 : 0;

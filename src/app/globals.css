@@ -1080,20 +1080,20 @@ select::placeholder,
 
   50% {
     border-radius: 7px / 15px;
-    transform: translateX(8px) scale(1.545, 0.727);
+    transform: translateX(9px) scale(1.545, 0.727);
     animation-timing-function: cubic-bezier(0, 0, 0.3, 1.5);
   }
 
   100% {
     border-radius: 11px;
-    transform: translateX(22px) scale(1);
+    transform: translateX(24px) scale(1);
   }
 }
 
 @keyframes squish-out {
   0% {
     border-radius: 11px;
-    transform: translateX(22px) scale(1);
+    transform: translateX(24px) scale(1);
     animation-timing-function: cubic-bezier(.75, 0, 1, 1);
   }
 

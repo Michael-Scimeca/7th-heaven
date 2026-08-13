@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Sliders, X, Copy, Check, RotateCcw, Sparkles, Layers, Eye, Type, CheckSquare, Search } from "lucide-react";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 export interface InputStyleSettings {
   bgRed: number;            // 0 - 255
@@ -774,14 +775,14 @@ a:hover {
                     <div className="pt-3 border-t border-white/10">
                       <p className="text-xs font-bold uppercase tracking-wider text-white/50 mb-2">Live Checkbox Preview</p>
                       <div className="space-y-2">
-                        <label className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
-                          <input type="checkbox" defaultChecked />
+                        <div className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
+                          <SquishyToggle id="editor-preview-1" label="Drop on ALL live streams" checked={true} onChange={() => {}} />
                           <span>Drop on ALL live streams (Global)</span>
-                        </label>
-                        <label className="flex items-center gap-3 text-xs text-white/70 cursor-pointer select-none">
-                          <input type="checkbox" />
+                        </div>
+                        <div className="flex items-center gap-3 text-xs text-white/70 cursor-pointer select-none">
+                          <SquishyToggle id="editor-preview-2" label="Send email notification" checked={false} onChange={() => {}} />
                           <span>Send email notification to band members</span>
-                        </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -898,10 +899,10 @@ a:hover {
                       <textarea rows={2} aria-label="Special Requests" placeholder="Add notes here..." className="form-input w-full" />
                     </div>
                     <div className="pt-2 border-t border-white/10">
-                      <label className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
-                        <input type="checkbox" defaultChecked />
+                      <div className="flex items-center gap-3 text-xs text-white cursor-pointer select-none">
+                        <SquishyToggle id="editor-preview-3" label="Interactive Checkbox Control" checked={true} onChange={() => {}} />
                         <span>Interactive Checkbox Control</span>
-                      </label>
+                      </div>
                     </div>
                   </div>
                 </div>

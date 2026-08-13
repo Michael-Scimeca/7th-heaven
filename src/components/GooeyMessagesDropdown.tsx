@@ -259,7 +259,7 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-50" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
+      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-[9999]" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
     >
       <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute w-0 h-0 overflow-hidden">
         <defs>
@@ -281,7 +281,7 @@ export default function GooeyMessagesDropdown({
           <div style={{ filter: open ? `url(#${filterId})` : "none" }}>
             <div
               className={`absolute ${currentBg} transition-[width,height,left,top,border-radius,background-color] duration-[420ms] ease-[cubic-bezier(0.65,0,0.35,1)]`}
-              style={shapeStyle}
+              style={{ ...shapeStyle, backgroundColor: open ? '#242630' : '#2f2f3c' }}
               onTransitionEnd={(e) => {
                 if (open && (e.propertyName === "height" || e.propertyName === "width")) {
                   setIsMorphComplete(true);
@@ -295,6 +295,7 @@ export default function GooeyMessagesDropdown({
                 height: triggerHeight,
                 left: 0,
                 top: 0,
+                backgroundColor: open ? '#242630' : '#2f2f3c',
               }}
             />
           </div>
@@ -359,6 +360,7 @@ export default function GooeyMessagesDropdown({
         ref={triggerRef}
         type="button"
         disabled={disabled}
+        style={{ backgroundColor: open ? '#242630' : '#2f2f3c' }}
         className={`relative z-50 ${fullWidth
           ? "w-full justify-between text-left"
           : "min-w-[52px] justify-center text-center"

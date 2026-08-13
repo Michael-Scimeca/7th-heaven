@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 export interface SquishyToggleProps {
   checked: boolean;
@@ -38,17 +38,6 @@ export interface SquishyToggleProps {
  * clipping, the thumb visibly pokes outside the track at the peak of the
  * bounce. Clipping to the pill shape contains that overshoot without
  * touching the animation curve itself.
- *
- * The resting position below uses `peer-checked:[transform:translateX(22px)]`
- * — an arbitrary-property utility — rather than Tailwind's `translate-x-*`
- * scale. As of Tailwind v4, `translate-x-*` sets the standalone CSS
- * `translate` property, not `transform`. Since `translate` and `transform`
- * are independent properties that compose together, using `translate-x-22`
- * here would stack on top of the squish animation's own `transform:
- * translateX(...)` — e.g. a static 22px translate plus an animating 0→22px
- * transform adds up to ~44px, launching the thumb past the track. Keeping
- * both the fallback and the animation on the same `transform` property
- * avoids that entirely.
  */
 export function SquishyToggle({
   checked,
@@ -59,16 +48,22 @@ export function SquishyToggle({
   className = '',
 }: SquishyToggleProps) {
   const thumbRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.checked;
-    onChange(next);
-
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     const thumb = thumbRef.current;
     if (!thumb) return;
     thumb.classList.remove('animate-squish-in', 'animate-squish-out');
     void thumb.offsetWidth; // force reflow so the animation restarts every time
-    thumb.classList.add(next ? 'animate-squish-in' : 'animate-squish-out');
+    thumb.classList.add(checked ? 'animate-squish-in' : 'animate-squish-out');
+  }, [checked]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.checked);
   };
 
   const handleAnimationEnd = () => {
@@ -77,7 +72,8 @@ export function SquishyToggle({
 
   return (
     <div
-      className={`squishy-toggle relative inline-block h-[30px] w-[52px] select-none overflow-hidden rounded-full bg-[oklab(0.999994_0.0000455678_0.0000200868_/_0.02)] ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      onClick={(e) => e.stopPropagation()}
+      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
     >
       <input
         id={id}
@@ -86,20 +82,21 @@ export function SquishyToggle({
         checked={checked}
         disabled={disabled}
         onChange={handleChange}
-        className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full opacity-0 disabled:cursor-not-allowed"
+        className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
       />
 
       {/* track */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#aeaeae]/20 border-none transition-colors duration-300 peer-checked:bg-[#7c00ff]/30" />
+      <div className="squishy-track pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-colors duration-300 peer-checked:bg-[#9333ea] peer-checked:border-[#a855f7] peer-checked:shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
 
       {/* thumb */}
       <div
         ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        className="pointer-events-none absolute left-1 top-1 h-[22px] w-[22px] rounded-full bg-white transition-colors duration-300 peer-checked:bg-[#a855f7] shadow-[0_4px_4px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2)] peer-checked:[transform:translateX(22px)]"
+        className="squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] peer-checked:translate-x-[24px]"
       />
     </div>
   );
 }
 
 export default SquishyToggle;
+

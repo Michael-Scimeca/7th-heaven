@@ -577,7 +577,7 @@ export default function LoginModal() {
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Backdrop */}
-      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-transparent backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
+      <button type="button" aria-label="Close backdrop" className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity border-0 p-0 cursor-default" onClick={closeModal} />
 
       {/* Modal */}
       <div

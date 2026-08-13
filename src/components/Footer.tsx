@@ -173,152 +173,152 @@ export function Footer() {
       <FooterPicks />
 
       <div className="relative z-10">
-      <div className="site-container relative z-10">
+        <div className="site-container relative z-10">
 
 
 
-      </div>
+        </div>
 
-      {/* SMS Text Alerts */}
-      <div className="site-container pt-0 pb-2" suppressHydrationWarning>
-        <div className="max-w-2xl" suppressHydrationWarning>
-          <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
-            <Smartphone className="w-5 h-5 text-[var(--color-accent)]" />
-            <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-[var(--text-color)]">Text Alerts</h3>
-          </div>
-          <p className="text-base text-[var(--muted-text)] mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
-          {smsStatus === 'success' ? (
-            <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-              <Check className="w-5 h-5 text-emerald-600" />
-              <p className="text-sm font-bold text-emerald-600">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
+        {/* SMS Text Alerts */}
+        <div className="site-container pt-0 pb-2" suppressHydrationWarning>
+          <div className="max-w-2xl" suppressHydrationWarning>
+            <div className="flex items-center gap-3 mb-1" suppressHydrationWarning>
+              <Smartphone className="w-5 h-5 text-[var(--color-accent)]" />
+              <h3 className="font-[var(--font-heading)] text-lg font-black uppercase tracking-tight text-[var(--text-color)]">Text Alerts</h3>
             </div>
-          ) : (
-            <form
-              suppressHydrationWarning
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const digits = smsPhone.replace(/\D/g, '');
-                if (digits.length < 10 || !smsZip || smsZip.length < 5) return;
-                setSmsStatus('sending');
-                try {
-                  const res = await fetch('/api/sms/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phone: smsPhone, zipCode: smsZip, distance: smsDistance, name: member?.name || '' }),
-                  });
-                  if (res.ok) { setSmsStatus('success'); setSmsPhone(''); setSmsZip(''); }
-                  else setSmsStatus('error');
-                } catch { setSmsStatus('error'); }
-              }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
-            >
-              <div className="input-glow-border rounded-lg flex-1 min-w-[175px] sm:min-w-[190px]" suppressHydrationWarning>
-                <input aria-label="Input field"
-                  type="tel"
-                  value={smsPhone}
-                  onChange={e => setSmsPhone(formatPhone(e.target.value))}
-                  placeholder="(555) 123-4567"
-                  required
-                  suppressHydrationWarning
-                  className="w-full px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
-                />
+            <p className="text-base text-[var(--muted-text)] mb-5">Get a text when we book a show near you. Local shows only — no spam.</p>
+            {smsStatus === 'success' ? (
+              <div className="flex items-center gap-3 px-5 py-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+                <Check className="w-5 h-5 text-emerald-600" />
+                <p className="text-sm font-bold text-emerald-600">You&apos;re subscribed! We&apos;ll text you when we&apos;re in your area.</p>
               </div>
-              <div className="flex gap-2 w-full sm:w-auto shrink-0" suppressHydrationWarning>
-                <div className="input-glow-border rounded-lg w-24 sm:w-28" suppressHydrationWarning>
-                  <input aria-label="Input field"
-                    type="text"
-                    value={smsZip}
-                    onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                    placeholder="Zip code"
-                    required
-                    maxLength={5}
-                    suppressHydrationWarning
-                    className="w-full px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
-                  />
-                </div>
-                <div className="shrink-0 flex items-center">
-                  <GooeyMessagesDropdown
-                    placeholder={`${smsDistance} mi`}
-                    defaultSelectedId={String(smsDistance)}
-                    customers={[
-                      { id: "25", name: "25 mi" },
-                      { id: "50", name: "50 mi" },
-                      { id: "100", name: "100 mi" },
-                      { id: "200", name: "200 mi" },
-                    ]}
-                    onSelect={(opt) => setSmsDistance(opt.id)}
-                  />
-                </div>
-              </div>
-              <button aria-label="Action button"
-                type="submit"
-                disabled={smsStatus === 'sending'}
-                className="w-full sm:w-auto shrink-0 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
+            ) : (
+              <form
+                suppressHydrationWarning
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const digits = smsPhone.replace(/\D/g, '');
+                  if (digits.length < 10 || !smsZip || smsZip.length < 5) return;
+                  setSmsStatus('sending');
+                  try {
+                    const res = await fetch('/api/sms/subscribe', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ phone: smsPhone, zipCode: smsZip, distance: smsDistance, name: member?.name || '' }),
+                    });
+                    if (res.ok) { setSmsStatus('success'); setSmsPhone(''); setSmsZip(''); }
+                    else setSmsStatus('error');
+                  } catch { setSmsStatus('error'); }
+                }}
+                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full"
               >
-                {smsStatus === 'sending' ? '...' : <><Smartphone className="w-4 h-4" /> Subscribe</>}
-              </button>
-            </form>
-          )}
-          {smsStatus === 'error' && <p className="text-xs text-rose-500 mt-2">Something went wrong. Try again.</p>}
-          <p className="text-xs text-[var(--muted-text)] mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <Link href="/privacy" className="underline hover:text-[var(--text-color)] transition-colors">Privacy</Link> & <Link href="/terms" className="underline hover:text-[var(--text-color)] transition-colors">Terms</Link>.</p>
-        </div>
-      </div>
-
-      {/* Endorsements */}
-      <div className="site-container py-8 text-left">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--muted-text)] mb-8">Official Gear Endorsements</p>
-        <div className="flex flex-wrap justify-start items-center gap-x-8 gap-y-6">
-          {endorsements.map((brand) => (
-            <Image width={200} height={200} unoptimized
-              key={brand.name}
-              src={`${brand.logoPath}?v=3`}
-              alt={brand.name}
-              className="h-6 md:h-7 w-auto object-contain opacity-100 shrink-0"
-              loading="lazy"
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Inline Links Row — MOVED TO BOTTOM */}
-      <div className="site-container pt-2 pb-1">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          {/* Nav Links */}
-          <div className="flex flex-wrap items-center gap-1 pl-28 sm:pl-36">
-            {footerLinks.map((link, i) => (
-              <span key={link.href} className="flex items-center">
-                <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
-                  {link.label}
-                </Link>
-                {i < footerLinks.length - 1 && (
-                  <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
-                )}
-              </span>
-            ))}
-          </div>
-
-          {/* Social Links */}
-          <div className="flex flex-wrap items-center gap-1">
-            {socialLinks.map((link, i) => (
-              <span key={link.name} className="flex items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
-                  {link.name}
-                </a>
-                {i < socialLinks.length - 1 && (
-                  <span className=" text-[var(--color-accent)] mx-1.5 text-[var(--font-size-md)] font-bold">/</span>
-                )}
-              </span>
-            ))}
+                <div className="input-glow-border rounded-lg flex-1 min-w-[175px] sm:min-w-[190px]" suppressHydrationWarning>
+                  <input aria-label="Input field"
+                    type="tel"
+                    value={smsPhone}
+                    onChange={e => setSmsPhone(formatPhone(e.target.value))}
+                    placeholder="(555) 123-4567"
+                    required
+                    suppressHydrationWarning
+                    className="w-full px-4 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
+                  />
+                </div>
+                <div className="flex gap-2 w-full sm:w-auto shrink-0" suppressHydrationWarning>
+                  <div className="input-glow-border rounded-lg w-24 sm:w-28" suppressHydrationWarning>
+                    <input aria-label="Input field"
+                      type="text"
+                      value={smsZip}
+                      onChange={e => setSmsZip(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                      placeholder="Zip code"
+                      required
+                      maxLength={5}
+                      suppressHydrationWarning
+                      className="w-full px-3 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-sm text-[var(--text-color)] placeholder:text-[var(--muted-text)] outline-none transition-colors rounded-lg"
+                    />
+                  </div>
+                  <div className="shrink-0 flex items-center">
+                    <GooeyMessagesDropdown
+                      placeholder={`${smsDistance} mi`}
+                      defaultSelectedId={String(smsDistance)}
+                      customers={[
+                        { id: "25", name: "25 mi" },
+                        { id: "50", name: "50 mi" },
+                        { id: "100", name: "100 mi" },
+                        { id: "200", name: "200 mi" },
+                      ]}
+                      onSelect={(opt) => setSmsDistance(opt.id)}
+                    />
+                  </div>
+                </div>
+                <button aria-label="Action button"
+                  type="submit"
+                  disabled={smsStatus === 'sending'}
+                  className="w-full sm:w-auto shrink-0 px-6 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-[0_0_20px_rgba(255,10,61,0.2)] whitespace-nowrap flex items-center justify-center gap-2"
+                >
+                  {smsStatus === 'sending' ? '...' : <><Smartphone className="w-4 h-4" /> Subscribe</>}
+                </button>
+              </form>
+            )}
+            {smsStatus === 'error' && <p className="text-xs text-rose-500 mt-2">Something went wrong. Try again.</p>}
+            <p className="text-xs text-[var(--muted-text)] mt-3">Msg & data rates may apply. Reply STOP to unsubscribe. <Link href="/privacy" className="underline hover:text-[var(--text-color)] transition-colors">Privacy</Link> & <Link href="/terms" className="underline hover:text-[var(--text-color)] transition-colors">Terms</Link>.</p>
           </div>
         </div>
-      </div>
 
-      {/* Legal Bottom */}
-      <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 pl-28 sm:pl-36">
-        <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
-          Designed & Developed by NTD Records © {new Date().getFullYear()}
-        </p>
-      </div>
+        {/* Endorsements */}
+        <div className="site-container py-8 text-left">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--muted-text)] mb-8">Official Gear Endorsements</p>
+          <div className="flex flex-wrap justify-start items-center gap-x-8 gap-y-6">
+            {endorsements.map((brand) => (
+              <Image width={200} height={200} unoptimized
+                key={brand.name}
+                src={`${brand.logoPath}?v=3`}
+                alt={brand.name}
+                className="h-6 md:h-7 w-auto object-contain opacity-100 shrink-0"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Inline Links Row — MOVED TO BOTTOM */}
+        <div className="site-container pt-2 pb-1">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            {/* Nav Links */}
+            <div className="flex flex-wrap items-center gap-1">
+              {footerLinks.map((link, i) => (
+                <span key={link.href} className="flex items-center">
+                  <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                    {link.label}
+                  </Link>
+                  {i < footerLinks.length - 1 && (
+                    <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
+                  )}
+                </span>
+              ))}
+            </div>
+
+            {/* Social Links */}
+            <div className="flex flex-wrap items-center gap-1">
+              {socialLinks.map((link, i) => (
+                <span key={link.name} className="flex items-center">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                    {link.name}
+                  </a>
+                  {i < socialLinks.length - 1 && (
+                    <span className=" text-[var(--color-accent)] mx-1.5 text-[var(--font-size-md)] font-bold">/</span>
+                  )}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Legal Bottom */}
+        <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 pl-28 sm:pl-36">
+          <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
+            Designed & Developed by NTD Records © {new Date().getFullYear()}
+          </p>
+        </div>
       </div>
     </footer>
   );

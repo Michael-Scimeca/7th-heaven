@@ -12,6 +12,7 @@ import { isShowOver, typeConfig, getShowType, getShowDateTime } from "@/lib/tour
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import { SquishyToggle } from "@/components/SquishyToggle";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
 function WavyDivider({ seed = 0, hovered = false, active = false }: { seed?: number; hovered?: boolean; active?: boolean }) {
@@ -1748,41 +1749,69 @@ ${filterLine}
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-t border-b border-white/5 my-2">
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formAllAges} onChange={e => setFormAllAges(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    All Ages Show
-                  </label>
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formIsFestival} onChange={e => setFormIsFestival(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    Is Festival
-                  </label>
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formIsPrivate} onChange={e => setFormIsPrivate(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    Private Event
-                  </label>
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formIsUnplugged} onChange={e => setFormIsUnplugged(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    Unplugged Show
-                  </label>
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formIsOutdoor} onChange={e => setFormIsOutdoor(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    Outdoor Show
-                  </label>
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formIsCasino} onChange={e => setFormIsCasino(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    Casino Show
-                  </label>
-                  <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
-                    <input aria-label="Input field" type="checkbox" checked={formIsSpecialEvent} onChange={e => setFormIsSpecialEvent(e.target.checked)}
-                      className="accent-[var(--color-accent)] w-4 h-4" />
-                    Special Event
-                  </label>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-all-ages-toggle"
+                      label="All Ages Show"
+                      checked={formAllAges}
+                      onChange={setFormAllAges}
+                    />
+                    <span>All Ages Show</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-is-festival-toggle"
+                      label="Is Festival"
+                      checked={formIsFestival}
+                      onChange={setFormIsFestival}
+                    />
+                    <span>Is Festival</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-is-private-toggle"
+                      label="Private Event"
+                      checked={formIsPrivate}
+                      onChange={setFormIsPrivate}
+                    />
+                    <span>Private Event</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-is-unplugged-toggle"
+                      label="Unplugged Show"
+                      checked={formIsUnplugged}
+                      onChange={setFormIsUnplugged}
+                    />
+                    <span>Unplugged Show</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-is-outdoor-toggle"
+                      label="Outdoor Show"
+                      checked={formIsOutdoor}
+                      onChange={setFormIsOutdoor}
+                    />
+                    <span>Outdoor Show</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-is-casino-toggle"
+                      label="Casino Show"
+                      checked={formIsCasino}
+                      onChange={setFormIsCasino}
+                    />
+                    <span>Casino Show</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 cursor-pointer select-none">
+                    <SquishyToggle
+                      id="tour-is-special-event-toggle"
+                      label="Special Event"
+                      checked={formIsSpecialEvent}
+                      onChange={setFormIsSpecialEvent}
+                    />
+                    <span>Special Event</span>
+                  </div>
                 </div>
 
                 <div className="flex gap-3 pt-4 border-t border-white/5">
@@ -2076,14 +2105,14 @@ ${filterLine}
             <div className="mb-5 pt-4 border-t border-white/10">
               <div className="flex items-center justify-between mb-3">
                 <label className="text-white text-xs uppercase font-extrabold tracking-wider">Map Fade Mask</label>
-                <input aria-label="Input field"
-                  type="checkbox"
+                <SquishyToggle
+                  id="map-fade-mask-toggle"
+                  label="Map Fade Mask"
                   checked={mapMaskEnabled}
-                  onChange={(e) => {
-                    setMapMaskEnabled(e.target.checked);
-                    localStorage.setItem("7h_tour_map_mask_enabled", String(e.target.checked));
+                  onChange={(checked) => {
+                    setMapMaskEnabled(checked);
+                    localStorage.setItem("7h_tour_map_mask_enabled", String(checked));
                   }}
-                  className="w-4 h-4 accent-[var(--color-accent)] cursor-pointer"
                 />
               </div>
 

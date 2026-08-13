@@ -14,6 +14,10 @@ import { useRouter } from 'next/navigation';
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import Dropdown from "@/components/Dropdown";
+import { SquishyToggle } from "@/components/SquishyToggle";
+import GooeyDropdown from "@/components/GooeyDropdown";
+import GlowInput from "@/components/GlowInput";
+import SearchInput from "@/components/SearchInput";
 
 import { adminKillStream, adminBanUser, seedMockData, adminCreateCrewMember, adminResetPassword, adminCreateAdmin } from "../../actions";
 import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
@@ -34,7 +38,7 @@ const STANDARD_ROLE_TAGS_SET = new Set(['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP
 import 'react-quill-new/dist/quill.snow.css';
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
-import { Clock, CheckCircle2 } from "lucide-react";
+import { Clock, CheckCircle2, Plus } from "lucide-react";
 import { CruiseLivePreview } from "./CruiseLivePreview";
 import { AdminAuthGate } from "./AdminAuthGate";
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
@@ -150,9 +154,9 @@ const STATIC_CREW = [
 ];
 
 const getAvatarColor = (name: string) => {
-  const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#34d399', '#c084fc', '#f87171', '#8b5cf6', '#ec4899'];
+  const colors = ['#9333ea', '#a855f7', '#8b5cf6', '#7e22ce', '#c084fc', '#6b21a8'];
   let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < (name || '').length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
   return colors[Math.abs(hash) % colors.length];
 };
 
@@ -289,15 +293,16 @@ function DutyRoleEditorPopover({
 }: DutyRoleEditorPopoverProps) {
   return (
     <div
-      className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
+      className="absolute right-0 top-full mt-2 p-4 sm:p-5 bg-[#0f0720]/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-3.5 w-[340px] sm:w-[380px] text-white z-50 animate-[scaleIn_0.15s_ease-out]"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
         <div className="truncate pr-2">
-          <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block truncate">Edit Roles</span>
-          <span className="text-[9px] font-bold text-slate-500 block truncate">{memberName}</span>
+          <span className="text-xs font-black uppercase tracking-wider text-white block truncate">Edit Roles</span>
+          <span className="text-[10px] font-bold text-purple-300 block truncate">{memberName}</span>
         </div>
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
           <button
             type="button"
             onClick={(e) => {
@@ -305,9 +310,9 @@ function DutyRoleEditorPopover({
               handleSaveDuty(memberId);
             }}
             disabled={savingDuty}
-            className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-extrabold text-xs rounded-xl cursor-pointer border-none shadow-[0_0_12px_rgba(147,51,234,0.4)] uppercase tracking-wider transition-all"
           >
-            Save
+            {savingDuty ? 'Saving...' : 'Save'}
           </button>
           <button
             type="button"
@@ -316,7 +321,7 @@ function DutyRoleEditorPopover({
               e.stopPropagation();
               setEditingDutyMemberId(null);
             }}
-            className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
+            className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 font-bold text-xs rounded-xl cursor-pointer border-none transition-all"
           >
             Cancel
           </button>
@@ -325,8 +330,8 @@ function DutyRoleEditorPopover({
 
       {/* Quick-Select Chips (All Roles) */}
       <div>
-        <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">Quick Toggle Presets:</span>
-        <div className="flex flex-wrap gap-1 max-h-[180px] overflow-y-auto custom-scrollbar p-1.5 bg-slate-50 border border-slate-200 rounded-lg">
+        <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-300/80 block mb-1.5">Quick Toggle Presets:</span>
+        <div className="flex flex-wrap gap-1.5 max-h-[240px] min-h-[140px] overflow-y-auto custom-scrollbar p-2.5 bg-black/40 border border-white/10 rounded-xl shadow-inner">
           {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
             const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
             const isSelected = currentList.includes(chip.toUpperCase());
@@ -343,12 +348,12 @@ function DutyRoleEditorPopover({
                   }
                   setEditingDutyValue(updated.join(', '));
                 }}
-                className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
-                  ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
-                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer border select-none ${isSelected
+                  ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-[1.02]'
+                  : 'bg-white/10 border-white/15 text-white/90 hover:bg-white/20 hover:border-purple-400/40 hover:text-white'
                   }`}
               >
-                {isSelected ? ` ${chip}` : `+ ${chip}`}
+                {isSelected ? `✓ ${chip}` : `+ ${chip}`}
               </button>
             );
           })}
@@ -356,27 +361,26 @@ function DutyRoleEditorPopover({
       </div>
 
       {/* Custom role input */}
-      <div className="pt-1.5 border-t border-slate-200 space-y-1">
+      <div className="pt-2 border-t border-white/10 space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Custom / Edit Text:</span>
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-white/60">Custom / Edit Text:</span>
           {editingDutyValue && (
             <button
               type="button"
               onClick={() => setEditingDutyValue('')}
-              className="text-[9px] font-bold text-rose-600 hover:text-rose-800 border-none bg-transparent cursor-pointer"
+              className="text-[10px] font-bold text-rose-400 hover:text-rose-300 border-none bg-transparent cursor-pointer transition-colors"
             >
               Clear Roles
             </button>
           )}
         </div>
-        <input
+        <GlowInput
           type="text"
           aria-label="Custom duty roles"
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          style={{ backgroundColor: '#ffffff', color: '#000000' }}
-          className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
+          className="w-full bg-black/40 border border-white/15 rounded-xl px-3 py-2 text-xs font-semibold text-white placeholder:text-white/40 focus:outline-none focus:border-purple-400 focus:bg-white/15 transition-all shadow-inner"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handleSaveDuty(memberId);
@@ -462,7 +466,7 @@ const formatTimeFrame = (start: number, end: number) => {
 
 const generateTimeOptions = () => {
   const opts = [];
-  for (let h = 8; h <= 24; h += 0.5) {
+  for (let h = 0; h <= 24; h += 0.5) {
     opts.push({
       value: h,
       label: formatHour(h)
@@ -1048,6 +1052,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   // Group scheduling and capacity states
   const [cellGroupPopover, setCellGroupPopover] = useState<string | null>(null);
+  const [cellGroupPopoverPos, setCellGroupPopoverPos] = useState<{ top: number; left: number } | null>(null);
   const [showGroupsSubmenu, setShowGroupsSubmenu] = useState<string | null>(null);
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const createGroupForDateRef = useRef<string | null>(null);
@@ -3139,22 +3144,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
   //  Section Helper Render Functions for Movable Layout 
-  const renderInfoToggle = (sectionId: string) => {
-    const isOpen = openInfoSection === sectionId;
-    return (
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          setOpenInfoSection(isOpen ? null : sectionId);
-        }}
-        className="w-[18px] h-[18px] rounded-full bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black text-white/40 hover:text-purple-300 transition-colors cursor-pointer shrink-0 ml-1.5"
-        title="Show info"
-      >
-        i
-      </button>
-    );
-  };
+  const renderInfoToggle = (_sectionId: string) => null;
 
   const renderInfoBanner = (sectionId: string, title: string, description: string) => {
     if (openInfoSection !== sectionId) return null;
@@ -3173,12 +3163,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
       <section id="admin-sec-emergencybroadcast" className="overflow-visible">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none transition-colors">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none transition-colors">
+          <div className="flex items-center">
+
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
               Emergency Show & Fan Alert Dispatcher
               {renderInfoToggle('emergencybroadcast')}
             </h3>
@@ -3198,12 +3187,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/*  Role-Based Email Lists & Subscriber Directory */}
       <section id="admin-sec-emaildirectory" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none transition-colors">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none transition-colors">
+          <div className="flex items-center">
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               Role-Based Email Lists & Subscriber Directory
               {renderInfoToggle('emaildirectory')}
             </h3>
@@ -3221,12 +3208,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </section>
       <section id="admin-sec-announcements" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+          <div className="flex items-center">
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
               Band Announcements
               {renderInfoToggle('announcements')}
             </h3>
@@ -3375,11 +3360,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const renderAnalytics = () => (
     <section id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-6 pr-6 pl-0 flex items-center justify-between text-white cursor-pointer select-none hover:bg-white/5 transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/10 rounded text-white/40 hover:text-white transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+        <div className="flex items-center">
+
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             Google Analytics GA4 Suite
             {renderInfoToggle('analytics')}
           </h3>
@@ -3692,12 +3676,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('shopify'); } }}
         className="py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
       >
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+        <div className="flex items-center">
+
           <h3 className="text-left text-lg font-bold tracking-tight flex items-center gap-2 text-white cursor-pointer">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#96bf48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
             Shopify
             {renderInfoToggle("shopify")}
           </h3>
@@ -4225,13 +4207,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderBookings = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bookings'); } }} onClick={() => toggleSection('bookings')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bookings'); } }} onClick={() => toggleSection('bookings')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
+
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
             Booking Requests
             {renderInfoToggle('bookings')}
           </h3>
@@ -4509,13 +4489,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderPlanners = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('planners'); } }} onClick={() => toggleSection('planners')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('planners'); } }} onClick={() => toggleSection('planners')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
+
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             Event Planners Directory
             {renderInfoToggle('planners')}
           </h3>
@@ -4593,13 +4571,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderPhotoMod = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
             Fan Photo Moderation Queue
             {renderInfoToggle('photomod')}
           </h3>
@@ -4656,13 +4631,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderMemoryMod = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('memorymod'); } }} onClick={() => toggleSection('memorymod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
+
           <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 cursor-pointer text-white">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" /><path d="M12 8v4l3 3" /></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" /><path d="M12 8v4l3 3" /></svg>
             Memory Moderation Queue
             {renderInfoToggle('memorymod')}
           </h3>
@@ -4733,12 +4706,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   const renderLiveAlerts = () => (
     <section className="overflow-hidden">
       <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+        <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
             Active Live Streams
             {renderInfoToggle('livealerts')}
           </h3>
@@ -4825,11 +4795,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('smsblast'); } }}
         className="py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
       >
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+        <div className="flex items-center">
+
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
             SMS Proximity Blast
             {renderInfoToggle('smsblast')}
           </h3>
@@ -5498,11 +5467,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <section id="section-crewsms" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewsms'); } }} onClick={() => toggleSection('crewsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+          <div className="flex items-center">
+
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
               Crew SMS Alert & Group Setup
@@ -5526,9 +5493,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <button
                       type="button"
                       onClick={() => setIsManageRolesModalOpen(true)}
-                      className="px-2 py-1 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-black/70 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors cursor-pointer flex items-center gap-1 border-solid"
+                      className="bg-transparent border-none p-0 text-[var(--font-size-4xs)] font-bold text-white/70 hover:text-white underline decoration-purple-400/60 underline-offset-4 hover:decoration-purple-400 transition-all cursor-pointer flex items-center gap-1"
                     >
-                      Manage Preset Roles
+                      <Plus className="w-3 h-3 text-purple-400" />
+                      <span>Manage Preset Roles</span>
                     </button>
                   </div>
                   <span className="text-[0.6rem] text-black/40 dark:text-white/30 font-mono">
@@ -5536,7 +5504,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </span>
                 </div>
                 <div className="bg-transparent border-none p-0 py-2 min-h-[650px] max-h-[900px] overflow-y-auto custom-scrollbar">
-                  <div className="flex flex-col gap-1">
+                  <ul className="flex flex-col gap-0 list-none p-0 m-0">
                     {(() => {
                       const selectedCrewPhonesSet = new Set(selectedCrewPhones);
                       return recipients
@@ -5556,212 +5524,124 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           const editKey = `main:${r.id}`;
                           const isEditingThis = editingDutyMemberId === editKey || editingDutyMemberId === r.id;
                           return (
-                            <div
-                              key={r.id}
-                              className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-2 border-b border-white/15 transition-colors duration-200 relative min-h-[38px] ${isChecked
-                                ? 'bg-purple-500/10 text-white'
-                                : 'hover:bg-white/[0.04]'
-                                }`}
-                              title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
-                            >
+                            <li key={r.id} className="border-b border-white/10 last:border-b-0 list-none">
                               <div
-                                role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
-                                onClick={() => handleToggleMember(r)}
-                                className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer"
+                                className={`flex items-center justify-between gap-2.5 pr-2.5 pl-0 py-2 transition-colors duration-200 relative min-h-[38px] ${isChecked
+                                  ? 'bg-purple-500/10 text-white'
+                                  : 'hover:bg-white/[0.04]'
+                                  }`}
+                                title={` ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                               >
-                                {/* High-Visibility Amber Checkbox */}
-                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors shrink-0 select-none ${isChecked
-                                  ? 'bg-purple-600 border-purple-400 text-white shadow-[0_0_10px_rgba(147, 51, 234,0.5)] scale-105'
-                                  : 'bg-black/60 border-white/30 hover:border-white/60'
-                                  }`}>
-                                  {isChecked && (
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                  )}
-                                </div>
-
-                                {/* Avatar */}
-                                {(() => {
-                                  const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
-                                  return avatarSrc ? (
-                                    <img
-                                      src={avatarSrc}
-                                      alt={r.name}
-                                      className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
-                                      onError={(e) => {
-                                        const fallback = resolveMemberAvatar(r.name, '');
-                                        if (fallback && !e.currentTarget.src.endsWith(fallback)) {
-                                          e.currentTarget.src = fallback;
-                                        }
-                                      }}
-                                    />
-                                  ) : (
-                                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
-                                      {r.name.slice(0, 2)}
-                                    </div>
-                                  );
-                                })()}
-
-                                {/* Name */}
-                                <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
-                              </div>
-
-                              {/* Role & Edit actions */}
-                              <div className="flex items-center gap-1.5 shrink-0 relative">
-                                {r.duty ? (
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                      setEditingDutyValue(r.duty || '');
-                                    }}
-                                    className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
-                                    title={`Click to change or edit role(s): ${r.duty}`}
-                                  >
-                                    <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
-                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                  </button>
-                                ) : (
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                      setEditingDutyValue(r.duty || '');
-                                    }}
-                                    className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-colors flex items-center gap-1"
-                                    title="Click to assign role(s)"
-                                  >
-                                    <span>+ Assign Role</span>
-                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                  </button>
-                                )}
-
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditingDutyMemberId(isEditingThis ? null : editKey);
-                                    setEditingDutyValue(r.duty || '');
-                                  }}
-                                  className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
-                                  title="Edit Role"
+                                <div
+                                  role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleToggleMember(r); } }}
+                                  onClick={() => handleToggleMember(r)}
+                                  className="flex items-center gap-2.5 flex-1 min-w-0 select-none h-full cursor-pointer border-none"
                                 >
-                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
-                                </button>
+                                  <SquishyToggle
+                                    id={`roster-toggle-1-${r.id}`}
+                                    label={`Select ${r.name}`}
+                                    checked={isChecked}
+                                    onChange={() => handleToggleMember(r)}
+                                  />
 
-                                {isEditingThis && (
-                                  <div
-                                    className="absolute right-0 top-full mt-1.5 p-3 bg-white border border-slate-300 space-y-2.5 w-[280px] text-black border-solid z-50 animate-[scaleIn_0.15s_ease-out]"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                                      <div className="truncate pr-2">
-                                        <span className="text-[11px] font-black uppercase tracking-wider text-slate-900 block truncate">Edit Roles</span>
-                                        <span className="text-[9px] font-bold text-slate-500 block truncate">{r.name}</span>
-                                      </div>
-                                      <div className="flex items-center gap-1 shrink-0">
-                                        <button
-                                          type="button"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleSaveDuty(r.id);
-                                          }}
-                                          disabled={savingDuty}
-                                          className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] rounded cursor-pointer border-none shadow-xs uppercase tracking-wider"
-                                        >
-                                          Save
-                                        </button>
-                                        <button
-                                          type="button"
-                                          aria-label="Cancel editing duty member"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            setEditingDutyMemberId(null);
-                                          }}
-                                          className="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[10px] rounded cursor-pointer border-none"
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
-                                    </div>
-
-                                    {/* Quick-Select Chips (All Roles) */}
-                                    <div>
-                                      <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">Quick Toggle Presets:</span>
-                                      <div className="flex flex-wrap gap-1 max-h-[180px] overflow-y-auto custom-scrollbar p-1.5 bg-slate-50 border border-slate-200 rounded-lg">
-                                        {Array.from(new Set([...(presetRoles || []), 'STAGE HAND', 'MERCH', 'MOVING EQUIPMENT', 'TEAR DOWN', 'VIP HOST', 'MC', 'BAND MEMBER', 'AUDIO MIX', 'EQUIPMENT SETUP', 'LIGHTS', 'SERVER', 'EVENT SUPPORT', 'SOUND ENGINEER', 'TOUR MANAGER', 'CHEF', 'DRIVER', 'SECURITY', 'PHOTOGRAPHER', 'CREW'])).map((chip) => {
-                                          const currentList = editingDutyValue.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
-                                          const isSelected = currentList.includes(chip.toUpperCase());
-                                          return (
-                                            <button
-                                              key={chip}
-                                              type="button"
-                                              onClick={() => {
-                                                let updated: string[];
-                                                if (isSelected) {
-                                                  updated = currentList.filter(c => c !== chip.toUpperCase());
-                                                } else {
-                                                  updated = [...currentList, chip.toUpperCase()];
-                                                }
-                                                setEditingDutyValue(updated.join(', '));
-                                              }}
-                                              className={`px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
-                                                ? 'bg-purple-600 border-purple-600 text-white shadow-xs'
-                                                : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
-                                                }`}
-                                            >
-                                              {isSelected ? ` ${chip}` : `+ ${chip}`}
-                                            </button>
-                                          );
-                                        })}
-                                      </div>
-                                    </div>
-
-                                    {/* Custom role input */}
-                                    <div className="pt-1.5 border-t border-slate-200 space-y-1">
-                                      <div className="flex items-center justify-between">
-                                        <span className="text-[9px] font-extrabold uppercase tracking-wider text-slate-500">Custom / Edit Text:</span>
-                                        {editingDutyValue && (
-                                          <button
-                                            type="button"
-                                            onClick={() => setEditingDutyValue('')}
-                                            className="text-[9px] font-bold text-rose-600 hover:text-rose-800 border-none bg-transparent cursor-pointer"
-                                          >
-                                            Clear Roles
-                                          </button>
-                                        )}
-                                      </div>
-                                      <input
-                                        type="text"
-                                        aria-label="Custom duty roles"
-                                        value={editingDutyValue}
-                                        onChange={(e) => setEditingDutyValue(e.target.value)}
-                                        placeholder="e.g. STAGE HAND, MERCH..."
-                                        style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                                        className="w-full bg-white! text-black! border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
-                                        onKeyDown={(e) => {
-                                          if (e.key === 'Enter') {
-                                            handleSaveDuty(r.id);
+                                  {/* Avatar */}
+                                  {(() => {
+                                    const avatarSrc = resolveMemberAvatar(r.name, r.avatar);
+                                    return avatarSrc ? (
+                                      <img
+                                        src={avatarSrc}
+                                        alt={r.name}
+                                        className={`w-10 h-10 rounded-full object-cover shrink-0 border-2 border-white shadow-md ${!r.phone ? 'opacity-40' : ''}`}
+                                        onError={(e) => {
+                                          const fallback = resolveMemberAvatar(r.name, '');
+                                          if (fallback && !e.currentTarget.src.endsWith(fallback)) {
+                                            e.currentTarget.src = fallback;
                                           }
                                         }}
                                       />
-                                    </div>
-                                  </div>
-                                )}
+                                    ) : (
+                                      <div className={`w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md flex items-center justify-center text-xs font-black uppercase text-white shrink-0 ${!r.phone ? 'opacity-40' : ''}`}>
+                                        {r.name.slice(0, 2)}
+                                      </div>
+                                    );
+                                  })()}
+
+                                  {/* Name */}
+                                  <span className={`text-xs md:text-sm font-extrabold truncate leading-none ${!r.phone ? 'text-black/40 dark:text-white/40' : 'text-black dark:text-white'}`}>{r.name}</span>
+                                </div>
+
+                                {/* Role & Edit actions */}
+                                <div className="flex items-center gap-1.5 shrink-0 relative">
+                                  {r.duty ? (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                        setEditingDutyValue(r.duty || '');
+                                      }}
+                                      className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
+                                      title={`Click to change or edit role(s): ${r.duty}`}
+                                    >
+                                      <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
+                                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover:opacity-100 transition-opacity shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                        setEditingDutyValue(r.duty || '');
+                                      }}
+                                      className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-colors flex items-center gap-1"
+                                      title="Click to assign role(s)"
+                                    >
+                                      <span>+ Assign Role</span>
+                                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 shrink-0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                    </button>
+                                  )}
+
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingDutyMemberId(isEditingThis ? null : editKey);
+                                      setEditingDutyValue(r.duty || '');
+                                    }}
+                                    className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                    title="Edit Role"
+                                  >
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
+                                  </button>
+
+                                  {isEditingThis && (
+                                    <DutyRoleEditorPopover
+                                      memberName={r.name}
+                                      editKey={editKey}
+                                      editingDutyValue={editingDutyValue}
+                                      setEditingDutyValue={setEditingDutyValue}
+                                      handleSaveDuty={handleSaveDuty}
+                                      savingDuty={savingDuty}
+                                      setEditingDutyMemberId={setEditingDutyMemberId}
+                                      presetRoles={presetRoles}
+                                      memberId={r.id}
+                                    />
+                                  )}
+                                </div>
                               </div>
-                            </div>
+                            </li>
                           );
                         });
                     })()}
-                  </div>
+                  </ul>
                 </div>
               </div>
 
               {/* Right Column: Group Setup & Message Sending */}
               <div className="space-y-5">
                 {/* Group dropdown & save selection */}
-                <div className="bg-[var(--color-bg-card)]/40 py-4 pl-4 pr-0 space-y-4">
+                <div className="py-4 pl-4 pr-0 space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <label htmlFor="crew-sms-select-group" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block">Select Group</label>
@@ -5778,7 +5658,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
                     <Dropdown
                       id="crew-sms-select-group"
-                      fullWidth={true}
+                      fullWidth={false}
                       placeholder="Choose a group..."
                       selected={selectedGroup}
                       options={[
@@ -5795,7 +5675,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           handleSelectGroup(val);
                         }
                       }}
-                      className="w-full"
                     />
                   </div>
 
@@ -5804,7 +5683,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <label htmlFor="crew-sms-select-show" className="text-[0.65rem] font-bold text-black/60 dark:text-white/40 uppercase tracking-wider block mb-2">Select Show (Autofill Crew)</label>
                     <Dropdown
                       id="crew-sms-select-show"
-                      fullWidth={true}
+                      fullWidth={false}
                       placeholder="Choose a show..."
                       selected={smsSelectedShowDate}
                       options={[
@@ -5818,7 +5697,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           })),
                       ]}
                       onChange={(val) => selectShowForSms(val)}
-                      className="w-full"
                     />
                   </div>
 
@@ -5886,7 +5764,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex flex-col gap-2.5 bg-black/20 border border-white/5 p-3 animate-[slideIn_0.2s_ease-out]">
                         <div className="flex flex-col gap-1">
                           <label htmlFor="admin-new-sms-group-name" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40">New Group Name</label>
-                          <input
+                          <GlowInput
                             id="admin-new-sms-group-name"
                             type="text"
                             value={newSmsGroupName}
@@ -5895,8 +5773,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               if (newSmsGroupError) setNewSmsGroupError('');
                             }}
                             placeholder="Group name..."
-                            style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                            className="bg-white! text-black! border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
+                            className="bg-black/50 text-white border border-white/15 px-3 py-2 text-xs font-semibold placeholder:text-white/40"
                           />
                         </div>
 
@@ -5915,24 +5792,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 return (
                                   <div
                                     key={r.id}
-                                    className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 border-b border-white/20 hover:bg-white/10 relative"
+                                    className="flex items-center justify-between gap-2 select-none text-[var(--font-size-2xs)] text-white/80 hover:text-white py-2 px-1.5 hover:bg-white/10 relative"
                                   >
                                     <div
-                                      role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (newSmsGroupError) setNewSmsGroupError(""); handleToggleMember(r); } }}
                                       className="flex items-center gap-2 cursor-pointer flex-1"
                                       onClick={() => {
                                         if (newSmsGroupError) setNewSmsGroupError("");
                                         handleToggleMember(r);
                                       }}
                                     >
-                                      <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors shrink-0 select-none ${isChecked
-                                        ? 'bg-purple-600 border-purple-400 text-white shadow-sm'
-                                        : 'bg-black/60 border-white/30'
-                                        }`}>
-                                        {isChecked && (
-                                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                        )}
-                                      </div>
+                                      <SquishyToggle
+                                        id={`roster-toggle-popover-${r.id}`}
+                                        label={`Select ${r.name}`}
+                                        checked={isChecked}
+                                        onChange={() => handleToggleMember(r)}
+                                      />
                                       <span className="font-semibold text-white">{r.name}</span>
                                     </div>
 
@@ -6117,12 +5991,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     }`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 transition-colors ${sendSmsAlert ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-white/10'
-                      }`}>
-                      {sendSmsAlert && (
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
-                      )}
-                    </div>
+                    <SquishyToggle
+                      id="alert-sms-toggle"
+                      label="SMS TEXTS"
+                      checked={sendSmsAlert}
+                      onChange={(val) => setSendSmsAlert(val)}
+                    />
                     <span className="text-xs font-black uppercase tracking-wider text-purple-300">SMS TEXTS</span>
                   </div>
                   <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
@@ -6137,12 +6011,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     }`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 transition-colors ${sendEmailAlert ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-white/10'
-                      }`}>
-                      {sendEmailAlert && (
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
-                      )}
-                    </div>
+                    <SquishyToggle
+                      id="alert-email-toggle"
+                      label="EMAIL ALERTS"
+                      checked={sendEmailAlert}
+                      onChange={(val) => setSendEmailAlert(val)}
+                    />
                     <span className="text-xs font-black uppercase tracking-wider text-purple-300">EMAIL ALERTS</span>
                   </div>
                   <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
@@ -6158,12 +6032,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       }`}
                   >
                     <div className="flex items-center gap-2">
-                      <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 transition-colors ${crewSendAsGroup ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-white/10'
-                        }`}>
-                        {crewSendAsGroup && (
-                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
-                        )}
-                      </div>
+                      <SquishyToggle
+                        id="alert-group-toggle"
+                        label="SEND AS GROUP TEXT"
+                        checked={crewSendAsGroup}
+                        onChange={(val) => setCrewSendAsGroup(val)}
+                      />
                       <span className="text-xs font-black uppercase tracking-wider text-purple-300">SEND AS GROUP TEXT</span>
                     </div>
                     <span className="text-[10px] text-white/40 leading-normal">Appends list of recipients to SMS so everyone sees who is on alert</span>
@@ -6309,11 +6183,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {isManageRolesModalOpen && (
               <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[9999] animate-[fadeIn_0.2s_ease-out] p-4">
                 <div
-                  className="bg-[#0c0c0e] border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out]"
+                  className="bg-[#0c0c0e]/85 backdrop-blur-xl border border-white/10 p-6 max-w-md w-full space-y-4 relative animate-[scaleIn_0.2s_ease-out] shadow-2xl"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
                     <h3 className="text-sm font-black uppercase tracking-widest text-white flex items-center gap-2">
+                      <Plus className="w-4 h-4 text-purple-400" />
                       Manage Preset Roles
                     </h3>
                     <button
@@ -6335,7 +6210,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         value={newPresetRoleInput}
                         onChange={(e) => setNewPresetRoleInput(e.target.value)}
                         placeholder="e.g. LIGHTING DESIGNER"
-                        className="flex-1   border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500/50"
+                        className="flex-1 bg-black/40 border border-white/15 rounded-lg px-3 py-2 text-xs text-white placeholder-white/30 outline-none focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 focus:shadow-[0_0_12px_rgba(168,85,247,0.4)] transition-all"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             handleAddPresetRole(newPresetRoleInput);
@@ -6418,11 +6293,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <section id="section-bandsms" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bandsms'); } }} onClick={() => toggleSection('bandsms')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+          <div className="flex items-center">
+
             <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 text-white">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
               Band Member SMS Text
@@ -6513,15 +6386,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               title={`Click to toggle selection for ${r.name}\n ${r.phone || 'No phone'} \n ${r.email || 'No email'}`}
                             >
                               <div className="flex items-center gap-3 flex-1 min-w-0">
-                                {/* Custom Styled Checkbox */}
-                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors shrink-0 ${isChecked
-                                  ? 'bg-purple-600 border-purple-400 text-white shadow-md scale-105'
-                                  : 'bg-black/40 border-white/30 group-hover:border-white/60'
-                                  }`}>
-                                  {isChecked && (
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-                                  )}
-                                </div>
+                                <SquishyToggle
+                                  id={`roster-toggle-2-${r.id}`}
+                                  label={`Select ${r.name}`}
+                                  checked={isChecked}
+                                  onChange={() => toggleSelection()}
+                                />
 
                                 {/* Avatar */}
                                 {(() => {
@@ -6539,7 +6409,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       }}
                                     />
                                   ) : (
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white/20 shadow-md flex items-center justify-center text-xs font-black uppercase text-black shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400/50 shadow-md flex items-center justify-center text-xs font-black uppercase text-white shrink-0">
                                       {r.name.slice(0, 2)}
                                     </div>
                                   );
@@ -6613,12 +6483,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         }`}
                     >
                       <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 transition-colors ${sendBandSmsAlert ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-white/10'
-                          }`}>
-                          {sendBandSmsAlert && (
-                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
-                          )}
-                        </div>
+                        <SquishyToggle
+                          id="band-alert-sms-toggle"
+                          label="SMS TEXTS"
+                          checked={sendBandSmsAlert}
+                          onChange={(val) => setSendBandSmsAlert(val)}
+                        />
                         <span className="text-xs font-black uppercase tracking-wider text-purple-300">SMS TEXTS</span>
                       </div>
                       <span className="text-[10px] text-white/40 leading-normal">Sends raw text alerts to active mobile numbers</span>
@@ -6633,12 +6503,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         }`}
                     >
                       <div className="flex items-center gap-2">
-                        <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0 transition-colors ${sendBandEmailAlert ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-white/10'
-                          }`}>
-                          {sendBandEmailAlert && (
-                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4.5"><polyline points="20 6 9 17 4 12" /></svg>
-                          )}
-                        </div>
+                        <SquishyToggle
+                          id="band-alert-email-toggle"
+                          label="EMAIL ALERTS"
+                          checked={sendBandEmailAlert}
+                          onChange={(val) => setSendBandEmailAlert(val)}
+                        />
                         <span className="text-xs font-black uppercase tracking-wider text-purple-300">EMAIL ALERTS</span>
                       </div>
                       <span className="text-[10px] text-white/40 leading-normal">Sends styled HTML alerts to registered emails</span>
@@ -6735,7 +6605,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   {r.avatar ? (
                                     <img src={r.avatar} alt={r.name} className="w-6.5 h-6.5 rounded-full object-cover border border-white/10 shrink-0" />
                                   ) : (
-                                    <div className="w-6.5 h-6.5 rounded-full bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase  text-[var(--color-accent)] shrink-0">
+                                    <div className="w-6.5 h-6.5 rounded-full bg-purple-600/30 border border-purple-400/50 flex items-center justify-center text-[var(--font-size-4xs)] font-black uppercase text-purple-200 shrink-0">
                                       {r.name.slice(0, 2)}
                                     </div>
                                   )}
@@ -6828,13 +6698,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderNewsletter = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('newsletter'); } }} onClick={() => toggleSection('newsletter')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('newsletter'); } }} onClick={() => toggleSection('newsletter')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
             Newsletter Blast
             {renderInfoToggle('newsletter')}
           </h3>
@@ -6923,13 +6790,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderEmailFlow = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emailflow'); } }} onClick={() => toggleSection('emailflow')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
             Email Template Flows
             {renderInfoToggle('emailflow')}
           </h3>
@@ -7072,13 +6936,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderRegistry = () => (
     <section className="bg-transparent overflow-hidden">
-      <div className="py-6 pr-6 pl-0 border-b border-black/10 dark:border-white/10 flex items-center justify-between select-none transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div className="py-6 pr-6 pl-0 flex items-center justify-between select-none">
+        <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             Community Registry
             {renderInfoToggle('registry')}
           </h3>
@@ -7227,12 +7088,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderCrewCreation = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('crewcreation'); } }} onClick={() => toggleSection('crewcreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
+
           <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
             Create Crew Account
             {renderInfoToggle('crewcreation')}
           </h3>
@@ -7406,12 +7266,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderAdminCreation = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('admincreation'); } }} onClick={() => toggleSection('admincreation')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             Create Admin Account
             {renderInfoToggle('admincreation')}
           </h3>
@@ -7586,12 +7445,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderBulkInvites = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center gap-2">
-          <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-          </div>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('bulkinvites'); } }} onClick={() => toggleSection('bulkinvites')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex items-center">
+
           <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             Bulk Invites
             {renderInfoToggle('bulkinvites')}
           </h3>
@@ -7687,12 +7545,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
     return (
       <section className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pr-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('cruisesignups'); } }} onClick={() => toggleSection('cruisesignups')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
+          <div className="flex items-center">
             <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"></circle><line x1="12" y1="22" x2="12" y2="8"></line><path d="M5 12H2a10 10 0 0 0 20 0h-3"></path></svg>
               Cruise Signups
               {renderInfoToggle('cruisesignups')}
             </h3>
@@ -7837,9 +7693,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div key={s.id || s.email} className={`grid grid-cols-[28px_40px_1fr_1fr_100px_80px_80px_80px_40px] gap-3 items-center bg-black/20 px-3 py-3 rounded-lg border transition-colors group/row ${cruiseSelectedEmailsSet.has(s.email) ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-white/5 hover:border-cyan-500/20'}`}>
                       {/* Email checkbox */}
                       <div className="flex justify-center">
-                        <button aria-label={`Select ${s.name || s.email}`} onClick={() => s.email && toggleEmail(s.email)} className={`w-5 h-5 rounded border flex items-center justify-center transition-colors cursor-pointer ${cruiseSelectedEmailsSet.has(s.email) ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
-                          {cruiseSelectedEmailsSet.has(s.email) && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
-                        </button>
+                        <SquishyToggle
+                          id={`cruise-email-toggle-${s.email || i}`}
+                          label={`Select ${s.name || s.email}`}
+                          checked={cruiseSelectedEmailsSet.has(s.email)}
+                          onChange={() => s.email && toggleEmail(s.email)}
+                        />
                       </div>
                       {/* Row number */}
                       <span className="text-[0.6rem] font-mono text-white/20">{i + 1}</span>
@@ -8880,7 +8739,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           data-lenis-prevent="true"
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
-          className="w-full flex-1 min-h-0 overflow-auto border-x border-t-0 border-[var(--border-color)] bg-[var(--card-bg)] text-[var(--text-color)] shadow-sm relative"
+          className="w-full flex-1 min-h-0 overflow-auto border-x border-t-0 border-[var(--border-color)] bg-transparent text-[var(--text-color)] shadow-sm relative"
           style={{ overscrollBehavior: "contain", touchAction: "pan-x pan-y" }}
         >
           <table
@@ -8889,7 +8748,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           >
             <thead>
               <tr className="border-b border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-extrabold tracking-wider">
-                <th className="p-2 w-44 border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-extrabold text-[10px] wiw-sticky-corner bg-transparent">First Name</th>
+                <th className="p-2 w-44 border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-extrabold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</th>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
@@ -8970,8 +8829,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </tr>
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
-                <tr className="border-b border-[var(--border-color)] transition-colors bg-[#0f0f13]">
-                  <td className="p-1 border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-[#0f0f13]">
+                <tr className="border-b border-[var(--border-color)] transition-colors bg-transparent">
+                  <td className="p-1 border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-transparent">
                     <div className="flex items-center gap-2 pl-1">
                       <div className="w-6 h-6 rounded-full border border-emerald-600 bg-emerald-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 shadow-xs">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
@@ -9008,10 +8867,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               e.stopPropagation();
                               handleCellClick(day.dateStr, "openshifts", "SERVER");
                             }}
-                            className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-transparent hover:bg-emerald-500/10 transition-colors cursor-pointer group shadow-2xs"
+                            className="w-full py-1 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs"
                           >
-                            <span className="text-[10px] text-[var(--color-accent)] font-bold group-hover:text-emerald-300 transition-colors">+</span>
-                            <span className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] group-hover:text-emerald-300 transition-colors mt-0.5">
+                            <span className="text-[10px] text-purple-400 font-bold group-hover:text-purple-300 transition-colors">+</span>
+                            <span className="text-[8px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5">
                               Add Crew Member
                             </span>
                           </div>
@@ -9020,15 +8879,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <div className="flex gap-1 w-full relative">
                             {/* Left Box: Add Crew Group */}
                             <div
-                              role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`); } }}
+                              role="button" tabIndex={0} onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`);
+                                }
+                              }}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setCellGroupPopover(prev => prev === `openshifts_group_${day.dateStr}` ? null : `openshifts_group_${day.dateStr}`);
                               }}
-                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-transparent hover:bg-emerald-500/10 transition-colors cursor-pointer group shadow-2xs"
+                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs"
                             >
-                              <span className="text-[10px] text-[var(--color-accent)] font-bold group-hover:text-emerald-300 transition-colors">+</span>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[10px] text-purple-400 font-bold group-hover:text-purple-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5 text-center leading-tight">
                                 Add Crew Group
                               </span>
                             </div>
@@ -9053,46 +8917,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                 setNewGroupNameInput('');
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-emerald-500/40 hover:border-emerald-400 rounded bg-transparent hover:bg-emerald-500/10 transition-colors cursor-pointer group shadow-2xs"
+                              className="flex-1 py-1 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded bg-transparent hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs"
                             >
-                              <span className="text-[10px] text-[var(--color-accent)] font-bold group-hover:text-emerald-300 transition-colors">+</span>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-[var(--color-accent)] group-hover:text-emerald-300 transition-colors mt-0.5 text-center leading-tight">
+                              <span className="text-[10px] text-purple-400 font-bold group-hover:text-purple-300 transition-colors">+</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-purple-400 group-hover:text-purple-300 transition-colors mt-0.5 text-center leading-tight">
                                 Create Group
                               </span>
                             </div>
 
-                            {/* Saved groups list popover when Add Crew Group is clicked */}
-                            {cellGroupPopover === `openshifts_group_${day.dateStr}` && (
-                              <div
-                                data-group-popover-cell
-                                className="absolute left-1/2 bottom-full mb-1 -translate-x-1/2 w-48 bg-[var(--card-bg)] border border-[var(--border-color)] shadow-xl p-2 z-50 flex flex-col gap-1 animate-[scaleIn_0.15s_ease]"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <div className="text-[9px] text-[var(--muted-text)] uppercase tracking-widest font-black px-2 py-1 border-b border-[var(--border-color)] mb-1">
-                                  Select Crew Group
-                                </div>
-                                {crewGroups.length === 0 ? (
-                                  <span className="text-[9px] text-[var(--muted-text)] opacity-60 italic px-2 py-0.5">No saved groups</span>
-                                ) : (
-                                  crewGroups.map((g, gIdx) => (
-                                    <button
-                                      key={gIdx}
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddGroupToDay(day.dateStr, g);
-                                        setCellGroupPopover(null);
-                                      }}
-                                      className="w-full text-left px-2 py-1 rounded hover:bg-emerald-500/10 text-[9px] text-[var(--color-accent)] font-semibold transition-colors cursor-pointer border-none bg-transparent truncate flex items-center gap-1.5"
-                                      title={`Apply Group: ${g.name}`}
-                                    >
-                                      <span className="text-[10px] font-mono text-[var(--color-accent)]">+</span>
-                                      <span>{g.name}</span>
-                                    </button>
-                                  ))
-                                )}
-                              </div>
-                            )}
                           </div>
                         </div>
                       </td>
@@ -9512,7 +9344,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             position: sticky;
             top: 0;
             z-index: 30;
-            background-color: rgba(15, 15, 19, 0.95) !important;
+            background-color: rgba(15, 15, 19, 0.4) !important;
             backdrop-filter: blur(12px) !important;
             -webkit-backdrop-filter: blur(12px) !important;
           }
@@ -9520,18 +9352,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             position: sticky;
             top: 0;
             z-index: 30;
-            background-color: rgba(15, 15, 19, 0.85) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(15, 15, 19, 0.4) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-col {
             position: sticky;
             left: 0;
             z-index: 20;
-            background-color: rgba(15, 15, 19, 0.5) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(15, 15, 19, 0.4) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-corner {
@@ -9539,18 +9371,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             top: 0;
             left: 0;
             z-index: 40;
-            background-color: rgba(15, 15, 19, 0.85) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(15, 15, 19, 0.4) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-header-2 {
             position: sticky;
             top: 46px;
             z-index: 30;
-            background-color: rgba(15, 15, 19, 0.85) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(15, 15, 19, 0.4) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
           }
           .wiw-sticky-corner-2 {
@@ -9558,13 +9390,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             top: 46px;
             left: 0;
             z-index: 40;
-            background-color: rgba(15, 15, 19, 0.85) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
+            background-color: rgba(15, 15, 19, 0.4) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
           }
           tr:hover .wiw-sticky-col {
-            background-color: var(--bg-color) !important;
+            background-color: rgba(25, 25, 35, 0.4) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
           }
           .wiw-card {
             transition: all 0.15s ease-in-out;
@@ -9629,13 +9463,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         `}</style>
 
         {/* Section Header */}
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-6 pr-6 pl-0 border-b border-white/5 flex items-center justify-between cursor-pointer select-none transition-colors text-white">
-          <div className="flex items-center gap-2">
-            <div className="drag-handle cursor-grab active:cursor-grabbing py-1.5 pr-1.5 pl-0 hover:bg-white/5 rounded text-white/20 hover:text-white/50 transition-colors shrink-0 mr-1" title="Drag to reorder section" onClick={(e) => e.stopPropagation()}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="5" r="1" /><circle cx="9" cy="12" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="19" r="1" /></svg>
-            </div>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-6 pl-0 border-b border-white/5 flex items-center justify-between cursor-pointer select-none transition-colors text-white">
+          <div className="flex items-center">
+
             <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
-              <span></span> Crew Work Schedule Calendar
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              Crew Work Schedule Calendar
               {renderInfoToggle('calendar')}
             </h3>
           </div>
@@ -9799,7 +9632,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container min-h-[1400px] h-[1400px] flex flex-col min-h-0">
 
             {/* Header controls (Date range, prev/next, today, action icons) */}
-            <div className="border-b border-white/5 pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0">
+            <div className="border-b border-white/5 pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
               {/* Left: Date Range & Nav */}
               <div className="flex items-center gap-3 flex-wrap">
                 <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
@@ -9867,65 +9700,30 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   MONTH
                 </button>
 
-                <div className="relative">
-                  <select
-                    aria-label="Calendar view range"
-                    value={(() => {
-                      if (calendarRange === '4weeks') return '4weeks';
-                      if (calendarRange === 'month') return 'month';
-                      if (thisMondayTime === null) return 'current';
-
-                      const time = currentWeekStart.getTime();
-                      if (time === thisMondayTime) return 'current';
-                      if (time === thisMondayTime + 7 * 86400000) return 'next';
-                      if (time === thisMondayTime + 14 * 86400000) return 'next2';
-                      if (time === thisMondayTime + 21 * 86400000) return 'next3';
-                      if (time === thisMondayTime + 28 * 86400000) return 'next4';
-                      return 'custom';
-                    })()}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      const today = new Date();
-                      const day = today.getDay();
-                      const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-                      const thisMonday = new Date(today.getFullYear(), today.getMonth(), diff);
-
-                      if (val === '4weeks') {
-                        setCalendarRange('4weeks');
-                        setCurrentWeekStart(thisMonday);
-                      } else if (val === 'month') {
-                        setCalendarRange('month');
-                        setCurrentWeekStart(new Date(today.getFullYear(), today.getMonth(), 1));
-                      } else {
-                        setCalendarRange('week');
-                        if (val === 'current') {
-                          setCurrentWeekStart(thisMonday);
-                        } else if (val === 'next') {
-                          setCurrentWeekStart(new Date(thisMonday.getTime() + 7 * 86400000));
-                        } else if (val === 'next2') {
-                          setCurrentWeekStart(new Date(thisMonday.getTime() + 14 * 86400000));
-                        } else if (val === 'next3') {
-                          setCurrentWeekStart(new Date(thisMonday.getTime() + 21 * 86400000));
-                        } else if (val === 'next4') {
-                          setCurrentWeekStart(new Date(thisMonday.getTime() + 28 * 86400000));
-                        }
-                      }
-                    }}
-                    className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[95px]"
-                  >
-                    <option value="current">Current Week</option>
-                    <option value="next">Next Week</option>
-                    <option value="next2">In 2 Weeks</option>
-                    <option value="next3">In 3 Weeks</option>
-                    <option value="next4">In 4 Weeks</option>
-                    <option value="4weeks">Next 4 Weeks</option>
-                    <option value="month">Full Month</option>
-                    <option value="custom" disabled hidden>Custom</option>
-                  </select>
-                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-                  </div>
-                </div>
+                {/* Week Selector */}
+                <Dropdown
+                  fullWidth={false}
+                  placeholder="Current Week"
+                  selected={calendarRange === '4weeks' ? '4weeks' : calendarRange === 'month' ? 'month' : 'week'}
+                  options={[
+                    { label: 'Current Week', value: 'week' },
+                    { label: 'Next Week', value: 'nextweek' },
+                    { label: 'In 2 Weeks', value: 'in2weeks' },
+                    { label: 'In 3 Weeks', value: 'in3weeks' },
+                    { label: 'In 4 Weeks', value: 'in4weeks' },
+                    { label: 'Next 4 Weeks', value: '4weeks' },
+                    { label: 'Full Month', value: 'month' },
+                  ]}
+                  onChange={(val) => {
+                    if (val === 'week') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
+                    else if (val === 'nextweek') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 7 * 86400000)); }
+                    else if (val === 'in2weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 14 * 86400000)); }
+                    else if (val === 'in3weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 21 * 86400000)); }
+                    else if (val === 'in4weeks') { setCalendarRange('week'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime + 28 * 86400000)); }
+                    else if (val === '4weeks') { setCalendarRange('4weeks'); if (thisMondayTime) setCurrentWeekStart(new Date(thisMondayTime)); }
+                    else if (val === 'month') { setCalendarRange('month'); const today = new Date(); setCurrentWeekStart(new Date(today.getFullYear(), today.getMonth(), 1)); }
+                  }}
+                />
 
                 {/*  Tour Dates Quick-Jump */}
                 <div className="relative" data-tour-dropdown>
@@ -9995,22 +9793,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </button>
 
                 {/* Crew Member Filter */}
-                <div className="relative">
-                  <select
-                    aria-label="Filter schedule by crew member"
-                    value={scheduleCrewFilter}
-                    onChange={(e) => setScheduleCrewFilter(e.target.value)}
-                    className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[140px]"
-                  >
-                    <option value=""> All Crew</option>
-                    {crewMembers.flatMap(member => member.id !== 'openshifts' ? (
-                      [<option key={member.id} value={member.id}>{member.name}</option>]
-                    ) : [])}
-                  </select>
-                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-                  </div>
-                </div>
+                <Dropdown
+                  fullWidth={false}
+                  placeholder="Crew Member"
+                  selected={scheduleCrewFilter}
+                  options={[
+                    { label: 'Crew Member', value: '' },
+                    ...crewMembers.flatMap(m => m.id !== 'openshifts' ? [{
+                      label: m.name,
+                      value: m.id,
+                    }] : []),
+                  ]}
+                  onChange={(val) => setScheduleCrewFilter(val)}
+                />
 
                 {/* Advanced Filters Trigger */}
                 <button
@@ -10031,21 +9826,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </button>
 
                 {/* Color Coding Mode Selector */}
-                <div className="relative">
-                  <select
-                    value={colorCodingMode}
-                    onChange={(e) => setColorCodingMode(e.target.value as any)}
-                    className="appearance-none pr-8 pl-3 py-1.5 border border-slate-300 dark:border-white/10 bg-white text-slate-900 font-bold text-xs rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[155px]"
-                    title="Select color coding scheme for schedule cards"
-                  >
-                    <option value="role"> Role Colors</option>
-                    <option value="eventType"> Event Type Colors</option>
-                    <option value="band"> Band Colors</option>
-                  </select>
-                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-                  </div>
-                </div>
+                <Dropdown
+                  fullWidth={false}
+                  placeholder="Role Colors"
+                  selected={colorCodingMode}
+                  options={[
+                    { label: 'Role Colors', value: 'role' },
+                    { label: 'Event Type Colors', value: 'eventType' },
+                    { label: 'Band Colors', value: 'band' },
+                  ]}
+                  onChange={(val) => setColorCodingMode(val as any)}
+                />
 
                 {activeFiltersCount > 0 && (
                   <button
@@ -10111,40 +9902,36 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 {/* ⏳ Coverage Requests Dropdown */}
                 {(() => {
                   const coverageRequests = schedules.filter(s => s.isCoverageRequested);
+                  const options = [
+                    { label: `${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`, value: '' },
+                    ...coverageRequests.map(shift => {
+                      const member = crewMembers.find(m => m.id === shift.crewId);
+                      const name = member ? member.name : shift.crewName || shift.crewId;
+                      const dateObj = new Date(shift.date + 'T12:00:00');
+                      const dateLabel = !isNaN(dateObj.getTime())
+                        ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                        : shift.date;
+                      return {
+                        label: `${name} — ${shift.role} — ${dateLabel}`,
+                        value: shift.id,
+                      };
+                    })
+                  ];
+
                   return (
-                    <div className="relative">
-                      <select
-                        aria-label="Coverage requests"
-                        value=""
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          if (!val) return;
-                          const shift = schedules.find(s => s.id === val);
-                          if (shift) {
-                            handleSelectCoverageRequest(shift);
-                          }
-                        }}
-                        className="appearance-none pr-8 pl-3 py-1.5 border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 text-xs font-bold text-red-400 hover:text-red-300 rounded-lg shadow-sm transition-colors cursor-pointer outline-none border-solid min-w-[190px]"
-                      >
-                        <option value="" className="text-white/40"> {coverageRequests.length} Coverage {coverageRequests.length === 1 ? 'Request' : 'Requests'}</option>
-                        {coverageRequests.map(shift => {
-                          const member = crewMembers.find(m => m.id === shift.crewId);
-                          const name = member ? member.name : shift.crewName || shift.crewId;
-                          const dateObj = new Date(shift.date + 'T12:00:00');
-                          const dateLabel = !isNaN(dateObj.getTime())
-                            ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                            : shift.date;
-                          return (
-                            <option key={shift.id} value={shift.id} className="text-white bg-[var(--color-bg-card)]">
-                              {name} — {shift.role} — {dateLabel}
-                            </option>
-                          );
-                        })}
-                      </select>
-                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-red-400">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-                      </div>
-                    </div>
+                    <Dropdown
+                      fullWidth={false}
+                      placeholder={`${coverageRequests.length} Coverage ${coverageRequests.length === 1 ? 'Request' : 'Requests'}`}
+                      selected=""
+                      options={options}
+                      onChange={(val) => {
+                        if (!val) return;
+                        const shift = schedules.find(s => s.id === val);
+                        if (shift) {
+                          handleSelectCoverageRequest(shift);
+                        }
+                      }}
+                    />
                   );
                 })()}
               </div>
@@ -10152,26 +9939,26 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
             {/* Expandable Advanced Filters Panel */}
             {isFiltersPanelExpanded && (
-              <div className="border-b border-white/5 bg-black/25 backdrop-blur-md px-6 py-4 animate-[slideDown_0.2s_ease-out] flex flex-col gap-4 shrink-0">
+              <div className="relative z-50 border-b border-white/5 backdrop-blur-md px-6 py-4 animate-[slideDown_0.2s_ease-out] flex flex-col gap-4 shrink-0">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   {/* Search by Person */}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="admin-sched-person-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Person / Role</label>
-                    <div className="relative">
+                    <div className="relative w-full input-glow-border rounded-lg">
                       <input
                         id="admin-sched-person-search"
                         type="text"
                         value={schedulePersonSearch}
                         onChange={(e) => setSchedulePersonSearch(e.target.value)}
                         placeholder="Name, role, e.g. Dave, Audio..."
-                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
                       />
                       {schedulePersonSearch && (
                         <button
                           type="button"
                           aria-label="Clear person search"
                           onClick={() => setSchedulePersonSearch('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold z-10"
                         >✕</button>
                       )}
                     </div>
@@ -10180,21 +9967,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Search by Venue */}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="admin-sched-venue-search" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Search Venue Name</label>
-                    <div className="relative">
+                    <div className="relative w-full input-glow-border rounded-lg">
                       <input
                         id="admin-sched-venue-search"
                         type="text"
                         value={scheduleVenueSearch}
                         onChange={(e) => setScheduleVenueSearch(e.target.value)}
                         placeholder="Venue, e.g. Blarney, Cruise..."
-                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-white/20 outline-none transition-colors"
                       />
                       {scheduleVenueSearch && (
                         <button
                           type="button"
                           aria-label="Clear venue search"
                           onClick={() => setScheduleVenueSearch('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white bg-transparent border-none cursor-pointer text-xs font-bold z-10"
                         >✕</button>
                       )}
                     </div>
@@ -10203,45 +9990,48 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Event Type Filter */}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="admin-sched-event-type" className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Show / Event Type</label>
-                    <div className="relative">
-                      <select
-                        id="admin-sched-event-type"
-                        value={scheduleEventTypeFilter}
-                        onChange={(e) => setScheduleEventTypeFilter(e.target.value)}
-                        className="appearance-none w-full bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-xs outline-none transition-colors cursor-pointer border-solid font-bold"
-                      >
-                        <option value=""> Any Event Type</option>
-                        <option value="festival"> Festival</option>
-                        <option value="private"> Private Event</option>
-                        <option value="corporate"> Corporate</option>
-                        <option value="cruise"> Cruise</option>
-                        <option value="club"> Club / Bar</option>
-                      </select>
-                      <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
-                      </div>
-                    </div>
+                    <Dropdown
+                      id="admin-sched-event-type"
+                      fullWidth={true}
+                      placeholder="Any Event Type"
+                      selected={scheduleEventTypeFilter}
+                      options={[
+                        { label: 'Any Event Type', value: '' },
+                        { label: 'Festival', value: 'festival' },
+                        { label: 'Private Event', value: 'private' },
+                        { label: 'Corporate', value: 'corporate' },
+                        { label: 'Cruise', value: 'cruise' },
+                        { label: 'Club / Bar', value: 'club' },
+                      ]}
+                      onChange={(val) => setScheduleEventTypeFilter(val)}
+                    />
                   </div>
 
                   {/* Date Range Selection */}
                   <div className="flex flex-col gap-1.5 col-span-1">
                     <span className="text-[var(--font-size-3xs)] font-black uppercase text-white/50 tracking-wider">Custom Date Range</span>
                     <div className="flex items-center gap-2">
-                      <input
-                        type="date"
-                        aria-label="Schedule start date"
-                        value={scheduleStartDate}
-                        onChange={(e) => setScheduleStartDate(e.target.value)}
-                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
-                      />
+                      <div className="w-full input-glow-border rounded-lg">
+                        <input
+                          type="date"
+                          aria-label="Schedule start date"
+                          value={scheduleStartDate}
+                          onChange={(e) => setScheduleStartDate(e.target.value)}
+                          onClick={(e) => e.currentTarget.showPicker?.()}
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
+                        />
+                      </div>
                       <span className="text-white/35 text-[var(--font-size-3xs)] font-bold">TO</span>
-                      <input
-                        type="date"
-                        aria-label="Schedule end date"
-                        value={scheduleEndDate}
-                        onChange={(e) => setScheduleEndDate(e.target.value)}
-                        className="w-full bg-black/60 border border-white/10 focus:border-purple-500/50 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer"
-                      />
+                      <div className="w-full input-glow-border rounded-lg">
+                        <input
+                          type="date"
+                          aria-label="Schedule end date"
+                          value={scheduleEndDate}
+                          onChange={(e) => setScheduleEndDate(e.target.value)}
+                          onClick={(e) => e.currentTarget.showPicker?.()}
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white outline-none transition-colors cursor-pointer [color-scheme:dark]"
+                        />
+                      </div>
                       {(scheduleStartDate || scheduleEndDate) && (
                         <button
                           type="button"
@@ -10252,7 +10042,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           className="text-white/40 hover:text-white bg-white/5 hover:bg-white/10 px-2 py-1 rounded text-[var(--font-size-3xs)] font-bold transition-colors cursor-pointer border-none"
                           title="Reset Date Range"
                         >
-
+                          Clear
                         </button>
                       )}
                     </div>
@@ -10465,10 +10255,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     }}
                   />
 
-                  <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                  <div className="relative bg-transparent backdrop-blur-md border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
 
                     {/* Modal Header */}
-                    <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
+                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                       <div>
                         <h3 className="text-sm font-black italic tracking-wide text-white">
                           {editingShiftId ? 'Edit Work Shift' : 'Configure Work Shift'}
@@ -10494,7 +10284,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     {/* Modal Form */}
-                    <div className="p-5 flex-1 overflow-y-auto space-y-4 pr-1">
+                    <div className="pt-5 pr-5 pl-5 pb-0 flex-1 overflow-hidden space-y-4 flex flex-col min-h-0">
 
                       {/* Coverage Request Alert / Control */}
                       {(() => {
@@ -10715,23 +10505,50 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       {/* Crew Selector Grid (Multi-Selection checklist used for both Create and Edit modes) */}
                       {!(editingShift && editingShift.isCoverageRequested) && (
-                        <div className="flex flex-col shrink-0">
+                        <div className="flex flex-col flex-1 min-h-0">
                           <span className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold font-sans shrink-0">Select Crew Members Working That Day</span>
 
                           {/* Search and Grouping Controls */}
-                          <div className="shrink-0 mb-3 space-y-2">
-                            <input
-                              type="text"
-                              aria-label="Search crew members"
+                          <div className="shrink-0 mb-3 w-full admin-crew-search-wrapper">
+                            <style>{`
+                              .admin-crew-search-wrapper .input-glow-border,
+                              .admin-crew-search-wrapper .input-glow-border::after,
+                              .admin-crew-search-wrapper .input-glow-border::before,
+                              .admin-crew-search-wrapper .input-glow-border > *,
+                              .admin-crew-search-wrapper input {
+                                border-radius: 14px !important;
+                              }
+                              .admin-crew-search-wrapper input {
+                                background-color: rgba(255, 255, 255, 0.05) !important;
+                                background: rgba(255, 255, 255, 0.05) !important;
+                                backdrop-filter: blur(12px) !important;
+                                -webkit-backdrop-filter: blur(12px) !important;
+                                border: 1px solid rgba(255, 255, 255, 0.15) !important;
+                                color: #ffffff !important;
+                                font-weight: 500 !important;
+                              }
+                              .admin-crew-search-wrapper input::placeholder {
+                                color: rgba(255, 255, 255, 0.55) !important;
+                                opacity: 1 !important;
+                                font-weight: 500 !important;
+                              }
+                              .admin-crew-search-wrapper input:focus {
+                                background-color: rgba(255, 255, 255, 0.08) !important;
+                                border-color: rgba(192, 132, 252, 0.5) !important;
+                                box-shadow: 0 0 12px rgba(168, 85, 247, 0.25) !important;
+                              }
+                            `}</style>
+                            <SearchInput
+                              ariaLabel="Search crew members"
                               value={drawerCrewSearch}
-                              onChange={e => setDrawerCrewSearch(e.target.value)}
-                              placeholder=" Search crew members..."
-                              className="w-full px-3 py-1.5 bg-black/40 border border-white/10 text-xs text-white placeholder-white/30 rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold font-sans"
+                              onChange={setDrawerCrewSearch}
+                              placeholder="Search crew members..."
+                              width="100%"
+                              containerClassName="max-w-none w-full"
                             />
-
                           </div>
 
-                          <div className="space-y-2.5 pr-1 overflow-y-auto max-h-60 border border-white/5 bg-black/10 p-2.5">
+                          <div className="space-y-2.5 pr-1 overflow-y-auto flex-1 min-h-0 rounded-lg">
                             {(() => {
                               const seenKeys = new Set<string>();
                               const uniqueCrew = crewMembers.filter(m => {
@@ -10765,23 +10582,23 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                   return (
                                     <div
                                       key={member.id}
-                                      className={`p-3  border transition-colors ${assignment.active
-                                        ? 'bg-purple-500/10 border-purple-500/30'
-                                        : 'bg-black/20 border-white/5 hover:border-white/10'
+                                      className={`p-3.5 rounded-xl transition-all duration-200 ${assignment.active
+                                        ? 'bg-transparent border border-purple-500/40 shadow-sm shadow-purple-900/20'
+                                        : 'hover:bg-white/[0.03] border border-transparent'
                                         }`}
                                     >
                                       <div className="flex items-center justify-between">
-                                        <label className="flex items-center gap-3 select-none">
-                                          <input
-                                            type="checkbox"
-                                            checked={assignment.active}
-                                            onChange={(e) => {
-                                              const checked = e.target.checked;
+                                        <label className="flex items-center gap-3 select-none cursor-pointer w-full">
+                                          <SquishyToggle
+                                            id={`crew-assign-toggle-${member.id}`}
+                                            label={`Toggle assignment for ${member.name || member.id}`}
+                                            checked={!!assignment.active}
+                                            onChange={(checked) => {
                                               setSelectedCrewAssignments(prev => ({
                                                 ...prev,
                                                 [member.id]: {
                                                   active: checked,
-                                                  customized: false, // Collapse customization by default on check/uncheck
+                                                  customized: false,
                                                   role: assignment.role || dropRole || member.role || 'STAGE HAND',
                                                   startHour: assignment.startHour || dropStartHour || 12,
                                                   endHour: assignment.endHour || dropEndHour || 17,
@@ -10789,17 +10606,23 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                 }
                                               }));
                                             }}
-                                            className="rounded border-white/10 bg-black/40  text-[var(--color-accent)] focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer"
                                           />
-                                          <div className="flex items-center gap-2">
+                                          <div className="flex items-center gap-2 flex-1">
                                             <div
-                                              className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
+                                              className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
                                               style={{ backgroundColor: member.color || getAvatarColor(member.name) }}
                                             >
                                               {member.initials || member.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                             </div>
-                                            <div>
-                                              <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                            <div className="flex-1 min-w-0">
+                                              <div className="flex items-center justify-between gap-2">
+                                                <span className="text-xs font-bold text-white/95 font-sans block leading-tight">{member.name}</span>
+                                                {assignment.active && (
+                                                  <span className="bg-purple-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0">
+                                                    Selected
+                                                  </span>
+                                                )}
+                                              </div>
                                               <span className="text-[9.5px] text-white/40 font-mono block leading-tight mt-0.5">
                                                 {member.phone || 'No phone'} |  {member.email || 'No email'}
                                               </span>
@@ -10828,6 +10651,227 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           </div>
                                         </label>
                                       </div>
+
+                                      {/* Inline Time Frames & Form Fields for Toggled Member */}
+                                      {assignment.active && (
+                                        <div className="mt-3.5 pt-3 border-t border-purple-500/20 space-y-4 font-sans animate-[fadeIn_0.2s_ease]">
+                                          {dropTimeFrames.map((tf, index) => (
+                                            <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-transparent border border-white/10 space-y-3 relative rounded-xl animate-[fadeIn_0.2s_ease]">
+                                              <div className="flex items-center justify-between">
+                                                <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
+                                                {dropTimeFrames.length > 1 && (
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                      setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
+                                                    }}
+                                                    className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
+                                                    style={{ fontSize: '10px' }}
+                                                  >
+                                                    Remove
+                                                  </button>
+                                                )}
+                                              </div>
+
+                                              <div className="grid grid-cols-2 gap-3">
+                                                <div>
+                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
+                                                  <GooeyDropdown
+                                                    label={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "12 PM"}
+                                                    accentColor="#2f2f3c"
+                                                    showChevron={true}
+                                                    chevronColor="rgba(255, 255, 255, 0.7)"
+                                                    textColor="#ffffff"
+                                                    panelTextColor="#ffffff"
+                                                    transparent={false}
+                                                    glassOpacity={1.0}
+                                                    className="w-full"
+                                                    maxHeight={220}
+                                                    items={generateTimeOptions().map(opt => ({
+                                                      label: opt.label,
+                                                      onClick: () => {
+                                                        const val = opt.value;
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, startHour: val } : item));
+                                                        setSelectedCrewAssignments(prev => {
+                                                          const current = prev[member.id] || { active: true };
+                                                          const tfs = structuredClone(current.timeFrames || dropTimeFrames);
+                                                          if (tfs[index]) tfs[index].startHour = val;
+                                                          return { ...prev, [member.id]: { ...current, startHour: val, timeFrames: tfs } };
+                                                        });
+                                                      }
+                                                    }))}
+                                                  />
+                                                </div>
+
+                                                <div>
+                                                  <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
+                                                  <GooeyDropdown
+                                                    label={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "5 PM"}
+                                                    accentColor="#2f2f3c"
+                                                    showChevron={true}
+                                                    chevronColor="rgba(255, 255, 255, 0.7)"
+                                                    textColor="#ffffff"
+                                                    panelTextColor="#ffffff"
+                                                    transparent={false}
+                                                    glassOpacity={1.0}
+                                                    className="w-full"
+                                                    maxHeight={220}
+                                                    items={generateTimeOptions().map(opt => ({
+                                                      label: opt.label,
+                                                      onClick: () => {
+                                                        const val = opt.value;
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
+                                                        setSelectedCrewAssignments(prev => {
+                                                          const current = prev[member.id] || { active: true };
+                                                          const tfs = structuredClone(current.timeFrames || dropTimeFrames);
+                                                          if (tfs[index]) tfs[index].endHour = val;
+                                                          return { ...prev, [member.id]: { ...current, endHour: val, timeFrames: tfs } };
+                                                        });
+                                                      }
+                                                    }))}
+                                                  />
+                                                </div>
+                                              </div>
+
+                                              <div className="space-y-1">
+                                                <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
+                                                <div className="input-glow-border rounded-lg w-full">
+                                                  <input
+                                                    id={`admin-drawer-role-${index}`}
+                                                    type="text"
+                                                    value={tf.role}
+                                                    onChange={e => {
+                                                      const val = e.target.value;
+                                                      setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
+                                                    }}
+                                                    placeholder="e.g. Audio Mix"
+                                                    className="w-full px-3 py-2 bg-transparent border border-white/10 text-xs text-white rounded-lg outline-none transition-all font-bold uppercase tracking-wider font-sans"
+                                                  />
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 mt-1.5">
+                                                  {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
+                                                    const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
+                                                    const isSelected = currentRoles.includes(preset.toUpperCase());
+                                                    return (
+                                                      <button
+                                                        key={preset}
+                                                        type="button"
+                                                        onClick={() => {
+                                                          const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
+                                                          const upperPreset = preset.toUpperCase();
+                                                          const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
+                                                          let newRoles: string[];
+                                                          if (exists) {
+                                                            newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
+                                                          } else {
+                                                            newRoles = [...rawRoles, preset];
+                                                          }
+                                                          const newRoleStr = newRoles.join(', ');
+                                                          setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
+                                                        }}
+                                                        className={`px-2 py-0.5 rounded-full text-[10.5px] font-black uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
+                                                          ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black'
+                                                          : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
+                                                          }`}
+                                                      >
+                                                        {isSelected ? ` ${preset}` : preset}
+                                                      </button>
+                                                    );
+                                                  })}
+                                                </div>
+                                              </div>
+
+                                              <div className="space-y-1">
+                                                <label className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
+                                                <GooeyDropdown
+                                                  label="Select tags..."
+                                                  accentColor="#2f2f3c"
+                                                  showChevron={true}
+                                                  chevronColor="rgba(255, 255, 255, 0.7)"
+                                                  textColor="#ffffff"
+                                                  panelTextColor="#ffffff"
+                                                  transparent={false}
+                                                  glassOpacity={1.0}
+                                                  className="w-full"
+                                                  maxHeight={200}
+                                                  items={[
+                                                    {
+                                                      label: "Overtime", onClick: () => {
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Overtime") ? (item.tags || []).filter(t => t !== "Overtime") : [...(item.tags || []), "Overtime"] } : item));
+                                                      }
+                                                    },
+                                                    {
+                                                      label: "Double Shift", onClick: () => {
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Double Shift") ? (item.tags || []).filter(t => t !== "Double Shift") : [...(item.tags || []), "Double Shift"] } : item));
+                                                      }
+                                                    },
+                                                    {
+                                                      label: "Split Shift", onClick: () => {
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Split Shift") ? (item.tags || []).filter(t => t !== "Split Shift") : [...(item.tags || []), "Split Shift"] } : item));
+                                                      }
+                                                    },
+                                                    {
+                                                      label: "Standby", onClick: () => {
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Standby") ? (item.tags || []).filter(t => t !== "Standby") : [...(item.tags || []), "Standby"] } : item));
+                                                      }
+                                                    },
+                                                    {
+                                                      label: "Backup", onClick: () => {
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Backup") ? (item.tags || []).filter(t => t !== "Backup") : [...(item.tags || []), "Backup"] } : item));
+                                                      }
+                                                    },
+                                                    {
+                                                      label: "Training", onClick: () => {
+                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Training") ? (item.tags || []).filter(t => t !== "Training") : [...(item.tags || []), "Training"] } : item));
+                                                      }
+                                                    },
+                                                  ]}
+                                                />
+                                                {tf.tags && tf.tags.length > 0 && (
+                                                  <div className="flex flex-wrap gap-1 mt-1.5">
+                                                    {tf.tags.map(tag => (
+                                                      <span
+                                                        key={tag}
+                                                        className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
+                                                      >
+                                                        {tag}
+                                                        <button
+                                                          type="button"
+                                                          aria-label={`Remove ${tag} tag`}
+                                                          onClick={() => {
+                                                            setDropTimeFrames(prev => prev.map((item, i) => {
+                                                              if (i === index) {
+                                                                return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
+                                                              }
+                                                              return item;
+                                                            }));
+                                                          }}
+                                                          className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
+                                                        >
+                                                          ✕
+                                                        </button>
+                                                      </span>
+                                                    ))}
+                                                  </div>
+                                                )}
+                                              </div>
+                                            </div>
+                                          ))}
+
+                                          {dropTimeFrames.length < 3 && (
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
+                                              }}
+                                              className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
+                                              style={{ fontSize: '11px' }}
+                                            >
+                                              Add Time Frame ({dropTimeFrames.length}/3)
+                                            </button>
+                                          )}
+                                        </div>
+                                      )}
                                     </div>
                                   );
                                 });
@@ -10836,204 +10880,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         </div>
                       )}
 
-                      {/* Form Fields block */}
-                      <div className="space-y-4 shrink-0 mt-2 pr-1">
-                        {showFormDetails && (
-                          <div className="space-y-4 font-sans">
-                            {dropTimeFrames.map((tf, index) => (
-                              <div key={tf.id || `${tf.role}-${tf.startHour}-${tf.endHour}`} className="p-3.5 bg-black/40 border border-white/10 space-y-3 relative animate-[fadeIn_0.2s_ease]">
-                                <div className="flex items-center justify-between">
-                                  <span className="text-xs uppercase tracking-wider text-purple-300 font-bold font-sans" style={{ fontSize: '11px' }}>Time Frame {index + 1}</span>
-                                  {dropTimeFrames.length > 1 && (
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setDropTimeFrames(prev => prev.filter((_, i) => i !== index));
-                                      }}
-                                      className="text-white/40 hover:text-red-400 text-[10px] font-bold bg-transparent border-none cursor-pointer uppercase tracking-wider font-sans"
-                                      style={{ fontSize: '10px' }}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
 
-                                <div className="grid grid-cols-2 gap-3">
-                                  <div>
-                                    <label htmlFor={`admin-drawer-start-time-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Start Time</label>
-                                    <select
-                                      id={`admin-drawer-start-time-${index}`}
-                                      value={tf.startHour}
-                                      onChange={(e) => {
-                                        const val = parseFloat(e.target.value);
-                                        setDropTimeFrames(prev => prev.map((item, i) => {
-                                          if (i === index) {
-                                            const newEnd = tf.endHour <= val ? Math.min(24, val + 1) : tf.endHour;
-                                            return { ...item, startHour: val, endHour: newEnd };
-                                          }
-                                          return item;
-                                        }));
-                                      }}
-                                      className="w-full px-3 py-1.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
-                                    >
-                                      {generateTimeOptions().slice(0, -1).map(opt => (
-                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                      ))}
-                                    </select>
-                                  </div>
-
-                                  <div>
-                                    <label htmlFor={`admin-drawer-end-time-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>End Time</label>
-                                    <select
-                                      id={`admin-drawer-end-time-${index}`}
-                                      value={tf.endHour}
-                                      onChange={(e) => {
-                                        const val = parseFloat(e.target.value);
-                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
-                                      }}
-                                      className="w-full px-3 py-1.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer font-sans"
-                                    >
-                                      {generateTimeOptions().flatMap(opt => opt.value > tf.startHour ? (
-                                        [<option key={opt.value} value={opt.value}>{opt.label}</option>]
-                                      ) : [])}
-                                    </select>
-                                  </div>
-                                </div>
-
-                                <div className="space-y-1">
-                                  <label htmlFor={`admin-drawer-role-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Role / Duty</label>
-                                  <input
-                                    id={`admin-drawer-role-${index}`}
-                                    type="text"
-                                    value={tf.role}
-                                    onChange={e => {
-                                      const val = e.target.value;
-                                      setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: val } : item));
-                                    }}
-                                    placeholder="e.g. Audio Mix"
-                                    className="w-full px-3 py-2   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold uppercase tracking-wider font-sans"
-                                  />
-                                  <div className="flex flex-wrap gap-1 mt-1.5">
-                                    {["STAGE HAND", "AUDIO MIX", "LIGHTS", "EQUIPMENT SETUP", "TEAR DOWN", "MERCH", "TOUR MANAGER", "SOUND ENGINEER", "STAGE MANAGER", "PHOTOGRAPHER", "CAMERA", "BAND MEMBER"].map(preset => {
-                                      const currentRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim().toUpperCase()).filter(Boolean) : [];
-                                      const isSelected = currentRoles.includes(preset.toUpperCase());
-                                      return (
-                                        <button
-                                          key={preset}
-                                          type="button"
-                                          onClick={() => {
-                                            const rawRoles = tf.role ? tf.role.split(/[,|/]/).map((r: string) => r.trim()).filter(Boolean) : [];
-                                            const upperPreset = preset.toUpperCase();
-                                            const exists = rawRoles.some((r: string) => r.toUpperCase() === upperPreset);
-                                            let newRoles: string[];
-                                            if (exists) {
-                                              newRoles = rawRoles.filter((r: string) => r.toUpperCase() !== upperPreset);
-                                            } else {
-                                              newRoles = [...rawRoles, preset];
-                                            }
-                                            const newRoleStr = newRoles.join(', ');
-                                            setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, role: newRoleStr } : item));
-                                          }}
-                                          className={`px-2 py-0.5 rounded-full text-[8.5px] font-black uppercase tracking-wider border transition-colors cursor-pointer font-sans ${isSelected
-                                            ? 'bg-purple-600 text-white border-purple-500 shadow-xs font-black'
-                                            : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
-                                            }`}
-                                        >
-                                          {isSelected ? ` ${preset}` : preset}
-                                        </button>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
-
-                                <div className="space-y-1">
-                                  <label htmlFor={`admin-drawer-tags-${index}`} className="text-[10px] uppercase tracking-wider text-white/50 mb-1 block font-semibold font-sans" style={{ fontSize: '10px' }}>Tags</label>
-                                  <div className="relative">
-                                    <select
-                                      id={`admin-drawer-tags-${index}`}
-                                      value=""
-                                      onChange={(e) => {
-                                        const val = e.target.value;
-                                        if (!val) return;
-                                        setDropTimeFrames(prev => prev.map((item, i) => {
-                                          if (i === index) {
-                                            const currentTags = item.tags || [];
-                                            const newTags = currentTags.includes(val)
-                                              ? currentTags.filter(t => t !== val)
-                                              : [...currentTags, val];
-                                            return { ...item, tags: newTags };
-                                          }
-                                          return item;
-                                        }));
-                                      }}
-                                      className="w-full px-3 py-1.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-purple-500/50 transition-colors font-bold cursor-pointer appearance-none font-sans"
-                                    >
-                                      <option value="">Select tags...</option>
-                                      <option value="Overtime">⏰ Overtime</option>
-                                      <option value="Double Shift"> Double Shift</option>
-                                      <option value="Split Shift"> Split Shift</option>
-                                      <option value="Standby"> Standby</option>
-                                      <option value="Backup"> Backup</option>
-                                      <option value="Training"> Training</option>
-                                    </select>
-                                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-                                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9" /></svg>
-                                    </div>
-                                  </div>
-                                  {tf.tags && tf.tags.length > 0 && (
-                                    <div className="flex flex-wrap gap-1 mt-1.5">
-                                      {tf.tags.map(tag => (
-                                        <span
-                                          key={tag}
-                                          className="inline-flex items-center gap-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 font-extrabold uppercase text-4xs tracking-wider px-2 py-0.5 rounded font-sans"
-                                        >
-                                          {tag}
-                                          <button
-                                            type="button"
-                                            aria-label={`Remove ${tag} tag`}
-                                            onClick={() => {
-                                              setDropTimeFrames(prev => prev.map((item, i) => {
-                                                if (i === index) {
-                                                  return { ...item, tags: (item.tags || []).filter(t => t !== tag) };
-                                                }
-                                                return item;
-                                              }));
-                                            }}
-                                            className="hover:text-white bg-transparent border-none p-0 cursor-pointer text-4xs font-sans"
-                                          >
-                                            ✕
-                                          </button>
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-
-                            {dropTimeFrames.length < 3 && (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setDropTimeFrames(prev => [...prev, { startHour: 12, endHour: 17, role: 'STAGE HAND', tags: [] }]);
-                                }}
-                                className="w-full py-2 bg-purple-500/10 border border-dashed border-purple-500/30 hover:bg-purple-500/20 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-1.5 font-sans"
-                                style={{ fontSize: '11px' }}
-                              >
-                                Add Time Frame ({dropTimeFrames.length}/3)
-                              </button>
-                            )}
-                          </div>
-                        )}
-
-
-
-
-                      </div>
                     </div>
 
                     {/* Drawer Footer */}
-                    <div className="p-3.5 border-t border-white/5 bg-[var(--color-bg-elevated)] space-y-1.5 shrink-0">
+                    <div className="p-3.5 border-t border-white/10 bg-transparent space-y-1.5 shrink-0">
                       <button
                         type="button"
                         onClick={addScheduleItem}
@@ -11080,7 +10931,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   className="absolute inset-0 cursor-pointer border-none bg-transparent w-full h-full"
                 />
                 <div
-                  className="bg-[#181920] border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none relative z-10"
+                  className="bg-[#181920]/85 backdrop-blur-xl border border-purple-500/30 w-full max-w-md p-6 flex flex-col items-center text-center space-y-4 animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] select-none relative z-10 shadow-2xl"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-2xl shadow-inner shrink-0">
@@ -11101,15 +10952,146 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </dialog>
             )}
 
-            {/*  Create Group Modal Pop-up */}
+            {/* Saved Crew Groups Right Side Drawer (Matches Create New Crew Group setup 1-to-1) */}
+            {cellGroupPopover && (() => {
+              const dateStr = cellGroupPopover.replace('openshifts_group_', '');
+              return (
+                <div className="fixed inset-0 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
+                  {/* Backdrop Click Overlay */}
+                  <button
+                    type="button"
+                    aria-label="Close select group drawer"
+                    className="absolute inset-0 cursor-default border-0"
+                    onClick={() => setCellGroupPopover(null)}
+                  />
+
+                  {/* Full Height Right-Side Drawer Panel (Flush against right edge: w-full max-w-md h-full border-l border-white/10) */}
+                  <div
+                    data-group-popover-cell
+                    className="relative bg-transparent backdrop-blur-2xl border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10 font-sans"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Drawer Header */}
+                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
+                      <div>
+                        <h3 className="text-sm font-black italic tracking-wide text-white uppercase">Select Crew Group</h3>
+                        <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-1">Select saved group to apply to shift slots for {dateStr}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-white/50 font-bold px-2.5 py-1 bg-white/5 rounded-full border border-white/10">{crewGroups.length} saved</span>
+                        <button
+                          aria-label="Close select group drawer"
+                          onClick={() => setCellGroupPopover(null)}
+                          className="text-white/40 hover:text-white transition-colors cursor-pointer border-none bg-transparent text-sm"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Drawer Content Body */}
+                    <div className="px-5 pt-6 pb-3 flex-1 overflow-y-auto space-y-3.5 custom-scrollbar min-h-0">
+                      {crewGroups.length === 0 ? (
+                        <div className="py-12 text-center space-y-4">
+                          <span className="text-sm text-white/50 italic block">No saved crew groups yet</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCellGroupPopover(null);
+                              createGroupForDateRef.current = dateStr;
+                              const initialSettings: any = {};
+                              crewMembers.forEach(m => {
+                                if (m.id === 'openshifts') return;
+                                initialSettings[m.id] = { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+                              });
+                              setNewGroupMemberSettings(initialSettings);
+                              setNewGroupNameInput('');
+                              setIsCreateGroupModalOpen(true);
+                            }}
+                            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30"
+                          >
+                            + Create First Crew Group
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-2.5">
+                          <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Saved Groups</span>
+                          {crewGroups.map((g, gIdx) => (
+                            <button
+                              key={gIdx}
+                              type="button"
+                              onClick={() => {
+                                handleAddGroupToDay(dateStr, g);
+                                setCellGroupPopover(null);
+                              }}
+                              className="w-full text-left px-4 py-3.5 rounded-xl hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center justify-between gap-3 bg-white/5 shadow-2xs group"
+                              title={`Apply Group: ${g.name}`}
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <span className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-black text-sm flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">+</span>
+                                <span className="truncate text-sm tracking-wide font-extrabold text-white">{g.name}</span>
+                              </div>
+                              <span className="text-xs font-bold text-purple-400 group-hover:text-purple-300 uppercase tracking-wider shrink-0">Apply →</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Drawer Footer */}
+                    <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => setCellGroupPopover(null)}
+                        className="px-4 py-2 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCellGroupPopover(null);
+                          createGroupForDateRef.current = dateStr;
+                          const initialSettings: any = {};
+                          crewMembers.forEach(m => {
+                            if (m.id === 'openshifts') return;
+                            initialSettings[m.id] = { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
+                          });
+                          setNewGroupMemberSettings(initialSettings);
+                          setNewGroupNameInput('');
+                          setIsCreateGroupModalOpen(true);
+                        }}
+                        className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30"
+                      >
+                        + Create New Group
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Create Group Modal / Right Side Drawer */}
             {isCreateGroupModalOpen && (
-              <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease]">
+              <div className="fixed inset-0 z-[999] flex justify-end animate-[fadeIn_0.2s_ease]">
+                {/* Backdrop Click Overlay */}
+                <button
+                  type="button"
+                  aria-label="Close create group modal"
+                  className="absolute inset-0 cursor-default border-0"
+                  onClick={() => {
+                    setIsCreateGroupModalOpen(false);
+                    createGroupForDateRef.current = null;
+                  }}
+                />
+
                 <div
-                  className="bg-[var(--color-bg-card)] border border-white/10 w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden animate-[scaleIn_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+                  className="relative bg-transparent backdrop-blur-2xl border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] z-10"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Modal Header */}
-                  <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
+                  <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                     <div>
                       <h3 className="text-sm font-black italic tracking-wide text-white">Create New Crew Group</h3>
                       <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-1">Select members and customize their shift slots</p>
@@ -11127,18 +11109,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   {/* Modal Form Content */}
-                  <div className="p-5 flex-1 overflow-y-auto space-y-5 custom-scrollbar min-h-0">
+                  <div className="px-5 pt-6 pb-3 flex-1 overflow-y-auto space-y-3.5 custom-scrollbar min-h-0">
 
                     {/* Group Name input */}
-                    <div className="space-y-1.5">
+                    <div className="mt-2 space-y-1.5">
                       <label htmlFor="admin-new-group-name" className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold">Group Name</label>
-                      <input
+                      <GlowInput
                         id="admin-new-group-name"
                         type="text"
                         value={newGroupNameInput}
                         onChange={(e) => setNewGroupNameInput(e.target.value)}
                         placeholder="e.g. Weekend Tech Crew"
-                        className="w-full px-3.5 py-2.5   border border-white/10 text-xs text-white rounded-lg outline-none focus:border-emerald-500/50 transition-colors font-bold"
+                        className="w-full px-3.5 py-2.5 bg-transparent border border-white/10 text-xs text-white transition-all font-bold"
                       />
                     </div>
 
@@ -11146,21 +11128,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <div className="space-y-2">
                       <span className="text-[var(--font-size-3xs)] uppercase tracking-wider text-white/50 font-extrabold block">Select Crew Members</span>
 
-                      <div className="border border-white/5 bg-black/20 divide-y divide-white/5 overflow-hidden">
+                      <div className=" bg-transparent overflow-hidden">
                         {crewMembers.flatMap((m) => {
                           if (m.id === 'openshifts') return [];
                           const setting = newGroupMemberSettings[m.id] || { active: false, role: m.role || 'SERVER', startHour: 17.0, endHour: 22.0 };
 
                           return [(
-                            <div key={m.id} className="p-3 transition-colors hover:bg-white/[0.01]">
+                            <div key={m.id} className="pr-3 pt-3 pb-3 last:border-b-0 transition-colors ">
                               <label className="flex items-center justify-between gap-3 cursor-pointer select-none py-1 px-1.5 -mx-1.5 rounded-lg hover:bg-white/5 transition-colors group">
                                 {/* Left checkbox and avatar */}
                                 <div className="flex items-center gap-3 min-w-0">
-                                  <input
-                                    type="checkbox"
-                                    checked={setting.active}
-                                    onChange={(e) => {
-                                      const act = e.target.checked;
+                                  <SquishyToggle
+                                    id={`group-member-toggle-${m.id}`}
+                                    label={`Toggle active for ${m.name || m.id}`}
+                                    checked={!!setting.active}
+                                    onChange={(act) => {
                                       setNewGroupMemberSettings(prev => ({
                                         ...prev,
                                         [m.id]: {
@@ -11171,11 +11153,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         }
                                       }));
                                     }}
-                                    className="accent-emerald-500 w-4 h-4 cursor-pointer"
                                   />
                                   <div
-                                    className="w-5 h-5 rounded-full flex items-center justify-center text-4xs font-extrabold text-white uppercase shrink-0 font-sans shadow-sm"
-                                    style={{ backgroundColor: m.color || getAvatarColor(m.name) }}
+                                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black text-white uppercase shrink-0 font-sans shadow-sm border border-purple-400/40"
+                                    style={{ backgroundColor: getAvatarColor(m.name) }}
                                   >
                                     {m.initials || m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                                   </div>
@@ -11190,7 +11171,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                               {setting.active && (
                                 <div className="w-full mt-2.5 pt-2.5 border-t border-white/5 space-y-3 animate-[fadeIn_0.15s_ease] font-sans">
                                   {(setting.timeFrames || [{ startHour: setting.startHour || 17, endHour: setting.endHour || 22, role: setting.role || 'STAGE HAND' }]).map((tf, tfIdx) => (
-                                    <div key={tfIdx} className="p-2.5 bg-black/40 border border-white/10 space-y-2 relative">
+                                    <div key={tfIdx} className="p-2.5 bg-transparent border border-white/10 space-y-2 relative">
                                       <div className="flex items-center justify-between">
                                         <span className="uppercase tracking-wider text-purple-300 font-extrabold" style={{ fontSize: '9.5px' }}>
                                           Time Frame {tfIdx + 1}
@@ -11220,50 +11201,60 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       {/* Start / End selects */}
                                       <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                          <label htmlFor={`admin-group-member-${m.id}-tf-${tfIdx}-start`} className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
-                                          <select
-                                            id={`admin-group-member-${m.id}-tf-${tfIdx}-start`}
-                                            value={tf.startHour}
-                                            onChange={(e) => {
-                                              const h = parseFloat(e.target.value);
-                                              const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                              const newEnd = tf.endHour <= h ? Math.min(24, h + 1) : tf.endHour;
-                                              currentTfs[tfIdx] = { ...tf, startHour: h, endHour: newEnd };
-                                              setNewGroupMemberSettings(prev => ({
-                                                ...prev,
-                                                [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                              }));
-                                            }}
-                                            className="w-full px-2 py-1   border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
-                                            style={{ fontSize: '9.5px' }}
-                                          >
-                                            {generateTimeOptions().slice(0, -1).map(opt => (
-                                              <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                            ))}
-                                          </select>
+                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>Start Time</label>
+                                          <GooeyDropdown
+                                            label={generateTimeOptions().find(opt => opt.value === tf.startHour)?.label || "5 PM"}
+                                            accentColor="#9333ea"
+                                            showChevron={true}
+                                            chevronColor="rgba(255, 255, 255, 0.7)"
+                                            textColor="#ffffff"
+                                            panelTextColor="#ffffff"
+                                            transparent={false}
+                                            glassOpacity={1.0}
+                                            className="w-full"
+                                            maxHeight={200}
+                                            items={generateTimeOptions().slice(0, -1).map(opt => ({
+                                              label: opt.label,
+                                              onClick: () => {
+                                                const h = opt.value;
+                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                const newEnd = tf.endHour <= h ? Math.min(24, h + 1) : tf.endHour;
+                                                currentTfs[tfIdx] = { ...tf, startHour: h, endHour: newEnd };
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                }));
+                                              }
+                                            }))}
+                                          />
                                         </div>
 
                                         <div>
-                                          <label htmlFor={`admin-group-member-${m.id}-tf-${tfIdx}-end`} className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
-                                          <select
-                                            id={`admin-group-member-${m.id}-tf-${tfIdx}-end`}
-                                            value={tf.endHour}
-                                            onChange={(e) => {
-                                              const h = parseFloat(e.target.value);
-                                              const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                              currentTfs[tfIdx] = { ...tf, endHour: h };
-                                              setNewGroupMemberSettings(prev => ({
-                                                ...prev,
-                                                [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                              }));
-                                            }}
-                                            className="w-full px-2 py-1   border border-white/10 text-white rounded outline-none font-bold cursor-pointer"
-                                            style={{ fontSize: '9.5px' }}
-                                          >
-                                            {generateTimeOptions().flatMap(opt => opt.value > tf.startHour ? (
-                                              [<option key={opt.value} value={opt.value}>{opt.label}</option>]
-                                            ) : [])}
-                                          </select>
+                                          <label className="uppercase tracking-wider text-white/50 mb-0.5 block font-bold" style={{ fontSize: '7.5px' }}>End Time</label>
+                                          <GooeyDropdown
+                                            label={generateTimeOptions().find(opt => opt.value === tf.endHour)?.label || "10 PM"}
+                                            accentColor="#9333ea"
+                                            showChevron={true}
+                                            chevronColor="rgba(255, 255, 255, 0.7)"
+                                            textColor="#ffffff"
+                                            panelTextColor="#ffffff"
+                                            transparent={false}
+                                            glassOpacity={1.0}
+                                            className="w-full"
+                                            maxHeight={200}
+                                            items={generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => ({
+                                              label: opt.label,
+                                              onClick: () => {
+                                                const h = opt.value;
+                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                currentTfs[tfIdx] = { ...tf, endHour: h };
+                                                setNewGroupMemberSettings(prev => ({
+                                                  ...prev,
+                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                }));
+                                              }
+                                            }))}
+                                          />
                                         </div>
                                       </div>
 
@@ -11342,7 +11333,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   {/* Modal Footer */}
-                  <div className="p-5 border-t border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between gap-3 shrink-0">
+                  <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -11386,7 +11377,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setIsCreateGroupModalOpen(false);
                         createGroupForDateRef.current = null;
                       }}
-                      className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/20 disabled:text-white/30 text-black font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                      className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/20 disabled:text-white/30 text-white font-black text-xs uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-sm shadow-purple-900/30"
                     >
                       Save Group
                     </button>
@@ -11413,10 +11404,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     onClick={() => setSelectedShowCrewDate(null)}
                   />
 
-                  <div className="relative bg-[var(--color-bg-card)] border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+                  <div className="relative bg-transparent backdrop-blur-md border-l border-white/10 w-full max-w-md h-full flex flex-col justify-between shadow-2xl animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)]">
 
                     {/* Header */}
-                    <div className="p-5 border-b border-white/5 bg-[var(--color-bg-elevated)] flex items-center justify-between shrink-0">
+                    <div className="p-5 border-b border-white/10 bg-transparent flex items-center justify-between shrink-0">
                       <div>
                         <h3 className="text-sm font-black italic tracking-wide text-white">
                           Show Crew Roster
@@ -11561,8 +11552,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
         /* Dynamic Theme Variables for Admin Dashboard */
         #admin-dashboard-root {
-          background-color: var(--bg-color) !important;
-          color: var(--text-color) !important;
+         
         }
 
         #admin-dashboard-root h1,
@@ -11604,9 +11594,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           color: #ffffff !important;
         }
 
-        #admin-dashboard-root input[type="checkbox"] {
-          accent-color: #ffffff !important;
-        }
 
         /* Transparent Section Header Bars & Universal Hover Highlight */
         #admin-dashboard-root .admin-section-header,
@@ -11614,7 +11601,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         #admin-dashboard-root div[onClick*="toggleSection"] {
           background-color: transparent !important;
           background: transparent !important;
-          border-bottom: 1px solid var(--border-color) !important;
           padding-left: 0px !important;
           border-top-left-radius: 0px !important;
           border-top-right-radius: 0px !important;
@@ -11651,23 +11637,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           color: var(--text-color) !important;
         }
 
-        /* Force section card bodies and inner components to have zero container borders & transparent backgrounds */
-        #admin-dashboard-root section,
-        #admin-dashboard-root [id^="admin-sec-"],
-        #admin-dashboard-root [class*="border"],
-        #admin-dashboard-root .border,
-        #admin-dashboard-root .border-b,
-        #admin-dashboard-root .border-t,
-        #admin-dashboard-root .border-white\/10,
-        #admin-dashboard-root .border-white\/5,
-        #admin-dashboard-root .border-purple-500\/20,
-        #admin-dashboard-root .border-rose-500\/20,
-        #admin-dashboard-root .border-amber-500\/20,
-        #admin-dashboard-root .border-cyan-500\/20,
-        #admin-dashboard-root .border-\[\#ffffff1f\],
-        #admin-dashboard-root .border-\[var\(--border-color\)\] {
+        /* Force section card bodies and inner components to have zero container borders */
+        #admin-dashboard-root [class*="border"]:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-b:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-t:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-white\/10:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-white\/5:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-purple-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-rose-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-amber-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-cyan-500\/20:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-\[\#ffffff1f\]:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]),
+        #admin-dashboard-root .border-\[var\(--border-color\)\]:not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb):not(input):not([class*="GooeyDropdown"]):not([class*="triggerShape"]):not([class*="panelShape"]):not([class*="shapes"]) {
           background-color: transparent !important;
-          background: transparent !important;
           border: none !important;
           border-style: none !important;
           border-width: 0px !important;
@@ -11676,9 +11659,43 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           color: var(--text-color) !important;
         }
 
-        #admin-dashboard-root div[role="button"][tabIndex] {
+        #admin-dashboard-root section,
+        #admin-dashboard-root [id^="admin-sec-"] {
+          background: transparent !important;
+          border: none !important;
           border-bottom: none !important;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+        }
+
+        #admin-dashboard-root section > div[role="button"]:not(.border-none),
+        #admin-dashboard-root [id^="admin-sec-"] > div[role="button"]:not(.border-none),
+        #admin-dashboard-root section > div.flex:not(.border-none),
+        #admin-dashboard-root [id^="admin-sec-"] > div.flex:not(.border-none) {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          padding-top: 1.25rem !important;
+          padding-bottom: 1.25rem !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+        }
+
+        #admin-dashboard-root .border-none {
+          border: none !important;
+          border-bottom: 0px !important;
           border-bottom-width: 0px !important;
+          border-bottom-style: none !important;
+        }
+
+        #admin-dashboard-root h3 svg,
+        #admin-dashboard-root h3 svg *,
+        #admin-dashboard-root section h3 svg,
+        #admin-dashboard-root section h3 svg * {
+          fill: none !important;
+          fill-opacity: 0 !important;
         }
 
         #admin-dashboard-root table thead tr,
@@ -11723,16 +11740,63 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           box-shadow: none !important;
         }
 
+        /* Explicit protection for GooeyDropdown liquid morphing shapes */
+        #admin-dashboard-root .gooey-panel-shape,
+        #admin-dashboard-root .gooey-trigger-shape {
+          background-color: #9333ea !important;
+          background: #9333ea !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+
+        #admin-dashboard-root .gooey-shapes-layer {
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: block !important;
+        }
+
+        /* Explicit background protection for GooeyMessagesDropdown / Dropdown */
+        #admin-dashboard-root button[aria-haspopup="listbox"],
+        #admin-dashboard-root button[aria-haspopup="listbox"] ~ *,
+        #admin-dashboard-root div:has(> button[aria-haspopup="listbox"]) div {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        #admin-dashboard-root button[aria-haspopup="listbox"] {
+          background-color: #242630 !important;
+          background: #242630 !important;
+        }
+
         /* Global Textarea & Input Style: Transparent Background & Crisp White Text */
         #admin-dashboard-root textarea,
         #admin-dashboard-root input[type="text"],
         #admin-dashboard-root input[type="email"],
         #admin-dashboard-root input[type="password"],
+        #admin-dashboard-root input[type="date"],
         #admin-dashboard-root select {
-          background-color: transparent !important;
-          background: transparent !important;
+          color-scheme: dark !important;
           color: #ffffff !important;
-          border-color: rgba(255, 255, 255, 0.15) !important;
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        #admin-dashboard-root input[type="date"]::-webkit-calendar-picker-indicator,
+        #admin-dashboard-root input[type="time"]::-webkit-calendar-picker-indicator {
+          filter: none !important;
+          color-scheme: dark !important;
+          cursor: pointer !important;
+          opacity: 0.9 !important;
+        }
+
+        #admin-dashboard-root textarea:focus,
+        #admin-dashboard-root input[type="text"]:focus,
+        #admin-dashboard-root input[type="email"]:focus,
+        #admin-dashboard-root input[type="password"]:focus,
+        #admin-dashboard-root select:focus {
+          border-color: #a855f7 !important;
+          box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.4), 0 0 12px rgba(168, 85, 247, 0.3) !important;
+          outline: none !important;
         }
 
         #admin-dashboard-root textarea::placeholder,
@@ -11890,29 +11954,20 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         }
 
         /* Complete background removal for Admin Dashboard page */
-        #admin-dashboard-root,
-        #admin-dashboard-root section,
-        #admin-dashboard-root article,
-        #admin-dashboard-root div:not([class*="bg-purple"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-cyan"]):not([class*="bg-amber"]),
+        #admin-dashboard-root section:not(.squishy-toggle),
+        #admin-dashboard-root article:not(.squishy-toggle),
+        #admin-dashboard-root div:not([class*="bg-purple"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-cyan"]):not([class*="bg-amber"]):not(.squishy-toggle):not(.squishy-track):not(.squishy-thumb),
         #admin-dashboard-root table,
         #admin-dashboard-root tbody,
         #admin-dashboard-root tr,
         #admin-dashboard-root td,
         #admin-dashboard-root th,
-        /* Complete background removal for Admin Dashboard page */
-        #admin-dashboard-root,
-        #admin-dashboard-root section,
-        #admin-dashboard-root article,
-        #admin-dashboard-root div:not([class*="bg-purple"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-cyan"]):not([class*="bg-amber"]),
-        #admin-dashboard-root table,
-        #admin-dashboard-root tbody,
         #admin-dashboard-root header,
         #admin-dashboard-root main,
-        #admin-dashboard-root [class*="bg-black"],
-        #admin-dashboard-root [class*="bg-[#"],
-        #admin-dashboard-root [class*="bg-[var(--"] {
-          background-color: transparent !important;
-          background: transparent !important;
+        #admin-dashboard-root [class*="bg-black"]:not(.squishy-toggle),
+        #admin-dashboard-root [class*="bg-[#"]:not(.squishy-track),
+        #admin-dashboard-root [class*="bg-[var(--"]:not(.squishy-toggle):not(.squishy-track) {
+
           box-shadow: none !important;
         }
 
@@ -11940,7 +11995,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         #admin-dashboard-root th:first-child,
         #admin-dashboard-root table td:first-child,
         #admin-dashboard-root table th:first-child {
-          padding-left: 0 !important;
+        
         }
 
         #admin-dashboard-root section > div[role="button"] {
@@ -12422,25 +12477,25 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
 
                       {/* Target checkboxes */}
-                      <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-white/5">
-                        <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
+                      <div className="flex flex-wrap items-center gap-6 pt-2 border-t border-white/5">
+                        <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setPostNoticeToDashboard(!postNoticeToDashboard)}>
+                          <SquishyToggle
+                            id="post-notice-dashboard-toggle"
+                            label="Live Banner on Dashboard"
                             checked={postNoticeToDashboard}
-                            onChange={(e) => setPostNoticeToDashboard(e.target.checked)}
-                            className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
+                            onChange={setPostNoticeToDashboard}
                           />
-                          <span> Live Banner on Dashboard</span>
-                        </label>
-                        <label className="flex items-center gap-2 text-xs font-bold text-white/80 cursor-pointer select-none">
-                          <input
-                            type="checkbox"
+                          <span className="text-xs font-bold text-white/80"> Live Banner on Dashboard</span>
+                        </div>
+                        <div className="flex items-center gap-2 cursor-pointer select-none" onClick={() => setSendEmailToPassengers(!sendEmailToPassengers)}>
+                          <SquishyToggle
+                            id="send-email-passengers-toggle"
+                            label="Email Passenger Signups"
                             checked={sendEmailToPassengers}
-                            onChange={(e) => setSendEmailToPassengers(e.target.checked)}
-                            className="w-4 h-4 rounded accent-cyan-500 cursor-pointer"
+                            onChange={setSendEmailToPassengers}
                           />
-                          <span> Email Passenger Signups</span>
-                        </label>
+                          <span className="text-xs font-bold text-white/80"> Email Passenger Signups</span>
+                        </div>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2 justify-end mt-auto pt-3 border-t border-white/5">

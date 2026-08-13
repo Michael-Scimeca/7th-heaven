@@ -1,6 +1,11 @@
 .wrap {
   position: relative;
   display: inline-block;
+  z-index: 1;
+}
+
+.wrap[data-open="true"] {
+  z-index: 9999 !important;
 }
 
 /* Portal root — attached directly to document.body so the goo shapes and
@@ -60,9 +65,10 @@
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 10px 14px;
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
@@ -86,6 +92,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 20;
   list-style: none;
   margin: 0;
   padding-left: 8px;
