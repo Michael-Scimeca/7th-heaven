@@ -180,6 +180,13 @@ export default function HamburgerTestPage() {
           position: relative;
           overflow: hidden;
           background-color: #fff;
+
+          /* Scope container-query units to this box, so the splash
+             circle below is sized off the demo screen — not the real
+             browser viewport (which is what was making it animate an
+             enormous, janky layer on a full-page portal). */
+          container-type: size;
+          container-name: hb-viewport;
         }
 
         .header {
@@ -225,11 +232,14 @@ export default function HamburgerTestPage() {
           top: 15px;
           cursor: pointer;
           border-radius: 50%;
-          transition: background-color 0.15s linear;
+          transition: background-color 0.15s linear, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .nav :global(.nav__toggle:hover),
         .nav :global(.nav__toggle:focus) {
           background-color: rgba(0, 0, 0, 0.5);
+        }
+        .nav :global(.nav__toggle:active) {
+          transform: scale(0.88);
         }
 
         .nav :global(.nav__menu) {
@@ -246,13 +256,23 @@ export default function HamburgerTestPage() {
         }
         .nav :global(.nav__item) {
           opacity: 0;
-          transition: all 0.3s cubic-bezier(0, 0.995, 0.99, 1) 0.3s;
+          transition: opacity 0.2s ease, transform 0.2s ease;
         }
         .nav :global(.nav__item:nth-child(1)) { transform: translateY(-40px); }
         .nav :global(.nav__item:nth-child(2)) { transform: translateY(-80px); }
         .nav :global(.nav__item:nth-child(3)) { transform: translateY(-120px); }
         .nav :global(.nav__item:nth-child(4)) { transform: translateY(-160px); }
         .nav :global(.nav__item:nth-child(5)) { transform: translateY(-200px); }
+
+        /* elastic, staggered entrance — only applies while opening */
+        .nav.nav--open :global(.nav__item) {
+          transition: opacity 0.4s ease 0.3s, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+        }
+        .nav.nav--open :global(.nav__item:nth-child(1)) { transition-delay: 0.3s; }
+        .nav.nav--open :global(.nav__item:nth-child(2)) { transition-delay: 0.36s; }
+        .nav.nav--open :global(.nav__item:nth-child(3)) { transition-delay: 0.42s; }
+        .nav.nav--open :global(.nav__item:nth-child(4)) { transition-delay: 0.48s; }
+        .nav.nav--open :global(.nav__item:nth-child(5)) { transition-delay: 0.54s; }
 
         .nav :global(.nav__link) {
           color: white;
@@ -278,7 +298,7 @@ export default function HamburgerTestPage() {
           cursor: pointer;
           color: white;
           transform: rotate(0deg);
-          transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+          transition: color 0.3s ease, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .nav :global(.menuicon__bar),
         .nav :global(.menuicon__circle) {
@@ -314,13 +334,16 @@ export default function HamburgerTestPage() {
           position: absolute;
           border-radius: 50%;
           background-color: var(--splash-bg-color);
-          width: 284vmax;
-          height: 284vmax;
-          top: -142vmax;
-          left: -142vmax;
+          /* Sized off the demo screen (container query units), not the
+             real browser viewport — keeps the animated layer small and
+             the scale transition smooth, matching the CodePen's feel. */
+          width: 284cqmax;
+          height: 284cqmax;
+          top: -142cqmax;
+          left: -142cqmax;
           transform: scale(0);
           transform-origin: 50% 50%;
-          transition: transform 0.5s cubic-bezier(0.755, 0.05, 0.855, 0.06);
+          transition: transform 0.4s cubic-bezier(0.755, 0.05, 0.855, 0.06);
           will-change: transform;
         }
 
@@ -329,6 +352,9 @@ export default function HamburgerTestPage() {
         --------------------------- */
         .nav.nav--open :global(> .splash)::after {
           transform: scale(1);
+          /* bouncy overshoot on the way open only — closing stays a quick,
+             clean shrink (a bounce on close reads as jittery, not springy) */
+          transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .nav.nav--open :global(.menuicon) {
           color: white;

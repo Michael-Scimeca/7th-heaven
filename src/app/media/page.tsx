@@ -443,7 +443,7 @@ export default function MediaPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS) */}
-          <div className="lg:col-span-5 space-y-16 md:space-y-24 ">
+          <div className="lg:col-span-5 space-y-6 md:space-y-8 lg:space-y-24">
             {filteredVideos.map((video, index) => {
               const isActive = activeIndex === index;
               return (
@@ -453,7 +453,7 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-10"
+                  className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-4 md:pb-5 lg:pb-10"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-xs font-mono text-purple-400 font-bold tracking-widest opacity-80">

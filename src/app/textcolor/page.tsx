@@ -35,8 +35,14 @@ export default function TextColorTestPage() {
     setColors((prev) => prev.map((c, i) => (i === index ? value : c)));
   };
 
+  // Extra bottom padding keeps this page's last section clear of the
+  // scroll-triggered footer reveal (see Footer.tsx / #footer CSS): the
+  // fixed footer starts fading in and becomes clickable once the page's
+  // content-area bottom edge nears the viewport bottom. Without this
+  // buffer, scrolling the Playground card into view also reveals the
+  // footer on top of it, intercepting clicks on the inputs below.
   return (
-    <div className="min-h-screen w-full bg-black px-6 py-16 text-white">
+    <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh] text-white">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
           <p className="text-xs uppercase tracking-[0.2em] text-white/40">
