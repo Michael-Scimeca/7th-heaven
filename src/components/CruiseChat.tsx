@@ -842,7 +842,7 @@ export default function CruiseChat({
             }}
             onSubmit={handleSend}
             disabled={!member || isSending || member.is_banned}
-            placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
+            placeholder={member ? (member.is_banned ? "Banned from chat" : "Type a message...") : "Log in to chat"}
             maxLength={500}
             showEmojiBtn
             onEmojiToggle={() => { setShowEmojiPicker(!showEmojiPicker); if (showTagMenu) setShowTagMenu(false); }}
