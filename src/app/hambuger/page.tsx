@@ -118,7 +118,6 @@ export default function HamburgerTestPage() {
                   <line className="menuicon__bar" x1="13" y1="24.5" x2="37" y2="24.5" />
                   <line className="menuicon__bar" x1="13" y1="24.5" x2="37" y2="24.5" />
                   <line className="menuicon__bar" x1="13" y1="32.5" x2="37" y2="32.5" />
-                  <circle className="menuicon__circle" r="23" cx="25" cy="25" />
                 </g>
               </svg>
             </a>
@@ -302,22 +301,14 @@ export default function HamburgerTestPage() {
           transform: rotate(0deg);
           transition: color 0.3s ease, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .nav :global(.menuicon__bar),
-        .nav :global(.menuicon__circle) {
+        .nav :global(.menuicon__bar) {
           fill: none;
           stroke: currentColor;
           stroke-width: 3;
           stroke-linecap: round;
-        }
-        .nav :global(.menuicon__bar) {
           transform: rotate(0deg);
           transform-origin: 50% 50%;
           transition: transform 0.25s ease-in-out;
-        }
-        .nav :global(.menuicon__circle) {
-          transition: stroke-dashoffset 0.3s linear 0.1s;
-          stroke-dashoffset: 144.513;
-          stroke-dasharray: 144.513;
         }
 
         /* ---------------------------
@@ -361,9 +352,6 @@ export default function HamburgerTestPage() {
         .nav.nav--open :global(.menuicon) {
           color: white;
           transform: rotate(180deg);
-        }
-        .nav.nav--open :global(.menuicon__circle) {
-          stroke-dashoffset: 0;
         }
         .nav.nav--open :global(.menuicon__bar:nth-child(1)),
         .nav.nav--open :global(.menuicon__bar:nth-child(4)) {

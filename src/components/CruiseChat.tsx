@@ -5,8 +5,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
-import { AlertTriangle, Ban, Trash2, LogOut } from "lucide-react";
+import { AlertTriangle, Ban, Trash2, LogOut, MessageSquare } from "lucide-react";
 import ChatInputBar from "@/components/ChatInputBar";
+import { useAuth } from "@/context/AuthContext";
 
 type ChatMessage = {
   id: string;
@@ -118,9 +119,40 @@ const TAG_SUGGESTIONS = [
   { tag: '@Ryan', label: 'Ryan', icon: '🎸' },
 ];
 
-export default function CruiseChat({ memberOverride, activeChannel = "general" }: { memberOverride?: any; activeChannel?: string }) {
+export default function CruiseChat({
+  memberOverride,
+  activeChannel = "general",
+  showHeader = true,
+  className = "",
+}: {
+  memberOverride?: any;
+  activeChannel?: string;
+  showHeader?: boolean;
+  className?: string;
+}) {
   const { member: contextMember } = useMember();
   const member = memberOverride || contextMember;
+  const auth = useAuth();
+
+  const [isSignedIn, setIsSignedIn] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const isAuth = Boolean(
+        auth?.isAuthenticated ||
+        auth?.user ||
+        localStorage.getItem('7h_user') ||
+        localStorage.getItem('7h_fan_user') ||
+        localStorage.getItem('7h_crew_account') ||
+        localStorage.getItem('7h_auth_token')
+      );
+      setIsSignedIn(isAuth);
+    };
+    checkAuth();
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
+  }, [auth?.isAuthenticated, auth?.user]);
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -472,57 +504,100 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className="rounded-3xl backdrop-blur-md flex flex-col h-[500px] max-h-[500px] min-h-0 overflow-hidden text-white transition-all duration-300"
+      className={`rounded-3xl backdrop-blur-md flex flex-col h-full min-h-[420px] max-h-[600px] overflow-hidden text-white transition-all duration-300 ${className}`}
     >
-      <div className="py-2 px-1 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
-            💬
-          </div>
-          <div>
-            <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
-              Passenger Lounge
-              <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300    border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
-                LIVE
-              </span>
-            </h3>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
-              <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">
-                {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
-              </span>
+      {showHeader && (
+        <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-xs shadow-md text-white">
+              💬
             </div>
+            <div>
+              <h3 className="font-black text-white text-xs tracking-wide flex items-center gap-1.5">
+                Passenger Lounge
+                <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 border border-cyan-500/30 px-1.5 py-0.5 rounded-full">
+                  LIVE
+                </span>
+              </h3>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-xs" />
+                <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider">
+                  {onlineUsers.length > 0 ? `${onlineUsers.length} Online` : 'Cruisers Online'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Online users panel */}
+          {onlineUsers.length > 0 && (
+            <div className="flex items-center gap-1 pr-1 max-w-[55%] overflow-hidden">
+              <div className="flex flex-col gap-0.5 overflow-y-auto max-h-[52px] pr-1 scrollbar-hide">
+                {onlineUsers.map((u) => (
+                  <div key={u.name} className="flex items-center gap-1 group">
+                    <div
+                      className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black shrink-0 ring-1"
+                      style={{
+                        background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
+                        borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
+                        color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : '#fff',
+                      }}
+                    >
+                      {u.avatar?.slice(0, 2).toUpperCase()}
+                    </div>
+                    <span className="text-[8px] font-semibold truncate max-w-[60px]"
+                      style={{ color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : 'rgba(255,255,255,0.6)' }}
+                    >
+                      {u.name}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {!isSignedIn ? (
+        /* ── GUEST LOCKED CHAT PANEL ── */
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/90 backdrop-blur-xl space-y-6">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
+            <MessageSquare className="w-8 h-8" />
+          </div>
+
+          <div className="space-y-2 max-w-xs">
+            <h3 className="text-xl font-black text-white uppercase tracking-tight">
+              Join the Live Chat
+            </h3>
+            <p className="text-xs text-white/60 leading-relaxed font-medium">
+              Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2.5 w-full max-w-xs pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
+              }}
+              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span>Sign Up as a Fan</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
+              }}
+              className="w-full py-2.5 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white font-extrabold text-xs uppercase tracking-wider rounded-xl border border-white/15 transition-all cursor-pointer"
+            >
+              Sign In to Account
+            </button>
           </div>
         </div>
-
-        {/* Online users panel */}
-        {onlineUsers.length > 0 && (
-          <div className="flex items-center gap-1 pr-1 max-w-[55%] overflow-hidden">
-            <div className="flex flex-col gap-0.5 overflow-y-auto max-h-[52px] pr-1 scrollbar-hide">
-              {onlineUsers.map((u) => (
-                <div key={u.name} className="flex items-center gap-1 group">
-                  <div
-                    className="w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black shrink-0 ring-1"
-                    style={{
-                      background: u.role === 'admin' ? 'rgba(168,85,247,0.4)' : u.role === 'crew' ? 'rgba(6,182,212,0.35)' : 'rgba(255,255,255,0.1)',
-                      borderColor: u.role === 'admin' ? 'rgba(168,85,247,0.6)' : u.role === 'crew' ? 'rgba(6,182,212,0.5)' : 'rgba(255,255,255,0.15)',
-                      color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : '#fff',
-                    }}
-                  >
-                    {u.avatar?.slice(0, 2).toUpperCase()}
-                  </div>
-                  <span className="text-[8px] font-semibold truncate max-w-[60px]"
-                    style={{ color: u.role === 'admin' ? '#d8b4fe' : u.role === 'crew' ? '#67e8f9' : 'rgba(255,255,255,0.6)' }}
-                  >
-                    {u.name}
-                  </span>
-                  <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      ) : (
+        <>
 
       {member?.is_warned && (
         <div className="bg-purple-600/15 border-b border-purple-500/30 px-3 py-2 flex items-start gap-2.5 relative z-10 animate-[slideDown_0.3s_ease-out] shrink-0">
@@ -746,6 +821,7 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
             </div>
           </div>
         )}
+        </div>
 
         {isArchived ? (
           <div className="w-full bg-[var(--color-bg-card)] border border-white/10 px-4 py-3 text-sm text-white/40 text-center flex items-center justify-center gap-2">
@@ -774,7 +850,8 @@ export default function CruiseChat({ memberOverride, activeChannel = "general" }
             />
           </div>
         )}
-      </div>
+      </>
+      )}
     </div>
   );
 }

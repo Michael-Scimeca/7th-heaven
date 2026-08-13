@@ -17,6 +17,7 @@ import { useMember } from '@/context/MemberContext';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase-client';
 import ChatInputBar from '@/components/ChatInputBar';
+import CruiseChat from '@/components/CruiseChat';
 
 const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
   const key = (nameOrInstrument || '').toLowerCase();
@@ -2554,217 +2555,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
                 </div>
               ) : (
-                <>
-                  {/* ── ADMIN-WATCHING BANNER ── visible to fans when mod is in admin mode */}
-                  {showAdminPanel && (
-                    <div
-                      className="shrink-0 flex items-center justify-center gap-2 px-3 py-1.5"
-                      style={{
-                        background: 'rgba(239,68,68,0.08)',
-                        borderBottom: '1px solid rgba(239,68,68,0.2)',
-                        animation: 'modPulse 3s ease-in-out infinite',
-                      }}
-                    >
-                      <style>{`
-                      @keyframes modPulse {
-                        0%,100% { background: rgba(239,68,68,0.06); }
-                        50%      { background: rgba(239,68,68,0.13); }
-                      }
-                    `}</style>
-                      <Shield className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                      <span style={{ fontSize: 11, color: 'rgba(252,165,165,0.85)', fontWeight: 700, letterSpacing: '0.05em' }}>
-                        MODERATOR IS MONITORING THIS CHAT
-                      </span>
-                      <span
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: '#ef4444', animation: 'pulse 1.4s infinite' }}
-                      />
-                    </div>
-                  )}
-
-                  {/* ── PINNED MESSAGE BANNER ── shows when crew pins a message from dashboard */}
-                  {pinnedMessage && (
-                    <div
-                      className="shrink-0 flex items-start gap-2 px-3 py-2"
-                      style={{
-                        background: 'linear-gradient(90deg, rgba(255,10,61,0.12), rgba(236,72,153,0.08))',
-                        borderBottom: '1px solid rgba(255,10,61,0.2)',
-                      }}
-                    >
-                      <Pin className="w-3.5 h-3.5 text-pink-400 shrink-0 mt-0.5" />
-                      <div className="flex-1 min-w-0">
-                        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 600, lineHeight: 1.4 }}>
-                          {pinnedMessage.text}
-                        </p>
-                        <p style={{ fontSize: 10, color: 'rgba(255,10,61,0.7)', marginTop: 2 }}>
-                          Pinned by {pinnedMessage.by}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Messages — absolute inside relative wrapper guarantees scroll works */}
-                  <div className="flex-1 relative min-h-0">
-                    <div
-                      ref={chatContainerRef}
-                      data-lenis-prevent
-                      className="absolute inset-0 overflow-y-auto px-3 py-2 space-y-1"
-                      style={{ WebkitOverflowScrolling: 'touch' }}
-                    >
-                      {messages.length === 0 && (
-                        <div className="flex flex-col items-center justify-center h-32 text-center">
-                          <Smile className="w-6 h-6 text-white/25 mb-2" />
-                          <p className="text-white/30 text-xs uppercase tracking-widest">Stream is starting...</p>
-                        </div>
-                      )}
-
-                      {messages.map(msg => {
-                        if (msg.isSystem || !msg.account) {
-                          return (
-                            <div key={msg.id} className="msg-new flex items-center justify-center py-1">
-                              <span
-                                className="px-3 py-1 rounded-full text-xs"
-                                style={{
-                                  background: 'rgba(255,255,255,0.08)',
-                                  color: 'rgba(255,255,255,0.7)',
-                                  fontSize: 11,
-                                }}
-                              >
-                                {msg.text}
-                              </span>
-                            </div>
-                          );
-                        }
-
-                        const isCrew = msg.account.role === 'crew';
-                        const isUser = msg.isUser;
-                        const isFlagged = flaggedMsgs.some(f => f.msg.id === msg.id || (f.msg.account?.id === msg.account?.id && f.msg.text === msg.text));
-                        const isBanned = msg.account && bannedUsers.has(msg.account.id);
-
-                        const initials = (msg.account?.displayName || 'FN').substring(0, 2).toUpperCase();
-                        const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago' }) : '08:52 PM';
-
-                        return (
-                          <div
-                            key={msg.id}
-                            className="msg-new flex items-start gap-2.5 py-1 px-1 mb-1.5 group"
-                          >
-                            {/* Avatar */}
-                            <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[10px] font-black mt-0.5 bg-purple-600 text-white shadow-xs">
-                              {initials}
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                              {/* Header row */}
-                              <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <span className="text-xs font-extrabold text-white">
-                                  {msg.account?.displayName || 'Fan'}
-                                </span>
-
-                                <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border leading-none ${
-                                  isCrew
-                                    ? 'text-purple-300 bg-purple-600/20 border-purple-500/35'
-                                    : isUser
-                                    ? 'text-cyan-300 bg-cyan-500/20 border-cyan-500/35'
-                                    : 'text-purple-300 bg-purple-600/20 border-purple-500/35'
-                                }`}>
-                                  {isCrew ? 'CREW' : isUser ? 'YOU' : 'FAN'}
-                                </span>
-
-                                {showAdminPanel && isBanned && (
-                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-red-300 bg-red-500/20 border-red-500/35">
-                                    🚫 BANNED
-                                  </span>
-                                )}
-                                {showAdminPanel && isFlagged && !isBanned && (
-                                  <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-purple-300 bg-purple-600/20 border-purple-500/35">
-                                    ⚩ FLAGGED
-                                  </span>
-                                )}
-
-                                <span className="text-[10px] text-white/50 font-sans font-bold leading-none ml-auto tracking-tight">
-                                  {timeStr}
-                                </span>
-                              </div>
-
-                              {/* Message bubble */}
-                              <div
-                                className={`px-3.5 py-2 text-xs inline-block w-fit max-w-[98%] leading-relaxed border break-words shadow-sm text-white font-bold rounded-tl-xs ${isCrew
-                                  ? 'bg-emerald-600/90 border-emerald-400/50'
-                                  : 'bg-purple-900/80 border-purple-500/40'
-                                  }`}
-                              >
-                                {msg.text}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                      <div ref={chatEndRef} />
-                    </div>
-                  </div>
-
-                  {/* Chat input */}
-                  <div
-                    className="shrink-0 p-3 bg-[#0c0718]"
-                    style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
-                  >
-                    {/* Emoji picker */}
-                    {showEmojiPicker && (
-                      <div
-                        className="mb-2 p-2 flex flex-wrap gap-1 rounded-lg"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-                      >
-                        {CHAT_EMOJIS.map(em => (
-                          <button aria-label="Previous"
-                            key={em}
-                            onClick={() => {
-                              setUserMessage(prev => prev + em);
-                              inputRef.current?.focus();
-                            }}
-                            className="text-lg hover:scale-125 transition-transform"
-                            style={{ lineHeight: 1 }}
-                          >
-                            {em}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Blocked message warning */}
-                    {blockedReason && (
-                      <div
-                        className="flex items-center gap-2 mb-2 px-3 py-2 text-xs font-bold rounded-lg"
-                        style={{
-                          background: 'rgba(239,68,68,0.15)',
-                          border: '1px solid rgba(239,68,68,0.35)',
-                          color: '#fca5a5',
-                          animation: 'slideInMsg 0.2s ease forwards',
-                        }}
-                      >
-                        <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                        <span><strong>WARNING:</strong> {blockedReason}</span>
-                      </div>
-                    )}
-
-                    <ChatInputBar
-                      value={userMessage}
-                      onChange={setUserMessage}
-                      onSubmit={e => { e.preventDefault(); handleSend(); }}
-                      placeholder="Type a message... use @admin to ask a question"
-                      maxLength={200}
-                      showEmojiBtn
-                      onEmojiToggle={() => setShowEmojiPicker(v => !v)}
-                      showAtBtn
-                      showRulesFooter
-                    />
-                  </div>
-                </>
+                <div className="flex-1 flex flex-col min-h-0 relative">
+                  <CruiseChat
+                    activeChannel={memberId}
+                    showHeader={false}
+                    className="h-full max-h-none border-none rounded-none bg-transparent shadow-none"
+                  />
+                </div>
               )}
             </div>
           )}
         </div>
-
 
         {/* RAFFLE CLAIM MODAL OVERLAY */}
         {showClaimModal && raffleState && (
