@@ -414,10 +414,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       const showLetter = v.type === 'unplugged' ? 'U' : v.type === 'outdoor' ? 'O' : v.type === 'casino' ? 'C' : v.type === 'tv' ? 'T' : v.type === 'fundraiser' ? 'G' : v.type === 'special' ? 'S' : 'F';
 
       const pinHtml = `<div class="custom-venue-marker">
-        <div style="--glow-color: ${cfg.color}; filter: drop-shadow(0 4px 10px ${cfg.color}99);" class="${isBouncing ? "next-show-bounce" : ""} relative">
+        <div class="${isBouncing ? "next-show-bounce" : ""} relative">
           <svg width="${w}" height="${h}" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="${cfg.color}" style="fill: ${cfg.color} !important;" stroke="${isBouncing ? '#fff' : 'rgba(255,255,255,0.4)'}" stroke-width="${isBouncing ? '4' : '2'}"/>
-            <text x="50" y="45" dy="0.35em" fill="${textColor}" style="fill: ${textColor} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
+            <path d="M50 130C50 130 20 95 12 70C4 45 0 30 5 18C10 6 28 0 50 0C72 0 90 6 95 18C100 30 96 45 88 70C80 95 50 130 50 130Z" fill="rgba(12, 12, 22, 0.88)" style="fill: rgba(12, 12, 22, 0.88) !important;" stroke="${cfg.color}" stroke-width="${isBouncing ? '4' : '3'}"/>
+            <text x="50" y="45" dy="0.35em" fill="${cfg.color}" style="fill: ${cfg.color} !important;" font-size="40" font-weight="900" text-anchor="middle" font-family="system-ui,sans-serif">${showLetter}</text>
           </svg>
           ${isBouncing ? `<div class="next-show-ring" style="--ring-color: ${cfg.color}"></div>` : ""}
           <div class="marker-label">${v.venue}</div>
@@ -617,7 +617,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full aspect-[3/1] overflow-hidden   pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px' }}>
+    <div className="relative w-full aspect-[3/1] overflow-hidden pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)', maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862" />
 
       {/* ── Directional Dark Edge Gradient Overlays ── */}

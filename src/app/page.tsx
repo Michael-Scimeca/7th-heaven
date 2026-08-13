@@ -7,14 +7,13 @@ import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSett
 
 // Above-the-fold, needed for initial render
 import VideoSection from "@/components/VideoSection";
-import HomeVideoShowcase from "@/components/HomeVideoShowcase";
 import Logo from "@/components/Logo";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import LiveStatusSign from "@/components/LiveStatusSign";
 import LogoTicker, { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
 
-// Lazy-loaded: canvas/rAF components only load when rendered
+// Lazy-loaded: canvas/rAF/below-the-fold components
 const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"));
 const HeroVideoPlayer = dynamic(() => import("@/components/HeroVideoPlayer"));
 const HeroAlbumPlayer = dynamic(() => import("@/components/HeroAlbumPlayer"));
@@ -28,6 +27,8 @@ const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"));
 const AudioPlayerSection = dynamic(() => import("@/components/AudioPlayer"));
 const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
 const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
+const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"));
+const SlideupSection = dynamic(() => import("@/components/SlideupSection"));
 
 
 
@@ -217,6 +218,9 @@ export default async function Home() {
 
       {/* ====== FEATURED VIDEO SHOWCASE (30-Second Autoplay Previews) ====== */}
       <HomeVideoShowcase />
+
+      {/* ====== SLIDEUP STACK SECTION ====== */}
+      <SlideupSection />
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON (scrolling logo tickers) ====== */}
       <section

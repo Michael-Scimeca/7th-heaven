@@ -166,7 +166,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
     <section className="relative py-16 md:py-24 lg:py-32 bg-transparent overflow-hidden" id="proximity-notify">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
-      <div className="relative z-10 site-container max-w-[1100px] mx-auto px-4 sm:px-6">
+      <div className="relative z-10  max-w-[1100px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center justify-center">
 
           {/* ── LEFT COLUMN: Modern Phone Mockup with Floating Reactions (5 Cols) ── */}
@@ -249,42 +249,48 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
               </p>
             </div>
 
-            {/* Metrics Counter Grid (Styled exactly like Reference Image) */}
-            <div className="grid grid-cols-2 gap-y-6 gap-x-8 max-w-lg py-2">
-              <div>
-                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
-                  Countries
-                </p>
-                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                  7
-                </p>
+            {/* Metrics Counter Display (2 Clean Vertical Columns) */}
+            <div className="flex flex-row gap-12 sm:gap-20 py-2 w-full">
+              {/* Left Column */}
+              <div className="flex flex-col space-y-6 min-w-[140px]">
+                <div>
+                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                    Countries
+                  </p>
+                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                    7
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                    Impressions
+                  </p>
+                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                    2.100.000
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
-                  Followers &amp; Fans
-                </p>
-                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                  +18.000
-                </p>
-              </div>
+              {/* Right Column */}
+              <div className="flex flex-col space-y-6">
+                <div>
+                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                    Followers &amp; Fans
+                  </p>
+                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                    +18.000
+                  </p>
+                </div>
 
-              <div>
-                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
-                  Impressions
-                </p>
-                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                  2.100.000
-                </p>
-              </div>
-
-              <div>
-                <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
-                  Live Engagements
-                </p>
-                <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
-                  160.000
-                </p>
+                <div>
+                  <p className="text-amber-200/60 text-xs sm:text-sm font-mono uppercase tracking-wider font-semibold mb-1">
+                    Live Engagements
+                  </p>
+                  <p className="text-4xl sm:text-5xl font-black text-amber-200 tracking-tight">
+                    160.000
+                  </p>
+                </div>
               </div>
             </div>
 

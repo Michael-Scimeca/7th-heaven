@@ -504,11 +504,18 @@ export default function HomeVideoShowcase() {
             <p className="text-purple-200/75 text-sm sm:text-base md:text-lg font-normal mb-5 leading-relaxed">
               Explore 7th Heaven&apos;s live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax.
             </p>
-
-
           </div>
 
-
+          {/* Smooothy Settings Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+            className="flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-purple-600/40 hover:bg-purple-600/70 border border-purple-400/50 text-white font-bold text-xs sm:text-sm tracking-wider uppercase backdrop-blur-md transition-all shadow-[0_4px_20px_rgba(168,85,247,0.3)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.5)] cursor-pointer shrink-0"
+          >
+            <SlidersHorizontal className="w-4 h-4 text-purple-300" />
+            <span>Smooothy Physics Settings</span>
+            <Settings className="w-4 h-4 text-purple-300 ml-1 animate-[spin_8s_linear_infinite]" />
+          </button>
         </div>
 
         {/* Pure Smooothy Engine DOM Slider Track with Native Lerp & Snap Physics */}
@@ -656,6 +663,21 @@ export default function HomeVideoShowcase() {
 
 
       </div>
+
+      {/* Floating Quick Settings Trigger */}
+      {!isSettingsOpen && (
+        <div className="absolute bottom-6 right-6 z-40">
+          <button
+            type="button"
+            onClick={() => setIsSettingsOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-black/80 hover:bg-purple-900/90 text-purple-200 hover:text-white border border-purple-500/40 text-xs font-extrabold uppercase tracking-wider backdrop-blur-xl shadow-2xl transition-all cursor-pointer hover:scale-105"
+            title="Open Smooothy Physics Settings"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5 text-purple-400" />
+            <span>Smooothy Controls</span>
+          </button>
+        </div>
+      )}
 
       {/* ── MASTER SLIDER CONFIGURATION DRAWER CONTROL PANEL (NON-BLURRED LIVE PANEL) ── */}
       {isSettingsOpen && (
