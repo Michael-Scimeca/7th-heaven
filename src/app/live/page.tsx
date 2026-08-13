@@ -253,7 +253,7 @@ export default function LiveHubPage() {
 
 
         {/* ── HEADER ── */}
-        <div className="pt-[21px] mb-10">
+        <div className="px-6 md:px-12 pt-[21px] mb-10">
 
           {/* Title row */}
           <div className="text-left mb-10">
