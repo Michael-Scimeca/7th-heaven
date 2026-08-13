@@ -195,8 +195,8 @@ a:hover {
 input,
 select,
 textarea {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background-color: #181924 !important;
+  background: #181924 !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -248,8 +248,8 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 textarea {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background-color: #181924 !important;
+  background: #181924 !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -387,7 +387,7 @@ div:has(> textarea)>textarea {
 }
 
 /* Universal auto-glow for textarea elements */
-div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
+div:has(> textarea):not(:has(> label)):not(.no-glow):not([class*="glow-border"]) {
   position: relative;
   isolation: isolate;
   border-radius: 8px;
@@ -395,7 +395,7 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"]) {
   display: block;
 }
 
-div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
+div:has(> textarea):not(:has(> label)):not(.no-glow):not([class*="glow-border"])::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -413,8 +413,8 @@ div:has(> textarea):not(.no-glow):not([class*="glow-border"])::after {
   transition: opacity 0.25s ease-in-out;
 }
 
-div:has(> textarea:focus):not(.no-glow):not([class*="glow-border"])::after,
-div:has(> textarea:hover):not(.no-glow):not([class*="glow-border"])::after {
+div:has(> textarea:focus):not(:has(> label)):not(.no-glow):not([class*="glow-border"])::after,
+div:has(> textarea:hover):not(:has(> label)):not(.no-glow):not([class*="glow-border"])::after {
   opacity: 1;
 }
 

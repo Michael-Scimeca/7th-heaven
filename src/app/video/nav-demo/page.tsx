@@ -130,7 +130,7 @@ export default function CatNavDemo() {
               const vidCount = categories.find(cat => cat.category === c)?.videos.length || 0;
               return (
                 <button aria-label="Action button" key={c} onClick={() => setActiveCat(c)}
-                  className={`text-left text-xs font-bold uppercase tracking-[0.1em] px-3 py-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between ${activeCat === c ? "bg-[var(--color-accent)]/15  text-[var(--color-accent)]" : "text-white/35 hover:text-white/70 hover:bg-white/[0.03]"
+                  className={`text-left text-xs font-bold uppercase tracking-[0.1em] px-3 py-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between ${activeCat === c ? "bg-[var(--color-accent)]/15  text-[var(--color-accent)]" : "text-white/35 hover:text-white/70"
                     }`}>
                   <span className="truncate">{c}</span>
                   <span className="text-[var(--font-size-2xs)] tabular-nums opacity-50">{vidCount}</span>

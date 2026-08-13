@@ -2242,7 +2242,7 @@ export default function FeaturesPage() {
                       key={page.path}
                       href={page.path.includes("[") ? "#" : page.path}
                       target={page.path.includes("[") ? undefined : "_blank"}
-                      className={`flex items-center gap-4 px-5 py-3 transition-colors duration-150 group ${page.access === "dev" ? "bg-white/[0.01] hover:bg-white/[0.03]" : "hover:bg-white/[0.04]"
+                      className={`flex items-center gap-4 px-5 py-3 transition-colors duration-150 group ${page.access === "dev" ? "bg-white/[0.01]" : "hover:bg-white/[0.04]"
                         } ${page.path.includes("[") ? "cursor-default" : "cursor-pointer"}`}
                     >
                       <span className={`w-2 h-2 rounded-full shrink-0 ${accessDot[page.access]}`} />

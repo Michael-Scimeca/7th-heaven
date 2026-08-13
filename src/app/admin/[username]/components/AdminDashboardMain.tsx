@@ -197,7 +197,7 @@ const SidebarDateButton = React.memo(({
         ? 'bg-purple-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent'
         : isActiveWeek
           ? 'bg-white/[0.04]'
-          : 'bg-transparent hover:bg-white/[0.03]'
+          : 'bg-transparent'
         }`}
     >
       <div className="flex flex-col items-center min-w-[32px] shrink-0">
@@ -3163,14 +3163,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
       <section id="admin-sec-emergencybroadcast" className="overflow-visible">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none transition-colors">
-          <div className="flex items-center">
-
-            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emergencybroadcast'); } }} onClick={() => toggleSection('emergencybroadcast')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
               Emergency Show & Fan Alert Dispatcher
-              {renderInfoToggle('emergencybroadcast')}
             </h3>
+            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Dispatch urgent show cancellations, time changes, or venue updates sitewide</p>
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="SMS • Email • Fan Wall" color="rose" />
@@ -3187,13 +3186,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
       {/*  Role-Based Email Lists & Subscriber Directory */}
       <section id="admin-sec-emaildirectory" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none transition-colors">
-          <div className="flex items-center">
-            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('emaildirectory'); } }} onClick={() => toggleSection('emaildirectory')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               Role-Based Email Lists & Subscriber Directory
-              {renderInfoToggle('emaildirectory')}
             </h3>
+            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins</p>
           </div>
           <div className="flex items-center gap-3">
             <SectionBadge label="Crew • Fans • Cruise • Planners • Admins" color="amber" />
@@ -3208,13 +3207,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </section>
       <section id="admin-sec-announcements" className="overflow-hidden">
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-          <div className="flex items-center">
-            <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('announcements'); } }} onClick={() => toggleSection('announcements')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
               Band Announcements
-              {renderInfoToggle('announcements')}
             </h3>
+            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Post band updates, news, and urgent alerts across the public site</p>
           </div>
           <div className="flex items-center gap-3">
             <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('announcements') ? 'rotate-0' : '-rotate-90')}>
@@ -3223,26 +3222,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </div>
         {renderInfoBanner('announcements', 'Band Announcements', 'Post band updates, news, and urgent alerts across the entire public site banner.')}
-        < div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }
-        }>
+        <div style={{ display: isSectionOpen('announcements') ? undefined : 'none' }}>
           {/* Global Announcement Banner Control */}
-          <div className={`relative z-10 bg-transparent backdrop-blur-xl border ${bannerActive ? 'border-[var(--color-accent)]/50 shadow-[0_0_30px_rgba(255,10,61,0.15)]' : 'border-white/5 hover:border-white/10'} py-6 md:py-8 pr-6 md:pr-8 pl-0 transition-colors duration-500 flex flex-col group`}>
-            <div className={`absolute inset-0 ${bannerActive ? 'bg-[var(--color-accent)]/5' : 'bg-transparent'} pointer-events-none transition-colors duration-500 `} />
-
-            <div className="relative z-10 flex flex-col">
-              {/* Header row */}
-              <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} className="flex items-start justify-between gap-4 cursor-pointer select-none" onClick={() => toggleSection("globalalert")}>
-                <div className="flex items-center gap-4">
-                  <div>
-                    <h3 className="text-lg font-black italic tracking-wide text-white flex items-center gap-2">
-                      Global Alert Banner
-                      <div className={"w-5 h-5 rounded-md bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
-                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
-                      </div>
-                    </h3>
-                    <p className="text-[0.65rem] font-bold text-white/40 uppercase tracking-widest leading-relaxed mt-0.5">Pin a band announcement or urgent notice sitewide</p>
-                  </div>
-                </div>
+          <div className="relative z-10 bg-transparent flex flex-col group">
+            <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection("globalalert"); } }} onClick={() => toggleSection("globalalert")} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors">
+              <div className="flex flex-col">
+                <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 13v-2z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
+                  Global Alert Banner
+                </h3>
+                <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Pin a band announcement or urgent notice sitewide</p>
+              </div>
+              <div className="flex items-center gap-3">
                 {/* Main toggle — auto-saves */}
                 <div onClick={(e) => e.stopPropagation()}>
                   <button
@@ -3252,10 +3243,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       await updateGlobalBanner({ isActive: newActive });
                     }}
                     disabled={bannerUpdating}
-                    className={`relative px-6 py-2.5  text-[0.6rem] font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 overflow-hidden ${bannerActive
-                      ? 'bg-[var(--color-accent)] text-white border-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.5)] hover:shadow-[0_0_30px_rgba(255,10,61,0.8)] hover:scale-[1.02]'
-                      : 'bg-[var(--color-bg-elevated)] text-white/50 border-white/10 hover:border-[var(--color-accent)]/50 hover: text-[var(--color-accent)] hover:bg-[#252530]'
-                      } disabled:opacity-50 disabled:hover:scale-100`}
+                    className={`relative px-4 py-1.5 text-[0.6rem] font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded overflow-hidden ${bannerActive
+                      ? 'bg-purple-600 text-white border-purple-500 shadow-sm'
+                      : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20'
+                      } disabled:opacity-50`}
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       <span className={`w-1.5 h-1.5 rounded-full ${bannerActive ? 'bg-white animate-pulse shadow-[0_0_5px_white]' : 'bg-white/30'}`} />
@@ -3264,109 +3255,113 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {bannerActive && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] animate-[shimmer_2s_infinite]" />}
                   </button>
                 </div>
-              </div>
 
-              {/* Collapsible Content */}
-              <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
-                {/* Save status toast */}
-                {bannerSaveStatus && (
-                  <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${bannerSaveStatus === 'saved'
-                    ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
-                    : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                    }`}>
-                    {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
+                {/* Arrow chevron on far right side */}
+                <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('globalalert') ? 'rotate-0' : '-rotate-90')}>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Collapsible Content */}
+            <div style={{ display: isSectionOpen('globalalert') ? undefined : 'none' }} className="flex flex-col gap-6 mt-6">
+              {/* Save status toast */}
+              {bannerSaveStatus && (
+                <div className={`flex items-center gap-2 px-4 py-2.5  text-[0.6rem] font-bold uppercase tracking-widest animate-[slideIn_0.3s_ease-out] backdrop-blur-md ${bannerSaveStatus === 'saved'
+                  ? 'bg-emerald-500/10 text-[var(--color-accent)] border  border-[var(--color-accent)]/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                  : 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
+                  }`}>
+                  {bannerSaveStatus === 'saved' ? ' Banner updated successfully' : ' Failed to update — try again'}
+                </div>
+              )}
+
+              {/* Message input */}
+              <div className="flex flex-col gap-3 mt-auto">
+                <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
+                  <ReactQuill
+                    theme="snow"
+                    value={bannerText}
+                    onChange={setBannerText}
+                    placeholder="Alert message (e.g. Weather delay tonight)"
+                    className="bg-[#22222e] overflow-hidden"
+                  />
+                </div>
+
+                {/* Controls row */}
+                <div className="flex flex-wrap items-center justify-between gap-4 bg-transparent py-2 pr-2 pl-0 border-b border-white/5">
+                  <button
+                    onClick={() => updateGlobalBanner()}
+                    disabled={bannerUpdating}
+                    className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                  >
+                    {bannerUpdating ? 'Saving...' : 'Dispatch'}
+                  </button>
+
+                  {/* Auto-expire buttons */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
+                    <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
+                    {[
+                      { label: '1h', hours: 1 },
+                      { label: '3h', hours: 3 },
+                      { label: '12h', hours: 12 },
+                      { label: '24h', hours: 24 },
+                    ].map(({ label, hours }) => {
+                      const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={async () => {
+                            const expiry = new Date(Date.now() + hours * 3600000).toISOString();
+                            setBannerExpiresAt(expiry);
+                            await updateGlobalBanner({ expiresAt: expiry });
+                          }}
+                          className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
+                            ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
+                            : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                            }`}
+                        >{label}</button>
+                      );
+                    })}
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        setBannerExpiresAt(null);
+                        await updateGlobalBanner({ expiresAt: null });
+                      }}
+                      className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                        }`}
+                    >Off</button>
+                  </div>
+                </div>
+
+                {/* Expiry info */}
+                {bannerExpiresAt && (
+                  <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
+                    <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
+                    <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
+                    {new Date(bannerExpiresAt) < new Date() && (
+                      <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
+                    )}
                   </div>
                 )}
-
-                {/* Message input */}
-                <div className="flex flex-col gap-3 mt-auto">
-                  <div className="w-full text-white [&_.ql-editor]:min-h-[200px]">
-                    <ReactQuill
-                      theme="snow"
-                      value={bannerText}
-                      onChange={setBannerText}
-                      placeholder="Alert message (e.g. Weather delay tonight)"
-                      className="bg-[#22222e] overflow-hidden"
-                    />
-                  </div>
-
-                  {/* Controls row */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 bg-transparent py-2 pr-2 pl-0 border-b border-white/5">
-                    <button
-                      onClick={() => updateGlobalBanner()}
-                      disabled={bannerUpdating}
-                      className="px-6 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white text-[0.6rem] font-black uppercase tracking-widest rounded-lg border border-[var(--color-accent)]/50 transition-colors disabled:opacity-50 cursor-pointer shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      {bannerUpdating ? 'Saving...' : 'Dispatch'}
-                    </button>
-
-                    {/* Auto-expire buttons */}
-                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 hide-scrollbar">
-                      <span className="text-[0.5rem] font-bold text-white/30 uppercase tracking-widest shrink-0 mr-2">Expiry:</span>
-                      {[
-                        { label: '1h', hours: 1 },
-                        { label: '3h', hours: 3 },
-                        { label: '12h', hours: 12 },
-                        { label: '24h', hours: 24 },
-                      ].map(({ label, hours }) => {
-                        const isSelected = !!bannerExpiresAt && Math.abs(new Date(bannerExpiresAt).getTime() - (Date.now() + hours * 3600000)) < 60000;
-                        return (
-                          <button
-                            key={label}
-                            type="button"
-                            onClick={async () => {
-                              const expiry = new Date(Date.now() + hours * 3600000).toISOString();
-                              setBannerExpiresAt(expiry);
-                              await updateGlobalBanner({ expiresAt: expiry });
-                            }}
-                            className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
-                              ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
-                              : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
-                              }`}
-                          >{label}</button>
-                        );
-                      })}
-                      <button
-                        type="button"
-                        onClick={async () => {
-                          setBannerExpiresAt(null);
-                          await updateGlobalBanner({ expiresAt: null });
-                        }}
-                        className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
-                          }`}
-                      >Off</button>
-                    </div>
-                  </div>
-
-                  {/* Expiry info */}
-                  {bannerExpiresAt && (
-                    <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
-                      <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
-                      <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
-                      {new Date(bannerExpiresAt) < new Date() && (
-                        <span className="font-bold text-rose-400 uppercase tracking-widest px-1.5 rounded bg-rose-500/20">Expired</span>
-                      )}
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
           </div>
         </div>
-      </section >
+      </section>
     </div>
   );
 
   const renderAnalytics = () => (
     <section id="admin-sec-analytics" className="overflow-hidden font-sans text-white">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-6 pr-6 pl-0 flex items-center justify-between text-white cursor-pointer select-none hover:bg-white/5 transition-colors">
-        <div className="flex items-center">
-
-          <h3 className="text-lg font-bold tracking-tight text-white flex items-center gap-2 cursor-pointer">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('analytics'); } }} onClick={() => toggleSection('analytics')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between text-white cursor-pointer select-none hover:bg-white/5 transition-colors">
+        <div className="flex flex-col">
+          <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             Google Analytics GA4 Suite
-            {renderInfoToggle('analytics')}
           </h3>
+          <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Monitor sitewide visitor traffic, engagement, and conversion metrics</p>
         </div>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 border border-emerald-400/40 rounded-full text-[0.6rem] font-bold text-emerald-300 uppercase tracking-widest animate-pulse select-none shrink-0" onClick={(e) => e.stopPropagation()}>
@@ -3380,41 +3375,41 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('analytics', 'Google Analytics', 'Monitor active sitewide users, session metrics, pageviews, acquisition channels, and visitor geo-traffic with Google Analytics integration.')}
       <div style={{ display: isSectionOpen('analytics') ? undefined : 'none' }}>
-        <div className="py-6 pr-6 pl-0 space-y-6 bg-transparent text-[var(--text-color)]">
+        <div className="py-6 pr-0 pl-0 space-y-6 bg-transparent text-[var(--text-color)]">
 
           {/* 1. Executive Top Metrics Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Active Users</span>
               <span className="text-2xl font-black text-[#c27aff] block">{gaData.activeUsers}</span>
               <span className="text-[0.55rem] font-bold text-[#c27aff] uppercase tracking-widest mt-1 block"> Live Right Now</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Total Sessions</span>
               <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.sessions.toLocaleString()}</span>
               <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Last 30 Days</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Page Views</span>
               <span className="text-2xl font-black text-[var(--text-color)] block">{gaData.pageViews.toLocaleString()}</span>
               <span className="text-[0.55rem] font-bold text-[var(--muted-text)] uppercase tracking-widest mt-1 block">Sitewide Traffic</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Conversion Rate</span>
               <span className="text-2xl font-black text-[var(--color-accent)] block">{gaData.conversionRate}</span>
               <span className="text-[0.55rem] font-bold text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Traffic → Purchases</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Rev / Session</span>
               <span className="text-2xl font-black  text-[var(--color-accent)] block">{gaData.revenuePerSession}</span>
               <span className="text-[0.55rem] font-bold  text-[var(--color-accent)] uppercase tracking-widest mt-1 block">Avg Fan Value</span>
             </div>
 
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 shadow-xs">
+            <div className="bg-[var(--card-bg)] p-4 shadow-xs">
               <span className="text-[0.55rem] font-black uppercase tracking-widest text-[var(--muted-text)] block mb-1">Bounce Rate</span>
               <span className="text-2xl font-black text-purple-300 block">{gaData.bounceRate}</span>
               <span className="text-[0.55rem] font-bold text-purple-300 uppercase tracking-widest mt-1 block">High Engagement</span>
@@ -3425,7 +3420,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {/* Acquisition Channels */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
+            <div className="bg-[var(--card-bg)] pt-5 pb-5  shadow-xs">
               <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                 <span> Traffic Acquisition Channels</span>
                 <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Attribution</span>
@@ -3485,7 +3480,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
 
             {/* Device & Browser Hardware */}
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs flex flex-col justify-between">
+            <div className="bg-[var(--card-bg)] p-5 shadow-xs flex flex-col justify-between">
               <div>
                 <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
                   <span> User Devices & Browsers</span>
@@ -3535,7 +3530,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
           {/* 3. Top Performing Sitewide Pages Table */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
+          <div className="bg-[var(--card-bg)] shadow-xs">
             <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
               <span> Top Performing Site Pages (Screen Views)</span>
               <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">GA4 Event Metrics</span>
@@ -3554,7 +3549,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border-color)] font-semibold text-[var(--text-color)]">
-                  <tr className="hover:bg-white/[0.03]">
+                  <tr className="">
                     <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/shows (Tour Schedule)</td>
                     <td className="p-3 font-mono">3,840</td>
                     <td className="p-3 font-mono">2,910</td>
@@ -3563,7 +3558,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <td className="p-3 text-right font-mono font-bold text-[#c27aff]">842 Ticket Clicks</td>
                   </tr>
 
-                  <tr className="hover:bg-white/[0.03]">
+                  <tr className="">
                     <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/cruise (7th Heaven Cruise)</td>
                     <td className="p-3 font-mono">2,120</td>
                     <td className="p-3 font-mono">1,640</td>
@@ -3572,7 +3567,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <td className="p-3 text-right font-mono font-bold text-[#c27aff]">148 Pre-Bookings</td>
                   </tr>
 
-                  <tr className="hover:bg-white/[0.03]">
+                  <tr className="">
                     <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/ (Homepage)</td>
                     <td className="p-3 font-mono">1,650</td>
                     <td className="p-3 font-mono">1,410</td>
@@ -3581,7 +3576,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <td className="p-3 text-right font-mono font-bold text-[#c27aff]">410 Banner Clicks</td>
                   </tr>
 
-                  <tr className="hover:bg-white/[0.03]">
+                  <tr className="">
                     <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/merch (Shopify Store)</td>
                     <td className="p-3 font-mono">640</td>
                     <td className="p-3 font-mono">510</td>
@@ -3590,7 +3585,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     <td className="p-3 text-right font-mono font-bold text-[var(--color-accent)]">94 Orders Placed</td>
                   </tr>
 
-                  <tr className="hover:bg-white/[0.03]">
+                  <tr className="">
                     <td className="p-3 font-mono font-bold  text-[var(--color-accent)]">/bio & media (Band Roster)</td>
                     <td className="p-3 font-mono">180</td>
                     <td className="p-3 font-mono">145</td>
@@ -3604,7 +3599,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
           {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
-          <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5 shadow-xs">
+          <div className="bg-[var(--card-bg)] pt-5 pb-5 shadow-xs">
             <h4 className="text-xs font-black uppercase tracking-wider text-[var(--text-color)] mb-4 flex items-center justify-between">
               <span> Visitor Geo Demographics & Fan Density</span>
               <span className="text-[var(--font-size-3xs)] font-mono text-[var(--muted-text)]">Top Cities</span>
@@ -3674,7 +3669,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         tabIndex={0}
         onClick={() => toggleSection('shopify')}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('shopify'); } }}
-        className="py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
+        className="py-6 pr- pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
       >
         <div className="flex items-center">
 
@@ -3753,7 +3748,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <p className="text-white/20 text-xs mt-2">Check your Shopify Admin API credentials in .env.local</p>
             </div>
           ) : shopifyData?.mode === 'inventory' ? (
-            <div className="py-6 pr-6 pl-0">
+            <div className="py-6 pl-0">
               {shopifyData.needsOrderScope && (
                 <div className="mb-6 p-4 bg-purple-500/10 border border-purple-500/20 flex items-start gap-3">
                   <span className="text-purple-300 text-lg"></span>
@@ -3828,7 +3823,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
             </div>
           ) : shopifyData ? (
-            <div className="py-6 pr-6 pl-0">
+            <div className="py-6 pl-0">
               {/* Revenue Metrics Row */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-black/30 border border-[#96bf48]/20 p-5">
@@ -4057,7 +4052,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               )}
             </div>
           ) : null) : (
-          <div className="py-6 pr-6 pl-0 transition-opacity duration-300 ease-out">
+          <div className="py-6 pl-0 transition-opacity duration-300 ease-out">
             {/* Simulated Metrics Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <div className="bg-black/30 border border-purple-500/20 p-5 hover:border-purple-500/40 transition-colors">
@@ -4571,16 +4566,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderPhotoMod = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-6 pl-0 flex items-center justify-between cursor-pointer select-none">
-        <div className="flex items-center">
-          <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('photomod'); } }} onClick={() => toggleSection('photomod')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none">
+        <div className="flex flex-col">
+          <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
             Fan Photo Moderation Queue
-            {renderInfoToggle('photomod')}
           </h3>
+          <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Review fan-submitted concert and show photos, check compliance, and approve for public photo wall</p>
         </div>
         <div className="flex items-center gap-3">
-
           <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('photomod') ? 'rotate-0' : '-rotate-90')}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
           </div>
@@ -4595,7 +4589,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               Queue is entirely empty. All fan content is categorized.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 pr-6 pl-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6 pl-0">
               {moderationQueue.map((photo) => (
                 <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
                   <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
@@ -4843,7 +4837,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       {renderInfoBanner('smsblast', 'SMS Proximity Blast', 'Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.')}
       <div style={{ display: isSectionOpen('smsblast') ? undefined : 'none' }}>
         {/* Auto-blast info bar */}
-        <div className="py-3 pr-6 pl-0 border-b border-white/5 flex items-center justify-between bg-transparent">
+        <div className="py-3 pl-0 border-b border-white/5 flex items-center justify-between bg-transparent">
           <div className="flex items-center gap-2">
             <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-emerald-500 animate-pulse' : 'bg-white/10'}`} />
             <span className="text-[0.65rem] text-white/40">
@@ -4855,24 +4849,29 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           {smsAutoBlast && (
             <div className="flex items-center gap-2">
               <span className="text-[0.5rem] font-bold uppercase tracking-widest text-white/25">Days before:</span>
-              <select
-                aria-label="Auto-blast lead days"
-                value={smsAutoBlastDays}
-                onChange={async (e) => {
-                  const v = parseInt(e.target.value, 10);
-                  setSmsAutoBlastDays(v);
-                  try {
-                    await fetch('/api/admin/settings', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(v) }),
-                    });
-                  } catch { }
-                }}
-                className="bg-transparent text-white border border-white/15 rounded px-2 py-1 text-[0.7rem] outline-none cursor-pointer"
-              >
-                {[1, 2, 3, 5, 7].map(d => <option key={d} value={d}>{d}</option>)}
-              </select>
+              <GooeyDropdown
+                label={String(smsAutoBlastDays)}
+                accentColor="#9333ea"
+                showChevron={true}
+                chevronColor="#ec4899"
+                textColor="#ffffff"
+                panelTextColor="#ffffff"
+                transparent={false}
+                glassOpacity={1.0}
+                items={[1, 2, 3, 5, 7].map(d => ({
+                  label: String(d),
+                  onClick: async () => {
+                    setSmsAutoBlastDays(d);
+                    try {
+                      await fetch('/api/admin/settings', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: 'sms_auto_blast_days', value: String(d) }),
+                      });
+                    } catch { }
+                  }
+                }))}
+              />
             </div>
           )}
         </div>
@@ -4928,7 +4927,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     setSmsPreview('');
                   }
                 }}
-                className="w-full bg-white text-slate-900 border border-slate-300 dark:border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-rose-500/50 transition-colors appearance-none cursor-pointer"
+                className="w-full bg-white/5 text-white border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-rose-500/50 transition-colors appearance-none cursor-pointer"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff40' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center' }}
               >
                 <option value="">— Select an upcoming show —</option>
@@ -5101,7 +5100,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       value={smsCustomMsg}
                       onChange={setSmsCustomMsg}
                       placeholder="Leave empty to use the auto-generated message above"
-                      className="bg-white overflow-hidden text-xs"
+                      className="text-white overflow-hidden text-xs"
                     />
                   </div>
                 </div>
@@ -6435,7 +6434,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Right Column: Alert Broadcast Form */}
               <div className="space-y-5">
-                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 py-4 pl-4 pr-0 space-y-4">
+                <div className="bg-[var(--color-bg-card)]/40 border border-white/5 py-4 px-4 space-y-4">
                   <div>
                     <label htmlFor="admin-band-sms-show-select" className="text-[0.65rem] font-bold text-white/40 uppercase tracking-wider block mb-2">Select Upcoming Show</label>
                     <Dropdown
@@ -6518,31 +6517,34 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   {/* Email Subject Line (Conditional) */}
                   {sendBandEmailAlert && (
                     <div className="flex flex-col gap-1 animate-[fadeIn_0.2s_ease-out]">
-                      <label htmlFor="admin-band-email-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-slate-800 block">Email Subject Line</label>
-                      <input
-                        id="admin-band-email-subject"
-                        type="text"
-                        value={bandEmailSubject}
-                        onChange={(e) => setBandEmailSubject(e.target.value)}
-                        placeholder="e.g. Band Schedule Update"
-                        style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                        className="bg-white! text-black! border border-slate-300 rounded-lg px-3 py-2 text-xs font-semibold placeholder-slate-400 focus:outline-none focus:border-purple-500 shadow-xs"
-                      />
+                      <label htmlFor="admin-band-email-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/50 block">EMAIL SUBJECT LINE</label>
+                      <div className="input-glow-border rounded-lg w-full">
+                        <input
+                          id="admin-band-email-subject"
+                          type="text"
+                          value={bandEmailSubject}
+                          onChange={(e) => setBandEmailSubject(e.target.value)}
+                          placeholder="e.g. Band Schedule Update"
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 transition-colors"
+                        />
+                      </div>
                     </div>
                   )}
 
                   {/* Message Form */}
                   <div className="space-y-2">
-                    <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] font-bold uppercase tracking-widest text-slate-800 block">Broadcast message</label>
-                    <textarea
-                      id="admin-band-broadcast-msg"
-                      value={bandAlertMsg}
-                      onChange={(e) => setBandAlertMsg(e.target.value)}
-                      placeholder="Write message to send..."
-                      rows={5}
-                      style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                      className="w-full bg-white! text-black! border border-slate-300 px-3 py-2 text-xs font-medium placeholder-slate-400 focus:outline-none focus:border-purple-500 resize-none leading-relaxed shadow-xs"
-                    />
+                    <label htmlFor="admin-band-broadcast-msg" className="text-[0.65rem] font-bold uppercase tracking-widest text-white/50 block">BROADCAST MESSAGE</label>
+                    <div className="input-glow-border rounded-lg w-full">
+                      <textarea
+                        id="admin-band-broadcast-msg"
+                        value={bandAlertMsg}
+                        onChange={(e) => setBandAlertMsg(e.target.value)}
+                        placeholder="Write message to send..."
+                        rows={5}
+                        style={{ backgroundColor: '#181924', color: '#ffffff' }}
+                        className="w-full bg-[#181924]! text-white! border border-white/10 rounded-lg px-3.5 py-2.5 text-xs placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 resize-none leading-relaxed transition-colors"
+                      />
+                    </div>
                   </div>
 
                   {/* Feedback Logs */}
@@ -6719,25 +6721,29 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           <div className="space-y-4">
             <div>
               <label htmlFor="admin-newsletter-blast-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
-              <input
-                id="admin-newsletter-blast-subject"
-                type="text"
-                value={blastSubject}
-                onChange={e => setBlastSubject(e.target.value)}
-                placeholder="e.g.  New Show Announced — Chicago June 15th!"
-                className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
-              />
+              <div className="input-glow-border rounded-lg w-full">
+                <input
+                  id="admin-newsletter-blast-subject"
+                  type="text"
+                  value={blastSubject}
+                  onChange={e => setBlastSubject(e.target.value)}
+                  placeholder="e.g.  New Show Announced — Chicago June 15th!"
+                  className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                />
+              </div>
             </div>
             <div>
               <label htmlFor="admin-newsletter-blast-body" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Message Body</label>
-              <textarea
-                id="admin-newsletter-blast-body"
-                value={blastBody}
-                onChange={e => setBlastBody(e.target.value)}
-                placeholder="Write your announcement here..."
-                rows={6}
-                className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
-              />
+              <div className="input-glow-border rounded-lg w-full">
+                <textarea
+                  id="admin-newsletter-blast-body"
+                  value={blastBody}
+                  onChange={e => setBlastBody(e.target.value)}
+                  placeholder="Write your announcement here..."
+                  rows={6}
+                  className="w-full bg-transparent border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors resize-none"
+                />
+              </div>
             </div>
             <div className="flex items-center justify-between">
               <div>
@@ -7625,25 +7631,29 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
                 <div>
                   <label htmlFor="admin-cruise-email-subject" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Subject</label>
-                  <input
-                    id="admin-cruise-email-subject"
-                    type="text"
-                    value={cruiseEmailSubject}
-                    onChange={e => setCruiseEmailSubject(e.target.value)}
-                    placeholder="e.g. Important Cruise Update — Departure Details"
-                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
-                  />
+                  <div className="input-glow-border rounded-lg w-full">
+                    <input
+                      id="admin-cruise-email-subject"
+                      type="text"
+                      value={cruiseEmailSubject}
+                      onChange={e => setCruiseEmailSubject(e.target.value)}
+                      placeholder="e.g. Important Cruise Update — Departure Details"
+                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label htmlFor="admin-cruise-email-body" className="text-[0.55rem] font-bold uppercase tracking-widest text-white/30 mb-1.5 block">Message</label>
-                  <textarea
-                    id="admin-cruise-email-body"
-                    value={cruiseEmailBody}
-                    onChange={e => setCruiseEmailBody(e.target.value)}
-                    placeholder="Write your message to cruise passengers..."
-                    rows={5}
-                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
-                  />
+                  <div className="input-glow-border rounded-lg w-full">
+                    <textarea
+                      id="admin-cruise-email-body"
+                      value={cruiseEmailBody}
+                      onChange={e => setCruiseEmailBody(e.target.value)}
+                      placeholder="Write your message to cruise passengers..."
+                      rows={5}
+                      className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 transition-colors resize-none"
+                    />
+                  </div>
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
@@ -8739,7 +8749,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           data-lenis-prevent="true"
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
-          className="w-full flex-1 min-h-0 overflow-auto border-x border-t-0 border-[var(--border-color)] bg-transparent text-[var(--text-color)] shadow-sm relative"
+          className="w-full flex-1 min-h-0 overflow-auto border-none bg-transparent text-[var(--text-color)] shadow-sm relative"
           style={{ overscrollBehavior: "contain", touchAction: "pan-x pan-y" }}
         >
           <table
@@ -9463,17 +9473,16 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         `}</style>
 
         {/* Section Header */}
-        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-6 pl-0 border-b border-white/5 flex items-center justify-between cursor-pointer select-none transition-colors text-white">
-          <div className="flex items-center">
-
-            <h3 className="cursor-pointer text-lg font-bold tracking-tight text-white flex items-center gap-2">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('calendar'); } }} onClick={() => toggleSection('calendar')} className="py-5 px-0 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white">
+          <div className="flex flex-col">
+            <h3 className="text-sm font-black italic tracking-wide text-white uppercase flex items-center gap-2 font-sans">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               Crew Work Schedule Calendar
-              {renderInfoToggle('calendar')}
             </h3>
+            <p className="text-[var(--font-size-3xs)] text-white/40 uppercase tracking-widest font-bold mt-0.5 font-sans">Schedule band/crew work shifts, manage open roles, publish shifts, and prevent overlaps</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded">Roster Schedule</span>
+            <span className="text-[var(--font-size-3xs)] text-white/50 font-bold uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded border border-white/10">Roster Schedule</span>
             <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('calendar') ? 'rotate-0' : '-rotate-90')}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/40"><path d="M2 4l4 4 4-4" /></svg>
             </div>
@@ -9483,7 +9492,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
         <div style={{ display: isSectionOpen('calendar') ? undefined : 'none' }}>
           {/*  Live Co-Editor Presence & Mix-up Prevention Status Bar */}
-          <div className="border-b border-[var(--color-accent)]/30 pr-6 py-2.5 flex items-center justify-between gap-4 select-none">
+          <div className="border-b border-[var(--color-accent)]/30  py-2.5 flex items-center justify-between gap-4 select-none">
             <div className="flex items-center gap-3 flex-wrap text-xs">
               <span className="flex items-center gap-2 font-bold text-[var(--color-accent)]">
                 <span className="relative flex h-2.5 w-2.5">
@@ -10584,7 +10593,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       key={member.id}
                                       className={`p-3.5 rounded-xl transition-all duration-200 ${assignment.active
                                         ? 'bg-transparent border border-purple-500/40 shadow-sm shadow-purple-900/20'
-                                        : 'hover:bg-white/[0.03] border border-transparent'
+                                        : 'border border-transparent'
                                         }`}
                                     >
                                       <div className="flex items-center justify-between">
@@ -11769,16 +11778,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           background: #242630 !important;
         }
 
-        /* Global Textarea & Input Style: Transparent Background & Crisp White Text */
+        /* Global Textarea & Input Style: Transparent Dark Background & Crisp White Text */
         #admin-dashboard-root textarea,
         #admin-dashboard-root input[type="text"],
         #admin-dashboard-root input[type="email"],
         #admin-dashboard-root input[type="password"],
         #admin-dashboard-root input[type="date"],
+        #admin-dashboard-root input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]),
         #admin-dashboard-root select {
+         
+          backdrop-filter: blur(12px) !important;
+          -webkit-backdrop-filter: blur(12px) !important;
           color-scheme: dark !important;
           color: #ffffff !important;
-          border-color: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          border-radius: 8px !important;
         }
 
         #admin-dashboard-root input[type="date"]::-webkit-calendar-picker-indicator,
@@ -11823,9 +11837,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         #admin-dashboard-root .ql-container,
         #admin-dashboard-root .ql-editor,
         #admin-dashboard-root .ql-toolbar {
-          background-color: #22222e !important;
-          color: #ffffff !important;
-          border-color: rgba(255, 255, 255, 0.2) !important;
+ 
         }
 
         #admin-dashboard-root .ql-editor,
@@ -11943,16 +11955,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           border-color: rgba(0, 0, 0, 0.15) !important;
         }
 
-        #admin-dashboard-root textarea {
-          background-color: #ffffff !important;
-          color: #000000 !important;
-          border-color: rgba(0, 0, 0, 0.15) !important;
-        }
 
-        #admin-dashboard-root textarea::placeholder {
-          color: rgba(0, 0, 0, 0.4) !important;
-        }
 
+       
         /* Complete background removal for Admin Dashboard page */
         #admin-dashboard-root section:not(.squishy-toggle),
         #admin-dashboard-root article:not(.squishy-toggle),
@@ -12379,8 +12384,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   <div>
                     <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Guidelines Content (WYSIWYG)</span>
-                    <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
-                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white overflow-hidden" />
+                    <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[220px]">
+                      <ReactQuill theme="snow" value={adminGuidelinesContent} onChange={setAdminGuidelinesContent} placeholder="Type welcome pack content and guidelines..." className="bg-white/5 border border-white/10 text-white overflow-hidden" />
                     </div>
                   </div>
 
@@ -12471,8 +12476,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                       <div>
                         <span className="text-[0.6rem] font-bold text-white/40 uppercase tracking-widest block mb-1.5 font-sans">Notice & Email Content</span>
-                        <div className="w-full text-black guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
-                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white overflow-hidden" />
+                        <div className="w-full text-white guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[160px]">
+                          <ReactQuill theme="snow" value={cruiseMessage} onChange={setCruiseMessage} placeholder="Message (e.g. VIP pre-booking opens Friday at 12 PM CST)" className="bg-white/5 border border-white/10 text-white overflow-hidden" />
                         </div>
                       </div>
 

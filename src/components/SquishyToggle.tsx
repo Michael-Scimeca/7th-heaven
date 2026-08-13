@@ -88,11 +88,13 @@ export function SquishyToggle({
       {/* track */}
       <div className="squishy-track pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-colors duration-300 peer-checked:bg-[#9333ea] peer-checked:border-[#a855f7] peer-checked:shadow-[0_0_12px_rgba(168,85,247,0.6)]" />
 
-      {/* thumb */}
+      {/* thumb — resting position set via inline style so it's always correct;
+          the squish animation overrides transform during the bounce then hands back */}
       <div
         ref={thumbRef}
         onAnimationEnd={handleAnimationEnd}
-        className="squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] peer-checked:translate-x-[24px]"
+        style={{ transform: `translateX(${checked ? 24 : 0}px)` }}
+        className="squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)]"
       />
     </div>
   );

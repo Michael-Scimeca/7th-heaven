@@ -83,7 +83,7 @@ export default function EmailPreviewPage() {
               <button aria-label="Action button" key={t.id} onClick={() => setActiveId(t.id)}
                 className={`w-full text-left p-4  transition-colors cursor-pointer group ${activeId === t.id
                   ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30'
-                  : 'hover:bg-white/[0.03] border border-transparent'
+                  : 'border border-transparent'
                   }`}
               >
                 <div className="flex items-center justify-between mb-1.5">

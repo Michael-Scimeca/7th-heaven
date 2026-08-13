@@ -140,7 +140,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
 
 
   return (
-    <div className="py-6 pr-6 pl-0 bg-transparent border-none space-y-6 text-black font-sans">
+    <div className="py-6 pl-0 bg-transparent border-none space-y-6 text-black font-sans">
 
       {/* Header Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -199,14 +199,14 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       {/* Email Table */}
       <div className="border-none overflow-hidden bg-transparent">
         <div className="max-h-[480px] overflow-y-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse border-none">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-transparent text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50 sticky top-0 backdrop-blur-md z-10 border-none">
-                <th className="py-3 pr-4 pl-0 border-none">Name</th>
-                <th className="py-3 px-4 border-none">Email Address</th>
-                <th className="py-3 px-4 border-none">Role</th>
-                <th className="py-3 px-4 border-none">Phone Number</th>
-                <th className="py-3 px-4 text-right border-none">Quick Action</th>
+              <tr className="bg-transparent text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white/50 sticky top-0 backdrop-blur-md z-10 border-b border-white/10">
+                <th className="py-3 pr-4 pl-0">Name</th>
+                <th className="py-3 px-4">Email Address</th>
+                <th className="py-3 px-4">Role</th>
+                <th className="py-3 px-4">Phone Number</th>
+                <th className="py-3 px-4 text-right">Quick Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/10 text-xs">
@@ -218,8 +218,8 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 </tr>
               ) : (
                 filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-none">
-                    <td className="py-3 pr-4 pl-0 font-bold text-white border-none">
+                  <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-white/10">
+                    <td className="py-3 pr-4 pl-0 font-bold text-white">
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-full flex items-center justify-center text-purple-300 font-black text-[var(--font-size-3xs)]">
                           {user.name.charAt(0)}
@@ -227,21 +227,21 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                         <span>{user.name}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-extrabold select-all border-none">
+                    <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-extrabold select-all">
                       {user.email}
                     </td>
-                    <td className="py-3 px-4 border-none">
+                    <td className="py-3 px-4">
                       <span className={`px-2.5 py-1 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-wider ${getRoleBadgeStyle(user.role)}`}>
                         {user.role}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-mono text-white/50 font-semibold border-none">
+                    <td className="py-3 px-4 font-mono text-white/50 font-semibold">
                       {user.phone || "—"}
                     </td>
-                    <td className="py-3 px-4 text-right border-none">
+                    <td className="py-3 px-4 text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1 border-none"
+                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"
                       >
                         Email
                       </a>
