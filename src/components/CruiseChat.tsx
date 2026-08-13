@@ -832,27 +832,25 @@ export default function CruiseChat({
             <span>🔒</span> This cruise chat has been archived.
           </div>
         ) : (
-          <div className="flex flex-col">
-            <ChatInputBar
-              value={newMessage}
-              onChange={(val) => {
-                setNewMessage(val);
-                if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
-                  setShowTagMenu(true);
-                }
-              }}
-              onSubmit={handleSend}
-              disabled={!member || isSending || member.is_banned}
-              placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
-              maxLength={500}
-              showEmojiBtn
-              onEmojiToggle={() => { setShowEmojiPicker(!showEmojiPicker); if (showTagMenu) setShowTagMenu(false); }}
-              showAtBtn
-              onAtToggle={() => { setShowTagMenu(!showTagMenu); if (showEmojiPicker) setShowEmojiPicker(false); }}
-              showRulesFooter
-              onAdminTag={() => insertTag('@admin')}
-            />
-          </div>
+          <ChatInputBar
+            value={newMessage}
+            onChange={(val) => {
+              setNewMessage(val);
+              if (val.endsWith('@') || (val.includes('@') && !showTagMenu && val.split('@').pop()!.length < 8)) {
+                setShowTagMenu(true);
+              }
+            }}
+            onSubmit={handleSend}
+            disabled={!member || isSending || member.is_banned}
+            placeholder={member ? (member.is_banned ? "You have been permanently banned" : "Type a message... use @admin to ask a question") : "Log in to chat"}
+            maxLength={500}
+            showEmojiBtn
+            onEmojiToggle={() => { setShowEmojiPicker(!showEmojiPicker); if (showTagMenu) setShowTagMenu(false); }}
+            showAtBtn
+            onAtToggle={() => { setShowTagMenu(!showTagMenu); if (showEmojiPicker) setShowEmojiPicker(false); }}
+            showRulesFooter
+            onAdminTag={() => insertTag('@admin')}
+          />
         )}
       </>
       )}
