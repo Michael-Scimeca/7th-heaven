@@ -456,17 +456,11 @@ export default function MediaPage() {
                   className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-4 md:pb-5 lg:pb-10"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs font-mono text-purple-400 font-bold tracking-widest opacity-80">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
+
                     <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">
                       {video.year}
                     </span>
-                    {video.duration && (
-                      <span className="text-xs font-mono text-white/40 font-bold">
-                        · {video.duration}
-                      </span>
-                    )}
+
                   </div>
 
                   <h3

@@ -158,12 +158,12 @@ function MiniCanvasFeed({ color, index }: { color: string; index: number }) {
 ═══════════════════════════════════════════════════════ */
 
 const FAKE_FANS = [
-  { id: "fan-jess",    name: "Jess_M",      avatar: "JM", color: "#a78bfa", tier: "💎 Platinum", msgs: 8 },
-  { id: "fan-jake",    name: "Jake7H",       avatar: "J7", color: "#60a5fa", tier: "🥇 Gold",    msgs: 5 },
-  { id: "fan-chicago", name: "ChicagoLou",   avatar: "CL", color: "#34d399", tier: "🥈 Silver",  msgs: 3 },
-  { id: "fan-rock",    name: "rockerdan92",  avatar: "RD", color: "#f87171", tier: "Fan",        msgs: 12 },
-  { id: "fan-mel",     name: "MelM",         avatar: "MM", color: "#fb923c", tier: "💎 Platinum", msgs: 6 },
-  { id: "fan-lena",    name: "Lena_Music",   avatar: "LM", color: "#e879f9", tier: "🥇 Gold",    msgs: 4 },
+  { id: "fan-jess", name: "Jess_M", avatar: "JM", color: "#a78bfa", tier: "💎 Platinum", msgs: 8 },
+  { id: "fan-jake", name: "Jake7H", avatar: "J7", color: "#60a5fa", tier: "🥇 Gold", msgs: 5 },
+  { id: "fan-chicago", name: "ChicagoLou", avatar: "CL", color: "#34d399", tier: "🥈 Silver", msgs: 3 },
+  { id: "fan-rock", name: "rockerdan92", avatar: "RD", color: "#f87171", tier: "Fan", msgs: 12 },
+  { id: "fan-mel", name: "MelM", avatar: "MM", color: "#fb923c", tier: "💎 Platinum", msgs: 6 },
+  { id: "fan-lena", name: "Lena_Music", avatar: "LM", color: "#e879f9", tier: "🥇 Gold", msgs: 4 },
 ];
 
 const getElapsed = (creationTime: number) => {
@@ -181,10 +181,10 @@ const getElapsed = (creationTime: number) => {
 const getDemoRooms = (): LiveRoom[] => {
   const now = Math.floor(Date.now() / 1000);
   return [
-    { name: "live_michael", title: "Mike S — Backstage Cam",     numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", Icon: Guitar, member: "MS", image: "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg" },
-    { name: "live_ryan",    title: "Ryan K — Keys & Soundcheck",  numParticipants: 412,  creationTime: now - 900,  color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", Icon: Piano, member: "RK", image: "https://img.youtube.com/vi/C0PQYmyaTFk/hq720.jpg" },
-    { name: "live_sammy",   title: "Sammy D — Drum Warm-Up",      numParticipants: 84,   creationTime: now - 420,  color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", Icon: Drum, member: "SD", image: "https://img.youtube.com/vi/UQBvl_wZ0ak/hq720.jpg" },
-    { name: "live_tony",    title: "Tony M — Vocal Check",        numParticipants: 18,   creationTime: now - 180,  color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", Icon: Mic, member: "TM", image: "https://img.youtube.com/vi/BzHUNTZ66zY/hq720.jpg" },
+    { name: "live_michael", title: "Mike S — Backstage Cam", numParticipants: 1247, creationTime: now - 2340, color: "#a855f7", gradient: "linear-gradient(135deg,#8a1cfc,#ec4899)", Icon: Guitar, member: "MS", image: "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg" },
+    { name: "live_ryan", title: "Ryan K — Keys & Soundcheck", numParticipants: 412, creationTime: now - 900, color: "#06b6d4", gradient: "linear-gradient(135deg,#06b6d4,#8a1cfc)", Icon: Piano, member: "RK", image: "https://img.youtube.com/vi/C0PQYmyaTFk/hq720.jpg" },
+    { name: "live_sammy", title: "Sammy D — Drum Warm-Up", numParticipants: 84, creationTime: now - 420, color: "#ec4899", gradient: "linear-gradient(135deg,#ec4899,#f97316)", Icon: Drum, member: "SD", image: "https://img.youtube.com/vi/UQBvl_wZ0ak/hq720.jpg" },
+    { name: "live_tony", title: "Tony M — Vocal Check", numParticipants: 18, creationTime: now - 180, color: "#f97316", gradient: "linear-gradient(135deg,#f97316,#ef4444)", Icon: Mic, member: "TM", image: "https://img.youtube.com/vi/BzHUNTZ66zY/hq720.jpg" },
   ];
 };
 
@@ -248,12 +248,12 @@ export default function LiveHubPage() {
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <section className="min-h-screen pt-[88px] pb-24 w-full bg-transparent">
+    <section className="min-h-screen pt-[88px] w-full bg-transparent">
       <div className="w-full px-0">
 
 
         {/* ── HEADER ── */}
-        <div className="site-container pt-[21px] mb-10">
+        <div className="px-6 md:px-12 pt-[21px] mb-10">
 
           {/* Title row */}
           <div className="text-left mb-10">
@@ -274,7 +274,7 @@ export default function LiveHubPage() {
             {/* Admin header */}
             <div className="px-6 py-4 flex items-center justify-between" style={{ background: "rgba(239,68,68,0.06)", borderBottom: "1px solid rgba(239,68,68,0.15)" }}>
               <div className="flex items-center gap-3">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                 <span className="font-black uppercase tracking-widest text-sm" style={{ color: "#f87171" }}>Moderation Dashboard</span>
                 <span className="px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}>LIVE SHOW</span>
               </div>
@@ -336,7 +336,7 @@ export default function LiveHubPage() {
                         <div className="flex gap-1.5 mt-3">
                           <Link href={`/live/${room.name.replace(/^live_/, "")}`}
                             className="flex-1 text-center py-1.5 rounded-lg text-xs font-bold transition-colors hover:scale-105"
-                            style={{ background: `rgba(${parseInt(room.color.slice(1,3),16)},${parseInt(room.color.slice(3,5),16)},${parseInt(room.color.slice(5,7),16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
+                            style={{ background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`, color: room.color, border: `1px solid ${room.color}40` }}>
                             👁 Watch
                           </Link>
                           <button aria-label="Previous"
@@ -502,7 +502,7 @@ export default function LiveHubPage() {
                   {/* Hover overlay */}
                   <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
                     <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
                     </div>
                   </div>
                 </div>
@@ -539,7 +539,7 @@ export default function LiveHubPage() {
 
         {/* ── SMS ALERTS BANNER (FRAMELESS) ── */}
         {liveAlertsEnabled && (
-          <div className="site-container mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
+          <div className="mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 mb-4">
                 <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
