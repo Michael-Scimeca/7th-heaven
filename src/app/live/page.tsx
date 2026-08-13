@@ -484,7 +484,7 @@ export default function LiveHubPage() {
         {/* ══════════════════════════════════════════════════
             STREAM CARDS GRID WITH MATCHING PAGE PADDING
         ══════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+        <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
           {rooms.map((room, i) => (
             <div
               key={room.name}
@@ -560,7 +560,7 @@ export default function LiveHubPage() {
 
         {/* ── SMS ALERTS BANNER ── */}
         {liveAlertsEnabled && (
-          <div className=" mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
+          <div className="px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 mb-4">
                 <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
@@ -571,7 +571,7 @@ export default function LiveHubPage() {
                 <p className="text-sm text-white/60 mb-8 leading-relaxed">
                   Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
                 </p>
-                <form action={() => alert("You are now subscribed to Live Stream Alerts!")}
+                <form onSubmit={(e) => { e.preventDefault(); alert("You are now subscribed to Live Stream Alerts!"); }}
                   className="flex flex-col sm:flex-row gap-3 items-center w-full">
                   <div className="relative flex-1 w-full">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
