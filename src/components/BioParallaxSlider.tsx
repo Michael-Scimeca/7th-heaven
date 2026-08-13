@@ -995,8 +995,8 @@ lerpSpeed: ${lerpSpeed}`;
                         }}
                         title={labels[idx]}
                         className={`py-1.5 px-0.5 rounded-lg font-extrabold transition-all cursor-pointer text-center leading-tight ${isSel
-                            ? "bg-purple-600 text-white shadow-md shadow-purple-600/40"
-                            : "text-white/60 hover:text-white hover:bg-white/5"
+                          ? "bg-purple-600 text-white shadow-md shadow-purple-600/40"
+                          : "text-white/60 hover:text-white hover:bg-white/5"
                           }`}
                       >
                         {shortLabels[idx]}
@@ -1025,8 +1025,8 @@ lerpSpeed: ${lerpSpeed}`;
                       );
                     }}
                     className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${positionConfigs[selectedPositionIdx]?.gradient.enabled
-                        ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                        : "bg-white/10 text-white/50 border border-white/10"
+                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                      : "bg-white/10 text-white/50 border border-white/10"
                       }`}
                   >
                     {positionConfigs[selectedPositionIdx]?.gradient.enabled ? "Active" : "Disabled"}
@@ -1159,8 +1159,8 @@ lerpSpeed: ${lerpSpeed}`;
                       );
                     }}
                     className={`px-2.5 py-0.5 rounded-full text-[9px] font-mono font-black uppercase tracking-wider cursor-pointer transition-all ${positionConfigs[selectedPositionIdx]?.clippingMask.enabled
-                        ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                        : "bg-white/10 text-white/50 border border-white/10"
+                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                      : "bg-white/10 text-white/50 border border-white/10"
                       }`}
                   >
                     {positionConfigs[selectedPositionIdx]?.clippingMask.enabled ? "Active" : "Disabled"}
@@ -1215,8 +1215,8 @@ lerpSpeed: ${lerpSpeed}`;
                               );
                             }}
                             className={`py-1 px-1.5 rounded-lg text-[10px] font-bold font-mono transition-all cursor-pointer text-center border ${positionConfigs[selectedPositionIdx]?.clippingMask.easing === curve
-                                ? "bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/40"
-                                : "bg-purple-950/40 text-purple-200/70 border-purple-500/20 hover:text-white hover:bg-purple-800/40"
+                              ? "bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/40"
+                              : "bg-purple-950/40 text-purple-200/70 border-purple-500/20 hover:text-white hover:bg-purple-800/40"
                               }`}
                           >
                             {curve}

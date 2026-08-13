@@ -932,7 +932,7 @@ function BookPageContent() {
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
 
-      <section className="pt-[25px] pb-24 relative z-10" id="book-event">
+      <section className="pt-[25px] relative z-10" id="book-event">
 
         {/* Signed-in Identity Block */}
         {isLoggedIn && member && (

@@ -48,7 +48,7 @@ export function SearchInput({
 
   return (
     <div
-      className={`relative inline-flex items-center max-w-[300px] w-full ${containerClassName}`}
+      className={`relative inline-flex items-center min-w-[220px] max-w-[300px] w-full ${containerClassName}`}
       style={widthStyle}
     >
       <div className="input-glow-border rounded-xl w-full">

@@ -353,7 +353,7 @@ export default function MediaPage() {
           </div>
 
           {!heroPlaying && (
-            <div className="relative z-10  flex items-end pb-24 h-screen pointer-events-none">
+            <div className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
               <div className="max-w-lg pointer-events-auto transform-gpu isolate">
                 <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
@@ -419,12 +419,12 @@ export default function MediaPage() {
           </div>
 
           {/* Search & Admin Add Video Button */}
-          <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
               placeholder="SEARCH MEDIA..."
-              containerClassName="max-w-[300px]"
+              containerClassName="min-w-[220px] max-w-[300px] shrink-0"
             />
             <button
               onClick={() => setIsAddModalOpen(true)}
