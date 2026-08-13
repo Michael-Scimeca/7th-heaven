@@ -66,7 +66,7 @@ const FALLBACK_SHOWS = [
 // ISR: regenerate every 60s — page is pre-rendered & cached
 export const revalidate = 60;
 
-const fetchWithTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 1200): Promise<T> => {
+const fetchWithTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 150): Promise<T> => {
   return Promise.race([
     promise.catch(() => fallback),
     new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))

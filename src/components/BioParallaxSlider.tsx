@@ -21,7 +21,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Midwest Girls In The Summertime",
     favQuote: "Success is where preparation and opportunity meet",
     funFact: "I'm Polish, or wait, everyone knows that :)",
-    image: "/images/band-memebers/Frankie.webp"
+    image: "/images/band-memebers/Frankie.png"
   },
   {
     name: "Nick Cox", role: "Guitars • Vocals • Piano",
@@ -32,7 +32,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "American History X", fav7hSong: "Take Me With You",
     favQuote: "The universe is a pretty big place... seems like an awful waste of space.",
     funFact: "I love just staying home on my couch",
-    image: "/images/band-memebers/Nick.webp"
+    image: "/images/band-memebers/Nick.png"
   },
   {
     name: "Adam Heisler", role: "Lead Vocals",
@@ -42,7 +42,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Give me a good romantic comedy",
     fav7hSong: "You and I", favQuote: "I'm always happy and never satisfied",
     funFact: "I used to be a Jr. Black belt in Tae Kwon Do",
-    image: "/images/band-memebers/Adam.webp"
+    image: "/images/band-memebers/Adam.png"
   },
   {
     name: "Richard Hofherr", role: "Guitars • Keys • Vocals",
@@ -54,7 +54,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     fav7hSong: "Sing, Diamonds, Midwest Girls",
     favQuote: "Life is all about perspectives. You can look at the glass half-empty and half-full.",
     funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-    image: "/images/band-memebers/Dicky.webp"
+    image: "/images/band-memebers/Dicky.png"
   },
   {
     name: "Mark Kennetz", role: "Bass • Vocals • Uke • Guitar",
@@ -64,7 +64,7 @@ const FALLBACK_MEMBERS: Partial<SanityBandMember>[] = [
     favMovie: "Hot Fuzz, Anchorman", fav7hSong: "Ethereal",
     favQuote: "The past is in our heads, the future is in our hands",
     funFact: "Stage 2 carnivore — eat anything with 2 legs or less!",
-    image: "/images/band-memebers/Mark.webp"
+    image: "/images/band-memebers/Mark.png"
   },
 ];
 
@@ -726,12 +726,12 @@ lerpSpeed: ${lerpSpeed}`;
             {displayMembers.map((m, i) => {
               const nameLower = m?.name?.toLowerCase() || "";
               let imageSrc = "";
-              if (nameLower.includes("adam")) imageSrc = "/images/band-memebers/Adam.webp";
-              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/band-memebers/Dicky.webp";
-              else if (nameLower.includes("frankie")) imageSrc = "/images/band-memebers/Frankie.webp";
-              else if (nameLower.includes("mark")) imageSrc = "/images/band-memebers/Mark.webp";
-              else if (nameLower.includes("nick")) imageSrc = "/images/band-memebers/Nick.webp";
-              else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/band-memebers/Adam.webp";
+              if (nameLower.includes("adam")) imageSrc = "/images/band-memebers/Adam.png";
+              else if (nameLower.includes("richard") || nameLower.includes("rick") || nameLower.includes("dicky")) imageSrc = "/images/band-memebers/Dicky.png";
+              else if (nameLower.includes("frankie")) imageSrc = "/images/band-memebers/Frankie.png";
+              else if (nameLower.includes("mark")) imageSrc = "/images/band-memebers/Mark.png";
+              else if (nameLower.includes("nick")) imageSrc = "/images/band-memebers/Nick.png";
+              else imageSrc = m?.image ? (typeof m.image === 'string' ? m.image : urlFor(m.image).url()) : "/images/band-memebers/Adam.png";
 
               // Stage slot index relative to current active centered slide (2 = Active Center, 1 = Left, 0 = Far Left, 3 = Right, 4 = Far Right)
               const slotIndex = Math.max(0, Math.min(4, Math.round((i - activeIndex) + 2)));
@@ -766,12 +766,10 @@ lerpSpeed: ${lerpSpeed}`;
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
-                        <Image
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
                           src={imageSrc}
                           alt={m?.name || "Member Photo"}
-                          width={500}
-                          height={800}
-                          quality={80}
                           draggable={false}
                           className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{

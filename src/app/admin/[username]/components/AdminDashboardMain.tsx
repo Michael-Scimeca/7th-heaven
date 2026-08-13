@@ -482,18 +482,18 @@ const formatPhoneForDisplay = (phone: string | null | undefined) => {
 const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
   const lower = (name || '').toLowerCase();
 
-  if (lower.includes('adam') && lower.includes('heisler')) return '/images/band-memebers/Adam.webp';
+  if (lower.includes('adam') && lower.includes('heisler')) return '/images/band-memebers/Adam.png';
   if (lower.includes('adam')) return '/images/members/adam.png';
 
-  if (lower.includes('nick') && lower.includes('cox')) return '/images/band-memebers/Nick.webp';
+  if (lower.includes('nick') && lower.includes('cox')) return '/images/band-memebers/Nick.png';
   if (lower.includes('nick')) return '/images/members/nick.png';
 
-  if (lower.includes('mark') && lower.includes('kennetz')) return '/images/band-memebers/Mark.webp';
+  if (lower.includes('mark') && lower.includes('kennetz')) return '/images/band-memebers/Mark.png';
   if (lower.includes('mark')) return '/images/members/mark.png';
 
-  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/band-memebers/Frankie.webp';
+  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/band-memebers/Frankie.png';
 
-  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/band-memebers/Dicky.webp';
+  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/band-memebers/Dicky.png';
 
   if (lower.includes('michael') || lower.includes('scimeca')) return '/images/crew/al.png';
 
