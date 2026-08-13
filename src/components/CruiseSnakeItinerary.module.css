@@ -2,7 +2,7 @@
     padding: 88px 0px;
     box-sizing: border-box;
     background: transparent;
-    overflow-x: clip;
+
     overflow-y: visible;
     position: relative;
     width: 100%;
@@ -10,13 +10,23 @@
 
 /* ── Water current animations ── */
 @keyframes flowCurrent {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -120; }
+    0% {
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        stroke-dashoffset: -120;
+    }
 }
 
 @keyframes flowHighlight {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: -192; }
+    0% {
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        stroke-dashoffset: -192;
+    }
 }
 
 .waterCurrent {

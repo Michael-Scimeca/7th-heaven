@@ -149,74 +149,72 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
       </div>
 
       {/* ── STATS BAR ── */}
-      {/* ── STATS BAR ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">{totalShowsCount}+</span>
+      <div className="flex flex-wrap items-center justify-start gap-8 md:gap-14 mb-8">
+        <div className="flex flex-col items-start text-left">
+          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">{totalShowsCount}+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Concerts Cataloged</span>
         </div>
-        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">40+</span>
+        <div className="flex flex-col items-start text-left">
+          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">40+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Years of Live Rock</span>
         </div>
-        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">500+</span>
+        <div className="flex flex-col items-start text-left">
+          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">500+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Unique Venues</span>
         </div>
-        <div className="bg-transparent border-0 p-0 flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-black  text-[var(--color-accent)]">5+</span>
+        <div className="flex flex-col items-start text-left">
+          <span className="text-3xl sm:text-4xl font-black text-[var(--color-accent)]">5+</span>
           <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted-text)] mt-1">Countries Played</span>
         </div>
       </div>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
       <div className="bg-transparent p-0 border-0 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-10 gap-6 items-start">
-          {/* Left Column: 30% (3 cols out of 10) */}
-          <div className="md:col-span-3 space-y-3">
+        <div className="flex flex-col lg:flex-row items-start gap-4">
+          {/* Search Input Bar */}
+          <div className="w-full lg:w-72 shrink-0">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
               placeholder="Search venue, city, year..."
               containerClassName="w-full"
             />
-            <div className="text-xs text-[var(--muted-text)] font-semibold">
-              Showing <span className="font-bold text-[var(--text-color)]">{displayedCount}</span> of {totalShowsCount} shows
-            </div>
           </div>
 
-          {/* Right Column: 70% (7 cols out of 10) */}
-          <div className="md:col-span-7 space-y-2">
-            <span className="block text-xs font-black uppercase tracking-widest text-[var(--muted-text)] mb-1">
+          {/* Years Pill List Next to Search Input */}
+          <div className="flex items-center gap-2 flex-wrap max-w-[900px]">
+            <span className="text-xs font-black uppercase tracking-widest text-[var(--muted-text)] shrink-0 mr-1">
               Jump to Year:
             </span>
-            <div className="flex flex-wrap gap-2">
-              <button aria-label="Action button"
-                onClick={() => setSelectedYear("ALL")}
-                className={`px-3 py-1 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
-                  ? "bg-[var(--color-accent)] text-white shadow-sm"
+            <button aria-label="Action button"
+              onClick={() => setSelectedYear("ALL")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-black tracking-wider uppercase transition-colors cursor-pointer ${selectedYear === "ALL"
+                ? "bg-[var(--color-accent)] text-white shadow-sm"
+                : "bg-white/5 text-white/70 hover:text-white border-0"
+                }`}
+            >
+              All Years
+            </button>
+            {years.map((y) => (
+              <button aria-label="Previous"
+                key={y.year}
+                onClick={() => {
+                  setSelectedYear(y.year);
+                  setOpenYears((prev) => ({ ...prev, [y.year]: true }));
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
+                  ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
                   : "bg-white/5 text-white/70 hover:text-white border-0"
                   }`}
               >
-                All Years
+                {y.year}
               </button>
-              {years.map((y) => (
-                <button aria-label="Previous"
-                  key={y.year}
-                  onClick={() => {
-                    setSelectedYear(y.year);
-                    setOpenYears((prev) => ({ ...prev, [y.year]: true }));
-                  }}
-                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer ${selectedYear === y.year
-                    ? "bg-[var(--color-accent)] text-white font-black shadow-sm"
-                    : "bg-white/5 text-white/70 hover:text-white border-0"
-                    }`}
-                >
-                  {y.year}
-                </button>
-              ))}
-            </div>
+            ))}
           </div>
+        </div>
+
+        <div className="text-xs text-[var(--muted-text)] font-semibold mt-3">
+          Showing <span className="font-bold text-[var(--text-color)]">{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </div>
 
@@ -240,18 +238,18 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
           </button>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-0">
           {filteredYears.map((yGroup) => {
             const isOpen = !!openYears[yGroup.year];
             return (
               <div
                 key={yGroup.year}
-                className="rounded-3xl overflow-hidden "
+                className="overflow-hidden"
               >
                 {/* Year Header Accordion Bar */}
                 <button aria-label="Action button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-4 flex items-center justify-between hover:bg-[var(--color-accent)]/10 transition-colors cursor-pointer text-left"
+                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer text-left hover:bg-white/5 transition-colors"
                   style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}
                 >
                   <div className="flex items-center gap-3">

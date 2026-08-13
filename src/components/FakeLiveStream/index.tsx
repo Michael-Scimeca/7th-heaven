@@ -2600,7 +2600,13 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                                   {msg.account?.displayName || 'Fan'}
                                 </span>
 
-                                <span className="text-[8px] font-black uppercase tracking-widest px-1 py-0.5 rounded border leading-none text-emerald-300 bg-emerald-500/20 border-emerald-500/35">
+                                <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border leading-none ${
+                                  isCrew
+                                    ? 'text-purple-300 bg-purple-600/20 border-purple-500/35'
+                                    : isUser
+                                    ? 'text-cyan-300 bg-cyan-500/20 border-cyan-500/35'
+                                    : 'text-purple-300 bg-purple-600/20 border-purple-500/35'
+                                }`}>
                                   {isCrew ? 'CREW' : isUser ? 'YOU' : 'FAN'}
                                 </span>
 

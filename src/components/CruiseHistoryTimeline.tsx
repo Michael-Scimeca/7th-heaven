@@ -545,20 +545,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
   return (
     <div
-      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-24 text-left overflow-x-clip transition-all duration-150"
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-28 text-left overflow-x-clip transition-all duration-150"
       style={{
-        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
-        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
+        maskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
       }}
     >
       {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          backdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
-          WebkitBackdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
-          background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
-          transform: 'translateZ(0)',
+
         }}
       />
 
@@ -589,10 +586,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
       </div>
 
-      {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (32px LEADING & TRAILING SPACING) ── */}
+      {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden md:block w-full py-8 px-[32px] relative overflow-clip"
+        className="hidden md:block w-full py-8 px-0 relative overflow-clip"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
@@ -844,7 +841,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                               >
                                 VOYAGE #{voyageNum}
                               </span>
-                              <span style={{ fontSize: 'clamp(0.75rem, 1vw, 0.875rem)' }}>🚢</span>
                             </div>
 
                             <h4
@@ -872,10 +868,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
       </div>
 
-      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 32px LEFT ALIGNED & STOPS AT 2026) ── */}
+      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={mobileContainerRef}
-        className="block md:hidden relative w-full py-6 px-[25px]"
+        className="block md:hidden relative w-full py-6 px-0"
       >
         <div className="space-y-6 pl-6 relative">
           {Array.from(chronologicalHistory, (hist, idx) => ({ hist, idx })).map(({ hist, idx }) => {

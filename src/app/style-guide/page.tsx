@@ -31,6 +31,7 @@ const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDr
 });
 
 import RoleBadge from "@/components/RoleBadge";
+import CustomScrollbar from "@/components/CustomScrollbar";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
@@ -92,6 +93,7 @@ const sections = [
   { id: "components", label: "7. Cards & Badges", icon: Layers },
   { id: "modals", label: "8. Modals & Dialogs", icon: Maximize2 },
   { id: "borders", label: "9. Borders & Glass", icon: ShieldCheck },
+  { id: "scrollbars", label: "Scrollbars", icon: Sliders },
   { id: "spacing", label: "10. Spacing & Padding", icon: Box },
   { id: "canvas-studio", label: "11. Canvas & Film Grain", icon: Sliders },
   { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
@@ -208,7 +210,7 @@ export default function StyleGuidePage() {
   const [studioMaxVw, setStudioMaxVw] = useState<number>(1550);
   const [studioMode, setStudioMode] = useState<"locked" | "chained">("locked");
   const [copiedStudioFormula, setCopiedStudioFormula] = useState<boolean>(false);
-  const [liveWinW, setLiveWinW] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 1280);
+  const [liveWinW, setLiveWinW] = useState<number>(1280);
 
   // Global CSS Export & Modal States
   const [cssCopied, setCssCopied] = useState<boolean>(false);
@@ -216,9 +218,26 @@ export default function StyleGuidePage() {
   const [generatedCssExport, setGeneratedCssExport] = useState<string>("");
 
   useEffect(() => {
+    // Sync to real viewport width after hydration
+    setLiveWinW(window.innerWidth);
     const handleResize = () => setLiveWinW(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Scroll to hash anchor on initial load (Next.js doesn't do this automatically)
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+    const tryScroll = (attempts = 0) => {
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (attempts < 10) {
+        setTimeout(() => tryScroll(attempts + 1), 150);
+      }
+    };
+    tryScroll();
   }, []);
 
   // Compute exact CSS clamp values and parameters
@@ -442,11 +461,10 @@ export default function StyleGuidePage() {
 
                   <button
                     onClick={handleCopyStudioFormula}
-                    className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${
-                      copiedStudioFormula
-                        ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
-                        : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
-                    }`}
+                    className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula
+                      ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]"
+                      : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                      }`}
                   >
                     {copiedStudioFormula ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedStudioFormula ? "Formula Copied!" : "Copy CSS clamp()"}</span>
@@ -463,11 +481,10 @@ export default function StyleGuidePage() {
                       <button
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-mono font-black transition-all ${
-                          studioSelectedTier === t
-                            ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
-                            : "bg-white/[0.04] text-white/60 hover:text-white hover:bg-white/10 border border-white/10"
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-mono font-black transition-all ${studioSelectedTier === t
+                          ? "bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105"
+                          : "bg-white/[0.04] text-white/60 hover:text-white hover:bg-white/10 border border-white/10"
+                          }`}
                       >
                         .text-{t}
                       </button>
@@ -609,21 +626,19 @@ export default function StyleGuidePage() {
                   <div className="flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-white/10 self-start sm:self-auto">
                     <button
                       onClick={() => setStudioMode("locked")}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                        studioMode === "locked"
-                          ? "bg-purple-500 text-white shadow-md"
-                          : "text-white/50 hover:text-white"
-                      }`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${studioMode === "locked"
+                        ? "bg-purple-500 text-white shadow-md"
+                        : "text-white/50 hover:text-white"
+                        }`}
                     >
                       🔒 Lock at {studioMinFs}px
                     </button>
                     <button
                       onClick={() => setStudioMode("chained")}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                        studioMode === "chained"
-                          ? "bg-purple-500 text-white shadow-md"
-                          : "text-white/50 hover:text-white"
-                      }`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${studioMode === "chained"
+                        ? "bg-purple-500 text-white shadow-md"
+                        : "text-white/50 hover:text-white"
+                        }`}
                     >
                       🔗 Chain to Tablet ({studioMinFs}px $\rightarrow$ 25px)
                     </button>
@@ -653,7 +668,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* Code snippet */}
-                  <div className="overflow-x-auto rounded-xl bg-black/80 p-3 font-mono text-xs text-purple-200 border border-purple-500/20">
+                  <div className="overflow-x-auto rounded-xl bg-black/80 pt-3 pb-3 font-mono text-xs text-purple-200 border border-purple-500/20">
                     <code className="text-purple-400">font-size</code>:{" "}
                     <span className="text-white font-bold">{studioClamp.clampStr}</span> !important;
                   </div>
@@ -697,15 +712,15 @@ export default function StyleGuidePage() {
           {/* Fluid Type Scale Editor */}
           {(() => {
             const FLUID_SCALE = [
-              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125",  mobMax: "2.25",  tabMin: "2.25",   tabMax: "3.5",    deskMin: "3.5",    deskMax: "8.0",   sample: "9XL HERO (NOW 6XL)", weight: "font-black", extra: "uppercase" },
-              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0",   tabMin: "2.0",    tabMax: "3.0",    deskMin: "3.0",    deskMax: "6.0",   sample: "8XL DISPLAY (NOW 5XL)", weight: "font-black", extra: "uppercase" },
-              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0",    mobMax: "1.75",  tabMin: "1.75",   tabMax: "2.5",    deskMin: "2.5",    deskMax: "4.5",   sample: "7TH HEAVEN (NOW 4XL)", weight: "font-black", extra: "uppercase" },
-              { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875",  mobMax: "1.0",    tabMin: "1.0",    tabMax: "1.25",   deskMin: "1.25",   deskMax: "1.75",  sample: "VIP Backstage Package", weight: "font-extrabold", extra: "" },
-              { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125",  deskMin: "1.125",  deskMax: "1.5",   sample: "Rocking Chicago & Nationwide Since 1985", weight: "font-bold", extra: "" },
-              { key: "xl",  label: "text-xl",  cssProp: "--text-xl",  mobMin: "0.8125", mobMax: "0.875",  tabMin: "0.875",  tabMax: "1.0",    deskMin: "1.0",    deskMax: "1.25",  sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: "font-semibold", extra: "" },
-              { key: "base",label: "text-base",cssProp: "--text-base",mobMin: "0.75",   mobMax: "0.8125", tabMin: "0.8125", tabMax: "0.875",  deskMin: "0.875",  deskMax: "1.0",   sample: "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.", weight: "font-normal", extra: "" },
-              { key: "sm",  label: "text-sm",  cssProp: "--text-sm",  mobMin: "0.6875", mobMax: "0.75",   tabMin: "0.75",   tabMax: "0.8125", deskMin: "0.8125", deskMax: "0.875", sample: "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.", weight: "font-normal", extra: "" },
-              { key: "xs",  label: "text-xs",  cssProp: "--text-xs",  mobMin: "0.625",  mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75",   deskMin: "0.75",   deskMax: "0.75",  sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "font-bold", extra: "uppercase tracking-wider" },
+              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125", mobMax: "2.25", tabMin: "2.25", tabMax: "3.5", deskMin: "3.5", deskMax: "8.0", sample: "9XL HERO (NOW 6XL)", weight: "font-black", extra: "uppercase" },
+              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0", tabMin: "2.0", tabMax: "3.0", deskMin: "3.0", deskMax: "6.0", sample: "8XL DISPLAY (NOW 5XL)", weight: "font-black", extra: "uppercase" },
+              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: "font-black", extra: "uppercase" },
+              { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875", mobMax: "1.0", tabMin: "1.0", tabMax: "1.25", deskMin: "1.25", deskMax: "1.75", sample: "VIP Backstage Package", weight: "font-extrabold", extra: "" },
+              { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125", deskMin: "1.125", deskMax: "1.5", sample: "Rocking Chicago & Nationwide Since 1985", weight: "font-bold", extra: "" },
+              { key: "xl", label: "text-xl", cssProp: "--text-xl", mobMin: "0.8125", mobMax: "0.875", tabMin: "0.875", tabMax: "1.0", deskMin: "1.0", deskMax: "1.25", sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: "font-semibold", extra: "" },
+              { key: "base", label: "text-base", cssProp: "--text-base", mobMin: "0.75", mobMax: "0.8125", tabMin: "0.8125", tabMax: "0.875", deskMin: "0.875", deskMax: "1.0", sample: "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.", weight: "font-normal", extra: "" },
+              { key: "sm", label: "text-sm", cssProp: "--text-sm", mobMin: "0.6875", mobMax: "0.75", tabMin: "0.75", tabMax: "0.8125", deskMin: "0.8125", deskMax: "0.875", sample: "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.", weight: "font-normal", extra: "" },
+              { key: "xs", label: "text-xs", cssProp: "--text-xs", mobMin: "0.625", mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75", deskMin: "0.75", deskMax: "0.75", sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "font-bold", extra: "uppercase tracking-wider" },
             ];
 
             const remToPx = (rem: string | number) => Math.round(parseFloat(String(rem)) * 16);
@@ -1586,188 +1601,190 @@ ${deskRules.join("\n")}
               <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p className="text-[10px] text-white/40">Full glassmorphism verify card modules as used on <code className="text-purple-300 font-mono">/crew/verify</code>, <code className="text-purple-300 font-mono">/planner/verify</code>, <code className="text-purple-300 font-mono">/cruise/verify</code>, and <code className="text-purple-300 font-mono">/admin</code> (2FA).</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+              <div className="overflow-x-auto -mx-5 px-5">
+                <div className="grid grid-cols-4 gap-6 min-w-[900px]">
 
-                {/* ── Crew Verify Card ── */}
-                <div className="flex flex-col items-center">
-                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
-                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
-                  <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN to verify crew access</p>
-                  <div
-                    className="rounded-3xl px-4 py-6 w-full no-glow"
-                    style={{
-                      background: "rgba(18, 10, 34, 0.85)",
-                      backdropFilter: "blur(32px) saturate(180%)",
-                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid rgba(168, 85, 247, 0.4)",
-                      borderRadius: 24,
-                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                    }}
-                  >
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
-                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
-                          <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
-                        </div>
-                      ))}
-                    </div>
-                    <button aria-label="Action button" disabled
-                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
-                    >Access My Dashboard →</button>
-                    <div className="mt-3 text-center">
-                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
-                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
-                    </div>
-                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Crew Page</p>
-                    <div className="flex items-center justify-center gap-2 mt-3">
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CREW ACCESS</span>
-                      <div className="flex-1 h-px bg-white/[0.08]" />
+                  {/* ── Crew Verify Card ── */}
+                  <div className="flex flex-col items-center">
+                    <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Crew</p>
+                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Crew PIN Verification</h4>
+                    <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN to verify crew access</p>
+                    <div
+                      className="rounded-3xl px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
+                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                          <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                            <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          </div>
+                        ))}
+                      </div>
+                      <button aria-label="Action button" disabled
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                      >Access My Dashboard →</button>
+                      <div className="mt-3 text-center">
+                        <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
+                        <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                      </div>
+                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                      <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Crew Page</p>
+                      <div className="flex items-center justify-center gap-2 mt-3">
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                        <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CREW ACCESS</span>
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      </div>
                     </div>
                   </div>
+
+                  {/* ── Planner Verify Card ── */}
+                  <div className="flex flex-col items-center">
+                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
+                    <p className="text-white/45 text-[10px] mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
+                    <div
+                      className="rounded-3xl px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                          <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                            <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          </div>
+                        ))}
+                      </div>
+                      <button aria-label="Action button" disabled
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                      >Access My Dashboard →</button>
+                      <div className="space-y-1.5 mt-3 text-center">
+                        <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
+                        <button aria-label="Action button" type="button" style={{ display: "block", margin: "4px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Need a PIN sent to your email?</button>
+                      </div>
+                      <p className="flex items-center justify-center gap-1.5 mt-4" style={{ color: "rgba(255,255,255,0.2)", fontSize: 9 }}>
+                        <svg className="w-3 h-3 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
+                      </p>
+                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                      <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Planner Page</p>
+                      <div className="flex items-center justify-center gap-2 mt-3">
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                        <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · PLANNER ACCESS</span>
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ── Cruise Verify Card ── */}
+                  <div className="flex flex-col items-center">
+                    <div className="mb-2">
+                      <span className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
+                    </div>
+                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
+                    <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
+                    <p className="text-purple-400 font-bold text-[10px] bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
+                    <div
+                      className="rounded-3xl px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      {/* Progress bar */}
+                      <div className="w-full h-0.5 bg-white/10 rounded-full mb-5 overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-300" style={{ width: "0%" }} />
+                      </div>
+                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                          <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                            <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          </div>
+                        ))}
+                      </div>
+                      <button aria-label="Action button" disabled
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                      >Access My Dashboard →</button>
+                      <div className="mt-3 text-center">
+                        <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
+                        <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                      </div>
+                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                      <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Cruise Page</p>
+                      <div className="flex items-center justify-center gap-2 mt-3">
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                        <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ── Admin 2FA Verify Card ── */}
+                  <div className="flex flex-col items-center">
+                    <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Admin</p>
+                    <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
+                    <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN after login</p>
+                    <div
+                      className="rounded-3xl px-4 py-6 w-full no-glow"
+                      style={{
+                        background: "rgba(18, 10, 34, 0.85)",
+                        backdropFilter: "blur(32px) saturate(180%)",
+                        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+                        border: "1px solid rgba(168, 85, 247, 0.4)",
+                        borderRadius: 24,
+                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
+                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                          <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
+                            <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
+                              className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          </div>
+                        ))}
+                      </div>
+                      <button aria-label="Action button" disabled
+                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
+                        className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
+                      >Access My Dashboard →</button>
+                      <div className="mt-3 text-center">
+                        <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
+                        <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                      </div>
+                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
+                      <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Login</p>
+                      <div className="flex items-center justify-center gap-2 mt-3">
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                        <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · ADMIN ACCESS</span>
+                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
-
-                {/* ── Planner Verify Card ── */}
-                <div className="flex flex-col items-center">
-                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Planner Access PIN</h4>
-                  <p className="text-white/45 text-[10px] mb-4">Enter your 6-digit PIN to access your Planner Dashboard</p>
-                  <div
-                    className="rounded-3xl px-4 py-6 w-full no-glow"
-                    style={{
-                      background: "rgba(18, 10, 34, 0.85)",
-                      backdropFilter: "blur(32px) saturate(180%)",
-                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid rgba(168, 85, 247, 0.4)",
-                      borderRadius: 24,
-                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                    }}
-                  >
-                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
-                          <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
-                        </div>
-                      ))}
-                    </div>
-                    <button aria-label="Action button" disabled
-                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
-                    >Access My Dashboard →</button>
-                    <div className="space-y-1.5 mt-3 text-center">
-                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
-                      <button aria-label="Action button" type="button" style={{ display: "block", margin: "4px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Need a PIN sent to your email?</button>
-                    </div>
-                    <p className="flex items-center justify-center gap-1.5 mt-4" style={{ color: "rgba(255,255,255,0.2)", fontSize: 9 }}>
-                      <svg className="w-3 h-3 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
-                    </p>
-                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Planner Page</p>
-                    <div className="flex items-center justify-center gap-2 mt-3">
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · PLANNER ACCESS</span>
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── Cruise Verify Card ── */}
-                <div className="flex flex-col items-center">
-                  <div className="mb-2">
-                    <span className="text-[9px] font-black uppercase tracking-[0.15em] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-full px-3 py-1">7th Heaven Caribbean Cruise</span>
-                  </div>
-                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Check Your Email</h4>
-                  <p className="text-white/45 text-[10px] mb-1">We sent a 6-digit verification code to</p>
-                  <p className="text-purple-400 font-bold text-[10px] bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-4">your email address</p>
-                  <div
-                    className="rounded-3xl px-4 py-6 w-full no-glow"
-                    style={{
-                      background: "rgba(18, 10, 34, 0.85)",
-                      backdropFilter: "blur(32px) saturate(180%)",
-                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid rgba(168, 85, 247, 0.4)",
-                      borderRadius: 24,
-                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                    }}
-                  >
-                    {/* Progress bar */}
-                    <div className="w-full h-0.5 bg-white/10 rounded-full mb-5 overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-300" style={{ width: "0%" }} />
-                    </div>
-                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
-                          <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
-                        </div>
-                      ))}
-                    </div>
-                    <button aria-label="Action button" disabled
-                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
-                    >Access My Dashboard →</button>
-                    <div className="mt-3 text-center">
-                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
-                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
-                    </div>
-                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Cruise Page</p>
-                    <div className="flex items-center justify-center gap-2 mt-3">
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── Admin 2FA Verify Card ── */}
-                <div className="flex flex-col items-center">
-                  <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-1">7th Heaven · Admin</p>
-                  <h4 className="text-white font-black text-lg uppercase tracking-widest mb-1">Admin 2FA Verification</h4>
-                  <p className="text-white/30 text-[10px] mb-4">Enter your 6-digit PIN after login</p>
-                  <div
-                    className="rounded-3xl px-4 py-6 w-full no-glow"
-                    style={{
-                      background: "rgba(18, 10, 34, 0.85)",
-                      backdropFilter: "blur(32px) saturate(180%)",
-                      WebkitBackdropFilter: "blur(32px) saturate(180%)",
-                      border: "1px solid rgba(168, 85, 247, 0.4)",
-                      borderRadius: 24,
-                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                    }}
-                  >
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 text-center mb-4">Enter 6-Digit PIN</p>
-                    <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-xl shrink-0">
-                          <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                            className="w-full h-full text-center text-lg font-black rounded-xl border-2 bg-black/70 !p-0 outline-none border-white/20 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
-                        </div>
-                      ))}
-                    </div>
-                    <button aria-label="Action button" disabled
-                      style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                      className="w-full py-3 font-black text-[10px] uppercase tracking-widest cursor-not-allowed rounded-lg mb-3"
-                    >Access My Dashboard →</button>
-                    <div className="mt-3 text-center">
-                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
-                      <button aria-label="Action button" type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
-                    </div>
-                    <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                    <p className="text-center text-white/40 text-[10px] cursor-pointer hover:text-white/60 transition">← Back to Login</p>
-                    <div className="flex items-center justify-center gap-2 mt-3">
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                      <span className="text-[8px] font-bold tracking-[0.1em] uppercase text-white/25">7TH HEAVEN · ADMIN ACCESS</span>
-                      <div className="flex-1 h-px bg-white/[0.08]" />
-                    </div>
-                  </div>
-                </div>
-
               </div>
             </div>
 
@@ -2076,7 +2093,7 @@ ${deskRules.join("\n")}
                     id="sg-unchecked-toggle"
                     label="Unchecked state"
                     checked={false}
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                   <span className="text-xs text-white/60">Unchecked state</span>
                 </div>
@@ -2087,7 +2104,7 @@ ${deskRules.join("\n")}
                     label="Disabled checked state"
                     disabled={true}
                     checked={true}
-                    onChange={() => {}}
+                    onChange={() => { }}
                   />
                   <span className="text-xs text-white/40">Disabled checked state</span>
                 </div>
@@ -2919,6 +2936,98 @@ ${deskRules.join("\n")}
           </div>
         </section>
 
+        {/* SCROLLBAR SHOWCASE */}
+        <section id="scrollbars" className="scroll-mt-36 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-purple-400 flex items-center gap-2">
+              <Sliders className="w-6 h-6" /> Custom Scrollbars
+            </h2>
+            <p className="text-white/60 text-xs mt-1">
+              Apply <code className="text-purple-300 font-mono">custom-scrollbar</code> or <code className="text-purple-300 font-mono">custom-purple-scrollbar</code> to any scrollable container.
+              Both classes are identical — the glowing purple thumb always shows.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            {/* Vertical scroll demo */}
+            <div className="space-y-3">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Vertical Scroll</p>
+              <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+                <CustomScrollbar height={256} className="p-4 space-y-3">
+                  {Array.from({ length: 18 }).map((_, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                      <div className="w-7 h-7 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] font-black text-purple-300 shrink-0">{i + 1}</div>
+                      <div>
+                        <p className="text-xs font-bold text-white">List item {i + 1}</p>
+                        <p className="text-[10px] text-white/30">Scroll down to see more items</p>
+                      </div>
+                    </div>
+                  ))}
+                </CustomScrollbar>
+              </div>
+              <p className="text-[10px] text-white/30 font-mono">&lt;CustomScrollbar&gt;...&lt;/CustomScrollbar&gt;</p>
+            </div>
+
+            {/* Horizontal scroll demo */}
+            <div className="space-y-3">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Horizontal Scroll</p>
+              <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
+                <CustomScrollbar direction="horizontal" className="p-4 pb-6">
+                  <div className="flex gap-3" style={{ minWidth: 900 }}>
+                    {Array.from({ length: 12 }).map((_, i) => (
+                      <div key={i} className="shrink-0 w-28 h-24 rounded-xl bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-1">
+                        <div className="w-8 h-8 rounded-full bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] font-black text-purple-300">{i + 1}</div>
+                        <span className="text-[10px] text-white/40">Card {i + 1}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CustomScrollbar>
+              </div>
+              <p className="text-[10px] text-white/30 font-mono">className=&quot;custom-scrollbar overflow-x-auto&quot;</p>
+            </div>
+
+            {/* Both axes demo */}
+            <div className="space-y-3 md:col-span-2">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Both Axes (2D Scroll)</p>
+              <div
+                data-lenis-prevent
+                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-2xl p-4"
+              >
+                <div style={{ minWidth: 900 }} className="space-y-2">
+                  {Array.from({ length: 10 }).map((_, row) => (
+                    <div key={row} className="flex gap-2">
+                      {Array.from({ length: 10 }).map((_, col) => (
+                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-purple-500/20 flex items-center justify-center text-[9px] font-mono text-purple-300">
+                          {row},{col}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[10px] text-white/30 font-mono">className=&quot;custom-scrollbar overflow-auto&quot;</p>
+            </div>
+
+          </div>
+
+          {/* Usage code block */}
+          <div className="bg-black/40 border border-white/10 rounded-2xl p-5">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-3">Usage</p>
+            <pre className="text-[11px] text-purple-200 font-mono leading-relaxed overflow-x-auto custom-scrollbar">
+              {`// globals.css already defines:
+.custom-scrollbar::-webkit-scrollbar        { width: 10px; height: 10px; }
+.custom-scrollbar::-webkit-scrollbar-track  { background: rgba(147,51,234,0.25); border-radius: 9999px; }
+.custom-scrollbar::-webkit-scrollbar-thumb  { background: linear-gradient(180deg,#e9d5ff,#9333ea); border-radius: 9999px; box-shadow: 0 0 14px rgba(192,132,252,1); }
+
+// Apply to any scrollable element:
+<div className="custom-scrollbar overflow-y-auto max-h-96">{/* content */}</div>
+<div className="custom-scrollbar overflow-x-auto">{/* content */}</div>
+<div className="custom-scrollbar overflow-auto">{/* content */}</div>`}
+            </pre>
+          </div>
+        </section>
+
         {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section id="spacing" className="scroll-mt-36  border border-white/10 rounded-3xl p-6 sm:p-8 space-y-8">
           <div className="border-b border-white/10 pb-4">
@@ -3737,7 +3846,7 @@ ${deskRules.join("\n")}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
+
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
             <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-6 space-y-6 flex flex-col justify-between">
               <div>
@@ -3829,7 +3938,7 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* Body */}
-                <div className="px-4 pt-5 pb-3 space-y-3.5 max-h-96 overflow-y-auto custom-scrollbar">
+                <CustomScrollbar height={384} className="px-4 pt-5 pb-3 space-y-3.5">
                   {/* Group Name input */}
                   <div className="mt-1 space-y-1.5">
                     <label className="text-[9px] uppercase tracking-wider text-white/50 font-extrabold block">Group Name</label>
@@ -3893,7 +4002,7 @@ ${deskRules.join("\n")}
                       </div>
                     </div>
                   </div>
-                </div>
+                </CustomScrollbar>
 
                 {/* Footer */}
                 <div className="p-4 border-t border-white/10 bg-transparent flex items-center justify-between gap-3 shrink-0">

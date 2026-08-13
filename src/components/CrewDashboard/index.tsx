@@ -2666,14 +2666,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       <header>
         <div className="py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-xl font-bold border border-[var(--color-accent)] relative">
+            <div className="w-12 h-12 rounded-full  flex items-center justify-center text-xl font-bold border border-[var(--color-accent)]/30 relative">
               {displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'MS'}
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-black" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="text-xl font-bold italic tracking-tight text-white">{displayName}</span>
-                <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-[var(--color-accent)] text-xs font-black uppercase tracking-widest rounded flex items-center gap-1">Crew</span>
+                <span className="px-2 py-0.5 text-[var(--color-accent)] text-xs font-black uppercase tracking-widest rounded flex items-center gap-1 rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">Crew</span>
               </div>
               <span className="text-xs text-white/60">{email}</span>
             </div>

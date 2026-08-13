@@ -652,10 +652,18 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
   const progress = Math.min((totalGuests / GOAL) * 100, 100);
 
   return (
-    <div className="min-h-screen overflow-x-hidden max-w-full  text-white pt-0">
+    <div className="min-h-screen text-white pt-0">
 
       {/* ── SECTION 1: HERO (BACKGROUND VIDEO — FULL BLEED UNDER NAV HEADER WITH BOTTOM MASK & BLUR STRIP) ── */}
-      <section className="-mt-[88px] pt-[120px] md:pt-[140px] relative flex flex-col justify-center overflow-hidden pb-[32px] md:pb-20 text-white min-h-[460px] md:min-h-[640px]">
+      <section
+        id="cruise-hero"
+        className="-mt-[88px] pt-[120px] md:pt-[140px] relative flex flex-col justify-center overflow-hidden pb-[32px] md:pb-20 text-white min-h-[460px] md:min-h-[640px]"
+        style={{
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}
+      >
         {/* Cruise Hero Video Background Overlay with Top & Bottom Clipping Mask */}
         <div
           className="absolute inset-0 z-0 overflow-hidden"
@@ -724,7 +732,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       {transitionDone && (<>
 
         {/* ── SECTION 2: CABINS & PRICING ── */}
-        <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 site-container relative z-20">
+        <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 relative z-20">
           <div className="text-left max-w-3xl mb-12">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Staterooms <span className="accent-gradient-text"> & Cruise Rates</span>
@@ -761,7 +769,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           {/* Cancellation & Policy Guidelines — 3-Column Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 text-left border-b border-white/10 pb-12">
             {/* Merged Column 1: Booking Policy & Best Rate Guarantee */}
-            <div className="py-6 pr-6 pl-0 relative text-left">
+            <div className="py-6 pl-0 relative text-left">
               <div className="flex items-center gap-3 mb-4">
                 <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
                 <h3 className="text-lg font-black uppercase text-white tracking-wide">Booking Policy & Best Rate Guarantee</h3>
@@ -1227,7 +1235,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </section>
 
         {/* ── OFFICIAL BOOKING FORM ── */}
-        <section id="book-now" className="py-16 site-container relative z-20">
+        <section id="book-now" className="py-16 relative z-20">
           <div id="signup" className="relative z-10">
             <div>
               {/* Section Header */}
@@ -1632,7 +1640,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
         {/* ── FEATURED HEADLINE ARTISTS ── */}
-        <section id="artists" className="pt-16 pb-12 site-container">
+        <section id="artists" className="pt-16 pb-12">
           <div className="text-left w-full mb-10">
             <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-purple-400">Headline Musical Acts</span>
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none mt-2" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
@@ -1696,51 +1704,70 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
-        {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED) ── */}
-        <section id="itinerary" className="py-20 w-full max-w-none px-0 overflow-x-clip">
-          <div className="text-center max-w-3xl mx-auto mb-12 px-4">
-            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
-              Day-by-Day <span className="accent-gradient-text">Schedules</span>
-            </h2>
-            <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
-              Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
-            </p>
+        {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND) ── */}
+        <section
+          id="itinerary"
+          className="py-20 w-full max-w-none px-0 overflow-x-clip"
+          style={{
+            position: "relative",
+            left: "50%",
+            right: "50%",
+            marginLeft: "-50vw",
+            marginRight: "-50vw",
+            width: "100vw",
+            maxWidth: "100vw",
+            backgroundColor: "#070d1e",
+            backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 97%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 97%, transparent 100%)",
+          }}
+        >
+          {/* Inner div with site container padding */}
+          <div className="w-full mx-auto px-[var(--page-padding-x)]">
+            <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+              <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+                Day-by-Day <span className="accent-gradient-text">Schedules</span>
+              </h2>
+              <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
+                Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
+              </p>
 
-            {/* Itinerary Year Toggle */}
-            <div className="flex gap-2 justify-center mt-8">
-              <button aria-label="Action button"
-                type="button"
-                onClick={() => setActiveItinYear(2027)}
-                className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
-                  ? "bg-purple-600 text-white shadow-md"
-                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
-                  }`}
-              >
-                2027 Star of the Seas (7-Night)
-              </button>
-              <button aria-label="Action button"
-                type="button"
-                onClick={() => setActiveItinYear(2028)}
-                className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
-                  ? "bg-purple-700 text-white shadow-md"
-                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
-                  }`}
-              >
-                2028 Legend of the Seas (8-Night)
-              </button>
+              {/* Itinerary Year Toggle */}
+              <div className="flex gap-2 justify-center mt-8">
+                <button aria-label="Action button"
+                  type="button"
+                  onClick={() => setActiveItinYear(2027)}
+                  className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
+                    ? "bg-purple-600 text-white shadow-md"
+                    : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                    }`}
+                >
+                  2027 Star of the Seas (7-Night)
+                </button>
+                <button aria-label="Action button"
+                  type="button"
+                  onClick={() => setActiveItinYear(2028)}
+                  className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
+                    ? "bg-purple-700 text-white shadow-md"
+                    : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                    }`}
+                >
+                  2028 Legend of the Seas (8-Night)
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* 3D Snake Itinerary Timeline Component — Full Bleed */}
-          <div className="w-full max-w-none px-0">
-            <React.Suspense fallback={null}>
-              <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
-            </React.Suspense>
+            {/* 3D Snake Itinerary Timeline Component */}
+            <div className="w-full">
+              <React.Suspense fallback={null}>
+                <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
+              </React.Suspense>
+            </div>
           </div>
         </section>
 
         {/* ── SECTION 2: PORTS OF CALL ── */}
-        <section id="ports" className="pt-10 pb-20 site-container">
+        <section id="ports" className="pt-10 pb-20">
           {/* Ports of Call Section */}
           <div>
             <div className="text-center md:text-left mb-10">
@@ -1754,14 +1781,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             {portLayoutMode === "grid" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left animate-fadeIn">
                 {PORTS_DATA.map((port, idx) => (
-                  <div key={`grid-${port.name}`} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md flex flex-col justify-between group hover:border-purple-500/40 transition-all duration-300">
-                    <div className="h-48 w-full relative overflow-hidden bg-black/60">
+                  <div key={`grid-${port.name}`} className="flex flex-col justify-between group transition-all duration-300">
+                    <div className="h-48 w-full relative overflow-hidden rounded-2xl">
                       {port.image && <Image width={200} height={200} unoptimized src={port.image} alt={port.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
                       <span className="absolute top-4 left-4 z-20 px-3 py-1 bg-black/80 backdrop-blur-md border border-white/15 rounded-full text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-purple-300">
                         Port Call #{idx + 1}
                       </span>
                     </div>
-                    <div className="py-6 flex-1 flex flex-col justify-between">
+                    <div className="py-4 flex-1 flex flex-col justify-between">
                       <div>
                         <h4 className="text-base font-black uppercase tracking-tight text-white mb-2 group-hover:text-purple-400 transition-colors">{port.name}</h4>
                         <p className="text-xs leading-relaxed font-semibold text-white/70">{port.desc}</p>
@@ -1919,7 +1946,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
 
         {/* ── SECTION 4: SHIP EXPLORER ── */}
-        <section id="ship-explorer" className="py-[32px] md:py-20 site-container">
+        <section id="ship-explorer" className="py-[32px] md:py-20">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Ship Specifications <span className="accent-gradient-text">& Inclusions</span>
@@ -2130,7 +2157,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
         </section>
 
         {/* ── SECTION 5: FAQS & HISTORY ── */}
-        <section id="faqs" className="pt-20 pb-10 site-container">
+        <section id="faqs" className="pt-20 pb-10">
           <div className="text-left w-full mb-10">
             <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Frequently Asked <span className="accent-gradient-text">Questions</span>
@@ -2164,9 +2191,19 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
         {/* Cruise History Timeline Section (Lazy-Loaded at Bottom) */}
         {renderTimeline && (
-          <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
-            <CruiseHistoryTimeline history={CRUISE_HISTORY} />
-          </React.Suspense>
+          <section
+            id="history"
+            className="w-full relative overflow-x-clip"
+            style={{
+              marginLeft: "calc(-1 * var(--page-padding-x))",
+              marginRight: "calc(-1 * var(--page-padding-x))",
+              width: "calc(100% + 2 * var(--page-padding-x))",
+            }}
+          >
+            <React.Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-black/50 font-bold uppercase tracking-wider">Loading Cruise History Timeline...</div>}>
+              <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+            </React.Suspense>
+          </section>
         )}
       </>)}
     </div>

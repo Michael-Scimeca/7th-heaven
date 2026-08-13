@@ -498,7 +498,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   if (showCruise) {
                     return (
                       <>
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em]  text-[var(--color-accent)] border-[var(--color-accent)]/30">
                           FAN
                         </span>
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full    bg-purple-600/15 text-purple-300 border-purple-500/30">
@@ -509,7 +509,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                   }
 
                   return (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em] border rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.15em]  rounded-full bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/30">
                       FAN
                     </span>
                   );

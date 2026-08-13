@@ -37,8 +37,8 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   return (
-    <section id="news" className="relative py-16 md:py-24 bg-[var(--card-bg)] text-[var(--text-color)] border-t border-[var(--border-color)]">
-      <div className="site-container">
+    <section id="news" className="relative py-16 md:py-24 bg-[var(--card-bg)] text-[var(--text-color)]">
+      <>
         {/* Section Header */}
         <div className="mb-12 text-left">
           <span className="text-xs font-mono font-extrabold uppercase tracking-[0.2em]  text-[var(--color-accent)] block mb-2">
@@ -97,7 +97,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
             ))}
           </div>
         </div>
-      </div>
+      </>
 
       {/* Article Detail Modal */}
       {selectedArticle && (

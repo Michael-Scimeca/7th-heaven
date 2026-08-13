@@ -266,10 +266,10 @@ export default function MemberDashboard() {
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? 'fan';
-                  const cfg = { fan: { label: 'FAN', Icon: Star, cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' }, crew: { label: 'CREW', Icon: Shield, cls: 'text-emerald-400 bg-emerald-500/10  border-[var(--color-accent)]/30' }, admin: { label: 'ADMIN', Icon: Crown, cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', Icon: Star, cls: 'text-white/50 bg-white/[0.06] border-white/[0.08]' };
+                  const cfg = { fan: { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, crew: { label: 'CREW', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' }, admin: { label: 'ADMIN', cls: 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' } }[role as 'fan' | 'crew' | 'admin'] ?? { label: 'FAN', cls: 'text-purple-300 bg-purple-600/20 border-purple-500/35' };
                   return (
-                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
-                      <cfg.Icon className="w-3 h-3" />{cfg.label}
+                    <span className={`inline-flex items-center px-2 py-0.5 text-[var(--font-size-xs)] font-bold uppercase tracking-[0.15em] border rounded-full ${cfg.cls}`}>
+                      {cfg.label}
                     </span>
                   );
                 })()}

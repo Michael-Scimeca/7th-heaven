@@ -160,7 +160,16 @@ export default async function Home() {
       <LiveStatusSign />
 
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
-      <section className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick" data-pick-label="Play Music" id="hero">
+      <section
+        className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick"
+        data-pick-label="Play Music"
+        id="hero"
+        style={{
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}
+      >
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
         <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           <HeroVideoPlayer>
@@ -180,12 +189,29 @@ export default async function Home() {
       )}
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
-      <section id="tour" className="bg-transparent py-0">
+      <section
+        id="tour"
+        className="bg-transparent py-0"
+        style={{
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}
+      >
         <TourList initialShows={upcomingShows} />
       </section>
 
       {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
-      <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]" style={{ marginTop: '80px' }}>
+      <section
+        id="band"
+        className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]"
+        style={{
+          marginTop: '80px',
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}
+      >
         <BioParallaxSlider />
       </section>
 
@@ -193,7 +219,15 @@ export default async function Home() {
       <HomeVideoShowcase />
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON (scrolling logo tickers) ====== */}
-      <section className="relative w-full py-4">
+      <section
+        id="logos"
+        className="relative w-full py-4"
+        style={{
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}
+      >
         <LogoTicker items={ARTIST_LOGOS} direction="left" />
         <LogoTicker items={PRESS_LOGOS} direction="right" />
       </section>
@@ -204,9 +238,7 @@ export default async function Home() {
       </div>
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <div className="">
-        <HomeNewsSection />
-      </div>
+      <HomeNewsSection />
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
       <div className="">
@@ -214,7 +246,15 @@ export default async function Home() {
       </div>
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION (At Very Bottom) ====== */}
-      <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">
+      <section
+        id="music"
+        className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden"
+        style={{
+          marginLeft: "calc(-1 * var(--page-padding-x))",
+          marginRight: "calc(-1 * var(--page-padding-x))",
+          width: "calc(100% + 2 * var(--page-padding-x))",
+        }}
+      >
         <AudioPlayerSection />
       </section>
     </>

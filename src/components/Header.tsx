@@ -208,7 +208,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-50"} transition-colors duration-300 pointer-events-none  ${scrolled
+      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-[1000]"} transition-colors duration-300 pointer-events-none  ${scrolled
         ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}
@@ -383,15 +383,11 @@ export function Header() {
                     router.push("/");
                     router.refresh();
                   }}
-                  className="p-1.5 text-purple-400 hover:text-purple-300 hover:scale-110 transition-all cursor-pointer bg-transparent border-0 ml-1"
+                  className="px-2.5 py-1 text-xs font-black uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-all cursor-pointer bg-white/5 hover:bg-white/10 rounded-full border border-purple-500/20 ml-3"
                   title="Sign Out of Account"
                   id="header-sign-out"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
+                  SIGN OUT
                 </button>
               </div>
             ) : (

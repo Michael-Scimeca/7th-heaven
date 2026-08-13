@@ -8,49 +8,79 @@ interface CustomScrollbarProps {
   thumbColor?: string;
   trackColor?: string;
   thumbWidth?: number;
+  direction?: "vertical" | "horizontal" | "both";
+  /** If set, wraps content in a bounded flex container of this height (px or any CSS value) */
+  height?: number | string;
+  /** Offset in px from the top for vertical scrollbars (e.g. to start below headers) */
+  topOffset?: number;
 }
 
 export default function CustomScrollbar({
   children,
   className = "",
   thumbColor = "var(--color-accent, #851DEF)",
-  trackColor = "rgba(255,255,255,0.04)",
-  thumbWidth = 6,
+  trackColor = "rgba(88,28,135,0.35)",
+  thumbWidth = 10,
+  direction = "vertical",
+  height,
+  topOffset = 0,
 }: CustomScrollbarProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [thumbHeight, setThumbHeight] = useState(0);
-  const [thumbTop, setThumbTop] = useState(0);
-  const [isScrollable, setIsScrollable] = useState(false);
+  const [thumbSize, setThumbSize] = useState(48);
+  const [thumbPos, setThumbPos] = useState(topOffset);
+  const [hThumbSize, setHThumbSize] = useState(48);
+  const [hThumbPos, setHThumbPos] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const dragStartY = useRef(0);
-  const dragStartScrollTop = useRef(0);
+  const dragStartPos = useRef(0);
+  const dragStartScrollPos = useRef(0);
   const rafRef = useRef<number>(0);
+
+  const showVertical = direction === "vertical" || direction === "both";
+  const showHorizontal = direction === "horizontal" || direction === "both";
 
   const updateThumb = useCallback(() => {
     const el = containerRef.current;
     if (!el) return;
-    const { scrollHeight, clientHeight, scrollTop } = el;
-    const scrollable = scrollHeight > clientHeight + 2;
-    setIsScrollable(scrollable);
-    if (!scrollable) return;
-    const ratio = clientHeight / scrollHeight;
-    const minThumb = 30;
-    const h = Math.max(minThumb, ratio * clientHeight);
-    const trackSpace = clientHeight - h;
-    const scrollRange = scrollHeight - clientHeight;
-    const top = scrollRange > 0 ? (scrollTop / scrollRange) * trackSpace : 0;
-    setThumbHeight(h);
-    setThumbTop(top);
-  }, []);
+
+    if (showHorizontal) {
+      const { scrollWidth, clientWidth, scrollLeft } = el;
+      const scrollable = scrollWidth > clientWidth + 2;
+      const minThumb = 48;
+      const ratio = clientWidth / Math.max(clientWidth, scrollWidth);
+      const maxThumb = Math.max(minThumb, clientWidth - 16);
+      const size = scrollable ? Math.min(maxThumb, Math.max(minThumb, ratio * clientWidth)) : minThumb;
+      const trackSpace = Math.max(0, clientWidth - size);
+      const scrollRange = scrollWidth - clientWidth;
+      const pos = scrollable && scrollRange > 0 ? (scrollLeft / scrollRange) * trackSpace : 0;
+      setHThumbSize(size);
+      setHThumbPos(pos);
+    }
+
+    if (showVertical) {
+      const { scrollHeight, clientHeight, scrollTop } = el;
+      const scrollable = scrollHeight > clientHeight + 2;
+      const minThumb = 48;
+      const trackBottom = showHorizontal ? thumbWidth + 8 : 4;
+      const availableHeight = Math.max(0, clientHeight - (4 + topOffset) - trackBottom);
+      const ratio = availableHeight / Math.max(availableHeight, scrollHeight);
+      const maxThumb = Math.max(minThumb, availableHeight - 16);
+      const size = scrollable ? Math.min(maxThumb, Math.max(minThumb, ratio * availableHeight)) : minThumb;
+      const trackSpace = Math.max(0, availableHeight - size);
+      const scrollRange = scrollHeight - clientHeight;
+      const pos = scrollable && scrollRange > 0 ? (scrollTop / scrollRange) * trackSpace : 0;
+      setThumbSize(size);
+      setThumbPos(pos);
+    }
+  }, [showVertical, showHorizontal, topOffset, thumbWidth]);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    // Small delay to let layout settle
-    const timer = setTimeout(updateThumb, 100);
+    updateThumb();
+    const timer = setTimeout(updateThumb, 50);
 
     const onScroll = () => {
       cancelAnimationFrame(rafRef.current);
@@ -63,7 +93,7 @@ export default function CustomScrollbar({
       rafRef.current = requestAnimationFrame(updateThumb);
     });
     ro.observe(el);
-    // Watch for children changes (filtering, etc)
+
     const mo = new MutationObserver(() => {
       setTimeout(updateThumb, 50);
     });
@@ -78,59 +108,90 @@ export default function CustomScrollbar({
     };
   }, [updateThumb]);
 
-  // Drag handling
-  const onThumbMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(true);
-      dragStartY.current = e.clientY;
-      dragStartScrollTop.current = containerRef.current?.scrollTop || 0;
-    },
-    []
-  );
+  const [activeDragAxis, setActiveDragAxis] = useState<"vertical" | "horizontal" | null>(null);
+
+  const onThumbMouseDownVertical = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    setActiveDragAxis("vertical");
+    dragStartPos.current = e.clientY;
+    dragStartScrollPos.current = containerRef.current?.scrollTop || 0;
+  }, []);
+
+  const onThumbMouseDownHorizontal = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    setActiveDragAxis("horizontal");
+    dragStartPos.current = e.clientX;
+    dragStartScrollPos.current = containerRef.current?.scrollLeft || 0;
+  }, []);
 
   useEffect(() => {
-    if (!isDragging) return;
+    if (!isDragging || !activeDragAxis) return;
     const onMouseMove = (e: MouseEvent) => {
       e.preventDefault();
       const el = containerRef.current;
       if (!el) return;
-      const dy = e.clientY - dragStartY.current;
-      const { scrollHeight, clientHeight } = el;
-      const trackSpace = clientHeight - thumbHeight;
-      if (trackSpace <= 0) return;
-      const scrollRange = scrollHeight - clientHeight;
-      el.scrollTop = dragStartScrollTop.current + (dy / trackSpace) * scrollRange;
+
+      if (activeDragAxis === "horizontal") {
+        const dx = e.clientX - dragStartPos.current;
+        const { scrollWidth, clientWidth } = el;
+        const trackSpace = clientWidth - hThumbSize;
+        if (trackSpace <= 0) return;
+        const scrollRange = scrollWidth - clientWidth;
+        el.scrollLeft = dragStartScrollPos.current + (dx / trackSpace) * scrollRange;
+      } else {
+        const dy = e.clientY - dragStartPos.current;
+        const { scrollHeight, clientHeight } = el;
+        const trackBottom = showHorizontal ? thumbWidth + 8 : 4;
+        const availableHeight = Math.max(0, clientHeight - (4 + topOffset) - trackBottom);
+        const trackSpace = availableHeight - thumbSize;
+        if (trackSpace <= 0) return;
+        const scrollRange = scrollHeight - clientHeight;
+        el.scrollTop = dragStartScrollPos.current + (dy / trackSpace) * scrollRange;
+      }
     };
-    const onMouseUp = () => setIsDragging(false);
+    const onMouseUp = () => {
+      setIsDragging(false);
+      setActiveDragAxis(null);
+    };
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
     };
-  }, [isDragging, thumbHeight]);
+  }, [isDragging, activeDragAxis, thumbSize, hThumbSize, topOffset, thumbWidth, showHorizontal]);
 
-  // Click on track to jump
-  const onTrackClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const el = containerRef.current;
-      if (!el) return;
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      const clickY = e.clientY - rect.top;
-      const { scrollHeight, clientHeight } = el;
-      const scrollRatio = clickY / rect.height;
-      el.scrollTop = scrollRatio * (scrollHeight - clientHeight);
-    },
-    []
-  );
+  const onVerticalTrackClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const { scrollHeight, clientHeight } = el;
+    const scrollRatio = Math.max(0, Math.min(1, clickY / rect.height));
+    el.scrollTop = scrollRatio * (scrollHeight - clientHeight);
+  }, []);
 
-  const thumbOpacity = isDragging ? 1 : isHovering ? 0.9 : 0.7;
+  const onHorizontalTrackClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const { scrollWidth, clientWidth } = el;
+    const scrollRatio = clickX / rect.width;
+    el.scrollLeft = scrollRatio * (scrollWidth - clientWidth);
+  }, []);
 
-  return (
+  const thumbOpacity = isDragging ? 1 : isHovering ? 0.95 : 0.75;
+
+  const inner = (
     <div
       ref={wrapperRef}
       style={{
@@ -139,6 +200,7 @@ export default function CustomScrollbar({
         flexDirection: "column",
         flex: 1,
         minHeight: 0,
+        minWidth: 0,
         overflow: "hidden",
       }}
       onMouseEnter={() => setIsHovering(true)}
@@ -152,10 +214,10 @@ export default function CustomScrollbar({
         style={{
           flex: 1,
           minHeight: 0,
-          overflowY: "scroll",
-          overflowX: "hidden",
-          paddingRight: isScrollable ? thumbWidth + 12 : undefined,
-          /* Hide native scrollbar */
+          minWidth: 0,
+          overflowY: showVertical ? "scroll" : "hidden",
+          overflowX: showHorizontal ? "auto" : "hidden",
+          paddingBottom: showHorizontal ? thumbWidth + 12 : undefined,
           scrollbarWidth: "none",
           // @ts-ignore
           msOverflowStyle: "none",
@@ -165,7 +227,7 @@ export default function CustomScrollbar({
         {children}
       </div>
 
-      {/* Inject CSS to hide webkit scrollbar on the container */}
+      {/* Suppress native webkit scrollbar */}
       <style>{`
         [data-lenis-prevent]::-webkit-scrollbar {
           display: none !important;
@@ -174,46 +236,100 @@ export default function CustomScrollbar({
         }
       `}</style>
 
-      {/* Custom purple scrollbar track — always visible */}
-      {isScrollable && (
+      {/* Vertical Track — rendered if showVertical */}
+      {showVertical && (
         <div
           role="region"
-          aria-label="Scrollbar track"
-          onClick={onTrackClick}
+          aria-label="Vertical scrollbar track"
+          onClick={onVerticalTrackClick}
           onMouseDown={(e) => e.stopPropagation()}
           style={{
             position: "absolute",
-            top: 0,
-            right: 2,
-            bottom: 0,
-            width: thumbWidth + 6,
-            background: trackColor,
+            top: 4 + topOffset,
+            right: 3,
+            bottom: showHorizontal ? thumbWidth + 8 : 4,
+            width: thumbWidth + 2,
+            backdropFilter: "blur(12px)",
             borderRadius: 9999,
             cursor: "pointer",
-            zIndex: 999,
-            pointerEvents: "auto",
+            zIndex: 100,
+            boxShadow: "inset 0 0 8px rgba(88,28,135,0.3)",
           }}
         >
-          {/* Glowing purple thumb */}
           <button
             type="button"
-            aria-label="Scrollbar thumb"
-            onMouseDown={onThumbMouseDown}
+            aria-label="Vertical scrollbar thumb"
+            onMouseDown={onThumbMouseDownVertical}
             style={{
               position: "absolute",
-              top: thumbTop,
+              top: thumbPos,
               left: "50%",
               transform: "translateX(-50%)",
               width: thumbWidth,
-              height: thumbHeight,
-              background: thumbColor,
+              height: thumbSize,
+              background: "linear-gradient(180deg, #d8b4fe 0%, #9333ea 100%)",
               borderRadius: 9999,
               opacity: thumbOpacity,
               transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
               cursor: isDragging ? "grabbing" : "grab",
-              boxShadow: isDragging || isHovering
-                ? `0 0 12px rgba(133, 29, 239, 0.6), 0 0 4px rgba(133, 29, 239, 0.3)`
-                : `0 0 8px rgba(133, 29, 239, 0.3)`,
+              pointerEvents: "auto",
+            }}
+          />
+        </div>
+      )}
+
+      {/* Horizontal Mask Strip — hides content scrolling underneath the horizontal scrollbar */}
+      {showHorizontal && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: thumbWidth + 10,
+
+            zIndex: 90,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      {/* Horizontal Track — rendered if showHorizontal */}
+      {showHorizontal && (
+        <div
+          role="region"
+          aria-label="Horizontal scrollbar track"
+          onClick={onHorizontalTrackClick}
+          onMouseDown={(e) => e.stopPropagation()}
+          style={{
+            position: "absolute",
+            left: 4,
+            right: showVertical ? thumbWidth + 8 : 4,
+            bottom: 0,
+            height: thumbWidth,
+            backdropFilter: "blur(12px)",
+            borderRadius: 9999,
+            cursor: "pointer",
+            zIndex: 100,
+            boxShadow: "inset 0 0 8px rgba(88,28,135,0.3)",
+          }}
+        >
+          <button
+            type="button"
+            aria-label="Horizontal scrollbar thumb"
+            onMouseDown={onThumbMouseDownHorizontal}
+            style={{
+              position: "absolute",
+              left: hThumbPos,
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: hThumbSize,
+              height: thumbWidth,
+              background: "linear-gradient(90deg, #d8b4fe 0%, #9333ea 100%)",
+              borderRadius: 9999,
+              opacity: thumbOpacity,
+              transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
+              cursor: isDragging ? "grabbing" : "grab",
               pointerEvents: "auto",
             }}
           />
@@ -221,4 +337,21 @@ export default function CustomScrollbar({
       )}
     </div>
   );
+
+  if (height !== undefined) {
+    return (
+      <div
+        style={{
+          height: typeof height === "number" ? `${height}px` : height,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        {inner}
+      </div>
+    );
+  }
+
+  return inner;
 }

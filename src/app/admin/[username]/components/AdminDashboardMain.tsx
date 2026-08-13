@@ -560,10 +560,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
     avatar: 'https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff'
   } : {
     name: m?.name || 'Michael Scimeca',
-    role: m?.role || 'crew',
+    role: 'admin',
     email: m?.email || 'michael@7thheaven.com',
     phone: '(847) 551-5363',
-    username: m?.username || 'michael',
+    username: m?.username || username || 'admin',
     avatar: m?.avatar
   });
 
@@ -3283,7 +3283,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     value={bannerText}
                     onChange={setBannerText}
                     placeholder="Alert message (e.g. Weather delay tonight)"
-                    className="bg-[#22222e] overflow-hidden"
+                    className="overflow-hidden"
                   />
                 </div>
 
@@ -3681,7 +3681,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
         <div className="flex items-center gap-3">
           {/* Shopify vs Simulated Toggle */}
-          <div className="flex bg-white/15 p-1 border border-white/20" onClick={(e) => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setShopifyTab('shopify')}
               className={`px-3 py-1.5 text-[0.6rem] font-black uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${shopifyTab === 'shopify' ? 'bg-purple-600 text-white shadow-sm' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
@@ -3697,7 +3697,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
           {shopifyTab === 'shopify' && (
             <div className="flex items-center gap-3 transition-opacity duration-300 ease-out">
-              <div className="flex bg-white/15 p-1 border border-white/20">
+              <div className="flex items-center gap-1.5">
                 {[7, 30, 90].map(d => (
                   <button
                     key={d}
@@ -4219,7 +4219,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('bookings', 'Booking Requests', 'Manage client booking requests, review contact details, proposal prices, dates, and approve or decline reservations.')}
-      < div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
+      <div style={{ display: isSectionOpen('bookings') ? undefined : 'none' }}>
         <div className="p-0">
           {bookings.length === 0 ? (
             <div className="p-12 text-center text-white/30 font-mono text-xs">No booking requests received yet.</div>
@@ -4503,12 +4503,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('planners', 'Event Planners Directory', 'Browse the list of event planners, view their contact information, and review past and current booking requests.')}
-      < div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
+      <div style={{ display: isSectionOpen('planners') ? undefined : 'none' }}>
         <div className="p-0" data-lenis-prevent="true">
           {bookings.length === 0 ? (
             <div className="p-12 text-center text-white/30 font-mono text-xs">No planners found.</div>
           ) : (
-            <div className="py-2 pr-6 pl-0">
+            <div className="py-2 pl-0">
               {Array.from(new Map(bookings.flatMap(b => b.email ? [[b.email, b] as const] : [])).values()).map((planner: any) => (
                 <div key={planner.email} className="border-b border-white/20 py-4 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex items-center gap-4 min-w-[240px]">
@@ -4581,7 +4581,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('photomod', 'Fan Photo Moderation Queue', 'Review fan-submitted concert and show photos, check compliance, and approve or reject them for the public photo wall.')}
-      < div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
+      <div style={{ display: isSectionOpen('photomod') ? undefined : 'none' }}>
         <div className="p-0">
           {moderationQueue.length === 0 ? (
             <div className="p-16 text-center text-white/30 text-sm">
@@ -4645,7 +4645,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('memorymod', 'Memory Moderation Queue', 'Review fan memories, stories, and concert anecdotes before they are published to the public website timeline.')}
-      < div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="py-6 pr-6 pl-0" >
+      <div style={{ display: isSectionOpen('memorymod') ? undefined : 'none' }} className="py-6 pl-0" >
         {
           memoryQueue.length === 0 ? (
             <div className="p-10 text-center text-white/30 text-sm">
@@ -4699,7 +4699,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderLiveAlerts = () => (
     <section className="overflow-hidden">
-      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer">
+      <div role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('livealerts'); } }} onClick={() => toggleSection('livealerts')} className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
@@ -4787,7 +4787,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         tabIndex={0}
         onClick={() => toggleSection('smsblast')}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSection('smsblast'); } }}
-        className="py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
+        className="py-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent select-none hover:bg-white/[0.02] transition-colors cursor-pointer"
       >
         <div className="flex items-center">
 
@@ -4876,7 +4876,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           )}
         </div>
 
-        <div className="py-6 pr-6 pl-0">
+        <div className="py-6 pl-0">
           <p className="text-[0.7rem] text-white/40 mb-5">
             {smsAutoBlast
               ? 'Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded.'
@@ -5481,7 +5481,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </div>
         {renderInfoBanner('crewsms', 'Crew SMS Alert & Group Setup', 'Select target crew members or saved groups to broadcast emergency text messages or load-in notices.')}
-        < div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
+        <div style={{ display: isSectionOpen('crewsms') ? undefined : 'none' }}>
           <div className="py-6 pr-0 pl-0">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column: Member List (Choose Recipients) */}
@@ -5502,7 +5502,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     Showing {recipients.length} Crew Member{recipients.length !== 1 ? 's' : ''}
                   </span>
                 </div>
-                <div className="bg-transparent border-none p-0 py-2 min-h-[650px] max-h-[900px] overflow-y-auto custom-scrollbar">
+                <CustomScrollbar height={650} className="bg-transparent border-none p-0 py-2">
                   <ul className="flex flex-col gap-0 list-none p-0 m-0">
                     {(() => {
                       const selectedCrewPhonesSet = new Set(selectedCrewPhones);
@@ -5634,7 +5634,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         });
                     })()}
                   </ul>
-                </div>
+                </CustomScrollbar>
               </div>
 
               {/* Right Column: Group Setup & Message Sending */}
@@ -6309,7 +6309,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
         {renderInfoBanner('bandsms', 'Band Member SMS Text', 'Broadcast instant SMS alerts or show notices directly to the band members.')}
 
-        < div style={{ display: isSectionOpen('bandsms') ? undefined : 'none' }}>
+        <div style={{ display: isSectionOpen('bandsms') ? undefined : 'none' }}>
           <div className="py-6 pr-0 pl-0">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column: Band List (Choose Recipients) */}
@@ -6342,7 +6342,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
                 </div>
 
-                <div className="bg-transparent border-none p-0 py-2 max-h-[460px] overflow-y-auto custom-scrollbar">
+                <div className="bg-transparent border-none p-0 py-2 max-h-[460px] ">
                   <div className="flex flex-col gap-1">
                     {(() => {
                       const selectedBandPhonesSet = new Set(selectedBandPhones);
@@ -6716,8 +6716,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('newsletter', 'Newsletter Blast', 'Compose and broadcast marketing campaigns, newsletter updates, and band announcements to all email subscribers.')}
-      < div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
-        <div className="py-6 pr-6 pl-0">
+      <div style={{ display: isSectionOpen('newsletter') ? undefined : 'none' }}>
+        <div className="py-6 pl-0">
           <div className="space-y-4">
             <div>
               <label htmlFor="admin-newsletter-blast-subject" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Subject Line</label>
@@ -6815,8 +6815,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
       </div>
       {renderInfoBanner('emailflow', 'Email Template Flows', 'Interactive catalog of the 25 email templates dispatched by actions taken on the Admin Dashboard.')}
 
-      < div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
-        <div className="py-6 pr-6 pl-0">
+      <div style={{ display: isSectionOpen('emailflow') ? undefined : 'none' }}>
+        <div className="py-6 pl-0">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Booking Flows */}
             <div className="bg-black/30 border border-emerald-500/10 p-4 flex flex-col justify-between">
@@ -6942,7 +6942,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
   const renderRegistry = () => (
     <section className="bg-transparent overflow-hidden">
-      <div className="py-6 pr-6 pl-0 flex items-center justify-between select-none">
+      <div className="py-6 pl-0 flex items-center justify-between select-none">
         <div className="flex items-center">
           <h3 className="cursor-pointer text-lg font-bold tracking-tight flex items-center gap-2 shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -6951,7 +6951,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </h3>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex bg-white/15 p-1 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="flex p-1 overflow-x-auto shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
             {['All', 'fan', 'crew', 'admin'].map(role => (
               <button
                 key={role}
@@ -7111,8 +7111,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('crewcreation', 'Create Crew Account', 'Create and register new crew members in the system, set contact information, and provision login credentials.')}
-      < div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
-        <div className="py-6 pr-6 pl-0">
+      <div style={{ display: isSectionOpen('crewcreation') ? undefined : 'none' }}>
+        <div className="py-6 pl-0">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
             <div>
               <label htmlFor="admin-create-crew-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
@@ -7288,8 +7288,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('admincreation', 'Create Admin Account', 'Register new band administrator or planner accounts with full database access and management permissions.')}
-      < div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
-        <div className="py-6 pr-6 pl-0">
+      <div style={{ display: isSectionOpen('admincreation') ? undefined : 'none' }}>
+        <div className="py-6 pl-0">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div>
               <label htmlFor="admin-create-admin-name" className="text-[0.6rem] uppercase tracking-[0.15em] text-white/40 mb-2 block font-bold">Full Name</label>
@@ -7467,8 +7467,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         </div>
       </div>
       {renderInfoBanner('bulkinvites', 'Bulk Invites', 'Upload CSV lists of emails or phone numbers to bulk-invite members to the crew directory.')}
-      < div style={{ display: isSectionOpen('bulkinvites') ? undefined : 'none' }}>
-        <div className="py-6 pr-6 pl-0">
+      <div style={{ display: isSectionOpen('bulkinvites') ? undefined : 'none' }}>
+        <div className="py-6 pl-0">
           <BulkInvitePanel />
         </div>
       </div>
@@ -7569,8 +7569,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
         </div>
         {renderInfoBanner('cruisesignups', 'Cruise Signups', 'View and manage all cruise registrations. Toggle deposit/payment status, check passengers off, select recipients and send emails.')}
-        < div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
-          <div className="py-6 pr-6 pl-0">
+        <div style={{ display: isSectionOpen('cruisesignups') ? undefined : 'none' }}>
+          <div className="py-6 pl-0">
             {/* Summary stats bar */}
             <div className="grid grid-cols-4 gap-3 mb-6">
               <div className="bg-black/30 p-3 border border-white/5 text-center">
@@ -8658,7 +8658,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             <div className="flex items-center gap-1.5 mt-1.5 pt-1.5 border-t border-white/10 w-full">
               {shift.crewId === 'openshifts' ? (
                 <>
-                  <div className="w-4 h-4 rounded-full border border-emerald-500 bg-emerald-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 text-[var(--font-size-5xs)]">
+                  <div className="w-4 h-4 rounded-full border border-purple-500 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 text-[var(--font-size-5xs)]">
 
                   </div>
                   <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-wider text-[var(--color-accent)] truncate">
@@ -8742,23 +8742,15 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         });
       };
 
-      const collapsedCrewIdsSet = new Set(collapsedCrewIds);
-
       return (
-        <div
-          data-lenis-prevent="true"
-          data-lenis-prevent-wheel="true"
-          data-lenis-prevent-touch="true"
-          className="w-full flex-1 min-h-0 overflow-auto border-none bg-transparent text-[var(--text-color)] shadow-sm relative"
-          style={{ overscrollBehavior: "contain", touchAction: "pan-x pan-y" }}
-        >
+        <CustomScrollbar className="w-full flex-1 min-h-0" topOffset={42} direction="both">
           <table
             style={{ minWidth: filteredDays.length <= 2 ? 'auto' : `${176 + filteredDays.length * 144}px` }}
             className="w-full border-separate border-spacing-0 text-left select-none table-fixed bg-transparent text-[var(--text-color)]"
           >
             <thead>
-              <tr className="border-b border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-extrabold tracking-wider">
-                <th className="p-2 w-44 border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-extrabold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</th>
+              <tr className="border-b border-l border-[var(--border-color)] bg-transparent text-[var(--text-color)] text-[10px] font-extrabold tracking-wider">
+                <th className="p-2 w-44 border-l border-r border-[var(--border-color)] border-b border-[var(--border-color)] uppercase text-[var(--text-color)] font-extrabold text-[10px] wiw-sticky-corner bg-transparent">Crew Member</th>
                 {filteredDays.map((day, idx) => {
                   const dayShow = getDayShow(day.dateStr);
                   const isNextShow = day.dateStr === nextShowDate;
@@ -8840,9 +8832,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Row 1: OpenShifts */}
               {!scheduleCrewFilter && !schedulePersonSearch.trim() && (
                 <tr className="border-b border-[var(--border-color)] transition-colors bg-transparent">
-                  <td className="p-1 border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-transparent">
+                  <td className="p-1 border-l border-r border-b border-[var(--border-color)] align-middle wiw-sticky-col bg-transparent">
                     <div className="flex items-center gap-2 pl-1">
-                      <div className="w-6 h-6 rounded-full border border-emerald-600 bg-emerald-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 shadow-xs">
+                      <div className="w-6 h-6 rounded-full border border-purple-600 bg-purple-500/10 flex items-center justify-center text-[var(--color-accent)] font-bold shrink-0 shadow-xs">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>
                       </div>
                       <div>
@@ -8959,7 +8951,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                   return (
                     <tr key={member.id} className={`border-b border-[var(--border-color)] transition-colors ${isWorkingOnActiveDate ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'}`}>
-                      <td className={`p-2 border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-transparent'}`}>
+                      <td className={`p-2 border-l border-r border-b border-[var(--border-color)] align-top relative wiw-sticky-col ${isWorkingOnActiveDate ? 'bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]' : 'bg-transparent'}`}>
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
                             <div className="absolute left-1 top-1/2 -translate-y-1/2  text-[var(--color-accent)]" title="Warning: Schedule issues">
@@ -9071,13 +9063,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       })}
                     </tr>
                   );
-                })
+                });
               })()}
-
-
             </tbody>
           </table>
-        </div>
+        </CustomScrollbar>
       );
     };
 
@@ -9329,21 +9319,27 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             font-family: var(--font-barlow), 'Barlow', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
           }
           .wiw-scheduler-container ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
+            width: 12px !important;
+            height: 12px !important;
             display: block !important;
+            -webkit-appearance: none !important;
           }
           .wiw-scheduler-container ::-webkit-scrollbar-track {
-            background: rgba(15, 15, 19, 0.9);
-            border-radius: 6px;
+            background: rgba(88, 28, 135, 0.25) !important;
+            border-radius: 9999px !important;
+            border: 1px solid rgba(192, 132, 252, 0.35) !important;
           }
           .wiw-scheduler-container ::-webkit-scrollbar-thumb {
-            background: rgba(147, 51, 234, 0.4);
-            border-radius: 6px;
-            border: 2px solid rgba(15, 15, 19, 0.9);
+            background: linear-gradient(180deg, #d8b4fe 0%, #9333ea 100%) !important;
+            border-radius: 9999px !important;
+            box-shadow: 0 0 12px 2px rgba(192, 132, 252, 0.9), inset 0 0 6px rgba(255, 255, 255, 0.2) !important;
+            border: 2px solid rgba(255, 255, 255, 0.25) !important;
+            min-height: 40px !important;
+            min-width: 40px !important;
           }
           .wiw-scheduler-container ::-webkit-scrollbar-thumb:hover {
-            background: rgba(147, 51, 234, 0.8);
+            background: linear-gradient(180deg, #ffffff 0%, #a855f7 100%) !important;
+            box-shadow: 0 0 20px 4px rgba(192, 132, 252, 1) !important;
           }
           .wiw-scheduler-container td, .wiw-scheduler-container th {
             border-style: solid;
@@ -9371,17 +9367,18 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             position: sticky;
             left: 0;
             z-index: 20;
-            background-color: rgba(15, 15, 19, 0.4) !important;
+            background-color: rgba(15, 15, 19, 0.9) !important;
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
+            border-left: none !important;
           }
           .wiw-sticky-corner {
             position: sticky;
             top: 0;
             left: 0;
             z-index: 40;
-            background-color: rgba(15, 15, 19, 0.4) !important;
+            background-color: rgba(15, 15, 19, 0.9) !important;
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
@@ -9400,13 +9397,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             top: 46px;
             left: 0;
             z-index: 40;
-            background-color: rgba(15, 15, 19, 0.4) !important;
+            background-color: rgba(15, 15, 19, 0.9) !important;
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
             color: var(--text-color) !important;
           }
           tr:hover .wiw-sticky-col {
-            background-color: rgba(25, 25, 35, 0.4) !important;
+            background-color: rgba(25, 25, 35, 0.9) !important;
             backdrop-filter: blur(8px) !important;
             -webkit-backdrop-filter: blur(8px) !important;
           }
@@ -9638,10 +9635,10 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             </div>
           )}
 
-          <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container min-h-[1400px] h-[1400px] flex flex-col min-h-0">
+          <div data-lenis-prevent="true" data-lenis-prevent-wheel="true" data-lenis-prevent-touch="true" className="wiw-scheduler-container h-[750px] max-h-[85vh] flex flex-col min-h-0">
 
             {/* Header controls (Date range, prev/next, today, action icons) */}
-            <div className="border-b border-white/5 pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
+            <div className=" pr-4 pb-4 pt-4 flex flex-col lg:flex-row items-center justify-between gap-4 select-none text-white shrink-0 relative z-[60]">
               {/* Left: Date Range & Nav */}
               <div className="flex items-center gap-3 flex-wrap">
                 <h2 className="text-xl font-bold text-white tracking-tight mr-2 min-w-[180px]">
@@ -10096,7 +10093,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {/* Grid Body + Sidebar */}
             <div className="flex gap-0 flex-1 min-h-0">
               {/* Main Schedule Grid */}
-              <div className="flex-1 min-w-0 flex flex-col min-h-0">
+              <div className="flex-1 min-w-0 flex flex-col min-h-0 relative z-30">
                 {calendarView === 'timeline' && renderTimelineGrid()}
                 {calendarView === 'roster' && renderRosterBoard()}
                 {calendarView === 'list' && renderListBoard()}
@@ -10105,12 +10102,12 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               {/* Right Sidebar: Tour Dates & Crew */}
               <div
                 style={{ borderRight: '1px solid #48292f' }}
-                className="w-[280px] shrink-0 border-t border-b border-[#ffffff1f] overflow-y-auto h-full hidden xl:block z-20"
+                className="w-[280px] shrink-0 border-t border-b border-[#ffffff1f] h-full hidden xl:flex xl:flex-col z-10"
               >
 
                 {/* Tour Dates Section Box */}
-                <div className="bg-white/[0.02] overflow-hidden">
-                  <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02]">
+                <div className="flex-1 min-h-0 flex flex-col overflow-hidden bg-white/[0.02]">
+                  <div className="px-3 py-2.5 flex items-center justify-between bg-white/[0.02] shrink-0">
                     <div className="flex items-center gap-1.5">
                       <span className="text-[var(--font-size-3xs)]"></span>
                       <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-wider">Tour Dates</span>
@@ -10130,7 +10127,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </span>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-0.5 max-h-[1320px] overflow-y-auto custom-scrollbar">
+                  <CustomScrollbar className="flex-1 min-h-0 flex flex-col gap-0.5" height={320} direction="vertical">
                     {(() => {
                       if (upcomingTourDatesWithLabels.length === 0) {
                         return <div className="px-2 py-3 text-[var(--font-size-3xs)] text-white/20 italic text-center">No upcoming tour dates synced</div>;
@@ -10153,8 +10150,9 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         );
                       });
                     })()}
-                  </div>
+                  </CustomScrollbar>
                 </div>
+
               </div>
             </div>
 
@@ -10999,7 +10997,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     </div>
 
                     {/* Drawer Content Body */}
-                    <div className="px-5 pt-6 pb-3 flex-1 overflow-y-auto space-y-3.5 custom-scrollbar min-h-0">
+                    <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
                       {crewGroups.length === 0 ? (
                         <div className="py-12 text-center space-y-4">
                           <span className="text-sm text-white/50 italic block">No saved crew groups yet</span>
@@ -11045,7 +11043,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           ))}
                         </div>
                       )}
-                    </div>
+                    </CustomScrollbar>
 
                     {/* Drawer Footer */}
                     <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
@@ -11118,7 +11116,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                   </div>
 
                   {/* Modal Form Content */}
-                  <div className="px-5 pt-6 pb-3 flex-1 overflow-y-auto space-y-3.5 custom-scrollbar min-h-0">
+                  <CustomScrollbar className="px-5 pt-6 pb-3 space-y-3.5">
 
                     {/* Group Name input */}
                     <div className="mt-2 space-y-1.5">
@@ -11339,7 +11337,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         })}
                       </div>
                     </div>
-                  </div>
+                  </CustomScrollbar>
 
                   {/* Modal Footer */}
                   <div className="p-5 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
@@ -11512,7 +11510,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         ) : (
                           <div className="space-y-2">
                             {openShifts.map(shift => (
-                              <div key={shift.id} className="bg-emerald-500/[0.02] border border-dashed border-emerald-500/25 p-3 flex items-center justify-between gap-3 hover:border-emerald-500/40 transition-colors">
+                              <div key={shift.id} className="bg-purple-500/[0.02] border border-dashed border-purple-500/25 p-3 flex items-center justify-between gap-3 hover:border-purple-500/40 transition-colors">
                                 <div>
                                   <span className="text-[var(--font-size-4xs)] text-white/40 block mt-0.5">{shift.time}</span>
                                 </div>
@@ -11522,7 +11520,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     setSelectedShowCrewDate(null);
                                     handleEditShiftClick(shift);
                                   }}
-                                  className="text-[var(--font-size-4xs)] font-black uppercase text-black bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors shadow-sm"
+                                  className="text-[var(--font-size-4xs)] font-black uppercase text-white bg-purple-600 hover:bg-purple-500 px-3 py-1.5 rounded-lg border-none cursor-pointer transition-colors shadow-sm"
                                 >
                                   Fill Slot
                                 </button>
@@ -12212,7 +12210,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </h3>
                 <span className="text-[0.6rem] text-white/30 uppercase tracking-widest">{auditLog.length} Events</span>
               </div>
-              <div className="py-6 pr-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px] custom-scrollbar">
+              <div className="py-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px]">
                 {auditLog.map((entry, i) => (
                   <div key={entry.id} className="flex gap-2.5 relative border-b border-white/15 pb-4 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
                     {i < auditLog.length - 1 && (
@@ -12931,7 +12929,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </button>
             </div>
           )}
-          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5}>
+          <CustomScrollbar className="flex-1 min-h-0" thumbColor="#a855f7" thumbWidth={5} direction="vertical">
             <div className="flex flex-col gap-1 text-xs pr-1">
               {adminTab === 'band' ? (
                 sidebarMode === 'jump' ? (

@@ -1065,7 +1065,7 @@ ${filterLine}
 
       {/* Table */}
       <section className="py-0 relative" ref={tableRef} id="tour-table-container">
-        <div className="w-full px-6 relative site-container">
+        <div className="w-full relative site-container">
 
           {!hideMap && (
             <div

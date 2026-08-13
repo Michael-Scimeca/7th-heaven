@@ -312,7 +312,15 @@ export default function MediaPage() {
 
       {/* ── FEATURED HERO (100vh Full Screen) ── */}
       {featuredVideo && (
-        <section className="relative overflow-hidden h-screen w-full mb-12">
+        <section
+          id="media-hero"
+          className="relative overflow-hidden h-screen w-full mb-12"
+          style={{
+            marginLeft: "calc(-1 * var(--page-padding-x))",
+            marginRight: "calc(-1 * var(--page-padding-x))",
+            width: "calc(100% + 2 * var(--page-padding-x))",
+          }}
+        >
           <div className="absolute inset-0">
             {heroPlaying ? (
               <div className="absolute inset-0 w-full h-full z-20">
@@ -345,7 +353,7 @@ export default function MediaPage() {
           </div>
 
           {!heroPlaying && (
-            <div className="relative z-10 site-container flex items-end pb-24 h-screen pointer-events-none">
+            <div className="relative z-10  flex items-end pb-24 h-screen pointer-events-none">
               <div className="max-w-lg pointer-events-auto transform-gpu isolate">
                 <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
@@ -381,7 +389,7 @@ export default function MediaPage() {
 
 
       {/* ── CATEGORY FILTER TABS & SEARCH BAR ── */}
-      <div className="site-container px-6 mb-12">
+      <div className="mb-12">
         <div className="flex flex-col md:flex-row items-start justify-between gap-6 pb-6 border-b border-white/10">
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-3 overflow-x-auto max-w-full pb-2 md:pb-0">
@@ -431,7 +439,7 @@ export default function MediaPage() {
       </div>
 
       {/* ── GSAP SCROLL-DRIVEN NAME-LIST / VIDEO REVEAL SECTION ── */}
-      <div ref={containerRef} className="site-container px-6 pb-32">
+      <div ref={containerRef} className="pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS) */}

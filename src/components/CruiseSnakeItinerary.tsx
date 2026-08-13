@@ -673,19 +673,12 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     <section
       className={styles.root}
       ref={sectionRef}
-      style={{
-        maskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
-        WebkitMaskImage: `linear-gradient(to bottom, transparent ${maskSettings.itinTopFadeStart}%, black ${itinTopEnd}%, black ${maskSettings.itinBottomFadeStart}%, transparent ${itinBottomEnd}%)`,
-      }}
     >
       {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          backdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
-          WebkitBackdropFilter: maskSettings.itinBlur > 0 ? `blur(${maskSettings.itinBlur}px)` : 'none',
-          background: `rgba(11, 19, 41, ${maskSettings.itinBgOpacity / 100})`,
-          transform: 'translateZ(0)',
+
         }}
       />
       {/* ── Header (Inside Blue Container Box) ── */}
@@ -1197,15 +1190,15 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               width: '640px',
             };
           } else {
-            // Wide Screen Sweep (default) — 42px padding on left/right matching site-container
+            // Wide Screen Sweep (default) — 0px edge alignment
             cardStyle = {
               ...cardStyle,
               ...(node.isLeft
-                ? { left: '42px' }
-                : { right: '42px' }
+                ? { left: '0px' }
+                : { right: '0px' }
               ),
-              width: isMobile ? 'calc(100vw - 84px)' : 'min(620px, 42vw)',
-              maxWidth: isMobile ? 'calc(100vw - 84px)' : '620px',
+              width: isMobile ? '100vw' : 'min(620px, 42vw)',
+              maxWidth: isMobile ? '100vw' : '620px',
             };
           }
           return (
@@ -1281,13 +1274,13 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
           return (
             <React.Fragment key={`node-group-${day?.id || i}-${day?.location || day?.theme || 'day'}`}>
-              {/* Day Badge — aligned flush with 32px margin */}
+              {/* Day Badge — aligned flush with 0px margin */}
               <div
                 style={{
                   position: 'absolute',
                   ...(node.isLeft
-                    ? { left: '32px' }
-                    : { right: '32px', left: 'auto' }
+                    ? { left: '0px' }
+                    : { right: '0px', left: 'auto' }
                   ),
                   top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
                   transform: 'none',
@@ -1303,14 +1296,14 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               >
                 <span>{isSea ? '🌊' : '📍'}</span> {formatNodeBadgeText(day, i)}
               </div>
-              {/* Circle Video Node — aligned flush with 32px margin */}
+              {/* Circle Video Node — aligned flush with 0px margin */}
               <div
                 key={`node-ring-${day?.id || i}-${day?.location || day?.theme || 'day'}`}
                 style={{
                   position: 'absolute',
                   ...(node.isLeft
-                    ? { left: '32px' }
-                    : { right: '32px', left: 'auto' }
+                    ? { left: '0px' }
+                    : { right: '0px', left: 'auto' }
                   ),
                   top: `${(node.y / totalH) * 100}%`,
                   transform: node.isLeft ? 'translate(0, -50%)' : 'translate(0, -50%)',

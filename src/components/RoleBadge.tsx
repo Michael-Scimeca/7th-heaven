@@ -21,10 +21,10 @@ const roleConfig = {
  },
  crew: {
   label: 'CREW',
-  color: 'text-emerald-400',
-  bg: 'bg-emerald-500/15',
-  border: 'border-emerald-500/30',
-  glow: 'shadow-[0_0_8px_rgba(52,211,153,0.15)]',
+  color: 'text-purple-300',
+  bg: 'bg-purple-600/20',
+  border: 'border-purple-500/35',
+  glow: 'shadow-[0_0_8px_rgba(168,85,247,0.2)]',
  },
  admin: {
   label: 'ADMIN',
@@ -68,23 +68,16 @@ const iconMap = {
 
 export default function RoleBadge({ role, size = 'sm', showLabel = false, className = '' }: RoleBadgeProps) {
  const config = roleConfig[role];
- const Icon = iconMap[role];
- const iconSize = size === 'sm' ? 10 : 14;
 
  return (
   <span
-   className={`inline-flex items-center gap-1 ${config.bg} ${config.border} border ${config.glow} rounded-full ${
-    size === 'sm' ? 'px-1.5 py-[1px]' : 'px-2.5 py-[3px]'
+   className={`inline-flex items-center ${config.bg} ${config.border} border ${config.glow} rounded-full ${
+    size === 'sm' ? 'px-2 py-[1px]' : 'px-2.5 py-[3px]'
    } ${className}`}
   >
-   <span className={config.color}>
-    <Icon size={iconSize} />
+   <span className={`${config.color} font-bold uppercase tracking-wider text-[12px]`} style={{ fontSize: "12px" }}>
+    {config.label}
    </span>
-   {showLabel && (
-    <span className={`${config.color} font-bold uppercase tracking-wider text-[12px]`} style={{ fontSize: "12px" }}>
-     {config.label}
-    </span>
-   )}
   </span>
  );
 }
