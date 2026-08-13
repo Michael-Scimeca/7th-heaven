@@ -253,7 +253,7 @@ export default function LiveHubPage() {
 
 
         {/* ── HEADER ── */}
-        <div className="px-6 md:px-12 pt-[21px] mb-10">
+        <div className="pt-[21px] mb-10">
 
           {/* Title row */}
           <div className="text-left mb-10">
@@ -471,108 +471,109 @@ export default function LiveHubPage() {
                 className="group bg-black/40 border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-purple-500/40 hover:shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
                 style={{ "--room-color": room.color } as React.CSSProperties}
               >
-              <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
-                {/* Thumbnail with video concert image */}
-                <div className="aspect-video bg-black/60 relative overflow-hidden">
-                  <Image
-                    src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
-                    alt={room.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
+                  {/* Thumbnail with video concert image */}
+                  <div className="aspect-video bg-black/60 relative overflow-hidden">
+                    <Image
+                      src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
+                      alt={room.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                  {/* LIVE badge */}
-                  <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-md" style={{ background: "#dc2626", boxShadow: "0 0 16px rgba(220,38,38,0.5)" }}>
-                    <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                    <span className="text-white text-xs font-bold uppercase tracking-widest">LIVE NOW</span>
+                    {/* LIVE badge */}
+                    <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-md" style={{ background: "#dc2626", boxShadow: "0 0 16px rgba(220,38,38,0.5)" }}>
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      <span className="text-white text-xs font-bold uppercase tracking-widest">LIVE NOW</span>
+                    </div>
+
+                    {/* Viewer + time pills */}
+                    <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
+                      </div>
+                      <div className="px-2.5 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
+                        {getElapsed(room.creationTime)}
+                      </div>
+                    </div>
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
+                      <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Card meta */}
+                <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-md border-b border-white/10 text-white">
+                  {/* Avatar badge */}
+                  <div
+                    className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4 ring-white/20 shadow-md"
+                    style={{ background: room.gradient }}
+                  >
+                    {room.member}
                   </div>
 
-                  {/* Viewer + time pills */}
-                  <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1fae5" }}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      {(viewers[room.name] ?? room.numParticipants).toLocaleString()} viewers
-                    </div>
-                    <div className="px-2.5 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
-                      {getElapsed(room.creationTime)}
-                    </div>
+                  <div>
+                    <h3 className="text-lg font-black text-white mb-1">{room.title}</h3>
+                    <p className="text-sm text-white/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
                   </div>
 
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "rgba(0,0,0,0.3)" }}>
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ background: room.color + "33", border: `2px solid ${room.color}66` }}>
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill={room.color}><polygon points="5 3 19 12 5 21 5 3" /></svg>
-                    </div>
-                  </div>
+                  <button aria-label="Action button"
+                    onClick={() => {
+                      const slug = room.name.replace(/^live_/, "");
+                      navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
+                    }}
+                    className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer"
+                  >
+                    COPY LINK
+                  </button>
                 </div>
-              </Link>
-
-              {/* Card meta */}
-              <div className="p-6 flex items-center justify-between relative bg-black/40 backdrop-blur-md border-b border-white/10 text-white">
-                {/* Avatar badge */}
-                <div
-                  className="absolute -top-5 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black ring-4 ring-white/20 shadow-md"
-                  style={{ background: room.gradient }}
-                >
-                  {room.member}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-black text-white mb-1">{room.title}</h3>
-                  <p className="text-sm text-white/60 font-medium">LiveKit Stream · Started {getElapsed(room.creationTime)}</p>
-                </div>
-
-                <button aria-label="Action button"
-                  onClick={() => {
-                    const slug = room.name.replace(/^live_/, "");
-                    navigator.clipboard.writeText(`${window.location.origin}/live/${slug}`);
-                  }}
-                  className="ml-4 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors hover:scale-105 bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer"
-                >
-                  COPY LINK
-                </button>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* ── SMS ALERTS BANNER ── */}
         {liveAlertsEnabled && (
           <div className="px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
-                <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
-              </div>
-              <div className="max-w-xl">
-                <h2 className="text-2xl sm:text-3xl font-black text-white italic tracking-tight mb-3">Never Miss a Live Feed</h2>
-                <p className="text-sm text-white/60 mb-8 leading-relaxed">
-                  Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
-                </p>
-                <form action={() => alert("You are now subscribed to Live Stream Alerts!")}
-                  className="flex flex-col sm:flex-row gap-3 items-center w-full">
-                  <div className="relative flex-1 w-full">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Smartphone className="w-4 h-4 text-white/40" />
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 mb-4">
+                  <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
+                  <span className="text-xs font-black uppercase tracking-widest text-[var(--color-accent-pink)]">Live Stream Alerts</span>
+                </div>
+                <div className="max-w-xl">
+                  <h2 className="text-2xl sm:text-3xl font-black text-white italic tracking-tight mb-3">Never Miss a Live Feed</h2>
+                  <p className="text-sm text-white/60 mb-8 leading-relaxed">
+                    Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.
+                  </p>
+                  <form action={() => alert("You are now subscribed to Live Stream Alerts!")}
+                    className="flex flex-col sm:flex-row gap-3 items-center w-full">
+                    <div className="relative flex-1 w-full">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Smartphone className="w-4 h-4 text-white/40" />
+                      </div>
+                      <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
+                        className="w-full bg-white/5 border border-white/15 py-3.5 pl-12 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
+                      />
                     </div>
-                    <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-white/5 border border-white/15 py-3.5 pl-12 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
-                    />
-                  </div>
-                  <button aria-label="Action button" type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2 rounded-lg">
-                    ALERT ME <Bell className="w-4 h-4" />
-                  </button>
-                </form>
-                <p className="text-xs text-white/40 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
+                    <button aria-label="Action button" type="submit"
+                      className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2 rounded-lg">
+                      ALERT ME <Bell className="w-4 h-4" />
+                    </button>
+                  </form>
+                  <p className="text-xs text-white/40 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-      </div>
+        </div>
     </section>
   );
 }
