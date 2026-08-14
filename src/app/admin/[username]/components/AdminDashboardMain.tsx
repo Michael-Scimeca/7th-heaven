@@ -10596,8 +10596,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, startHour: val } : item));
                                                         setSelectedCrewAssignments(prev => {
                                                           const current = prev[member.id] || { active: true };
-                                                          const tfs = structuredClone(current.timeFrames || dropTimeFrames);
-                                                          if (tfs[index]) tfs[index].startHour = val;
+                                                          const baseTfs = current.timeFrames || dropTimeFrames;
+                                                          const tfs = baseTfs.map((item, i) => i === index ? { ...item, startHour: val } : item);
                                                           return { ...prev, [member.id]: { ...current, startHour: val, timeFrames: tfs } };
                                                         });
                                                       }
@@ -10625,8 +10625,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                         setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, endHour: val } : item));
                                                         setSelectedCrewAssignments(prev => {
                                                           const current = prev[member.id] || { active: true };
-                                                          const tfs = structuredClone(current.timeFrames || dropTimeFrames);
-                                                          if (tfs[index]) tfs[index].endHour = val;
+                                                          const baseTfs = current.timeFrames || dropTimeFrames;
+                                                          const tfs = baseTfs.map((item, i) => i === index ? { ...item, endHour: val } : item);
                                                           return { ...prev, [member.id]: { ...current, endHour: val, timeFrames: tfs } };
                                                         });
                                                       }
