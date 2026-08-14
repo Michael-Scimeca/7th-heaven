@@ -11,7 +11,7 @@ const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
 import { isShowOver, typeConfig, getShowType, getShowDateTime } from "@/lib/tour-helpers";
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";
-import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), { ssr: false });
 import { SquishyToggle } from "@/components/SquishyToggle";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────

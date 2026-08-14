@@ -4,9 +4,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import data from "../../public/data/albums.json";
-import beHereLyrics from "../../public/data/lyrics/be-here.json";
-import colorInMotionLyrics from "../../public/data/lyrics/color-in-motion.json";
-import luminousLyrics from "../../public/data/lyrics/luminous.json";
 
 interface LyricSong {
   title: string;
@@ -16,11 +13,7 @@ interface LyricData {
   songs: LyricSong[];
 }
 
-const lyricsMap: Record<string, LyricData> = {
-  "01-be-here": beHereLyrics as unknown as LyricData,
-  "07-color-in-motion": colorInMotionLyrics as unknown as LyricData,
-  "09-luminous": luminousLyrics as unknown as LyricData,
-};
+const ALBUMS_WITH_LYRICS = new Set(["01-be-here", "07-color-in-motion", "09-luminous"]);
 
 const lerp = (v0: number, v1: number, t: number) => v0 * (1 - t) + v1 * t;
 
@@ -146,6 +139,30 @@ export default function AudioPlayerSection() {
   const [volume, setVolume] = useState(0.8);
   const prevVolumeRef = useRef(0.8);
   const [showLyrics, setShowLyrics] = useState(false);
+  const [loadedLyrics, setLoadedLyrics] = useState<LyricData | null>(null);
+
+  useEffect(() => {
+    const activeId = albums[activeAlbumIndex]?.id;
+    if (!showLyrics || !activeId || !ALBUMS_WITH_LYRICS.has(activeId)) return;
+    let active = true;
+    const fetchLyrics = async () => {
+      try {
+        let lData: LyricData | null = null;
+        if (activeId === "01-be-here") {
+          lData = (await import("../../public/data/lyrics/be-here.json")).default as unknown as LyricData;
+        } else if (activeId === "07-color-in-motion") {
+          lData = (await import("../../public/data/lyrics/color-in-motion.json")).default as unknown as LyricData;
+        } else if (activeId === "09-luminous") {
+          lData = (await import("../../public/data/lyrics/luminous.json")).default as unknown as LyricData;
+        }
+        if (active) setLoadedLyrics(lData);
+      } catch (e) {
+        console.warn("Failed to load lyrics:", e);
+      }
+    };
+    fetchLyrics();
+    return () => { active = false; };
+  }, [showLyrics, activeAlbumIndex, albums]);
   const [eqBarProps] = useState(() =>
     [...Array(24)].map(() => ({
       duration: `${0.8 + Math.random() * 0.8}s`,
@@ -888,7 +905,7 @@ export default function AudioPlayerSection() {
                 )}
 
                 {/* Lyrics Button */}
-                {lyricsMap[activeAlbum?.id] && (
+                {activeAlbum?.id && ALBUMS_WITH_LYRICS.has(activeAlbum.id) && (
                   <button aria-label="Action button"
                     onClick={() => setShowLyrics(true)}
                     className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
@@ -954,7 +971,7 @@ export default function AudioPlayerSection() {
 
       {/* Lyrics Modal */}
       {showLyrics && (() => {
-        const lyricsData = lyricsMap[activeAlbum?.id];
+        const lyricsData = loadedLyrics;
         const activeTrack = activeAlbum?.tracks?.[activeTrackIndex];
         const trackTitle = activeTrack?.title?.replace(/^\d+\s*/, '');
         const songLyrics = lyricsData?.songs?.find((s: LyricSong) => {
