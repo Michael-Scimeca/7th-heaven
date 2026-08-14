@@ -194,17 +194,21 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     }
   }, []);
 
-  // Capture on mount (once ready) + every 30 s thereafter
+  // Capture 3s after initial paint + every 30 s thereafter
   useEffect(() => {
     let active = true;
 
-    captureFrame();
+    const initialTimer = setTimeout(() => {
+      if (active) captureFrame();
+    }, 3000);
+
     const intervalId = setInterval(() => {
       if (active) captureFrame();
     }, SNAPSHOT_INTERVAL_MS);
 
     return () => {
       active = false;
+      clearTimeout(initialTimer);
       clearInterval(intervalId);
     };
   }, [captureFrame, videoSrc]); // re-run when source changes

@@ -178,7 +178,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                 <div className="relative w-full h-full rounded-[42px] overflow-hidden bg-zinc-950 flex flex-col justify-between">
                   {/* Concert Photo Background */}
                   <Image
-                    src="/images/band-performance.png"
+                    src="/images/band-performance.webp"
                     alt="7th Heaven Concert Live Stream"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px"

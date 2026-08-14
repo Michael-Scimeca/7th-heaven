@@ -27,7 +27,7 @@ const mockThumbs: FeedPostDB[] = [
     member_avatar: "MS",
     content: "Adam owning it 🎤🔥",
     post_type: "photo",
-    image_url: "/images/band-performance.png",
+    image_url: "/images/band-performance.webp",
     reactions: { "🔥": 89 },
     is_live: true,
     created_at: "2026-08-06T16:42:00.000Z",
@@ -209,7 +209,7 @@ export default function HeroLiveThumbs() {
         {/* ── Card Row ── */}
         <div className="flex items-end gap-3 select-none">
           {mediaPosts.slice(0, 2).map((post, idx) => {
-            const fallbackSrc = post.image_url || "/images/band-performance.png";
+            const fallbackSrc = post.image_url || "/images/band-performance.webp";
             // Prefer the live canvas snapshot if available, else fall back
             const thumbSrc = snapshots[idx] ?? fallbackSrc;
 

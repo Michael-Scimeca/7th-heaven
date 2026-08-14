@@ -9,7 +9,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const isDashboard = pathname?.startsWith("/admin") || pathname?.startsWith("/crew") || pathname?.startsWith("/planner");
 
   useEffect(() => {
-    if (typeof window === "undefined" || isDashboard) return;
+    if (typeof window === "undefined" || isDashboard || window.innerWidth < 768) return;
 
     const lenis = new Lenis({
       duration: 1.2,
