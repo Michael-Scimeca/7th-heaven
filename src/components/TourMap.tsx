@@ -195,26 +195,44 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
     setTimeout(() => setMapGradCopied(false), 2000);
   };
 
-  // Load the Google Maps JavaScript API once.
+  // Load the Google Maps JavaScript API lazily when the map container enters the viewport.
   useEffect(() => {
     let active = true;
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!apiKey) {
-      setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
-      console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
-      return;
-    }
-    if (!googleMapsOptionsSet) {
-      setOptions({ key: apiKey, v: "weekly" });
-      googleMapsOptionsSet = true;
-    }
-    importLibrary("maps")
-      .then(() => { if (active) setGoogleReady(true); })
-      .catch((e: unknown) => {
-        console.warn("[TourMap] Failed to load Google Maps:", e);
-        if (active) setMapLoadError("Failed to load Google Maps");
-      });
-    return () => { active = false; };
+    const el = mapRef.current;
+    if (!el) return;
+
+    const loadMaps = () => {
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        setMapLoadError("Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+        console.warn("[TourMap] NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set — the tour map can't load.");
+        return;
+      }
+      if (!googleMapsOptionsSet) {
+        setOptions({ key: apiKey, v: "weekly" });
+        googleMapsOptionsSet = true;
+      }
+      importLibrary("maps")
+        .then(() => { if (active) setGoogleReady(true); })
+        .catch((e: unknown) => {
+          console.warn("[TourMap] Failed to load Google Maps:", e);
+          if (active) setMapLoadError("Failed to load Google Maps");
+        });
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        loadMaps();
+        observer.disconnect();
+      }
+    }, { rootMargin: "300px" });
+
+    observer.observe(el);
+
+    return () => {
+      active = false;
+      observer.disconnect();
+    };
   }, []);
 
   // Initialize the Google Map once the API script is ready.

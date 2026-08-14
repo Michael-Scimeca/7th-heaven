@@ -210,19 +210,20 @@ export default async function Home() {
         <TourList initialShows={upcomingShows} />
       </section>
 
-      {/* ====== BAND MEMBERS (Full Parallax Slider) ====== */}
-      <section
-        id="band"
-        className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]"
-        style={{
-          marginTop: '80px',
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
-        }}
-      >
-        <BioParallaxSlider />
-      </section>
+      <LazySection fallbackHeight="600px">
+        <section
+          id="band"
+          className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]"
+          style={{
+            marginTop: '80px',
+            marginLeft: "calc(-1 * var(--page-padding-x))",
+            marginRight: "calc(-1 * var(--page-padding-x))",
+            width: "calc(100% + 2 * var(--page-padding-x))",
+          }}
+        >
+          <BioParallaxSlider />
+        </section>
+      </LazySection>
 
       {/* ====== FEATURED VIDEO SHOWCASE (30-Second Autoplay Previews) ====== */}
       <LazySection fallbackHeight="400px">
