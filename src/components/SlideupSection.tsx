@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 const HEADER_H = 80;
 
@@ -374,12 +375,13 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                       <video src={t.video} autoPlay muted loop playsInline preload="none" />
                     )}
                     {t.youtube && (
-                      <iframe
-                        className="su-thumb-yt"
-                        src={`https://www.youtube-nocookie.com/embed/${t.youtube}?autoplay=1&mute=1&loop=1&playlist=${t.youtube}&controls=0&modestbranding=1&playsinline=1&rel=0`}
-                        title={t.label}
+                      <Image
+                        src={`https://img.youtube.com/vi/${t.youtube}/hqdefault.jpg`}
+                        alt={t.label}
+                        width={480}
+                        height={360}
+                        className="su-thumb-yt object-cover"
                         loading="lazy"
-                        allow="autoplay; encrypted-media"
                       />
                     )}
                     <span>{t.label}</span>
