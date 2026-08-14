@@ -148,6 +148,10 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`dark ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <link
           rel="preload"
           href="/_next/image?url=%2Fimages%2Fband-performance.webp&w=1200&q=75"

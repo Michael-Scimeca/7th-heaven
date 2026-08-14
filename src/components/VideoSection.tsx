@@ -100,14 +100,16 @@ export default function VideoSection() {
 
   useEffect(() => {
     let active = true;
-    import("../../public/data/videos.json").then((m) => {
-      if (active && m.default) {
-        setVideosData(m.default as unknown as VideoCategoryData[]);
-        if (!activeFilter || activeFilter === FALLBACK_VIDEOS[0]?.category) {
-          setActiveFilter(m.default[0]?.category || "");
+    import("../../public/data/videos.json")
+      .then((m) => {
+        if (active && m.default) {
+          setVideosData(m.default as unknown as VideoCategoryData[]);
+          if (!activeFilter || activeFilter === FALLBACK_VIDEOS[0]?.category) {
+            setActiveFilter(m.default[0]?.category || "");
+          }
         }
-      }
-    });
+      })
+      .catch(() => {});
     return () => { active = false; };
   }, []);
 
