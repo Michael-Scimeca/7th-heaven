@@ -4,9 +4,7 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 const nextConfig: NextConfig = {
   devIndicators: false,
   reactStrictMode: true,
-  // Explicit even though it's Next's default — belt-and-suspenders so gzip
-  // compression stays on for any response path (e.g. `next start`) that
-  // isn't already compressed upstream by Netlify's CDN.
+  poweredByHeader: false,
   compress: true,
 
   allowedDevOrigins: ["*.trycloudflare.com", "*.loca.lt", "*.lhr.life", "*.tunnelmole.net", "10.0.0.189", "localhost:3000"],
@@ -48,6 +46,7 @@ const nextConfig: NextConfig = {
     ],
   },
   images: {
+    minimumCacheTTL: 31536000,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "7thheavenband.com", pathname: "/**" },
