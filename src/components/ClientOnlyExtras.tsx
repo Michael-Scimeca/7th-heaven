@@ -29,7 +29,7 @@ export default function ClientOnlyExtras() {
         const link = document.createElement("link");
         link.rel = "preload";
         link.as = "image";
-        link.href = "/_next/image?url=%2Fimages%2Fhero-banner.webp&w=1200&q=75";
+        link.href = "/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=75";
         link.setAttribute("fetchpriority", "high");
         document.head.appendChild(link);
       }

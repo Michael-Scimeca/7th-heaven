@@ -17,7 +17,6 @@ import dynamic from "next/dynamic";
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
 import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
-import 'react-quill-new/dist/quill.snow.css';
 import { sanitizeHtml } from "@/lib/sanitize-html";
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 

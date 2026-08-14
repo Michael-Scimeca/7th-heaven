@@ -4,7 +4,6 @@
 import React, { useEffect, useState, useRef, useSyncExternalStore } from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 
 // Fix Leaflet default icon paths (prevents missing marker issues)
 delete (L.Icon.Default.prototype as any)._getIconUrl;

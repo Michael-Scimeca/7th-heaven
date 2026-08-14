@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "react-quill-new/dist/quill.snow.css";
+@import "leaflet/dist/leaflet.css";
 
 html {
   background-color: #000000 !important;

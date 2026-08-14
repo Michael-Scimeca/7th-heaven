@@ -29,13 +29,11 @@ const AdminMap = dynamic(() => import('@/components/AdminMap'), {
   ssr: false,
   loading: () => <div className="w-full h-[400px] bg-black/40 animate-pulse" />
 });
-
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
 
 const STANDARD_ROLE_TAGS_SET = new Set(['AUDIO', 'FOH', 'MAIN SHOW', 'IEM', 'VIP', 'HOST', 'LIGHTS', 'PRODUCTION', 'RIGGING', 'MATINEE', 'MANAGEMENT', 'SETUP', 'MORNING', 'STAGE MGR', 'LOAD OUT', 'TEAR DOWN', 'MERCH', 'DMX', 'STAGE']);
-import 'react-quill-new/dist/quill.snow.css';
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
 import { Clock, CheckCircle2, Plus } from "lucide-react";
