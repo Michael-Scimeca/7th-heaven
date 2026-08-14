@@ -122,12 +122,12 @@ const ALL_ROUTES: RouteItem[] = [
   { path: "/api/close-all-streams", type: "API", label: "POST Emergency Stream Shutdown", category: "API Routes", icon: Terminal },
 ];
 
+const CATEGORIES = ["All", "Public Pages", "Store & Merch", "Fan Portal", "Live Stream", "Cruise Portal", "Admin & Crew", "UI Demos & Labs", "API Routes"];
+
 export default function DevRouteList() {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("All");
-
-  const categories = ["All", "Public Pages", "Store & Merch", "Fan Portal", "Live Stream", "Cruise Portal", "Admin & Crew", "UI Demos & Labs", "API Routes"];
 
   const filteredRoutes = ALL_ROUTES.filter((r) => {
     const matchesCategory = activeCategory === "All" || r.category === activeCategory;
@@ -181,7 +181,7 @@ export default function DevRouteList() {
               
               {/* Category Pills */}
               <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
-                {categories.map((cat) => (
+                {CATEGORIES.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
