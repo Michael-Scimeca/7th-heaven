@@ -325,8 +325,8 @@ export default function GooeyMessagesDropdown({
 
             <ul className={`list-none m-0 p-0 flex flex-col pr-1 transition-opacity duration-200 ease-out ${open && isMorphComplete ? "opacity-100" : "opacity-0"
               }`}>
-              {normalizedCustomers.map((c, idx) => (
-                <li key={`${c.id}-${idx}`} className="border-b border-white/10 last:border-b-0">
+              {normalizedCustomers.map((c) => (
+                <li key={c.id} className="border-b border-white/10 last:border-b-0">
                   <button
                     type="button"
                     role="option"

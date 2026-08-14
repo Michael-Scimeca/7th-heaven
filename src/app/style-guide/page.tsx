@@ -3899,7 +3899,7 @@ ${deskRules.join("\n")}
                         { name: "Production Tech Crew", count: "6 members" },
                       ].map((grp, i) => (
                         <button
-                          key={i}
+                          key={grp.name}
                           type="button"
                           className="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm text-white font-extrabold transition-all cursor-pointer border border-white/10 hover:border-white/20 flex items-center gap-3 bg-transparent"
                         >

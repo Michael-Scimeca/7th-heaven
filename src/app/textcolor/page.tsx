@@ -137,7 +137,7 @@ export default function TextColorTestPage() {
               Gradient stops
               <div className="flex flex-wrap gap-3">
                 {colors.map((c, i) => (
-                  <label key={i} className="flex items-center gap-2">
+                  <label key={c} className="flex items-center gap-2">
                     <input
                       type="color"
                       value={c}
