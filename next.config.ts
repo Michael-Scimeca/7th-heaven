@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "@radix-ui/react-icons",
+      "framer-motion",
+      "date-fns",
+      "three",
+      "@react-three/drei",
+    ],
+  },
   turbopack: {},
   serverExternalPackages: ["@tensorflow/tfjs"],
   webpack: (config, { isServer }) => {
