@@ -600,9 +600,8 @@ html.media-category-stuck header {
 
   /* Approved Font Families */
   --font-family-sans: var(--font-barlow), 'Barlow', sans-serif;
-  --font-family-heading: var(--font-barlow), 'Barlow', sans-serif;
-  --font-family-display: var(--font-barlow), 'Barlow', sans-serif;
-  --font-rockstar: var(--font-family-display), 'Barlow', sans-serif !important;
+  --font-family-heading: var(--font-barlow-condensed), var(--font-barlow), 'Barlow', sans-serif;
+  --font-family-display: var(--font-barlow-condensed), var(--font-barlow), 'Barlow', sans-serif;
 
   /* ═══════════════════════════════════════════════════════════════════════
      FLUID RESPONSIVE TYPOGRAPHY SCALE

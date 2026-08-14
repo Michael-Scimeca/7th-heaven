@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Inter, Inter_Tight, Barlow_Condensed, Barlow } from "next/font/google";
+import { Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -28,29 +28,9 @@ import { TransitionProvider } from "@/context/TransitionContext";
 
 const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
 
-import localFont from "next/font/local";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
 import { ThemeTokens } from "@/lib/theme-tokens";
-
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  variable: "--font-inter-tight",
-  display: "swap",
-});
-
-const rockstar = localFont({
-  src: "../../public/Fonts/Rockstar-ExtraBold.otf",
-  variable: "--font-rockstar",
-  display: "swap",
-});
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
@@ -164,8 +144,8 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`dark ${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+    <html lang="en" className={`dark ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
+      <body className={`${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
