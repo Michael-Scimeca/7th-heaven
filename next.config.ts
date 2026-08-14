@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
       "date-fns",
       "three",
       "@react-three/drei",
+      "lenis",
+      "smooothy",
     ],
   },
   turbopack: {},
