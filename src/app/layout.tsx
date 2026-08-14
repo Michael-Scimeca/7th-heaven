@@ -156,7 +156,7 @@ export default async function RootLayout({
         <Script
           id="band-jsonld"
           type="application/ld+json"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             // Escape <, > and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
@@ -167,7 +167,7 @@ export default async function RootLayout({
           }}
         />
 
-        <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{
+        <Script id="bypass-animations" strategy="lazyOnload" dangerouslySetInnerHTML={{
           __html: `
           if (window.location.search.includes('bypass=true')) {
             var style = document.createElement('style');

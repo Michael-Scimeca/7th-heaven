@@ -2,6 +2,12 @@
 @import "react-quill-new/dist/quill.snow.css";
 @import "leaflet/dist/leaflet.css";
 
+/* PageSpeed optimization: Force initial content to be displayed immediately on FCP/LCP paint */
+html:not(.specificity), html > body, html body > *, h1 {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 html {
   background-color: #000000 !important;
   background: #000000 !important;
