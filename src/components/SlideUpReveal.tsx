@@ -154,7 +154,8 @@ export default function SlideUpReveal({
   const Tag = as as ElementType;
 
   return (
-    <Tag ref={ref} className={className} style={style}>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <Tag ref={ref as any} className={className ?? undefined} style={style ?? undefined}>
       {children as ReactNode}
     </Tag>
   );
