@@ -38,6 +38,8 @@ const barlowCondensed = Barlow_Condensed({
   style: ["italic"],
   variable: "--font-barlow-condensed",
   display: "swap",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 const barlow = Barlow({
@@ -45,6 +47,8 @@ const barlow = Barlow({
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-barlow",
   display: "swap",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 export const metadata: Metadata = {
