@@ -79,7 +79,6 @@ export default function HamburgerTestPage() {
             ref={navRef}
             id="nav"
             className={`nav ${isOpen ? "nav--open" : ""}`}
-            role="navigation"
           >
             {/* ACTUAL NAVIGATION MENU */}
             <ul
@@ -131,10 +130,10 @@ export default function HamburgerTestPage() {
         </header>
 
         {/* DEMO CONTENT */}
-        <main className="main" role="main">
+        <main className="main">
           <div className="gallery" aria-label="gallery">
             {Array.from({ length: 20 }).map((_, i) => (
-              <a href="#" className="gallery__item" key={i} />
+              <a href="#" className="gallery__item" key={`gallery-item-${i + 1}`} aria-label={`Gallery item ${i + 1}`} />
             ))}
           </div>
         </main>
