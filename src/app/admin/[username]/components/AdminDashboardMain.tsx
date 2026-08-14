@@ -255,6 +255,7 @@ function compressImage(file: File, maxWidth = 300, maxHeight = 300): Promise<str
   });
 }
 
+const renderInfoToggle = (_sectionId: string) => null;
 
 interface DutyRoleEditorPopoverProps {
   memberName: string;
@@ -3132,8 +3133,6 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
 
   //  Section Helper Render Functions for Movable Layout 
-  const renderInfoToggle = (_sectionId: string) => null;
-
   const renderInfoBanner = (sectionId: string, title: string, description: string) => {
     if (openInfoSection !== sectionId) return null;
     return (

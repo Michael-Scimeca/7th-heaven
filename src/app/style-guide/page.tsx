@@ -75,6 +75,23 @@ import {
   Zap,
 } from "lucide-react";
 
+// Compute exact CSS clamp values and parameters (Module Scope)
+const computeFluidClamp = (minFsPx: number, maxFsPx: number, minVwPx: number, maxVwPx: number) => {
+  if (minFsPx === maxFsPx || minVwPx === maxVwPx) {
+    return { clampStr: `${(minFsPx / 16).toFixed(4)}rem`, minRem: minFsPx / 16, maxRem: maxFsPx / 16, slopeVw: 0, interceptRem: minFsPx / 16 };
+  }
+  const minRem = minFsPx / 16;
+  const maxRem = maxFsPx / 16;
+  const slope = (maxRem - minRem) / (maxVwPx - minVwPx);
+  const slopeVw = slope * 100;
+  const interceptRem = minRem - slope * minVwPx;
+  const minBound = Math.min(minRem, maxRem);
+  const maxBound = Math.max(minRem, maxRem);
+
+  const clampStr = `clamp(${minBound.toFixed(4)}rem, ${interceptRem.toFixed(4)}rem + ${slopeVw.toFixed(4)}vw, ${maxBound.toFixed(4)}rem)`;
+  return { clampStr, minRem, maxRem, slopeVw, interceptRem };
+};
+
 // Sample Dropdown options (Module Scope)
 const dropdownOptions = [
   { label: "Chicago, IL — House of Blues", value: "chicago", icon: "🎸" },
@@ -239,23 +256,6 @@ export default function StyleGuidePage() {
     };
     tryScroll();
   }, []);
-
-  // Compute exact CSS clamp values and parameters
-  const computeFluidClamp = (minFsPx: number, maxFsPx: number, minVwPx: number, maxVwPx: number) => {
-    if (minFsPx === maxFsPx || minVwPx === maxVwPx) {
-      return { clampStr: `${(minFsPx / 16).toFixed(4)}rem`, minRem: minFsPx / 16, maxRem: maxFsPx / 16, slopeVw: 0, interceptRem: minFsPx / 16 };
-    }
-    const minRem = minFsPx / 16;
-    const maxRem = maxFsPx / 16;
-    const slope = (maxRem - minRem) / (maxVwPx - minVwPx);
-    const slopeVw = slope * 100;
-    const interceptRem = minRem - slope * minVwPx;
-    const minBound = Math.min(minRem, maxRem);
-    const maxBound = Math.max(minRem, maxRem);
-
-    const clampStr = `clamp(${minBound.toFixed(4)}rem, ${interceptRem.toFixed(4)}rem + ${slopeVw.toFixed(4)}vw, ${maxBound.toFixed(4)}rem)`;
-    return { clampStr, minRem, maxRem, slopeVw, interceptRem };
-  };
 
   // Synchronize Studio Panel parameters into live DOM style overrides
   useEffect(() => {
