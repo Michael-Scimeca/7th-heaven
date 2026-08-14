@@ -20,72 +20,52 @@ export default function HeroYTBackground({ videoId }: HeroYTBackgroundProps) {
   }, []);
 
   useEffect(() => {
-    let player: any = null;
-
-    const initPlayer = () => {
-      if (playerRef.current) {
-        try { playerRef.current.destroy(); } catch {}
-      }
-
-      player = new window.YT.Player(playerDivId.current, {
-        videoId,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          rel: 0,
-          showinfo: 0,
-          playsinline: 1,
-          loop: 1,
-          playlist: videoId,
-          mute: 1,
-          start: 10,
-          origin: window.location.origin,
-        },
-        events: {
-          onReady: (e: any) => {
-            try {
-              e.target.mute();
-              e.target.seekTo(10, true);
-              e.target.playVideo();
-            } catch {}
-          },
-          onStateChange: (e: any) => {
-            // Re-trigger play if paused or ended
-            if (e.data === window.YT.PlayerState.ENDED || e.data === window.YT.PlayerState.PAUSED) {
-              try { e.target.playVideo(); } catch {}
-            }
-          },
-        },
-      });
-      playerRef.current = player;
-    };
-
     let timerId: any = null;
-    let idleId: any = null;
 
-    const startPlayerLoading = () => {
-      if ("requestIdleCallback" in window) {
-        idleId = (window as any).requestIdleCallback(() => loadYouTubeAPI(initPlayer));
-      } else {
-        timerId = setTimeout(() => loadYouTubeAPI(initPlayer), 2000);
-      }
-    };
+    timerId = setTimeout(() => {
+      loadYouTubeAPI(() => {
+        if (playerRef.current) {
+          try { playerRef.current.destroy(); } catch {}
+        }
 
-    if (document.readyState === "complete") {
-      startPlayerLoading();
-    } else {
-      window.addEventListener("load", startPlayerLoading, { once: true });
-    }
+        const player = new window.YT.Player(playerDivId.current, {
+          videoId,
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            iv_load_policy: 3,
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+            playsinline: 1,
+            loop: 1,
+            playlist: videoId,
+            mute: 1,
+            start: 10,
+            origin: typeof window !== "undefined" ? window.location.origin : "",
+          },
+          events: {
+            onReady: (e: any) => {
+              try {
+                e.target.mute();
+                e.target.seekTo(10, true);
+                e.target.playVideo();
+              } catch {}
+            },
+            onStateChange: (e: any) => {
+              if (e.data === window.YT.PlayerState.ENDED || e.data === window.YT.PlayerState.PAUSED) {
+                try { e.target.playVideo(); } catch {}
+              }
+            },
+          },
+        });
+        playerRef.current = player;
+      });
+    }, 1500);
 
     return () => {
-      window.removeEventListener("load", startPlayerLoading);
-      if (idleId && "cancelIdleCallback" in window) {
-        (window as any).cancelIdleCallback(idleId);
-      }
       if (timerId) clearTimeout(timerId);
       if (playerRef.current) {
         try { playerRef.current.destroy(); } catch {}
