@@ -80,14 +80,6 @@ export default function HeroYTBackground({ videoId }: HeroYTBackgroundProps) {
         id={playerDivId.current}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] pointer-events-none scale-105"
       />
-      {/* Fallback iframe in case API script load is delayed */}
-      <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&muted=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&enablejsapi=1${origin ? `&origin=${encodeURIComponent(origin)}` : ''}`}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] border-0 pointer-events-none scale-105"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        sandbox="allow-scripts allow-presentation"
-        title="7th Heaven Background Video"
-      />
     </div>
   );
 }
