@@ -228,3 +228,21 @@ export const ITINERARY_2028 = [
     ],
   },
 ];
+
+export function mapToSnakeItinerary(itinData: typeof ITINERARY_2027) {
+  const COLOR_THEMES = ["#06b6d4", "#3b82f6", "#a855f7", "#10b981", "#9333ea", "#ec4899", "#8b5cf6", "#64748b"];
+  return itinData.map((day, i) => ({
+    id: `day-${day.day}`,
+    dayLabel: `Day ${day.day} · ${day.port}`,
+    location: day.port,
+    theme: day.label || day.port,
+    photo: day.photo || "/images/cruise/miami.png",
+    colorTheme: COLOR_THEMES[i % COLOR_THEMES.length],
+    events: day.schedule.map((item, idx) => ({
+      id: `event-${day.day}-${idx}`,
+      time: item.time,
+      title: item.event,
+      subtitle: item.cat === "band" ? "Exclusive Fan Performance" : item.cat === "food" ? "Dining & Social Event" : "Ship & Port Activity",
+    })),
+  }));
+}

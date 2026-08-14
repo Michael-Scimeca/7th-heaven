@@ -14,9 +14,8 @@ import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
 
-// three.js/@react-three visualization — matches the ssr:false dynamic
-// import already used for this component on /cruise (see cruise/page.tsx).
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
+import { ITINERARY_2027, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import 'react-quill-new/dist/quill.snow.css';
 import { sanitizeHtml } from "@/lib/sanitize-html";
@@ -159,11 +158,11 @@ function PassengersWidget() {
   );
 }
 
-const loadCruiseItineraryData = async (): Promise<ItineraryDay[]> => {
+const loadCruiseItineraryData = async (): Promise<any[]> => {
   try {
     const res = await fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' });
     const data = res.ok ? await res.json() : null;
-    if (!data) return DEFAULT_CARIBBEAN_ITINERARY;
+    if (!data) return mapToSnakeItinerary(ITINERARY_2027);
     let actualData = data;
     let attempts = 0;
     while (typeof actualData === 'string' && attempts < 3) {
@@ -173,9 +172,9 @@ const loadCruiseItineraryData = async (): Promise<ItineraryDay[]> => {
     if (Array.isArray(actualData) && actualData.length > 0) {
       return actualData;
     }
-    return DEFAULT_CARIBBEAN_ITINERARY;
+    return mapToSnakeItinerary(ITINERARY_2027);
   } catch {
-    return DEFAULT_CARIBBEAN_ITINERARY;
+    return mapToSnakeItinerary(ITINERARY_2027);
   }
 };
 
