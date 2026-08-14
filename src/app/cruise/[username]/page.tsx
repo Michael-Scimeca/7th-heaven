@@ -15,7 +15,7 @@ import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
 
 const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
-import { ITINERARY_2027, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
+import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import 'react-quill-new/dist/quill.snow.css';
 import { sanitizeHtml } from "@/lib/sanitize-html";
@@ -249,6 +249,7 @@ export default function CruiseDashboard() {
   const [regSuccess, setRegSuccess] = useState(false);
   const [verifyingPin, setVerifyingPin] = useState(false);
   const [pinInput, setPinInput] = useState('');
+  const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
 
   const rawUsername = params?.username ? String(params.username) : 'cruise_guest';
   const derivedName = member?.name || rawUsername.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
@@ -807,8 +808,48 @@ export default function CruiseDashboard() {
       </div>
 
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
-      <section id="itinerary">
-        <CruiseSnakeItinerary itinerary={itinerary} />
+      <section id="itinerary" className="pt-8">
+        <div className="w-full">
+          <div className="text-center mb-8 max-w-2xl mx-auto px-4">
+            <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">
+              Interactive Voyage Map
+            </span>
+            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-white mt-1">
+              Day-by-Day <span className="accent-gradient-text">Schedules</span>
+            </h2>
+            <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold">
+              Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
+            </p>
+
+            {/* Itinerary Year Toggle */}
+            <div className="flex gap-2 justify-center mt-6">
+              <button
+                type="button"
+                onClick={() => setActiveItinYear(2027)}
+                className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2027
+                  ? "bg-purple-600 text-white shadow-md"
+                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                  }`}
+              >
+                2027 Star of the Seas (7-Night)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveItinYear(2028)}
+                className={`px-6 py-2.5 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-lg ${activeItinYear === 2028
+                  ? "bg-purple-700 text-white shadow-md"
+                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                  }`}
+              >
+                2028 Legend of the Seas (8-Night)
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full">
+            <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
+          </div>
+        </div>
       </section>
     </div>
   );
