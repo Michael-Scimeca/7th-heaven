@@ -808,21 +808,35 @@ export default function CruiseDashboard() {
       </div>
 
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
-      <section id="itinerary" className="pt-8">
-        <div className="w-full">
-          <div className="text-center mb-8 max-w-2xl mx-auto px-4">
+      <section
+        id="itinerary"
+        className="py-16 md:py-24 w-full max-w-none px-0 overflow-x-clip"
+        style={{
+          position: "relative",
+          left: "50%",
+          right: "50%",
+          marginLeft: "-50vw",
+          marginRight: "-50vw",
+          width: "100vw",
+          maxWidth: "100vw",
+          backgroundColor: "#070d1e",
+          backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
+        }}
+      >
+        <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
+          <div className="text-center mb-12 max-w-3xl mx-auto px-4">
             <span className="text-[var(--font-size-3xs)] font-black uppercase tracking-[0.25em] text-cyan-400">
               Interactive Voyage Map
             </span>
-            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-white mt-1">
+            <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tight text-white mt-1 leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
-            <p className="text-white/70 mt-3 text-xs md:text-sm leading-relaxed font-semibold">
+            <p className="text-white/70 mt-4 text-xs md:text-sm leading-relaxed font-semibold">
               Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
             </p>
 
             {/* Itinerary Year Toggle */}
-            <div className="flex gap-2 justify-center mt-6">
+            <div className="flex gap-2 justify-center mt-8">
               <button
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
