@@ -821,6 +821,8 @@ export default function CruiseDashboard() {
           maxWidth: "100vw",
           backgroundColor: "#070d1e",
           backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
+          maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
         }}
       >
         <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
