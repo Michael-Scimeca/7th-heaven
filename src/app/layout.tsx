@@ -164,6 +164,12 @@ export default async function RootLayout({
           as="image"
           fetchPriority="high"
         />
+        <link
+          rel="preload"
+          href="/_next/image?url=%2Fvin1.png&w=640&q=75"
+          as="image"
+          fetchPriority="high"
+        />
       </head>
       <body className={`${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (

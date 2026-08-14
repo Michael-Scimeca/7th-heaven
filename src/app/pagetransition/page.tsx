@@ -180,7 +180,6 @@ export default function PageTransitionDemo() {
               src="/images/hero-banner.png"
               alt="7th Heaven"
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
               priority
               unoptimized
               className="object-cover"
@@ -218,11 +217,15 @@ export default function PageTransitionDemo() {
             </span>
           </div>
 
-          {/* Phase 3 + 4 — the curtain: hidden until the dim finishes, then opaque, then wipes away. */}
+          {/* Phase 3 + 4 — the curtain: hidden until the dim finishes, then opaque, then wipes away.
+              NOT `bg-black`: globals.css strips background-color to transparent
+              on that exact class site-wide with `!important` (see PageTransition.tsx
+              for the full explanation). Setting the fill inline keeps this curtain
+              out of that rule. */}
           <div
             ref={curtainRef}
-            className="absolute inset-0 z-20 flex items-center justify-center bg-black"
-            style={{ clipPath: "inset(0% 0% 0% 0%)" }}
+            className="absolute inset-0 z-20 flex items-center justify-center"
+            style={{ backgroundColor: "#000", clipPath: "inset(0% 0% 0% 0%)" }}
           >
             <span
               className="text-xl md:text-2xl font-black italic uppercase tracking-tight text-white"

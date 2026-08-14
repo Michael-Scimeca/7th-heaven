@@ -193,8 +193,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       <div
         ref={curtainRef}
         aria-hidden
-        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
+        className="fixed inset-0 z-[9999] flex items-center justify-center"
         style={{
+          // NOT `bg-black`: globals.css has a global "unboxed theme" rule
+          // (`body, main, .site-container, section, .bg-black, .bg-[#000]...`)
+          // that force-strips background-color to transparent with
+          // `!important` on that exact class, site-wide, on purpose (so
+          // "boxed" sections don't cover the animated gradient background).
+          // It was silently nuking this curtain's fill too — the whole
+          // state machine ran correctly, but the "solid panel" had zero
+          // opacity paint, so covering the screen was invisible. Setting
+          // the color inline (not via a class in that stripped list) keeps
+          // this element outside that rule entirely.
+          backgroundColor: "#000",
           opacity: 0,
           visibility: "hidden",
           pointerEvents: "none",
