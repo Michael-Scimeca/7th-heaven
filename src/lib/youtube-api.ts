@@ -40,11 +40,9 @@ export function loadYouTubeAPI(onReady: () => void): void {
     callbacks.forEach((cb) => cb());
   };
 
-  // Deduplicate preconnect link tags to eliminate "Unused preconnect" warnings
+  // Remove all unused preconnect link tags for ytimg.com to eliminate "Unused preconnect" warnings
   const existingPreconnects = Array.from(document.querySelectorAll('link[rel="preconnect"][href*="ytimg.com"]'));
-  if (existingPreconnects.length > 1) {
-    existingPreconnects.slice(1).forEach((el) => el.remove());
-  }
+  existingPreconnects.forEach((el) => el.remove());
 
   const tag = document.createElement("script");
   tag.src = "https://www.youtube.com/iframe_api";

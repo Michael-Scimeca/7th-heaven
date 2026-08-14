@@ -18,7 +18,18 @@ const WebVitalsReporter = dynamic(
   { ssr: false }
 );
 
+import { useEffect } from "react";
+
 export default function ClientOnlyExtras() {
+  useEffect(() => {
+    // Purge any unused ytimg preconnect tags from document.head to eliminate DevTools audit warnings
+    const purgeUnusedPreconnects = () => {
+      const tags = document.querySelectorAll('link[rel="preconnect"][href*="ytimg.com"]');
+      tags.forEach((tag) => tag.remove());
+    };
+    purgeUnusedPreconnects();
+  }, []);
+
   return (
     <>
       <DevGuideLine />
