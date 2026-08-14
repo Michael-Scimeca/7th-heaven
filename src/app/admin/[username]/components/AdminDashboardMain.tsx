@@ -10697,38 +10697,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                                   glassOpacity={1.0}
                                                   className="w-full"
                                                   maxHeight={200}
-                                                  items={[
-                                                    {
-                                                      label: "Overtime", onClick: () => {
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Overtime") ? (item.tags || []).filter(t => t !== "Overtime") : [...(item.tags || []), "Overtime"] } : item));
-                                                      }
-                                                    },
-                                                    {
-                                                      label: "Double Shift", onClick: () => {
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Double Shift") ? (item.tags || []).filter(t => t !== "Double Shift") : [...(item.tags || []), "Double Shift"] } : item));
-                                                      }
-                                                    },
-                                                    {
-                                                      label: "Split Shift", onClick: () => {
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Split Shift") ? (item.tags || []).filter(t => t !== "Split Shift") : [...(item.tags || []), "Split Shift"] } : item));
-                                                      }
-                                                    },
-                                                    {
-                                                      label: "Standby", onClick: () => {
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Standby") ? (item.tags || []).filter(t => t !== "Standby") : [...(item.tags || []), "Standby"] } : item));
-                                                      }
-                                                    },
-                                                    {
-                                                      label: "Backup", onClick: () => {
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Backup") ? (item.tags || []).filter(t => t !== "Backup") : [...(item.tags || []), "Backup"] } : item));
-                                                      }
-                                                    },
-                                                    {
-                                                      label: "Training", onClick: () => {
-                                                        setDropTimeFrames(prev => prev.map((item, i) => i === index ? { ...item, tags: (item.tags || []).includes("Training") ? (item.tags || []).filter(t => t !== "Training") : [...(item.tags || []), "Training"] } : item));
-                                                      }
-                                                    },
-                                                  ]}
+                                                  items={["Overtime", "Double Shift", "Split Shift", "Standby", "Backup", "Training"].map(tagName => ({
+                                                    label: tagName,
+                                                    onClick: () => {
+                                                      setDropTimeFrames(prev => prev.map((item, i) => {
+                                                        if (i !== index) return item;
+                                                        const tagSet = new Set(item.tags || []);
+                                                        if (tagSet.has(tagName)) {
+                                                          tagSet.delete(tagName);
+                                                        } else {
+                                                          tagSet.add(tagName);
+                                                        }
+                                                        return { ...item, tags: Array.from(tagSet) };
+                                                      }));
+                                                    }
+                                                  }))}
                                                 />
                                                 {tf.tags && tf.tags.length > 0 && (
                                                   <div className="flex flex-wrap gap-1 mt-1.5">
@@ -11145,18 +11128,21 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                             glassOpacity={1.0}
                                             className="w-full"
                                             maxHeight={200}
-                                            items={generateTimeOptions().filter(opt => opt.value > tf.startHour).map(opt => ({
-                                              label: opt.label,
-                                              onClick: () => {
-                                                const h = opt.value;
-                                                const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
-                                                currentTfs[tfIdx] = { ...tf, endHour: h };
-                                                setNewGroupMemberSettings(prev => ({
-                                                  ...prev,
-                                                  [m.id]: { ...prev[m.id], timeFrames: currentTfs }
-                                                }));
-                                              }
-                                            }))}
+                                            items={generateTimeOptions().flatMap(opt => {
+                                              if (opt.value <= tf.startHour) return [];
+                                              return [{
+                                                label: opt.label,
+                                                onClick: () => {
+                                                  const h = opt.value;
+                                                  const currentTfs = [...(setting.timeFrames || [{ startHour: 17, endHour: 22, role: 'STAGE HAND' }])];
+                                                  currentTfs[tfIdx] = { ...tf, endHour: h };
+                                                  setNewGroupMemberSettings(prev => ({
+                                                    ...prev,
+                                                    [m.id]: { ...prev[m.id], timeFrames: currentTfs }
+                                                  }));
+                                                }
+                                              }];
+                                            })}
                                           />
                                         </div>
                                       </div>
