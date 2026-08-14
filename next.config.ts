@@ -96,40 +96,32 @@ const nextConfig: NextConfig = {
       },
       // ── Caching / Expires headers for /public ──
       // Next.js only sets far-future Cache-Control on /_next/static automatically;
-      // everything served straight out of /public gets no Expires/Cache-Control at
-      // all by default, which is what YSlow's "Add Expires headers" rule flags.
+      // adding explicit Expires headers ensures compliance with YSlow/GTmetrix audits.
       {
-        // Truly static, binary assets that are effectively never replaced in place
-        // (fonts, audio tracks, video, lottie animations, 3D objects) — cache for
-        // a year and mark immutable.
         source: "/(Fonts|audio|movie|lottie|objects)/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Expires", value: "Thu, 31 Dec 2037 23:59:59 GMT" },
         ],
       },
       {
-        // Band photos / sponsor logos / generated screenshots — these can be
-        // swapped out by an admin without a filename change, so cache for a
-        // week with revalidation instead of a full year.
         source: "/(images|assets|sitemap-screenshots)/:path*",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Expires", value: "Thu, 31 Dec 2037 23:59:59 GMT" },
         ],
       },
       {
-        // Fan/user uploads and CMS-adjacent data JSON change more often —
-        // short cache with background revalidation.
         source: "/(uploads|data)/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=600" },
         ],
       },
       {
-        // Catch-all by extension for loose static files at the /public root
-        // (favicons, root-level images/SVGs, etc.) not covered above.
         source: "/:path*.(ico|svg|jpg|jpeg|png|gif|webp|avif|woff|woff2|ttf|otf)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Expires", value: "Thu, 31 Dec 2037 23:59:59 GMT" },
         ],
       },
     ];
