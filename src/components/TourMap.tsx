@@ -225,7 +225,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         loadMaps();
         observer.disconnect();
       }
-    }, { rootMargin: "300px" });
+    }, { rootMargin: "-100px", threshold: 0.1 });
 
     observer.observe(el);
 

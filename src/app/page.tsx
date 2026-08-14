@@ -198,17 +198,19 @@ export default async function Home() {
       )}
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
-      <section
-        id="tour"
-        className="bg-transparent py-0"
-        style={{
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
-        }}
-      >
-        <TourList initialShows={upcomingShows} />
-      </section>
+      <LazySection fallbackHeight="500px">
+        <section
+          id="tour"
+          className="bg-transparent py-0"
+          style={{
+            marginLeft: "calc(-1 * var(--page-padding-x))",
+            marginRight: "calc(-1 * var(--page-padding-x))",
+            width: "calc(100% + 2 * var(--page-padding-x))",
+          }}
+        >
+          <TourList initialShows={upcomingShows} />
+        </section>
+      </LazySection>
 
       <LazySection fallbackHeight="600px">
         <section
