@@ -104,9 +104,7 @@ export default function VideoSection() {
       .then((m) => {
         if (active && m.default) {
           setVideosData(m.default as unknown as VideoCategoryData[]);
-          if (!activeFilter || activeFilter === FALLBACK_VIDEOS[0]?.category) {
-            setActiveFilter(m.default[0]?.category || "");
-          }
+          setActiveFilter((prev) => (!prev || prev === FALLBACK_VIDEOS[0]?.category ? m.default[0]?.category || "" : prev));
         }
       })
       .catch(() => {});

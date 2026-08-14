@@ -180,6 +180,7 @@ export default function PageTransitionDemo() {
               src="/images/hero-banner.png"
               alt="7th Heaven"
               fill
+              sizes="100vw"
               priority
               unoptimized
               className="object-cover"
