@@ -27,19 +27,7 @@ import { useEffect } from "react";
 
 export default function ClientOnlyExtras() {
   useEffect(() => {
-    // High-priority LCP image preload for mobile hero banner image
-    const ensureLcpPreload = () => {
-      const existing = document.querySelector('link[rel="preload"][as="image"][href*="hero-banner"]');
-      if (!existing) {
-        const link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "image";
-        link.href = "/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=75";
-        link.setAttribute("fetchpriority", "high");
-        document.head.appendChild(link);
-      }
-    };
-    ensureLcpPreload();
+    // Keep at most 3 preconnect tags in document head (resolves Lighthouse warning)
 
     // Keep at most 3 preconnect tags in document head (resolves Lighthouse warning)
     const pruneExcessPreconnects = () => {

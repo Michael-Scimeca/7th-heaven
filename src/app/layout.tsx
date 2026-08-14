@@ -147,6 +147,20 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`dark ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          href="/_next/image?url=%2Fimages%2Fband-performance.webp&w=1200&q=75"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=75"
+          as="image"
+          fetchPriority="high"
+        />
+      </head>
       <body className={`${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
