@@ -32,7 +32,7 @@ const ALL_ROUTES: RouteItem[] = [
   // ── Main Pages ──
   { path: "/", type: "Static", label: "Home Page", category: "Public Pages", icon: Globe },
   { path: "/band", type: "Static", label: "Band History & Story", category: "Public Pages", icon: Globe },
-  { path: "/shows", type: "Static", label: "Tour Dates & Shows", category: "Public Pages", icon: Globe },
+  { path: "/#tour", type: "Static", label: "Tour Dates & Shows (Home)", category: "Public Pages", icon: Globe },
   { path: "/shows/past", type: "Static", label: "Past Shows Archive", category: "Public Pages", icon: Globe },
   { path: "/shows/075144a7-588c-4d9a-a8b5-b44bca910b90", type: "SSG", label: "Show Detail (Sample)", category: "Public Pages", icon: Globe },
   { path: "/contact", type: "Static", label: "Contact & Booking", category: "Public Pages", icon: Globe },
@@ -47,8 +47,6 @@ const ALL_ROUTES: RouteItem[] = [
   { path: "/returns", type: "Static", label: "Return Policy", category: "Public Pages", icon: Globe },
 
   // ── Store & Merchandise ──
-  { path: "/store", type: "Static", label: "Merch Store", category: "Store & Merch", icon: ShoppingBag },
-  { path: "/store/7h-classic-tee", type: "Dynamic", label: "Product Detail (Sample)", category: "Store & Merch", icon: ShoppingBag },
   { path: "/merch", type: "Static", label: "Official Merch", category: "Store & Merch", icon: ShoppingBag },
   { path: "/qr/merch", type: "Dynamic", label: "QR Code Merch Scanner", category: "Store & Merch", icon: ShoppingBag },
 

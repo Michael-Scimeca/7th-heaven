@@ -31,7 +31,7 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   // ── Main Pages ──
   { path: "/", type: "Static", label: "Home Page", category: "Public Pages", icon: Globe },
   { path: "/band", type: "Static", label: "Band History & Bio", category: "Public Pages", icon: Globe },
-  { path: "/shows", type: "Static", label: "Tour Dates & Shows", category: "Public Pages", icon: Globe },
+  { path: "/#tour", type: "Static", label: "Tour Dates & Shows (Home)", category: "Public Pages", icon: Globe },
   { path: "/shows/past", type: "Static", label: "Past Shows Archive", category: "Public Pages", icon: Globe },
   { path: "/contact", type: "Static", label: "Contact & Booking", category: "Public Pages", icon: Globe },
   { path: "/book", type: "Static", label: "Booking Request Form", category: "Public Pages", icon: Globe },
@@ -45,8 +45,6 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   { path: "/returns", type: "Static", label: "Return Policy", category: "Public Pages", icon: Globe },
 
   // ── Store & Merch ──
-  { path: "/store", type: "Static", label: "Merch Store", category: "Store & Merch", icon: ShoppingBag },
-  { path: "/store/7h-classic-tee", type: "Dynamic", label: "Product Detail Page", category: "Store & Merch", icon: ShoppingBag },
   { path: "/merch", type: "Static", label: "Official Merch Catalog", category: "Store & Merch", icon: ShoppingBag },
   { path: "/qr/merch", type: "Dynamic", label: "QR Merch Scanner", category: "Store & Merch", icon: ShoppingBag },
 
