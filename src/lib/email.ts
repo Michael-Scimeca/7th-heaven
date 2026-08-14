@@ -42,7 +42,14 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailPayload) {
       return { success: true, mock: true };
     }
 
-    const fromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    let fromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    
+    // Resend requires a verified custom domain or their default onboarding domain (onboarding@resend.dev).
+    // Public webmail domains (aol.com, gmail.com, yahoo.com, hotmail.com) cannot be verified on Resend and trigger a 403.
+    const isUnverifiedPublicDomain = /@(aol|gmail|yahoo|hotmail|outlook|icloud)\.com$/i.test(fromAddress.trim());
+    if (isUnverifiedPublicDomain) {
+      fromAddress = 'onboarding@resend.dev';
+    }
 
     const data = await resend.emails.send({
       from: `7th Heaven <${fromAddress}>`, // Change to noreply@7thheavenband.com after domain verification
