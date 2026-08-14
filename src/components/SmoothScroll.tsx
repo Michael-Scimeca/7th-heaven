@@ -27,16 +27,26 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     }
     rafId = requestAnimationFrame(raf);
 
-    // Recalculate scroll bounds after layout settles
-    const t1 = setTimeout(() => lenis.resize(), 100);
-    const t2 = setTimeout(() => lenis.resize(), 400);
+    // Batch lenis.resize inside requestAnimationFrame to prevent forced reflows
+    let resizeRaf: number | null = null;
+    const safeResize = () => {
+      if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        lenis.resize();
+        resizeRaf = null;
+      });
+    };
 
-    const ro = new ResizeObserver(() => lenis.resize());
+    const t1 = setTimeout(safeResize, 100);
+    const t2 = setTimeout(safeResize, 400);
+
+    const ro = new ResizeObserver(safeResize);
     if (document.body) ro.observe(document.body);
 
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
+      if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
       cancelAnimationFrame(rafId);
       ro.disconnect();
       lenis.destroy();
