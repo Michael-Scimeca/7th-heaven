@@ -1,6 +1,4 @@
-"use client";
-
-import Script from "next/script";
+import { GoogleAnalytics as NextGoogleAnalytics } from "@next/third-parties/google";
 import { useEffect, useState } from "react";
 
 const COOKIE_KEY = "7h_consent";
@@ -34,33 +32,7 @@ export default function GoogleAnalytics({ ga_id }: { ga_id: string }) {
     return () => window.removeEventListener("7h:consent", handler);
   }, []);
 
-  if (!consented) return null;
+  if (!consented || !ga_id) return null;
 
-  return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${ga_id}`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('consent', 'default', {
-              analytics_storage: 'granted',
-              ad_storage: 'denied',
-            });
-            gtag('config', '${ga_id}', {
-              page_path: window.location.pathname,
-              anonymize_ip: true,
-            });
-          `,
-        }}
-      />
-    </>
-  );
+  return <NextGoogleAnalytics gaId={ga_id} />;
 }

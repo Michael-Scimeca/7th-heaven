@@ -1,24 +1,50 @@
 /**
  * Security & Input Validation Utilities
  */
+import DOMPurify from 'isomorphic-dompurify';
+import { z } from 'zod';
 import { applyRateLimit } from '@/lib/api-utils';
 
-
 /**
- * Sanitizes user input string against XSS injections (script tags, onerror attributes, etc.)
+ * Sanitizes user input string against XSS injections using DOMPurify
  */
 export function sanitizeInput(input: string | null | undefined): string {
   if (!input) return '';
-  return String(input)
+  const cleaned = String(input)
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/on\w+="[^"]*"/gi, '')
     .replace(/on\w+='[^']*'/gi, '')
-    .replace(/javascript:[^\s"']*/gi, '')
+    .replace(/javascript:[^\s"']*/gi, '');
+  const domPurified = DOMPurify.sanitize(cleaned);
+  return domPurified
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
 
 export const sanitize = sanitizeInput;
+
+/**
+ * Common Zod API Validation Schemas (Zod v4 top-level format)
+ */
+export const BookingRequestSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.email('Invalid email address'),
+  phone: z.string().optional(),
+  eventDate: z.string().optional(),
+  venueName: z.string().optional(),
+  message: z.string().max(2000, 'Message cannot exceed 2000 characters').optional(),
+});
+
+export const NewsletterSubscribeSchema = z.object({
+  email: z.email('Invalid email address'),
+});
+
+export const FanProfileSchema = z.object({
+  fullName: z.string().min(1, 'Full name is required'),
+  email: z.email('Invalid email address'),
+  phone: z.string().optional(),
+  favoriteSong: z.string().optional(),
+});
 
 interface ProtectActionOptions {
   identifier?: string;
