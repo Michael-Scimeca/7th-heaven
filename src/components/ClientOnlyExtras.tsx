@@ -18,6 +18,11 @@ const WebVitalsReporter = dynamic(
   { ssr: false }
 );
 
+const HomeShaderGradient = dynamic(
+  () => import("@/components/HomeShaderGradient"),
+  { ssr: false }
+);
+
 import { useEffect } from "react";
 
 export default function ClientOnlyExtras() {
@@ -53,6 +58,7 @@ export default function ClientOnlyExtras() {
       <DevGuideLine />
       <PagesPillDrawer />
       <WebVitalsReporter />
+      <HomeShaderGradient />
     </>
   );
 }
