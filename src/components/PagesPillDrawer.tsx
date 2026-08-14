@@ -89,7 +89,6 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   { path: "/pagetransition", type: "Static", label: "Page Transition Demo", category: "UI Demos & Labs", icon: Layers },
   { path: "/slideup", type: "Static", label: "Slideup Section Stacking", category: "UI Demos & Labs", icon: Layers },
   { path: "/textcolor", type: "Static", label: "Text Color Gradient Studio", category: "UI Demos & Labs", icon: Layers },
-  { path: "/ticker", type: "Static", label: "Logo Ticker Demo", category: "UI Demos & Labs", icon: Layers },
   { path: "/video", type: "Static", label: "Video Showcase Studio", category: "UI Demos & Labs", icon: Film },
   { path: "/payment-test", type: "Static", label: "Payment Test Shop (EPX)", category: "UI Demos & Labs", icon: ShoppingBag },
 
