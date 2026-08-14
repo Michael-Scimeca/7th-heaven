@@ -766,11 +766,13 @@ lerpSpeed: ${lerpSpeed}`;
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={imageSrc}
                           alt={m?.name || "Member Photo"}
+                          width={600}
+                          height={800}
                           draggable={false}
+                          unoptimized
                           className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
                             maxHeight: `${imageHeight}px`,
