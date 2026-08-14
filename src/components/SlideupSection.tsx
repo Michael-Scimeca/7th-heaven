@@ -1,7 +1,42 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+
+function HoverVideo({ src }: { src: string }) {
+  const [hovered, setHovered] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (hovered && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    } else if (!hovered && videoRef.current) {
+      videoRef.current.pause();
+    }
+  }, [hovered]);
+
+  return (
+    <div
+      className="absolute inset-0 w-full h-full"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {hovered ? (
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 z-[1] w-full h-full object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 z-[1] w-full h-full bg-zinc-900/60" />
+      )}
+    </div>
+  );
+}
 
 const HEADER_H = 80;
 
@@ -372,7 +407,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                 {slide.thumbs.map((t, ti) => (
                   <div key={`${t.label}-${ti}`} className="su-thumb">
                     {t.video && (
-                      <video src={t.video} autoPlay muted loop playsInline preload="none" />
+                      <HoverVideo src={t.video} />
                     )}
                     {t.youtube && (
                       <Image
