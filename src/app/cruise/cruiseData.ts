@@ -74,7 +74,7 @@ export const CRUISE_HISTORY = [
 
 export const ITINERARY_2027 = [
   {
-    day: 1, port: "Port Canaveral, Florida (Orlando)", label: "Depart 4:30pm", icon: "🚢", type: "depart",
+    day: 1, port: "Port Canaveral, Florida (Orlando)", label: "Depart 4:30pm", theme: "WELCOME ABOARD & SAIL AWAY", icon: "🚢", type: "depart",
     photo: "/images/cruise/port-canaveral-docked.png",
     schedule: [
       { time: "12:00 PM", event: "VIP Boarding & Check-In at Port Canaveral", cat: "ship" },
@@ -83,7 +83,7 @@ export const ITINERARY_2027 = [
     ],
   },
   {
-    day: 2, port: "Cococay, Bahamas (Private Island)", label: "7:00am - 4:00pm", icon: "🏝️", type: "island",
+    day: 2, port: "Cococay, Bahamas (Private Island)", label: "7:00am - 4:00pm", theme: "COCOCAY ISLAND BEACH PARTY", icon: "🏝️", type: "island",
     photo: "/images/cruise/cococay-beach-party.png",
     schedule: [
       { time: "7:00 AM",  event: "Dock at Royal Caribbean's Private Island (7:00am - 4:00pm)", cat: "ship" },
@@ -92,7 +92,7 @@ export const ITINERARY_2027 = [
     ],
   },
   {
-    day: 3, port: "Day At Sea", label: "Rock & Roll At Sea", icon: "🌊", type: "sea",
+    day: 3, port: "Day At Sea", label: "Rock & Roll At Sea", theme: "ROCK & ROLL DAY AT SEA", icon: "🌊", type: "sea",
     photo: "/images/cruise/at-sea.png",
     schedule: [
       { time: "11:00 AM", event: "🎸 Band Q&A & Photo Session - Deck 11 Lounge", cat: "band" },
@@ -101,7 +101,7 @@ export const ITINERARY_2027 = [
     ],
   },
   {
-    day: 4, port: "St. Thomas", label: "12:30pm - 8:00pm", icon: "🏝️", type: "island",
+    day: 4, port: "St. Thomas", label: "12:30pm - 8:00pm", theme: "ST. THOMAS TROPICAL EXCURSIONS", icon: "🏝️", type: "island",
     photo: "/images/cruise/st-thomas-island.png",
     schedule: [
       { time: "12:30 PM", event: "Dock in St. Thomas (12:30pm - 8:00pm)", cat: "ship" },
@@ -110,7 +110,7 @@ export const ITINERARY_2027 = [
     ],
   },
   {
-    day: 5, port: "St. Maarten", label: "8:00am - 5:00pm", icon: "🏝️", type: "island",
+    day: 5, port: "St. Maarten", label: "8:00am - 5:00pm", theme: "ST. MAARTEN ACOUSTIC SUNSET", icon: "🏝️", type: "island",
     photo: "/images/cruise/roatan.png",
     schedule: [
       { time: "8:00 AM",  event: "Dock in St. Maarten (8:00am - 5:00pm)", cat: "ship" },
@@ -120,7 +120,7 @@ export const ITINERARY_2027 = [
     ],
   },
   {
-    day: 6, port: "Day At Sea", label: "Caribbean Cruising", icon: "🌊", type: "sea",
+    day: 6, port: "Day At Sea", label: "Caribbean Cruising", theme: "ROCK THE OCEAN SHOWCASE", icon: "🌊", type: "sea",
     photo: "/images/cruise/at-sea.png",
     schedule: [
       { time: "1:00 PM",  event: "Fan Rock Trivia & Prize Raffle", cat: "food" },
@@ -129,12 +129,12 @@ export const ITINERARY_2027 = [
     ],
   },
   {
-    day: 7, port: "Day At Sea", label: "Grand Finale", icon: "🎸", type: "sea",
+    day: 7, port: "Day At Sea", label: "Grand Finale", theme: "7TH HEAVEN GRAND FINALE", icon: "🎸", type: "sea",
     photo: "/images/cruise/at-sea.png",
     schedule: [
       { time: "2:00 PM",  event: "Farewell Fan Photo & Autographs - Deck 5", cat: "band" },
       { time: "9:00 PM",  event: "🎸 7th Heaven Farewell Concert - Grand Theater", cat: "band" },
-      { time: "11:30 PM", event: "After-Party Jam Session - Lounge 360", cat: "band" },
+      { time: "11:30 PM", event: "🎸 After-Party Jam Session - Lounge 360", cat: "band" },
     ],
   },
   {

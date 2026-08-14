@@ -1119,9 +1119,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
         {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
         {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
+          const day = itinerary[i];
+          if (!day) return null;
           const topPct = (node.y / totalH) * 100;
           const leftPct = (node.x / SVG_W) * 100;
-          const day = itinerary[i];
           const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#a855f7');
           const dayImage = isAtSeaDay(day)
             ? '/images/cruise/at-sea.png'
