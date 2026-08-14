@@ -29,6 +29,7 @@ const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider")
 const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
 const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"));
 const SlideupSection = dynamic(() => import("@/components/SlideupSection"));
+const DevRouteList = dynamic(() => import("@/components/DevRouteList"));
 
 
 
@@ -248,6 +249,9 @@ export default async function Home() {
       <div className="">
         <HomeMerch />
       </div>
+
+      {/* ====== DEVELOPER ROUTE DIRECTORY ====== */}
+      <DevRouteList />
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION (At Very Bottom) ====== */}
       <section
