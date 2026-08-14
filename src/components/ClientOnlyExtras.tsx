@@ -13,11 +13,17 @@ const PagesPillDrawer = dynamic(
   { ssr: false }
 );
 
+const WebVitalsReporter = dynamic(
+  () => import("@/components/WebVitalsReporter"),
+  { ssr: false }
+);
+
 export default function ClientOnlyExtras() {
   return (
     <>
       <DevGuideLine />
       <PagesPillDrawer />
+      <WebVitalsReporter />
     </>
   );
 }

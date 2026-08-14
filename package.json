@@ -57,9 +57,11 @@
     "smooothy": "^0.0.35",
     "stripe": "^22.2.0",
     "styled-components": "^6.5.2",
+    "sharp": "^0.33.5",
     "swiper": "^14.0.6",
     "three": "^0.185.1",
     "twilio": "^5.13.1",
+    "web-vitals": "^4.2.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -86,7 +88,6 @@
   "overrides": {
     "cron-parser": "^5.0.0",
     "glob": "^13.0.0",
-    "sharp": ">=0.35.0",
     "nanoid": "^5.0.0"
   }
 }
