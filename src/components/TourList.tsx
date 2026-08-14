@@ -6,8 +6,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useSyncExternalStore } from "react";
 import { Plus, X, MessageSquare, Printer, Edit, Mic, MapPin, CalendarDays, Bell, Mail, Car, ParkingCircle, ParkingSquare } from "lucide-react";
 import { SanityTourDate } from "@/lib/sanity";
-import "leaflet/dist/leaflet.css";
-import TourMap from "./TourMap";
+import dynamic from "next/dynamic";
+const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
 import { isShowOver, typeConfig, getShowType, getShowDateTime } from "@/lib/tour-helpers";
 import CountdownTimer from "./CountdownTimer";
 import { useMember } from "@/context/MemberContext";

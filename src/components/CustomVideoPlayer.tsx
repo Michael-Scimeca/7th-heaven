@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
+import Image from "next/image";
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, RotateCcw, RotateCw, X } from "lucide-react";
 import { loadYouTubeAPI } from "@/lib/youtube-api";
 
@@ -211,14 +212,16 @@ export default function CustomVideoPlayer({
         />
       </div>
 
-      {/* Fallback Direct iFrame if API isn't initialized yet */}
+      {/* Fallback Image Poster before API is ready */}
       {!isReady && (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none flex items-center justify-center">
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&cc_load_policy=0&disablekb=1&playsinline=1`}
-            title={title}
-            className="w-[177.78vh] min-w-full h-[56.25vw] min-h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.03] border-0 pointer-events-none"
-            allow="autoplay; encrypted-media"
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+          <Image
+            src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+            alt={title}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover brightness-75"
           />
         </div>
       )}

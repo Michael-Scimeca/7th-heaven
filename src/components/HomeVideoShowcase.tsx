@@ -3,6 +3,7 @@
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
   X,
@@ -26,6 +27,42 @@ import {
 import Smooothy from "smooothy";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
+
+function ShowcaseMedia({ videoId, videoTitle, start, end, previewZoomPercent }: { videoId: string; videoTitle: string; start: number; end: number; previewZoomPercent: number }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu transition-transform duration-75 ease-out"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {hovered ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
+          title={videoTitle}
+          style={{
+            height: `max(${previewZoomPercent}%, 300%)`,
+            width: `calc(max(${previewZoomPercent}%, 300%) * 1.77778)`,
+            minHeight: "300%",
+            minWidth: "533.33%",
+            aspectRatio: "16 / 9",
+          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-none opacity-100 transition-opacity duration-500 pointer-events-none scale-105"
+          allow="autoplay; encrypted-media"
+        />
+      ) : (
+        <Image
+          src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+          alt={videoTitle}
+          fill
+          sizes="(max-width: 768px) 100vw, 400px"
+          className="object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none scale-105"
+        />
+      )}
+    </div>
+  );
+}
 
 export interface ShowcaseCategoryVideo {
   id: string;
@@ -563,22 +600,14 @@ export default function HomeVideoShowcase() {
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
 
-                  {/* YouTube 30-Second Autoplay Preview Frame */}
-                  <div className="smooothy-parallax-media absolute inset-0 w-full h-full pointer-events-none overflow-hidden transform-gpu transition-transform duration-75 ease-out">
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${video.id}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
-                      title={video.title}
-                      style={{
-                        height: `max(${previewZoomPercent}%, 300%)`,
-                        width: `calc(max(${previewZoomPercent}%, 300%) * 1.77778)`,
-                        minHeight: "300%",
-                        minWidth: "533.33%",
-                        aspectRatio: "16 / 9",
-                      }}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-none opacity-85 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none scale-105"
-                      allow="autoplay; encrypted-media"
-                    />
-                  </div>
+                  {/* YouTube On-Demand Autoplay Preview Frame — poster image by default, loads iframe on hover */}
+                  <ShowcaseMedia
+                    videoId={video.id}
+                    videoTitle={video.title}
+                    start={start}
+                    end={end}
+                    previewZoomPercent={previewZoomPercent}
+                  />
 
                   {/* Top Badge Overlay */}
                   {showBadges && (
