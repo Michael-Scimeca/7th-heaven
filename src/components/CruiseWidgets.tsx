@@ -40,8 +40,7 @@ export function EmbarkationCountdown() {
 
   return (
     <div className="flex flex-wrap items-center gap-6 bg-transparent border-none px-2 pt-4 pb-2 relative overflow-visible">
-      <div className="flex items-center gap-4 border-r border-white/15 pr-6 shrink-0 z-10">
-        <span className="text-4xl">🛳️</span>
+      <div className="flex items-center shrink-0 z-10">
         <div>
           <h2 className="text-white font-black italic tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
           <p className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Port of Miami</p>
@@ -508,182 +507,7 @@ export function BookingManager({ email }: { email?: string }) {
 
   return (
     <div className="text-white relative overflow-hidden flex flex-col justify-between">
-      <div>
-        <div className="flex justify-between items-center mb-6 relative z-10">
-          <div>
-            <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/50">Priority Status</h2>
-            <div className="flex items-center gap-3 mt-1">
-              <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-md" />
-              <span className="text-emerald-400 font-bold tracking-widest uppercase text-xs">Registered</span>
-            </div>
-          </div>
-
-          {!isEditing && (
-            <button aria-label="Action button" onClick={() => setIsEditing(true)} className=" text-[var(--color-accent)] text-xs font-bold uppercase tracking-widest hover:text-black transition-colors cursor-pointer">
-              Edit Info
-            </button>
-          )}
-        </div>
-      </div>
-
-      {isEditing ? (
-        <div className="relative z-10 py-2">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-            {/* Left Column: Cabin Image Preview */}
-            <div className="md:col-span-2 flex flex-col justify-start">
-              <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
-                <Image width={200} height={200} unoptimized
-                  src={booking?.cabin_image || '/images/cruise/d1_ocean_view_balcony.jpg'}
-                  alt="Selected Cabin"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                  <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-black/60 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
-                    Cabin Room Preview
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Edit Form */}
-            <div className="md:col-span-3 space-y-4">
-              <h3 className="text-xs font-bold text-cyan-700 uppercase tracking-widest border-b border-black/10 pb-2">Edit Booking & Guest Info</h3>
-              <div>
-                <label htmlFor="cruise-edit-party-size" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Party Size</label>
-                <input aria-label="Input field"
-                  id="cruise-edit-party-size"
-                  type="number" min="1" max="10"
-                  value={formData.guest_count}
-                  onChange={e => setFormData({ ...formData, guest_count: parseInt(e.target.value) || 1 })}
-                  className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]"
-                />
-              </div>
-              <div>
-                <label htmlFor="cruise-edit-phone" className="block text-xs font-bold text-black/50 uppercase tracking-widest mb-1">Phone Number</label>
-                <input aria-label="Input field"
-                  id="cruise-edit-phone"
-                  type="text"
-                  value={formData.phone}
-                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-white border border-black/15 rounded-lg px-3 py-2 text-sm text-black focus:outline-none focus:border-[var(--color-accent)]"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <SquishyToggle
-                  id="anon-check"
-                  label="Hide my name from passenger list"
-                  checked={formData.anonymous}
-                  onChange={(v) => setFormData({ ...formData, anonymous: v })}
-                />
-                <label htmlFor="anon-check" className="text-xs font-bold text-black/70 uppercase tracking-widest cursor-pointer">Hide my name from passenger list</label>
-              </div>
-
-              <div className="pt-2 border-t border-black/10">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="block text-xs font-bold text-black/50 uppercase tracking-widest">Additional Guests</span>
-                  <button aria-label="Action button" onClick={() => setFormData({ ...formData, guests: [...formData.guests, { name: '', type: 'adult' }] })} className="text-xs font-bold  text-[var(--color-accent)] hover:text-black uppercase tracking-widest cursor-pointer">+ Add Guest</button>
-                </div>
-                <div className="space-y-2">
-                  {Array.from(formData.guests, (g: any, i: number) => ({ g, i })).map(({ g, i }) => (
-                    <div key={i} className="flex gap-2">
-                      <input aria-label="Input field"
-                        type="text" placeholder="Name" value={g.name || ''}
-                        onChange={e => {
-                          const newGuests = [...formData.guests];
-                          newGuests[i].name = e.target.value;
-                          setFormData({ ...formData, guests: newGuests });
-                        }}
-                        className="flex-1 bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)]"
-                      />
-                      <select aria-label="Select option"
-                        value={g.type || 'adult'}
-                        onChange={e => {
-                          const newGuests = [...formData.guests];
-                          newGuests[i].type = e.target.value;
-                          setFormData({ ...formData, guests: newGuests });
-                        }}
-                        className="bg-white border border-black/15 rounded-lg px-2 py-1.5 text-xs text-black focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
-                      >
-                        <option value="adult">Adult</option>
-                        <option value="child">Child</option>
-                      </select>
-                      <button aria-label="Action button"
-                        onClick={() => {
-                          const newGuests = formData.guests.filter((_, idx) => idx !== i);
-                          setFormData({ ...formData, guests: newGuests });
-                        }}
-                        className="text-black/40 hover:text-red-600 px-1 cursor-pointer"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="flex gap-2 mt-4 pt-2 border-t border-black/10">
-                <button aria-label="Action button" onClick={handleSave} className="flex-1 py-2 bg-[var(--color-accent)] text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:brightness-110 transition-colors cursor-pointer">
-                  {saveStatus || 'Save'}
-                </button>
-                <button aria-label="Action button" onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-100 text-black/70 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors cursor-pointer">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        /* STANDARD LAYOUT */
-        <div className="relative z-10 py-2">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-            {/* Left Column: Cabin Image Preview */}
-            {booking.cabin_image && (
-              <div className="md:col-span-2 flex flex-col justify-start">
-                <div className="relative aspect-video md:aspect-[4/3] rounded-lg overflow-hidden border border-black/10 shadow-md">
-                  <Image width={200} height={200} unoptimized
-                    src={booking.cabin_image}
-                    alt="Selected Cabin"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2.5">
-                    <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-cyan-300 bg-white/10 px-2 py-0.5 rounded backdrop-blur-[2px] border border-white/20">
-                      Cabin Room Preview
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Right Column: Details List */}
-            <div className={booking.cabin_image ? "md:col-span-3 space-y-3" : "md:col-span-5 space-y-3"}>
-              <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Passenger Name</span>
-                <span className="text-sm font-bold text-white">{booking.name}</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Ship & Voyage</span>
-                <span className="text-xs font-bold text-cyan-400">Royal Caribbean · Icon of the Seas</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Sailing Dates</span>
-                <span className="text-xs font-bold text-white">Jan 18 – Jan 25, 2026 (7 Nights)</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Departure Port</span>
-                <span className="text-xs font-medium text-white/80">Port of Miami, FL (Terminal A)</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Party Size</span>
-                <span className="text-sm font-black  text-[var(--color-accent)]">{booking.guest_count} <span className="text-xs font-normal text-white/50 ml-1">Guests</span></span>
-              </div>
-
-              {booking.cabin_preference && (
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                  <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Selected Cabin</span>
-                  <span className="text-sm font-bold text-cyan-400">{booking.cabin_preference}</span>
-                </div>
-              )}
-
-              {/* Travel Readiness Checklist Badges */}
+      {/* Travel Readiness Checklist Badges */}
               <div className="my-3">
                 <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
                 <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
@@ -781,10 +605,6 @@ export function BookingManager({ email }: { email?: string }) {
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Cruising Power Travel Agent Portal Hook */}
       <div className="mt-4 pt-4 border-t border-white/10 text-[10.5px] leading-relaxed relative z-10 text-white/60 text-left">

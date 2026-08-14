@@ -5,6 +5,15 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { Outfit } from "next/font/google";
+
+// Self-hosted at build time by next/font — avoids a runtime DNS lookup +
+// request to fonts.googleapis.com/fonts.gstatic.com for this page.
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 function CruiseVerifyContent() {
   const searchParams = useSearchParams();
@@ -94,13 +103,10 @@ function CruiseVerifyContent() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap');
-
         .cruise-verify-root {
           position: fixed;
           inset: 0;
           z-index: 9999;
-          font-family: 'Outfit', sans-serif;
         }
 
         /* Cruise page background behind the modal */
@@ -405,7 +411,7 @@ function CruiseVerifyContent() {
         }
       `}</style>
 
-      <div className="cruise-verify-root">
+      <div className={`cruise-verify-root ${outfit.className}`}>
         {/* Cruise page rendered behind as a blurred backdrop */}
         <div className="cruise-bg-image" />
 
