@@ -30,8 +30,8 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
           <InlineYTPlayer videoId={video.id} title={video.title} onClose={onClose} />
         ) : (
           <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb" onClick={() => onPlay(video.id)} aria-label={`Play ${video.title}`}>
-            <Image width={200} height={200} unoptimized
-              src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+            <Image width={480} height={360}
+              src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
               alt={video.title}
               className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
               loading="lazy"
@@ -122,8 +122,8 @@ export default function VideoSection() {
                     <InlineYTPlayer videoId={latest.id} title={latest.title} onClose={() => setPlayingId(null)} />
                   ) : (
                     <button className="absolute inset-0 w-full h-full cursor-pointer group/thumb" onClick={() => setPlayingId(`featured-${latest.id}`)} aria-label={`Play ${latest.title}`}>
-                      <Image width={200} height={200} unoptimized
-                        src={`https://img.youtube.com/vi/${latest.id}/maxresdefault.jpg`}
+                      <Image width={1280} height={720}
+                        src={`https://img.youtube.com/vi/${latest.id}/hqdefault.jpg`}
                         alt={latest.title}
                         className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
                         priority
@@ -233,8 +233,8 @@ export default function VideoSection() {
                     onClick={() => setPlayingId(video.id)}
                     aria-label={`Play ${video.title}`}
                   >
-                    <Image width={200} height={200} unoptimized
-                      src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+                    <Image width={480} height={360}
+                      src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
                       alt={video.title}
                       className="absolute inset-0 z-[1] w-full h-full object-cover transition-transform duration-500 group-hover/thumb:scale-105"
                       loading="lazy"
