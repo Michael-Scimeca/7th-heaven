@@ -105,6 +105,8 @@ export default function SlideUpReveal({
                 ? instance.words
                 : instance.lines;
 
+            if (!targets || targets.length === 0) return;
+
             gsap.set(targets, {
               yPercent: 110,
               skewY: skew || 0,
