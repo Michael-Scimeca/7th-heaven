@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { getShowDateTime } from "@/lib/date-utils";
 import { VENUE_LINKS } from "@/lib/venue-links";
 import { sanityClient, queries, SanityBandMember, SanityTourDate, SanitySiteSettings } from "@/lib/sanity";
+
+export const metadata: Metadata = {
+  title: "7th Heaven — Official Band Website",
+  description: "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.",
+};
 
 // Above-the-fold, needed for initial render
 import VideoSection from "@/components/VideoSection";
