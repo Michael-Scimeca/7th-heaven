@@ -107,6 +107,13 @@ const nextConfig: NextConfig = {
       // Next.js only sets far-future Cache-Control on /_next/static automatically;
       // adding explicit Expires headers ensures compliance with YSlow/GTmetrix audits.
       {
+        source: "/api/audio",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          { key: "Expires", value: "Thu, 31 Dec 2037 23:59:59 GMT" },
+        ],
+      },
+      {
         source: "/(Fonts|audio|movie|lottie|objects)/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },

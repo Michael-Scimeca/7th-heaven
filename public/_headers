@@ -46,3 +46,7 @@
 /movie/*
   Cache-Control: public, max-age=31536000, immutable
   Expires: Thu, 31 Dec 2037 23:59:59 GMT
+
+/api/audio*
+  Cache-Control: public, max-age=31536000, immutable
+  Expires: Thu, 31 Dec 2037 23:59:59 GMT

@@ -45,7 +45,8 @@ export async function GET(request: NextRequest) {
     const headers: Record<string, string> = {
       'Content-Type':              response.headers.get('Content-Type')  ?? 'audio/mpeg',
       'Content-Disposition':       'inline',
-      'Cache-Control':             'public, max-age=86400',
+      'Cache-Control':             'public, max-age=31536000, immutable',
+      'Expires':                   'Thu, 31 Dec 2037 23:59:59 GMT',
       'X-Content-Type-Options':    'nosniff',
       'Accept-Ranges':             'bytes',
     };
