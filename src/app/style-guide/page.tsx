@@ -504,7 +504,7 @@ export default function StyleGuidePage() {
                         <input
                           type="number"
                           value={studioMinFs}
-                          onChange={(e) => setStudioMinFs(Number(e.target.value))}
+                          onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
                           className="w-12 bg-transparent text-right text-emerald-300 font-bold outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -515,7 +515,7 @@ export default function StyleGuidePage() {
                       min="12"
                       max="128"
                       value={studioMinFs}
-                      onChange={(e) => setStudioMinFs(Number(e.target.value))}
+                      onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
@@ -533,7 +533,7 @@ export default function StyleGuidePage() {
                         <input
                           type="number"
                           value={studioMaxFs}
-                          onChange={(e) => setStudioMaxFs(Number(e.target.value))}
+                          onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
                           className="w-12 bg-transparent text-right text-purple-300 font-bold outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -544,7 +544,7 @@ export default function StyleGuidePage() {
                       min="12"
                       max="128"
                       value={studioMaxFs}
-                      onChange={(e) => setStudioMaxFs(Number(e.target.value))}
+                      onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
@@ -562,7 +562,7 @@ export default function StyleGuidePage() {
                         <input
                           type="number"
                           value={studioMinVw}
-                          onChange={(e) => setStudioMinVw(Number(e.target.value))}
+                          onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
                           className="w-16 bg-transparent text-right text-amber-300 font-bold outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -574,7 +574,7 @@ export default function StyleGuidePage() {
                       max="1920"
                       step="5"
                       value={studioMinVw}
-                      onChange={(e) => setStudioMinVw(Number(e.target.value))}
+                      onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
@@ -592,7 +592,7 @@ export default function StyleGuidePage() {
                         <input
                           type="number"
                           value={studioMaxVw}
-                          onChange={(e) => setStudioMaxVw(Number(e.target.value))}
+                          onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
                           className="w-16 bg-transparent text-right text-cyan-300 font-bold outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -604,7 +604,7 @@ export default function StyleGuidePage() {
                       max="1920"
                       step="5"
                       value={studioMaxVw}
-                      onChange={(e) => setStudioMaxVw(Number(e.target.value))}
+                      onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
                       className="w-full h-2 rounded-full appearance-none cursor-pointer bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
                     />
                     <p className="text-[10px] text-white/40">
