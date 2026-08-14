@@ -246,15 +246,16 @@ export default function StyleGuidePage() {
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     if (!hash) return;
-    const tryScroll = (attempts = 0) => {
-      const el = document.getElementById(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else if (attempts < 10) {
-        setTimeout(() => tryScroll(attempts + 1), 150);
-      }
-    };
-    tryScroll();
+    const el = document.getElementById(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    const timer = setTimeout(() => {
+      const target = document.getElementById(hash);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+    return () => clearTimeout(timer);
   }, []);
 
   // Synchronize Studio Panel parameters into live DOM style overrides
