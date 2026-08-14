@@ -2371,3 +2371,30 @@ textarea,
     --text-xs: 0.7500rem;
   }
 }
+
+/* =============================================
+   PERFORMANCE: content-visibility for off-screen page sections
+   Tells the browser to skip rendering below-fold content until
+   it enters the viewport — saves CPU, GPU, and layout cost on mobile
+   ============================================= */
+@media (max-width: 768px) {
+  section:not(#hero):not(:first-of-type) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+}
+
+/* =============================================
+   PERFORMANCE: Respect prefers-reduced-motion
+   Halt non-essential animations on low-power devices
+   ============================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -107,6 +107,9 @@ export default function HomeShaderGradient() {
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    // Skip WebGL gradient on mobile — too GPU intensive; CSS background used instead
+    if (typeof window !== "undefined" && window.innerWidth < 768) return;
+
     let neatInstance: NeatGradient | null = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
     try {

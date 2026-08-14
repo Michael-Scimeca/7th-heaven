@@ -27,7 +27,6 @@ import {
   CSSProperties,
   ElementType,
   ReactNode,
-  createElement,
   useLayoutEffect,
   useRef,
 } from "react";
@@ -44,7 +43,15 @@ export interface SlideUpRevealProps {
   className?: string;
   style?: CSSProperties;
   children: string;
-  /** What SplitText should split on (also determines animation targets by default). */
+  /**
+   * What SplitText should split on. Defaults to whatever `mask` is set to,
+   * since SplitText only populates `instance.chars`/`instance.words` for
+   * levels you actually ask it to split — if `mask="chars"` but `type`
+   * stays at its old default of "lines", `instance.chars` comes back empty
+   * and the reveal silently animates nothing. Only override this if you
+   * need a level split (e.g. measuring words) that differs from the level
+   * you're masking.
+   */
   type?: "lines" | "words" | "chars" | "words, chars" | "lines, words, chars";
   /** Which split unit gets the overflow-hidden mask + the slide motion. */
   mask?: "lines" | "words" | "chars";
@@ -71,7 +78,7 @@ export default function SlideUpReveal({
   className,
   style,
   children,
-  type = "lines",
+  type,
   mask = "lines",
   delay = 0,
   stagger = 0.06,
@@ -82,6 +89,9 @@ export default function SlideUpReveal({
   onComplete,
 }: SlideUpRevealProps) {
   const ref = useRef<HTMLElement | null>(null);
+  // If the caller didn't override `type`, split at the same level we're
+  // masking so `instance[mask]` is guaranteed to be populated.
+  const effectiveType = type ?? mask;
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -95,7 +105,7 @@ export default function SlideUpReveal({
         if (cancelled || !el) return;
 
         split = SplitText.create(el, {
-          type,
+          type: effectiveType,
           mask,
           autoSplit: true,
           onSplit(instance) {
@@ -105,8 +115,6 @@ export default function SlideUpReveal({
                 : mask === "words"
                 ? instance.words
                 : instance.lines;
-
-            if (!targets || targets.length === 0) return;
 
             gsap.set(targets, {
               yPercent: 110,
@@ -141,12 +149,13 @@ export default function SlideUpReveal({
       split?.revert();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, replayKey, type, mask, delay, stagger, duration, ease, skew]);
+  }, [children, replayKey, effectiveType, mask, delay, stagger, duration, ease, skew]);
 
-  return createElement(
-    as,
-    { ref, className, style },
-    children
+  const Tag = as as ElementType;
+
+  return (
+    <Tag ref={ref} className={className} style={style}>
+      {children as ReactNode}
+    </Tag>
   );
 }
-

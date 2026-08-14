@@ -3,6 +3,15 @@
 
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
 const emptySubscribe = () => () => {};
+
+// Safe SSR-compatible desktop media query using useSyncExternalStore
+const mqSubscribe = (cb: () => void) => {
+  const mq = typeof window !== "undefined" ? window.matchMedia("(min-width: 768px)") : null;
+  mq?.addEventListener("change", cb);
+  return () => mq?.removeEventListener("change", cb);
+};
+const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
+const mqServerSnapshot = () => false; // Server always returns false (no video on SSR)
 import type { ReactNode } from "react";
 import VinylHeroPlayer from "@/components/VinylHeroPlayer";
 import HeroYTBackground from "@/components/HeroYTBackground";
@@ -59,6 +68,9 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
+
+  // SSR-safe desktop detection — server always returns false, client reads matchMedia
+  const isDesktop = useSyncExternalStore(mqSubscribe, mqSnapshot, mqServerSnapshot);
 
   const isYouTube = !videoSrc.includes(".mp4");
   const ytId = isYouTube ? videoSrc.replace(/^.*[=/]/, "") : "";
@@ -309,9 +321,10 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       `}} />
 
       {/* ── Hero background video (YouTube full-bleed or HTML5 video) ── */}
+      {/* On mobile (<768px), skip video stream — show static dark bg to save 2.4MB network */}
       {isYouTube ? (
         <HeroYTBackground videoId={ytId} />
-      ) : (
+      ) : isDesktop ? (
         <video
           key={videoSrc}
           ref={videoRef}
@@ -327,6 +340,9 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           <source src={videoSrc} type="video/mp4" />
           <track kind="captions" />
         </video>
+      ) : (
+        /* Mobile: static dark background — no video stream */
+        <div className="absolute inset-0 w-full h-full z-0 bg-[#0d0914]" />
       )}
       <div
         role="button"
