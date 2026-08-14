@@ -14,6 +14,8 @@ if (typeof window !== "undefined") {
         typeof args[0] === "string" &&
         (args[0].includes("THREE.Clock: This module has been deprecated") ||
          args[0].includes("Clock: This module has been deprecated") ||
+         args[0].includes("GSAP target") ||
+         args[0].includes("gsap.com") ||
          args[0].includes("has either width or height modified, but not the other"))
       ) {
         return;
