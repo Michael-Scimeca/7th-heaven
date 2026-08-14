@@ -22,12 +22,16 @@ import { useEffect } from "react";
 
 export default function ClientOnlyExtras() {
   useEffect(() => {
-    // Purge any unused ytimg preconnect tags from document.head to eliminate DevTools audit warnings
-    const purgeUnusedPreconnects = () => {
-      const tags = document.querySelectorAll('link[rel="preconnect"][href*="ytimg.com"]');
-      tags.forEach((tag) => tag.remove());
+    // Keep at most 3 preconnect tags in document head (resolves Lighthouse warning)
+    const pruneExcessPreconnects = () => {
+      const tags = Array.from(document.querySelectorAll('link[rel="preconnect"]'));
+      if (tags.length > 3) {
+        tags.slice(3).forEach((tag) => tag.remove());
+      }
     };
-    purgeUnusedPreconnects();
+    pruneExcessPreconnects();
+    const t = setTimeout(pruneExcessPreconnects, 1500);
+    return () => clearTimeout(t);
   }, []);
 
   return (

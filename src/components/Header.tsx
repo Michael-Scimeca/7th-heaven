@@ -2,7 +2,7 @@
 "use client";
 import Image from 'next/image';
 
-import Link from "next/link";
+import TransitionLink from "@/components/TransitionLink";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useMember } from "@/context/MemberContext";
@@ -15,6 +15,7 @@ const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
+  { href: "/pagetransition", label: "TRANSITION" },
 ];
 
 export function Header() {
@@ -230,7 +231,7 @@ export function Header() {
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
-                <Link
+                <TransitionLink
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
@@ -239,12 +240,12 @@ export function Header() {
                     }`}
                 >
                   {link.label}
-                </Link>
+                </TransitionLink>
               );
             })}
 
             {/* Live Stream link */}
-            <Link
+            <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
@@ -258,11 +259,11 @@ export function Header() {
                 </span>
               )}
               LIVE
-            </Link>
+            </TransitionLink>
           </nav>
 
           {/* ── LOGO (Dead-centered horizontally & vertically) ── */}
-          <Link
+          <TransitionLink
             href="/"
             id="header-logo"
             onClick={(e) => {
@@ -282,13 +283,13 @@ export function Header() {
             <div className="w-[150px] sm:w-[180px] lg:w-[220px] h-[36px] sm:h-[40px] flex items-center justify-center">
               <Logo className="w-full h-full text-current drop-shadow-sm transition-colors duration-200" />
             </div>
-          </Link>
+          </TransitionLink>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
           <div className={`flex items-center justify-end gap-3 lg:gap-4 lg:flex-1 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
 
             {/* Cruise link */}
-            <Link
+            <TransitionLink
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
@@ -297,10 +298,10 @@ export function Header() {
             >
               CRUISE
               {isNavActive("/cruise") && <CruiseWaveAnimation />}
-            </Link>
+            </TransitionLink>
 
             {/* Book Us link */}
-            <Link
+            <TransitionLink
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
@@ -308,10 +309,10 @@ export function Header() {
                 }`}
             >
               BOOK US
-            </Link>
+            </TransitionLink>
 
             {/* Contact link */}
-            <Link
+            <TransitionLink
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
@@ -319,11 +320,11 @@ export function Header() {
                 }`}
             >
               CONTACT
-            </Link>
+            </TransitionLink>
 
             {/* Cart Icon (only in nav bar when NOT signed in) */}
             {!isLoggedIn && !isDemoPage && (
-              <Link
+              <TransitionLink
                 href="/merch"
                 className="text-black/70 hover:text-black transition-colors p-0.5 mx-0.5"
                 title="Cart / Merch"
@@ -333,7 +334,7 @@ export function Header() {
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-              </Link>
+              </TransitionLink>
             )}
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
@@ -341,7 +342,7 @@ export function Header() {
               <div className="flex items-center gap-1.5">
                 <div className="relative shrink-0 flex items-center justify-center">
                   {/* Cart Icon attached directly to avatar profile circle when signed in */}
-                  <Link
+                  <TransitionLink
                     href="/merch"
                     className="absolute -top-1 -left-1.5 w-5 h-5 bg-[#851def] hover:bg-[#7415d8] text-white rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 z-20"
                     title="Cart / Merch"
@@ -351,8 +352,8 @@ export function Header() {
                       <circle cx="20" cy="21" r="1" />
                       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                     </svg>
-                  </Link>
-                  <Link
+                  </TransitionLink>
+                  <TransitionLink
                     href={dashboardHref}
                     className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
                     style={{ width: "44px", height: "44px", borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
@@ -365,7 +366,7 @@ export function Header() {
                         {initials}
                       </div>
                     )}
-                  </Link>
+                  </TransitionLink>
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
@@ -457,15 +458,16 @@ export function Header() {
           {mobileOpen && (
             <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
 
-              <Link href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BAND</Link>
-              <Link href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>SHOWS</Link>
-              <Link href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MERCH</Link>
-              <Link href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MEDIA</Link>
-              <Link href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>FAN WALL</Link>
-              <Link href="/live" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/live" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>LIVE</Link>
-              <Link href="/cruise" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/cruise" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CRUISE</Link>
-              <Link href="/book" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/book" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BOOK US</Link>
-              <Link href="/contact" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/contact" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CONTACT</Link>
+              <TransitionLink href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BAND</TransitionLink>
+              <TransitionLink href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>SHOWS</TransitionLink>
+              <TransitionLink href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MERCH</TransitionLink>
+              <TransitionLink href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MEDIA</TransitionLink>
+              <TransitionLink href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>FAN WALL</TransitionLink>
+              <TransitionLink href="/pagetransition" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/pagetransition" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>TRANSITION</TransitionLink>
+              <TransitionLink href="/live" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/live" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>LIVE</TransitionLink>
+              <TransitionLink href="/cruise" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/cruise" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CRUISE</TransitionLink>
+              <TransitionLink href="/book" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/book" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BOOK US</TransitionLink>
+              <TransitionLink href="/contact" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/contact" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CONTACT</TransitionLink>
               {isLoggedIn ? (
                 <button aria-label="Action button"
                   onClick={async () => {

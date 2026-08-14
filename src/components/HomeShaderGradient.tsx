@@ -112,14 +112,18 @@ export default function HomeShaderGradient() {
 
     let neatInstance: NeatGradient | null = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
-    try {
-      neatInstance = new NeatGradient({
-        ref: canvasRef.current,
-        colors: GRADIENT_SETTINGS.colors.map((c) => ({
-          color: c.color,
-          enabled: c.enabled,
-          influence: c.influence
-        })),
+    let idleId: any = null;
+
+    const initNeat = () => {
+      if (!canvasRef.current) return;
+      try {
+        neatInstance = new NeatGradient({
+          ref: canvasRef.current,
+          colors: GRADIENT_SETTINGS.colors.map((c) => ({
+            color: c.color,
+            enabled: c.enabled,
+            influence: c.influence
+          })),
         speed: GRADIENT_SETTINGS.speed,
         waveAmplitude: GRADIENT_SETTINGS.waveAmplitude,
         waveFrequencyX: GRADIENT_SETTINGS.waveFrequencyX,
@@ -159,7 +163,7 @@ export default function HomeShaderGradient() {
       // Completely disable WebGL watermark rendering pass inside NeatGradient canvas
       if (neatInstance) {
         (neatInstance as any)._licensed = true;
-        (neatInstance as any)._renderWatermark = () => {};
+        (neatInstance as any)._renderWatermark = () => { };
         // Expose instance globally so style guide canvas controls can update it live
         (window as any).__neatInstance = neatInstance;
       }
@@ -175,6 +179,13 @@ export default function HomeShaderGradient() {
     } catch (e) {
       console.warn("NeatGradient init fallback:", e);
     }
+  };
+
+  if ("requestIdleCallback" in window) {
+    idleId = (window as any).requestIdleCallback(initNeat);
+  } else {
+    idleId = setTimeout(initNeat, 1000);
+  }
 
     // ── Position Overlay Animation ──
     let animFrameId: number;
@@ -268,6 +279,10 @@ export default function HomeShaderGradient() {
       generateGrainTile();
 
       return () => {
+        if (idleId) {
+          if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
+          else clearTimeout(idleId);
+        }
         if (watermarkTimeout) {
           clearTimeout(watermarkTimeout);
         }
@@ -285,6 +300,10 @@ export default function HomeShaderGradient() {
     }
 
     return () => {
+      if (idleId) {
+        if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
+        else clearTimeout(idleId);
+      }
       if (watermarkTimeout) {
         clearTimeout(watermarkTimeout);
       }

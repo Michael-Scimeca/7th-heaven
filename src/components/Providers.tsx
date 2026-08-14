@@ -13,10 +13,10 @@ if (typeof window !== "undefined") {
       if (
         typeof args[0] === "string" &&
         (args[0].includes("THREE.Clock: This module has been deprecated") ||
-         args[0].includes("Clock: This module has been deprecated") ||
-         args[0].includes("GSAP target") ||
-         args[0].includes("gsap.com") ||
-         args[0].includes("has either width or height modified, but not the other"))
+          args[0].includes("Clock: This module has been deprecated") ||
+          args[0].includes("GSAP target") ||
+          args[0].includes("gsap.com") ||
+          args[0].includes("has either width or height modified, but not the other"))
       ) {
         return;
       }
@@ -27,13 +27,13 @@ if (typeof window !== "undefined") {
 }
 
 export default function Providers({ children }: { children: React.ReactNode }) {
- return (
-  <AuthProvider>
-   <MemberProvider>
-    {children}
-    <LoginModal />
-   </MemberProvider>
-  </AuthProvider>
- );
+  return (
+    <AuthProvider>
+      <MemberProvider>
+        {children}
+        <LoginModal />
+      </MemberProvider>
+    </AuthProvider>
+  );
 }
 

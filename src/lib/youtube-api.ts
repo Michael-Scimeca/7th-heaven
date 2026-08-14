@@ -31,7 +31,6 @@ export function loadYouTubeAPI(onReady: () => void): void {
   // Script already loading — just wait in the queue
   if (window.__ytApiLoading) return;
 
-  // First caller — set up the global callback and inject the script
   window.__ytApiLoading = true;
   window.onYouTubeIframeAPIReady = () => {
     window.__ytApiLoading = false;
@@ -40,12 +39,34 @@ export function loadYouTubeAPI(onReady: () => void): void {
     callbacks.forEach((cb) => cb());
   };
 
-  // Remove all unused preconnect link tags for ytimg.com to eliminate "Unused preconnect" warnings
-  const existingPreconnects = Array.from(document.querySelectorAll('link[rel="preconnect"][href*="ytimg.com"]'));
-  existingPreconnects.forEach((el) => el.remove());
+  const injectScript = () => {
+    const existing = document.querySelector('script[src*="youtube.com/iframe_api"]');
+    if (!existing) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      tag.async = true;
+      document.head.appendChild(tag);
+    }
+  };
 
-  const tag = document.createElement("script");
-  tag.src = "https://www.youtube.com/iframe_api";
-  tag.async = true;
-  document.head.appendChild(tag);
+  // Defer script injection so YouTube's www-player.css is removed from the critical request chain
+  if (document.readyState === "complete") {
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(injectScript);
+    } else {
+      setTimeout(injectScript, 600);
+    }
+  } else {
+    window.addEventListener(
+      "load",
+      () => {
+        if ("requestIdleCallback" in window) {
+          (window as any).requestIdleCallback(injectScript);
+        } else {
+          setTimeout(injectScript, 600);
+        }
+      },
+      { once: true }
+    );
+  }
 }

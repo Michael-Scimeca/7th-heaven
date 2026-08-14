@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import SlideUpReveal from "@/components/SlideUpReveal";
+import TransitionLink from "@/components/TransitionLink";
 
 export default function PageTransitionDemo() {
   const curtainRef = useRef<HTMLDivElement>(null);
@@ -65,6 +66,34 @@ export default function PageTransitionDemo() {
 
   return (
     <div className="site-container flex flex-col gap-16 py-16 md:py-24">
+      <div className="rounded-2xl border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 p-6 flex flex-col gap-3">
+        <span
+          className="text-xs font-black uppercase tracking-[0.3em]"
+          style={{ color: "var(--color-accent)" }}
+        >
+          Read this first
+        </span>
+        <p className="max-w-2xl text-base text-white/80 leading-relaxed">
+          Everything below on this page (including the &quot;Replay page
+          transition&quot; button) is a self-contained component demo — it
+          replays a GSAP timeline in place, it does not navigate anywhere.
+          It&apos;s useful for tuning the curtain&apos;s look, but it is
+          NOT the real thing. The real, live page-to-page transition now runs
+          on actual navigation via <code>TransitionLink</code> (wired into
+          the site&apos;s header nav, and into the link below) — a URL you
+          load directly never shows a transition, since there&apos;s no
+          previous page to transition from. Click through to see the real
+          one:
+        </p>
+        <TransitionLink
+          href="/pageslidetransition"
+          className="w-fit rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors"
+          style={{ backgroundColor: "var(--color-accent)" }}
+        >
+          See the real transition →
+        </TransitionLink>
+      </div>
+
       {/*
         Deliberately a <div>, not <header>: globals.css has a bare `header {
         height: 88px }` rule (min-width: 1024px block) meant for the site's
@@ -152,7 +181,6 @@ export default function PageTransitionDemo() {
               alt="7th Heaven"
               fill
               priority
-              sizes="100vw"
               unoptimized
               className="object-cover"
             />

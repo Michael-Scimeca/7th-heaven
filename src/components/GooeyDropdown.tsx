@@ -30,7 +30,6 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import styles from "./GooeyDropdown.module.css";
 
 export interface GooeyDropdownItem {
   label: string;
@@ -168,10 +167,10 @@ export default function GooeyDropdown({
     : { width: triggerSize.width, height: triggerSize.height, borderRadius: 999 };
 
   return (
-    <div ref={wrapRef} className={`${styles.wrap} ${className}`} data-open={open}>
+    <div ref={wrapRef} className={`gooey-drop-wrap ${className}`} data-open={open}>
       {/* Filter lives once per instance so multiple dropdowns don't fight
           over the same id. Zero-size + hidden so it renders nothing itself. */}
-      <svg width="0" height="0" aria-hidden="true" focusable="false" className={styles.svgDefs}>
+      <svg width="0" height="0" aria-hidden="true" focusable="false" className="gooey-drop-svgDefs">
         <defs>
           <filter id={filterId}>
             <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
@@ -186,9 +185,9 @@ export default function GooeyDropdown({
         </defs>
       </svg>
 
-      <div className={styles.shapes} style={{ filter: `url(#${filterId})` }}>
+      <div className="gooey-drop-shapes" style={{ filter: `url(#${filterId})` }}>
         <div
-          className={styles.panelShape}
+          className="gooey-drop-panelShape"
           style={{
             ...panelStyle,
             background: bgGlassColor,
@@ -202,7 +201,7 @@ export default function GooeyDropdown({
           }}
         />
         <div
-          className={styles.triggerShape}
+          className="gooey-drop-triggerShape"
           style={{
             width: triggerSize.width,
             height: triggerSize.height,
@@ -213,11 +212,11 @@ export default function GooeyDropdown({
         />
       </div>
 
-      <div className={styles.content}>
+      <div className="gooey-drop-content">
         <button
           ref={triggerRef}
           type="button"
-          className={`${styles.trigger} ${buttonClassName}`}
+          className={`gooey-drop-trigger ${buttonClassName}`}
           style={{ color: textColor }}
           onClick={toggle}
           aria-haspopup="menu"
@@ -230,7 +229,7 @@ export default function GooeyDropdown({
               height="6"
               viewBox="0 0 10 6"
               fill="none"
-              className={styles.chevron}
+              className="gooey-drop-chevron"
               data-open={open}
             >
               <path
@@ -246,7 +245,7 @@ export default function GooeyDropdown({
         </button>
 
         <ul
-          className={styles.menu}
+          className="gooey-drop-menu"
           data-open={open && isMorphComplete}
           role="menu"
           aria-hidden={!open || !isMorphComplete}

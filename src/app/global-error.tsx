@@ -47,7 +47,9 @@ export default function GlobalError({
       error.message?.includes("The node before") ||
       error.message?.includes("is not a child") ||
       error.message?.includes("Hydration") ||
-      error.message?.includes("hydration");
+      error.message?.includes("hydration") ||
+      error.message?.includes("Module not found") ||
+      error.message?.includes("Cannot find module");
 
     if (isDomError && !resetAttempted.current) {
       resetAttempted.current = true;

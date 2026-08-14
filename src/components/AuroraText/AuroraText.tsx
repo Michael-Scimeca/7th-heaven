@@ -1,7 +1,6 @@
 "use client";
 
 import React, { memo } from "react";
-import styles from "./AuroraText.module.css";
 
 interface AuroraTextProps {
   children: React.ReactNode;
@@ -38,7 +37,7 @@ export const AuroraText = memo(
       <span className={`relative inline-block ${className}`}>
         <span className="sr-only">{children}</span>
         <span
-          className={`${styles.aurora} relative bg-clip-text text-transparent`}
+          className="aurora-text-aurora relative bg-clip-text text-transparent"
           style={gradientStyle}
           aria-hidden="true"
         >

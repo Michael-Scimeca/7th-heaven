@@ -11,7 +11,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import Lenis from 'lenis';
 import type * as THREE from 'three';
-import styles from './CruiseSnakeItinerary.module.css';
 
 import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
 
@@ -646,7 +645,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add(styles.cardVisible);
+            entry.target.classList.add("snake-itinerary-cardVisible");
             observer.unobserve(entry.target);
           }
         });
@@ -671,7 +670,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
 
   return (
     <section
-      className={styles.root}
+      className="snake-itinerary-root"
       ref={sectionRef}
     >
       {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
@@ -682,9 +681,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         }}
       />
       {/* ── Header (Inside Blue Container Box) ── */}
-      <div className={styles.header}>
-        <span className={styles.eyebrow}><span>—</span> Your Voyage <span>—</span></span>
-        <h2 id="itinerary" className={styles.title}>Official Itinerary</h2>
+      <div className="snake-itinerary-header">
+        <span className="snake-itinerary-eyebrow"><span>—</span> Your Voyage <span>—</span></span>
+        <h2 id="itinerary" className="snake-itinerary-title">Official Itinerary</h2>
       </div>
 
       {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
@@ -1059,10 +1058,10 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       )}
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div ref={canvasRef} className={styles.canvas} style={{ height: totalH, width: '100%', maxWidth: '100%' }}>
+      <div ref={canvasRef} className="snake-itinerary-canvas" style={{ height: totalH, width: '100%', maxWidth: '100%' }}>
         {/* SVG — path + nodes */}
         <svg
-          className={styles.svg}
+          className="snake-itinerary-svg"
           viewBox={`0 0 ${SVG_W} ${totalH}`}
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -1098,7 +1097,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeDasharray="12 24 6 18"
-            className={styles.waterCurrent}
+            className="snake-itinerary-waterCurrent"
             style={{ fill: 'none' }}
           />
 
@@ -1111,7 +1110,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeDasharray="4 40 2 50"
-            className={styles.waterHighlight}
+            className="snake-itinerary-waterHighlight"
             style={{ fill: 'none' }}
           />
 
@@ -1142,14 +1141,14 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
               )}
               {/* Card content header & events list with responsive inner padding (less padding on mobile) */}
               <div className="px-4 sm:px-6 md:px-8 pb-4 md:pb-6 pt-2">
-                <h3 className={styles.cardTitle}>{day.theme}</h3>
-                <ul className={styles.eventsList}>
+                <h3 className="snake-itinerary-cardTitle">{day.theme}</h3>
+                <ul className="snake-itinerary-eventsList">
                   {day.events.map(ev => (
-                    <li key={ev.id} className={styles.eventItem}>
-                      <span className={styles.eventTime} style={{ color: themeColor }}>{ev.time}</span>
+                    <li key={ev.id} className="snake-itinerary-eventItem">
+                      <span className="snake-itinerary-eventTime" style={{ color: themeColor }}>{ev.time}</span>
                       <div>
-                        <div className={styles.eventTitle}>{ev.title}</div>
-                        {ev.subtitle && <div className={styles.eventSubtitle}>{ev.subtitle}</div>}
+                        <div className="snake-itinerary-eventTitle">{ev.title}</div>
+                        {ev.subtitle && <div className="snake-itinerary-eventSubtitle">{ev.subtitle}</div>}
                       </div>
                     </li>
                   ))}
@@ -1207,7 +1206,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
             <div
               key={`card-${i}-${day?.theme || day?.location || 'day'}`}
               ref={el => { cardRefs.current[i] = el; }}
-              className={`${styles.card} ${node.isLeft ? styles.cardLeft : styles.cardRight}`}
+              className={`snake-itinerary-card ${node.isLeft ? "snake-itinerary-cardLeft" : "snake-itinerary-cardRight"}`}
               style={cardStyle}
             >
               {cardContent}

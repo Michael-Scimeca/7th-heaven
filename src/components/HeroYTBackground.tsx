@@ -64,9 +64,24 @@ export default function HeroYTBackground({ videoId }: HeroYTBackgroundProps) {
       playerRef.current = player;
     };
 
-    loadYouTubeAPI(initPlayer);
+    let timerId: any = null;
+
+    const startPlayerLoading = () => {
+      if ("requestIdleCallback" in window) {
+        (window as any).requestIdleCallback(() => loadYouTubeAPI(initPlayer));
+      } else {
+        timerId = setTimeout(() => loadYouTubeAPI(initPlayer), 2000);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      startPlayerLoading();
+    } else {
+      window.addEventListener("load", startPlayerLoading, { once: true });
+    }
 
     return () => {
+      if (timerId) clearTimeout(timerId);
       if (playerRef.current) {
         try { playerRef.current.destroy(); } catch {}
         playerRef.current = null;
