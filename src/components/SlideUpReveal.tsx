@@ -23,7 +23,7 @@
  *   </SlideUpReveal>
  */
 
-import {
+import React, {
   CSSProperties,
   ElementType,
   ReactNode,
@@ -151,12 +151,11 @@ export default function SlideUpReveal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, replayKey, effectiveType, mask, delay, stagger, duration, ease, skew]);
 
-  const Tag = as as ElementType;
-
-  return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    <Tag ref={ref as any} className={className ?? undefined} style={style ?? undefined}>
-      {children as ReactNode}
-    </Tag>
+  // Use React.createElement to avoid TypeScript 'never' prop inference
+  // that occurs when a polymorphic ElementType is used as a JSX tag directly.
+  return React.createElement(
+    as as string,
+    { ref, className, style },
+    children as ReactNode
   );
 }
