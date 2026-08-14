@@ -4,9 +4,28 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import videosData from "../../public/data/videos.json";
-
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
+
+type VideoCategoryData = {
+  category: string;
+  videos: Array<{
+    id: string;
+    title: string;
+    duration?: string;
+    viewCount?: string;
+    year: string | number;
+  }>;
+};
+
+const FALLBACK_VIDEOS: VideoCategoryData[] = [
+  {
+    category: "Featured",
+    videos: [
+      { id: "BzHUNTZ66zY", title: "Ain't That Just Beautiful (Official Video)", year: 2026 },
+      { id: "i7dK9GCZOYo", title: "30 Songs in 30 Minutes Medley", year: 2025 }
+    ]
+  }
+];
 
 interface SmallCardProps {
   video: {
@@ -68,7 +87,8 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
 }
 
 export default function VideoSection() {
-  const [activeFilter, setActiveFilter] = useState(videosData[0]?.category || "");
+  const [videosData, setVideosData] = useState<VideoCategoryData[]>(FALLBACK_VIDEOS);
+  const [activeFilter, setActiveFilter] = useState(FALLBACK_VIDEOS[0]?.category || "");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [navStuck, setNavStuck] = useState(false);
   const [visibleCount, setVisibleCount] = useState(15);
@@ -77,6 +97,19 @@ export default function VideoSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const navSentinelRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let active = true;
+    import("../../public/data/videos.json").then((m) => {
+      if (active && m.default) {
+        setVideosData(m.default as unknown as VideoCategoryData[]);
+        if (!activeFilter || activeFilter === FALLBACK_VIDEOS[0]?.category) {
+          setActiveFilter(m.default[0]?.category || "");
+        }
+      }
+    });
+    return () => { active = false; };
+  }, []);
 
   const filteredVideos =
     videosData.find((c) => c.category === activeFilter)?.videos || [];
