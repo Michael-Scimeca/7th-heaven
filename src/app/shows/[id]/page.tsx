@@ -10,6 +10,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+export async function generateStaticParams() {
+  const { data: shows } = await supabase.from("shows").select("id").limit(100);
+  return (shows || []).map((show) => ({ id: String(show.id) }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const { data: show } = await supabase.from("shows").select("venue_name, city, state, date").eq("id", id).single();
