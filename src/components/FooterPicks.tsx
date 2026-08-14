@@ -153,10 +153,10 @@ export default function FooterPicks() {
       Engine.update(engine, delta);
 
       const containerHeight = container.clientHeight;
+      const pickW = CONFIG.sizePx;
+      const pickH = (pickW * 524.5) / 429.5;
       for (let i = picks.length - 1; i >= 0; i--) {
         const p = picks[i];
-        const pickW = p.el.getBoundingClientRect().width || CONFIG.sizePx;
-        const pickH = (pickW * 524.5) / 429.5;
         const { x, y } = p.body.position;
 
         if (y - pickH / 2 > containerHeight + 40) {

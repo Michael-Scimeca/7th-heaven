@@ -268,9 +268,9 @@ export default function FallingPicks() {
 
     let frameId: number;
     function loop() {
+      const pickW = configRef.current.sizePx;
+      const pickH = (pickW * 524.5) / 429.5;
       for (const p of picksRef.current) {
-        const pickW = p.el.getBoundingClientRect().width || configRef.current.sizePx;
-        const pickH = (pickW * 524.5) / 429.5;
         const { x, y } = p.body.position;
         p.el.style.transform = `translate(${x - pickW / 2}px, ${
           y - pickH / 2
