@@ -721,7 +721,7 @@ export default function CruiseDashboard() {
           {/* Main Content Column (Left 2 Cols) */}
           <div className="lg:col-span-2 flex flex-col gap-8 min-w-0 max-w-full">
             {/* 1. Cruise Information & Guidelines */}
-            <div className="p-6 md:p-8 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl h-fit min-w-0 max-w-full overflow-hidden">
+            <div className="h-fit min-w-0 max-w-full overflow-hidden">
               <div className="relative z-10 min-w-0 max-w-full">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 flex-wrap">
                   <span className="text-3xl">📋</span>
