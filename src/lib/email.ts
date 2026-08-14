@@ -11,17 +11,28 @@ interface EmailPayload {
   replyTo?: string;
 }
 
+export function isPublicWebmailDomain(email?: string): boolean {
+  if (!email) return true;
+  return /@(aol|gmail|yahoo|hotmail|outlook|icloud|comcast)\.(com|net)$/i.test(email.trim());
+}
+
+export function getSendingFromEmail(email?: string): string {
+  if (!email || isPublicWebmailDomain(email)) {
+    return 'onboarding@resend.dev';
+  }
+  return email.trim();
+}
+
+export function buildUnsubscribeUrl(email: string): string {
+  const encodedEmail = encodeURIComponent(email.toLowerCase().trim());
+  return `${UNSUBSCRIBE_BASE}?email=${encodedEmail}`;
+}
+
 /**
  * CAN-SPAM compliant email sender.
- *
- * Automatically:
- * 1. Replaces {{email}} placeholder in unsubscribe URLs with the actual recipient
- * 2. Adds RFC 8058 List-Unsubscribe + List-Unsubscribe-Post headers
- *    (enables native "Unsubscribe" button in Gmail, Outlook, Apple Mail)
  */
 export async function sendEmail({ to, subject, html, replyTo }: EmailPayload) {
   try {
-    // Resolve the primary recipient for personalization
     const primaryRecipient = Array.isArray(to) ? to[0] : to;
     const encodedEmail = encodeURIComponent(primaryRecipient.toLowerCase().trim());
 
@@ -29,7 +40,7 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailPayload) {
     const personalizedHtml = html.replace(/\{\{email\}\}/g, encodedEmail);
 
     // CAN-SPAM: Build one-click unsubscribe URL for List-Unsubscribe header
-    const unsubscribeUrl = `${UNSUBSCRIBE_BASE}?email=${encodedEmail}`;
+    const unsubscribeUrl = buildUnsubscribeUrl(primaryRecipient);
 
     // If we don't have a real API key configured yet, log it to the console instead of throwing an error
     if (!process.env.RESEND_API_KEY) {
@@ -42,17 +53,11 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailPayload) {
       return { success: true, mock: true };
     }
 
-    let fromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
-    
-    // Resend requires a verified custom domain or their default onboarding domain (onboarding@resend.dev).
-    // Public webmail domains (aol.com, gmail.com, yahoo.com, hotmail.com) cannot be verified on Resend and trigger a 403.
-    const isUnverifiedPublicDomain = /@(aol|gmail|yahoo|hotmail|outlook|icloud)\.com$/i.test(fromAddress.trim());
-    if (isUnverifiedPublicDomain) {
-      fromAddress = 'onboarding@resend.dev';
-    }
+    const rawFromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    const verifiedFromAddress = getSendingFromEmail(rawFromAddress);
 
     const data = await resend.emails.send({
-      from: `7th Heaven <${fromAddress}>`, // Change to noreply@7thheavenband.com after domain verification
+      from: `7th Heaven <${verifiedFromAddress}>`,
       to,
       replyTo,
       subject,
@@ -69,4 +74,3 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailPayload) {
     return { success: false, error };
   }
 }
-

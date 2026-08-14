@@ -9,6 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "check-all": "npm run typecheck && npm run doctor && npm run test",
     "sitemap": "node scripts/generate-sitemap.js",
     "optimize-images": "node scripts/optimize_images.js",
     "doctor": "npx react-doctor@latest",
