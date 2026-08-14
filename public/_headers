@@ -5,6 +5,10 @@
   Cache-Control: public, max-age=31536000, immutable
   Expires: Thu, 31 Dec 2037 23:59:59 GMT
 
+/_next/static/css/*
+  Cache-Control: public, max-age=31536000, immutable
+  Expires: Thu, 31 Dec 2037 23:59:59 GMT
+
 # Far-future caching & Expires headers for images, fonts, audio, video & loose static assets
 /*.ico
   Cache-Control: public, max-age=31536000, immutable
