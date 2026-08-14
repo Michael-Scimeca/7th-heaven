@@ -232,6 +232,7 @@ export default function HeroLiveThumbs() {
                   <Image width={220} height={195}
                     src={thumbSrc}
                     alt={crewName}
+                    priority={idx === 0}
                     sizes="(max-width: 768px) 100vw, 220px"
                     onLoad={() => setImgLoaded(prev => ({ ...prev, [post.id]: true }))}
                     className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 transition-opacity duration-300 ${
