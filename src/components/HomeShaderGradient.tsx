@@ -215,12 +215,24 @@ export default function HomeShaderGradient() {
       observer.observe(canvasRef.current);
     }
 
+    let cachedWinW = typeof window !== "undefined" ? window.innerWidth : 1920;
+    let cachedWinH = typeof window !== "undefined" ? window.innerHeight : 1080;
+
+    const onResize = () => {
+      cachedWinW = window.innerWidth;
+      cachedWinH = window.innerHeight;
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", onResize, { passive: true });
+    }
+
     const updatePositionLayer = (t: number) => {
       if (!positionLayerRef.current) return;
       const periodMs = GRADIENT_SETTINGS.colorMovePeriod * 1000;
       const basePhase = (((t - startMs) % periodMs) / periodMs) * Math.PI * 2;
-      const winW = typeof window !== "undefined" ? window.innerWidth : 1920;
-      const winH = typeof window !== "undefined" ? window.innerHeight : 1080;
+      const winW = cachedWinW;
+      const winH = cachedWinH;
 
       const layers = GRADIENT_SETTINGS.colors.flatMap((c, idx) => {
         if (!c.enabled) return [];
@@ -288,6 +300,7 @@ export default function HomeShaderGradient() {
         }
         if (typeof window !== "undefined") {
           window.removeEventListener("scroll", onScroll);
+          window.removeEventListener("resize", onResize);
         }
         if (observer) {
           observer.disconnect();

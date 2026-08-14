@@ -489,9 +489,22 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
     let running = true;
     let rafId: number;
     let currentFillOffset = 99999;
-    // Cache path length — getTotalLength() forces browser layout and is expensive.
-    // Compute once (it never changes for a static path) and reuse every frame.
+    // Cache path length & canvas bounds — getTotalLength() and getBoundingClientRect() force browser reflow.
+    // Compute once and update on resize, eliminating layout thrashing during scroll.
     let cachedTotalLen = -1;
+    let cachedCanvasTop = -1;
+    let cachedViewH = -1;
+
+    const onResize = () => {
+      cachedCanvasTop = -1;
+      if (typeof window !== "undefined") {
+        cachedViewH = window.innerHeight;
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", onResize, { passive: true });
+    }
 
     const tick = (time: number) => {
       if (!running) return;
@@ -510,15 +523,21 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const totalLen = cachedTotalLen;
         if (currentFillOffset > totalLen) currentFillOffset = totalLen;
 
-        const rect = canvas.getBoundingClientRect();
-        const viewH = window.innerHeight;
+        // Calculate canvas top offset relative to document (cached to eliminate forced reflows during scroll)
+        if (cachedCanvasTop < 0) {
+          const b = canvas.getBoundingClientRect();
+          cachedCanvasTop = b.top + window.scrollY;
+          cachedViewH = window.innerHeight;
+        }
+        const viewH = cachedViewH > 0 ? cachedViewH : window.innerHeight;
+        const rectTop = cachedCanvasTop - window.scrollY;
 
         // Lock boat 1:1 with viewport scroll position matching first node to last node
         const startY = nodes[0]?.y ?? 50;
         const endY = nodes[nodes.length - 1]?.y ?? (totalH - 300);
 
         const viewportFocusY = viewH * (t.scrollStartMul ?? 0.45);
-        const relativeScrollY = viewportFocusY - rect.top;
+        const relativeScrollY = viewportFocusY - rectTop;
 
         // Calculate maximum reachable relative Y on current viewport height so progress reaches 1.0 at full scroll
         const maxReachableY = Math.min(endY, Math.max(startY + 100, totalH - viewH + viewportFocusY));
@@ -533,7 +552,7 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
         const targetOffset = totalLen - (rawShipDist + lineLead);
 
         // Section is in range when the scroll focus position reaches the canvas top and bottom hasn't completely scrolled out
-        const isSectionInRange = relativeScrollY > 0 && rect.bottom > -200;
+        const isSectionInRange = relativeScrollY > 0 && (rectTop + totalH) > -200;
         if (hasScrolledIntoRangeRef.current !== isSectionInRange) {
           hasScrolledIntoRangeRef.current = isSectionInRange;
           setHasScrolledIntoRange(isSectionInRange);
@@ -635,6 +654,9 @@ export default function CruiseSnakeItinerary({ itinerary }: Props) {
       cancelAnimationFrame(rafId);
       if (fallbackTimer) clearTimeout(fallbackTimer);
       window.removeEventListener('7h:pagetransition:done', startLoop);
+      if (typeof window !== "undefined") {
+        window.removeEventListener('resize', onResize);
+      }
     };
   }, [itinerary.length, layoutMode, nodes, totalH]);
 
