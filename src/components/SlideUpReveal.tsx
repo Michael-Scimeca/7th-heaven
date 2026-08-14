@@ -143,11 +143,10 @@ export default function SlideUpReveal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, replayKey, type, mask, delay, stagger, duration, ease, skew]);
 
-  const Component = (as || 'div') as any;
-
-  return (
-    <Component ref={ref} className={className} style={style}>
-      {children as ReactNode}
-    </Component>
+  return createElement(
+    as,
+    { ref, className, style },
+    children
   );
 }
+
