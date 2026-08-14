@@ -376,7 +376,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                     {t.youtube && (
                       <iframe
                         className="su-thumb-yt"
-                        src={`https://www.youtube.com/embed/${t.youtube}?autoplay=1&mute=1&loop=1&playlist=${t.youtube}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+                        src={`https://www.youtube-nocookie.com/embed/${t.youtube}?autoplay=1&mute=1&loop=1&playlist=${t.youtube}&controls=0&modestbranding=1&playsinline=1&rel=0`}
                         title={t.label}
                         allow="autoplay; encrypted-media"
                       />
