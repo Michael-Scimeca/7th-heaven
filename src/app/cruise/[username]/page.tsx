@@ -10,10 +10,13 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import DOMPurify from "dompurify";
 import CruiseChat from "@/components/CruiseChat";
 import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
-import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
+
+// three.js/@react-three visualization — matches the ssr:false dynamic
+// import already used for this component on /cruise (see cruise/page.tsx).
+const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import 'react-quill-new/dist/quill.snow.css';
 import { sanitizeHtml } from "@/lib/sanitize-html";
@@ -797,7 +800,7 @@ export default function CruiseDashboard() {
           {/* Right Sidebar Column (1 Col) */}
           <div className="lg:col-span-1">
             <div className="flex flex-col gap-6">
-              <CruiseChat memberOverride={effectiveMember} />
+              <CruiseChat memberOverride={effectiveMember} className="h-[calc(100vh-90px)]" />
               <PassengersWidget />
             </div>
           </div>

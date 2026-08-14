@@ -4,6 +4,10 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 const nextConfig: NextConfig = {
   devIndicators: false,
   reactStrictMode: true,
+  // Explicit even though it's Next's default — belt-and-suspenders so gzip
+  // compression stays on for any response path (e.g. `next start`) that
+  // isn't already compressed upstream by Netlify's CDN.
+  compress: true,
 
   allowedDevOrigins: ["*.trycloudflare.com", "*.loca.lt", "*.lhr.life", "*.tunnelmole.net", "10.0.0.189", "localhost:3000"],
   productionBrowserSourceMaps: false,
@@ -88,6 +92,44 @@ const nextConfig: NextConfig = {
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+        ],
+      },
+      // ── Caching / Expires headers for /public ──
+      // Next.js only sets far-future Cache-Control on /_next/static automatically;
+      // everything served straight out of /public gets no Expires/Cache-Control at
+      // all by default, which is what YSlow's "Add Expires headers" rule flags.
+      {
+        // Truly static, binary assets that are effectively never replaced in place
+        // (fonts, audio tracks, video, lottie animations, 3D objects) — cache for
+        // a year and mark immutable.
+        source: "/(Fonts|audio|movie|lottie|objects)/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        // Band photos / sponsor logos / generated screenshots — these can be
+        // swapped out by an admin without a filename change, so cache for a
+        // week with revalidation instead of a full year.
+        source: "/(images|assets|sitemap-screenshots)/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+        ],
+      },
+      {
+        // Fan/user uploads and CMS-adjacent data JSON change more often —
+        // short cache with background revalidation.
+        source: "/(uploads|data)/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=600" },
+        ],
+      },
+      {
+        // Catch-all by extension for loose static files at the /public root
+        // (favicons, root-level images/SVGs, etc.) not covered above.
+        source: "/:path*.(ico|svg|jpg|jpeg|png|gif|webp|avif|woff|woff2|ttf|otf)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
         ],
       },
     ];

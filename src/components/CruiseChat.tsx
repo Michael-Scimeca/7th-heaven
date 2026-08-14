@@ -508,7 +508,7 @@ export default function CruiseChat({
         boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
-      className={`rounded-3xl backdrop-blur-md flex flex-col h-full min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
+      className={`rounded-3xl backdrop-blur-md flex flex-col h-[calc(100vh-90px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}
     >
       {showHeader && (
         <div className="py-2 px-3 border-b border-white/10 flex items-center justify-between z-10 relative shrink-0">

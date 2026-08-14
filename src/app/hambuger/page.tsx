@@ -66,6 +66,8 @@ export default function HamburgerTestPage() {
 
   const demo = (
     <div className="hb-page">
+      <div className="hb-blur-bg" aria-hidden="true" />
+
       <a href="/" className="hb-back">
         ← Back to site
       </a>
@@ -142,7 +144,11 @@ export default function HamburgerTestPage() {
           position: fixed;
           inset: 0;
           z-index: 2147483647;
-          background-color: rgba(215, 215, 215, 0.75);
+          background-color: #cfcfd4;
+          /* belt-and-suspenders: also try to blur whatever's actually behind
+             this portal — works in most browsers, but backdrop-filter over a
+             live WebGL canvas is unreliable, so .hb-blur-bg below is the
+             guaranteed visual (a self-contained blurred gradient). */
           backdrop-filter: blur(24px) saturate(140%);
           -webkit-backdrop-filter: blur(24px) saturate(140%);
           font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -150,7 +156,20 @@ export default function HamburgerTestPage() {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          overflow: auto;
+          overflow: hidden auto;
+        }
+        .hb-blur-bg {
+          position: fixed;
+          inset: -10vmax;
+          z-index: -1;
+          background:
+            radial-gradient(circle at 18% 22%, #7b52c9 0%, transparent 45%),
+            radial-gradient(circle at 82% 18%, #368887 0%, transparent 42%),
+            radial-gradient(circle at 30% 82%, #c96f9e 0%, transparent 45%),
+            radial-gradient(circle at 78% 78%, #4a3d8f 0%, transparent 45%),
+            #cfcfd4;
+          filter: blur(70px) saturate(130%);
+          transform: translateZ(0);
         }
         .hb-back {
           position: fixed;

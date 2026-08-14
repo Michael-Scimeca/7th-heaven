@@ -10,7 +10,12 @@ import { useMember } from "@/context/MemberContext";
 import { useState, useEffect, useCallback } from "react";
 import { useTransition } from "@/context/TransitionContext";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
-import FooterPicks from "@/components/FooterPicks";
+import dynamic from "next/dynamic";
+
+// Decorative physics scene (matter-js) — not needed for SSR/SEO, and it
+// renders on every page via the global Footer, so keep it out of the
+// shared initial bundle.
+const FooterPicks = dynamic(() => import("@/components/FooterPicks"), { ssr: false });
 
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },

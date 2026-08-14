@@ -23,7 +23,6 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
-import CursorFollower from "@/components/CursorFollower";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
