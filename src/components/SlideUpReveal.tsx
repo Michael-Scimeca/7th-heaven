@@ -27,6 +27,7 @@ import {
   CSSProperties,
   ElementType,
   ReactNode,
+  createElement,
   useLayoutEffect,
   useRef,
 } from "react";
@@ -142,11 +143,14 @@ export default function SlideUpReveal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, replayKey, type, mask, delay, stagger, duration, ease, skew]);
 
-  const Tag = as as ElementType;
-
-  return (
-    <Tag ref={ref} className={className} style={style}>
-      {children as ReactNode}
-    </Tag>
+  // Rendered via createElement rather than JSX: with `as` typed as the
+  // broad `ElementType` union, JSX prop-checking collapses common props
+  // like `className`/`style` to `never` under React 19's stricter types
+  // (TypeScript can't reconcile one props shape across every possible
+  // element in the union). createElement's typing doesn't hit that issue.
+  return createElement(
+    as as ElementType,
+    { ref, className, style },
+    children as ReactNode
   );
 }
