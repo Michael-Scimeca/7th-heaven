@@ -131,9 +131,9 @@ function PassengersWidget() {
     <div className="p-2 relative overflow-hidden group">
       <div className="flex justify-between items-end mb-5 relative z-10">
         <div>
-          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-black/50 mb-1">Community</h2>
+          <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-white/50 mb-1">Community</h2>
           <div className="flex items-center gap-2">
-            <span className="text-black font-black text-2xl italic tracking-wide">{totalFans}</span>
+            <span className="text-white font-black text-2xl italic tracking-wide">{totalFans}</span>
             <span className=" text-[var(--color-accent)] font-bold uppercase tracking-widest text-xs">Cruise Members Onboard</span>
           </div>
         </div>
