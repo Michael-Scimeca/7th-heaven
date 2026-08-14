@@ -3,7 +3,6 @@
 /* eslint-disable react-doctor/effect-needs-cleanup */
 
 import React, { useEffect, useRef } from "react";
-import { NeatGradient } from "@firecms/neat";
 
 const GRADIENT_SETTINGS = {
   shapeType: "plane",
@@ -110,82 +109,76 @@ export default function HomeShaderGradient() {
     // Skip WebGL gradient on mobile — too GPU intensive; CSS background used instead
     if (typeof window !== "undefined" && window.innerWidth < 768) return;
 
-    let neatInstance: NeatGradient | null = null;
+    let neatInstance: any = null;
     let watermarkTimeout: NodeJS.Timeout | null = null;
     let idleId: any = null;
+    let deferTimer: NodeJS.Timeout | null = null;
 
-    const initNeat = () => {
+    const initNeat = async () => {
       if (!canvasRef.current) return;
       try {
+        const { NeatGradient } = await import("@firecms/neat");
         neatInstance = new NeatGradient({
           ref: canvasRef.current,
-          colors: GRADIENT_SETTINGS.colors.map((c) => ({
-            color: c.color,
-            enabled: c.enabled,
-            influence: c.influence
-          })),
-        speed: GRADIENT_SETTINGS.speed,
-        waveAmplitude: GRADIENT_SETTINGS.waveAmplitude,
-        waveFrequencyX: GRADIENT_SETTINGS.waveFrequencyX,
-        waveFrequencyY: GRADIENT_SETTINGS.waveFrequencyY,
-        colorBlending: GRADIENT_SETTINGS.colorBlending,
-        colorSaturation: GRADIENT_SETTINGS.colorSaturation,
-        colorBrightness: GRADIENT_SETTINGS.colorBrightness,
-        horizontalPressure: GRADIENT_SETTINGS.horizontalPressure,
-        verticalPressure: GRADIENT_SETTINGS.verticalPressure,
-        shadows: GRADIENT_SETTINGS.shadows,
-        highlights: GRADIENT_SETTINGS.highlights,
-        grainIntensity: 0, // Grain handled via overlay canvas
-        resolution: 0.7, // Optimized resolution for smooth 60fps scrolling on High-DPI/Retina screens
-        wireframe: GRADIENT_SETTINGS.wireframe,
-        flatShading: GRADIENT_SETTINGS.flatShading,
-        antialias: false,
-        flowEnabled: GRADIENT_SETTINGS.flowEnabled,
-        flowDistortionA: GRADIENT_SETTINGS.flowDistortionA,
-        flowDistortionB: GRADIENT_SETTINGS.flowDistortionB,
-        flowScale: GRADIENT_SETTINGS.flowScale,
-        flowEase: GRADIENT_SETTINGS.flowEase,
-        domainWarpEnabled: GRADIENT_SETTINGS.domainWarpEnabled,
-        yOffset: GRADIENT_SETTINGS.yOffset,
-        yOffsetWaveMultiplier: GRADIENT_SETTINGS.yOffsetWaveMultiplier,
-        yOffsetColorMultiplier: GRADIENT_SETTINGS.yOffsetColorMultiplier,
-        yOffsetFlowMultiplier: GRADIENT_SETTINGS.yOffsetFlowMultiplier,
-        backgroundColor: GRADIENT_SETTINGS.backgroundColor,
-        backgroundAlpha: GRADIENT_SETTINGS.backgroundAlpha,
-        shapeType: GRADIENT_SETTINGS.shapeType as any,
-        cameraLock: GRADIENT_SETTINGS.cameraLock,
-        cameraX: GRADIENT_SETTINGS.cameraX,
-        cameraY: GRADIENT_SETTINGS.cameraY,
-        cameraZ: GRADIENT_SETTINGS.cameraZ,
-        cameraZoom: GRADIENT_SETTINGS.cameraZoom
-      });
+          colors: GRADIENT_SETTINGS.colors,
+          speed: GRADIENT_SETTINGS.speed,
+          horizontalPressure: GRADIENT_SETTINGS.horizontalPressure,
+          verticalPressure: GRADIENT_SETTINGS.verticalPressure,
+          shadows: GRADIENT_SETTINGS.shadows,
+          highlights: GRADIENT_SETTINGS.highlights,
+          grainIntensity: 0, // Grain handled via overlay canvas
+          resolution: 0.7, // Optimized resolution for smooth 60fps scrolling on High-DPI/Retina screens
+          wireframe: GRADIENT_SETTINGS.wireframe,
+          flatShading: GRADIENT_SETTINGS.flatShading,
+          antialias: false,
+          flowEnabled: GRADIENT_SETTINGS.flowEnabled,
+          flowDistortionA: GRADIENT_SETTINGS.flowDistortionA,
+          flowDistortionB: GRADIENT_SETTINGS.flowDistortionB,
+          flowScale: GRADIENT_SETTINGS.flowScale,
+          flowEase: GRADIENT_SETTINGS.flowEase,
+          domainWarpEnabled: GRADIENT_SETTINGS.domainWarpEnabled,
+          yOffset: GRADIENT_SETTINGS.yOffset,
+          yOffsetWaveMultiplier: GRADIENT_SETTINGS.yOffsetWaveMultiplier,
+          yOffsetColorMultiplier: GRADIENT_SETTINGS.yOffsetColorMultiplier,
+          yOffsetFlowMultiplier: GRADIENT_SETTINGS.yOffsetFlowMultiplier,
+          backgroundColor: GRADIENT_SETTINGS.backgroundColor,
+          backgroundAlpha: GRADIENT_SETTINGS.backgroundAlpha,
+          shapeType: GRADIENT_SETTINGS.shapeType as any,
+          cameraLock: GRADIENT_SETTINGS.cameraLock,
+          cameraX: GRADIENT_SETTINGS.cameraX,
+          cameraY: GRADIENT_SETTINGS.cameraY,
+          cameraZ: GRADIENT_SETTINGS.cameraZ,
+          cameraZoom: GRADIENT_SETTINGS.cameraZoom
+        });
 
-      // Completely disable WebGL watermark rendering pass inside NeatGradient canvas
-      if (neatInstance) {
-        (neatInstance as any)._licensed = true;
-        (neatInstance as any)._renderWatermark = () => { };
-        // Expose instance globally so style guide canvas controls can update it live
-        (window as any).__neatInstance = neatInstance;
-      }
-
-      // Remove any Neat watermark link injected into DOM
-      watermarkTimeout = setTimeout(() => {
-        if (canvasRef.current?.parentElement) {
-          const links = canvasRef.current.parentElement.querySelectorAll("a");
-          links.forEach((l) => l.remove());
+        // Completely disable WebGL watermark rendering pass inside NeatGradient canvas
+        if (neatInstance) {
+          (neatInstance as any)._licensed = true;
+          (neatInstance as any)._renderWatermark = () => { };
+          // Expose instance globally so style guide canvas controls can update it live
+          (window as any).__neatInstance = neatInstance;
         }
-        document.querySelectorAll('a[href*="neat"], a[href*="firecms"], .neat-link').forEach((l) => l.remove());
-      }, 50);
-    } catch (e) {
-      console.warn("NeatGradient init fallback:", e);
-    }
-  };
 
-  if ("requestIdleCallback" in window) {
-    idleId = (window as any).requestIdleCallback(initNeat);
-  } else {
-    idleId = setTimeout(initNeat, 1000);
-  }
+        // Remove any Neat watermark link injected into DOM
+        watermarkTimeout = setTimeout(() => {
+          if (canvasRef.current?.parentElement) {
+            const links = canvasRef.current.parentElement.querySelectorAll("a");
+            links.forEach((l) => l.remove());
+          }
+          document.querySelectorAll('a[href*="neat"], a[href*="firecms"], .neat-link').forEach((l) => l.remove());
+        }, 50);
+      } catch (e) {
+        console.warn("NeatGradient init fallback:", e);
+      }
+    };
+
+    deferTimer = setTimeout(() => {
+      if ("requestIdleCallback" in window) {
+        idleId = (window as any).requestIdleCallback(initNeat);
+      } else {
+        idleId = setTimeout(initNeat, 500);
+      }
+    }, 1500);
 
     // ── Position Overlay Animation ──
     let animFrameId: number;
@@ -313,6 +306,7 @@ export default function HomeShaderGradient() {
     }
 
     return () => {
+      if (deferTimer) clearTimeout(deferTimer);
       if (idleId) {
         if ("cancelIdleCallback" in window) (window as any).cancelIdleCallback(idleId);
         else clearTimeout(idleId);

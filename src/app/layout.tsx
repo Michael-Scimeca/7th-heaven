@@ -26,7 +26,7 @@ import PageTransition from "@/components/PageTransition";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
-const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
+const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"), { ssr: false });
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
