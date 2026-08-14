@@ -229,7 +229,7 @@ export default function HeroLiveThumbs() {
                     src={thumbSrc}
                     alt={crewName}
                     priority={idx === 0}
-                    sizes="(max-width: 768px) 100vw, 220px"
+                    sizes="220px"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
                   />
 
