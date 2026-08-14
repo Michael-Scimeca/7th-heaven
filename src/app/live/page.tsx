@@ -339,6 +339,7 @@ export default function LiveHubPage() {
                           src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
                           alt={room.title}
                           fill
+                          priority
                           sizes="(max-width: 768px) 100vw, 400px"
                           className="object-cover"
                         />
@@ -498,6 +499,7 @@ export default function LiveHubPage() {
                     src={room.image || "https://img.youtube.com/vi/wDEXG3kHjqk/hq720.jpg"}
                     alt={room.title}
                     fill
+                    priority={i < 2}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
