@@ -48,15 +48,15 @@ export function EmbarkationCountdown() {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 z-10">
+      <div className="flex items-center gap-4 z-10">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
-            <div className="bg-white/10 border border-white/25 rounded-2xl min-w-[60px] px-3.5 py-2.5 flex items-center justify-center shadow-lg backdrop-blur-md">
-              <span className="text-white font-mono font-black text-2xl leading-tight text-center tracking-tight">
+            <div className="min-w-[48px] flex items-center justify-center">
+              <span className="text-white font-mono font-black text-2xl md:text-3xl leading-none text-center">
                 {value.toString().padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] font-extrabold text-white/90 uppercase tracking-widest mt-1.5 drop-shadow-sm">{unit}</span>
+            <span className="text-[10px] font-extrabold text-white/80 uppercase tracking-widest mt-1 drop-shadow-sm">{unit}</span>
           </div>
         ))}
       </div>
