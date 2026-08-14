@@ -46,7 +46,6 @@ export default function HeroLiveThumbs() {
   const { snapshots } = useVideoSnapshots();
   const [isOpen, setIsOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState<Record<string, boolean>>({});
 
   const [scale, setScale] = useState(1);
 
@@ -67,7 +66,7 @@ export default function HeroLiveThumbs() {
       }
     };
     updateScale();
-    window.addEventListener("resize", updateScale);
+    window.addEventListener("resize", updateScale, { passive: true });
     return () => window.removeEventListener("resize", updateScale);
   }, []);
 
@@ -231,19 +230,8 @@ export default function HeroLiveThumbs() {
                     alt={crewName}
                     priority={idx === 0}
                     sizes="(max-width: 768px) 100vw, 220px"
-                    onLoad={() => setImgLoaded(prev => ({ ...prev, [post.id]: true }))}
-                    className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 transition-opacity duration-300 ${
-                      imgLoaded[post.id] ? "opacity-100" : "opacity-0"
-                    }`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90"
                   />
-                  {!imgLoaded[post.id] && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950">
-                      <div className="w-6 h-6 border-2 border-red-500/20 border-t-red-500 rounded-full animate-spin mb-2" />
-                      <span className="text-[var(--font-size-4xs)] font-black uppercase tracking-widest text-red-500/60 animate-pulse">
-                        Loading Stream
-                      </span>
-                    </div>
-                  )}
 
                   {/* Red gradient bottom fade */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />

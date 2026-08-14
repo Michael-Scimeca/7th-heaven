@@ -68,7 +68,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
 
   useEffect(() => {
     setCurrentTime(new Date());
-    const interval = setInterval(() => setCurrentTime(new Date()), 1000);
+    const interval = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(interval);
   }, []);
 

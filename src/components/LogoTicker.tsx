@@ -155,6 +155,8 @@ export default function LogoTicker({
         <style>{`
           .hoy-ticker-track {
             animation: hoy-ticker-scroll var(--ticker-speed, 40s) linear infinite;
+            will-change: transform;
+            transform: translateZ(0);
           }
           .hoy-ticker-track.hoy-ticker-reverse {
             animation-direction: reverse;
