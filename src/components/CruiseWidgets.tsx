@@ -39,7 +39,7 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-6 bg-transparent border-none p-2 relative overflow-visible">
+    <div className="flex flex-wrap items-center gap-6 bg-transparent border-none px-2 pt-4 pb-2 relative overflow-visible">
       <div className="flex items-center gap-4 border-r border-white/15 pr-6 shrink-0 z-10">
         <span className="text-4xl">🛳️</span>
         <div>
