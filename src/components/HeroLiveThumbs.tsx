@@ -210,10 +210,7 @@ export default function HeroLiveThumbs() {
         {/* ── Card Row ── */}
         <div className="flex items-end gap-3 select-none">
           {mediaPosts.slice(0, 2).map((post, idx) => {
-            const isVideo = !!post.video_url;
-            const fallbackSrc = isVideo
-              ? `https://img.youtube.com/vi/${extractYouTubeId(post.video_url!) || "BzHUNTZ66zY"}/mqdefault.jpg`
-              : post.image_url || "/images/band-performance.png";
+            const fallbackSrc = post.image_url || "/images/band-performance.png";
             // Prefer the live canvas snapshot if available, else fall back
             const thumbSrc = snapshots[idx] ?? fallbackSrc;
 
