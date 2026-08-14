@@ -22,14 +22,14 @@ import { useEffect } from "react";
 
 export default function ClientOnlyExtras() {
   useEffect(() => {
-    // High-priority LCP image preload for band-performance hero image
+    // High-priority LCP image preload for mobile hero banner image
     const ensureLcpPreload = () => {
-      const existing = document.querySelector('link[rel="preload"][as="image"][href*="band-performance"]');
+      const existing = document.querySelector('link[rel="preload"][as="image"][href*="hero-banner"]');
       if (!existing) {
         const link = document.createElement("link");
         link.rel = "preload";
         link.as = "image";
-        link.href = "/_next/image?url=%2Fimages%2Fband-performance.webp&w=1200&q=75";
+        link.href = "/_next/image?url=%2Fimages%2Fhero-banner.webp&w=1200&q=75";
         link.setAttribute("fetchpriority", "high");
         document.head.appendChild(link);
       }

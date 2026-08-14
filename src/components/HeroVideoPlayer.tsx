@@ -352,6 +352,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           alt="7th Heaven Live Stage"
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="absolute inset-0 w-full h-full object-cover z-0 brightness-[0.65]"
         />
