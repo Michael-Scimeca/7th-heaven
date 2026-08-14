@@ -121,6 +121,7 @@ export default function PageTransitionDemo() {
               alt="7th Heaven"
               fill
               priority
+              sizes="100vw"
               unoptimized
               className="object-cover"
             />
