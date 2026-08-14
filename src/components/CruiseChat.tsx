@@ -505,7 +505,6 @@ export default function CruiseChat({
       id="cruise-chat-root"
       data-lenis-prevent
       style={{
-        boxShadow: '0 0 25px var(--chat-glow-color, rgba(168, 85, 247, 0.35))',
         backgroundColor: 'var(--chat-box-bg, transparent)',
       }}
       className={`rounded-3xl backdrop-blur-md flex flex-col h-[calc(100vh-290px)] min-h-0 overflow-hidden text-white transition-all duration-300 ${className}`}

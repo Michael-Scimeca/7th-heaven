@@ -505,7 +505,7 @@ export function BookingManager({ email }: { email?: string }) {
   );
 
   return (
-    <div className="p-6 md:p-8 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl text-white relative overflow-hidden flex flex-col justify-between">
+    <div className="text-white relative overflow-hidden flex flex-col justify-between">
       <div>
         <div className="flex justify-between items-center mb-6 relative z-10">
           <div>

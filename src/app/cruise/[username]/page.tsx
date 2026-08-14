@@ -635,7 +635,7 @@ export default function CruiseDashboard() {
 
   return (
     <div className="min-h-screen bg-transparent text-white pt-[122px] pb-16 overflow-x-hidden w-full max-w-full selection:bg-cyan-500 selection:text-black">
-      <div className="site-container overflow-x-hidden">
+      <div className="overflow-x-hidden">
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <div className="flex items-start gap-4 mb-4">
