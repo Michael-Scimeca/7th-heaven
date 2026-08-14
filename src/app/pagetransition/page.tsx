@@ -7,40 +7,60 @@ import SlideUpReveal from "@/components/SlideUpReveal";
 
 export default function PageTransitionDemo() {
   const curtainRef = useRef<HTMLDivElement>(null);
+  const outgoingRef = useRef<HTMLDivElement>(null);
   const [replayKey, setReplayKey] = useState(0);
   const [transitionKey, setTransitionKey] = useState(0);
   const [headlineKey, setHeadlineKey] = useState(0);
 
-  // The actual page-transition curtain: a black overlay (holding the
-  // "outgoing" mark) that wipes away via clip-path, top edge fixed, bottom
-  // edge rising — NOT a scale/zoom on the photo underneath. The photo and
-  // incoming headline sit statically beneath the curtain the whole time;
-  // only the curtain's clip region animates, so the reveal reads as content
-  // being uncovered from the bottom up, matching thibaultguignand.com.
+  // All five phases from the recording, as one timeline, in order — not
+  // just the wipe on its own. Skipping straight to phase 3/4 last time is
+  // exactly why the "outgoing dim" beat was missing.
+  //   Phase 1 (hover glitch between project markers) — out of scope, you
+  //     confirmed you want the click transition, not the hover preview.
+  //   Phase 2 (0.0s) — the "outgoing" content dims uniformly, before any
+  //     curtain is visible.
+  //   Phase 3 (~0.35s) — the black curtain snaps in fully opaque, wordmark
+  //     showing, covering everything. The incoming photo + headline are
+  //     already mounted underneath it this whole time, just hidden.
+  //   Phase 4 (~0.7s) — the curtain wipes away via clip-path, bottom edge
+  //     rising, top edge fixed. No scale/zoom on the photo — only the
+  //     curtain's own clip region moves. The incoming headline's
+  //     character-stagger reveal fires partway through this wipe, so its
+  //     letters are still catching up to each other as the wipe edge
+  //     crosses them — that's the jagged "tilt".
+  //   Phase 5 (~1.7s+) — settled: curtain fully clipped away, headline
+  //     landed.
   useLayoutEffect(() => {
     const curtain = curtainRef.current;
-    if (!curtain) return;
+    const outgoing = outgoingRef.current;
+    if (!curtain || !outgoing) return;
 
     const ctx = gsap.context(() => {
-      gsap.set(curtain, { clipPath: "inset(0% 0% 0% 0%)" });
-      gsap.to(curtain, {
-        clipPath: "inset(0% 0% 100% 0%)",
-        duration: 1,
-        ease: "power3.inOut",
-        delay: 0.2,
-      });
+      const tl = gsap.timeline();
+
+      // Reset to phase-1 state: outgoing content visible, curtain hidden
+      // (not just clipped away — invisible, so it doesn't block clicks/
+      // paint while "we're still on the previous page").
+      tl.set(outgoing, { autoAlpha: 1 })
+        .set(curtain, { autoAlpha: 0, clipPath: "inset(0% 0% 0% 0%)" })
+        // Phase 2 — dim the outgoing content.
+        .to(outgoing, { autoAlpha: 0, duration: 0.35, ease: "power2.out" }, "dim")
+        // Phase 3 — curtain snaps to fully opaque as the dim finishes, then
+        // holds a beat with the wordmark showing before it starts moving.
+        .to(curtain, { autoAlpha: 1, duration: 0.001 }, "dim+=0.3")
+        .to({}, { duration: 0.3 })
+        // Phase 4 — the wipe.
+        .to(curtain, {
+          clipPath: "inset(0% 0% 100% 0%)",
+          duration: 1,
+          ease: "power3.inOut",
+        })
+        // Fire the incoming headline's per-letter reveal ~50% into the
+        // wipe, not at wipe-start and not after wipe-end.
+        .call(() => setHeadlineKey((k) => k + 1), [], "<50%");
     });
 
-    // Kick the incoming headline's per-letter reveal partway through the
-    // wipe (not on curtain-start, not after curtain-end) so the letters are
-    // still catching up to each other right as the wipe line crosses them —
-    // that's the jagged "tilt" moment from your recording.
-    const headlineTimer = setTimeout(() => setHeadlineKey((k) => k + 1), 650);
-
-    return () => {
-      ctx.revert();
-      clearTimeout(headlineTimer);
-    };
+    return () => ctx.revert();
   }, [transitionKey]);
 
   return (
@@ -112,19 +132,20 @@ export default function PageTransitionDemo() {
             The actual page-transition curtain
           </span>
           <p className="mt-2 max-w-xl text-base text-white/60 leading-relaxed">
-            This is the real mechanic from your recording: a black overlay
-            covers the photo, then its <code>clip-path</code> animates from
-            <code> inset(0% 0% 0% 0%)</code> (fully covering) to
-            <code> inset(0% 0% 100% 0%)</code> (fully clipped away) — the
-            bottom edge rises, uncovering the photo from the bottom up. The
-            photo itself never scales or zooms; only the curtain&apos;s clip
-            region moves. The headline underneath fires its own
-            character-stagger reveal partway through the wipe, so the two
-            effects overlap the way they do on thibaultguignand.com.
+            All five beats from the recording, in order: the &quot;you&apos;re
+            still on the previous page&quot; content dims uniformly first,
+            then a black curtain snaps to fully opaque with a wordmark and
+            holds briefly, then it wipes away via <code>clip-path</code> from
+            <code> inset(0% 0% 0% 0%)</code> to
+            <code> inset(0% 0% 100% 0%)</code> — bottom edge rising, no
+            scale or zoom on the photo underneath — and the incoming
+            headline&apos;s character-stagger reveal fires partway through
+            that wipe.
           </p>
         </div>
 
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-white/10">
+          {/* Incoming page — mounted the whole time, just hidden under the curtain until the wipe. */}
           <div className="absolute inset-0">
             <Image
               src="/images/hero-banner.png"
@@ -152,9 +173,26 @@ export default function PageTransitionDemo() {
             </div>
           </div>
 
+          {/* Phase 2 — the outgoing page's stand-in content, dims out before the curtain takes over. */}
+          <div
+            ref={outgoingRef}
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-[#0a0a0f]"
+          >
+            <span className="text-xs font-black uppercase tracking-[0.3em] text-white/50">
+              Previous page
+            </span>
+            <span
+              className="text-2xl md:text-3xl font-black italic uppercase tracking-tight text-white"
+              style={{ fontFamily: "var(--font-barlow-condensed)" }}
+            >
+              7th Heaven
+            </span>
+          </div>
+
+          {/* Phase 3 + 4 — the curtain: hidden until the dim finishes, then opaque, then wipes away. */}
           <div
             ref={curtainRef}
-            className="absolute inset-0 flex items-center justify-center bg-black"
+            className="absolute inset-0 z-20 flex items-center justify-center bg-black"
             style={{ clipPath: "inset(0% 0% 0% 0%)" }}
           >
             <span
