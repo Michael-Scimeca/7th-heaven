@@ -229,9 +229,10 @@ export default function HeroLiveThumbs() {
               >
                 {/* Thumbnail */}
                 <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">
-                  <Image width={200} height={200} unoptimized
+                  <Image width={220} height={195}
                     src={thumbSrc}
                     alt={crewName}
+                    sizes="(max-width: 768px) 100vw, 220px"
                     onLoad={() => setImgLoaded(prev => ({ ...prev, [post.id]: true }))}
                     className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 transition-opacity duration-300 ${
                       imgLoaded[post.id] ? "opacity-100" : "opacity-0"

@@ -54,13 +54,15 @@ export default function PageTransitionDemo() {
 
         <SlideUpReveal
           as="h1"
-          mask="lines"
-          skew={7}
+          mask="chars"
+          duration={0.85}
+          stagger={0.035}
+          skew={9}
           replayKey={replayKey}
           className="text-5xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.95] text-white"
           style={{ fontFamily: "var(--font-barlow-condensed)" }}
         >
-          Lines slide up and tilt into place
+          Letters slide up and tilt into place
         </SlideUpReveal>
 
         <SlideUpReveal
@@ -72,11 +74,14 @@ export default function PageTransitionDemo() {
           replayKey={replayKey}
           className="max-w-xl text-base md:text-lg text-white/60 leading-relaxed"
         >
-          Each line sits inside its own overflow-hidden box. GSAP SplitText
-          pushes the text down out of view with yPercent and a small skewY,
-          then eases both back to 0 with a power4.out ease — that lingering
-          skew is what reads as a slight tilt partway through the slide,
-          the same technique used on thibaultguignand.com.
+          Each character sits inside its own overflow-hidden box. GSAP
+          SplitText pushes every letter down out of view with yPercent and a
+          small skewY, then eases each one back to 0 on its own staggered
+          delay — since neighboring letters are never at the same point in
+          the tween at the same instant, they briefly sit at different
+          heights as they slide in, which reads as a jagged &quot;tilt&quot;
+          right as the headline lands. That&apos;s the exact mechanic on
+          thibaultguignand.com&apos;s project transitions.
         </SlideUpReveal>
 
         <button
@@ -98,8 +103,8 @@ export default function PageTransitionDemo() {
             src="/images/hero-banner.png"
             alt="7th Heaven"
             fill
-            sizes="(max-width: 1200px) 100vw, 1200px"
             priority
+            sizes="100vw"
             unoptimized
             className="object-cover"
           />
@@ -123,8 +128,10 @@ export default function PageTransitionDemo() {
       <section className="flex flex-col gap-3 border-t border-white/10 pt-10">
         <SlideUpReveal
           as="h2"
-          mask="lines"
-          skew={7}
+          mask="chars"
+          duration={0.7}
+          stagger={0.025}
+          skew={9}
           replayKey={replayKey}
           className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white"
           style={{ fontFamily: "var(--font-barlow-condensed)" }}
