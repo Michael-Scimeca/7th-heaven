@@ -36,6 +36,7 @@ const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
 const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"));
 const SlideupSection = dynamic(() => import("@/components/SlideupSection"));
 const DevRouteList = dynamic(() => import("@/components/DevRouteList"));
+import LazySection from "@/components/LazySection";
 
 
 
@@ -224,10 +225,14 @@ export default async function Home() {
       </section>
 
       {/* ====== FEATURED VIDEO SHOWCASE (30-Second Autoplay Previews) ====== */}
-      <HomeVideoShowcase />
+      <LazySection fallbackHeight="400px">
+        <HomeVideoShowcase />
+      </LazySection>
 
       {/* ====== SLIDEUP STACK SECTION ====== */}
-      <SlideupSection />
+      <LazySection fallbackHeight="400px">
+        <SlideupSection />
+      </LazySection>
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON (scrolling logo tickers) ====== */}
       <section
@@ -244,33 +249,39 @@ export default async function Home() {
       </section>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
-      <div className="">
+      <LazySection fallbackHeight="150px">
         <ProximityNotify nextShow={upcomingShows.find(s => s.city) || upcomingShows[0]} />
-      </div>
+      </LazySection>
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <HomeNewsSection />
+      <LazySection fallbackHeight="400px">
+        <HomeNewsSection />
+      </LazySection>
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <div className="">
+      <LazySection fallbackHeight="400px">
         <HomeMerch />
-      </div>
+      </LazySection>
 
       {/* ====== DEVELOPER ROUTE DIRECTORY ====== */}
-      <DevRouteList />
+      <LazySection fallbackHeight="200px">
+        <DevRouteList />
+      </LazySection>
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION (At Very Bottom) ====== */}
-      <section
-        id="music"
-        className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden"
-        style={{
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
-        }}
-      >
-        <AudioPlayerSection />
-      </section>
+      <LazySection fallbackHeight="500px">
+        <section
+          id="music"
+          className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden"
+          style={{
+            marginLeft: "calc(-1 * var(--page-padding-x))",
+            marginRight: "calc(-1 * var(--page-padding-x))",
+            width: "calc(100% + 2 * var(--page-padding-x))",
+          }}
+        >
+          <AudioPlayerSection />
+        </section>
+      </LazySection>
     </>
   );
 }
