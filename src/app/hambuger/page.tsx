@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 
 // Test page for /hambuger — recreation of Max Böck's
 // "Animated Accessible Navigation" CodePen (https://codepen.io/mxbck/pen/xdaGNL)
@@ -55,8 +56,8 @@ export default function HamburgerTestPage() {
       }
     };
 
-    nav.addEventListener("keydown", handleKeydown);
-    return () => nav.removeEventListener("keydown", handleKeydown);
+    document.addEventListener("keydown", handleKeydown);
+    return () => document.removeEventListener("keydown", handleKeydown);
   }, [isOpen]);
 
   const handleToggle = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -68,9 +69,9 @@ export default function HamburgerTestPage() {
     <div className="hb-page">
       <div className="hb-blur-bg" aria-hidden="true" />
 
-      <a href="/" className="hb-back">
+      <Link href="/" className="hb-back">
         ← Back to site
-      </a>
+      </Link>
 
       <div className="viewport">
         <header className="header">
