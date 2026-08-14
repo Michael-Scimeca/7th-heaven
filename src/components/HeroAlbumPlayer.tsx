@@ -88,6 +88,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
       <audio
         ref={audioRef}
         src={audioSrc}
+        preload="none"
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => setIsPlaying(false)}
       >

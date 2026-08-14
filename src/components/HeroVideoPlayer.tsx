@@ -13,6 +13,7 @@ const mqSubscribe = (cb: () => void) => {
 const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
 const mqServerSnapshot = () => false; // Server always returns false (no video on SSR)
 import type { ReactNode } from "react";
+import Image from "next/image";
 import VinylHeroPlayer from "@/components/VinylHeroPlayer";
 import HeroYTBackground from "@/components/HeroYTBackground";
 import {
@@ -330,7 +331,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           ref={videoRef}
           onCanPlay={handleCanPlay}
           onLoadedMetadata={handleLoadedMetadata}
-          preload="metadata"
+          preload="none"
           autoPlay
           muted
           loop
@@ -341,8 +342,15 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           <track kind="captions" />
         </video>
       ) : (
-        /* Mobile: static dark background — no video stream */
-        <div className="absolute inset-0 w-full h-full z-0 bg-[#0d0914]" />
+        /* Mobile: optimized priority LCP hero image — instant paint */
+        <Image
+          src="/images/hero-banner.webp"
+          alt="7th Heaven Live Stage"
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 w-full h-full object-cover z-0 brightness-[0.65]"
+        />
       )}
       <div
         role="button"

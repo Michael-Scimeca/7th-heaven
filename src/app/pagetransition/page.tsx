@@ -45,7 +45,17 @@ export default function PageTransitionDemo() {
 
   return (
     <div className="site-container flex flex-col gap-16 py-16 md:py-24">
-      <header className="flex flex-col gap-6">
+      {/*
+        Deliberately a <div>, not <header>: globals.css has a bare `header {
+        height: 88px }` rule (min-width: 1024px block) meant for the site's
+        real nav bar. Using the semantic <header> tag here let that rule
+        clamp this block to a fixed 88px box regardless of its actual flex
+        content, so this section's own height stopped matching what was
+        visually rendered and the next section down painted over the tail
+        of the headline/paragraph/button. That looked like the reveal was
+        "stuck" — it wasn't; it was just being covered.
+      */}
+      <div className="flex flex-col gap-6">
         <span
           className="text-xs font-black uppercase tracking-[0.3em]"
           style={{ color: "var(--color-accent)" }}
@@ -91,7 +101,7 @@ export default function PageTransitionDemo() {
         >
           Replay animation
         </button>
-      </header>
+      </div>
 
       <section className="flex flex-col gap-4">
         <div>

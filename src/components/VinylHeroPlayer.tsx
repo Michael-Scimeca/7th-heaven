@@ -322,12 +322,17 @@ export default function VinylHeroPlayer({
     if (!audio) return;
     const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
     if (!url) return;
-    audio.src = url;
-    audio.load();
+    // Only set audio src and load track when user has initiated playback
+    if (isPlaying) {
+      if (audio.src !== url) {
+        audio.src = url;
+        audio.load();
+      }
+    }
     setProgress(0);
     setCurrentTime("0:00");
     setDuration("0:00");
-  }, [activeAlbumIdx, activeTrackIdx]);
+  }, [activeAlbumIdx, activeTrackIdx, isPlaying]);
 
   useEffect(() => {
     const handleToggleHeroMusic = () => {
@@ -529,6 +534,7 @@ export default function VinylHeroPlayer({
         {/* Hidden Audio — src managed imperatively via useEffect/playTrack, NOT via React src= prop */}
         <audio
           ref={audioRef}
+          preload="none"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={nextTrack}
