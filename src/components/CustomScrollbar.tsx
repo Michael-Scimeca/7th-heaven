@@ -27,6 +27,8 @@ export default function CustomScrollbar({
 }: CustomScrollbarProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const vThumbRef = useRef<HTMLButtonElement>(null);
+  const hThumbRef = useRef<HTMLDivElement>(null);
   const [thumbSize, setThumbSize] = useState(48);
   const [thumbPos, setThumbPos] = useState(topOffset);
   const [hThumbSize, setHThumbSize] = useState(48);
@@ -54,8 +56,13 @@ export default function CustomScrollbar({
       const trackSpace = Math.max(0, clientWidth - size);
       const scrollRange = scrollWidth - clientWidth;
       const pos = scrollable && scrollRange > 0 ? (scrollLeft / scrollRange) * trackSpace : 0;
-      setHThumbSize(size);
-      setHThumbPos(pos);
+      if (hThumbRef.current) {
+        hThumbRef.current.style.transform = `translate3d(${pos}px, 0, 0)`;
+        hThumbRef.current.style.width = `${size}px`;
+      } else {
+        setHThumbSize(size);
+        setHThumbPos(pos);
+      }
     }
 
     if (showVertical) {
@@ -70,8 +77,13 @@ export default function CustomScrollbar({
       const trackSpace = Math.max(0, availableHeight - size);
       const scrollRange = scrollHeight - clientHeight;
       const pos = scrollable && scrollRange > 0 ? (scrollTop / scrollRange) * trackSpace : 0;
-      setThumbSize(size);
-      setThumbPos(pos);
+      if (vThumbRef.current) {
+        vThumbRef.current.style.transform = `translate3d(-50%, ${pos}px, 0)`;
+        vThumbRef.current.style.height = `${size}px`;
+      } else {
+        setThumbSize(size);
+        setThumbPos(pos);
+      }
     }
   }, [showVertical, showHorizontal, topOffset, thumbWidth]);
 
@@ -257,6 +269,7 @@ export default function CustomScrollbar({
           }}
         >
           <button
+            ref={vThumbRef}
             type="button"
             aria-label="Vertical scrollbar thumb"
             onMouseDown={onThumbMouseDownVertical}
