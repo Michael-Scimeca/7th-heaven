@@ -22,6 +22,20 @@ import { useEffect } from "react";
 
 export default function ClientOnlyExtras() {
   useEffect(() => {
+    // High-priority LCP image preload for band-performance hero image
+    const ensureLcpPreload = () => {
+      const existing = document.querySelector('link[rel="preload"][as="image"][href*="band-performance"]');
+      if (!existing) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = "/_next/image?url=%2Fimages%2Fband-performance.webp&w=1200&q=75";
+        link.setAttribute("fetchpriority", "high");
+        document.head.appendChild(link);
+      }
+    };
+    ensureLcpPreload();
+
     // Keep at most 3 preconnect tags in document head (resolves Lighthouse warning)
     const pruneExcessPreconnects = () => {
       const tags = Array.from(document.querySelectorAll('link[rel="preconnect"]'));
