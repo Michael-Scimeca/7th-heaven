@@ -8,10 +8,16 @@ const DevGuideLine = dynamic(
   { ssr: false }
 );
 
+const PagesPillDrawer = dynamic(
+  () => import("@/components/PagesPillDrawer"),
+  { ssr: false }
+);
+
 export default function ClientOnlyExtras() {
   return (
     <>
       <DevGuideLine />
+      <PagesPillDrawer />
     </>
   );
 }
