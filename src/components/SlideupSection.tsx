@@ -97,20 +97,27 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
             const maskTopPercent = Math.max(0, 100 - overlapPercent);
             const fadeEdge = Math.max(0, maskTopPercent - 6);
             const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
-            card.style.maskImage = maskVal;
-            (card.style as any).WebkitMaskImage = maskVal;
+            Object.assign(card.style, {
+              maskImage: maskVal,
+              WebkitMaskImage: maskVal,
+              transform: `scale(${scale}) translateY(${translateY}px)`,
+              opacity: "1",
+            });
           } else {
-            card.style.maskImage = "none";
-            (card.style as any).WebkitMaskImage = "none";
+            Object.assign(card.style, {
+              maskImage: "none",
+              WebkitMaskImage: "none",
+              transform: `scale(${scale}) translateY(${translateY}px)`,
+              opacity: "1",
+            });
           }
-
-          card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
-          card.style.opacity = "1";
         } else {
-          card.style.transform = "none";
-          card.style.opacity = "1";
-          card.style.maskImage = "none";
-          (card.style as any).WebkitMaskImage = "none";
+          Object.assign(card.style, {
+            transform: "none",
+            opacity: "1",
+            maskImage: "none",
+            WebkitMaskImage: "none",
+          });
         }
       });
 
