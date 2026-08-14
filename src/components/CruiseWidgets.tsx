@@ -684,7 +684,7 @@ export function BookingManager({ email }: { email?: string }) {
               )}
 
               {/* Travel Readiness Checklist Badges */}
-              <div className="bg-white/5 border border-white/10 p-3 my-3">
+              <div className="my-3">
                 <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block mb-2">Travel Readiness Checklist</span>
                 <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
                   <div className="flex items-center gap-1.5 text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
@@ -693,37 +693,37 @@ export function BookingManager({ email }: { email?: string }) {
                   <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-bold bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 px-2 py-1 rounded">
                     <span>🎸</span> Band VIP Pass Included
                   </div>
-                  <div className="flex items-center gap-1.5 text-cyan-300 font-medium    border border-cyan-500/20 px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5 text-cyan-300 font-medium border border-cyan-500/20 px-2 py-1 rounded">
                     <span>📅</span> Check-in: 45 Days Prior
                   </div>
-                  <div className="flex items-center gap-1.5  text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
+                  <div className="flex items-center gap-1.5 text-[var(--color-accent)] font-medium bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">
                     <span>🏷️</span> Luggage Tags: Dec 1st
                   </div>
                 </div>
               </div>
 
               {/* Payment Breakdown: Total Fare, Paid & Owed */}
-              <div className="bg-gray-50 border border-black/10 p-4 space-y-2.5 my-3 shadow-sm">
+              <div className="space-y-2.5 my-3">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="font-bold text-black/60 uppercase tracking-wider">Total Cruise Fare</span>
-                  <span className="font-bold text-black">{booking.total_fare || "$1,550.00"}</span>
+                  <span className="font-bold text-white/50 uppercase tracking-wider">Total Cruise Fare</span>
+                  <span className="font-bold text-white">{booking.total_fare || "$1,550.00"}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
-                  <span className="font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
+                <div className="flex justify-between items-center text-xs border-t border-white/10 pt-2">
+                  <span className="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
                     <span>✓</span> Amount Paid
                   </span>
-                  <span className="text-emerald-700 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
+                  <span className="text-emerald-400 font-extrabold">{booking.amount_paid || "$1,200.00"}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs border-t border-black/10 pt-2">
-                  <span className="font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1">
+                <div className="flex justify-between items-center text-xs border-t border-white/10 pt-2">
+                  <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
                     <span>⏳</span> Balance Owed
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-rose-600 font-black text-sm">{booking.balance_due || "$350.00"}</span>
+                    <span className="text-rose-400 font-black text-sm">{booking.balance_due || "$350.00"}</span>
                     {parseFloat((booking.balance_due || "$350.00").replace(/[^0-9.]/g, '')) > 0 && (
                       <button aria-label="Action button"
                         onClick={() => setIsPayModalOpen(true)}
-                        className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-black bg-rose-400 hover:bg-rose-300 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
+                        className="text-[var(--font-size-3xs)] font-black uppercase tracking-wider text-white bg-rose-500 hover:bg-rose-400 transition-colors px-2.5 py-1 rounded shadow cursor-pointer"
                       >
                         💳 Pay Balance
                       </button>
