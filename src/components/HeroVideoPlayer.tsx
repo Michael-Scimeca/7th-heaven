@@ -158,18 +158,22 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
   // ── Canvas capture ──────────────────────────────────────────────────────────
   const captureFrame = useCallback(() => {
+    if (typeof window === "undefined" || document.hidden) return;
+    // Skip continuous frame capture on mobile screens to save memory and main thread CPU
+    if (window.innerWidth < 768) return;
+
     const video = videoRef.current;
     if (!video || video.readyState < 2 || video.videoWidth === 0) return;
 
     try {
       const canvas = document.createElement("canvas");
-      // Capture at half-resolution for speed / memory
-      canvas.width = Math.round(video.videoWidth / 2);
-      canvas.height = Math.round(video.videoHeight / 2);
+      // Capture at quarter-resolution for fast execution
+      canvas.width = Math.round(video.videoWidth / 4);
+      canvas.height = Math.round(video.videoHeight / 4);
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.5);
 
       setSnapshots((prev) => [dataUrl, ...prev].slice(0, MAX_SNAPSHOTS));
     } catch {

@@ -222,9 +222,10 @@ export default function HomeShaderGradient() {
     };
 
     const positionLoop = (t: number) => {
-      // Pause position updates during active scrolling to free CPU/GPU for 60fps scroll
-      if (isVisible && !isScrolling && !(typeof window !== "undefined" && (window as unknown as Record<string, boolean>).__pageTransitionActive)) {
-        if (t - lastFrameTime > 40) { // 25 FPS cap for background gradient ambient movement
+      // Pause position updates during active scrolling or hidden document to free CPU/GPU
+      if (isVisible && !isScrolling && !document.hidden && !(typeof window !== "undefined" && (window as unknown as Record<string, boolean>).__pageTransitionActive)) {
+        const frameCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40; // 15 FPS on mobile, 25 FPS on desktop
+        if (t - lastFrameTime > frameCap) {
           updatePositionLayer(t);
           lastFrameTime = t;
         }
