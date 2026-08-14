@@ -30,8 +30,6 @@ interface RouteItem {
 const ALL_SITE_ROUTES: RouteItem[] = [
   // ── Main Pages ──
   { path: "/", type: "Static", label: "Home Page", category: "Public Pages", icon: Globe },
-  { path: "/band", type: "Static", label: "Band History & Bio", category: "Public Pages", icon: Globe },
-  { path: "/#tour", type: "Static", label: "Tour Dates & Shows (Home)", category: "Public Pages", icon: Globe },
   { path: "/shows/past", type: "Static", label: "Past Shows Archive", category: "Public Pages", icon: Globe },
   { path: "/contact", type: "Static", label: "Contact & Booking", category: "Public Pages", icon: Globe },
   { path: "/book", type: "Static", label: "Booking Request Form", category: "Public Pages", icon: Globe },

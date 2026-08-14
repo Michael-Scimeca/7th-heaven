@@ -31,8 +31,6 @@ interface RouteItem {
 const ALL_ROUTES: RouteItem[] = [
   // ── Main Pages ──
   { path: "/", type: "Static", label: "Home Page", category: "Public Pages", icon: Globe },
-  { path: "/band", type: "Static", label: "Band History & Story", category: "Public Pages", icon: Globe },
-  { path: "/#tour", type: "Static", label: "Tour Dates & Shows (Home)", category: "Public Pages", icon: Globe },
   { path: "/shows/past", type: "Static", label: "Past Shows Archive", category: "Public Pages", icon: Globe },
   { path: "/shows/075144a7-588c-4d9a-a8b5-b44bca910b90", type: "SSG", label: "Show Detail (Sample)", category: "Public Pages", icon: Globe },
   { path: "/contact", type: "Static", label: "Contact & Booking", category: "Public Pages", icon: Globe },
@@ -72,8 +70,6 @@ const ALL_ROUTES: RouteItem[] = [
   { path: "/cruise/preview", type: "Static", label: "Cruise Preview", category: "Cruise Portal", icon: Sparkles },
   { path: "/cruise/verify", type: "Static", label: "Cruise Verify PIN", category: "Cruise Portal", icon: Sparkles },
   { path: "/cruise/cancel", type: "Static", label: "Cruise Booking Cancel", category: "Cruise Portal", icon: Sparkles },
-  { path: "/cruise/hero-demo", type: "Static", label: "Cruise Hero Demo", category: "Cruise Portal", icon: Sparkles },
-  { path: "/cruise/email-preview", type: "Static", label: "Cruise Email Preview", category: "Cruise Portal", icon: Sparkles },
 
   // ── Crew & Admin Dashboards ──
   { path: "/admin", type: "Static", label: "Admin Main Portal", category: "Admin & Crew", icon: Lock },
@@ -95,9 +91,6 @@ const ALL_ROUTES: RouteItem[] = [
   { path: "/slideup", type: "Static", label: "Slideup Section Stacking", category: "UI Demos & Labs", icon: Layers },
   { path: "/textcolor", type: "Static", label: "Text Color Gradient Studio", category: "UI Demos & Labs", icon: Layers },
   { path: "/video", type: "Static", label: "Video Showcase Studio", category: "UI Demos & Labs", icon: Film },
-  { path: "/video/grid-demo", type: "Static", label: "Video Grid Layout Demo", category: "UI Demos & Labs", icon: Film },
-  { path: "/video/layout-demo", type: "Static", label: "Video Full Layout Demo", category: "UI Demos & Labs", icon: Film },
-  { path: "/video/nav-demo", type: "Static", label: "Video Navigation Demo", category: "UI Demos & Labs", icon: Film },
   { path: "/payment-test", type: "Static", label: "Payment Test Shop (EPX Mock)", category: "UI Demos & Labs", icon: ShoppingBag },
 
   // ── API Endpoints ──
