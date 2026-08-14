@@ -39,22 +39,22 @@ export function EmbarkationCountdown() {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center gap-4 bg-transparent border-none p-2 relative overflow-hidden">
+    <div className="flex flex-wrap items-center gap-6 bg-transparent border-none p-2 relative overflow-visible">
       <div className="flex items-center gap-4 border-r border-white/15 pr-6 shrink-0 z-10">
         <span className="text-4xl">🛳️</span>
         <div>
-          <h2 className="text-white font-black italic tracking-wide text-lg">Embarkation</h2>
+          <h2 className="text-white font-black italic tracking-wide text-xl leading-normal py-0.5">Embarkation</h2>
           <p className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Port of Miami</p>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 z-10">
+      <div className="flex items-center gap-3 z-10">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center">
-            <div className="bg-white/10 border border-white/20 rounded-2xl w-14 h-16 flex items-center justify-center text-white font-mono font-black text-2xl shadow-lg backdrop-blur-md">
+            <div className="bg-white/10 border border-white/25 rounded-2xl min-w-[56px] px-3 py-2 flex items-center justify-center text-white font-mono font-black text-2xl shadow-lg backdrop-blur-md">
               {value.toString().padStart(2, '0')}
             </div>
-            <span className="text-xs font-extrabold text-white/90 uppercase tracking-widest mt-2 drop-shadow-sm">{unit}</span>
+            <span className="text-[10px] font-extrabold text-white/90 uppercase tracking-widest mt-1.5 drop-shadow-sm">{unit}</span>
           </div>
         ))}
       </div>
