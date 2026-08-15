@@ -1596,9 +1596,15 @@ select::placeholder,
 /* Guarantee the content area between header and footer is ALWAYS at least
    full viewport height. This prevents the footer from ever floating to the
    top when page content is loading or a transition is in progress. */
-#page-content-wrapper>.content-area {
+#page-content-wrapper > .content-area {
   min-height: 100svh;
-  padding-bottom: 60px;
+  padding-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+  #page-content-wrapper > .content-area {
+    padding-bottom: 60px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1826,7 +1832,7 @@ select::placeholder,
 }
 
 :root {
-  --page-padding-x: 24px;
+  --page-padding-x: 18px;
 }
 
 @media (min-width: 768px) {
