@@ -442,10 +442,12 @@ export default function MediaPage() {
       <div ref={containerRef} className="site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-          {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS) */}
+          {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS ON DESKTOP, 12 ON MOBILE) */}
           <div className="lg:col-span-5 space-y-6 md:space-y-8 lg:space-y-24">
             {filteredVideos.map((video, index) => {
               const isActive = activeIndex === index;
+              const isPlaying = playingId === video.id;
+
               return (
                 <div
                   key={video.id}
@@ -453,14 +455,12 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-4 md:pb-5 lg:pb-10"
+                  className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-6 lg:pb-10"
                 >
                   <div className="flex items-center gap-3 mb-3">
-
                     <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">
                       {video.year}
                     </span>
-
                   </div>
 
                   <h3
@@ -482,12 +482,35 @@ export default function MediaPage() {
                     </p>
                   )}
 
+                  {/* Mobile Video Background Preview / Player */}
+                  <div className="lg:hidden mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-purple-950/20 shadow-xl border border-white/10">
+                    {isPlaying ? (
+                      <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPlayingId(video.id);
+                        }}
+                        className="relative w-full h-full cursor-pointer group/card block text-left"
+                        aria-label={`Play ${video.title}`}
+                      >
+                        <VideoThumbnail videoId={video.id} title={video.title} isActive={true} />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover/card:bg-black/50 transition-colors z-10">
+                          <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md flex items-center justify-center shadow-[0_0_20px_rgba(255,10,61,0.6)]">
+                            <Play className="w-5 h-5 fill-white ml-0.5 text-white" />
+                          </div>
+                        </div>
+                      </button>
+                    )}
+                  </div>
+
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setPlayingId(video.id);
                     }}
-                    className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"
+                    className={`hidden lg:inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"
                       }`}
                   >
                     <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
@@ -510,8 +533,8 @@ export default function MediaPage() {
             )}
           </div>
 
-          {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS) */}
-          <div className="lg:col-span-7 shrink-0 lg:sticky lg:top-[120px] z-20">
+          {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS ON DESKTOP ONLY) */}
+          <div className="hidden lg:block lg:col-span-7 shrink-0 lg:sticky lg:top-[120px] z-20">
             <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border-0 shadow-[0_25px_70px_rgba(0,0,0,0.85)] bg-purple-950/20">
               {filteredVideos.map((video, index) => {
                 const isActive = activeIndex === index;
