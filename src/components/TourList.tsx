@@ -707,7 +707,8 @@ export default function TourList({ initialShows, hideMap, maxShows }: TourListPr
 
   // Filter shows by time (exclude past shows by default unless showPastShows is true)
   const activeShowsByTime = useMemo(() => {
-    return displayShows.filter(s => showPastShows || !isShowOver(s));
+    const upcoming = displayShows.filter(s => showPastShows || !isShowOver(s));
+    return upcoming.length > 0 ? upcoming : displayShows;
   }, [displayShows, showPastShows]);
 
   // Derive filter options from current upcoming tour dates list
@@ -1330,10 +1331,9 @@ ${filterLine}
                                   href={gUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
+                                  title={hasExplicitMap ? "Get Directions" : "Search Directions"}
                                   style={{ color: cfg.color }}
-                                  className={`flex items-center justify-center p-1 transition-opacity ${hasExplicitMap ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
-                                    }`}
+                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity"
                                 >
                                   <MapPin className="w-5.5 h-5.5" />
                                 </a>
@@ -1354,11 +1354,10 @@ ${filterLine}
                                   title={
                                     hasExplicitParking
                                       ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
-                                      : "Search Parking (Parking info not added)"
+                                      : "Search Parking"
                                   }
                                   style={{ color: cfg.color }}
-                                  className={`flex items-center justify-center p-1 transition-opacity ${hasExplicitParking ? "opacity-100 hover:opacity-75" : "opacity-40 hover:opacity-80"
-                                    }`}
+                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75 transition-opacity"
                                 >
                                   <Car className="w-5.5 h-5.5" />
                                 </a>
@@ -1396,11 +1395,12 @@ ${filterLine}
                       )}
                     </span>
                     <span className="flex justify-end">
-                      {!isPrivate && show.websiteUrl && (
+                      {!isPrivate && (
                         <a
-                          href={show.websiteUrl}
+                          href={show.websiteUrl || `https://www.google.com/search?q=${encodeURIComponent(`${show.venue} ${show.city || ''} ${show.state || ''}`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
+                          title={show.websiteUrl ? "Official Venue Website" : "Search Venue Info"}
                           className="inline-flex items-center justify-center whitespace-nowrap font-black uppercase tracking-widest text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-all cursor-pointer"
                           style={{ fontSize: websiteBtnFontSize }}
                         >
@@ -1510,7 +1510,7 @@ ${filterLine}
                     {/* Action Buttons Row */}
                     {!isPrivate && (
                       <div className="flex items-center gap-3 mt-5">
-                        {/* Maps Directions */}
+                        {/* Map Directions */}
                         {(() => {
                           const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
                           const rawMapUrl = show.mapUrl || show.directionsLink;
@@ -1524,9 +1524,8 @@ ${filterLine}
                               href={gUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              title={hasExplicitMap ? "Get Directions" : "Search Directions (Map link not added)"}
-                              className={`w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 ${hasExplicitMap ? "opacity-100 hover:bg-purple-600/80" : "opacity-50 hover:opacity-80"
-                                }`}
+                              title={hasExplicitMap ? "Get Directions" : "Search Directions"}
+                              className="w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
                             >
                               <MapPin className="w-4 h-4 text-white" />
                             </a>
@@ -1545,10 +1544,9 @@ ${filterLine}
                               title={
                                 hasExplicitParking
                                   ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
-                                  : "Search Parking (Parking info not added)"
+                                  : "Search Parking"
                               }
-                              className={`w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 ${hasExplicitParking ? "opacity-100 hover:bg-purple-600/80" : "opacity-50 hover:opacity-80"
-                                }`}
+                              className="w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
                             >
                               <Car className="w-4 h-4 text-white" />
                             </a>

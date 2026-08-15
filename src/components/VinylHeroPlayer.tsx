@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
+import "swiper/css";
 
 interface Track {
   id: string;
@@ -35,7 +36,7 @@ const ALBUMS: Album[] = [
     year: "2021",
     coverImage: "/images/album/Be-Here.png",
     centerLabelColor: "#eab308",
-    storeUrl: "/merch",
+    storeUrl: "/store",
     tracks: [
       { id: "bh1", number: 1, title: "ARE WE THERE YET", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDElMjBBcmUlMjBXZSUyMFRoZXJlJTIwWWV0Lm1wMw==" },
       { id: "bh2", number: 2, title: "COME WHAT MAY", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDElMjBCZSUyMEhlcmUvMDIlMjBDb21lJTIwV2hhdCUyME1heS5tcDM=" },
@@ -60,7 +61,7 @@ const ALBUMS: Album[] = [
     year: "2018",
     coverImage: "/images/album/colot-in-motion.png",
     centerLabelColor: "#ec4899",
-    storeUrl: "/merch",
+    storeUrl: "/store",
     tracks: [
       { id: "cim1", number: 1, title: "THIS IS WHERE THE PARTY'S AT", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAxJTIwVGhpcyUyMElzJTIwV2hlcmUlMjBUaGUlMjBQYXJ0eSUyN3MlMjBBdC5tcDM=" },
       { id: "cim2", number: 2, title: "WONDERFUL WORLD", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDclMjBDb2xvciUyMEluJTIwTW90aW9uLzAyJTIwV29uZGVyZnVsJTIwV29ybGQubXAz" },
@@ -81,7 +82,7 @@ const ALBUMS: Album[] = [
     year: "2017",
     coverImage: "/images/album/luminous.png",
     centerLabelColor: "#8b5cf6",
-    storeUrl: "/merch",
+    storeUrl: "/store",
     tracks: [
       { id: "lu1", number: 1, title: "HOME", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMSUyMEhvbWUubXAz" },
       { id: "lu2", number: 2, title: "BEAUTIFUL LIFE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wMiUyMEJlYXV0aWZ1bCUyMExpZmUubXAz" },
@@ -93,58 +94,6 @@ const ALBUMS: Album[] = [
       { id: "lu8", number: 8, title: "EYES WIDE OPEN", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wOCUyMkV5ZXMlMjJXaWRlJTIyT3Blbi5tcDM=" },
       { id: "lu9", number: 9, title: "SO WONDERFUL", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8wOSUyMlNvJTIyV29uZGVyZnVsLm1wMw==" },
       { id: "lu10", number: 10, title: "SOS", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMDklMjBMdW1pbm91cy8xMCUyMlNPUy5tcDM=" },
-    ],
-  },
-  {
-    id: "next",
-    title: "NEXT",
-    subtitle: "7TH HEAVEN",
-    year: "2008",
-    coverImage: "/images/album/next.png",
-    centerLabelColor: "#10b981",
-    storeUrl: "/store",
-    tracks: [
-      { id: "uu1", number: 1, title: "BETTER THIS WAY", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wMSUyMEJldHRlciUyMFRoaXMlMjBXYXkubXAz" },
-      { id: "uu2", number: 2, title: "CELLOPHANE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wMiUyMENlbGxvcGhhbmUubXAz" },
-      { id: "uu3", number: 3, title: "STILL BE HERE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wMyUyMFN0aWxsJTIwQmUlMjBIZXJlLm1wMw==" },
-      { id: "uu4", number: 4, title: "GRAVITY", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNCUyMEdyYXZpdHkubXAz" },
-      { id: "uu5", number: 5, title: "GAVE YOU MY WORD", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNSUyMEdhdmUlMjBZb3UlMjJNeSUyMldvcmQubXAz" },
-      { id: "uu6", number: 6, title: "KILL THE CYCLE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNiUyMEtpbGwlMjJUaGUlMjJDeWNsZS5tcDM=" },
-      { id: "uu7", number: 7, title: "THIS SUMMERS GONNA LAST FOREVER", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wNyUyMFRoaXMlMjJTdW1tZXJzJTIyR29ubmElMjJMYXN0JTIyRm9yZXZlci5tcDM=" },
-      { id: "uu8", number: 8, title: "GHOST OF ME", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wOCUyMEdob3N0JTIyT2YlMjJNZS5tcDM=" },
-      { id: "uu9", number: 9, title: "SAVE YOUR LIFE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8wOSUyMlNhdmUlMjJZb3VyJTIyTGlmZS5tcDM=" },
-      { id: "uu10", number: 10, title: "HAND ON MY HEART", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMCUyMkhhbmQlMjJPbiUyMk15JTIySGVhcnQubXAz" },
-      { id: "uu11", number: 11, title: "WINNING IT ALL", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMSUyMldpbm5pbmclMjJJdCUyMkFsbC5tcDM=" },
-      { id: "uu12", number: 12, title: "OH SO REALLY OLD", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMiUyMk9oJTIyU28lMjJSZWFsbHklMjJPbGQubXAz" },
-      { id: "uu13", number: 13, title: "TRAGEDY", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xMyUyMlRyYWdlZHkubXAz" },
-      { id: "uu14", number: 14, title: "UNDONE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNCUyMlVuZG9uZS5tcDM=" },
-      { id: "uu15", number: 15, title: "DREAM OF NEW DAY", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNSUyMkRyZWFtJTIyT2YlMjJOZXclMjJEYXkubXAz" },
-      { id: "uu16", number: 16, title: "ELECTRONIC KARMA", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNiUyMkVsZWN0cm9uaWMlMjJLYXJtYS5tcDM=" },
-      { id: "uu17", number: 17, title: "TAKE ME BACK", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xNyUyMlRha2UlMjJNZSUyMkJhY2subXAz" },
-      { id: "uu18", number: 18, title: "WHILE YOU DREAM", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMjAlMjBVLlMuQS4lMjAtJTIwVS5LLi8xOCUyMldoaWxlJTIyWW91JTIyRHJlYW0ubXAz" },
-    ],
-  },
-  {
-    id: "spectrum",
-    title: "SPECTRUM",
-    subtitle: "7TH HEAVEN",
-    year: "2013",
-    coverImage: "/images/album/spectrum.png",
-    centerLabelColor: "#3b82f6",
-    storeUrl: "/store",
-    tracks: [
-      { id: "sy1", number: 1, title: "WE LIVE LIFE YOUNG", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzAxJTIwV2UlMjBMaXZlJTIwTGlmZSUyMFlvdW5nLm1wMw==" },
-      { id: "sy2", number: 2, title: "PAGES", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzAyJTIwUGFnZXMubXAz" },
-      { id: "sy3", number: 3, title: "NEVER GONNA BRING ME DOWN", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzAzJTIwTmV2ZXIlMjBHb25uYSUyMEJyaW5nJTIwTWUlMjBEb3duLm1wMw==" },
-      { id: "sy4", number: 4, title: "COUNTING THE DAYS", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA0JTIwQ291bnRpbmclMjJUaGUlMjJEYXlzLm1wMw==" },
-      { id: "sy5", number: 5, title: "RHIANNA", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA1JTIwUmhpYW5uYS5tcDM=" },
-      { id: "sy6", number: 6, title: "POWER OF LOVE", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA2JTIwUG93ZXIlMjJPZiUyMkxvdmUubXAz" },
-      { id: "sy7", number: 7, title: "TAKE MY HEART (DO IT ALL AGAIN)", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA3JTIwVGFrZSUyME15JTIwSGVhcnQlMjAoRG8lMjBJdCUyMEFsbCUyMEFnYWluKS5tcDM=" },
-      { id: "sy8", number: 8, title: "LIVE ON", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA4JTIwTGl2ZSUyMk9uLm1wMw==" },
-      { id: "sy9", number: 9, title: "LIGHT UP THE WORLD", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzA5JTIwTGlnaHQlMjJVcCUyMlRoZSUyMldvcmxkLm1wMw==" },
-      { id: "sy10", number: 10, title: "I BEGIN AGAIN", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzEwJTIwSSUyMkJlZ2luJTIyQWdhaW4ubXAz" },
-      { id: "sy11", number: 11, title: "I'LL BE WAITING", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzExJTIwSSUyN2xsJTIwQmUlMjBXYWl0aW5nLm1wMw==" },
-      { id: "sy12", number: 12, title: "WHY YA GOTTA BE LIKE THAT", duration: "3:30", audioUrl: "/api/audio?t=aHR0cHM6Ly83dGhoZWF2ZW5iYW5kLmNvbS93aW1weTcvMTQlMjBTeW5lcmd5LzEyJTIwV2h5JTIwWWElMjJHb3R0YSUyMkJlJTIyTGlrZSUyMlRoYXQubXAz" },
     ],
   },
 ];
@@ -321,17 +270,12 @@ export default function VinylHeroPlayer({
     if (!audio) return;
     const url = ALBUMS[activeAlbumIdx]?.tracks[activeTrackIdx]?.audioUrl;
     if (!url) return;
-    // Only set audio src and load track when user has initiated playback
-    if (isPlaying) {
-      if (audio.src !== url) {
-        audio.src = url;
-        audio.load();
-      }
-    }
+    audio.src = url;
+    audio.load();
     setProgress(0);
     setCurrentTime("0:00");
     setDuration("0:00");
-  }, [activeAlbumIdx, activeTrackIdx, isPlaying]);
+  }, [activeAlbumIdx, activeTrackIdx]);
 
   useEffect(() => {
     const handleToggleHeroMusic = () => {
@@ -533,7 +477,6 @@ export default function VinylHeroPlayer({
         {/* Hidden Audio — src managed imperatively via useEffect/playTrack, NOT via React src= prop */}
         <audio
           ref={audioRef}
-          preload="none"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={nextTrack}
@@ -616,22 +559,20 @@ export default function VinylHeroPlayer({
                             src={vinylSrc}
                             alt={`${album.title} vinyl`}
                             fill
-                            priority={idx === 0}
-                            loading={idx === 0 ? "eager" : "lazy"}
-                            fetchPriority={idx === 0 ? "high" : "auto"}
-                            quality={70}
                             sizes="165px"
                             className="object-cover rounded-full"
                           />
                           {/* Center label with album art — sits on top of the vinyl image */}
-                          <div
-                            className="relative z-10 w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
-                            style={{ backgroundColor: album.centerLabelColor }}
-                          >
-                            <Image src={album.coverImage} alt={album.title} fill priority={idx === 0} quality={70} sizes="60px" className="object-cover brightness-110 contrast-105" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                              <span className="text-[var(--font-size-5xs)] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
-                              <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
+                          <div className="relative z-10 flex items-center justify-center">
+                            <div
+                              className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                              style={{ backgroundColor: album.centerLabelColor }}
+                            >
+                              <Image src={album.coverImage} alt={album.title} fill sizes="60px" className="object-cover brightness-110 contrast-105" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
+                                <span className="text-[var(--font-size-5xs)] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
+                                <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
+                              </div>
                             </div>
                           </div>
                         </button>
@@ -648,46 +589,46 @@ export default function VinylHeroPlayer({
 
                 {/* Top Controls */}
                 <div className="flex items-center justify-center pointer-events-auto">
-                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15 shadow">
-                    <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" title="Previous Track">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
+                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
+                    <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                     </button>
-                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-8 h-8 min-w-[44px] min-h-[44px] rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isPlaying ? "Pause" : "Play"}>
+                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isPlaying ? "Pause" : "Play"}>
                       {isPlaying ? (
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                       ) : (
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                       )}
                     </button>
-                    <button aria-label="Next" onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" title="Next Track">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" /></svg>
+                    <button aria-label="Next" onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Next Track">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" /></svg>
                     </button>
                     <div className="w-[1px] h-3 bg-white/20 my-auto" />
                     <button aria-label="Toggle Playlist"
                       onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                      className={`p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                      className={`p-1 rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
                       title="Toggle Playlist"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
                         <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
                       </svg>
                     </button>
                     <div className="w-[1px] h-3 bg-white/20 my-auto" />
                     {/* Volume */}
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white/60 shrink-0">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-white/60 shrink-0">
                       {volume === 0
                         ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
                         : volume < 0.5
                           ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
                           : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
                     </svg>
-                    <input aria-label="Volume slider"
+                    <input aria-label="Input field"
                       type="range" min="0" max="1" step="0.01"
                       value={volume}
                       onChange={handleVolumeChange}
                       onClick={(e) => e.stopPropagation()}
-                      className="w-14 h-[12px] min-h-[44px] py-3 rounded-full appearance-none cursor-pointer bg-white/20 touch-manipulation"
+                      className="w-14 h-[3px] rounded-full appearance-none cursor-pointer bg-white/20"
                       style={{ accentColor: "#d946ef" }}
                     />
                   </div>
@@ -695,17 +636,17 @@ export default function VinylHeroPlayer({
 
                 {/* Bottom: Title + Waveform */}
                 <div className="flex items-end justify-between pointer-events-none mt-auto">
-                  <div className="flex flex-col gap-1.5 pointer-events-auto">
+                  <div className="flex flex-col gap-1 pointer-events-auto">
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                      className="text-left border-0 bg-white text-black rounded-lg px-3 py-2 min-h-[44px] shadow-md max-w-[125px] cursor-pointer hover:bg-[var(--color-accent)] transition-colors"
+                      className="text-left border-0 bg-white text-black rounded-lg px-2 py-0.5 shadow-md max-w-[105px] cursor-pointer hover:bg-[var(--color-accent)] transition-colors"
                     >
-                      <div className="text-[10px] font-black uppercase leading-tight flex items-center gap-1">
+                      <div className="text-[9px] font-black uppercase leading-tight flex items-center gap-1">
                         <span className="truncate">{currentAlbum.title}</span>
-                        <span className="text-[8px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1 py-0.5 rounded shrink-0">PLAYLIST ☰</span>
+                        <span className="text-[7.5px] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST ☰</span>
                       </div>
-                      <div className="text-[9px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                      <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
                         {currentTrack.title}
                       </div>
                     </button>
@@ -713,9 +654,9 @@ export default function VinylHeroPlayer({
                     <Link
                       href={currentAlbum.storeUrl}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1.5 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[10px] font-black uppercase tracking-wider px-3 py-2 min-h-[44px] rounded-full shadow-md transition-colors hover:scale-105 w-fit"
+                      className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md transition-colors hover:scale-105 w-fit"
                     >
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
                       Buy CD
                     </Link>
                   </div>
@@ -786,7 +727,10 @@ export default function VinylHeroPlayer({
                     >✕</button>
                   </div>
                 </div>
-                <ol className="space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight max-h-[190px] overflow-y-auto pr-1.5 whitespace-nowrap">
+                <ol
+                  className="custom-purple-scrollbar space-y-0.5 font-sans text-[10px] font-bold uppercase text-white/80 tracking-tight max-h-[190px] overflow-y-auto pr-1.5 whitespace-nowrap"
+                  style={{ scrollBehavior: 'smooth' }}
+                >
                   {currentAlbum.tracks.map((track, tIdx) => {
                     const isSelected = tIdx === activeTrackIdx;
                     return (

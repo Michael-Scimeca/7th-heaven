@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import SlideUpReveal from "@/components/SlideUpReveal";
 import TransitionLink from "@/components/TransitionLink";
-import { buildCurtainClipPath, CURTAIN_MAX_SLANT_FRAC } from "@/lib/curtainClipPath";
+import { buildStagedCurtainClipPath, CURTAIN_MAX_SLANT_FRAC } from "@/lib/curtainClipPath";
 
 const EASE_OPTIONS = [
   { value: "power3.inOut", label: "power3.inOut" },
@@ -24,16 +24,18 @@ export default function PageTransitionDemo() {
 
   // Curtain settings — this is the "recreate the animation for testing"
   // panel. Every value here maps 1:1 to a knob in the timeline below, and
-  // to CURTAIN_SLANT / the tween options in PageTransition.tsx (the real,
-  // route-driven curtain). Dial these in, hit replay, then port the values
-  // you like over to the real component.
-  const [slant, setSlant] = useState(0); // -90..90, mapped to -0.9..0.9 fraction
+  // to the constants in PageTransition.tsx (the real, route-driven
+  // curtain). Dial these in, hit replay, then port the values you like
+  // over to the real component.
+  const [slant, setSlant] = useState(-15); // -90..90, mapped to -0.9..0.9 fraction; kept small — "slants a little," not a dramatic diagonal
+  const [slantStart, setSlantStart] = useState(60); // 0-95, % of the wipe that stays flat
   const [wipeDuration, setWipeDuration] = useState(1);
   const [holdDuration, setHoldDuration] = useState(0.3);
   const [dimDuration, setDimDuration] = useState(0.35);
   const [easeKey, setEaseKey] = useState("power3.inOut");
 
   const slantFrac = (slant / 100) * CURTAIN_MAX_SLANT_FRAC;
+  const slantStartFrac = slantStart / 100;
 
   // The sliders below update state on every drag tick (that's how a range
   // input works). If the timeline effect depended on that state directly,
@@ -44,17 +46,30 @@ export default function PageTransitionDemo() {
   // depends on nothing but `transitionKey`, and reads whatever's currently
   // in the ref — so it only ever plays when you explicitly hit Replay,
   // using the settings on the sliders at that moment.
-  const settingsRef = useRef({ slantFrac, wipeDuration, holdDuration, dimDuration, easeKey });
-  useEffect(() => {
-    settingsRef.current = { slantFrac, wipeDuration, holdDuration, dimDuration, easeKey };
-  }, [slantFrac, wipeDuration, holdDuration, dimDuration, easeKey]);
+  const settingsRef = useRef({
+    slantFrac,
+    slantStartFrac,
+    wipeDuration,
+    holdDuration,
+    dimDuration,
+    easeKey,
+  });
+  settingsRef.current = {
+    slantFrac,
+    slantStartFrac,
+    wipeDuration,
+    holdDuration,
+    dimDuration,
+    easeKey,
+  };
 
   // Curtain-only timeline — no text animation anywhere in here on purpose.
   // Three beats, in order:
   //   1. The "outgoing page" stand-in dims uniformly.
   //   2. A solid panel snaps to fully opaque and holds.
-  //   3. The panel's bottom edge rises to uncover the new page — flat or
-  //      slanted depending on the `slant` control, top edge always pinned.
+  //   3. The panel's bottom edge rises to uncover the new page — flat until
+  //      `slantStart`, then it grows a diagonal for the final stretch, top
+  //      edge always pinned. Solid black throughout, no accent line.
   useLayoutEffect(() => {
     const curtain = curtainRef.current;
     const outgoing = outgoingRef.current;
@@ -62,6 +77,7 @@ export default function PageTransitionDemo() {
 
     const {
       slantFrac: slant,
+      slantStartFrac: slantStartAt,
       wipeDuration: wipeDur,
       holdDuration: holdDur,
       dimDuration: dimDur,
@@ -72,8 +88,11 @@ export default function PageTransitionDemo() {
       const tl = gsap.timeline();
       const proxy = { p: 0 };
 
-      tl.set(outgoing, { autoAlpha: 1 })
-        .set(curtain, { autoAlpha: 0, clipPath: buildCurtainClipPath(0, slant) })
+      tl.set(curtain, {
+        autoAlpha: 0,
+        clipPath: buildStagedCurtainClipPath(0, slant, slantStartAt),
+      })
+        .set(outgoing, { autoAlpha: 1 })
         // Beat 1 — dim the outgoing content.
         .to(outgoing, { autoAlpha: 0, duration: dimDur, ease: "power2.out" }, "dim")
         // Beat 2 — curtain snaps to fully opaque as the dim finishes, then
@@ -81,13 +100,13 @@ export default function PageTransitionDemo() {
         .to(curtain, { autoAlpha: 1, duration: 0.001 }, `dim+=${Math.max(dimDur - 0.05, 0)}`)
         .to({}, { duration: holdDur })
         // Beat 3 — the wipe. Driven by a 0→1 proxy so the clip-path can be
-        // a slanted polygon instead of a plain inset().
+        // a flat-then-slanted polygon instead of a plain inset().
         .to(proxy, {
           p: 1,
           duration: wipeDur,
           ease,
           onUpdate: () => {
-            curtain.style.clipPath = buildCurtainClipPath(proxy.p, slant);
+            curtain.style.clipPath = buildStagedCurtainClipPath(proxy.p, slant, slantStartAt);
           },
         });
     });
@@ -98,6 +117,7 @@ export default function PageTransitionDemo() {
   const handleCopySettings = () => {
     const snippet = [
       `const CURTAIN_SLANT = ${slantFrac.toFixed(3)}; // was ${slant} on the -100..100 slider`,
+      `const CURTAIN_SLANT_START = ${slantStartFrac.toFixed(2)}; // was ${slantStart}% on the slider`,
       `// wipe duration: ${wipeDuration.toFixed(2)}s, ease: "${easeKey}"`,
       `// hold duration: ${holdDuration.toFixed(2)}s, dim duration: ${dimDuration.toFixed(2)}s`,
     ].join("\n");
@@ -147,9 +167,13 @@ export default function PageTransitionDemo() {
           </span>
           <p className="mt-2 max-w-xl text-base text-white/60 leading-relaxed">
             Outgoing content dims, a solid panel snaps to fully opaque and
-            holds, then it wipes away — bottom edge rising, top edge fixed.
-            No scale or zoom on the photo underneath. Nothing here animates
-            text; that&apos;s deliberate.{" "}
+            holds, then it wipes away — bottom edge rising, top edge fixed,
+            flat until it&apos;s mostly done and only then growing into a
+            diagonal for the final stretch (tune exactly where with
+            &quot;slant starts at&quot;). Solid black the whole way, no
+            accent color on the edge. No scale or zoom on the photo
+            underneath. Nothing here animates text; that&apos;s
+            deliberate.{" "}
             <strong className="text-white">
               Adjust the sliders, then click &quot;Replay page
               transition&quot;
@@ -168,7 +192,6 @@ export default function PageTransitionDemo() {
               src="/images/hero-banner.png"
               alt="7th Heaven"
               fill
-              sizes="100vw"
               priority
               unoptimized
               className="object-cover"
@@ -208,7 +231,10 @@ export default function PageTransitionDemo() {
           <div
             ref={curtainRef}
             className="absolute inset-0 z-20 flex items-center justify-center"
-            style={{ backgroundColor: "#000", clipPath: buildCurtainClipPath(0, slantFrac) }}
+            style={{
+              backgroundColor: "#000",
+              clipPath: buildStagedCurtainClipPath(0, slantFrac, slantStartFrac),
+            }}
           >
             <span
               className="text-xl md:text-2xl font-black italic uppercase tracking-tight text-white"
@@ -226,8 +252,8 @@ export default function PageTransitionDemo() {
               {slant === 0
                 ? "flat (matches the reference site)"
                 : slant > 0
-                ? `right leads +${slant}`
-                : `left leads ${slant}`}
+                ? `right side rises first, edge tilts up-right (+${slant})`
+                : `left side rises first, edge tilts up-left (${slant})`}
             </span>
             <input
               type="range"
@@ -236,6 +262,18 @@ export default function PageTransitionDemo() {
               step={1}
               value={slant}
               onChange={(e) => setSlant(Number(e.target.value))}
+            />
+          </label>
+
+          <label className="flex flex-col gap-1.5 text-xs text-white/70">
+            <span>Slant starts at — {slantStart}% of the wipe</span>
+            <input
+              type="range"
+              min={0}
+              max={95}
+              step={5}
+              value={slantStart}
+              onChange={(e) => setSlantStart(Number(e.target.value))}
             />
           </label>
 

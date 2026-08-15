@@ -1,13 +1,25 @@
 /* eslint-disable react-doctor/no-giant-component */
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 
 // setOptions() may only be called once, before the first importLibrary() call.
 let googleMapsOptionsSet = false;
 
 import { VENUE_COORDS, typeConfig, getShowType, getShowDateTime, isShowOver } from "@/lib/tour-helpers";
+
+function formatDateLabel(timestamp: number) {
+  if (!timestamp) return "";
+  const d = new Date(timestamp);
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function formatDateShort(timestamp: number) {
+  if (!timestamp) return "";
+  const d = new Date(timestamp);
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
 
 // SnazzyMaps Style 227862 ("My Custom Map": Royal Purple #3d1b76 & Midnight Water #160533)
 // NOTE: this only takes effect on a real Google Map with NO Map ID set — a Map ID
@@ -110,6 +122,35 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   const [googleReady, setGoogleReady] = useState(false);
   const [mapLoadError, setMapLoadError] = useState<string | null>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
+
+  // ── Date Range Zoom & Filter state ──
+  const [dateRange, setDateRange] = useState<[number, number] | null>(null);
+  const [isDateUiOpen, setIsDateUiOpen] = useState(false);
+
+  const { minShowTime, maxShowTime } = useMemo(() => {
+    if (!shows || shows.length === 0) {
+      const now = Date.now();
+      return { minShowTime: now, maxShowTime: now + 180 * 24 * 60 * 60 * 1000 };
+    }
+    const timestamps = shows
+      .map((s) => getShowDateTime(s.startDate, s.date, s.time).getTime())
+      .filter((t) => t > 0)
+      .sort((a, b) => a - b);
+
+    if (timestamps.length === 0) {
+      const now = Date.now();
+      return { minShowTime: now, maxShowTime: now + 180 * 24 * 60 * 60 * 1000 };
+    }
+
+    return {
+      minShowTime: timestamps[0],
+      maxShowTime: timestamps[timestamps.length - 1],
+    };
+  }, [shows]);
+
+  const activeStart = dateRange ? dateRange[0] : minShowTime;
+  const activeEnd = dateRange ? dateRange[1] : maxShowTime;
+  const isDateFiltered = dateRange !== null && (dateRange[0] > minShowTime || dateRange[1] < maxShowTime);
 
   // ── Directional Map Gradient Customizer states ──
   const [mapGradTop, setMapGradTop] = useState(false);
@@ -386,10 +427,21 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
     const uniqueVenues = Object.values(showGroups);
 
-    const filteredVenues = uniqueVenues.filter(v => {
-      if (selectedTypes.size === 0) return true;
-      return selectedTypes.has(v.type);
-    });
+    const filteredVenues = uniqueVenues
+      .map((v) => {
+        const matchingShows = v.shows.filter((s) => {
+          if (!isDateFiltered) return true;
+          const t = getShowDateTime(undefined, s.date, s.time).getTime();
+          if (t === 0) return true;
+          return t >= activeStart && t <= activeEnd;
+        });
+        return { ...v, shows: matchingShows };
+      })
+      .filter((v) => {
+        if (v.shows.length === 0) return false;
+        if (selectedTypes.size === 0) return true;
+        return selectedTypes.has(v.type);
+      });
 
     setMarkerCount(filteredVenues.length);
 
@@ -581,7 +633,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       }
       markersRef.current = [];
     };
-  }, [googleReady, map, shows, nextShowVenue, nextShowCity, selectedTypes]);
+  }, [googleReady, map, shows, nextShowVenue, nextShowCity, selectedTypes, activeStart, activeEnd, isDateFiltered]);
 
   // Near Me handler
   const handleNearMe = useCallback(() => {
@@ -635,7 +687,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
   }, []);
 
   return (
-    <div className="relative w-full aspect-[3/1] overflow-hidden pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)', maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)' }}>
+    <div className="relative w-full aspect-[3/1] overflow-hidden pb-px" style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', border: 'none', outline: 'none', minHeight: '350px', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)', maskImage: 'linear-gradient(to bottom, black 0%, black 88%, transparent 100%)' }}>
       <div ref={mapRef} className="absolute inset-0 w-full h-full z-[1] snazzy-map-227862" />
 
       {/* ── Directional Dark Edge Gradient Overlays ── */}
@@ -676,171 +728,160 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
         />
       )}
 
-      {/* ── Map Gradient UI Control Button + Drawer ── */}
-      <div className="absolute top-4 left-8 z-[5] flex flex-col items-start gap-2">
-        {!isMapGradUiOpen ? (
-          <button aria-label="Action button"
-            onClick={() => setIsMapGradUiOpen(true)}
-            className="flex items-center gap-2 px-7 md:px-8 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-[16px] font-bold uppercase tracking-wider text-white/80 hover: text-[var(--color-accent)] transition-colors cursor-pointer"
-            title="Configure Map Directional Black Gradient"
+
+
+      {/* ── Date Range Zoom Filter Control (Top-Right Overlay) ── */}
+      <div className="absolute top-4 right-8 z-[5] flex flex-col items-end gap-2">
+        {!isDateUiOpen ? (
+          <button
+            type="button"
+            onClick={() => setIsDateUiOpen(true)}
+            className={`flex items-center gap-2.5 px-6 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${
+              isDateFiltered
+                ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
+                : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
+            }`}
+            title="Zoom in on dates & filter show markers"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 animate-pulse" />
-            <span>Map Gradient UI</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse" />
+            <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
+            {isDateFiltered && (
+              <span className="ml-1 text-[10px] font-black bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
+                Filtered ({markerCount})
+              </span>
+            )}
           </button>
         ) : (
-          <div className="w-[310px] bg-[rgba(8,8,18,0.95)] backdrop-blur-2xl border border-white/15 p-4 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col gap-3.5 select-none text-left text-white z-50">
+          <div className="w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)] backdrop-blur-2xl border border-purple-500/40 p-4.5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-2">
-              <div className="flex flex-col">
-                <span className="font-bold text-xs uppercase tracking-wider  text-[var(--color-accent)]">
-                  Map Gradient Controls
-                </span>
-                <span className="text-[9px] text-white/50 uppercase font-semibold">
-                  Custom Edge Darkening
-                </span>
+            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">📅</span>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-xs uppercase tracking-wider text-purple-300">
+                    Date Range Zoom
+                  </span>
+                  <span className="text-[10px] text-white/50 font-medium">
+                    Filter pins between start & end dates
+                  </span>
+                </div>
               </div>
-              <button aria-label="Action button"
-                onClick={() => setIsMapGradUiOpen(false)}
+              <button
+                type="button"
+                onClick={() => setIsDateUiOpen(false)}
                 className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
               >
                 ✕
               </button>
             </div>
 
-            {/* Quick Direction Presets */}
-            <div className="space-y-1">
-              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Direction Presets</span>
-              <div className="grid grid-cols-4 gap-1">
-                {[
-                  { id: "all", label: "All Sides" },
-                  { id: "tb", label: "Top & Btm" },
-                  { id: "lr", label: "Left & Rgt" },
-                  { id: "none", label: "None" },
-                ].map((p) => (
-                  <button aria-label="Action button"
-                    key={p.id}
-                    onClick={() => selectPresetMode(p.id as any)}
-                    className="px-1.5 py-1 text-[8.5px] font-extrabold uppercase tracking-wider rounded border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center truncate cursor-pointer"
-                  >
-                    {p.label}
-                  </button>
-                ))}
+            {/* Date Range Badge & Live Counter */}
+            <div className="flex items-center justify-between bg-purple-950/50 border border-purple-500/30 px-3 py-2 rounded-xl text-xs">
+              <div className="flex items-center gap-1.5 font-mono text-purple-200 font-bold text-[11px]">
+                <span>{formatDateLabel(activeStart)}</span>
+                <span className="text-white/40">→</span>
+                <span>{formatDateLabel(activeEnd)}</span>
               </div>
+              <span className="text-[10px] font-black text-purple-300 bg-purple-600/40 px-2 py-0.5 rounded-md border border-purple-400/30">
+                {markerCount} Shows
+              </span>
             </div>
 
-            {/* Individual Direction Toggles */}
-            <div className="space-y-1">
-              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Active Sides</span>
-              <div className="grid grid-cols-4 gap-1.5">
-                {[
-                  { label: "Top ⬆️", state: mapGradTop, setter: toggleTop },
-                  { label: "Bottom ⬇️", state: mapGradBottom, setter: toggleBottom },
-                  { label: "Left ⬅️", state: mapGradLeft, setter: toggleLeft },
-                  { label: "Right ➡️", state: mapGradRight, setter: toggleRight },
-                ].map((d) => (
-                  <button aria-label="Action button"
-                    key={d.label}
-                    onClick={() => d.setter(!d.state)}
-                    className={`px-1 py-1.5 text-[8.5px] font-black uppercase rounded-lg border transition-colors cursor-pointer ${d.state
-                      ? "bg-purple-600/40 border-purple-400 text-white shadow-[0_0_8px_rgba(168,85,247,0.3)]"
-                      : "bg-white/5 border-white/5 text-white/40 hover:bg-white/10"
-                      }`}
-                  >
-                    {d.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Size / Depth Slider */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
-                <span>Gradient Depth / Size</span>
-                <span className=" text-[var(--color-accent)] font-mono font-black">{mapGradSize}%</span>
-              </div>
-              <input aria-label="Input field"
-                type="range"
-                min="5"
-                max="60"
-                step="1"
-                value={mapGradSize}
-                onChange={(e) => updateSize(parseFloat(e.target.value))}
-                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-
-            {/* Opacity Slider */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
-                <span>Edge Black Opacity</span>
-                <span className=" text-[var(--color-accent)] font-mono font-black">{Math.round(mapGradOpacity * 100)}%</span>
-              </div>
-              <input aria-label="Input field"
-                type="range"
-                min="0"
-                max="1"
-                step="0.02"
-                value={mapGradOpacity}
-                onChange={(e) => updateOpacity(parseFloat(e.target.value))}
-                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-
-            {/* Midstop Slider */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-[10px] font-bold text-white/60 uppercase tracking-wider">
-                <span>Fade Midpoint Stop</span>
-                <span className=" text-[var(--color-accent)] font-mono font-black">{mapGradMidstop}%</span>
-              </div>
-              <input aria-label="Input field"
-                type="range"
-                min="0"
-                max="80"
-                step="1"
-                value={mapGradMidstop}
-                onChange={(e) => updateMidstop(parseFloat(e.target.value))}
-                className="w-full accent-purple-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-
-            {/* Color Selector */}
-            <div className="space-y-1">
-              <div className="flex justify-between items-center text-[10px] font-bold text-white/60 uppercase tracking-wider">
-                <span>Gradient Color</span>
-                <span className=" text-[var(--color-accent)] font-mono font-bold text-[9px]">{mapGradColor}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                {["#000000", "#000000", "#090314", "#0f051d", "#020617"].map((c) => (
-                  <button aria-label="Action button"
-                    key={c}
-                    onClick={() => updateColor(c)}
-                    className="w-5 h-5 rounded-full border transition-transform cursor-pointer"
-                    style={{
-                      backgroundColor: c,
-                      borderColor: mapGradColor === c ? '#a855f7' : 'rgba(255,255,255,0.2)',
-                      transform: mapGradColor === c ? 'scale(1.2)' : 'scale(1)',
-                    }}
-                  />
-                ))}
-                <div className="relative w-5 h-5 rounded-full border border-white/30 overflow-hidden cursor-pointer bg-purple-600/30 flex items-center justify-center">
-                  <input aria-label="Input field"
-                    type="color"
-                    value={mapGradColor}
-                    onChange={(e) => updateColor(e.target.value)}
-                    className="absolute -inset-2 w-[200%] h-[200%] cursor-pointer opacity-0"
-                  />
-                  <span className="text-[10px] font-bold text-white">+</span>
+            {/* Dual Sliders */}
+            <div className="space-y-3">
+              <div className="space-y-1">
+                <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
+                  <span>Start Date (From)</span>
+                  <span className="text-purple-300 font-mono">{formatDateShort(activeStart)}</span>
                 </div>
+                <input
+                  type="range"
+                  min={minShowTime}
+                  max={maxShowTime}
+                  step={86400000}
+                  value={activeStart}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setDateRange([Math.min(val, activeEnd - 86400000), activeEnd]);
+                  }}
+                  className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
+                  <span>End Date (To)</span>
+                  <span className="text-purple-300 font-mono">{formatDateShort(activeEnd)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={minShowTime}
+                  max={maxShowTime}
+                  step={86400000}
+                  value={activeEnd}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value);
+                    setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
+                  }}
+                  className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                />
               </div>
             </div>
 
-            {/* Copy CSS Button */}
-            <button aria-label="Action button"
-              onClick={copyMapGradCSS}
-              className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5"
-            >
-              {mapGradCopied ? "✓ Copied Map Gradient CSS!" : "Copy Map Gradient CSS"}
-            </button>
+            {/* Quick Preset Buttons */}
+            <div className="space-y-1">
+              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Quick Presets</span>
+              <div className="grid grid-cols-3 gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const now = Date.now();
+                    const target = now + 30 * 24 * 60 * 60 * 1000;
+                    setDateRange([now, Math.min(target, maxShowTime)]);
+                  }}
+                  className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                >
+                  Next 30 Days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const now = Date.now();
+                    const target = now + 90 * 24 * 60 * 60 * 1000;
+                    setDateRange([now, Math.min(target, maxShowTime)]);
+                  }}
+                  className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                >
+                  Next 90 Days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDateRange([minShowTime, maxShowTime])}
+                  className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                >
+                  All Dates
+                </button>
+              </div>
+            </div>
+
+            {/* Remove / Reset Filter Button */}
+            {isDateFiltered ? (
+              <button
+                type="button"
+                onClick={() => setDateRange(null)}
+                className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+              >
+                <span>✕ Remove Date Filter</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsDateUiOpen(false)}
+                className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider rounded-xl transition-colors cursor-pointer text-center"
+              >
+                Close Controls
+              </button>
+            )}
           </div>
         )}
       </div>

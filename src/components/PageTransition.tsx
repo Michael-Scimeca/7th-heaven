@@ -1,15 +1,24 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useTransition as useReactTransition, ReactNode } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
-import { buildCurtainClipPath } from "@/lib/curtainClipPath";
+import { buildStagedCurtainClipPath } from "@/lib/curtainClipPath";
 
 // -0.9 (left edge leads) to 0.9 (right edge leads), 0 = flat — matches what
-// thibaultguignand.com's own code actually does. Dial in a value on the
-// /pagetransition sandbox (it has sliders for this), then set it here.
-const CURTAIN_SLANT = 0;
+// thibaultguignand.com's own code actually does. Positive = the RIGHT end
+// of the edge rises first (edge tilts up toward the right as it moves);
+// negative = the LEFT end rises first (tilts up toward the left). Kept
+// small on purpose — "slide up normally, then slant a little at the end,"
+// not a dramatic diagonal. Dial in a value on the /pagetransition sandbox
+// (it has sliders for this, plus a live "which side leads" label), then
+// set it here.
+const CURTAIN_SLANT = -0.15;
+// The edge stays flat for the first 75% of the wipe and only grows into
+// the slant over the final stretch, finishing fully cleared right at the
+// end regardless of CURTAIN_SLANT.
+const CURTAIN_SLANT_START = 0.75;
 
 /**
  * PageTransition
@@ -17,9 +26,11 @@ const CURTAIN_SLANT = 0;
  * Drives the actual route-to-route transition (thibaultguignand.com-style):
  * a black curtain covers the current page, the real Next.js navigation
  * happens while hidden behind it, then the curtain wipes away via
- * `clip-path` — top edge fixed, bottom edge rising — revealing the new
- * page. No scale/zoom on any content; only the curtain's own clip region
- * moves.
+ * `clip-path` — top edge fixed, bottom edge rising, flat until it's mostly
+ * done and only then curving into a slight diagonal for the final
+ * stretch — revealing the new page. Solid black throughout, no accent
+ * color on the edge. No scale/zoom on any content; only the curtain's own
+ * clip region moves.
  *
  * This component is driven entirely by TransitionContext's `mode` state
  * machine (see src/context/TransitionContext.tsx). It doesn't decide when
@@ -30,10 +41,31 @@ const CURTAIN_SLANT = 0;
  *   covering   → current page dims, curtain snaps to fully opaque and
  *                holds briefly with a wordmark, THEN router.push() fires
  *                (navigation happens while fully hidden) → mode: "covered".
- *   covered    → waiting for the new page's fonts/images/DOM to actually
- *                be ready (waitForPageReady) before revealing it.
+ *   covered    → waiting for the ACTUAL new route to be ready before
+ *                revealing it — see "Two-stage ready check" below.
  *   uncovering → curtain wipes away bottom-up, revealing the new page.
  *                Back to "idle" once the wipe finishes.
+ *
+ * ─── Two-stage ready check (the standard App Router pattern for this) ─────
+ * router.push() is fire-and-forget: it returns immediately, before Next.js
+ * has fetched/rendered the destination route. The naive version of this
+ * component called router.push() then started polling the DOM right away —
+ * which mostly just found the OLD page still sitting there (already fully
+ * loaded), so it "finished" almost instantly and the curtain could start
+ * uncovering before the new route had actually swapped in.
+ *
+ * The fix (the same pattern Next.js's own docs use for coordinating
+ * navigation with UI state — see "Understanding the pending state" for
+ * `useTransition`): wrap the router.push() call in React's `startTransition`
+ * and track its `isPending` flag. React only clears `isPending` once the
+ * new route's tree has actually rendered and committed to the DOM, so:
+ *
+ *   1. Wait for `isPending` to go false AND `pathname` to actually equal
+ *      the href we navigated to (belt-and-suspenders — confirms the swap
+ *      really landed, not just that some unrelated transition finished).
+ *   2. Only THEN run waitForPageReady() — the fonts/images/double-RAF
+ *      check — since step 1 only guarantees the new React tree is mounted,
+ *      not that its images have decoded or its web fonts have painted.
  */
 
 // ─── Page-ready check (Fonts + DOM Text + Images + Double RAF) ─────────────
@@ -110,14 +142,22 @@ async function waitForPageReady(): Promise<void> {
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
+// Safety net: if isPending somehow never clears (e.g. router.push targets
+// an external/invalid URL, or a slow/broken data fetch on the destination
+// route), don't leave the curtain — and the site — stuck forever.
+const MAX_PENDING_WAIT_MS = 6000;
+
 export default function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startReactTransition] = useReactTransition();
   const { mode, setMode, pendingHref, clearPendingHref } = useTransition();
   const contentRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
 
   // covering → dim current content, curtain snaps opaque + holds, then the
-  // real navigation fires while fully hidden behind it.
+  // real navigation fires (wrapped in startTransition, see the two-stage
+  // ready check above) while fully hidden behind it.
   useEffect(() => {
     if (mode !== "covering") return;
     const content = contentRef.current;
@@ -126,14 +166,18 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        if (pendingHref) router.push(pendingHref);
+        if (pendingHref) {
+          startReactTransition(() => {
+            router.push(pendingHref);
+          });
+        }
         setMode("covered");
       },
     });
 
     tl.set(curtain, {
       autoAlpha: 0,
-      clipPath: buildCurtainClipPath(0, CURTAIN_SLANT),
+      clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
       pointerEvents: "auto",
     })
       .to(content, { autoAlpha: 0, duration: 0.35, ease: "power2.out" })
@@ -146,10 +190,14 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  // covered → new page has mounted underneath the (still opaque) curtain;
-  // wait until it's actually ready to look at before revealing it.
+  // covered → wait for the new route to actually land (React's isPending
+  // clears + pathname matches what we navigated to), THEN wait for its
+  // fonts/images/DOM to actually be paintable, before revealing it.
   useEffect(() => {
     if (mode !== "covered") return;
+    if (isPending) return; // React hasn't finished rendering the new route yet
+    if (pendingHref && pathname !== pendingHref) return; // swap hasn't landed yet
+
     let cancelled = false;
     waitForPageReady().then(() => {
       if (!cancelled) setMode("uncovering");
@@ -158,7 +206,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [mode, isPending, pathname, pendingHref]);
+
+  // Safety net for `isPending` above: if the route swap never completes
+  // (broken destination, hung fetch, etc.), stop waiting after a few
+  // seconds and reveal whatever's there rather than hiding the site behind
+  // a black curtain indefinitely.
+  useEffect(() => {
+    if (mode !== "covered" || !isPending) return;
+    const t = setTimeout(() => {
+      waitForPageReady().then(() => setMode("uncovering"));
+    }, MAX_PENDING_WAIT_MS);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, isPending]);
 
   // uncovering → wipe the curtain away, bottom edge rising, revealing the
   // new page. No scale/zoom on `content` — only the curtain's clip moves.
@@ -175,12 +236,16 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       duration: 1,
       ease: "power3.inOut",
       onUpdate: () => {
-        curtain.style.clipPath = buildCurtainClipPath(proxy.p, CURTAIN_SLANT);
+        curtain.style.clipPath = buildStagedCurtainClipPath(
+          proxy.p,
+          CURTAIN_SLANT,
+          CURTAIN_SLANT_START
+        );
       },
       onComplete: () => {
         gsap.set(curtain, {
           autoAlpha: 0,
-          clipPath: buildCurtainClipPath(0, CURTAIN_SLANT),
+          clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
           pointerEvents: "none",
         });
         clearPendingHref();
@@ -196,7 +261,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div ref={contentRef} className="w-full flex-1">
+      <div ref={contentRef} className="flex-1 flex flex-col">
         {children}
       </div>
 
@@ -219,7 +284,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           opacity: 0,
           visibility: "hidden",
           pointerEvents: "none",
-          clipPath: buildCurtainClipPath(0, CURTAIN_SLANT),
+          clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
         }}
       >
         <span

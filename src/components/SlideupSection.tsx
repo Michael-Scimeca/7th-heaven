@@ -1,40 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-function HoverVideo({ src }: { src: string }) {
-  const [hovered, setHovered] = useState(false);
+function AutoPlayVideo({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (hovered && videoRef.current) {
-      videoRef.current.play().catch(() => { });
-    } else if (!hovered && videoRef.current) {
-      videoRef.current.pause();
-    }
-  }, [hovered]);
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.play().catch(() => {});
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [src]);
 
   return (
-    <div
-      className="absolute inset-0 w-full h-full"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {hovered ? (
-        <video
-          ref={videoRef}
-          src={src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 z-[1] w-full h-full object-cover"
-        />
-      ) : (
-        <div className="absolute inset-0 z-[1] w-full h-full bg-zinc-900/60" />
-      )}
-    </div>
+    <video
+      ref={videoRef}
+      src={src}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      className="absolute inset-0 z-[1] w-full h-full object-cover"
+    />
   );
 }
 
@@ -57,10 +60,9 @@ const SLIDES: {
       bg: "transparent",
       accent: "#c084fc",
       thumbs: [
-        { label: "Color In Motion", gradient: "linear-gradient(160deg,#3b4a3f,#0e1a12)", video: "/movie/hero-colorinmostion.mp4" },
-        { label: "Cruise", gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)", video: "/movie/cruise.mp4" },
-        { label: "At Sea", gradient: "linear-gradient(160deg,#d986a8,#5b2340)", video: "/movie/ship-sea.mp4" },
-        { label: "Adam", gradient: "linear-gradient(160deg,#3a3a3a,#0b0b0b)", video: "/movie/Adam.mp4" },
+        { label: "Soldier Field", gradient: "linear-gradient(160deg,#3b4a3f,#0e1a12)", video: "/movie/luminous-clip.mp4" },
+        { label: "Cruise Ship Stage", gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)", video: "/movie/cruise.mp4" },
+        { label: "At Sea Crowd", gradient: "linear-gradient(160deg,#d986a8,#5b2340)", video: "/movie/ship-sea.mp4" },
       ],
     },
     {
@@ -70,10 +72,9 @@ const SLIDES: {
       bg: "transparent",
       accent: "#d8b4fe",
       thumbs: [
-        { label: "Wedding", gradient: "linear-gradient(160deg,#c9b48a,#3c2f1e)", video: "/movie/Frankie.mp4" },
-        { label: "Corporate", gradient: "linear-gradient(160deg,#8a8a8a,#1a1a1a)", video: "/movie/Mark.mp4" },
-        { label: "Private Party", gradient: "linear-gradient(160deg,#e0c9a6,#5a4326)", video: "/movie/Nick.mp4" },
-        { label: "Acoustic Set", gradient: "linear-gradient(160deg,#4d5a4a,#10140f)", video: "/movie/Rich.mp4" },
+        { label: "Weddings", gradient: "linear-gradient(160deg,#c9b48a,#3c2f1e)", video: "/movie/Frankie.mp4" },
+        { label: "Corporate Events", gradient: "linear-gradient(160deg,#8a8a8a,#1a1a1a)", video: "/movie/Mark.mp4" },
+        { label: "Private Parties", gradient: "linear-gradient(160deg,#e0c9a6,#5a4326)", video: "/movie/Nick.mp4" },
       ],
     },
     {
@@ -83,10 +84,9 @@ const SLIDES: {
       bg: "transparent",
       accent: "#f2f1e6",
       thumbs: [
-        { label: "DeKalb Cornfest", gradient: "linear-gradient(160deg,#6f6fce,#1a1a3a)", youtube: "C0PQYmyaTFk" },
-        { label: "Schaumburg Fest", gradient: "linear-gradient(160deg,#e0a35a,#4a2410)", youtube: "qp5Y312eiS8" },
-        { label: "Schaumburg Fest", gradient: "linear-gradient(160deg,#5ad0c0,#0d2a26)", youtube: "4DR68Z8rd_k" },
-        { label: "Rock N' Wheels", gradient: "linear-gradient(160deg,#d9d9d9,#3a3a3a)", youtube: "UQBvl_wZ0ak" },
+        { label: "DeKalb Cornfest", gradient: "linear-gradient(160deg,#6f6fce,#1a1a3a)", video: "/movie/fest1-clip.mp4" },
+        { label: "Schaumburg Fest", gradient: "linear-gradient(160deg,#e0a35a,#4a2410)", video: "/movie/hero-colorinmostion.mp4" },
+        { label: "Rock N' Wheels", gradient: "linear-gradient(160deg,#5ad0c0,#0d2a26)", video: "/movie/Adam.mp4" },
       ],
     },
     {
@@ -96,10 +96,9 @@ const SLIDES: {
       bg: "transparent",
       accent: "#bfa0e9",
       thumbs: [
-        { label: "Local Club", gradient: "linear-gradient(160deg,#6a3b8e,#1b0d2a)", video: "/movie/hero-colorinmostion.mp4" },
-        { label: "Sports Bar", gradient: "linear-gradient(160deg,#8e4a3b,#2a0d1b)", video: "/movie/cruise.mp4" },
-        { label: "Pub & Grill", gradient: "linear-gradient(160deg,#3b8e7f,#0d2a23)", video: "/movie/ship-sea.mp4" },
-        { label: "Music Hall", gradient: "linear-gradient(160deg,#8e863b,#2a270d)", video: "/movie/Adam.mp4" },
+        { label: "Local Club", gradient: "linear-gradient(160deg,#6a3b8e,#1b0d2a)", video: "/movie/be-here-clip.mp4" },
+        { label: "Sports Bar", gradient: "linear-gradient(160deg,#8e4a3b,#2a0d1b)", video: "/movie/color-in-motion-clip.mp4" },
+        { label: "Pub & Grill", gradient: "linear-gradient(160deg,#3b8e7f,#0d2a23)", video: "/movie/Rich.mp4" },
       ],
     },
   ];
@@ -409,7 +408,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                 {slide.thumbs.map((t, ti) => (
                   <div key={`${t.label}-${ti}`} className="su-thumb">
                     {t.video && (
-                      <HoverVideo src={t.video} />
+                      <AutoPlayVideo src={t.video} />
                     )}
                     {t.youtube && (
                       <Image

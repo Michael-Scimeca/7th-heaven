@@ -74,7 +74,7 @@ const FALLBACK_SHOWS = [
 // ISR: regenerate every 60s — page is pre-rendered & cached
 export const revalidate = 60;
 
-const fetchWithTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 150): Promise<T> => {
+const fetchWithTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 5000): Promise<T> => {
   return Promise.race([
     promise.catch(() => fallback),
     new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))
@@ -89,7 +89,7 @@ const formatShowDate = (isoDate: string) => {
 };
 
 export default async function Home() {
-  // Use sanityClient.fetch with 1.2s max timeout — guarantees fast render even if Sanity API is slow
+  // Use sanityClient.fetch with 5s timeout — guarantees complete render on Netlify serverless
   const [membersData, showsData, settings] = await Promise.all([
     fetchWithTimeout(sanityClient.fetch<SanityBandMember[]>(queries.allBandMembers, {}, { next: { revalidate: 60, tags: ['sanity:members'] } }), [] as SanityBandMember[]),
     fetchWithTimeout(sanityClient.fetch<SanityTourDate[]>(queries.allTourDates, {}, { next: { revalidate: 60, tags: ['sanity:shows'] } }), [] as SanityTourDate[]),
@@ -158,6 +158,9 @@ export default async function Home() {
     return showEndTime >= now;
   });
 
+  // Guarantee non-empty shows list even if all dates fall in the past
+  const finalShowsToRender = upcomingShows.length > 0 ? upcomingShows : combinedShows;
+
   const stats = settings?.stats?.length ? settings.stats : FALLBACK_STATS;
   const tagline = settings?.tagline || "An experience you just have to see and hear.";
   const subTagline = settings?.subTagline || "40 years of rocking the world.";
@@ -208,7 +211,7 @@ export default async function Home() {
             width: "calc(100% + 2 * var(--page-padding-x))",
           }}
         >
-          <TourList initialShows={upcomingShows} />
+          <TourList initialShows={finalShowsToRender} />
         </section>
       </LazySection>
 

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ReturnsPage() {
   return (
-    <section className="site-container pt-[var(--page-top-offset)] pb-24 min-h-screen text-[var(--text-color)]">
+    <section className="site-container pt-[var(--page-top-offset)] min-h-screen text-[var(--text-color)]">
       <div className="w-full text-left">
         <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
           Return & Refund <span className="text-[var(--color-accent)]">Policy</span>

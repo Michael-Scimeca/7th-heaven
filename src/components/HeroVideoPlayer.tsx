@@ -20,19 +20,18 @@ import {
 } from "@/context/VideoSnapshotContext";
 
 const ALBUM_VIDEOS: Record<string, string> = {
-  "be-here": "/movie/cruise.mp4",
-  "01-be-here": "/movie/cruise.mp4",
-  "color-in-motion": "/movie/hero-colorinmostion.mp4",
-  "07-color-in-motion": "/movie/hero-colorinmostion.mp4",
-  "luminous": "/movie/luminous.mp4",
-  "09-luminous": "/movie/luminous.mp4",
-  "next": "/movie/next.mp4",
-  "20-usa-uk": "/movie/next.mp4",
-  "spectrum": "/movie/spectrum.mp4",
-  "14-synergy": "/movie/spectrum.mp4",
+  "be-here": "/movie/be-here-clip.mp4",
+  "01-be-here": "/movie/be-here-clip.mp4",
+  "color-in-motion": "/movie/color-in-motion-clip.mp4",
+  "07-color-in-motion": "/movie/color-in-motion-clip.mp4",
+  "luminous": "/movie/luminous-clip.mp4",
+  "09-luminous": "/movie/luminous-clip.mp4",
 };
 
-const DEFAULT_VIDEO = "/movie/hero-colorinmostion.mp4";
+const DEFAULT_VIDEO = "/movie/be-here-clip.mp4";
+
+// Unique video URLs to prefetch in the background for instant album switching
+const PREFETCH_URLS = [...new Set(Object.values(ALBUM_VIDEOS))];
 const SNAPSHOT_INTERVAL_MS = 30_000; // 30 seconds
 const MAX_SNAPSHOTS = 2;
 
@@ -72,6 +71,37 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const isDesktop = useSyncExternalStore(mqSubscribe, mqSnapshot, mqServerSnapshot);
 
   const isYouTube = !videoSrc.includes(".mp4");
+
+  // ── Prefetch all album videos after first interaction for instant switching ──
+  useEffect(() => {
+    if (!isDesktop) return;
+    let done = false;
+    const prefetch = () => {
+      if (done) return;
+      done = true;
+      PREFETCH_URLS.forEach((url) => {
+        if (url === DEFAULT_VIDEO) return; // already loading
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.as = 'video';
+        link.href = url;
+        document.head.appendChild(link);
+      });
+      cleanup();
+    };
+    const cleanup = () => {
+      window.removeEventListener('scroll', prefetch);
+      window.removeEventListener('pointerdown', prefetch);
+      window.removeEventListener('touchstart', prefetch);
+    };
+    window.addEventListener('scroll', prefetch, { passive: true, once: true });
+    window.addEventListener('pointerdown', prefetch, { passive: true, once: true });
+    window.addEventListener('touchstart', prefetch, { passive: true, once: true });
+    // Fallback: prefetch after 4 seconds if no interaction
+    const t = setTimeout(prefetch, 4000);
+    return () => { clearTimeout(t); cleanup(); };
+  }, [isDesktop]);
+
   const ytId = isYouTube ? videoSrc.replace(/^.*[=/]/, "") : "";
 
   // ── Tint Customizer states ──────────────────────────────────────────────────
@@ -248,9 +278,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   // ── Album → video sync ──────────────────────────────────────────────────────
   const handleAlbumChange = useCallback((albumId: string) => {
     const next = ALBUM_VIDEOS[albumId] ?? DEFAULT_VIDEO;
-    if (next === videoSrc) return;
-    setVideoSrc(next);
-  }, [videoSrc]);
+    setVideoSrc((prev) => (prev === next ? prev : next));
+  }, []);
 
   useEffect(() => {
     const handleCustomAlbumChange = (e: Event) => {
@@ -367,7 +396,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           ref={videoRef}
           onCanPlay={handleCanPlay}
           onLoadedMetadata={handleLoadedMetadata}
-          preload="none"
+          preload="metadata"
           autoPlay
           muted
           loop

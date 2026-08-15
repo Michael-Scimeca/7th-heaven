@@ -160,57 +160,54 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none" />
+    <section className="site-container min-h-screen pt-[var(--page-top-offset)] relative overflow-hidden text-[var(--text-color)]">
 
-        {/* Page Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-full px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
-            <SparklesIcon />
-            Support Center
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-[var(--text-color)] tracking-tight uppercase mb-4">
-            Frequently Asked <span className="text-purple-600">Questions</span>
-          </h1>
-          <p className="text-[var(--muted-text)] text-base max-w-xl mx-auto font-medium">
-            Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.
-          </p>
+      {/* Page Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-full px-4 py-1.5 mb-4 text-purple-700 text-xs font-bold uppercase tracking-wider">
+          <SparklesIcon />
+          Support Center
         </div>
+        <h1 className="text-4xl sm:text-5xl font-black text-[var(--text-color)] tracking-tight uppercase mb-4">
+          Frequently Asked <span className="text-purple-600">Questions</span>
+        </h1>
+        <p className="text-[var(--muted-text)] text-base max-w-xl mx-auto font-medium">
+          Got questions about tickets, shipping, our cruise community, or the fan portal? We have answers.
+        </p>
+      </div>
 
-        {/* Search Bar */}
-        <div className="mb-10 max-w-[500px] mx-auto flex justify-center">
-          <SearchInput
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Search questions, keywords, or topics..."
-            containerClassName="w-full"
-          />
-        </div>
+      {/* Search Bar */}
+      <div className="mb-10 max-w-[500px] mx-auto flex justify-center">
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search questions, keywords, or topics..."
+          containerClassName="w-full"
+        />
+      </div>
 
-        {/* Category Navigation Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {CATEGORIES.map(cat => {
-            const Icon = cat.icon;
-            const isActive = activeTab === cat.id;
-            return (
-              <button aria-label="Action button"
-                key={cat.id}
-                onClick={() => setActiveTab(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition duration-200 border ${isActive
-                  ? "bg-purple-600 border-purple-600 text-white shadow-md"
-                  : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 shadow-xs"
-                  }`}
-              >
-                <span className={isActive ? "text-white" : cat.color}>
-                  <Icon />
-                </span>
-                {cat.label}
-              </button>
-            );
-          })}
-        </div>
+      {/* Category Navigation Tabs */}
+      <div className="flex flex-wrap justify-center gap-2 mb-10">
+        {CATEGORIES.map(cat => {
+          const Icon = cat.icon;
+          const isActive = activeTab === cat.id;
+          return (
+            <button aria-label="Action button"
+              key={cat.id}
+              onClick={() => setActiveTab(cat.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition duration-200 border ${isActive
+                ? "bg-purple-600 border-purple-600 text-white shadow-md"
+                : "bg-white border-black/10 text-black/70 hover:text-black hover:border-black/20 shadow-xs"
+                }`}
+            >
+              <span className={isActive ? "text-white" : cat.color}>
+                <Icon />
+              </span>
+              {cat.label}
+            </button>
+          );
+        })}
+      </div>
 
       {/* FAQ Accordion List */}
       <div className="space-y-4">
@@ -252,34 +249,34 @@ export default function FAQPage() {
               </div>
             );
           })
-          ) : (
-            <div className="text-center py-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-sm">
-              <span className="text-white/20 inline-block mb-4 scale-150">
-                <HelpIcon />
-              </span>
-              <h3 className="text-white font-extrabold text-lg mb-1">No matches found</h3>
-              <p className="text-white/50 text-sm max-w-xs mx-auto">
-                We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Live Support Banner */}
-        <div className="mt-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
-          <div>
-            <h4 className="text-white font-extrabold text-lg mb-1">Still need help?</h4>
-            <p className="text-white/60 text-sm font-medium">
-              Can't find the answer you are looking for? Reach out to our direct support.
+        ) : (
+          <div className="text-center py-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-sm">
+            <span className="text-white/20 inline-block mb-4 scale-150">
+              <HelpIcon />
+            </span>
+            <h3 className="text-white font-extrabold text-lg mb-1">No matches found</h3>
+            <p className="text-white/50 text-sm max-w-xs mx-auto">
+              We couldn't find any FAQs matching "{searchQuery}". Try using different terms or browse standard categories.
             </p>
           </div>
-          <Link
-            href="/contact"
-            className="px-6 py-3 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
-          >
-            Contact Us
-          </Link>
+        )}
+      </div>
+
+      {/* Live Support Banner */}
+      <div className="mt-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-md">
+        <div>
+          <h4 className="text-white font-extrabold text-lg mb-1">Still need help?</h4>
+          <p className="text-white/60 text-sm font-medium">
+            Can't find the answer you are looking for? Reach out to our direct support.
+          </p>
         </div>
+        <Link
+          href="/contact"
+          className="px-6 py-3 rounded-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-sm transition duration-200 whitespace-nowrap shadow-md"
+        >
+          Contact Us
+        </Link>
+      </div>
     </section>
   );
 }

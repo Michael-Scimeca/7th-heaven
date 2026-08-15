@@ -240,7 +240,7 @@ export function Header() {
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
                     ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                    : "text-white/80 hover:text-white"
+                    : "text-white/80 hover:!text-[#6700ff]"
                     }`}
                 >
                   {link.label}
@@ -253,7 +253,7 @@ export function Header() {
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:text-white"
+                : "text-white/80 hover:!text-[#6700ff]"
                 }`}
             >
               {hasLiveStreams && (
@@ -279,7 +279,7 @@ export function Header() {
             }}
             className={`shrink-0 min-w-0 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer group transition-colors duration-200 flex items-center justify-center m-0 p-0 ${mobileOpen ? "z-[10001]" : "z-50"
               } ${isNavActive("/")
-                ? "!text-[#6700ff]"
+                ? "!text-[#6700ff] drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
                 : "text-white hover:!text-[#6700ff]"
               }`}
             title="7th Heaven — Go to Home Page"
@@ -297,7 +297,7 @@ export function Header() {
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:text-white"
+                : "text-white/80 hover:!text-[#6700ff]"
                 }`}
             >
               CRUISE
@@ -309,7 +309,7 @@ export function Header() {
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:text-white"
+                : "text-white/80 hover:!text-[#6700ff]"
                 }`}
             >
               BOOK US
@@ -320,7 +320,7 @@ export function Header() {
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:text-white"
+                : "text-white/80 hover:!text-[#6700ff]"
                 }`}
             >
               CONTACT
