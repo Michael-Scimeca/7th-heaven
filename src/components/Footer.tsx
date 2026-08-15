@@ -291,14 +291,14 @@ export function Footer() {
 
         {/* Endorsements */}
         <div className="site-container py-8 text-left">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--muted-text)] mb-8">Official Gear Endorsements</p>
-          <div className="flex flex-wrap justify-start items-center gap-x-8 gap-y-6">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[var(--muted-text)] mb-6 sm:mb-8">Official Gear Endorsements</p>
+          <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image width={200} height={200} unoptimized
                 key={brand.name}
                 src={`${brand.logoPath}?v=3`}
                 alt={brand.name}
-                className="h-6 md:h-7 w-auto object-contain opacity-100 shrink-0"
+                className="h-[clamp(16px,4.5vw,28px)] md:h-7 max-w-[28vw] sm:max-w-none w-auto object-contain opacity-100 shrink-0"
                 loading="lazy"
               />
             ))}
