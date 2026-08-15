@@ -370,7 +370,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           fill
           priority
           fetchPriority="high"
-          quality={65}
+          quality={60}
           sizes="100vw"
           className="absolute inset-0 w-full h-full object-cover z-0 brightness-[0.65]"
         />

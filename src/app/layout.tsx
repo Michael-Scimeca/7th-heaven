@@ -148,7 +148,7 @@ export default async function RootLayout({
         />
         <link
           rel="preload"
-          href="/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=65"
+          href="/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=60"
           as="image"
           fetchPriority="high"
         />
