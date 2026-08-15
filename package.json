@@ -16,6 +16,12 @@
     "doctor": "npx react-doctor@latest",
     "predeploy": "netlify build"
   },
+  "browserslist": [
+    "chrome >= 100",
+    "safari >= 15",
+    "firefox >= 100",
+    "edge >= 100"
+  ],
   "dependencies": {
     "@firecms/neat": "^1.0.2",
     "@googlemaps/js-api-loader": "^2.1.1",

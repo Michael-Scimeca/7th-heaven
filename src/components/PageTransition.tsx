@@ -4,6 +4,12 @@ import { useEffect, useRef, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
+import { buildCurtainClipPath } from "@/lib/curtainClipPath";
+
+// -0.9 (left edge leads) to 0.9 (right edge leads), 0 = flat — matches what
+// thibaultguignand.com's own code actually does. Dial in a value on the
+// /pagetransition sandbox (it has sliders for this), then set it here.
+const CURTAIN_SLANT = 0;
 
 /**
  * PageTransition
@@ -127,7 +133,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     tl.set(curtain, {
       autoAlpha: 0,
-      clipPath: "inset(0% 0% 0% 0%)",
+      clipPath: buildCurtainClipPath(0, CURTAIN_SLANT),
       pointerEvents: "auto",
     })
       .to(content, { autoAlpha: 0, duration: 0.35, ease: "power2.out" })
@@ -163,14 +169,18 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (!content || !curtain) return;
 
     gsap.set(content, { autoAlpha: 1 });
-    const tween = gsap.to(curtain, {
-      clipPath: "inset(0% 0% 100% 0%)",
+    const proxy = { p: 0 };
+    const tween = gsap.to(proxy, {
+      p: 1,
       duration: 1,
       ease: "power3.inOut",
+      onUpdate: () => {
+        curtain.style.clipPath = buildCurtainClipPath(proxy.p, CURTAIN_SLANT);
+      },
       onComplete: () => {
         gsap.set(curtain, {
           autoAlpha: 0,
-          clipPath: "inset(0% 0% 0% 0%)",
+          clipPath: buildCurtainClipPath(0, CURTAIN_SLANT),
           pointerEvents: "none",
         });
         clearPendingHref();
@@ -209,7 +219,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           opacity: 0,
           visibility: "hidden",
           pointerEvents: "none",
-          clipPath: "inset(0% 0% 0% 0%)",
+          clipPath: buildCurtainClipPath(0, CURTAIN_SLANT),
         }}
       >
         <span
