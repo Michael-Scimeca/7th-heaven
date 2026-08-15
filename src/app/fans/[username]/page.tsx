@@ -1046,10 +1046,10 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     <span className="text-xs font-black uppercase tracking-[0.2em] text-rose-400 bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20">Live Stream Alerts</span>
                   </div>
                   <h3 className="text-xl font-black text-white mb-1">Never Miss a Live Feed</h3>
-                  <p className="text-white/60 text-sm mb-5 max-w-md">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
+                  <p className="text-white/60 text-sm mb-5 w-full">Get a text the moment 7th Heaven goes live — backstage content, surprise streams, live Q&As, and more.</p>
 
                   {liveAlertSubscribed ? (
-                    <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border  border-[var(--color-accent)]/30">
+                    <div className="flex items-center gap-4 p-4 bg-emerald-500/10 border border-[var(--color-accent)]/30 w-full">
                       <div>
                         <p className="text-sm font-bold text-[var(--color-accent)]">Live Alerts Active</p>
                         <p className="text-sm text-white/60">We&apos;ll text <span className="text-white font-mono">({liveAlertPhone.slice(0, 3)}) ***-{liveAlertPhone.slice(-4)}</span> when a stream starts</p>
@@ -1060,20 +1060,20 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       >Unsubscribe</button>
                     </div>
                   ) : (
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-md">
-                      <div className="flex-1 flex items-center">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
+                      <div className="flex-1 flex items-center w-full">
                         <input aria-label="Input field"
                           type="tel"
                           placeholder="(312) 555-0199"
                           value={liveAlertPhone}
                           onChange={(e) => setLiveAlertPhone(e.target.value)}
-                          className="bg-transparent outline-none text-white text-sm flex-1 placeholder:text-white/30 font-mono"
+                          className="bg-white/5 border border-white/15 rounded-lg px-4 py-3.5 outline-none text-white text-sm w-full placeholder:text-white/30 font-mono focus:border-purple-400 transition-colors"
                         />
                       </div>
                       <button aria-label="Action button"
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
-                        className="px-6 py-3 whitespace-nowrap shrink-0 rounded-lg bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+                        className="w-full sm:w-auto px-6 py-3.5 whitespace-nowrap shrink-0 rounded-lg bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer text-center justify-center"
                       >
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
                       </button>
@@ -1097,7 +1097,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               <div className="lg:col-span-2 space-y-0">
 
                 {/* Tour Memories Gallery & Upload */}
-                <div className="space-y-6 pt-4 border-t border-black/10 pr-8">
+                <div className="space-y-6 pt-4 border-t border-black/10">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-2xl font-black italic tracking-tight">Tour Memories</h3>
                     <Link href="/fan-photo-wall" className="text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-black transition-colors">Global Fan Wall →</Link>
@@ -1174,7 +1174,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
 
                 {/* VIP Inbox */}
-                <div className="py-4 text-white flex flex-col justify-between">
+                <div className="pt-4 text-white flex flex-col justify-between">
                   <div className="border-b border-white/10 pb-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-400">
