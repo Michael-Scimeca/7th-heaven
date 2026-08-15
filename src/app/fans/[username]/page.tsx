@@ -855,7 +855,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
               {shows.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {Array.from(shows.slice(0, 3), (show: any, i: number) => ({ show, i })).map(({ show, i }) => (
-                    <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group">
+                    <div key={show.id || show.date || show.venue} className="flex items-start gap-4 py-3 pr-4 group border-b border-white/10 last:border-b-0 md:border-b-0 pb-4 md:pb-3">
                       <div className="flex flex-col items-center justify-center w-12 h-12 bg-white/5 border border-white/15 rounded-lg shrink-0">
                         <span className="text-xs font-black text-white/50 uppercase">{show.date ? new Date(show.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }) : ''}</span>
                         <span className="text-lg font-black text-white leading-none">{show.date ? new Date(show.date + 'T12:00:00').getDate() : ''}</span>
