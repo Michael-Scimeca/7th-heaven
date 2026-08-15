@@ -53,7 +53,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <div className="lg:col-span-7    border border-[var(--border-color)] p-8 md:p-10 relative overflow-hidden group hover:border-[var(--color-accent)] transition-colors">
+            <div className="lg:col-span-7 border-0 p-8 md:p-10 relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-md">
                   ⭐ Featured Announcement
@@ -77,7 +77,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               <button
                 type="button"
                 key={item.title} onClick={() => setSelectedArticle(item)}
-                className="w-full text-left    border border-[var(--border-color)] hover:border-[var(--color-accent)] p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group font-sans font-normal"
+                className="w-full text-left border-0 p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group font-sans font-normal"
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest  text-[var(--color-accent)]">
@@ -105,7 +105,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setSelectedArticle(null)}
         >
           <div
-            className="bg-[var(--card-bg)] border border-[var(--border-color)] max-w-xl w-full p-8 relative" onClick={(e) => e.stopPropagation()}
+            className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl" onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs font-mono font-bold  text-[var(--color-accent)] uppercase tracking-wider">
