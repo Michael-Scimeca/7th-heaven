@@ -9,7 +9,7 @@ function HoverVideo({ src }: { src: string }) {
 
   useEffect(() => {
     if (hovered && videoRef.current) {
-      videoRef.current.play().catch(() => {});
+      videoRef.current.play().catch(() => { });
     } else if (!hovered && videoRef.current) {
       videoRef.current.pause();
     }
@@ -393,7 +393,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
         </section>
       )}
 
-      <section className="su-stack">
+      <section className="su-stack site-container">
         {SLIDES.map((slide, i) => (
           <article
             key={slide.title}

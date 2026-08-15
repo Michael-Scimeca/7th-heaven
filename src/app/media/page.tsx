@@ -389,7 +389,7 @@ export default function MediaPage() {
 
 
       {/* ── CATEGORY FILTER TABS & SEARCH BAR ── */}
-      <div className="mb-12">
+      <div className="mb-12 site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center pb-6 border-b border-white/10">
           {/* Category Tabs (7 Cols on LG) */}
           <div className="lg:col-span-7 flex flex-wrap items-center gap-2.5">
@@ -439,7 +439,7 @@ export default function MediaPage() {
       </div>
 
       {/* ── GSAP SCROLL-DRIVEN NAME-LIST / VIDEO REVEAL SECTION ── */}
-      <div ref={containerRef} className="pb-32">
+      <div ref={containerRef} className="pb-32 site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS) */}

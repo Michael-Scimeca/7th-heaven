@@ -740,7 +740,9 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
       </section>
 
       {/* ── SECTIONS 2–N: only rendered after wave exits to prevent main-thread block ── */}
-      {transitionDone && (<>
+      {transitionDone && (
+        <>
+          <div className="site-container">
 
         {/* ── SECTION 2: CABINS & PRICING ── */}
         <section id="pricing" className="py-[32px] md:pt-6 md:pb-16 relative z-20">
@@ -1714,6 +1716,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
         </section>
+        </div>
 
         {/* ── SECTION: ITINERARY TIMELINE (FULL BLEED OCEAN BLUE BACKGROUND) ── */}
         <section
@@ -1777,6 +1780,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
           </div>
         </section>
 
+        <div className="site-container">
         {/* ── SECTION 2: PORTS OF CALL ── */}
         <section id="ports" className="pt-10 pb-20">
           {/* Ports of Call Section */}
@@ -2199,6 +2203,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
             ))}
           </div>
         </section>
+        </div>
 
         {/* Cruise History Timeline Section (Lazy-Loaded at Bottom) */}
         {renderTimeline && (

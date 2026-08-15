@@ -37,7 +37,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   return (
-    <section id="news" className="relative py-16 md:py-24 bg-[var(--card-bg)] text-[var(--text-color)]">
+    <section id="news" className="site-container relative py-16 md:py-24 bg-[var(--card-bg)] text-[var(--text-color)]">
       <>
         {/* Section Header */}
         <div className="mb-12 text-left">

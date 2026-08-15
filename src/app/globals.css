@@ -1847,6 +1847,16 @@ select::placeholder,
   padding-right: var(--page-padding-x) !important;
 }
 
+/* Universal site-container layout utility */
+.site-container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 4vw, 48px);
+  padding-right: clamp(16px, 4vw, 48px);
+}
+
 /* Home, Media & Cruise page sections: remove site-container padding for full bleed edge-to-edge layout */
 #hero,
 #band,

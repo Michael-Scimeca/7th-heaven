@@ -531,7 +531,7 @@ export default function HomeVideoShowcase() {
 
       <div className="w-full relative z-10">
         {/* Section Header with Container Padding */}
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
+        <div className="site-container flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-6">
           <div className="max-w-2xl">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-2.5 font-sans">
               <span className="bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
