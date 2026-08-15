@@ -14,8 +14,9 @@ const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(mi
 const mqServerSnapshot = () => false; // Server always returns false (no video on SSR)
 import type { ReactNode } from "react";
 import Image from "next/image";
-import VinylHeroPlayer from "@/components/VinylHeroPlayer";
-import HeroYTBackground from "@/components/HeroYTBackground";
+import dynamic from "next/dynamic";
+const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"), { ssr: false });
+const HeroYTBackground = dynamic(() => import("@/components/HeroYTBackground"), { ssr: false });
 import {
   VideoSnapshotContext,
   type VideoSnapshotContextValue,
