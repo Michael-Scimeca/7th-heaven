@@ -443,7 +443,7 @@ export default function MediaPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS ON DESKTOP, 12 ON MOBILE) */}
-          <div className="lg:col-span-5 space-y-6 md:space-y-8 lg:space-y-24">
+          <div className="lg:col-span-5 space-y-4 lg:space-y-24">
             {filteredVideos.map((video, index) => {
               const isActive = activeIndex === index;
               const isPlaying = playingId === video.id;
@@ -455,67 +455,61 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="group cursor-pointer transition-all duration-300 select-none border-b border-white/5 pb-6 lg:pb-10"
+                  className="relative group cursor-pointer transition-all duration-300 select-none border border-white/10 lg:border-b lg:border-t-0 lg:border-x-0 lg:border-white/5 rounded-2xl lg:rounded-none p-5 sm:p-6 lg:p-0 pb-5 lg:pb-10 overflow-hidden bg-purple-950/20 lg:bg-transparent shadow-xl lg:shadow-none"
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)]">
-                      {video.year}
-                    </span>
+                  {/* Full Section Background Video (Mobile & Tablet) */}
+                  <div className="lg:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+                    <VideoThumbnail videoId={video.id} title={video.title} isActive={true} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/85 to-black/60 z-10" />
                   </div>
 
-                  <h3
-                    className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 transform-gpu isolate ${isActive
-                      ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
-                      : "text-white/30 group-hover:text-white/70"
-                      }`}
-                    style={{ fontFamily: "var(--font-barlow-condensed)" }}
-                  >
-                    {video.title}
-                  </h3>
+                  {/* Content (Title, Year, Description, Play Button) Layered On Top */}
+                  <div className="relative z-20">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded border border-white/10 lg:bg-transparent lg:border-0 lg:px-0 lg:py-0">
+                        {video.year}
+                      </span>
+                    </div>
 
-                  {video.description && (
-                    <p
-                      className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
+                    <h3
+                      className={`text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight transition-all duration-300 transform-gpu isolate ${isActive
+                        ? "!text-[#c084fc] scale-[1.02] translate-x-2 drop-shadow-[0_0_35px_rgba(192,132,252,0.85)]"
+                        : "text-white/70 group-hover:text-white"
                         }`}
+                      style={{ fontFamily: "var(--font-barlow-condensed)" }}
                     >
-                      {video.description}
-                    </p>
-                  )}
+                      {video.title}
+                    </h3>
 
-                  {/* Mobile Video Background Preview / Player */}
-                  <div className="lg:hidden mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-purple-950/20 shadow-xl border border-white/10">
-                    {isPlaying ? (
-                      <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
-                    ) : (
+                    {video.description && (
+                      <p
+                        className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${isActive ? "text-white/90 opacity-100" : "text-white/50 opacity-70"
+                          }`}
+                      >
+                        {video.description}
+                      </p>
+                    )}
+
+                    {isPlaying && (
+                      <div className="lg:hidden mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden shadow-2xl z-30 border border-white/15">
+                        <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
+                      </div>
+                    )}
+
+                    {!isPlaying && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setPlayingId(video.id);
                         }}
-                        className="relative w-full h-full cursor-pointer group/card block text-left"
-                        aria-label={`Play ${video.title}`}
+                        className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"
+                          }`}
                       >
-                        <VideoThumbnail videoId={video.id} title={video.title} isActive={true} />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover/card:bg-black/50 transition-colors z-10">
-                          <div className="w-12 h-12 rounded-full bg-[var(--color-accent)]/90 backdrop-blur-md flex items-center justify-center shadow-[0_0_20px_rgba(255,10,61,0.6)]">
-                            <Play className="w-5 h-5 fill-white ml-0.5 text-white" />
-                          </div>
-                        </div>
+                        <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
+                        <span>Play Video</span>
                       </button>
                     )}
                   </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setPlayingId(video.id);
-                    }}
-                    className={`hidden lg:inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,10,61,0.4)] cursor-pointer ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"
-                      }`}
-                  >
-                    <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
-                    <span>Play Video</span>
-                  </button>
                 </div>
               );
             })}
