@@ -138,19 +138,34 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const [YTComp, setYTComp] = useState<ComponentType<any> | null>(null);
 
   useEffect(() => {
-    // True runtime lazy-import: prevents Next.js from adding 80+ KiB Swiper & YT chunks to static HTML preloads
+    let loaded = false;
     const loadWidgets = () => {
+      if (loaded) return;
+      loaded = true;
       import("@/components/VinylHeroPlayer").then((mod) => setVinylComp(() => mod.default));
       import("@/components/HeroYTBackground").then((mod) => setYTComp(() => mod.default));
+      cleanup();
     };
 
-    if ("requestIdleCallback" in window) {
-      const id = (window as any).requestIdleCallback(loadWidgets, { timeout: 3000 });
-      return () => (window as any).cancelIdleCallback(id);
-    } else {
-      const t = setTimeout(loadWidgets, 2000);
-      return () => clearTimeout(t);
-    }
+    const cleanup = () => {
+      window.removeEventListener("scroll", loadWidgets);
+      window.removeEventListener("pointerdown", loadWidgets);
+      window.removeEventListener("touchstart", loadWidgets);
+      window.removeEventListener("mousemove", loadWidgets);
+    };
+
+    window.addEventListener("scroll", loadWidgets, { passive: true });
+    window.addEventListener("pointerdown", loadWidgets, { passive: true });
+    window.addEventListener("touchstart", loadWidgets, { passive: true });
+    window.addEventListener("mousemove", loadWidgets, { passive: true });
+
+    // Fallback: 6-second delay if no interaction occurs
+    const t = setTimeout(loadWidgets, 6000);
+
+    return () => {
+      clearTimeout(t);
+      cleanup();
+    };
   }, []);
 
   useEffect(() => {
