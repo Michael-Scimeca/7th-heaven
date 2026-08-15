@@ -23,23 +23,7 @@ const HomeShaderGradient = dynamic(
   { ssr: false }
 );
 
-import { useEffect } from "react";
-
 export default function ClientOnlyExtras() {
-  useEffect(() => {
-    // Keep at most 3 preconnect tags in document head (resolves Lighthouse warning)
-
-    // Keep at most 3 preconnect tags in document head (resolves Lighthouse warning)
-    const pruneExcessPreconnects = () => {
-      const tags = Array.from(document.querySelectorAll('link[rel="preconnect"]'));
-      if (tags.length > 3) {
-        tags.slice(3).forEach((tag) => tag.remove());
-      }
-    };
-    pruneExcessPreconnects();
-    const t = setTimeout(pruneExcessPreconnects, 1500);
-    return () => clearTimeout(t);
-  }, []);
 
   return (
     <>
