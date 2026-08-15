@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -29,25 +28,6 @@ import { TransitionProvider } from "@/context/TransitionContext";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
 import { ThemeTokens } from "@/lib/theme-tokens";
-
-const barlowCondensed = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["800"],
-  style: ["italic"],
-  variable: "--font-barlow-condensed",
-  display: "swap",
-  adjustFontFallback: true,
-  preload: true,
-});
-
-const barlow = Barlow({
-  subsets: ["latin"],
-  weight: ["400", "700", "800"],
-  variable: "--font-barlow",
-  display: "swap",
-  adjustFontFallback: true,
-  preload: true,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
@@ -146,7 +126,7 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`dark ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
+    <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
@@ -171,7 +151,7 @@ export default async function RootLayout({
           fetchPriority="high"
         />
       </head>
-      <body className={`${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+      <body style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}

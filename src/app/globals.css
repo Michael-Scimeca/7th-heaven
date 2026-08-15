@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap');
 @import "tailwindcss";
 @import "react-quill-new/dist/quill.snow.css";
 @import "leaflet/dist/leaflet.css";
+
+:root {
+  --font-barlow-condensed: 'Barlow Condensed', sans-serif;
+  --font-barlow: 'Barlow', sans-serif;
+}
 
 /* PageSpeed optimization: Force initial content to be displayed immediately on FCP/LCP paint */
 html:not(.specificity), html > body, html body > *, h1 {
