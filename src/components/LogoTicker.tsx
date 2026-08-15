@@ -94,8 +94,8 @@ export default function LogoTicker({
 }) {
   const config = DEFAULT_TICKER_CONFIG;
 
-  // render the list 3x back-to-back so it fills the width immediately
-  const track = [...items, ...items, ...items];
+  // render the list 2x back-to-back for seamless CSS scroll loop while reducing DOM node count
+  const track = [...items, ...items];
   const activeSpeed = config.speedSec || initialSpeedSec;
 
   return (
@@ -170,7 +170,7 @@ export default function LogoTicker({
           }
           @keyframes hoy-ticker-scroll {
             from { transform: translateX(0); }
-            to { transform: translateX(-33.3333%); }
+            to { transform: translateX(-50%); }
           }
         `}</style>
       </div>

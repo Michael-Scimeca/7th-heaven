@@ -624,16 +624,14 @@ export default function VinylHeroPlayer({
                             className="object-cover rounded-full"
                           />
                           {/* Center label with album art — sits on top of the vinyl image */}
-                          <div className="relative z-10 flex items-center justify-center">
-                            <div
-                              className="relative w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
-                              style={{ backgroundColor: album.centerLabelColor }}
-                            >
-                              <Image src={album.coverImage} alt={album.title} fill priority={idx === 0} quality={70} sizes="60px" className="object-cover brightness-110 contrast-105" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
-                                <span className="text-[var(--font-size-5xs)] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
-                                <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
-                              </div>
+                          <div
+                            className="relative z-10 w-[60px] h-[60px] rounded-full overflow-hidden border-2 border-purple-400 shadow-[0_0_12px_rgba(234,179,8,0.6)]"
+                            style={{ backgroundColor: album.centerLabelColor }}
+                          >
+                            <Image src={album.coverImage} alt={album.title} fill priority={idx === 0} quality={70} sizes="60px" className="object-cover brightness-110 contrast-105" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col items-center justify-end pb-1.5 text-center">
+                              <span className="text-[var(--font-size-5xs)] font-black text-white uppercase tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,1)] leading-none">{album.title}</span>
+                              <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.9)] border border-black/60 mt-0.5" />
                             </div>
                           </div>
                         </button>
