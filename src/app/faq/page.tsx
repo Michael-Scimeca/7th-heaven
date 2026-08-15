@@ -213,26 +213,26 @@ export default function FAQPage() {
         </div>
 
         {/* FAQ Accordion List */}
-        <div className="space-y-4">
+        <div className="max-w-4xl mx-auto space-y-4">
           {filteredFAQs.length > 0 ? (
             filteredFAQs.map((faq) => {
               const isExpanded = !!expandedItems[faq.id];
               return (
                 <div
                   key={faq.id}
-                  className="bg-transparent overflow-hidden transition-colors duration-300"
+                  className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-purple-500/40"
                   style={{
-                    borderBottom: isExpanded ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.15)'
+                    borderColor: isExpanded ? 'rgba(192, 132, 252, 0.4)' : undefined
                   }}
                 >
                   <button aria-label="Action button"
                     onClick={() => toggleExpand(faq.id)}
-                    className="w-full text-left  pr-4 pl-0 pt-6 pb-6  sm:pr-6 sm:pl-0 flex items-center justify-between gap-4 focus:outline-none"
+                    className="w-full text-left px-5 sm:px-6 py-5 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
                   >
                     <span className="font-extrabold text-sm sm:text-base text-white transition duration-200">
                       {faq.question}
                     </span>
-                    <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-cyan-400" : ""
+                    <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-purple-400" : ""
                       }`}>
                       <ChevronDownIcon />
                     </div>
@@ -240,11 +240,11 @@ export default function FAQPage() {
 
                   {/* Expanded Answer with smooth grid-rows height transition */}
                   <div
-                    className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100 border-t-0" : "grid-rows-[0fr] opacity-0 border-t-0"
+                    className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                       }`}
                   >
                     <div className="overflow-hidden">
-                      <div className=" pr-4 pl-0 sm:pb-5 sm:pr-6 sm:pl-0 text-sm md:text-base text-white/80 leading-relaxed bg-transparent">
+                      <div className="px-5 sm:px-6 pb-5 pt-1 text-sm md:text-base text-white/80 leading-relaxed bg-transparent border-t border-white/5">
                         {faq.answer}
                       </div>
                     </div>
