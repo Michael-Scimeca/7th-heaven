@@ -130,7 +130,12 @@ export default async function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
+          media="print"
+          onLoad={(e) => { (e.currentTarget as any).media = 'all'; }}
+        />
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
