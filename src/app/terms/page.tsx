@@ -8,9 +8,8 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
     return (
-        <section className="py-32 min-h-screen text-[var(--text-color)]">
-            <div className="w-full text-left">
-                <div className="mb-12 text-left">
+        <section className="site-container py-32 min-h-screen text-[var(--text-color)] text-left">
+            <div className="mb-12 text-left">
                     <h1 className="text-[clamp(2rem,4vw,3rem)] leading-tight tracking-tight mb-2 font-extrabold text-[var(--text-color)]">
                         Terms of <span className="text-[var(--color-accent)]">Service</span>
                     </h1>
@@ -168,7 +167,6 @@ export default function TermsPage() {
                     </div>
 
                 </div>
-            </div>
         </section>
     );
 }
