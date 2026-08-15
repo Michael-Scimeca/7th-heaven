@@ -128,6 +128,8 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
