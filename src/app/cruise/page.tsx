@@ -2020,7 +2020,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <Image width={200} height={200} unoptimized src={food.img} alt={food.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-purple-300 bg-purple-500/30 backdrop-blur-md px-2 py-0.5 rounded-full font-bold self-start mb-1.5">{food.tag}</span>
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-white bg-purple-600/70 backdrop-blur-md px-2.5 py-1 rounded-full font-black self-start mb-1.5 shadow-md border border-white/20">{food.tag}</span>
                       <p className="font-extrabold text-white text-base md:text-lg leading-snug">{food.name}</p>
                     </div>
                   </div>
@@ -2116,8 +2116,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <Image width={200} height={200} unoptimized src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                      <span className={`text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-0.5 rounded-full font-bold self-start mb-1.5 ${isCyan ? 'text-purple-300 bg-purple-500/30' : 'text-purple-300 bg-purple-500/30'
-                        }`}>{item.tag}</span>
+                      <span className="text-[10px] font-mono uppercase tracking-widest backdrop-blur-md px-2.5 py-1 rounded-full font-black text-white bg-purple-600/70 shadow-md border border-white/20 self-start mb-1.5">{item.tag}</span>
                       <p className="font-extrabold text-white text-base md:text-lg leading-snug">{item.name}</p>
                     </div>
                   </div>
