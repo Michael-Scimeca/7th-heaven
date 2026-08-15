@@ -148,7 +148,7 @@ export default async function RootLayout({
         />
         <link
           rel="preload"
-          href="/_next/image?url=%2Fvin1.png&w=640&q=75"
+          href="/_next/image?url=%2Fvin1.png&w=384&q=70"
           as="image"
           fetchPriority="high"
         />
