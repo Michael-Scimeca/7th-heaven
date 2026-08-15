@@ -444,10 +444,10 @@ export default function MediaPage() {
 
       {/* ── GSAP SCROLL-DRIVEN NAME-LIST / VIDEO REVEAL SECTION ── */}
       <div ref={containerRef} className="site-container">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
 
-          {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS ON DESKTOP, 12 ON MOBILE) */}
-          <div className="lg:col-span-5 space-y-4 lg:space-y-24">
+          {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS ON TABLET & DESKTOP, 12 ON MOBILE) */}
+          <div className="md:col-span-5 space-y-4 md:space-y-24">
             {filteredVideos.map((video, index) => {
               const isActive = activeIndex === index;
               const isPlaying = playingId === video.id;
@@ -459,10 +459,10 @@ export default function MediaPage() {
                     videoItemRefs.current[index] = el;
                   }}
                   onClick={() => handleTitleClick(index)}
-                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 lg:border-t-0 lg:border-x-0 lg:border-white/5 rounded-2xl lg:rounded-none p-5 sm:p-6 lg:p-0 pb-5 lg:pb-10 overflow-hidden bg-purple-950/20 lg:bg-transparent shadow-xl lg:shadow-none"
+                  className="relative group cursor-pointer transition-all duration-300 select-none border-b border-white/10 md:border-t-0 md:border-x-0 md:border-white/5 rounded-2xl md:rounded-none p-5 sm:p-6 md:p-0 pb-5 md:pb-10 overflow-hidden bg-purple-950/20 md:bg-transparent shadow-xl md:shadow-none"
                 >
-                  {/* Full Section Background Video (Mobile & Tablet) */}
-                  <div className="lg:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+                  {/* Full Section Background Video (Mobile Only) */}
+                  <div className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
                     <VideoThumbnail videoId={video.id} title={video.title} isActive={true} />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/85 to-black/60 z-10" />
                   </div>
@@ -470,7 +470,7 @@ export default function MediaPage() {
                   {/* Content (Title, Year, Description, Play Button) Layered On Top */}
                   <div className="relative z-20">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded border border-white/10 lg:bg-transparent lg:border-0 lg:px-0 lg:py-0">
+                      <span className="text-xs font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded border border-white/10 md:bg-transparent md:border-0 md:px-0 md:py-0">
                         {video.year}
                       </span>
                     </div>
@@ -495,7 +495,7 @@ export default function MediaPage() {
                     )}
 
                     {isPlaying && (
-                      <div className="lg:hidden mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden shadow-2xl z-30 border border-white/15">
+                      <div className="md:hidden mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden shadow-2xl z-30 border border-white/15">
                         <CustomVideoPlayer videoId={video.id} title={video.title} onClose={() => setPlayingId(null)} />
                       </div>
                     )}
@@ -531,8 +531,8 @@ export default function MediaPage() {
             )}
           </div>
 
-          {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS ON DESKTOP ONLY) */}
-          <div className="hidden lg:block lg:col-span-7 shrink-0 lg:sticky lg:top-[120px] z-20">
+          {/* RIGHT COLUMN: STICKY VIDEO PREVIEW / PLAYER CONTAINER (7 COLS ON TABLET & DESKTOP) */}
+          <div className="hidden md:block md:col-span-7 shrink-0 md:sticky md:top-[120px] z-20">
             <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border-0 shadow-[0_25px_70px_rgba(0,0,0,0.85)] bg-purple-950/20">
               {filteredVideos.map((video, index) => {
                 const isActive = activeIndex === index;
