@@ -197,7 +197,7 @@ export default function HeroLiveThumbs() {
             )}
           </div>
           <button onClick={handleClose}
-            className="text-white/40 hover:text-white transition-colors duration-200 p-0.5 rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
+            className="text-white/40 hover:text-white transition-colors duration-200 p-2.5 min-w-[48px] min-h-[48px] rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
             aria-label="Hide Live Streams"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

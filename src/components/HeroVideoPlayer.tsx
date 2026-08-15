@@ -362,7 +362,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         role="button"
         tabIndex={0}
         aria-label="Play video audio and music player"
-        className="absolute inset-0 z-[1] cursor-pointer transition-colors duration-300"
+        className="absolute inset-0 z-[1] w-full h-full min-w-[48px] min-h-[48px] cursor-pointer transition-colors duration-300"
         onClick={handleHeroClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {

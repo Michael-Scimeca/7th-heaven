@@ -647,46 +647,46 @@ export default function VinylHeroPlayer({
 
                 {/* Top Controls */}
                 <div className="flex items-center justify-center pointer-events-auto">
-                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 shadow">
-                    <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Previous Track">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
+                  <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15 shadow">
+                    <button aria-label="Previous" onClick={(e) => { e.stopPropagation(); prevTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" title="Previous Track">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19" /><polygon points="22 19 13 12 22 5 22 19" /></svg>
                     </button>
-                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isPlaying ? "Pause" : "Play"}>
+                    <button aria-label="Action button" onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="w-8 h-8 min-w-[44px] min-h-[44px] rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform cursor-pointer shadow-md" title={isPlaying ? "Pause" : "Play"}>
                       {isPlaying ? (
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
                       ) : (
-                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                       )}
                     </button>
-                    <button aria-label="Next" onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer" title="Next Track">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" /></svg>
+                    <button aria-label="Next" onClick={(e) => { e.stopPropagation(); nextTrack(); }} className="text-white/70 hover:text-white transition-colors cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center" title="Next Track">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 13 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" /></svg>
                     </button>
                     <div className="w-[1px] h-3 bg-white/20 my-auto" />
                     <button aria-label="Toggle Playlist"
                       onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                      className={`p-1 rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
+                      className={`p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-colors cursor-pointer ${showTracklist ? "text-[#d946ef] bg-[var(--color-accent)]/30 scale-110" : "text-white/70 hover:text-white hover:bg-white/10"}`}
                       title="Toggle Playlist"
                     >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
                         <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
                       </svg>
                     </button>
                     <div className="w-[1px] h-3 bg-white/20 my-auto" />
                     {/* Volume */}
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-white/60 shrink-0">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white/60 shrink-0">
                       {volume === 0
                         ? <path d="M11 5L6 9H2v6h4l5 4V5z M23 9l-6 6M17 9l6 6" />
                         : volume < 0.5
                           ? <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>
                           : <><path d="M11 5L6 9H2v6h4l5 4V5z" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="2" fill="none" /></>}
                     </svg>
-                    <input aria-label="Input field"
+                    <input aria-label="Volume slider"
                       type="range" min="0" max="1" step="0.01"
                       value={volume}
                       onChange={handleVolumeChange}
                       onClick={(e) => e.stopPropagation()}
-                      className="w-14 h-[3px] rounded-full appearance-none cursor-pointer bg-white/20"
+                      className="w-14 h-[12px] min-h-[44px] py-3 rounded-full appearance-none cursor-pointer bg-white/20 touch-manipulation"
                       style={{ accentColor: "#d946ef" }}
                     />
                   </div>
@@ -694,17 +694,17 @@ export default function VinylHeroPlayer({
 
                 {/* Bottom: Title + Waveform */}
                 <div className="flex items-end justify-between pointer-events-none mt-auto">
-                  <div className="flex flex-col gap-1 pointer-events-auto">
+                  <div className="flex flex-col gap-1.5 pointer-events-auto">
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); setShowTracklist((prev) => !prev); }}
-                      className="text-left border-0 bg-white text-black rounded-lg px-2 py-0.5 shadow-md max-w-[105px] cursor-pointer hover:bg-[var(--color-accent)] transition-colors"
+                      className="text-left border-0 bg-white text-black rounded-lg px-3 py-2 min-h-[44px] shadow-md max-w-[125px] cursor-pointer hover:bg-[var(--color-accent)] transition-colors"
                     >
-                      <div className="text-[9px] font-black uppercase leading-tight flex items-center gap-1">
+                      <div className="text-[10px] font-black uppercase leading-tight flex items-center gap-1">
                         <span className="truncate">{currentAlbum.title}</span>
-                        <span className="text-[7.5px] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-0.5 rounded shrink-0">PLAYLIST ☰</span>
+                        <span className="text-[8px] font-extrabold text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1 py-0.5 rounded shrink-0">PLAYLIST ☰</span>
                       </div>
-                      <div className="text-[8px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
+                      <div className="text-[9px] font-extrabold uppercase tracking-tight text-black/70 leading-none truncate mt-0.5">
                         {currentTrack.title}
                       </div>
                     </button>
@@ -712,9 +712,9 @@ export default function VinylHeroPlayer({
                     <Link
                       href={currentAlbum.storeUrl}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center gap-1 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-md transition-colors hover:scale-105 w-fit"
+                      className="flex items-center gap-1.5 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-[10px] font-black uppercase tracking-wider px-3 py-2 min-h-[44px] rounded-full shadow-md transition-colors hover:scale-105 w-fit"
                     >
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" /></svg>
                       Buy CD
                     </Link>
                   </div>

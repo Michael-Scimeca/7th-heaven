@@ -1096,9 +1096,9 @@ ${filterLine}
                     </div>
 
                     {/* Venue name */}
-                    <h3 className="font-[var(--font-heading)] text-[clamp(1.8rem,3.2vw,3rem)] font-black text-white leading-[1] mb-4 uppercase whitespace-nowrap">
+                    <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,3.2vw,3rem)] font-black text-white leading-[1] mb-4 uppercase whitespace-nowrap">
                       {upNext.venue}
-                    </h3>
+                    </h2>
 
                     {/* Date + Location + Time */}
                     <div className="flex items-center gap-2 text-[clamp(0.75rem,1.2vw,0.85rem)] text-white/90 font-bold whitespace-nowrap">
