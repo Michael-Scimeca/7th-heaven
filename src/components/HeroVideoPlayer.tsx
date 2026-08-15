@@ -12,11 +12,8 @@ const mqSubscribe = (cb: () => void) => {
 };
 const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
 const mqServerSnapshot = () => false; // Server always returns false (no video on SSR)
-import type { ReactNode } from "react";
+import type { ReactNode, ComponentType } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"), { ssr: false });
-const HeroYTBackground = dynamic(() => import("@/components/HeroYTBackground"), { ssr: false });
 import {
   VideoSnapshotContext,
   type VideoSnapshotContextValue,
@@ -137,15 +134,21 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     setGradCopied(true);
   };
 
-  const [loadHeavyWidgets, setLoadHeavyWidgets] = useState(false);
+  const [VinylComp, setVinylComp] = useState<ComponentType<any> | null>(null);
+  const [YTComp, setYTComp] = useState<ComponentType<any> | null>(null);
 
   useEffect(() => {
-    // Defer 80+ KiB heavy interactive widgets (Vinyl player / YT background) until after initial LCP paint
+    // True runtime lazy-import: prevents Next.js from adding 80+ KiB Swiper & YT chunks to static HTML preloads
+    const loadWidgets = () => {
+      import("@/components/VinylHeroPlayer").then((mod) => setVinylComp(() => mod.default));
+      import("@/components/HeroYTBackground").then((mod) => setYTComp(() => mod.default));
+    };
+
     if ("requestIdleCallback" in window) {
-      const id = (window as any).requestIdleCallback(() => setLoadHeavyWidgets(true), { timeout: 2500 });
+      const id = (window as any).requestIdleCallback(loadWidgets, { timeout: 3000 });
       return () => (window as any).cancelIdleCallback(id);
     } else {
-      const t = setTimeout(() => setLoadHeavyWidgets(true), 1500);
+      const t = setTimeout(loadWidgets, 2000);
       return () => clearTimeout(t);
     }
   }, []);
@@ -341,8 +344,8 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
       {/* ── Hero background video (YouTube full-bleed or HTML5 video) ── */}
       {/* On mobile (<768px), skip video stream — show static dark bg to save 2.4MB network */}
-      {isYouTube && loadHeavyWidgets ? (
-        <HeroYTBackground videoId={ytId} />
+      {isYouTube && YTComp ? (
+        <YTComp videoId={ytId} />
       ) : isDesktop ? (
         <video
           key={videoSrc}
@@ -572,7 +575,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
         {/* Vinyl MP3 Album Player */}
         <div className="flex justify-end">
-          {loadHeavyWidgets && <VinylHeroPlayer onAlbumChange={handleAlbumChange} />}
+          {VinylComp && <VinylComp onAlbumChange={handleAlbumChange} />}
         </div>
       </div>
     </VideoSnapshotContext.Provider>
