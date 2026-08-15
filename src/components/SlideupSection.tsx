@@ -291,7 +291,7 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           flex-direction:column;
           align-items:center;
           text-align:center;
-          gap:26px;
+          gap:16px;
         }
         .su-tag{
           font-size:0.85rem;
@@ -303,9 +303,9 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           display:flex;
           align-items:center;
           justify-content:center;
-          gap:22px;
+          gap:16px;
           flex-wrap:wrap;
-          font-size:clamp(2rem, 5.4vw, 4.6rem);
+          font-size:clamp(1.75rem, 4.2vw, 3.8rem);
           font-weight:800;
           letter-spacing:-0.02em;
           line-height:1.05;
@@ -313,20 +313,22 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           width:100%;
         }
         .su-desc{
-          max-width:640px;
+          max-width:600px;
           color:#a9a897;
-          font-size:1.05rem;
-          line-height:1.7;
+          font-size:0.95rem;
+          line-height:1.5;
           margin:0;
         }
         .su-thumbs{
           display:flex;
           gap:16px;
           width:100%;
+          max-width:1100px;
         }
         .su-thumb{
           flex:1;
-          aspect-ratio:4/5;
+          aspect-ratio:16/10;
+          max-height:min(340px, 34vh);
           border-radius:14px;
           position:relative;
           overflow:hidden;

@@ -168,7 +168,7 @@ export default function HomeVideoShowcase() {
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("aspect-[4/5]");
+  const [aspectRatio, setAspectRatio] = useState<string>("aspect-video");
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("rounded-3xl");
   const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
@@ -447,7 +447,7 @@ export default function HomeVideoShowcase() {
   const gapPx = getGapPx();
 
   return (
-    <section className={`py-16 md:py-24 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
+    <section className={`py-8 md:py-12 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
       {/* 🎭 7th Heaven Cutout Mask & Gradient Overlay */}
       <div className="smooothy-overlay-div absolute inset-x-0 h-44 pointer-events-none z-20 bottom-0" />
 
@@ -487,9 +487,9 @@ export default function HomeVideoShowcase() {
             return (
               <div
                 key={video.id}
-                className="smooothy-slide group flex flex-col shrink-0 max-h-[1000px]"
+                className="smooothy-slide group flex flex-col shrink-0 max-h-[460px]"
                 style={{
-                  maxHeight: "1000px",
+                  maxHeight: "min(460px, 48vh)",
                   width: smooothyVertical
                     ? "100%"
                     : `${100 / cardsVisible}%`,
@@ -501,8 +501,8 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  style={{ maxHeight: "1000px" }}
-                  className={`relative max-h-[1000px] ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-xl`}
+                  style={{ maxHeight: "min(460px, 48vh)" }}
+                  className={`relative max-h-[460px] ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-xl`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />
