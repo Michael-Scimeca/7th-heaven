@@ -18,7 +18,7 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import LiveStatusSign from "@/components/LiveStatusSign";
 import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
-const LogoTicker = dynamic(() => import("@/components/LogoTicker"), { ssr: false });
+const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
 
 // Lazy-loaded: canvas/rAF/below-the-fold components
 const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"));
