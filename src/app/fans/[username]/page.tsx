@@ -802,7 +802,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                           <div className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-4 ${isHappeningNow ? 'border  border-[var(--color-accent)]/30 bg-emerald-500/[0.03]  p-4 -mx-1' : ''}`}>
                             <div>
                               <h3 className="text-2xl font-black text-white mb-1">{nextShow.venue}</h3>
-                              <p className="text-white/60 text-sm">{nextShow.city}, {nextShow.state} · {nextShow.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'TBA'}{nextShow.time ? ` · ${nextShow.time}` : ''}</p>
+                              <p className="text-white/60 text-sm">
+                                {nextShow.city ? `${nextShow.city}${nextShow.state ? `, ${nextShow.state}` : ''} · ` : nextShow.state ? `${nextShow.state} · ` : ''}
+                                {nextShow.date ? new Date(nextShow.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'TBA'}
+                                {nextShow.time ? ` · ${nextShow.time}` : ''}
+                              </p>
                             </div>
                             {isHappeningNow ? (
                               <div className="flex items-center gap-3 px-5 py-3 bg-emerald-500/10 border border-emerald-500/30 shadow-[0_0_25px_rgba(16,185,129,0.15)]">
