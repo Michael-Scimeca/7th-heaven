@@ -11421,7 +11421,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <div id="admin-dashboard-root" className="min-h-screen    text-[var(--text-color)] pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <div id="admin-dashboard-root" className="site-container min-h-screen text-[var(--text-color)] pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
