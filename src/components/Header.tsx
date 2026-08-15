@@ -88,7 +88,11 @@ export function Header() {
     const channel = supabase
       .channel("header_live_events")
       .on("broadcast", { event: "stream_state" }, () => checkLive())
-      .subscribe();
+      .subscribe((status: string, err?: Error) => {
+        if (err || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+          // Gracefully handle realtime websocket connection error
+        }
+      });
 
     return () => {
       clearInterval(interval);
