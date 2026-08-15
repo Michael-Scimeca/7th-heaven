@@ -23,14 +23,25 @@ const HomeShaderGradient = dynamic(
   { ssr: false }
 );
 
+import { useState, useEffect } from "react";
+
 export default function ClientOnlyExtras() {
+  const [mounted, setMounted] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setIsDesktop(typeof window !== "undefined" && window.innerWidth >= 768);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <>
       <DevGuideLine />
       <PagesPillDrawer />
       <WebVitalsReporter />
-      <HomeShaderGradient />
+      {isDesktop && <HomeShaderGradient />}
     </>
   );
 }
