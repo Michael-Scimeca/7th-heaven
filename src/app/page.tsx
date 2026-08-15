@@ -17,7 +17,8 @@ import Logo from "@/components/Logo";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import LiveStatusSign from "@/components/LiveStatusSign";
-import LogoTicker, { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
+import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
+const LogoTicker = dynamic(() => import("@/components/LogoTicker"), { ssr: false });
 
 // Lazy-loaded: canvas/rAF/below-the-fold components
 const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"));
@@ -238,18 +239,20 @@ export default async function Home() {
       </LazySection>
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON (scrolling logo tickers) ====== */}
-      <section
-        id="logos"
-        className="relative w-full py-4"
-        style={{
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
-        }}
-      >
-        <LogoTicker items={ARTIST_LOGOS} direction="left" />
-        <LogoTicker items={PRESS_LOGOS} direction="right" />
-      </section>
+      <LazySection fallbackHeight="180px">
+        <section
+          id="logos"
+          className="relative w-full py-4"
+          style={{
+            marginLeft: "calc(-1 * var(--page-padding-x))",
+            marginRight: "calc(-1 * var(--page-padding-x))",
+            width: "calc(100% + 2 * var(--page-padding-x))",
+          }}
+        >
+          <LogoTicker items={ARTIST_LOGOS} direction="left" />
+          <LogoTicker items={PRESS_LOGOS} direction="right" />
+        </section>
+      </LazySection>
 
       {/* ====== PROXIMITY NOTIFY ====== */}
       <LazySection fallbackHeight="150px">
