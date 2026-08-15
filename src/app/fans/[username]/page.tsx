@@ -1061,7 +1061,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     </div>
                   ) : (
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
-                      <div className="flex-1 flex items-center w-full">
+                      <div className="w-full sm:max-w-[300px] flex items-center">
                         <input aria-label="Input field"
                           type="tel"
                           placeholder="(312) 555-0199"
