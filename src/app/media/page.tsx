@@ -439,7 +439,7 @@ export default function MediaPage() {
       </div>
 
       {/* ── GSAP SCROLL-DRIVEN NAME-LIST / VIDEO REVEAL SECTION ── */}
-      <div ref={containerRef} className="pb-32 site-container">
+      <div ref={containerRef} className="site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* LEFT COLUMN: SCROLLABLE TYPOGRAPHY VIDEO NAME LIST (5 COLS) */}

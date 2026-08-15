@@ -162,8 +162,7 @@ export default function FansPage() {
     <div className="min-h-screen pt-[88px]">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
       <section className="site-container relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center" id="fan-wall">
-
-        <div className="site-container relative z-10">
+        <div className="relative z-10">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6">
             <div>
