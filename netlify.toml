@@ -10,3 +10,8 @@
   included_files = ["!node_modules/@tensorflow/**", "!node_modules/nsfwjs/**", "!public/movie/**", "!public/demos/**", "!public/images/**", "!public/sitemap-screenshots/**", "!public/uploads/**"]
   external_node_modules = ["@tensorflow/tfjs", "nsfwjs", "@tensorflow/tfjs-core", "@tensorflow/tfjs-backend-cpu"]
 
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
