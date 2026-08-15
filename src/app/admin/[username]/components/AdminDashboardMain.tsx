@@ -11421,7 +11421,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
   }
 
   return (
-    <div id="admin-dashboard-root" className="site-container min-h-screen text-[var(--text-color)] pt-[122px] pb-12 font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
+    <div id="admin-dashboard-root" className="site-container min-h-screen text-[var(--text-color)] pt-[122px] font-sans selection:bg-[var(--color-accent)] selection:text-white relative overflow-x-clip">
       <style>{`
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -12081,8 +12081,8 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </div>
 
           <div className="flex flex-col gap-4 w-full mt-4">
-            <section className="bg-transparent border-t border-white/10 overflow-hidden h-full flex flex-col">
-              <div className="admin-section-header py-6 pr-6 pl-0 border-b border-white/10 flex items-center justify-between bg-transparent shrink-0">
+            <section className="bg-transparent overflow-hidden h-full flex flex-col">
+              <div className="admin-section-header py-6 pr-6 pl-0 flex items-center justify-between bg-transparent shrink-0">
                 <h3 className="text-lg font-bold tracking-tight flex items-center gap-2 text-white">
                   Audit Log
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -12091,7 +12091,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               </div>
               <div className="py-6 pl-0 flex flex-col gap-5 flex-1 overflow-y-auto max-h-[500px]">
                 {auditLog.map((entry, i) => (
-                  <div key={entry.id} className="flex gap-2.5 relative border-b border-white/15 last:border-b-0 pb-4 last:pb-0 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
+                  <div key={entry.id} className="flex gap-2.5 relative pb-4 last:pb-0 pl-0" style={{ animation: i === 0 ? 'slideIn 0.4s ease-out' : 'none' }}>
                     {i < auditLog.length - 1 && (
                       <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/5" />
                     )}
@@ -12106,7 +12106,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1 text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-colors cursor-pointer"
                           >
                             {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
