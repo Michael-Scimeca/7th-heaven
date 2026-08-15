@@ -326,11 +326,11 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {socialLinks.map((link, i) => (
                 <span key={link.name} className="flex items-center">
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[var(--font-size-md)] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
                     {link.name}
                   </a>
                   {i < socialLinks.length - 1 && (
-                    <span className=" text-[var(--color-accent)] mx-1.5 text-[var(--font-size-md)] font-bold">/</span>
+                    <span className="text-[var(--color-accent)] mx-2 text-[13px] font-bold">/</span>
                   )}
                 </span>
               ))}
@@ -340,7 +340,7 @@ export function Footer() {
 
         {/* Legal Bottom */}
         <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 pl-28 sm:pl-36">
-          <p className="text-[var(--font-size-md)] font-medium tracking-wide text-[var(--muted-text)]">
+          <p className="text-xs font-medium tracking-wide text-[var(--muted-text)]">
             Designed & Developed by NTD Records © {new Date().getFullYear()}
           </p>
         </div>
