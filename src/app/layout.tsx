@@ -128,8 +128,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
@@ -143,26 +141,6 @@ export default async function RootLayout({
         />
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
-        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
-        <link
-          rel="preload"
-          href="/_next/image?url=%2Fimages%2Fband-performance.webp&w=384&q=65"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=60"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/_next/image?url=%2Fvin1.png&w=384&q=70"
-          as="image"
-          fetchPriority="high"
-        />
       </head>
       <body style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
