@@ -2,12 +2,15 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { createClient as createAdminClient } from '@supabase/supabase-js';
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://acfzdcyqdskrmfuuoesb.supabase.co';
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFjZnpkY3lxZHNrcm1mdXVvZXNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNDI1NjgsImV4cCI6MjA5MTYxODU2OH0.r9gKbsga7rDliDZOCxePGFvIgZRdFbcf4h1FYkZd9Sg';
+
 export async function createClient() {
  const cookieStore = await cookies();
 
  return createServerClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY,
   {
    cookies: {
     getAll() {

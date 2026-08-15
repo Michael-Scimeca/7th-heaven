@@ -183,7 +183,6 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 540px"
                     className="object-cover object-center transform group-hover:scale-105 transition-transform duration-700 brightness-95"
-                    priority
                   />
 
                   {/* Dark Gradient Overlay for Status Bar & Contrast */}

@@ -36,7 +36,6 @@ const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider")
 const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
 const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"));
 const SlideupSection = dynamic(() => import("@/components/SlideupSection"));
-const DevRouteList = dynamic(() => import("@/components/DevRouteList"));
 import LazySection from "@/components/LazySection";
 
 
@@ -267,11 +266,6 @@ export default async function Home() {
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
       <LazySection fallbackHeight="400px">
         <HomeMerch />
-      </LazySection>
-
-      {/* ====== DEVELOPER ROUTE DIRECTORY ====== */}
-      <LazySection fallbackHeight="200px">
-        <DevRouteList />
       </LazySection>
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION (At Very Bottom) ====== */}
