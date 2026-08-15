@@ -12106,7 +12106,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={() => setExpandedAuditId(prev => prev === entry.id ? null : entry.id)}
-                            className="inline-flex items-center gap-1 text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1 text-[var(--font-size-4xs)] font-bold text-white/60 hover:text-white underline decoration-white/40 hover:decoration-white transition-colors cursor-pointer"
                           >
                             {expandedAuditId === entry.id ? 'Hide Details ' : 'View Message Content '}
                           </button>
