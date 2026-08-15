@@ -50,6 +50,8 @@ const nextConfig: NextConfig = {
   images: {
     minimumCacheTTL: 31536000,
     formats: ["image/avif", "image/webp"],
+    imageSizes: [16, 32, 48, 64, 96, 128, 220, 256, 384, 480],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     remotePatterns: [
       { protocol: "https", hostname: "7thheavenband.com", pathname: "/**" },
       { protocol: "http", hostname: "www.7thheavenband.com", pathname: "/**" },

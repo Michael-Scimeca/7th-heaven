@@ -136,13 +136,13 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <link
           rel="preload"
-          href="/_next/image?url=%2Fimages%2Fband-performance.webp&w=384&q=75"
+          href="/_next/image?url=%2Fimages%2Fband-performance.webp&w=384&q=65"
           as="image"
           fetchPriority="high"
         />
         <link
           rel="preload"
-          href="/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=75"
+          href="/_next/image?url=%2Fimages%2Fhero-banner.webp&w=640&q=65"
           as="image"
           fetchPriority="high"
         />

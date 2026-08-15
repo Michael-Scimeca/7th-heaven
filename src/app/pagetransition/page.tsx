@@ -35,6 +35,20 @@ export default function PageTransitionDemo() {
 
   const slantFrac = (slant / 100) * CURTAIN_MAX_SLANT_FRAC;
 
+  // The sliders below update state on every drag tick (that's how a range
+  // input works). If the timeline effect depended on that state directly,
+  // every tick would tear down and restart the whole ~1.5s sequence — so
+  // while you're actively dragging it never reaches the wipe at all, and
+  // only plays once, automatically, the instant you let go. Easy to miss
+  // entirely. Instead: sliders only update this ref. The timeline effect
+  // depends on nothing but `transitionKey`, and reads whatever's currently
+  // in the ref — so it only ever plays when you explicitly hit Replay,
+  // using the settings on the sliders at that moment.
+  const settingsRef = useRef({ slantFrac, wipeDuration, holdDuration, dimDuration, easeKey });
+  useEffect(() => {
+    settingsRef.current = { slantFrac, wipeDuration, holdDuration, dimDuration, easeKey };
+  }, [slantFrac, wipeDuration, holdDuration, dimDuration, easeKey]);
+
   // Curtain-only timeline — no text animation anywhere in here on purpose.
   // Three beats, in order:
   //   1. The "outgoing page" stand-in dims uniformly.
@@ -46,33 +60,40 @@ export default function PageTransitionDemo() {
     const outgoing = outgoingRef.current;
     if (!curtain || !outgoing) return;
 
+    const {
+      slantFrac: slant,
+      wipeDuration: wipeDur,
+      holdDuration: holdDur,
+      dimDuration: dimDur,
+      easeKey: ease,
+    } = settingsRef.current;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
       const proxy = { p: 0 };
 
       tl.set(outgoing, { autoAlpha: 1 })
-        .set(curtain, { autoAlpha: 0, clipPath: buildCurtainClipPath(0, slantFrac) })
+        .set(curtain, { autoAlpha: 0, clipPath: buildCurtainClipPath(0, slant) })
         // Beat 1 — dim the outgoing content.
-        .to(outgoing, { autoAlpha: 0, duration: dimDuration, ease: "power2.out" }, "dim")
+        .to(outgoing, { autoAlpha: 0, duration: dimDur, ease: "power2.out" }, "dim")
         // Beat 2 — curtain snaps to fully opaque as the dim finishes, then
         // holds with the wordmark showing before it starts moving.
-        .to(curtain, { autoAlpha: 1, duration: 0.001 }, `dim+=${Math.max(dimDuration - 0.05, 0)}`)
-        .to({}, { duration: holdDuration })
+        .to(curtain, { autoAlpha: 1, duration: 0.001 }, `dim+=${Math.max(dimDur - 0.05, 0)}`)
+        .to({}, { duration: holdDur })
         // Beat 3 — the wipe. Driven by a 0→1 proxy so the clip-path can be
         // a slanted polygon instead of a plain inset().
         .to(proxy, {
           p: 1,
-          duration: wipeDuration,
-          ease: easeKey,
+          duration: wipeDur,
+          ease,
           onUpdate: () => {
-            curtain.style.clipPath = buildCurtainClipPath(proxy.p, slantFrac);
+            curtain.style.clipPath = buildCurtainClipPath(proxy.p, slant);
           },
         });
     });
 
     return () => ctx.revert();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transitionKey, slantFrac, wipeDuration, holdDuration, dimDuration, easeKey]);
+  }, [transitionKey]);
 
   const handleCopySettings = () => {
     const snippet = [
@@ -128,8 +149,15 @@ export default function PageTransitionDemo() {
             Outgoing content dims, a solid panel snaps to fully opaque and
             holds, then it wipes away — bottom edge rising, top edge fixed.
             No scale or zoom on the photo underneath. Nothing here animates
-            text; that&apos;s deliberate. Use the sliders to tune it, hit
-            replay, and copy the settings once it feels right.
+            text; that&apos;s deliberate.{" "}
+            <strong className="text-white">
+              Adjust the sliders, then click &quot;Replay page
+              transition&quot;
+            </strong>{" "}
+            to preview them — moving a slider only updates the number, it
+            doesn&apos;t auto-play (dragging while it&apos;s mid-animation
+            would just cancel it every tick and you&apos;d never see it
+            finish). Copy the settings once it feels right.
           </p>
         </div>
 
