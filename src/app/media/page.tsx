@@ -392,7 +392,7 @@ export default function MediaPage() {
       <div className="mb-12 site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center pb-6 border-b border-white/10">
           {/* Category Tabs (7 Cols on LG) */}
-          <div className="lg:col-span-7 flex flex-wrap items-center gap-2.5">
+          <div className="lg:col-span-7 flex flex-nowrap sm:flex-wrap items-center gap-2.5 overflow-x-auto no-scrollbar py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
             {categories.map((cat) => {
               if (cat.videos.length === 0) return null;
               const isActive = activeFilter === cat.category;
