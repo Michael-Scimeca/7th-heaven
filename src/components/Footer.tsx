@@ -111,31 +111,43 @@ export function Footer() {
   const [revealPct, setRevealPct] = useState(0); // 0 = hidden, 1 = fully visible
 
   useEffect(() => {
+    let ticking = false;
+    let cachedFooterHeight = 420;
+    const footerEl = document.getElementById('footer');
+    const contentArea = document.querySelector<HTMLElement>('#page-content-wrapper > .content-area');
+
+    const updateFooterHeight = () => {
+      if (footerEl) {
+        cachedFooterHeight = footerEl.offsetHeight || 420;
+        document.documentElement.style.setProperty('--footer-reveal-height', `${cachedFooterHeight}px`);
+      }
+    };
+
+    updateFooterHeight();
+
     const updateReveal = () => {
-      const contentArea = document.querySelector<HTMLElement>('#page-content-wrapper > .content-area');
-      const footerEl = document.getElementById('footer');
-      const winH = window.innerHeight;
-      const contentBottom = contentArea?.getBoundingClientRect().bottom ?? winH;
-      const footerHeight = footerEl?.offsetHeight ?? 420;
-
-      // Keep spacer height in sync with actual footer height so revealPct hits 1
-      document.documentElement.style.setProperty('--footer-reveal-height', `${footerHeight}px`);
-
-      // 0 when contentBottom === winH (footer not yet uncovered)
-      // 1 when contentBottom === winH - footerHeight (footer fully uncovered)
-      const pct = Math.max(0, Math.min(1, (winH - contentBottom) / footerHeight));
-      setRevealPct(pct);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const winH = window.innerHeight;
+        const contentBottom = contentArea?.getBoundingClientRect().bottom ?? winH;
+        const pct = Math.max(0, Math.min(1, (winH - contentBottom) / cachedFooterHeight));
+        setRevealPct((prev) => (Math.abs(prev - pct) > 0.001 ? pct : prev));
+      });
     };
 
     const lenis = (window as any).__lenis;
     if (lenis) lenis.on('scroll', updateReveal);
     window.addEventListener('scroll', updateReveal, { passive: true });
+    window.addEventListener('resize', updateFooterHeight, { passive: true });
     updateReveal();
 
     return () => {
       const l = (window as any).__lenis;
       if (l) l.off('scroll', updateReveal);
       window.removeEventListener('scroll', updateReveal);
+      window.removeEventListener('resize', updateFooterHeight);
     };
   }, []);
 
