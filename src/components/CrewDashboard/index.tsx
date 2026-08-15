@@ -2660,7 +2660,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
 
   return (
-    <div className="min-h-screen bg-transparent text-white font-sans selection:bg-purple-600/30 pt-20">
+    <div className="site-container min-h-screen bg-transparent text-white font-sans selection:bg-purple-600/30 pt-20">
 
       {/* ─── EXACT HEADER LAYOUT ─── */}
       <header>
