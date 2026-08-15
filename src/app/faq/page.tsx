@@ -160,12 +160,10 @@ export default function FAQPage() {
   }, [activeTab, searchQuery]);
 
   return (
-    <div className="min-h-screen    pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
+    <section className="site-container min-h-screen pt-[var(--page-top-offset)] pb-24 relative overflow-hidden text-[var(--text-color)]">
       {/* Decorative Background Elements */}
       <div className="absolute top-[10%] left-[5%] w-[350px] h-[350px] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[150px] pointer-events-none" />
-
-      <div className="mx-auto relative z-10">
 
         {/* Page Header */}
         <div className="text-center mb-12">
@@ -282,8 +280,6 @@ export default function FAQPage() {
             Contact Us
           </Link>
         </div>
-
-      </div>
-    </div>
+    </section>
   );
 }

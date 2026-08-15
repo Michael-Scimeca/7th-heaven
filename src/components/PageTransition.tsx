@@ -196,7 +196,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div ref={contentRef} className="flex-1 flex flex-col">
+      <div ref={contentRef} className="w-full flex-1">
         {children}
       </div>
 

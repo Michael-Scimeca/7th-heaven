@@ -545,7 +545,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
   return (
     <div
-      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 pb-28 text-left overflow-x-clip transition-all duration-150"
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-gradient-to-b from-[#071126] via-[#0c1a3a] to-[#060d1f] pt-20 text-left overflow-x-clip transition-all duration-150"
       style={{
         maskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)',
@@ -589,7 +589,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={desktopContainerRef}
-        className="hidden md:block w-full py-8 px-0 relative overflow-clip"
+        className="hidden md:block w-full pt-8 px-0 relative overflow-clip"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
