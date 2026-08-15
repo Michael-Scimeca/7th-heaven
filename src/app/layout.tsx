@@ -134,7 +134,12 @@ export default async function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
           media="print"
-          onLoad={(e) => { (e.currentTarget as any).media = 'all'; }}
+          id="gf-stylesheet"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var l=document.getElementById('gf-stylesheet');if(l){l.addEventListener('load',function(){l.media='all'});setTimeout(function(){l.media='all'},1000);}})();`,
+          }}
         />
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />

@@ -126,11 +126,19 @@ export function Footer() {
     updateFooterHeight();
 
     const updateReveal = () => {
+      // Fast path: skip DOM layout reads if scroll position is far above footer reveal zone
+      const winH = window.innerHeight;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const docH = document.documentElement.scrollHeight;
+      if (docH - (scrollY + winH) > cachedFooterHeight * 2.5) {
+        setRevealPct((prev) => (prev !== 0 ? 0 : prev));
+        return;
+      }
+
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
         ticking = false;
-        const winH = window.innerHeight;
         const contentBottom = contentArea?.getBoundingClientRect().bottom ?? winH;
         const pct = Math.max(0, Math.min(1, (winH - contentBottom) / cachedFooterHeight));
         setRevealPct((prev) => (Math.abs(prev - pct) > 0.001 ? pct : prev));
