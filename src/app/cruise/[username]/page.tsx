@@ -633,7 +633,7 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-white pt-[130px] pb-16 w-full max-w-full selection:bg-cyan-500 selection:text-black">
+    <div className="site-container min-h-screen bg-transparent text-white pt-[130px] pb-16 selection:bg-cyan-500 selection:text-black">
       <div>
         <header className="mb-8 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>

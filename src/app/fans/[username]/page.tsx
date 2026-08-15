@@ -395,7 +395,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
 
   if (!isLoggedIn && !devBypass && !isDemoMode) {
     return (
-      <section className="py-48 min-h-screen    text-[var(--text-color)] flex items-center justify-center">
+      <section className="site-container py-48 min-h-screen text-[var(--text-color)] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-3xl font-black italic tracking-tight mb-4">Fan <span className="gradient-text">Account</span></h1>
           <p className="text-[var(--muted-text)] mb-8 max-w-sm">Access your VIP dashboard, exclusive deals, and photo submission tools.</p>
@@ -408,7 +408,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
   }
 
   return (
-    <section className="pt-[88px] min-h-screen text-[var(--text-color)] border-t border-[var(--border-color)]">
+    <section className="site-container pt-[88px] min-h-screen text-[var(--text-color)] border-t border-[var(--border-color)]">
       <div className="pt-[25px]">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ────────────────────────────── */}
         {isDemoMode && (

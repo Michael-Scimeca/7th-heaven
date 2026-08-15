@@ -212,46 +212,46 @@ export default function FAQPage() {
           })}
         </div>
 
-        {/* FAQ Accordion List */}
-        <div className="max-w-4xl mx-auto space-y-4">
-          {filteredFAQs.length > 0 ? (
-            filteredFAQs.map((faq) => {
-              const isExpanded = !!expandedItems[faq.id];
-              return (
-                <div
-                  key={faq.id}
-                  className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-purple-500/40"
-                  style={{
-                    borderColor: isExpanded ? 'rgba(192, 132, 252, 0.4)' : undefined
-                  }}
+      {/* FAQ Accordion List */}
+      <div className="space-y-4">
+        {filteredFAQs.length > 0 ? (
+          filteredFAQs.map((faq) => {
+            const isExpanded = !!expandedItems[faq.id];
+            return (
+              <div
+                key={faq.id}
+                className="bg-transparent overflow-hidden transition-colors duration-300 border-b border-white/15"
+                style={{
+                  borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
+                }}
+              >
+                <button aria-label="Action button"
+                  onClick={() => toggleExpand(faq.id)}
+                  className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
                 >
-                  <button aria-label="Action button"
-                    onClick={() => toggleExpand(faq.id)}
-                    className="w-full text-left px-5 sm:px-6 py-5 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
-                  >
-                    <span className="font-extrabold text-sm sm:text-base text-white transition duration-200">
-                      {faq.question}
-                    </span>
-                    <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-purple-400" : ""
-                      }`}>
-                      <ChevronDownIcon />
-                    </div>
-                  </button>
+                  <span className="font-extrabold text-sm sm:text-base text-white transition duration-200">
+                    {faq.question}
+                  </span>
+                  <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-180 text-purple-400" : ""
+                    }`}>
+                    <ChevronDownIcon />
+                  </div>
+                </button>
 
-                  {/* Expanded Answer with smooth grid-rows height transition */}
-                  <div
-                    className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                      }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="px-5 sm:px-6 pb-5 pt-1 text-sm md:text-base text-white/80 leading-relaxed bg-transparent border-t border-white/5">
-                        {faq.answer}
-                      </div>
+                {/* Expanded Answer with smooth grid-rows height transition */}
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="pb-6 text-sm md:text-base text-white/80 leading-relaxed bg-transparent">
+                      {faq.answer}
                     </div>
                   </div>
                 </div>
-              );
-            })
+              </div>
+            );
+          })
           ) : (
             <div className="text-center py-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-sm">
               <span className="text-white/20 inline-block mb-4 scale-150">
