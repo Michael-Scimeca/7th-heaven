@@ -487,9 +487,10 @@ export default function HomeVideoShowcase() {
             return (
               <div
                 key={video.id}
-                className="smooothy-slide group flex flex-col shrink-0 max-h-[460px]"
+                className="smooothy-slide group flex flex-col shrink-0"
                 style={{
-                  maxHeight: "min(460px, 48vh)",
+                  height: "clamp(200px, 38vh, 420px)",
+                  maxHeight: "38vh",
                   width: smooothyVertical
                     ? "100%"
                     : `${100 / cardsVisible}%`,
@@ -501,8 +502,8 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  style={{ maxHeight: "min(460px, 48vh)" }}
-                  className={`relative max-h-[460px] ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-xl`}
+                  style={{ height: "100%", maxHeight: "38vh" }}
+                  className={`relative ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-xl`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
                   <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing bg-transparent" />

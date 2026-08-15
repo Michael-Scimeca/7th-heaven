@@ -327,8 +327,9 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
         }
         .su-thumb{
           flex:1;
+          height:clamp(180px, 35vh, 400px);
+          max-height:35vh;
           aspect-ratio:16/10;
-          max-height:min(340px, 34vh);
           border-radius:14px;
           position:relative;
           overflow:hidden;
