@@ -392,30 +392,34 @@ export default function MediaPage() {
       <div className="mb-12 site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center pb-6 border-b border-white/10">
           {/* Category Tabs (7 Cols on LG) */}
-          <div className="lg:col-span-7 flex flex-nowrap sm:flex-wrap items-center gap-2.5 overflow-x-auto no-scrollbar py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {categories.map((cat) => {
-              if (cat.videos.length === 0) return null;
-              const isActive = activeFilter === cat.category;
-              return (
-                <button
-                  key={cat.category}
-                  onClick={() => {
-                    setActiveFilter(cat.category);
-                    setActiveIndex(0);
-                  }}
-                  className={`px-3.5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
-                    ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
-                    : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
-                    }`}
-                >
-                  <span>{cat.category}</span>
-                  <span className={`text-[10px] tabular-nums font-black px-1.5 py-0.2 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-purple-500/20 text-purple-300"
-                    }`}>
-                    {cat.videos.length}
-                  </span>
-                </button>
-              );
-            })}
+          <div className="lg:col-span-7 relative">
+            <div className="flex flex-nowrap sm:flex-wrap items-center gap-2.5 overflow-x-auto no-scrollbar py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+              {categories.map((cat) => {
+                if (cat.videos.length === 0) return null;
+                const isActive = activeFilter === cat.category;
+                return (
+                  <button
+                    key={cat.category}
+                    onClick={() => {
+                      setActiveFilter(cat.category);
+                      setActiveIndex(0);
+                    }}
+                    className={`px-3.5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
+                      ? "bg-[var(--color-accent)] text-white shadow-[0_0_20px_rgba(255,10,61,0.4)]"
+                      : "bg-white/5 text-white/60 hover:text-white hover:bg-white/10"
+                      }`}
+                  >
+                    <span>{cat.category}</span>
+                    <span className={`text-[10px] tabular-nums font-black px-1.5 py-0.2 rounded-full ${isActive ? "bg-black/30 text-white" : "bg-purple-500/20 text-purple-300"
+                      }`}>
+                      {cat.videos.length}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            {/* Right Black Fade Mask on Mobile */}
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#06060c] via-[#06060c]/80 to-transparent sm:hidden z-10" />
           </div>
 
           {/* Search & Admin Add Video Button (5 Cols on LG) */}
