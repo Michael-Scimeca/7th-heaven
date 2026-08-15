@@ -114,13 +114,23 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
     function onScroll() {
       const viewportH = vh();
 
+      // Phase 1: Batch ALL DOM geometry reads into array (no style writes)
+      const rects = cardRefs.current.map((card) => {
+        if (!card) return null;
+        const innerEl = (card.querySelector('.su-card-inner') as HTMLElement) || card;
+        return {
+          innerRect: innerEl.getBoundingClientRect(),
+          cardRect: card.getBoundingClientRect(),
+        };
+      });
+
+      // Phase 2: Batch ALL DOM style mutations (no geometry reads)
       cardRefs.current.forEach((card, i) => {
-        if (!card) return;
-        const nextCard = cardRefs.current[i + 1];
-        if (nextCard) {
-          const innerEl = card.querySelector('.su-card-inner') as HTMLElement || card;
-          const innerRect = innerEl.getBoundingClientRect();
-          const nextRect = nextCard.getBoundingClientRect();
+        if (!card || !rects[i]) return;
+        const nextData = rects[i + 1];
+        if (nextData) {
+          const innerRect = rects[i]!.innerRect;
+          const nextRect = nextData.cardRect;
 
           const coveredProgress = Math.min(Math.max((viewportH + HEADER_H - nextRect.top) / viewportH, 0), 1);
           const scale = 1 - coveredProgress * 0.05;
@@ -133,35 +143,27 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
             const maskTopPercent = Math.max(0, 100 - overlapPercent);
             const fadeEdge = Math.max(0, maskTopPercent - 6);
             const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
-            Object.assign(card.style, {
-              maskImage: maskVal,
-              WebkitMaskImage: maskVal,
-              transform: `scale(${scale}) translateY(${translateY}px)`,
-              opacity: "1",
-            });
+            card.style.maskImage = maskVal;
+            (card.style as any).webkitMaskImage = maskVal;
+            card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+            card.style.opacity = "1";
           } else {
-            Object.assign(card.style, {
-              maskImage: "none",
-              WebkitMaskImage: "none",
-              transform: `scale(${scale}) translateY(${translateY}px)`,
-              opacity: "1",
-            });
+            card.style.maskImage = "none";
+            (card.style as any).webkitMaskImage = "none";
+            card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+            card.style.opacity = "1";
           }
         } else {
-          Object.assign(card.style, {
-            transform: "none",
-            opacity: "1",
-            maskImage: "none",
-            WebkitMaskImage: "none",
-          });
+          card.style.transform = "none";
+          card.style.opacity = "1";
+          card.style.maskImage = "none";
+          (card.style as any).webkitMaskImage = "none";
         }
       });
 
       let activeIndex = 0;
-      cardRefs.current.forEach((card, i) => {
-        if (!card) return;
-        const rect = card.getBoundingClientRect();
-        if (rect.top <= HEADER_H + viewportH * 0.5) activeIndex = i;
+      rects.forEach((r, i) => {
+        if (r && r.cardRect.top <= HEADER_H + viewportH * 0.5) activeIndex = i;
       });
       dotRefs.current.forEach((d, i) => d?.classList.toggle("su-active", i === activeIndex));
     }
