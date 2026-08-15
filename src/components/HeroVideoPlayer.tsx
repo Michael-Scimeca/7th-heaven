@@ -137,6 +137,19 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     setGradCopied(true);
   };
 
+  const [loadHeavyWidgets, setLoadHeavyWidgets] = useState(false);
+
+  useEffect(() => {
+    // Defer 80+ KiB heavy interactive widgets (Vinyl player / YT background) until after initial LCP paint
+    if ("requestIdleCallback" in window) {
+      const id = (window as any).requestIdleCallback(() => setLoadHeavyWidgets(true), { timeout: 2500 });
+      return () => (window as any).cancelIdleCallback(id);
+    } else {
+      const t = setTimeout(() => setLoadHeavyWidgets(true), 1500);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
   useEffect(() => {
     if (!gradCopied) return;
     const t = setTimeout(() => setGradCopied(false), 2000);
@@ -328,7 +341,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
       {/* ── Hero background video (YouTube full-bleed or HTML5 video) ── */}
       {/* On mobile (<768px), skip video stream — show static dark bg to save 2.4MB network */}
-      {isYouTube ? (
+      {isYouTube && loadHeavyWidgets ? (
         <HeroYTBackground videoId={ytId} />
       ) : isDesktop ? (
         <video
@@ -559,7 +572,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
 
         {/* Vinyl MP3 Album Player */}
         <div className="flex justify-end">
-          <VinylHeroPlayer onAlbumChange={handleAlbumChange} />
+          {loadHeavyWidgets && <VinylHeroPlayer onAlbumChange={handleAlbumChange} />}
         </div>
       </div>
     </VideoSnapshotContext.Provider>

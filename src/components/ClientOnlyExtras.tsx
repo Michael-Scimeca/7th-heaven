@@ -27,11 +27,21 @@ import { useState, useEffect } from "react";
 
 export default function ClientOnlyExtras() {
   const [mounted, setMounted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [shouldLoadShader, setShouldLoadShader] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    setIsDesktop(typeof window !== "undefined" && window.innerWidth >= 768);
+    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
+    if (!isDesktop) return;
+
+    // Defer 99.2 KiB WebGL shader bundle until after initial paint & main thread is idle
+    if ("requestIdleCallback" in window) {
+      const id = (window as any).requestIdleCallback(() => setShouldLoadShader(true), { timeout: 3000 });
+      return () => (window as any).cancelIdleCallback(id);
+    } else {
+      const t = setTimeout(() => setShouldLoadShader(true), 2500);
+      return () => clearTimeout(t);
+    }
   }, []);
 
   if (!mounted) return null;
@@ -41,7 +51,7 @@ export default function ClientOnlyExtras() {
       <DevGuideLine />
       <PagesPillDrawer />
       <WebVitalsReporter />
-      {isDesktop && <HomeShaderGradient />}
+      {shouldLoadShader && <HomeShaderGradient />}
     </>
   );
 }
