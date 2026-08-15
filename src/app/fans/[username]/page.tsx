@@ -688,7 +688,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                 </div>
               ) : (
                 <Link href="/live" className="block group">
-                  <div className="flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
+                  <div className="flex items-center justify-between px-4 py-4 bg-white/5 border border-white/10 rounded-lg hover:border-white/20 transition-colors">
                     <div className="flex items-center gap-4">
                       <span className="relative flex h-4 w-4">
                         <span className="relative inline-flex rounded-full h-4 w-4 bg-white/30" />
@@ -831,7 +831,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                         </>
                       );
                     })() : (
-                      <div className="mt-4 py-8 flex flex-col items-center border border-white/10 bg-white/5 border-dashed">
+                      <div className="mt-4 py-8 flex flex-col items-center rounded-lg border border-white/10 bg-white/5 border-dashed">
                         <p className="text-sm text-white/60 font-bold">No upcoming shows scheduled yet.</p>
                         <p className="text-xs text-white/40 mt-1 uppercase tracking-widest font-bold">Check back soon — new dates drop regularly</p>
                         <Link href="/#tour" className="mt-3 text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">View Tour Page →</Link>
@@ -858,7 +858,11 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-white truncate">{show.venue}</p>
-                        <p className="text-xs text-white/60">{show.city}, {show.state}</p>
+                        {(show.city || show.state) && (
+                          <p className="text-xs text-white/60">
+                            {show.city ? `${show.city}${show.state ? `, ${show.state}` : ''}` : show.state}
+                          </p>
+                        )}
                         {(show.doorsTime || show.playTime || show.time) && (
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                             {show.doorsTime && <span className="text-[0.6rem] text-white/35 font-semibold">Doors: {show.doorsTime}</span>}
@@ -880,7 +884,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                 : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([show.venue, show.city, show.state].filter(Boolean).join(' '))}`;
                               return (
                                 <a href={mapsHref} target="_blank" rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
+                                  className="inline-flex items-center gap-1 text-[0.6rem] rounded-lg font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors">
                                   <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>
                                   Directions
                                 </a>
@@ -888,7 +892,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                             })()}
                             {/* Parking — smart button: link-only / note-only / both */}
                             {(show.directionsLink || show.notes) && (() => {
-                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
+                              const btnClass = "inline-flex items-center gap-1 text-[0.6rem] rounded-lg font-black uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded hover:bg-white/10 hover:text-white transition-colors";
                               if (show.directionsLink && !show.notes) {
                                 return (
                                   <a href={show.directionsLink} target="_blank" rel="noopener noreferrer" className={btnClass}>
@@ -923,7 +927,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                                     {PIN_ICON} Parking
                                   </a>
                                   <div className="relative">
-                                    <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className="inline-flex items-center justify-center w-5 h-5 text-white/40 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:text-white transition-colors" title="Parking notes">
+                                    <button aria-label="Action button" onClick={() => setParkingNoteOpenIdx(parkingNoteOpenIdx === i ? null : i)} className="inline-flex items-center justify-center rounded-lg w-5 h-5 text-white/40 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:text-white transition-colors" title="Parking notes">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></svg>
                                     </button>
                                     {parkingNoteOpenIdx === i && (
@@ -998,7 +1002,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                     ))}
                   </div>
                 ) : (
-                  <div className="py-8 flex flex-col items-center border border-white/10 bg-white/5 border-dashed">
+                  <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-white/5 border-dashed">
                     <p className="text-sm text-white/60 font-bold">You aren&apos;t tracking any specific shows yet.</p>
                     <p className="text-xs text-white/40 mt-1">Click the bell icon on the tour page to get date alerts.</p>
                     <Link href="/#tour" className="mt-3 text-xs  text-[var(--color-accent)] font-bold uppercase tracking-widest hover:text-white transition-colors">Find Shows →</Link>
@@ -1065,7 +1069,7 @@ export default function FanAccountPage({ params }: { params: Promise<{ username:
                       <button aria-label="Action button"
                         onClick={handleLiveAlertSubscribe}
                         disabled={liveAlertStatus === 'saving'}
-                        className="px-6 py-3 whitespace-nowrap shrink-0 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
+                        className="px-6 py-3 whitespace-nowrap shrink-0 rounded-lg bg-gradient-to-r from-[#7c00ff] to-[#a855f7] hover:brightness-110 text-white text-xs font-black uppercase tracking-widest transition-colors disabled:opacity-50 shadow-[0_0_20px_rgba(168,85,247,0.3)] cursor-pointer"
                       >
                         {liveAlertStatus === 'saving' ? 'Saving...' : 'Alert Me'}
                       </button>

@@ -1475,9 +1475,9 @@ ${filterLine}
                     {/* Details: Venue & Location */}
                     <div>
                       <h4 className="text-[21px] font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
-                      {show.city && (
+                      {(show.city || show.state) && (
                         <p className="text-[15px] text-white/70 flex items-center gap-1 mt-1 font-semibold">
-                          {show.city}{show.state ? `, ${show.state}` : ""}
+                          {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}
                         </p>
                       )}
                     </div>
