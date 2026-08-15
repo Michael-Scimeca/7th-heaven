@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig: NextConfig = {
@@ -27,6 +28,13 @@ const nextConfig: NextConfig = {
   turbopack: {},
   serverExternalPackages: ["@tensorflow/tfjs"],
   webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.alias = {
+        ...(config.resolve.alias || {}),
+        "next/dist/client/polyfills": path.resolve(__dirname, "src/lib/empty-polyfill.js"),
+        "next/dist/compiled/babel/polyfill": path.resolve(__dirname, "src/lib/empty-polyfill.js"),
+      };
+    }
     config.externals = [...(config.externals || []), "@tensorflow/tfjs"];
     return config;
   },
