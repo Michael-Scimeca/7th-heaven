@@ -500,7 +500,7 @@ export default function HomeVideoShowcase() {
               >
                 {/* Video Card Container */}
                 <div
-                  style={{ height: "clamp(180px, 34vh, 340px)", maxHeight: "34vh" }}
+                  style={{ height: "clamp(210px, 41vh, 410px)", maxHeight: "41vh" }}
                   className={`relative ${aspectRatio} ${borderRadius} ${borderStyle} overflow-hidden bg-black/60 shadow-xl`}
                 >
                   {/* Transparent Drag Capture Layer (Ensures YouTube iframes never intercept drag events) */}
