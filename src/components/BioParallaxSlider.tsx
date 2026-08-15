@@ -540,26 +540,6 @@ lerpSpeed: ${lerpSpeed}`;
     targetXRef.current = safeIdx * itemTotalWidth;
   };
 
-  // Trackpad & mouse wheel momentum scroll effect
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) > 5) {
-        e.preventDefault();
-        const maxTarget = (displayMembers.length - 1) * itemTotalWidth;
-        velocityRef.current = delta * 0.8;
-        targetXRef.current = Math.max(0, Math.min(maxTarget, targetXRef.current + delta * 1.5));
-      }
-    };
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-    };
-  }, [displayMembers.length, itemTotalWidth]);
 
   // Global Keyboard Arrow Navigation (Left / Right Arrow, A / D keys)
   useEffect(() => {
@@ -628,31 +608,6 @@ lerpSpeed: ${lerpSpeed}`;
       className="w-full max-w-full overflow-x-clip h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0 mt-[80px]"
     >
 
-      {/* ◄ Left Stage Arrow */}
-      <button
-        type="button"
-        aria-label="Previous Member"
-        onClick={() => goToSlide(activeIndex - 1)}
-        disabled={activeIndex === 0}
-        className={`absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/60 hover:bg-purple-600 border border-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-2xl cursor-pointer ${
-          activeIndex === 0 ? "opacity-20 pointer-events-none" : "opacity-90 hover:scale-110 active:scale-95"
-        }`}
-      >
-        <ChevronLeft className="w-6 h-6 text-white" />
-      </button>
-
-      {/* ► Right Stage Arrow */}
-      <button
-        type="button"
-        aria-label="Next Member"
-        onClick={() => goToSlide(activeIndex + 1)}
-        disabled={activeIndex === displayMembers.length - 1}
-        className={`absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/60 hover:bg-purple-600 border border-white/20 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-2xl cursor-pointer ${
-          activeIndex === displayMembers.length - 1 ? "opacity-20 pointer-events-none" : "opacity-90 hover:scale-110 active:scale-95"
-        }`}
-      >
-        <ChevronRight className="w-6 h-6 text-white" />
-      </button>
 
       {/* 🎬 LEFT SPINE VIDEO PAGINATION (Top video locked at blue line top-[36px], gap & height scale down as screen height shrinks) */}
       {paginationStyle === "left-spine" && (
