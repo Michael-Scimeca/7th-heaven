@@ -100,6 +100,16 @@ const dropdownOptions = [
   { label: "Las Vegas, NV — Cruise 2026", value: "vegas", icon: "🚢" },
 ];
 
+// Color presets for the CodePen search bar demo's "Button style" swatches (Module Scope)
+const searchBarThemes = [
+  { name: "Sunset", a: "#f97316", b: "#ec4899", c: "#8b5cf6" },
+  { name: "Ocean", a: "#0ea5e9", b: "#22d3ee", c: "#6366f1" },
+  { name: "Forest", a: "#65a30d", b: "#16a34a", c: "#0d9488" },
+  { name: "Berry", a: "#db2777", b: "#c026d3", c: "#7c3aed" },
+  { name: "Citrus", a: "#facc15", b: "#fb923c", c: "#f97316" },
+  { name: "Midnight", a: "#4338ca", b: "#1e3a8a", c: "#0f172a" },
+];
+
 const sections = [
   { id: "typography", label: "1. Typography", icon: Type },
   { id: "colors", label: "2. Color Palette", icon: Palette },
@@ -139,6 +149,11 @@ export default function StyleGuidePage() {
   const [previewRadius, setPreviewRadius] = useState("50");
   const [signInRole, setSignInRole] = useState<'fan' | 'crew' | 'planner' | 'cruise'>('fan');
   const [signUpRole, setSignUpRole] = useState<'fan' | 'planner' | 'cruise'>('fan');
+
+  /* ── CodePen Search Bar Style/Speed Demo State ── */
+  const [sbThemeIndex, setSbThemeIndex] = useState(0);
+  const [sbSpeed, setSbSpeed] = useState(0.3);
+  const [sbPanelOpen, setSbPanelOpen] = useState(false);
 
   /* ── PIN Input Demo State ── */
   const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
@@ -1341,6 +1356,393 @@ ${deskRules.join("\n")}
                   Danger Action
                 </button>
               </div>
+            </div>
+
+            {/* Gradient CTA Button (CodeFronts import) */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <h3 className="text-xs font-mono font-bold text-fuchsia-400 uppercase tracking-wider">Gradient CTA Button</h3>
+                <SectionBadge label="CodeFronts Import" color="amber" />
+              </div>
+              <div className="cb-05-cta flex flex-wrap items-center gap-4 p-6 rounded-xl bg-[#08070d]">
+                <button className="cb-05-cta__btn" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 3 4.5 13.5H11l-1 7.5 8.5-10.5H12l1-7.5z" />
+                  </svg>
+                  <span>Upgrade to Pro</span>
+                </button>
+                <button className="cb-05-cta__btn" type="button" disabled>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 3 4.5 13.5H11l-1 7.5 8.5-10.5H12l1-7.5z" />
+                  </svg>
+                  <span>Disabled</span>
+                </button>
+              </div>
+              <p className="text-[11px] text-white/40">
+                Source:{" "}
+                <a
+                  href="https://codefronts.com/components/css-buttons/css-gradient-cta-button/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white/60"
+                >
+                  codefronts.com – CSS Gradient CTA Button
+                </a>
+              </p>
+              <style jsx global>{`
+                @property --cb-05-a {
+                  syntax: '<angle>';
+                  inherits: false;
+                  initial-value: 135deg;
+                }
+              `}</style>
+              <style jsx>{`
+                .cb-05-cta {
+                  --c1: #6d28d9;
+                  --c2: #2dd4bf;
+                  --c3: #f472b6;
+                  --ink: #ffffff;
+                  --body: #141024;
+                  --bloom: 0.55;
+                  --radius: 1rem;
+                }
+                @supports (color: oklch(50% 0 0)) {
+                  .cb-05-cta {
+                    --c1: oklch(52% 0.24 293);
+                    --c2: oklch(80% 0.14 182);
+                    --c3: oklch(74% 0.17 349);
+                    --body: oklch(20% 0.04 290);
+                  }
+                }
+                .cb-05-cta__btn {
+                  position: relative;
+                  isolation: isolate;
+                  cursor: pointer;
+                  display: grid;
+                  grid-auto-flow: column;
+                  align-items: center;
+                  gap: 0.55rem;
+                  min-height: 3.5rem;
+                  padding: 0 1.9rem;
+                  border: 0;
+                  border-radius: var(--radius);
+                  font-size: 1rem;
+                  font-weight: 600;
+                  letter-spacing: -0.005em;
+                  color: var(--ink);
+                  background: radial-gradient(120% 140% at 15% 0%, color-mix(in oklab, var(--c1) 55%, transparent), transparent 60%),
+                    radial-gradient(120% 140% at 90% 100%, color-mix(in oklab, var(--c2) 35%, transparent), transparent 60%), var(--body);
+                  background-size: 150% 150%, 150% 150%, 100% 100%;
+                  background-position: 0% 0%, 100% 100%, 0 0;
+                  transition: translate 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-position 0.6s cubic-bezier(0.16, 1, 0.3, 1), scale 0.18s ease;
+                }
+                .cb-05-cta__btn svg {
+                  width: 1.1rem;
+                  height: 1.1rem;
+                  color: var(--c2);
+                }
+                .cb-05-cta__btn::before,
+                .cb-05-cta__btn::after {
+                  content: '';
+                  position: absolute;
+                  inset: -2px;
+                  z-index: -1;
+                  border-radius: inherit;
+                  background: conic-gradient(from var(--cb-05-a), var(--c1), var(--c2), var(--c3), var(--c1));
+                  animation: cb-05-spin 4.5s linear infinite;
+                }
+                .cb-05-cta__btn::after {
+                  inset: 2px;
+                  filter: blur(20px);
+                  opacity: var(--bloom);
+                  transition: opacity 0.35s ease;
+                }
+                @keyframes cb-05-spin {
+                  to {
+                    --cb-05-a: 495deg;
+                  }
+                }
+                .cb-05-cta__btn:hover {
+                  translate: 0 -2px;
+                  background-position: 30% 20%, 70% 80%, 0 0;
+                }
+                .cb-05-cta__btn:hover::after {
+                  opacity: calc(var(--bloom) + 0.35);
+                }
+                .cb-05-cta__btn:active {
+                  scale: 0.98;
+                  translate: 0 0;
+                }
+                .cb-05-cta__btn:focus-visible {
+                  outline: 2px solid var(--c2);
+                  outline-offset: 5px;
+                }
+                .cb-05-cta__btn:disabled {
+                  cursor: not-allowed;
+                  filter: grayscale(0.85);
+                  opacity: 0.55;
+                }
+                .cb-05-cta__btn:disabled::before,
+                .cb-05-cta__btn:disabled::after {
+                  animation-play-state: paused;
+                }
+                @media (prefers-reduced-motion: reduce) {
+                  .cb-05-cta__btn::before,
+                  .cb-05-cta__btn::after {
+                    animation: none;
+                  }
+                  .cb-05-cta__btn {
+                    transition: none;
+                  }
+                }
+                @media (forced-colors: active) {
+                  .cb-05-cta__btn {
+                    background: ButtonFace;
+                    color: ButtonText;
+                    border: 1px solid ButtonText;
+                  }
+                  .cb-05-cta__btn::before,
+                  .cb-05-cta__btn::after {
+                    display: none;
+                  }
+                }
+              `}</style>
+            </div>
+
+            {/* Gradient Search Bar Button (CodeFronts import) */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <h3 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Gradient Search Bar Button</h3>
+                <SectionBadge label="CodeFronts Import" color="amber" />
+              </div>
+
+              <div
+                className="sb15 relative flex items-center justify-center p-8 rounded-xl min-h-[320px]"
+                style={{
+                  '--sb15-a': searchBarThemes[sbThemeIndex].a,
+                  '--sb15-b': searchBarThemes[sbThemeIndex].b,
+                  '--sb15-c': searchBarThemes[sbThemeIndex].c,
+                  '--sb15-dur': `${sbSpeed}s`,
+                } as React.CSSProperties}
+              >
+                {/* Style + speed controls */}
+                <div className="absolute top-4 right-4 z-10">
+                  <button
+                    type="button"
+                    onClick={() => setSbPanelOpen(o => !o)}
+                    aria-label="Customize search bar button style and speed"
+                    className="w-10 h-10 rounded-full bg-white text-[#3b2b20] shadow-[0_8px_20px_rgba(59,43,32,0.18),0_0_0_1px_rgba(59,43,32,0.06)] flex items-center justify-center cursor-pointer hover:rotate-[30deg] transition-transform duration-300 border-none"
+                  >
+                    <Settings className="w-4.5 h-4.5" />
+                  </button>
+
+                  {sbPanelOpen && (
+                    <div className="absolute top-12 right-0 w-64 bg-white rounded-2xl p-4 shadow-[0_20px_50px_rgba(59,43,32,0.22),0_0_0_1px_rgba(59,43,32,0.06)] font-sans text-left">
+                      <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Button style</h4>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {searchBarThemes.map((theme, i) => (
+                          <button
+                            key={theme.name}
+                            type="button"
+                            title={theme.name}
+                            aria-label={theme.name}
+                            onClick={() => setSbThemeIndex(i)}
+                            className={`w-7 h-7 rounded-full cursor-pointer transition-transform duration-150 hover:scale-110 border-none ${i === sbThemeIndex ? "outline outline-2 outline-[#3b2b20] outline-offset-2" : "outline outline-1 outline-[#eee0d5]"}`}
+                            style={{ background: `linear-gradient(135deg, ${theme.a}, ${theme.b}, ${theme.c})` }}
+                          />
+                        ))}
+                      </div>
+
+                      <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Transition speed</h4>
+                      <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                        <span>Speed</span>
+                        <output className="text-[#3b2b20] font-extrabold">{sbSpeed.toFixed(2)}s</output>
+                      </label>
+                      <input
+                        type="range"
+                        min={0.1}
+                        max={1.5}
+                        step={0.05}
+                        value={sbSpeed}
+                        onChange={(e) => setSbSpeed(parseFloat(e.target.value))}
+                        className="w-full accent-[#ec4899]"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="sb15__hero">
+                  <h3 className="sb15__h">
+                    Where to <span>next?</span>
+                  </h3>
+                  <p className="sb15__sub">Search 12,000+ stays, tours and hidden beaches</p>
+
+                  <div className="sb15__bar">
+                    <input
+                      aria-label="Search destinations"
+                      type="text"
+                      placeholder='Try "Lisbon in October"'
+                      className="sb15__input"
+                    />
+                    <button type="button" className="sb15__btn">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="m20 20-3.5-3.5" />
+                      </svg>
+                      <span>Search</span>
+                    </button>
+                  </div>
+
+                  <div className="sb15__chips">
+                    {["Kyoto ryokans", "Amalfi coast", "Patagonia treks"].map(chip => (
+                      <button key={chip} type="button" className="sb15__chip">
+                        {chip}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-white/40">
+                Source:{" "}
+                <a
+                  href="https://codefronts.com/components/css-gradient-buttons/css-gradient-search-bar-button/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white/60"
+                >
+                  codefronts.com – CSS Gradient Search Bar Button
+                </a>
+              </p>
+
+              <style jsx>{`
+                .sb15 {
+                  background: linear-gradient(180deg, #fff3e8 0%, #ffe9f2 60%, #f3ecff 100%);
+                }
+                .sb15__hero {
+                  width: 100%;
+                  max-width: 520px;
+                  text-align: center;
+                }
+                .sb15__h {
+                  font-size: 30px;
+                  font-weight: 900;
+                  letter-spacing: -1px;
+                  color: #3b2b20;
+                  margin-bottom: 8px;
+                  font-family: inherit;
+                }
+                .sb15__h span {
+                  background: linear-gradient(100deg, var(--sb15-a), var(--sb15-b), var(--sb15-c));
+                  -webkit-background-clip: text;
+                  background-clip: text;
+                  color: transparent;
+                }
+                .sb15__sub {
+                  font-size: 15px;
+                  color: #9a8574;
+                  margin-bottom: 32px;
+                }
+                .sb15__bar {
+                  display: flex;
+                  align-items: stretch;
+                  background: #fff;
+                  border-radius: 9999px;
+                  padding: 7px;
+                  gap: 7px;
+                  box-shadow: 0 18px 44px -20px rgba(236,72,153,.35), 0 2px 6px rgba(59,43,32,.06), 0 0 0 1.5px #f4e4d8;
+                  transition: box-shadow var(--sb15-dur) ease;
+                }
+                .sb15__bar:focus-within {
+                  box-shadow: 0 22px 52px -18px rgba(139,92,246,.4), 0 2px 6px rgba(59,43,32,.06), 0 0 0 2.5px var(--sb15-b);
+                }
+                .sb15__input {
+                  flex: 1;
+                  min-width: 0;
+                  border: none;
+                  background: none;
+                  padding: 12px 14px 12px 22px;
+                  font-family: inherit;
+                  font-size: 15.5px;
+                  color: #3b2b20;
+                }
+                .sb15__input::placeholder {
+                  color: #c4ad9c;
+                }
+                .sb15__input:focus {
+                  outline: none;
+                }
+                .sb15__btn {
+                  flex: none;
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 9px;
+                  padding: 13px 28px;
+                  border: none;
+                  border-radius: 9999px;
+                  font-family: inherit;
+                  font-size: 15px;
+                  font-weight: 800;
+                  color: #fff;
+                  cursor: pointer;
+                  background-image: linear-gradient(110deg, var(--sb15-a) 0%, var(--sb15-b) 50%, var(--sb15-c) 100%);
+                  background-size: 180% auto;
+                  background-position: left center;
+                  box-shadow: 0 8px 20px -8px rgba(236,72,153,.6);
+                  transition: background-position var(--sb15-dur) ease, transform calc(var(--sb15-dur) * .5) ease, box-shadow calc(var(--sb15-dur) * .7) ease;
+                  -webkit-tap-highlight-color: transparent;
+                }
+                .sb15__btn svg {
+                  width: 16px;
+                  height: 16px;
+                  flex: none;
+                }
+                .sb15__btn:hover {
+                  background-position: right center;
+                  transform: translateY(-1px);
+                  box-shadow: 0 12px 26px -8px rgba(139,92,246,.65);
+                }
+                .sb15__btn:active {
+                  transform: translateY(0) scale(.97);
+                }
+                .sb15__btn:focus-visible {
+                  outline: 3px solid var(--sb15-c);
+                  outline-offset: 3px;
+                }
+                .sb15__chips {
+                  display: flex;
+                  gap: 10px;
+                  justify-content: center;
+                  flex-wrap: wrap;
+                  margin-top: 20px;
+                }
+                .sb15__chip {
+                  font-size: 12.5px;
+                  font-weight: 600;
+                  color: #a08670;
+                  background: rgba(255,255,255,.7);
+                  border: 1px solid #f0dfd2;
+                  border-radius: 999px;
+                  padding: 7px 14px;
+                  cursor: pointer;
+                  transition: color calc(var(--sb15-dur) * .5) ease, border-color calc(var(--sb15-dur) * .5) ease;
+                }
+                .sb15__chip:hover {
+                  color: var(--sb15-b);
+                  border-color: var(--sb15-b);
+                }
+                @media (prefers-reduced-motion: reduce) {
+                  .sb15__bar,
+                  .sb15__btn,
+                  .sb15__chip {
+                    transition: none;
+                  }
+                  .sb15__btn:hover {
+                    transform: none;
+                    background-position: left center;
+                  }
+                }
+              `}</style>
             </div>
           </div>
         </section>
@@ -4016,67 +4418,6 @@ ${deskRules.join("\n")}
                 </div>
               </div>
             </div>
-
-            </div>
-
-            {/* SECTION: CODEPEN DEMO GRADIENT SEARCH BAR & TEST BUTTON */}
-            <section id="codepen-test-button" className="space-y-6 pt-12 border-t border-white/10">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-black uppercase tracking-wider text-white flex items-center gap-2 font-sans">
-                    <MousePointer className="w-5 h-5 text-purple-400" />
-                    CodePen Gradient Search Bar & Test Button
-                  </h2>
-                  <p className="text-xs text-white/50 mt-1">
-                    Custom CSS gradient search bar &amp; action buttons imported from CodePen demo.
-                  </p>
-                </div>
-                <SectionBadge label="CodePen Test Component" color="amber" />
-              </div>
-
-              <div className="p-8 rounded-3xl bg-[linear-gradient(180deg,#fff3e8_0%,#ffe9f2_60%,#f3ecff_100%)] text-[#3b2b20] flex items-center justify-center min-h-[320px]">
-                <div className="w-full max-w-[520px] text-center">
-                  <h3 className="text-2xl font-black tracking-tight text-[#3b2b20] mb-2 font-sans">
-                    Where to <span className="bg-gradient-to-r from-[#f97316] via-[#ec4899] to-[#8b5cf6] bg-clip-text text-transparent">next?</span>
-                  </h3>
-                  <p className="text-sm text-[#9a8574] mb-8 font-medium">Search 12,000+ stays, tours and hidden beaches</p>
-
-                  {/* Search Bar Container */}
-                  <div className="flex items-stretch bg-white rounded-full p-1.5 gap-2 shadow-[0_18px_44px_-20px_rgba(236,72,153,0.35),0_2px_6px_rgba(59,43,32,0.06),0_0_0_1.5px_#f4e4d8] focus-within:shadow-[0_22px_52px_-18px_rgba(139,92,246,0.4),0_2px_6px_rgba(59,43,32,0.06),0_0_0_2.5px_#ec4899] transition-all duration-300">
-                    <input
-                      aria-label="Search destinations"
-                      type="text"
-                      placeholder='Try "Lisbon in October"'
-                      className="flex-1 min-w-0 border-none bg-transparent py-3 px-5 text-[#3b2b20] placeholder-[#c4ad9c] text-sm outline-none focus:outline-none font-sans"
-                    />
-                    <button
-                      type="button"
-                      className="shrink-0 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-extrabold text-white cursor-pointer bg-[linear-gradient(110deg,#f97316_0%,#ec4899_50%,#8b5cf6_100%)] bg-[length:180%_auto] bg-left hover:bg-right hover:-translate-y-0.5 hover:shadow-[0_12px_26px_-8px_rgba(139,92,246,0.65)] active:translate-y-0 active:scale-95 transition-all duration-300 shadow-[0_8px_20px_-8px_rgba(236,72,153,0.6)] border-none font-sans whitespace-nowrap"
-                    >
-                      <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="m20 20-3.5-3.5" />
-                      </svg>
-                      <span>Search</span>
-                    </button>
-                  </div>
-
-                  {/* Chips */}
-                  <div className="flex gap-2.5 justify-center flex-wrap mt-5">
-                    {["Kyoto ryokans", "Amalfi coast", "Patagonia treks"].map(chip => (
-                      <button
-                        key={chip}
-                        type="button"
-                        className="text-xs font-semibold text-[#a08670] bg-white/70 border border-[#f0dfd2] rounded-full px-3.5 py-1.5 cursor-pointer hover:text-[#ec4899] hover:border-[#ec4899] transition-colors font-sans whitespace-nowrap"
-                      >
-                        {chip}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-
           </div>
         </section>
 

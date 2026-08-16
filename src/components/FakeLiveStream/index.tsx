@@ -1270,13 +1270,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 <div className="flex items-center gap-2">
                   <span className="text-white/95 text-sm font-bold truncate">{activeFeedCrew.name} — {activeFeedCrew.cameraLabel}</span>
                   <span
-                    className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-black uppercase tracking-wider shrink-0"
-                    style={{
-                      background: `${activeFeedCrew.color}22`,
-                      border: `1px solid ${activeFeedCrew.color}55`,
-                      color: activeFeedCrew.color,
-                    }}
-                  >{getInstrumentIcon(activeFeedCrew.name, "w-3 h-3")} CREW</span>
+                    className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg text-xs font-black uppercase tracking-wider shrink-0 bg-purple-600/20 border border-purple-500/35 text-purple-300"
+                  >
+                    CREW
+                  </span>
                 </div>
                 <p className="text-white/40 text-xs hidden sm:block">
                   7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}
@@ -1289,12 +1286,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           <div className="shrink-0 flex items-center gap-2">
             <Link
               href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
-              className="flex items-center gap-2 text-xs font-black uppercase tracking-wider"
-              style={{
-
-                color: activeFeedCrew.color,
-                textDecoration: 'none',
-              }}
+              className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-purple-300 hover:text-white transition-colors no-underline"
             >
               <div
                 className="w-5 h-5 rounded-full flex items-center justify-center text-black font-black shrink-0"

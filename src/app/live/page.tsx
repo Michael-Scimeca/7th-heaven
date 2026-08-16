@@ -253,7 +253,7 @@ export default function LiveHubPage() {
 
 
         {/* ── HEADER ── */}
-        <div className="pt-[21px] mb-10 px-6 md:px-12">
+        <div className="pt-[21px] mb-10 site-container">
           {/* Title & Fan Sign Up Row */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4">
             <div className="text-left">
@@ -485,7 +485,7 @@ export default function LiveHubPage() {
         {/* ══════════════════════════════════════════════════
             STREAM CARDS GRID WITH MATCHING PAGE PADDING
         ══════════════════════════════════════════════════ */}
-        <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+        <div className="site-container grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
           {rooms.map((room, i) => (
             <div
               key={room.name}
@@ -562,7 +562,7 @@ export default function LiveHubPage() {
 
         {/* ── SMS ALERTS BANNER ── */}
         {liveAlertsEnabled && (
-          <div className="px-6 md:px-12 mt-16 mb-10 relative overflow-hidden bg-transparent border-none">
+          <div className="site-container mt-16 relative overflow-hidden bg-transparent border-none">
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 mb-4">
                 <Smartphone className="w-4 h-4 text-[var(--color-accent-pink)]" />
@@ -585,7 +585,7 @@ export default function LiveHubPage() {
                   </div>
                   <button aria-label="Action button" type="submit"
                     className="w-full sm:w-auto px-8 py-3.5 bg-[var(--color-accent-pink)] hover:bg-[#db2777] text-white text-sm font-black uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] whitespace-nowrap flex-shrink-0 flex items-center justify-center gap-2 rounded-lg">
-                    ALERT ME <Bell className="w-4 h-4" />
+                    <Bell className="w-4 h-4" /> ALERT ME
                   </button>
                 </form>
                 <p className="text-xs text-white/40 mt-4">Standard messaging rates apply. Reply STOP to unsubscribe at any time.</p>

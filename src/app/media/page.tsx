@@ -55,7 +55,7 @@ function VideoThumbnail({ videoId, title, isActive }: { videoId: string; title: 
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, 500px"
-          className={`object-cover transition-opacity duration-700 ${isActive ? "opacity-0" : "opacity-100 group-hover:scale-110"}`}
+          className={`object-cover transition-opacity duration-700 ${isActive ? "opacity-0" : "opacity-100"}`}
           unoptimized
           onError={() => {
             if (imgSrc.includes('maxresdefault')) {
@@ -375,7 +375,7 @@ export default function MediaPage() {
                 </div>
                 <button aria-label="Action button"
                   onClick={() => setHeroPlaying(true)}
-                  className="flex items-center gap-2.5 px-8 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
+                  className="flex items-center gap-2.5 px-8 py-3.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-black text-xs uppercase tracking-widest transition-colors hover:scale-105 shadow-[0_0_30px_rgba(255,10,61,0.5)] cursor-pointer"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                   Watch Featured Video
@@ -541,7 +541,7 @@ export default function MediaPage() {
                 return (
                   <div
                     key={video.id}
-                    className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive
+                    className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out rounded-lg overflow-hidden ${isActive
                       ? "opacity-100 scale-100 pointer-events-auto"
                       : "opacity-0 scale-105 pointer-events-none"
                       }`}

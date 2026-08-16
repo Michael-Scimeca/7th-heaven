@@ -1,6 +1,7 @@
 /* eslint-disable react-doctor/no-giant-component */
 "use client";
 import Image from 'next/image';
+import { createPortal } from "react-dom";
 
 import TransitionLink from "@/components/TransitionLink";
 import { usePathname, useRouter } from "next/navigation";
@@ -26,6 +27,18 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hasLiveStreams, setHasLiveStreams] = useState(false);
   const { member, isLoggedIn, openModal, logout } = useMember();
+
+  // The mobile overlay is portaled to document.body (see the render below)
+  // rather than rendered inline in <header> — <header> has will-change:
+  // transform (for the scroll-blur fade), and a `will-change: transform`
+  // ancestor becomes the containing block for any descendant
+  // `position: fixed` element, instead of the viewport. Found this the
+  // hard way: the overlay was rendering fixed-inset-0 relative to
+  // <header>'s own ~80px-tall box, not the screen, collapsing it to a
+  // sliver instead of a fullscreen panel. `mounted` guards the portal
+  // since `document` doesn't exist during SSR.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // During a transition the pathname hasn't changed yet (we delay navigation).
   // Use the pending destination so the correct nav link highlights immediately.
@@ -88,11 +101,7 @@ export function Header() {
     const channel = supabase
       .channel("header_live_events")
       .on("broadcast", { event: "stream_state" }, () => checkLive())
-      .subscribe((status: string, err?: Error) => {
-        if (err || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
-          // Gracefully handle realtime websocket connection error
-        }
-      });
+      .subscribe();
 
     return () => {
       clearInterval(interval);
@@ -202,7 +211,7 @@ export function Header() {
     displayRole === "admin"
       ? "bg-[var(--color-purple-primary)]"
       : displayRole === "crew"
-        ? "bg-emerald-600"
+        ? "bg-purple-600"
         : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
           ? "bg-[var(--color-accent)]"
           : displayRole === "cruise"
@@ -240,7 +249,7 @@ export function Header() {
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
                     ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                    : "text-white/80 hover:!text-[#6700ff]"
+                    : "text-white/80 hover:text-white"
                     }`}
                 >
                   {link.label}
@@ -253,7 +262,7 @@ export function Header() {
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:!text-[#6700ff]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               {hasLiveStreams && (
@@ -279,7 +288,7 @@ export function Header() {
             }}
             className={`shrink-0 min-w-0 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer group transition-colors duration-200 flex items-center justify-center m-0 p-0 ${mobileOpen ? "z-[10001]" : "z-50"
               } ${isNavActive("/")
-                ? "!text-[#6700ff] drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                ? "!text-[#6700ff]"
                 : "text-white hover:!text-[#6700ff]"
               }`}
             title="7th Heaven — Go to Home Page"
@@ -297,7 +306,7 @@ export function Header() {
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:!text-[#6700ff]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               CRUISE
@@ -309,7 +318,7 @@ export function Header() {
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:!text-[#6700ff]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               BOOK US
@@ -320,7 +329,7 @@ export function Header() {
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
-                : "text-white/80 hover:!text-[#6700ff]"
+                : "text-white/80 hover:text-white"
                 }`}
             >
               CONTACT
@@ -458,51 +467,143 @@ export function Header() {
             </button>
           </div>
 
-          {/* ── MOBILE OVERLAY DRAWER ── */}
-          {mobileOpen && (
-            <div className="fixed inset-0 bg-[#0c021a] z-[9999] pointer-events-auto flex flex-col justify-start items-start pl-8 pt-28 pb-12 gap-3 font-[family-name:var(--font-rockstar)] overflow-y-auto">
+          {/* ── MOBILE OVERLAY DRAWER ──
+              Restyled after exoape.com's fullscreen menu: logo top-left +
+              "Close ✕" top-right, a portrait media panel on the left, big
+              stacked nav links on the right, and a bottom utility row
+              (social links + account action) below a hairline divider.
+              Layout/structure borrowed from exoape; colors, type (the
+              site's own --font-rockstar), links, and the video-as-photo
+              panel are all this site's own — see the file header note in
+              /app/herointro/page.tsx for the same "structure, not pixels"
+              approach used there.
+              Portaled to document.body — see the `mounted` note above for
+              why this can't just render inline here. */}
+          {mobileOpen && mounted && createPortal(
+            <div
+              className="fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto"
+              style={{ backgroundColor: "rgb(13, 14, 19)" }}
+            >
+              {/* Top bar: logo left, close right — mirrors the main header's
+                  row but doesn't reuse it directly since #header-logo is
+                  absolutely centered for the regular bar, not left-aligned. */}
+              <div className="flex items-center justify-between px-6 sm:px-10 pt-6 pb-2 shrink-0">
+                <TransitionLink
+                  href="/"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-white/90 hover:text-white transition-colors"
+                  title="7th Heaven — Go to Home Page"
+                >
+                  <Logo className="h-6 sm:h-7 w-auto" />
+                </TransitionLink>
+                <button
+                  aria-label="Close menu"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors cursor-pointer"
+                >
+                  <span className="text-xs font-bold uppercase tracking-[0.2em]">Close</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <line x1="4" y1="4" x2="20" y2="20" />
+                    <line x1="20" y1="4" x2="4" y2="20" />
+                  </svg>
+                </button>
+              </div>
 
-              <TransitionLink href="/#band" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#band" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BAND</TransitionLink>
-              <TransitionLink href="/#tour" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/#tour" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>SHOWS</TransitionLink>
-              <TransitionLink href="/merch" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/merch" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MERCH</TransitionLink>
-              <TransitionLink href="/media" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/media" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>MEDIA</TransitionLink>
-              <TransitionLink href="/fan-photo-wall" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/fan-photo-wall" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>FAN WALL</TransitionLink>
-              <TransitionLink href="/pagetransition" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/pagetransition" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>TRANSITION</TransitionLink>
-              <TransitionLink href="/live" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/live" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>LIVE</TransitionLink>
-              <TransitionLink href="/cruise" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/cruise" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CRUISE</TransitionLink>
-              <TransitionLink href="/book" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/book" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>BOOK US</TransitionLink>
-              <TransitionLink href="/contact" onClick={() => setMobileOpen(false)} className={`text-4xl font-black uppercase transition-colors ${effectivePathname === "/contact" ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"}`}>CONTACT</TransitionLink>
-              {isLoggedIn ? (
-                <button aria-label="Action button"
-                  onClick={async () => {
-                    await logout();
-                    setMobileOpen(false);
-                    const isRestricted =
-                      pathname.startsWith("/admin") ||
-                      pathname.startsWith("/crew") ||
-                      pathname.startsWith("/fans") ||
-                      pathname.startsWith("/planner") ||
-                      pathname.startsWith("/cruise/dashboard");
-                    if (isRestricted) {
-                      router.push("/");
-                    }
-                  }}
-                  className="text-2xl font-black text-rose-400 uppercase mt-2"
-                >
-                  SIGN OUT
-                </button>
-              ) : (
-                <button aria-label="Action button"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    openModal("login");
-                  }}
-                  className="text-2xl font-black text-[#7c00ff] uppercase mt-2"
-                >
-                  SIGN IN
-                </button>
-              )}
-            </div>
+              {/* Main: portrait media panel + stacked links, side by side
+                  from sm up; panel drops out on phones so links get full
+                  width rather than getting cramped. */}
+              <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
+                <div className="hidden sm:block w-[180px] md:w-[220px] shrink-0 aspect-[4/5] overflow-hidden bg-white/5">
+                  {/* "Photo" panel reuses the hero video rather than a new
+                      static asset — no autoplay/loop, so it just settles on
+                      whatever frame currentTime lands on (nudged past the
+                      first instant so it isn't a black opening frame) and
+                      sits still, reading as a poster image, not a video. */}
+                  <video
+                    src="/movie/be-here-clip.mp4"
+                    muted
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                    onLoadedMetadata={(e) => {
+                      try { e.currentTarget.currentTime = 1.5; } catch { /* noop */ }
+                    }}
+                  />
+                </div>
+
+                <nav className="flex flex-col gap-1 font-[family-name:var(--font-rockstar)]">
+                  {[
+                    { href: "/#band", label: "BAND" },
+                    { href: "/#tour", label: "SHOWS" },
+                    { href: "/merch", label: "MERCH" },
+                    { href: "/media", label: "MEDIA" },
+                    { href: "/fan-photo-wall", label: "FAN WALL" },
+                    { href: "/pagetransition", label: "TRANSITION" },
+                    { href: "/live", label: "LIVE" },
+                    { href: "/cruise", label: "CRUISE" },
+                    { href: "/book", label: "BOOK US" },
+                    { href: "/contact", label: "CONTACT" },
+                  ].map((link) => (
+                    <TransitionLink
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] transition-colors ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
+                        }`}
+                    >
+                      {link.label}
+                    </TransitionLink>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Bottom utility row: social links + account action, below a
+                  hairline divider — same structural beat as exoape's
+                  Play Reel / Our Story / Now Hiring! row, filled in with
+                  this site's own links rather than copying its wording. */}
+              <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
+                <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/50">
+                  <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
+                  <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a>
+                  <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
+                  <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline hover:text-white transition-colors">YouTube</a>
+                </div>
+
+                {isLoggedIn ? (
+                  <button
+                    aria-label="Sign out of account"
+                    onClick={async () => {
+                      await logout();
+                      setMobileOpen(false);
+                      const isRestricted =
+                        pathname.startsWith("/admin") ||
+                        pathname.startsWith("/crew") ||
+                        pathname.startsWith("/fans") ||
+                        pathname.startsWith("/planner") ||
+                        pathname.startsWith("/cruise/dashboard");
+                      if (isRestricted) {
+                        router.push("/");
+                      }
+                    }}
+                    className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
+                  >
+                    Sign Out
+                  </button>
+                ) : (
+                  <button
+                    aria-label="Sign in to account"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      openModal("login");
+                    }}
+                    className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-[#c084fc] hover:text-white transition-colors cursor-pointer"
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
+            </div>,
+            document.body
           )}
 
         </div>

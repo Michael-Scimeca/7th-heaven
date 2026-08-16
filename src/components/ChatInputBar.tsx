@@ -52,7 +52,7 @@ export default function ChatInputBar({
             disabled={disabled}
             placeholder={placeholder}
             maxLength={maxLength}
-            className={`w-full bg-white/5 !border-0 !border-t !rounded-none pl-3.5 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
+            className={`w-full bg-white/5 !border-0 !border-t  pl-3.5 py-3 text-xs text-white font-medium outline-none transition-all shadow-md placeholder:text-white/40 ${rightPadding}`}
           />
         </div>
 

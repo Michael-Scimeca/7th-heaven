@@ -1499,12 +1499,12 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                             <button aria-label="Action button" type="submit" disabled={signupStatus === "submitting"}
-                              className="w-full bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md disabled:opacity-70 cursor-pointer">
+                              className="w-full rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md disabled:opacity-70 cursor-pointer">
                               {signupStatus === "submitting" ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" /> : "Submit Cruise Booking"}
                             </button>
 
                             <button aria-label="Action button" type="button" onClick={() => window.print()}
-                              className="w-full border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
+                              className="w-full rounded-lg border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-widest text-xs py-4 transition-colors shadow-md cursor-pointer text-center">
                               Print / Save Booking Form
                             </button>
                           </div>
@@ -1529,7 +1529,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           href="https://www.chicagomusiccruise.com/payment.html"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 !text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-colors shadow-md cursor-pointer"
+                          className="inline-block rounded-lg mt-4 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 !text-white font-black uppercase tracking-wider text-[var(--font-size-2xs)] transition-colors shadow-md cursor-pointer"
                         >
                           Go to Payment Portal
                         </a>
@@ -1624,7 +1624,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               </div>
 
               {/* Bands/Artists Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {BANDS_DATA.map((band, idx) => (
                   <div key={band.name} className="relative rounded-3xl overflow-hidden group border border-black/10 aspect-[4/5] bg-black">
                     {band.photo ? (
@@ -1691,7 +1691,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
               maxWidth: "100vw",
               backgroundColor: "#070d1e",
               backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, transparent 0%, black 2%, black 95%, transparent 100%)",
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
             }}
           >

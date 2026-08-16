@@ -197,7 +197,7 @@ function AvailabilityCardForm({
         </form>
 
         {myAvailabilities.length === 0 ? (
-          <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+          <div className="text-center py-6 border rounded-lg border-dashed border-white/15 bg-white/[0.01]">
             <p className="text-white/40 text-xs italic">No availability blocks configured yet.</p>
           </div>
         ) : (
@@ -269,7 +269,7 @@ function TimeOffCardForm({
         </form>
 
         {myTimeOffRequests.length === 0 ? (
-          <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+          <div className="text-center py-6 rounded-lg border border-dashed border-white/15 bg-white/[0.01]">
             <p className="text-white/40 text-xs italic">No time-off requests submitted yet.</p>
           </div>
         ) : (
@@ -2691,26 +2691,26 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
             className="w-full text-left py-4 border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors text-white group"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
                 <div>
                   <h3 className="text-sm font-black italic tracking-wide text-white">
                     Live Broadcast & Feed Center
                   </h3>
-                  <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5">
+                  <p className="text-xs font-bold text-white/60 uppercase tracking-widest mt-0.5 truncate">
                     Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
                   </p>
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-white/5 border-white/15 text-white/60'}`}>
+                <div className={`px-3 py-1 rounded-full flex items-center gap-1.5 border text-xs font-bold uppercase tracking-widest shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : 'bg-white/5 border-white/15 text-white/60'}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
                   <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-white/60 uppercase tracking-wider hidden sm:inline">
+            <div className="flex items-center gap-3 shrink-0 ml-4">
+              <span className="text-xs font-bold text-white/60 uppercase tracking-wider hidden sm:inline whitespace-nowrap">
                 {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
               </span>
               <div className={`w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/70 transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
@@ -2743,7 +2743,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 self-start sm:self-auto"
+                  className="px-3.5 py-1.5 rounded-lg bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30  text-[var(--color-accent)] hover:text-white text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 self-start sm:self-auto"
                 >
                   <span>See Fan Feed Page</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -3032,7 +3032,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         onChange={e => setGlobalPinText(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
                         placeholder="Pin a message to all fans..."
-                        className="w-full bg-emerald-500/[0.08] !border-0 !rounded-none px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none transition-colors"
+                        className="w-full bg-emerald-500/[0.08] !border-0  px-4 py-3.5 pr-24 text-xs text-white placeholder:text-emerald-400/50 outline-none transition-colors"
                       />
                       <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center z-10">
                         <button
@@ -3130,7 +3130,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[var(--font-size-4xs)] text-white/60 hover:text-white font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-purple-500/30 bg-white/5 px-2 py-0.5 rounded"
+                              className="rounded-lg text-[var(--font-size-4xs)] text-white/60 hover:text-white font-bold uppercase tracking-wider flex items-center gap-1 transition-colors border border-white/10 hover:border-purple-500/30 bg-white/5 px-2 py-0.5 rounded"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -3164,7 +3164,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
                           <p className="text-xs font-black tracking-widest uppercase text-white/60 mb-2">Selected Products & Flash Sale Prices</p>
                           {selectedProducts.length === 0 ? (
-                            <div className="text-center py-6 border border-white/15 text-white/60 italic text-xs">
+                            <div className="text-center py-6 rounded-lg border border-white/15 text-white/60 italic text-xs">
                               No products selected yet. Select a product above.
                             </div>
                           ) : (
@@ -3213,7 +3213,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   key={d}
                                   type="button"
                                   onClick={() => setDropDurationStr(d)}
-                                  className={`text-center py-2 rounded border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10'}`}
+                                  className={`text-center py-2 rounded-lg border text-[var(--font-size-3xs)] font-bold ${dropDurationStr === d ? 'bg-purple-600/20 border-[#9333ea] text-[var(--color-accent-pink)]' : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10'}`}
                                 >
                                   {d}
                                 </button>
@@ -3237,7 +3237,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           type="button"
                           onClick={launchFlashDrop}
-                          className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors"
+                          className="w-full rounded-lg py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-colors"
                         >
                           Launch Flash Drop
                         </button>
@@ -3249,7 +3249,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
                             try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
                           }}
-                          className="w-full mt-2 py-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
+                          className="w-full mt-2 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 text-xs font-black tracking-widest uppercase transition-colors"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
@@ -3301,7 +3301,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     value={item.name}
                                     onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
                                     placeholder="e.g. VIP Meet & Greet Pass"
-                                    className={`w-full bg-white/5 !border-0 !rounded-none px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
+                                    className={`w-full bg-white/5 !border-0 rounded-lg px-3 py-2 text-xs text-white placeholder:text-white/30 outline-none transition-colors`}
                                   />
                                 </div>
                               </div>
@@ -3339,7 +3339,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                     disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
                                     value={item.qty || ''}
                                     onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                    className={`w-full bg-white/5 !border-0 !rounded-none px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
+                                    className={`w-full bg-white/5 !border-0 px-3 py-2 text-xs text-white outline-none transition-colors text-center`}
                                   />
                                 </div>
                               </div>
@@ -3351,7 +3351,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
                                   disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-md transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
+                                  className={`h-[34px] px-4 shrink-0 flex items-center justify-center border text-[var(--font-size-2xs)] font-black uppercase tracking-wider rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete')
                                     ? 'border-purple-500 text-[var(--color-accent)] hover:bg-purple-600/10'
                                     : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing')
                                       ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]'
@@ -3366,7 +3366,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                                   aria-label="Remove raffle item"
                                   onClick={() => removeQueueItem(idx)}
                                   disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
-                                  className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-colors disabled:opacity-0 text-xs"
+                                  className="h-[34px] w-[34px] shrink-0 flex items-center justify-center border border-red-500/10 hover:border-red-500/40 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-0 text-xs"
                                 >
                                   ✕
                                 </button>
@@ -3379,7 +3379,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={addQueueItem}
                           disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed border-white/20 text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-md hover:border-white/50 hover:bg-white/5 transition-colors disabled:opacity-30"
+                          className="w-full py-2.5 border border-dashed border-white/20 text-white hover:text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:border-white/50 hover:bg-white/5 transition-colors disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -3413,7 +3413,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={drawWinner}
                           disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
-                          className="w-full py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors disabled:opacity-30 disabled:grayscale"
+                          className="w-full rounded-lg py-4 bg-gradient-to-r from-purple-600 to-violet-600 hover:brightness-110 text-white text-sm font-black italic tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-colors disabled:opacity-30 disabled:grayscale"
                         >
                           {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
                         </button>
@@ -3471,7 +3471,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         </div>
                         <button
                           type="submit"
-                          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                          className="px-5 py-2.5 bg-purple-600 rounded-lg hover:bg-purple-500 text-white font-black text-xs uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
                         >
                           Add Keyword
                         </button>
@@ -3481,7 +3481,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <div className="w-full lg:w-[450px] shrink-0 space-y-2">
                       <p className="text-xs font-black uppercase tracking-widest text-white/60">Active Custom Filters</p>
                       {customWords.length === 0 ? (
-                        <div className="text-center py-6 border border-dashed border-white/15 bg-white/[0.01]">
+                        <div className="text-center rounded-lg py-6 border border-dashed border-white/15 bg-white/[0.01]">
                           <p className="text-white/40 text-xs italic">No custom keywords configured.</p>
                         </div>
                       ) : (
@@ -3611,18 +3611,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           </div>
 
           {!isSetlistCollapsed && (
-            <div className="pt-4 pr-4 pb-4flex-1 flex flex-col justify-between gap-4">
+            <div className="pb-4flex-1 flex flex-col justify-between gap-4">
 
               {/* Song rows */}
-              <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto pr-1">
-                {setlist.map((song) => (
+              <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto">
+                {setlist.map((song, idx) => (
                   <div
                     key={song.id}
-                    className={`flex items-center justify-between pr-2 pt-3 pb-3 transition-colors ${song.isPlaying
+                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying
                       ? 'bg-[var(--color-accent)]/10 shadow-[0_0_10px_rgba(255,10,61,0.12)]'
                       : 'hover:bg-white/[0.03]'
-                      }`}
-                    style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}
+                      } ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
 
@@ -3641,7 +3640,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                       <button
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="w-6 h-6 flex items-center justify-center rounded border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
+                        className="w-6 h-6 flex items-center justify-center rounded-lg border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
                         title="Delete Song"
                       >
                         <X className="w-3.5 h-3.5" />
@@ -3652,7 +3651,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* Add Song form */}
-              <div className="pt-3 border-t border-white/10">
+              <div className="pt-3">
                 {isBulkImport ? (
                   <div className="space-y-2 transition-opacity duration-250 ease-out max-w-[300px]">
                     <textarea

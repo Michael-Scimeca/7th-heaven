@@ -67,7 +67,7 @@ const getNameColor = (role?: string, name?: string) => {
 
 const getRoleColor = (role: string) => {
   if (role === "admin") return " text-[var(--color-accent)] bg-purple-600/20 border-purple-500/40 font-extrabold";
-  if (role === "crew") return "text-emerald-800 bg-emerald-500/20 border-emerald-500/40 font-extrabold";
+  if (role === "crew") return "text-purple-300 bg-purple-600/30 border-purple-500/40 font-extrabold";
   if (role === "planner") return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40 font-extrabold";
   if (role === "cruise") return "text-cyan-800 bg-cyan-500/20 border-cyan-500/40 font-extrabold";
   return " text-[var(--color-accent)] bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35 font-extrabold";
@@ -686,11 +686,11 @@ export default function CruiseChat({
                           <span className={`text-xs font-bold ${getNameColor(msg.sender_role, msg.sender_name)}`}>
                             {msg.sender_name}
                           </span>
-                          <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border leading-none ${getRoleColor(msg.sender_role)}`}>
+                          <span className={`text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-lg border leading-none ${getRoleColor(msg.sender_role)}`}>
                             {msg.sender_role === 'fan' ? 'Cruise Member' : msg.sender_role}
                           </span>
                           {hasAdminTag && (
-                            <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded flex items-center gap-1 leading-none animate-pulse">
+                            <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300 bg-purple-600/20 border border-purple-500/40 px-1.5 py-0.5 rounded-lg flex items-center gap-1 leading-none animate-pulse">
                               👑 Question for Admin
                             </span>
                           )}

@@ -339,7 +339,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   </div>
 
                   {/* Input Fields */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="text"
@@ -348,7 +348,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         onChange={(e) => setName(e.target.value)}
                         required
                         placeholder="Full name"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
                       />
                     </div>
                     <div className="input-glow-border rounded-xl">
@@ -359,34 +359,31 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder="Email address"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
                       />
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="sm:col-span-2 input-glow-border rounded-xl">
+                    <div className="input-glow-border rounded-xl">
                       <input
                         type="tel"
                         aria-label="Phone number"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value.replace(/[^\d\-()+ ]/g, "").slice(0, 16))}
                         placeholder="Phone number"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
                       />
                     </div>
-                    <div className="flex gap-2">
-                      <div className="input-glow-border rounded-xl w-full">
+                    <div className="flex items-center gap-2">
+                      <div className="input-glow-border rounded-xl flex-1 min-w-0">
                         <input
                           type="text"
                           aria-label="Zip code"
                           value={zip}
                           onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
                           required
-                          placeholder="Zip"
+                          placeholder="Zip code"
                           maxLength={5}
                           pattern="\d{5}"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all text-center"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 focus:bg-white/10 transition-all font-sans"
                         />
                       </div>
                       <div className="shrink-0 flex items-center">
@@ -416,9 +413,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           checked={notifyAreaShows}
                           onChange={setNotifyAreaShows}
                         />
-                        <div>
-                          <p className="text-xs font-bold text-white/90">Area Shows</p>
-                          <p className="text-[10px] text-white/40">Within {radius}mi</p>
+                        <div className="flex flex-col justify-center leading-none">
+                          <p className="text-xs font-bold text-white/90 leading-none">Area Shows</p>
+                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Within {radius}mi</p>
                         </div>
                       </label>
 
@@ -429,9 +426,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           checked={notifyNextShow}
                           onChange={setNotifyNextShow}
                         />
-                        <div>
-                          <p className="text-xs font-bold text-white/90">Next Show</p>
-                          <p className="text-[10px] text-white/40">Band alerts</p>
+                        <div className="flex flex-col justify-center leading-none">
+                          <p className="text-xs font-bold text-white/90 leading-none">Next Show</p>
+                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Band alerts</p>
                         </div>
                       </label>
 
@@ -442,9 +439,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                           checked={notifyBrowser}
                           onChange={handleBrowserNotifyToggle}
                         />
-                        <div>
-                          <p className="text-xs font-bold text-white/90">Browser Popups</p>
-                          <p className="text-[10px] text-white/40">Alerts</p>
+                        <div className="flex flex-col justify-center leading-none">
+                          <p className="text-xs font-bold text-white/90 leading-none">Browser Popups</p>
+                          <p className="text-[10px] text-white/40 leading-none mt-0.5">Alerts</p>
                         </div>
                       </label>
                     </div>

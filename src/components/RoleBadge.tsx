@@ -85,7 +85,7 @@ export default function RoleBadge({ role, size = 'sm', showLabel = false, classN
 /* ── Avatar wrapper with role indicator ── */
 const BORDER_COLOR: Record<UserRole, string> = {
  fan: 'border-white/[0.15]',
- crew: 'border-emerald-400/50',
+ crew: 'border-purple-400/50',
  admin: 'border-purple-400/50',
 };
 

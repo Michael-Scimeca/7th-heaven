@@ -383,7 +383,7 @@ export default function AudioPlayerSection() {
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-4">
-      <h3 className="text-[var(--font-size-2xs)] font-bold tracking-[0.2em] uppercase text-white/40 mb-1.5">{title}</h3>
+      <h3 className="tracking-[0.2em] uppercase text-white/40 mb-1.5">{title}</h3>
       <ul className="flex flex-col gap-0.5">
         {categoryAlbums.map((album) => {
           const originalIdx = albums.findIndex(a => a.id === album.id);
@@ -537,10 +537,10 @@ export default function AudioPlayerSection() {
         maskImage: "linear-gradient(to bottom, transparent 0px, black 43px, black calc(100% - 25px), transparent 100%)",
       }}
     >
-      <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:items-stretch bg-transparent overflow-hidden">
+      <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full lg:w-[320px]  backdrop-blur-xl border-r border-white/10 pt-10 pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden lg:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full md:w-[240px] lg:w-[320px] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
@@ -600,6 +600,33 @@ export default function AudioPlayerSection() {
 
         {/* --- MAIN AREA (MIDDLE SECTION) --- */}
         <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
+
+          {/* Tablet & Mobile Album Header Bar */}
+          <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/20 shrink-0 shadow-md">
+                {activeAlbum?.image ? (
+                  <Image src={activeAlbum.image} alt={activeAlbum.title} fill sizes="44px" style={{ objectFit: 'cover' }} />
+                ) : (
+                  <div className="w-full h-full bg-purple-900/50" />
+                )}
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-black uppercase text-white truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
+                <p className="text-[10px] text-white/50 font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
+              </div>
+            </div>
+            {/* Search Input on Mobile */}
+            <div className="md:hidden relative w-36">
+              <input aria-label="Search"
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
+              />
+            </div>
+          </div>
 
           {/* Tracklist */}
           <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
@@ -831,7 +858,7 @@ export default function AudioPlayerSection() {
           data-lenis-prevent-wheel="true"
           data-lenis-prevent-touch="true"
           onWheel={(e) => e.stopPropagation()}
-          className="w-full lg:w-[350px] backdrop-blur-xl border-l border-white/10 pt-5 pl-6 pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden lg:flex lg:flex-col items-center relative overflow-hidden self-stretch h-full shadow-2xl"
+          className="w-full md:w-[240px] lg:w-[300px] xl:w-[350px] backdrop-blur-xl border-l border-white/10 pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full shadow-2xl"
           style={{ overscrollBehavior: "contain" }}
         >
           {/* Fading Vertical Divider on Left */}

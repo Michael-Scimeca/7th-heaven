@@ -306,13 +306,13 @@ export function Footer() {
         </div>
 
         {/* Inline Links Row — MOVED TO BOTTOM */}
-        <div className="site-container pt-2 pb-1">
+        <div className="site-container pt-2 pb-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             {/* Nav Links */}
             <div className="flex flex-wrap items-center gap-1">
               {footerLinks.map((link, i) => (
                 <span key={link.href} className="flex items-center">
-                  <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                  <Link href={link.href} className="text-[13px] font-semibold tracking-wide text-white/70 hover:text-white transition-colors">
                     {link.label}
                   </Link>
                   {i < footerLinks.length - 1 && (
@@ -326,7 +326,7 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {socialLinks.map((link, i) => (
                 <span key={link.name} className="flex items-center">
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold tracking-wide text-[var(--muted-text)] hover:text-[var(--text-color)] transition-colors">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold tracking-wide !text-white hover:!text-white/80 transition-colors" style={{ color: '#ffffff' }}>
                     {link.name}
                   </a>
                   {i < socialLinks.length - 1 && (
@@ -338,11 +338,16 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Legal Bottom */}
-        <div className="site-container pt-1 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 pl-28 sm:pl-36">
-          <p className="text-xs font-medium tracking-wide text-[var(--muted-text)]">
-            Designed & Developed by NTD Records © {new Date().getFullYear()}
-          </p>
+        {/* Credit Line */}
+        <div className="site-container pt-1 pb-4 flex items-center justify-end">
+          <a
+            href="https://michaelscimeca.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs tracking-wide !text-white  hover:text-white transition-colors"
+          >
+            Hey Mom Look I Built This Thing
+          </a>
         </div>
       </div>
     </footer>

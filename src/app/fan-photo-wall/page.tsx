@@ -243,14 +243,14 @@ export default function FansPage() {
                 <Shield className="w-4 h-4" />
               </span>
               <div>
-                <h3 className="text-lg font-bold text-black">
+                <h3 className="text-lg font-bold text-white">
                   Pending Review Queue
                 </h3>
-                <p className="text-[var(--font-size-2xs)] text-black/60 uppercase tracking-widest font-bold">
+                <p className="text-[var(--font-size-2xs)] text-white/60 uppercase tracking-widest font-bold">
                   Viewed & Approved by Admins & Crew only
                 </p>
               </div>
-              <span className="ml-auto bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30  text-[var(--color-accent)] text-xs px-3 py-1 font-mono rounded-full font-black">
+              <span className="ml-auto bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs px-3 py-1 font-mono rounded-full font-black">
                 {pendingPhotos.length} Pending
               </span>
             </div>
@@ -264,9 +264,9 @@ export default function FansPage() {
                 return (
                   <div
                     key={photo.id}
-                    className="group relative bg-[var(--color-bg-surface)] border border-black/10 overflow-hidden shadow-md hover:border-[var(--color-accent)]/50 transition-colors"
+                    className="group relative  rounded-2xl overflow-hidden shadow-xl transition-colors"
                   >
-                    <div className="aspect-[4/3] bg-black/5 relative overflow-hidden">
+                    <div className="aspect-[4/3] bg-black/20 relative overflow-hidden">
                       {isVideo ? (
                         <video
                           src={photo.src}
@@ -280,41 +280,41 @@ export default function FansPage() {
                         <Image width={200} height={200} unoptimized
                           src={photo.src}
                           alt="Fan Upload"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover"
                         />
                       )}
-                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
+                      <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
                         {photo.date || "Pending"}
                       </div>
                     </div>
-                    <div className="p-4 flex flex-col gap-1.5 text-black">
-                      <div className="flex items-center gap-2 text-sm font-bold truncate text-black">
-                        <span className=" text-[var(--color-accent)]">@</span>
+                    <div className="pt-4 pb-4 flex flex-col gap-1.5 text-white">
+                      <div className="flex items-center gap-2 text-sm font-bold truncate text-white">
+                        <span className="text-purple-400">@</span>
                         {photo.name}
                       </div>
                       {photo.venue && (
-                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-black/60 truncate flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-[var(--color-accent)] shrink-0" /> {photo.venue}
+                        <p className="text-[var(--font-size-2xs)] font-bold tracking-widest uppercase text-white/60 truncate flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-purple-400 shrink-0" /> {photo.venue}
                         </p>
                       )}
                       {photo.caption && (
-                        <p className="text-sm text-black/80 italic border-l-2 border-[var(--color-accent)]/30 pl-3 mt-2">
+                        <p className="text-sm text-white/80 italic border-l-2 border-purple-500/30 pl-3 mt-2">
                           "{photo.caption}"
                         </p>
                       )}
                     </div>
-                    <div className="grid grid-cols-2 border-t border-black/10 divide-x divide-black/10">
+                    <div className="grid grid-cols-2 divide-x divide-white/10">
                       <button aria-label="Action button"
                         onClick={() => handleRejectPhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-black/50 hover:text-red-600 hover:bg-red-500/10 transition-colors cursor-pointer"
+                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-black hover:bg-red-950/50 hover:text-red-400 transition-colors cursor-pointer"
                       >
                         Reject & Delete
                       </button>
                       <button aria-label="Action button"
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 transition-colors cursor-pointer shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-purple-600 hover:bg-purple-500 transition-colors cursor-pointer shadow-[0_0_15px_rgba(147,51,234,0.3)]"
                       >
                         Safe & Approve
                       </button>
@@ -328,7 +328,7 @@ export default function FansPage() {
 
         {/* Featured Hero Photo */}
         {approvedPhotos.length > 0 && (
-          <div className="mx-auto mb-8">
+          <div className="mx-auto">
             <button aria-label="Action button"
               type="button"
               className="relative w-full aspect-[21/9] overflow-hidden group cursor-pointer text-left"

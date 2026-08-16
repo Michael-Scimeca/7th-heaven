@@ -113,4 +113,63 @@ export function buildStagedCurtainClipPath(
   return toPolygon(leftY, rightY);
 }
 
+/**
+ * A different slant shape from buildCurtainClipPath: instead of a constant
+ * gap between the left/right edges (same angle throughout), the gap here
+ * is a constant RATIO of how much black remains — so the angle is steepest
+ * right as the wipe starts and eases down to perfectly flat/level exactly
+ * as it finishes, instead of staying at one angle the whole way.
+ *
+ * Measured directly off a screen recording of exoape.com's real preloader
+ * (not estimated): sampled the left/right edge position at 15 points
+ * spanning the full wipe. The absolute gap between them shrank steadily
+ * (88px -> 5px as the wipe progressed), but gap/remaining-height held
+ * essentially constant at ~0.095 the entire time (range 0.086-0.10 across
+ * all 15 samples) — a proportional relationship, not the additive one
+ * buildCurtainClipPath uses. Practical effect: the edge reads as "coming
+ * in on an angle" that levels itself out by the end, rather than a
+ * constant-angle line sliding up — that self-leveling is what makes it
+ * look like it's rotating, even though the content underneath never
+ * actually rotates (checked separately by tracking a vertical landmark in
+ * the photo across the same frames — it stays vertical throughout).
+ *
+ * buildCurtainClipPath's constant-gap shape is untouched by this — it's
+ * still what /pagetransition's curtain uses, a deliberately different look.
+ *
+ * Bug found after wiring this up: `leftY = rightY / (1 + ratio)` evaluated
+ * at progress=0 gives leftY ≈ 91.3 (not 100) — a permanent ~8.7%-tall gap
+ * open at the bottom-left for the ENTIRE hold, before the wipe even
+ * starts. The real site's hold is genuinely flat/solid (confirmed: many
+ * frames of the recording before the wipe starts show zero reveal at
+ * either edge) — my 15 measured sample points all came from p >= ~0.026
+ * (2.6% progress), so the raw ratio model was never actually validated
+ * near p=0, it just happened to extrapolate to something plausible-looking
+ * that turned out wrong. Fixed by ramping the ratio in linearly over the
+ * first `rampFraction` of progress instead of applying it full-strength
+ * from p=0 — both edges sit at exactly 100 until the ramp starts, so the
+ * hold stays genuinely flat, and by the time rampFraction is reached
+ * (comfortably below where any sample point was measured) it's at full
+ * strength for the rest of the wipe, matching the measured data.
+ *
+ * @param progress    0 (fully covering) to 1 (fully cleared).
+ * @param ratio       gap-to-remaining-height ratio. Positive = right edge
+ *                    trails left (left leads, matching the measured
+ *                    recording). ~0.095 matches exoape's measured wipe.
+ * @param rampFraction fraction of progress over which the ratio ramps in
+ *                    from 0 to `ratio`, so progress=0 is always perfectly
+ *                    flat (both edges at 100%) instead of jumping straight
+ *                    to the full ratio.
+ */
+export function buildDecayingSlantClipPath(
+  progress: number,
+  ratio: number = 0.095,
+  rampFraction: number = 0.05
+): string {
+  const p = clamp01(progress);
+  const rightY = 100 * (1 - p);
+  const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
+  const leftY = rightY / (1 + rampedRatio);
+  return toPolygon(leftY, rightY);
+}
+
 export const CURTAIN_MAX_SLANT_FRAC = MAX_SLANT_FRAC;

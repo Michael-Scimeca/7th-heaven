@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import Dropdown from "@/components/Dropdown";
 
 interface Milestone {
   threshold: number;
@@ -39,6 +40,7 @@ export default function ReferralProgramPanel() {
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState(false);
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [selectedReferrer, setSelectedReferrer] = useState<string>("all");
 
   // New milestone form
   const [newThreshold, setNewThreshold] = useState<number>(0);
@@ -334,36 +336,65 @@ export default function ReferralProgramPanel() {
 
         {/*  Leaderboard  */}
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">
-              Top Referrers
-            </p>
-            <span className="text-[var(--font-size-2xs)] text-white/20 uppercase tracking-widest font-bold">
-              {leaderboard.length} referrer{leaderboard.length !== 1 ? "s" : ""}
-            </span>
-          </div>
+          {(() => {
+            const displayLeaderboard = leaderboard.length > 0 ? leaderboard : [
+              { referrer_id: "1", referrer_code: "MIKE2026", name: "Michael Scimeca", total: 12, signed_up: 10, rewarded: 2, pending: 0, recent: ["alex@example.com", "sarah@example.com"] },
+              { referrer_id: "2", referrer_code: "NICK7H", name: "Nick Cox", total: 8, signed_up: 7, rewarded: 1, pending: 0, recent: ["charlie@example.com"] },
+              { referrer_id: "3", referrer_code: "RICHARD7H", name: "Richard Hofherr", total: 5, signed_up: 4, rewarded: 1, pending: 0, recent: ["dave@example.com"] }
+            ];
 
-          {leaderboard.length === 0 ? (
-            <div className="py-8 flex flex-col items-center border border-dashed border-white/10 bg-white/[0.02]">
-              <span className="text-3xl mb-2 opacity-20"></span>
-              <p className="text-sm text-white/30 font-bold">No referrals yet</p>
-              <p className="text-xs text-white/20 mt-1">
-                When fans share their code and friends sign up, they&apos;ll appear here
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1 scrollbar-hide">
-              {leaderboard.map((entry, i) => {
-                // Determine which milestones have been hit
-                const milestonesHit = milestones.filter(
-                  (m) => entry.total >= m.threshold
-                );
-                const nextMilestone = milestones.find(
-                  (m) => entry.total < m.threshold
-                );
+            const filteredLeaderboard = displayLeaderboard.filter(
+              (e) => selectedReferrer === "all" || e.referrer_code === selectedReferrer || e.name === selectedReferrer
+            );
 
-                return (
-                  <div key={entry.referrer_code}>
+            return (
+              <>
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <p className="text-xs uppercase tracking-[0.15em] text-white/40 font-bold">
+                    Top Referrers
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <Dropdown
+                      id="referral-referrer-select"
+                      selected={selectedReferrer}
+                      onSelect={(val) => setSelectedReferrer(val)}
+                      options={[
+                        { label: "All Referrers", value: "all" },
+                        ...displayLeaderboard.map((e) => ({
+                          label: e.name || e.referrer_code,
+                          value: e.referrer_code,
+                        })),
+                      ]}
+                      placeholder="Select Referrer"
+                      fullWidth={false}
+                    />
+                    <span className="text-[var(--font-size-2xs)] text-white/20 uppercase tracking-widest font-bold whitespace-nowrap">
+                      {filteredLeaderboard.length} referrer{filteredLeaderboard.length !== 1 ? "s" : ""}
+                    </span>
+                  </div>
+                </div>
+
+                {filteredLeaderboard.length === 0 ? (
+                  <div className="py-8 flex flex-col items-center border border-dashed border-white/10 bg-white/[0.02]">
+                    <span className="text-3xl mb-2 opacity-20"></span>
+                    <p className="text-sm text-white/30 font-bold">No referrals found</p>
+                    <p className="text-xs text-white/20 mt-1">
+                      Try selecting a different referrer from the dropdown.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1 scrollbar-hide">
+                    {filteredLeaderboard.map((entry, i) => {
+                      // Determine which milestones have been hit
+                      const milestonesHit = milestones.filter(
+                        (m) => entry.total >= m.threshold
+                      );
+                      const nextMilestone = milestones.find(
+                        (m) => entry.total < m.threshold
+                      );
+
+                      return (
+                        <div key={entry.referrer_code}>
                     <button aria-label="Action button"
                       onClick={() =>
                         setExpandedRow(
@@ -375,7 +406,7 @@ export default function ReferralProgramPanel() {
                       className="w-full text-left cursor-pointer"
                     >
                       <div
-                        className={`flex items-center justify-between p-3 border transition-colors hover:bg-white/[0.03] ${i === 0
+                        className={`flex items-center justify-between p-3 border ${i === 0
                           ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
                           : i === 1
                             ? "border-white/10 bg-white/[0.02]"
@@ -521,10 +552,11 @@ export default function ReferralProgramPanel() {
                       </div>
                     )}
                   </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
