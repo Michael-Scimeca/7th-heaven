@@ -97,9 +97,10 @@ export async function publishNtfy(topic: string, opts: PublishNtfyOptions): Prom
       return { ok: false, status: res.status, error: text || `HTTP ${res.status}` };
     }
     return { ok: true, status: res.status };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(`[ntfy] Publish to "${topic}" threw:`, err);
-    return { ok: false, error: err?.message || "Unknown ntfy error" };
+    const message = err instanceof Error ? err.message : "Unknown ntfy error";
+    return { ok: false, error: message };
   }
 }
 

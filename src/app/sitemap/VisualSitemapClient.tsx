@@ -28,34 +28,38 @@ export interface SitemapNodeData extends Record<string, unknown> {
   path?: string;
   imgUrl: string;
   description?: string;
+  badgeType?: "PAGE" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH REAL PNG PAGE SCREENSHOT ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH REAL PNG PAGE & EMAIL SCREENSHOTS ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
+  const isEmail = data.badgeType === "EMAIL";
+
   return (
-    <div className="w-64 rounded-xl border border-white/15 bg-[#0f0f17] shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl">
-      <Handle type="target" position={Position.Top} className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
+    <div className={`w-64 rounded-xl border ${isEmail ? "border-amber-400/50 bg-[#161005]" : "border-white/15 bg-[#0f0f17]"} shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl`}>
+      <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${isEmail ? "!bg-amber-400" : "!bg-purple-400"} !border-0`} />
       
       {/* Top Header Bar */}
-      <div className="bg-[#181824] border-b border-white/10 py-1.5 px-3 text-center">
-        <span className="font-extrabold text-xs text-purple-300 tracking-wider uppercase block truncate">
+      <div className={`${isEmail ? "bg-amber-500/20 border-b border-amber-500/30" : "bg-[#181824] border-b border-white/10"} py-1.5 px-3 flex items-center justify-between`}>
+        <span className={`font-extrabold text-xs tracking-wider uppercase truncate ${isEmail ? "text-amber-300" : "text-purple-300"}`}>
           {data.header}
         </span>
+        {isEmail && (
+          <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black">
+            ✉ RESEND API
+          </span>
+        )}
       </div>
 
-      {/* REAL PNG PAGE SCREENSHOT PREVIEW */}
-      <div className="w-full h-32 bg-black border-b border-white/10 overflow-hidden relative group">
+      {/* REAL PNG SCREENSHOT PREVIEW */}
+      <div className="w-full h-36 bg-black border-b border-white/10 overflow-hidden relative group">
         <img
           src={data.imgUrl}
           alt={data.title}
-          className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
-          onError={(e) => {
-            // Fallback if image fails
-            (e.target as HTMLElement).style.display = "none";
-          }}
+          className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
         />
-        <div className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 border border-white/20 text-[7px] font-mono text-cyan-300 font-bold">
-          REAL PREVIEW
+        <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${isEmail ? "bg-amber-950/90 border-amber-500/40 text-amber-300" : "bg-black/80 border-white/20 text-cyan-300"}`}>
+          {isEmail ? "EMAIL SCREENSHOT" : "REAL SCREENSHOT"}
         </div>
       </div>
 
@@ -66,7 +70,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
             {data.title}
           </Link>
         ) : (
-          <span className="font-bold text-xs text-cyan-300 block leading-snug">
+          <span className={`font-bold text-xs block leading-snug ${isEmail ? "text-amber-200" : "text-cyan-300"}`}>
             {data.title}
           </span>
         )}
@@ -78,7 +82,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         )}
       </div>
 
-      <Handle type="source" position={Position.Bottom} className="!w-2.5 !h-2.5 !bg-cyan-400 !border-0" />
+      <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${isEmail ? "!bg-amber-400" : "!bg-cyan-400"} !border-0`} />
     </div>
   );
 }
@@ -129,7 +133,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- IMMACULATE ZERO-OVERLAP GRID WITH REAL PAGE & MODAL SCREENSHOTS ---
+// --- COMPLETE SITE & EMAIL TRANSACTION PIPELINE GRID WITH REAL SCREENSHOTS ---
 const INITIAL_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME (Center Top at x = 1520, y = 30)
   {
@@ -141,33 +145,36 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       title: "7th Heaven — Official Band Website",
       path: "/",
       imgUrl: "/sitemap-screenshots/home.png",
+      badgeType: "PAGE",
       description:
         "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of live performances.",
     },
   },
 
-  // FIRST ROW CHILDREN (y = 350, 380px horizontal pitch)
+  // FIRST ROW CHILDREN: CORE SITE PAGES (y = 360, 380px horizontal pitch)
   {
     id: "node-sitemap",
     type: "sitemapCard",
-    position: { x: 0, y: 350 },
+    position: { x: 0, y: 360 },
     data: {
-      header: "Sitemap",
+      header: "Sitemap Page",
       title: "7th Heaven — Platform Sitemap",
       path: "/sitemap",
       imgUrl: "/sitemap-screenshots/flowchart-sitemap.png",
+      badgeType: "PAGE",
       description: "Complete platform sitemap, page directory, and visual site architecture.",
     },
   },
   {
     id: "node-privacy",
     type: "sitemapCard",
-    position: { x: 380, y: 350 },
+    position: { x: 380, y: 360 },
     data: {
-      header: "Privacy",
+      header: "Privacy Policy",
       title: "Privacy Policy — 7th Heaven",
       path: "/privacy",
       imgUrl: "/sitemap-screenshots/privacy.png",
+      badgeType: "PAGE",
       description:
         "How 7th Heaven collects, uses, and protects your personal information.",
     },
@@ -175,50 +182,54 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-merch",
     type: "sitemapCard",
-    position: { x: 760, y: 350 },
+    position: { x: 760, y: 360 },
     data: {
-      header: "Merch",
-      title: "Merch — 7th Heaven Official Store",
+      header: "Merch Store",
+      title: "Merch — Official Store",
       path: "/merch",
       imgUrl: "/sitemap-screenshots/merch.png",
+      badgeType: "PAGE",
       description:
-        "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and more.",
+        "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and tickets.",
     },
   },
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 1140, y: 350 },
+    position: { x: 1140, y: 360 },
     data: {
-      header: "Crew",
+      header: "Crew Portal",
       title: "7th Heaven — Crew Portal",
       path: "/crew",
       imgUrl: "/sitemap-screenshots/crew.png",
+      badgeType: "PAGE",
       description:
-        "Band member profiles, tour staff roster, stage setup checklists, and live tools.",
+        "Band member profiles, tour staff roster, stage setup checklists, and shift tools.",
     },
   },
   {
     id: "node-shows",
     type: "sitemapCard",
-    position: { x: 1520, y: 350 },
+    position: { x: 1520, y: 360 },
     data: {
-      header: "Shows",
-      title: "7th Heaven — Live Concerts & Shows",
+      header: "Concert Shows",
+      title: "Live Concerts & Tour Dates",
       path: "/shows/past",
       imgUrl: "/sitemap-screenshots/shows.png",
+      badgeType: "PAGE",
       description: "Live concert archives, tour dates schedule, venue details, and booking inquiry.",
     },
   },
   {
     id: "node-pagetransition",
     type: "sitemapCard",
-    position: { x: 1900, y: 350 },
+    position: { x: 1900, y: 360 },
     data: {
       header: "Pagetransition",
       title: "Preloader Reveal Demo",
       path: "/demo/preloader",
       imgUrl: "/sitemap-screenshots/ticker.png",
+      badgeType: "PAGE",
       description:
         "Real resource tracking, preloader animations, minimum display times, and page transitions.",
     },
@@ -226,12 +237,13 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-planner",
     type: "sitemapCard",
-    position: { x: 2280, y: 350 },
+    position: { x: 2280, y: 360 },
     data: {
-      header: "Planner",
+      header: "Planner Hub",
       title: "Planner Dashboard",
       path: "/planner",
       imgUrl: "/sitemap-screenshots/planner.png",
+      badgeType: "PAGE",
       description:
         "Event booking coordinator portal, status tracker, event checklist, and re-booking.",
     },
@@ -239,12 +251,13 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-admin",
     type: "sitemapCard",
-    position: { x: 2660, y: 350 },
+    position: { x: 2660, y: 360 },
     data: {
-      header: "Admin",
+      header: "Master Admin",
       title: "Admin Command Center",
       path: "/admin",
       imgUrl: "/sitemap-screenshots/admin.png",
+      badgeType: "PAGE",
       description:
         "Master admin command center, analytics, Shopify sales, live stream control, and broadcasts.",
     },
@@ -252,135 +265,230 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-book",
     type: "sitemapCard",
-    position: { x: 3040, y: 350 },
+    position: { x: 3040, y: 360 },
     data: {
-      header: "Book",
-      title: "Book 7th Heaven — Chicago's Premier Live Band",
+      header: "Booking Page",
+      title: "Book 7th Heaven — Live Band",
       path: "/book",
       imgUrl: "/sitemap-screenshots/book.png",
+      badgeType: "PAGE",
       description:
         "Book 7th Heaven for corporate events, weddings, and festivals. Premier live rock band.",
     },
   },
 
-  // SECOND ROW SUB-CHILDREN: MODULES, VERIFICATION & SPECIALIZED PAGES (y = 670)
+  // SECOND ROW: INTERACTIVE AUTH & VERIFICATION MODULES (y = 700)
   {
     id: "node-login-modal",
     type: "sitemapCard",
-    position: { x: 0, y: 670 },
+    position: { x: 0, y: 700 },
     data: {
       header: "Sign In Module",
       title: "Passwordless Auth Modal",
       imgUrl: "/sitemap-screenshots/login-modal.png",
+      badgeType: "MODULE",
       description: "Passwordless OTP email sign in modal and JWT session authentication.",
     },
   },
   {
     id: "node-signup-modal",
     type: "sitemapCard",
-    position: { x: 380, y: 670 },
+    position: { x: 380, y: 700 },
     data: {
       header: "Sign Up Module",
-      title: "Fan Club Registration Modal",
+      title: "Fan Registration Modal",
       imgUrl: "/sitemap-screenshots/signup-modal.png",
+      badgeType: "MODULE",
       description: "Fan registration, username creation, opt-in tracking, and instant signup PIN.",
     },
   },
   {
     id: "node-cruise-reg",
     type: "sitemapCard",
-    position: { x: 760, y: 670 },
+    position: { x: 760, y: 700 },
     data: {
-      header: "Cruise Signup Module",
+      header: "Cruise Signup Form",
       title: "Caribbean Cruise Registration",
       path: "/cruise",
       imgUrl: "/sitemap-screenshots/cruise-form-filled.png",
-      description: "2026 Cruise cabin registration form with email PIN verification.",
+      badgeType: "MODULE",
+      description: "2026 Cruise cabin registration form triggering email PIN verification.",
     },
   },
   {
     id: "node-crew-verify",
     type: "sitemapCard",
-    position: { x: 1140, y: 670 },
+    position: { x: 1140, y: 700 },
     data: {
       header: "Crew Verify Module",
-      title: "Crew PIN Verification",
+      title: "Crew Passcode Verification",
       path: "/crew/verify",
       imgUrl: "/sitemap-screenshots/verify-admin-funnel.png",
+      badgeType: "MODULE",
       description: "6-digit passcode security check for road crew and staff access.",
     },
   },
   {
     id: "node-shows-past",
     type: "sitemapCard",
-    position: { x: 1520, y: 670 },
+    position: { x: 1520, y: 700 },
     data: {
       header: "Past Shows Archive",
-      title: "Past Shows & Concert Archive (1985–Present)",
+      title: "1,200+ Performance Archive",
       path: "/shows/past",
       imgUrl: "/sitemap-screenshots/shows.png",
-      description: "1,200+ historical concert dates, venue search, and setlist archives.",
-    },
-  },
-  {
-    id: "node-email-pin",
-    type: "sitemapCard",
-    position: { x: 1900, y: 670 },
-    data: {
-      header: "PIN Email Template",
-      title: "Verification PIN Email",
-      imgUrl: "/sitemap-screenshots/email-pin-verification.png",
-      description: "Resend transactional HTML email containing 6-digit authentication security PIN.",
+      badgeType: "PAGE",
+      description: "Historical concert dates, venue search, and setlist archives since 1985.",
     },
   },
   {
     id: "node-planner-verify",
     type: "sitemapCard",
-    position: { x: 2280, y: 670 },
+    position: { x: 2280, y: 700 },
     data: {
       header: "Planner Verify Module",
-      title: "Planner Security Verification",
+      title: "Planner Security Check",
       path: "/planner/verify",
       imgUrl: "/sitemap-screenshots/cruise-verify.png",
+      badgeType: "MODULE",
       description: "Security PIN verification module for private event coordinators.",
     },
   },
-
-  // ADMIN & BOOK SUB-TREE (y = 670)
   {
     id: "node-admin-emailmap",
     type: "sitemapCard",
-    position: { x: 2660, y: 670 },
+    position: { x: 2660, y: 700 },
     data: {
       header: "Email System Map",
       title: "Transactional Email Directory",
       path: "/admin/emails",
       imgUrl: "/sitemap-screenshots/admin-emailmap.png",
+      badgeType: "MODULE",
       description: "Live preview registry of all 14 Resend transactional email templates.",
     },
   },
   {
     id: "node-admin-legal",
     type: "sitemapCard",
-    position: { x: 2840, y: 670 },
+    position: { x: 2840, y: 700 },
     data: {
       header: "Legal Module",
       title: "Legal & TCPA Compliance",
       path: "/admin/legal",
       imgUrl: "/sitemap-screenshots/admin-legal.png",
+      badgeType: "MODULE",
       description: "TCPA SMS regulations, COPPA, ADA accessibility, and E-commerce PCI rules.",
     },
   },
   {
     id: "node-book-success",
     type: "sitemapCard",
-    position: { x: 3040, y: 670 },
+    position: { x: 3040, y: 700 },
     data: {
-      header: "Booking Success Module",
-      title: "Booking Confirmation Email",
+      header: "Booking Form Submit",
+      title: "Booking Submitted Action",
       path: "/book/success",
       imgUrl: "/sitemap-screenshots/email-booking-confirm.png",
-      description: "Confirmation alert and admin notification dispatch upon booking submission.",
+      badgeType: "MODULE",
+      description: "Triggers Resend API dispatch for Planner Receipt & Admin Alert Emails.",
+    },
+  },
+
+  // THIRD ROW: TRANSACTIONAL EMAIL PIPELINES WITH REAL EMAIL SCREENSHOTS (y = 1040)
+  {
+    id: "email-otp-pin",
+    type: "sitemapCard",
+    position: { x: 380, y: 1040 },
+    data: {
+      header: "✉ Email 1: OTP PIN",
+      title: "Verification PIN Email",
+      imgUrl: "/sitemap-screenshots/email-pin-verification.png",
+      badgeType: "EMAIL",
+      description: "Sent via Resend API on Sign Up / Cruise Signup. Contains 6-digit security code.",
+    },
+  },
+  {
+    id: "email-cruise-confirm",
+    type: "sitemapCard",
+    position: { x: 760, y: 1040 },
+    data: {
+      header: "✉ Email 2: Cruise Confirm",
+      title: "Cruise Confirmation Email",
+      imgUrl: "/sitemap-screenshots/email-cruise-confirm.png",
+      badgeType: "EMAIL",
+      description: "Sent automatically once the 6-digit verification PIN is entered successfully.",
+    },
+  },
+  {
+    id: "email-booking-planner",
+    type: "sitemapCard",
+    position: { x: 1520, y: 1040 },
+    data: {
+      header: "✉ Email 3: Booking Receipt",
+      title: "Planner Booking Receipt",
+      imgUrl: "/sitemap-screenshots/email-booking-confirm.png",
+      badgeType: "EMAIL",
+      description: "Sent to event planner upon booking form submission with event summary.",
+    },
+  },
+  {
+    id: "email-booking-admin",
+    type: "sitemapCard",
+    position: { x: 1900, y: 1040 },
+    data: {
+      header: "✉ Email 4: Admin Alert",
+      title: "New Booking Admin Alert",
+      imgUrl: "/sitemap-screenshots/email-booking-admin.png",
+      badgeType: "EMAIL",
+      description: "Sent to 7th Heaven band management with quick Approve / Decline links.",
+    },
+  },
+  {
+    id: "email-booking-status",
+    type: "sitemapCard",
+    position: { x: 2280, y: 1040 },
+    data: {
+      header: "✉ Email 5: Booking Status",
+      title: "Booking Approved Email",
+      imgUrl: "/sitemap-screenshots/email-booking-status.png",
+      badgeType: "EMAIL",
+      description: "Sent to event planner when admin approves or updates booking status.",
+    },
+  },
+  {
+    id: "email-merch-pickup",
+    type: "sitemapCard",
+    position: { x: 2660, y: 1040 },
+    data: {
+      header: "✉ Email 6: Merch Receipt",
+      title: "Flash Merch Pickup Email",
+      imgUrl: "/sitemap-screenshots/email-flash-pickup.png",
+      badgeType: "EMAIL",
+      description: "Sent instantly upon Shopify payment test completion for venue pickup.",
+    },
+  },
+  {
+    id: "email-schedule-alert",
+    type: "sitemapCard",
+    position: { x: 3040, y: 1040 },
+    data: {
+      header: "✉ Email 7: Shift Alert",
+      title: "Crew Schedule Change Alert",
+      imgUrl: "/sitemap-screenshots/email-schedule-change-alert.png",
+      badgeType: "EMAIL",
+      description: "Sent to road crew staff when stage shift times or call times are updated.",
+    },
+  },
+  {
+    id: "email-newsletter-blast",
+    type: "sitemapCard",
+    position: { x: 3420, y: 1040 },
+    data: {
+      header: "✉ Email 8: Tour Blast",
+      title: "Newsletter Tour Announcement",
+      imgUrl: "/sitemap-screenshots/email-newsletter-blast.png",
+      badgeType: "EMAIL",
+      description: "Sent to all subscribed fan club members for tour announcements.",
     },
   },
 ];
@@ -397,17 +505,26 @@ const INITIAL_EDGES: Edge[] = [
   { id: "e-root-admin", source: "root", target: "node-admin", type: "smoothstep" },
   { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep" },
 
-  // Sub-tree connections (Modals, PINs & Emails)
+  // Sub-tree connections (Pages -> Modules)
   { id: "e-sitemap-login", source: "node-sitemap", target: "node-login-modal", type: "smoothstep" },
   { id: "e-privacy-signup", source: "node-privacy", target: "node-signup-modal", type: "smoothstep" },
   { id: "e-merch-cruise", source: "node-merch", target: "node-cruise-reg", type: "smoothstep" },
   { id: "e-crew-verify", source: "node-crew", target: "node-crew-verify", type: "smoothstep" },
   { id: "e-shows-past", source: "node-shows", target: "node-shows-past", type: "smoothstep" },
-  { id: "e-page-emailpin", source: "node-pagetransition", target: "node-email-pin", type: "smoothstep" },
   { id: "e-planner-verify", source: "node-planner", target: "node-planner-verify", type: "smoothstep" },
   { id: "e-admin-emailmap", source: "node-admin", target: "node-admin-emailmap", type: "smoothstep" },
   { id: "e-admin-legal", source: "node-admin", target: "node-admin-legal", type: "smoothstep" },
   { id: "e-book-success", source: "node-book", target: "node-book-success", type: "smoothstep" },
+
+  // TRANSACTIONAL EMAIL PIPELINE EDGES (Modules -> Emails)
+  { id: "flow-signup-otp", source: "node-signup-modal", target: "email-otp-pin", type: "smoothstep" },
+  { id: "flow-cruise-confirm", source: "node-cruise-reg", target: "email-cruise-confirm", type: "smoothstep" },
+  { id: "flow-book-receipt", source: "node-book-success", target: "email-booking-planner", type: "smoothstep" },
+  { id: "flow-book-admin", source: "node-book-success", target: "email-booking-admin", type: "smoothstep" },
+  { id: "flow-book-approved", source: "node-admin", target: "email-booking-status", type: "smoothstep" },
+  { id: "flow-merch-receipt", source: "node-merch", target: "email-merch-pickup", type: "smoothstep" },
+  { id: "flow-crew-alert", source: "node-crew-verify", target: "email-schedule-alert", type: "smoothstep" },
+  { id: "flow-tour-blast", source: "node-admin-emailmap", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
 export default function VisualSitemapClient() {
@@ -436,10 +553,10 @@ export default function VisualSitemapClient() {
           </div>
           <div>
             <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
-              7th Heaven Visual Sitemap Engine
+              7th Heaven Visual Sitemap & Email Pipeline Engine
             </h1>
             <p className="text-xs text-white/50">
-              Interactive visual sitemap tree architecture with REAL page, modal & email screenshots
+              Interactive visual sitemap tree architecture with REAL PNG screenshots of all pages & transactional emails
             </p>
           </div>
         </div>
@@ -458,7 +575,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[880px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1700px] mx-auto h-[950px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
           nodes={nodes}
           edges={edges}
