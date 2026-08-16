@@ -14,10 +14,13 @@ import {
   NodeProps,
   Edge,
   Node,
+  BaseEdge,
+  getSmoothStepPath,
+  EdgeProps,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
@@ -63,8 +66,50 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   );
 }
 
+// --- CUSTOM TREE EDGE (Forces stroke-only 2px lines, absolutely zero fill) ---
+function CustomTreeEdge({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition,
+  targetPosition,
+  style = {},
+  markerEnd,
+}: EdgeProps) {
+  const [edgePath] = getSmoothStepPath({
+    sourceX,
+    sourceY,
+    sourcePosition,
+    targetX,
+    targetY,
+    targetPosition,
+    borderRadius: 12,
+  });
+
+  return (
+    <BaseEdge
+      id={id}
+      path={edgePath}
+      markerEnd={markerEnd}
+      style={{
+        ...style,
+        fill: "none",
+        stroke: "#a855f7",
+        strokeWidth: 2,
+      }}
+    />
+  );
+}
+
 const nodeTypes = {
   sitemapCard: SitemapCardNode,
+};
+
+const edgeTypes = {
+  smoothstep: CustomTreeEdge,
+  default: CustomTreeEdge,
 };
 
 // --- IMMACULATE ZERO-OVERLAP GRID (380px Column Pitch, 240px Row Pitch) ---
@@ -272,24 +317,24 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
 
 // --- ORTHOGONAL CONNECTING LINES WITH NO FILL GLITCHES ---
 const INITIAL_EDGES: Edge[] = [
-  { id: "e-root-sitemap", source: "root", target: "node-sitemap", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-privacy", source: "root", target: "node-privacy", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-merch", source: "root", target: "node-merch", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-crew", source: "root", target: "node-crew", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-shows", source: "root", target: "node-shows", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-pagetransition", source: "root", target: "node-pagetransition", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-planner", source: "root", target: "node-planner", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-admin", source: "root", target: "node-admin", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-sitemap", source: "root", target: "node-sitemap", type: "smoothstep" },
+  { id: "e-root-privacy", source: "root", target: "node-privacy", type: "smoothstep" },
+  { id: "e-root-merch", source: "root", target: "node-merch", type: "smoothstep" },
+  { id: "e-root-crew", source: "root", target: "node-crew", type: "smoothstep" },
+  { id: "e-root-shows", source: "root", target: "node-shows", type: "smoothstep" },
+  { id: "e-root-pagetransition", source: "root", target: "node-pagetransition", type: "smoothstep" },
+  { id: "e-root-planner", source: "root", target: "node-planner", type: "smoothstep" },
+  { id: "e-root-admin", source: "root", target: "node-admin", type: "smoothstep" },
+  { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep" },
 
   // Sub-tree connections
-  { id: "e-crew-verify", source: "node-crew", target: "node-crew-verify", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
-  { id: "e-shows-past", source: "node-shows", target: "node-shows-past", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
-  { id: "e-planner-verify", source: "node-planner", target: "node-planner-verify", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
-  { id: "e-admin-verify", source: "node-admin", target: "node-admin-verify", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
-  { id: "e-admin-emailmap", source: "node-admin", target: "node-admin-emailmap", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
-  { id: "e-admin-legal", source: "node-admin", target: "node-admin-legal", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
-  { id: "e-book-success", source: "node-book", target: "node-book-success", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-crew-verify", source: "node-crew", target: "node-crew-verify", type: "smoothstep" },
+  { id: "e-shows-past", source: "node-shows", target: "node-shows-past", type: "smoothstep" },
+  { id: "e-planner-verify", source: "node-planner", target: "node-planner-verify", type: "smoothstep" },
+  { id: "e-admin-verify", source: "node-admin", target: "node-admin-verify", type: "smoothstep" },
+  { id: "e-admin-emailmap", source: "node-admin", target: "node-admin-emailmap", type: "smoothstep" },
+  { id: "e-admin-legal", source: "node-admin", target: "node-admin-legal", type: "smoothstep" },
+  { id: "e-book-success", source: "node-book", target: "node-book-success", type: "smoothstep" },
 ];
 
 export default function VisualSitemapClient() {
@@ -299,9 +344,11 @@ export default function VisualSitemapClient() {
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
       
-      {/* Global CSS override to eliminate SVG fill glitches on connector paths */}
+      {/* Global CSS override to force fill: none on all SVG edge paths */}
       <style jsx global>{`
-        .react-flow__edge-path {
+        .react-flow__edge-path,
+        .react-flow__edge path,
+        .react-flow svg path {
           fill: none !important;
           stroke: #a855f7 !important;
           stroke-width: 2px !important;
@@ -345,6 +392,7 @@ export default function VisualSitemapClient() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
           fitViewOptions={{ padding: 0.1 }}
           colorMode="dark"
