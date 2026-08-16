@@ -17,7 +17,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Globe } from "lucide-react";
 
 export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
@@ -26,15 +26,15 @@ export interface SitemapNodeData extends Record<string, unknown> {
   description?: string;
 }
 
-// --- CUSTOM SITEMAP CARD NODE (Matching exact screenshot design) ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   return (
-    <div className="w-64 rounded-lg border border-slate-200 bg-white shadow-sm overflow-hidden select-none hover:shadow-md transition-all duration-200">
-      <Handle type="target" position={Position.Top} className="!w-2 !h-2 !bg-slate-400 !border-0" />
+    <div className="w-64 rounded-xl border border-white/15 bg-[#0f0f17] shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl">
+      <Handle type="target" position={Position.Top} className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
       
-      {/* Top Gray Header Bar */}
-      <div className="bg-slate-100 border-b border-slate-200 py-1 px-3 text-center">
-        <span className="font-bold text-xs text-slate-700 tracking-tight block truncate">
+      {/* Top Header Bar */}
+      <div className="bg-[#181824] border-b border-white/10 py-1.5 px-3 text-center">
+        <span className="font-extrabold text-xs text-purple-300 tracking-wider uppercase block truncate">
           {data.header}
         </span>
       </div>
@@ -42,23 +42,23 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
       {/* Body Content */}
       <div className="p-3 text-left space-y-1">
         {data.path ? (
-          <Link href={data.path} className="font-bold text-xs text-blue-600 hover:underline block leading-snug">
+          <Link href={data.path} className="font-bold text-xs text-cyan-300 hover:text-white hover:underline block leading-snug">
             {data.title}
           </Link>
         ) : (
-          <span className="font-bold text-xs text-blue-600 block leading-snug">
+          <span className="font-bold text-xs text-cyan-300 block leading-snug">
             {data.title}
           </span>
         )}
 
         {data.description && (
-          <p className="text-slate-600 text-[11px] leading-snug mt-1">
+          <p className="text-white/60 text-[11px] leading-snug mt-1">
             {data.description}
           </p>
         )}
       </div>
 
-      <Handle type="source" position={Position.Bottom} className="!w-2 !h-2 !bg-slate-400 !border-0" />
+      <Handle type="source" position={Position.Bottom} className="!w-2.5 !h-2.5 !bg-cyan-400 !border-0" />
     </div>
   );
 }
@@ -272,24 +272,24 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
 
 // --- ORTHOGONAL CONNECTING LINES WITH NO FILL GLITCHES ---
 const INITIAL_EDGES: Edge[] = [
-  { id: "e-root-sitemap", source: "root", target: "node-sitemap", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-privacy", source: "root", target: "node-privacy", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-merch", source: "root", target: "node-merch", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-crew", source: "root", target: "node-crew", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-shows", source: "root", target: "node-shows", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-pagetransition", source: "root", target: "node-pagetransition", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-planner", source: "root", target: "node-planner", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-admin", source: "root", target: "node-admin", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-sitemap", source: "root", target: "node-sitemap", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-privacy", source: "root", target: "node-privacy", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-merch", source: "root", target: "node-merch", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-crew", source: "root", target: "node-crew", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-shows", source: "root", target: "node-shows", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-pagetransition", source: "root", target: "node-pagetransition", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-planner", source: "root", target: "node-planner", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-admin", source: "root", target: "node-admin", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
+  { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep", style: { stroke: "#a855f7", strokeWidth: 2, fill: "none" } },
 
   // Sub-tree connections
-  { id: "e-crew-verify", source: "node-crew", target: "node-crew-verify", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-shows-past", source: "node-shows", target: "node-shows-past", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-planner-verify", source: "node-planner", target: "node-planner-verify", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-admin-verify", source: "node-admin", target: "node-admin-verify", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-admin-emailmap", source: "node-admin", target: "node-admin-emailmap", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-admin-legal", source: "node-admin", target: "node-admin-legal", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
-  { id: "e-book-success", source: "node-book", target: "node-book-success", type: "smoothstep", style: { stroke: "#64748b", strokeWidth: 2, fill: "none" } },
+  { id: "e-crew-verify", source: "node-crew", target: "node-crew-verify", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-shows-past", source: "node-shows", target: "node-shows-past", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-planner-verify", source: "node-planner", target: "node-planner-verify", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-admin-verify", source: "node-admin", target: "node-admin-verify", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-admin-emailmap", source: "node-admin", target: "node-admin-emailmap", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-admin-legal", source: "node-admin", target: "node-admin-legal", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
+  { id: "e-book-success", source: "node-book", target: "node-book-success", type: "smoothstep", style: { stroke: "#38bdf8", strokeWidth: 2, fill: "none" } },
 ];
 
 export default function VisualSitemapClient() {
@@ -297,28 +297,28 @@ export default function VisualSitemapClient() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(INITIAL_EDGES);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-900 pt-20 pb-12">
+    <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
       
       {/* Global CSS override to eliminate SVG fill glitches on connector paths */}
       <style jsx global>{`
         .react-flow__edge-path {
           fill: none !important;
-          stroke: #64748b !important;
+          stroke: #a855f7 !important;
           stroke-width: 2px !important;
         }
       `}</style>
 
       {/* Header bar */}
-      <div className="max-w-[1700px] mx-auto px-6 py-4 flex items-center justify-between border border-slate-200 bg-white mb-4 shadow-sm rounded-2xl">
+      <div className="max-w-[1700px] mx-auto px-6 py-4 flex items-center justify-between border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-2xl backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-black text-sm shadow-md">
             7H
           </div>
           <div>
-            <h1 className="font-extrabold text-base text-slate-900 tracking-tight">
-              7th Heaven Visual Sitemap Generator
+            <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
+              7th Heaven Visual Sitemap Engine
             </h1>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-white/50">
               Interactive visual sitemap tree architecture
             </p>
           </div>
@@ -329,7 +329,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-50 transition flex items-center gap-1.5"
+            className="px-3.5 py-1.5 rounded-lg border border-white/15 bg-white/5 text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1.5"
           >
             <span>XML Sitemap</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -338,7 +338,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[820px] rounded-2xl border border-slate-200 bg-[#f8fafc] overflow-hidden shadow-inner relative">
+      <div className="max-w-[1700px] mx-auto h-[820px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -347,15 +347,15 @@ export default function VisualSitemapClient() {
           nodeTypes={nodeTypes}
           fitView
           fitViewOptions={{ padding: 0.1 }}
-          colorMode="light"
+          colorMode="dark"
         >
-          <Background color="#cbd5e1" gap={24} size={1} />
-          <Controls className="!bg-white !border-slate-200 !text-slate-700 !rounded-xl overflow-hidden !shadow-md" />
+          <Background color="#1e1b4b" gap={24} size={1} />
+          <Controls className="!bg-black/90 !border-white/15 !text-white !rounded-xl overflow-hidden !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
-            maskColor="rgba(248, 250, 252, 0.7)"
-            nodeColor="#3b82f6"
-            className="!bg-white !border-slate-200 !rounded-xl !shadow-md"
+            maskColor="rgba(0, 0, 0, 0.8)"
+            nodeColor="#a855f7"
+            className="!bg-black/90 !border-white/15 !rounded-xl !shadow-2xl"
           />
         </ReactFlow>
       </div>
