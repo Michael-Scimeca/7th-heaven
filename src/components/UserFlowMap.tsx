@@ -837,8 +837,8 @@ export default function UserFlowMap() {
                   Database & System Actions
                 </span>
                 <ul className="space-y-1.5">
-                  {selectedNode.data.details.dbActions.map((action, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-xs text-emerald-200/90 bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 rounded-lg font-mono">
+                  {selectedNode.data.details.dbActions.map((action) => (
+                    <li key={action} className="flex items-center gap-2 text-xs text-emerald-200/90 bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 rounded-lg font-mono">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <span>{action}</span>
                     </li>
