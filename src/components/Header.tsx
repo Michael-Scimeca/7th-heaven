@@ -19,6 +19,27 @@ const leftNavLinks = [
   { href: "/pagetransition", label: "TRANSITION" },
 ];
 
+// Lifted directly from exoape.com's own hamburger-menu open animation.
+// Went to the live site, scrolled to the state where its full nav collapses
+// to a "menu-button", opened it, and diffed the DOM: the panel itself
+// (their $refs.menu) doesn't fade — it's revealed with a clip-path wipe
+// from a flat line down to a polygon whose right-bottom corner overshoots
+// to 110% of viewport height (so the wipe edge reads as a slight diagonal
+// that self-levels, same family of effect as /herointro's curtain).
+// Simultaneously a "wrapper" group holding the actual content tweens in
+// from `scale:1.3 rotate:-7deg y:-50vh opacity:.3` to identity, and the nav
+// links stagger in individually with their own rotate/translate/opacity.
+// Both eases turned out to be bespoke GSAP ease functions (this.$root.
+// easeInOut / this.$root.easeOut), not any named curve — Vue 2 exposes the
+// live root instance via `__vue__`, so rather than guess a cubic-bezier we
+// called the real functions at 41 points each and baked the samples into a
+// CSS linear() timing function, which reproduces the exact curve shape
+// without needing GSAP at all.
+const EASE_IN_OUT_LINEAR =
+  "linear(0, 0.0012, 0.0044, 0.01, 0.0186, 0.0312, 0.0489, 0.0735, 0.1081, 0.1586, 0.233, 0.3386, 0.4534, 0.5526, 0.6269, 0.6845, 0.7309, 0.7689, 0.8008, 0.8282, 0.8516, 0.872, 0.89, 0.9057, 0.9195, 0.9316, 0.9423, 0.9518, 0.9601, 0.9675, 0.9738, 0.9793, 0.984, 0.9881, 0.9913, 0.9941, 0.9963, 0.9978, 0.9991, 0.9996, 1)";
+const EASE_OUT_LINEAR =
+  "linear(0, 0.1709, 0.2591, 0.33, 0.3902, 0.4437, 0.4913, 0.5343, 0.5735, 0.6094, 0.6426, 0.6732, 0.7016, 0.7279, 0.7525, 0.7753, 0.7964, 0.8161, 0.8344, 0.8514, 0.8673, 0.8819, 0.8955, 0.9081, 0.9196, 0.9302, 0.94, 0.9489, 0.957, 0.9643, 0.9708, 0.9765, 0.9817, 0.9862, 0.9899, 0.993, 0.9955, 0.9975, 0.9988, 0.9996, 1)";
+
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
@@ -50,7 +71,8 @@ export function Header() {
   // the node mounts collapses the transition to nothing, same bug as above).
   const [overlayMounted, setOverlayMounted] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const OVERLAY_TRANSITION_MS = 320;
+  // 1000ms to match exoape's own GSAP tweens (duration:1) exactly.
+  const OVERLAY_TRANSITION_MS = 1000;
 
   useEffect(() => {
     if (mobileOpen) {
@@ -512,25 +534,44 @@ export function Header() {
               Portaled to document.body — see the `mounted` note above for
               why this can't just render inline here. */}
           {overlayMounted && mounted && createPortal(
-            <>
-              {/* globals.css has a PageSpeed hack — `html body > *{ opacity:1
-                  !important }` — meant to force above-the-fold content
-                  visible on first paint. It targets every direct child of
-                  <body>, which now includes this portal, so it was flattening
-                  the fade to a permanent opacity:1 no matter what Tailwind
-                  opacity-0/opacity-100 utility classes we put on the div
-                  (this is the actual reason the menu had "no animation" —
-                  the transform half of the transition worked fine, opacity
-                  was just pinned). Two classes here (0,2,0 specificity) beat
-                  that rule's two-type-selector (0,0,2) specificity even
-                  though both are !important, so this wins the cascade.  */}
-              <style>{`
-                .mobile-overlay-portal.is-hidden { opacity: 0 !important; transform: translateY(-0.75rem); }
-                .mobile-overlay-portal.is-visible { opacity: 1 !important; transform: translateY(0); }
-              `}</style>
+            <div
+              // The panel itself is revealed by wiping clip-path open, not by
+              // fading opacity — this sidesteps the globals.css PageSpeed hack
+              // (`html body > *{ opacity:1 !important }`, meant to force
+              // above-the-fold content visible on first paint) that used to
+              // flatten any opacity transition on a direct child of <body>
+              // to a permanent 1 no matter what we set — clip-path isn't
+              // touched by that rule at all, so there was nothing left to
+              // fight. Closed = a flat line at the top; open = the full
+              // panel, with the bottom-right corner pushed to 110% height —
+              // that's exoape's own shape, not a guess (see the const
+              // comment above): it makes the wipe edge read as a slight
+              // diagonal that self-levels as it finishes, rather than a
+              // flat curtain.
+              className="fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto"
+              style={{
+                backgroundColor: "rgb(13, 14, 19)",
+                clipPath: overlayVisible
+                  ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
+                  : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+                transition: `clip-path ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+              }}
+            >
+              {/* exoape's second half of the "enter" tween: a wrapper around
+                  the actual content settles in from scale:1.3 rotate:-7deg
+                  translateY(-50vh) opacity:.3 down to identity, at the same
+                  time and with the same ease as the clip-path wipe above —
+                  the wipe reveals the panel while its contents are visibly
+                  still "falling into place" underneath it. */}
               <div
-                className={`mobile-overlay-portal ${overlayVisible ? "is-visible" : "is-hidden"} fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto transition-[opacity,transform] ease-out`}
-                style={{ backgroundColor: "rgb(13, 14, 19)", transitionDuration: `${OVERLAY_TRANSITION_MS}ms` }}
+                className="flex-1 flex flex-col min-h-0"
+                style={{
+                  transform: overlayVisible
+                    ? "scale(1) rotate(0deg) translateY(0)"
+                    : "scale(1.3) rotate(-7deg) translateY(-12%)",
+                  opacity: overlayVisible ? 1 : 0.3,
+                  transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+                }}
               >
               {/* Top bar: logo left, close right — mirrors the main header's
                   row but doesn't reuse it directly since #header-logo is
@@ -596,14 +637,23 @@ export function Header() {
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] transition-[color,opacity,transform] ease-out ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
-                        } ${overlayVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
+                      className={`text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
+                        }`}
                       style={{
-                        transitionDuration: "300ms",
-                        // Stagger each link slightly behind the panel fade so the
-                        // list reads as cascading in rather than a flat block —
-                        // capped at 10 links' worth of delay, harmless if more are added.
-                        transitionDelay: overlayVisible ? `${60 + i * 35}ms` : "0ms",
+                        // exoape's own per-link reveal: rotate:7deg -> 0 and
+                        // yPercent:100 -> 0 (a full line-height slide, not a
+                        // token nudge) with their easeOut curve, staggered
+                        // 0.1s apart starting half a second into the wipe.
+                        // Their site has ~4 links so the full 0.1s/1s combo
+                        // reads great; ours has 10, so the stagger/duration
+                        // are trimmed a bit to keep the last link's reveal
+                        // from lagging the wipe by seconds — same shape,
+                        // tuned for length.
+                        opacity: overlayVisible ? 1 : 0,
+                        transform: overlayVisible ? "translateY(0) rotate(0deg)" : "translateY(100%) rotate(7deg)",
+                        transformOrigin: "0% 100%",
+                        transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
+                        transitionDelay: overlayVisible ? `${450 + i * 70}ms` : "0ms",
                       }}
                     >
                       {link.label}
@@ -658,7 +708,7 @@ export function Header() {
                 )}
               </div>
               </div>
-            </>,
+            </div>,
             document.body
           )}
 

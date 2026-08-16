@@ -50,6 +50,7 @@ const footerLinks = [
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms of Service" },
   { href: "/returns", label: "Returns & Refunds" },
+  { href: "/sitemap", label: "Sitemap" },
 ];
 
 const FALLBACK_SOCIAL_LINKS = [
