@@ -160,6 +160,9 @@ export default function HeroLiveThumbs() {
     );
   }
 
+  // TEMPORARILY DISABLED (User request: "remove this for now and put it back later")
+  return null;
+
   return (
     <div
       className="relative flex justify-start items-end"

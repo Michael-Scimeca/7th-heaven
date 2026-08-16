@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 
 interface CountdownTimerProps {
- targetDate: string;
- targetTime?: string;
- compact?: boolean;
- className?: string;
+  targetDate: string;
+  targetTime?: string;
+  compact?: boolean;
+  className?: string;
 }
 
 export default function CountdownTimer({ targetDate, targetTime, compact = false, className = "" }: CountdownTimerProps) {
@@ -14,92 +14,135 @@ export default function CountdownTimer({ targetDate, targetTime, compact = false
   const [isHappening, setIsHappening] = useState(false);
 
   useEffect(() => {
-   const getTarget = () => {
-    // Handle both ISO (2026-04-24) and display (April 24) date formats
-    let d: Date;
-    if (/^\d{4}-\d{2}-\d{2}/.test(targetDate)) {
-     d = new Date(targetDate + 'T20:00:00');
-    } else {
-     d = new Date(targetDate + ', ' + new Date().getFullYear());
-    }
-    if (targetTime) {
-     const match = targetTime.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)/i);
-     if (match) {
-      let h = parseInt(match[1]);
-      const m = parseInt(match[2] || '0');
-      if (match[3].toLowerCase() === "pm" && h !== 12) h += 12;
-      if (match[3].toLowerCase() === "am" && h === 12) h = 0;
-      d.setHours(h, m, 0, 0);
-     }
-    }
-    return d;
-   };
+    const getTarget = (): Date => {
+      if (!targetDate) return new Date();
 
-   const update = () => {
-    const now = new Date().getTime();
-    const target = getTarget().getTime();
-    const diff = target - now;
+      let d: Date;
 
-    if (diff <= 0) {
-     setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0 });
-     setIsHappening(now >= target && now < target + (4 * 60 * 60 * 1000));
-     return;
-    }
+      // 1. If ISO date string (YYYY-MM-DD)
+      if (/^\d{4}-\d{2}-\d{2}/.test(targetDate)) {
+        d = new Date(targetDate.length === 10 ? `${targetDate}T20:00:00` : targetDate);
+      } else {
+        // 2. Remove duplicate years if caller passed e.g. "Aug 15, 2026, 2026"
+        const cleanDateStr = targetDate.replace(/,\s*\d{4}.*$/, "").trim();
+        
+        // Try parsing direct clean string
+        d = new Date(cleanDateStr);
 
-    setIsHappening(false);
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    setTimeLeft({
-     days,
-     hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-     minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-     seconds: Math.floor((diff % (1000 * 60)) / 1000),
-     totalDays: days,
-    });
-   };
+        // If direct parse failed, append current year
+        if (isNaN(d.getTime())) {
+          d = new Date(`${cleanDateStr}, ${new Date().getFullYear()}`);
+        }
 
-   update();
-   const interval = setInterval(update, 1000);
-   return () => clearInterval(interval);
+        // If still invalid, try matching "Month Day" pattern
+        if (isNaN(d.getTime())) {
+          const match = targetDate.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}/i);
+          if (match) {
+            d = new Date(`${match[0]}, ${new Date().getFullYear()}`);
+          }
+        }
+      }
+
+      if (isNaN(d.getTime())) {
+        d = new Date();
+      }
+
+      // Parse targetTime if provided
+      if (targetTime) {
+        const match = targetTime.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
+        if (match) {
+          let h = parseInt(match[1], 10);
+          const m = parseInt(match[2] || "0", 10);
+          const ampm = match[3]?.toLowerCase();
+          if (ampm === "pm" && h !== 12) h += 12;
+          if (ampm === "am" && h === 12) h = 0;
+          if (!isNaN(h) && !isNaN(m) && h >= 0 && h <= 23 && m >= 0 && m <= 59) {
+            d.setHours(h, m, 0, 0);
+          }
+        }
+      }
+
+      return d;
+    };
+
+    const update = () => {
+      const now = new Date().getTime();
+      const targetObj = getTarget();
+      const targetTimeMs = targetObj.getTime();
+
+      // Guard against NaN
+      if (isNaN(targetTimeMs)) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0 });
+        setIsHappening(false);
+        return;
+      }
+
+      const diff = targetTimeMs - now;
+
+      if (isNaN(diff) || diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, totalDays: 0 });
+        setIsHappening(now >= targetTimeMs && now < targetTimeMs + (4 * 60 * 60 * 1000));
+        return;
+      }
+
+      setIsHappening(false);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeLeft({
+        days: isNaN(days) || days < 0 ? 0 : days,
+        hours: isNaN(hours) || hours < 0 ? 0 : hours,
+        minutes: isNaN(minutes) || minutes < 0 ? 0 : minutes,
+        seconds: isNaN(seconds) || seconds < 0 ? 0 : seconds,
+        totalDays: isNaN(days) || days < 0 ? 0 : days,
+      });
+    };
+
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
   }, [targetDate, targetTime]);
 
   if (isHappening) {
-   return (
-    <div className={`flex items-center gap-2 rounded-lg shadow-[0_0_20px_rgba(239,68,68,0.2)] animate-pulse shrink-0 ${compact ? 'px-3 py-1.5 bg-red-500/10 border border-red-500/20' : 'px-5 py-3 bg-red-500/10 border border-red-500/30'}`}>
-     <span className="relative flex h-2.5 w-2.5">
-      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-     </span>
-     <span className={`font-black uppercase tracking-[0.2em] text-white ${compact ? 'text-[var(--font-size-5xs)]' : 'text-xs'}`}>LIVE NOW</span>
-    </div>
-   );
+    return (
+      <div className={`flex items-center gap-2 rounded-lg shadow-[0_0_20px_rgba(239,68,68,0.3)] bg-red-500/20 border border-red-500/40 animate-pulse shrink-0 whitespace-nowrap ${compact ? 'px-3.5 py-1.5' : 'px-5 py-2.5'} ${className}`}>
+        <span className="relative flex h-2.5 w-2.5 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+        </span>
+        <span className={`font-black uppercase tracking-[0.2em] text-white whitespace-nowrap ${compact ? 'text-[var(--font-size-5xs)]' : 'text-xs'}`}>NOW LIVE</span>
+      </div>
+    );
   }
 
   const urgency = Math.max(0, Math.min(1, 1 - timeLeft.totalDays / 14));
   const numberColor = urgency > 0.5 ? '#a855f7' : '#ffffff';
 
   const units = [
-   { label: "Days", value: timeLeft.days },
-   { label: "Hrs", value: timeLeft.hours },
-   { label: "Min", value: timeLeft.minutes },
-   { label: "Sec", value: timeLeft.seconds },
+    { label: "Days", value: timeLeft.days },
+    { label: "Hrs", value: timeLeft.hours },
+    { label: "Min", value: timeLeft.minutes },
+    { label: "Sec", value: timeLeft.seconds },
   ];
 
   return (
-   <div className={`flex items-center shrink-0 ${className ? className : (compact ? 'gap-1.5' : 'gap-4 md:gap-5')}`}>
-    {units.map((u, i) => (
-     <div key={u.label} className={`flex items-center ${compact ? 'gap-1.5' : 'gap-3 md:gap-4'}`}>
-      <div className={`flex flex-col items-center ${compact ? 'px-2 py-1 min-w-[44px]' : 'px-3 py-2 min-w-[64px]'}`}>
-       <span
-        className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-[clamp(18px,2vw,25px)] font-black' : 'text-[clamp(24px,4vw,3.9rem)]'}`}
-        style={{ color: numberColor }}
-       >
-        {String(u.value).padStart(2, "0")}
-       </span>
-       <span className={`uppercase tracking-wider ${compact ? 'text-[12px] sm:text-[13px] font-extrabold text-white/70 mt-1 tracking-widest' : 'text-[clamp(9px,1.2vw,11px)] font-extrabold text-white/60 mt-1.5 tracking-widest'}`}>{u.label}</span>
-      </div>
-      {i < 3 && <span className={`text-white/40 font-bold ${compact ? 'text-lg' : 'text-4xl'}`}>:</span>}
-     </div>
-    ))}
-   </div>
+    <div className={`flex items-center shrink-0 ${className ? className : (compact ? 'gap-1.5' : 'gap-4 md:gap-5')}`}>
+      {units.map((u, i) => (
+        <div key={u.label} className={`flex items-center ${compact ? 'gap-1.5' : 'gap-3 md:gap-4'}`}>
+          <div className={`flex flex-col items-center ${compact ? 'px-2 py-1 min-w-[44px]' : 'px-3 py-2 min-w-[64px]'}`}>
+            <span
+              className={`font-extrabold leading-none tabular-nums transition-colors duration-1000 ${compact ? 'text-[clamp(18px,2vw,25px)] font-black' : 'text-[clamp(24px,4vw,3.9rem)]'}`}
+              style={{ color: numberColor }}
+            >
+              {String(isNaN(u.value) || u.value < 0 ? 0 : u.value).padStart(2, "0")}
+            </span>
+            <span className={`uppercase tracking-wider ${compact ? 'text-[12px] sm:text-[13px] font-extrabold text-white/70 mt-1 tracking-widest' : 'text-[clamp(9px,1.2vw,11px)] font-extrabold text-white/60 mt-1.5 tracking-widest'}`}>{u.label}</span>
+          </div>
+          {i < 3 && <span className={`text-white/40 font-bold ${compact ? 'text-lg' : 'text-4xl'}`}>:</span>}
+        </div>
+      ))}
+    </div>
   );
 }

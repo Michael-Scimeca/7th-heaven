@@ -121,7 +121,7 @@ export default function GooeyDropdown({
   // Translucent background color for glass backdrop-blur (transparent when closed)
   const bgGlassColor = open
     ? hexToRgba(accentColor, glassOpacity)
-    : (transparent ? "rgba(255, 255, 255, 0.08)" : hexToRgba(accentColor, glassOpacity));
+    : (transparent ? "transparent" : hexToRgba(accentColor, glassOpacity));
 
   // Keep the trigger-shape / closed-panel size in sync with the real button,
   // so the blob sits exactly behind the label with no gap or overhang.
@@ -234,7 +234,7 @@ export default function GooeyDropdown({
             >
               <path
                 d="M1 1L5 5L9 1"
-                stroke={chevronColor ?? "currentColor"}
+                stroke={chevronColor}
                 fill="none"
                 strokeWidth="1.6"
                 strokeLinecap="round"

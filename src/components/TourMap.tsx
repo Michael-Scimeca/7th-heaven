@@ -730,241 +730,249 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
 
 
-      {/* ── Date Range Zoom Filter Control (Top-Right Overlay) ── */}
-      <div className="absolute top-4 right-8 z-[5] flex flex-col items-end gap-2">
-        {!isDateUiOpen ? (
-          <button
-            type="button"
-            onClick={() => setIsDateUiOpen(true)}
-            className={`flex items-center gap-2.5 px-6 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${
-              isDateFiltered
-                ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
-                : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
-            }`}
-            title="Zoom in on dates & filter show markers"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse" />
-            <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
-            {isDateFiltered && (
-              <span className="ml-1 text-[10px] font-black bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
-                Filtered ({markerCount})
-              </span>
-            )}
-          </button>
-        ) : (
-          <div className="w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)] backdrop-blur-2xl border border-purple-500/40 p-4.5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">📅</span>
-                <div className="flex flex-col">
-                  <span className="font-extrabold text-xs uppercase tracking-wider text-purple-300">
-                    Date Range Zoom
-                  </span>
-                  <span className="text-[10px] text-white/50 font-medium">
-                    Filter pins between start & end dates
-                  </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsDateUiOpen(false)}
-                className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
+
+      {/* ── Map Overlay Controls aligned precisely to .site-container ── */}
+      <div className="absolute inset-x-0 bottom-4 z-[10] pointer-events-none">
+        <div className="site-container flex items-end justify-between gap-4">
+          {/* Left Map Controls: Show Types & Date Range Zoom */}
+          <div className="pointer-events-auto flex items-center gap-3 flex-wrap max-w-[calc(100%-120px)] sm:max-w-none">
+            {/* Legend / Show Types */}
+            <div className="group bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
+              {/* Header - always visible, click to toggle */}
+              <button aria-label="Show Types"
+                onClick={() => setLegendOpen(o => !o)}
+                className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover:text-[var(--color-accent)] transition-colors"
               >
-                ✕
+                <span className="text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
+                <svg className={`w-3.5 h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
-            </div>
-
-            {/* Date Range Badge & Live Counter */}
-            <div className="flex items-center justify-between bg-purple-950/50 border border-purple-500/30 px-3 py-2 rounded-xl text-xs">
-              <div className="flex items-center gap-1.5 font-mono text-purple-200 font-bold text-[11px]">
-                <span>{formatDateLabel(activeStart)}</span>
-                <span className="text-white/40">→</span>
-                <span>{formatDateLabel(activeEnd)}</span>
-              </div>
-              <span className="text-[10px] font-black text-purple-300 bg-purple-600/40 px-2 py-0.5 rounded-md border border-purple-400/30">
-                {markerCount} Shows
-              </span>
-            </div>
-
-            {/* Dual Sliders */}
-            <div className="space-y-3">
-              <div className="space-y-1">
-                <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
-                  <span>Start Date (From)</span>
-                  <span className="text-purple-300 font-mono">{formatDateShort(activeStart)}</span>
-                </div>
-                <input
-                  type="range"
-                  min={minShowTime}
-                  max={maxShowTime}
-                  step={86400000}
-                  value={activeStart}
-                  onChange={(e) => {
-                    const val = parseFloat(e.target.value);
-                    setDateRange([Math.min(val, activeEnd - 86400000), activeEnd]);
-                  }}
-                  className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
-                  <span>End Date (To)</span>
-                  <span className="text-purple-300 font-mono">{formatDateShort(activeEnd)}</span>
-                </div>
-                <input
-                  type="range"
-                  min={minShowTime}
-                  max={maxShowTime}
-                  step={86400000}
-                  value={activeEnd}
-                  onChange={(e) => {
-                    const val = parseFloat(e.target.value);
-                    setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
-                  }}
-                  className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
-                />
-              </div>
-            </div>
-
-            {/* Quick Preset Buttons */}
-            <div className="space-y-1">
-              <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Quick Presets</span>
-              <div className="grid grid-cols-3 gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const now = Date.now();
-                    const target = now + 30 * 24 * 60 * 60 * 1000;
-                    setDateRange([now, Math.min(target, maxShowTime)]);
-                  }}
-                  className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
-                >
-                  Next 30 Days
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const now = Date.now();
-                    const target = now + 90 * 24 * 60 * 60 * 1000;
-                    setDateRange([now, Math.min(target, maxShowTime)]);
-                  }}
-                  className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
-                >
-                  Next 90 Days
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDateRange([minShowTime, maxShowTime])}
-                  className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
-                >
-                  All Dates
-                </button>
-              </div>
-            </div>
-
-            {/* Remove / Reset Filter Button */}
-            {isDateFiltered ? (
-              <button
-                type="button"
-                onClick={() => setDateRange(null)}
-                className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
-              >
-                <span>✕ Remove Date Filter</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setIsDateUiOpen(false)}
-                className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider rounded-xl transition-colors cursor-pointer text-center"
-              >
-                Close Controls
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-
-
-      {/* Legend */}
-      <div className="group absolute bottom-4 left-8 z-[4] bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg overflow-hidden transition-colors duration-300">
-        {/* Header - always visible, click to toggle */}
-        <button aria-label="Action button"
-          onClick={() => setLegendOpen(o => !o)}
-          className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover: text-[var(--color-accent)] transition-colors"
-        >
-          <span className="text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
-          <svg className={`w-3.5 h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-        </button>
-        {/* Expandable content */}
-        {legendOpen && (
-          <div className="px-3 pb-2.5">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mb-2">
-              {Object.entries(typeConfig).map(([key, cfg]) => {
-                const isSelected = selectedTypes.has(key);
-                const isAnySelected = selectedTypes.size > 0;
-                const isActive = !isAnySelected || isSelected;
-                const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
-                const textColor = isLightColor ? '#000000' : '#ffffff';
-                const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
-                return (
-                  <button aria-label="Next"
-                    key={key}
-                    onClick={() => {
-                      setSelectedTypes(prev => {
-                        const next = new Set(prev);
-                        if (next.has(key)) { next.delete(key); } else { next.add(key); }
-                        return next;
-                      });
-                    }}
-                    className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
-                      }`}
-                  >
-                    <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
-                      {showLetter}
+              {/* Expandable content */}
+              {legendOpen && (
+                <div className="px-3 pb-2.5">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mb-2">
+                    {Object.entries(typeConfig).map(([key, cfg]) => {
+                      const isSelected = selectedTypes.has(key);
+                      const isAnySelected = selectedTypes.size > 0;
+                      const isActive = !isAnySelected || isSelected;
+                      const isLightColor = cfg.color === '#9333ea' || cfg.color === '#eab308' || cfg.color === '#22c55e' || cfg.color === '#06b6d4';
+                      const textColor = isLightColor ? '#000000' : '#ffffff';
+                      const showLetter = key === 'unplugged' ? 'U' : key === 'outdoor' ? 'O' : key === 'casino' ? 'C' : key === 'tv' ? 'T' : key === 'fundraiser' ? 'G' : key === 'special' ? 'S' : 'F';
+                      return (
+                        <button aria-label="Next"
+                          key={key}
+                          onClick={() => {
+                            setSelectedTypes(prev => {
+                              const next = new Set(prev);
+                              if (next.has(key)) { next.delete(key); } else { next.add(key); }
+                              return next;
+                            });
+                          }}
+                          className={`flex items-center gap-1.5 transition-colors duration-200 cursor-pointer text-left ${isActive ? "opacity-100" : "opacity-35 hover:opacity-60"
+                            }`}
+                        >
+                          <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center font-extrabold text-[var(--font-size-4xs)]" style={{ backgroundColor: cfg.color, color: textColor }}>
+                            {showLetter}
+                          </div>
+                          <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
+                    <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/40">Active</span>
+                    <div className="flex items-center gap-2">
+                      {selectedTypes.size > 0 && (
+                        <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
+                      )}
+                      <span className="text-[var(--font-size-4xs)] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
                     </div>
-                    <span className="text-[var(--font-size-3xs)] font-semibold text-white/80">{cfg.label}</span>
-                  </button>
-                );
-              })}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
-              <span className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider text-white/40">Active</span>
-              <div className="flex items-center gap-2">
-                {selectedTypes.size > 0 && (
-                  <button aria-label="Action button" onClick={() => setSelectedTypes(new Set())} className="text-[var(--font-size-4xs)] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer">Clear</button>
-                )}
-                <span className="text-[var(--font-size-4xs)] font-extrabold  text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-1.5 py-0.5 rounded border border-[var(--color-accent)]/20">{markerCount}</span>
-              </div>
+
+            {/* Date Range Zoom Control (Bottom-Left) */}
+            <div className="relative">
+              {!isDateUiOpen ? (
+                <button
+                  type="button"
+                  onClick={() => setIsDateUiOpen(true)}
+                  className={`flex items-center gap-2.5 px-6 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${
+                    isDateFiltered
+                      ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
+                      : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
+                  }`}
+                  title="Zoom in on dates & filter show markers"
+                >
+                  <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse" />
+                  <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
+                  {isDateFiltered && (
+                    <span className="ml-1 text-[10px] font-black bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
+                      Filtered ({markerCount})
+                    </span>
+                  )}
+                </button>
+              ) : (
+                <div className="absolute bottom-full mb-2 left-0 w-[340px] max-w-[90vw] bg-[rgba(8,8,18,0.96)] backdrop-blur-2xl border border-purple-500/40 p-4.5 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 select-none text-left text-white z-50">
+                  {/* Header */}
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">📅</span>
+                      <div className="flex flex-col">
+                        <span className="font-extrabold text-xs uppercase tracking-wider text-purple-300">
+                          Date Range Zoom
+                        </span>
+                        <span className="text-[10px] text-white/50 font-medium">
+                          Filter pins between start & end dates
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsDateUiOpen(false)}
+                      className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  {/* Date Range Badge & Live Counter */}
+                  <div className="flex items-center justify-between bg-purple-950/50 border border-purple-500/30 px-3 py-2 rounded-xl text-xs">
+                    <div className="flex items-center gap-1.5 font-mono text-purple-200 font-bold text-[11px]">
+                      <span>{formatDateLabel(activeStart)}</span>
+                      <span className="text-white/40">→</span>
+                      <span>{formatDateLabel(activeEnd)}</span>
+                    </div>
+                    <span className="text-[10px] font-black text-purple-300 bg-purple-600/40 px-2 py-0.5 rounded-md border border-purple-400/30">
+                      {markerCount} Shows
+                    </span>
+                  </div>
+
+                  {/* Dual Sliders */}
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
+                        <span>Start Date (From)</span>
+                        <span className="text-purple-300 font-mono">{formatDateShort(activeStart)}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min={minShowTime}
+                        max={maxShowTime}
+                        step={86400000}
+                        value={activeStart}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value);
+                          setDateRange([Math.min(val, activeEnd - 86400000), activeEnd]);
+                        }}
+                        className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
+                        <span>End Date (To)</span>
+                        <span className="text-purple-300 font-mono">{formatDateShort(activeEnd)}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min={minShowTime}
+                        max={maxShowTime}
+                        step={86400000}
+                        value={activeEnd}
+                        onChange={(e) => {
+                          const val = parseFloat(e.target.value);
+                          setDateRange([activeStart, Math.max(val, activeStart + 86400000)]);
+                        }}
+                        className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Quick Preset Buttons */}
+                  <div className="space-y-1">
+                    <span className="text-[9px] font-extrabold text-white/50 uppercase tracking-wider block">Quick Presets</span>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const now = Date.now();
+                          const target = now + 30 * 24 * 60 * 60 * 1000;
+                          setDateRange([now, Math.min(target, maxShowTime)]);
+                        }}
+                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                      >
+                        Next 30 Days
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const now = Date.now();
+                          const target = now + 90 * 24 * 60 * 60 * 1000;
+                          setDateRange([now, Math.min(target, maxShowTime)]);
+                        }}
+                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                      >
+                        Next 90 Days
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDateRange([minShowTime, maxShowTime])}
+                        className="px-2 py-1 text-[9px] font-extrabold uppercase rounded-lg border border-white/10 bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 text-white/80 transition-colors text-center cursor-pointer"
+                      >
+                        All Dates
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Remove / Reset Filter Button */}
+                  {isDateFiltered ? (
+                    <button
+                      type="button"
+                      onClick={() => setDateRange(null)}
+                      className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-[10px] uppercase tracking-widest transition-colors rounded-xl shadow-lg shadow-purple-600/30 cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+                    >
+                      <span>✕ Remove Date Filter</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setIsDateUiOpen(false)}
+                      className="w-full py-2 bg-white/10 hover:bg-white/15 text-white/80 font-bold text-[10px] uppercase tracking-wider rounded-xl transition-colors cursor-pointer text-center"
+                    >
+                      Close Controls
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-        )}
-      </div>
 
-      {/* ── Custom Big Zoom Controls (+ / -) ── */}
-      <div className="absolute bottom-4 right-8 z-[4] flex flex-col gap-2">
-        <button onClick={handleZoomIn}
-          type="button"
-          aria-label="Zoom In"
-          title="Zoom In"
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
-        >
-          <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-        </button>
-        <button onClick={handleZoomOut}
-          type="button"
-          aria-label="Zoom Out"
-          title="Zoom Out"
-          className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover: text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
-        >
-          <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-        </button>
+          {/* Right Map Controls: Custom Big Zoom Controls (+ / -) */}
+          <div className="pointer-events-auto flex flex-col gap-2 shrink-0">
+            <button onClick={handleZoomIn}
+              type="button"
+              aria-label="Zoom In"
+              title="Zoom In"
+              className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
+            >
+              <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <button onClick={handleZoomOut}
+              type="button"
+              aria-label="Zoom Out"
+              title="Zoom Out"
+              className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
+            >
+              <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
       {(!isLoaded || mapLoadError) && (

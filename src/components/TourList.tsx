@@ -1084,8 +1084,8 @@ ${filterLine}
           {/* Up Next — Neon Glow / Festival */}
           {upNext && (
             <div className="my-6 relative z-10">
-              <div className="relative overflow-hidden">
-                <div className="relative z-10 py-6 md:py-8 flex flex-col md:flex-row justify-between items-end gap-6">
+              <div className="relative">
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                   {/* Left Column: Info */}
                   <div className="relative flex flex-col justify-between min-h-[140px]">
                     {/* UP NEXT label */}
@@ -1139,9 +1139,9 @@ ${filterLine}
                     )}
                   </div>
 
-                  <div className="flex flex-col items-stretch md:items-end justify-end gap-5 shrink-0 w-full md:w-[460px]">
+                  <div className="flex flex-col items-start md:items-end justify-end gap-5 shrink-0 max-w-full">
                     <CountdownTimer
-                      targetDate={`${upNext.date}, ${new Date().getFullYear()}`}
+                      targetDate={upNext.startDate || upNext.date}
                       targetTime={upNext.playTime || upNext.time}
                       className="justify-start md:justify-end gap-4 md:gap-5"
                     />

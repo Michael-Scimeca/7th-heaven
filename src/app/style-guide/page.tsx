@@ -4017,6 +4017,66 @@ ${deskRules.join("\n")}
               </div>
             </div>
 
+            </div>
+
+            {/* SECTION: CODEPEN DEMO GRADIENT SEARCH BAR & TEST BUTTON */}
+            <section id="codepen-test-button" className="space-y-6 pt-12 border-t border-white/10">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-black uppercase tracking-wider text-white flex items-center gap-2 font-sans">
+                    <MousePointer className="w-5 h-5 text-purple-400" />
+                    CodePen Gradient Search Bar & Test Button
+                  </h2>
+                  <p className="text-xs text-white/50 mt-1">
+                    Custom CSS gradient search bar &amp; action buttons imported from CodePen demo.
+                  </p>
+                </div>
+                <SectionBadge label="CodePen Test Component" color="amber" />
+              </div>
+
+              <div className="p-8 rounded-3xl bg-[linear-gradient(180deg,#fff3e8_0%,#ffe9f2_60%,#f3ecff_100%)] text-[#3b2b20] flex items-center justify-center min-h-[320px]">
+                <div className="w-full max-w-[520px] text-center">
+                  <h3 className="text-2xl font-black tracking-tight text-[#3b2b20] mb-2 font-sans">
+                    Where to <span className="bg-gradient-to-r from-[#f97316] via-[#ec4899] to-[#8b5cf6] bg-clip-text text-transparent">next?</span>
+                  </h3>
+                  <p className="text-sm text-[#9a8574] mb-8 font-medium">Search 12,000+ stays, tours and hidden beaches</p>
+
+                  {/* Search Bar Container */}
+                  <div className="flex items-stretch bg-white rounded-full p-1.5 gap-2 shadow-[0_18px_44px_-20px_rgba(236,72,153,0.35),0_2px_6px_rgba(59,43,32,0.06),0_0_0_1.5px_#f4e4d8] focus-within:shadow-[0_22px_52px_-18px_rgba(139,92,246,0.4),0_2px_6px_rgba(59,43,32,0.06),0_0_0_2.5px_#ec4899] transition-all duration-300">
+                    <input
+                      aria-label="Search destinations"
+                      type="text"
+                      placeholder='Try "Lisbon in October"'
+                      className="flex-1 min-w-0 border-none bg-transparent py-3 px-5 text-[#3b2b20] placeholder-[#c4ad9c] text-sm outline-none focus:outline-none font-sans"
+                    />
+                    <button
+                      type="button"
+                      className="shrink-0 inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-extrabold text-white cursor-pointer bg-[linear-gradient(110deg,#f97316_0%,#ec4899_50%,#8b5cf6_100%)] bg-[length:180%_auto] bg-left hover:bg-right hover:-translate-y-0.5 hover:shadow-[0_12px_26px_-8px_rgba(139,92,246,0.65)] active:translate-y-0 active:scale-95 transition-all duration-300 shadow-[0_8px_20px_-8px_rgba(236,72,153,0.6)] border-none font-sans whitespace-nowrap"
+                    >
+                      <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="m20 20-3.5-3.5" />
+                      </svg>
+                      <span>Search</span>
+                    </button>
+                  </div>
+
+                  {/* Chips */}
+                  <div className="flex gap-2.5 justify-center flex-wrap mt-5">
+                    {["Kyoto ryokans", "Amalfi coast", "Patagonia treks"].map(chip => (
+                      <button
+                        key={chip}
+                        type="button"
+                        className="text-xs font-semibold text-[#a08670] bg-white/70 border border-[#f0dfd2] rounded-full px-3.5 py-1.5 cursor-pointer hover:text-[#ec4899] hover:border-[#ec4899] transition-colors font-sans whitespace-nowrap"
+                      >
+                        {chip}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
           </div>
         </section>
 

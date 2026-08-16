@@ -3228,7 +3228,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       await updateGlobalBanner({ isActive: newActive });
                     }}
                     disabled={bannerUpdating}
-                    className={`relative px-4 py-1.5 text-[0.6rem] font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded overflow-hidden ${bannerActive
+                    className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded overflow-hidden ${bannerActive
                       ? 'bg-purple-600 text-white border-purple-500 shadow-sm'
                       : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20'
                       } disabled:opacity-50`}
@@ -4805,7 +4805,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     });
                   } catch { }
                 }}
-                className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${smsAutoBlast ? 'bg-emerald-500' : 'bg-white/10'}`}
+                className={`relative w-10 h-5 rounded-full transition-colors cursor-pointer ${smsAutoBlast ? 'bg-purple-600' : 'bg-white/10'}`}
               >
                 <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow-sm ${smsAutoBlast ? 'translate-x-5' : 'translate-x-0.5'}`} />
               </button>
@@ -4824,7 +4824,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         {/* Auto-blast info bar */}
         <div className="py-3 pl-0 border-b border-white/5 flex items-center justify-between bg-transparent">
           <div className="flex items-center gap-2">
-            <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-emerald-500 animate-pulse' : 'bg-white/10'}`} />
+            <span className={`w-2 h-2 rounded-full ${smsAutoBlast ? 'bg-purple-500 animate-pulse' : 'bg-white/10'}`} />
             <span className="text-[0.65rem] text-white/40">
               {smsAutoBlast
                 ? `Auto-sending ${smsAutoBlastDays} day${smsAutoBlastDays !== 1 ? 's' : ''} before each public show`
@@ -4838,7 +4838,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 label={String(smsAutoBlastDays)}
                 accentColor="#9333ea"
                 showChevron={true}
-                chevronColor="#ec4899"
+                chevronColor="#ffffff"
                 textColor="#ffffff"
                 panelTextColor="#ffffff"
                 transparent={false}
@@ -4874,11 +4874,11 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <label htmlFor="sms-selected-show-select" className="text-[0.6rem] font-bold uppercase tracking-widest text-white/40 mb-2 block">Select Show</label>
               <Dropdown
                 id="sms-selected-show-select"
-                fullWidth={true}
-                placeholder="— Select an upcoming show —"
+                fullWidth={false}
+                placeholder="Select an upcoming show"
                 selected={smsSelectedShow}
                 options={[
-                  { label: "— Select an upcoming show —", value: "" },
+                  { label: "Select an upcoming show", value: "" },
                   ...smsShows.map((show: any) => {
                     const dateStr = (() => {
                       try {
@@ -4936,10 +4936,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             {/* Twilio Gateway & Cost Summary Bar */}
             <div className="bg-transparent border-none p-0 space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/10 pb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 font-extrabold text-sm shrink-0">
-
-                  </div>
+                <div className="flex items-center gap-2">
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-extrabold text-white">Twilio A2P 10DLC Gateway</span>
@@ -4966,17 +4963,17 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
               {/* Quick Metric Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-transparent border-none p-0 text-center">
+                <div className="bg-transparent border-none p-0 text-start">
                   <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Target Audience</div>
                   <div className="text-base font-extrabold text-white">480 fans</div>
                   <div className="text-[9px] text-[var(--color-accent)]">Within 25mi radius</div>
                 </div>
-                <div className="bg-transparent border-none p-0 text-center">
+                <div className="bg-transparent border-none p-0 text-start">
                   <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Twilio Rate</div>
                   <div className="text-base font-extrabold text-purple-300">${smsCostPerSegment}/SMS</div>
                   <div className="text-[9px] text-white/40">US Standard Rate</div>
                 </div>
-                <div className="bg-transparent border-none p-0 text-center">
+                <div className="bg-transparent border-none p-0 text-start">
                   <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Cost to Send This Blast</div>
                   <div className="text-base font-black text-rose-400">
                     ${((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1) * 480 * smsCostPerSegment).toFixed(2)}
@@ -4985,7 +4982,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                     {(smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview ? Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, '').trim() || smsPreview).length || 1) / 160) : 1)} Segment per fan
                   </div>
                 </div>
-                <div className="bg-transparent border-none p-0 text-center">
+                <div className="bg-transparent border-none p-0 text-start">
                   <div className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Total SMS Sent</div>
                   <div className="text-base font-extrabold text-white">{smsTotalSpentAllTime.toLocaleString()}</div>
                   <div className="text-[9px] text-purple-300">Across 4 blasts</div>

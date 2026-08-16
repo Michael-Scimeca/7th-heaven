@@ -266,7 +266,7 @@ export default function LiveHubPage() {
             </div>
 
             {/* Fan Sign Up Callout Pill */}
-            <div className="flex items-center gap-4 bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-3.5 px-5 rounded-2xl shadow-[0_0_30px_rgba(168,85,247,0.25)] shrink-0 max-w-md">
+            <div className="flex items-center gap-4 bg-transparent p-0 border-none shadow-none shrink-0 max-w-md">
               <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white shrink-0 shadow-md">
                 <MessageSquare className="w-5 h-5" />
               </div>
@@ -580,7 +580,7 @@ export default function LiveHubPage() {
                       <Smartphone className="w-4 h-4 text-white/40" />
                     </div>
                     <input aria-label="Input field" type="tel" placeholder="(312) 555-0199"
-                      className="w-full bg-white/5 border border-white/15 py-3.5 pl-12 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
+                      className="w-full bg-white/5 border border-white/15 py-3.5 !pl-11 pr-4 text-white placeholder:text-white/40 text-sm font-mono focus:outline-none focus:border-[#ec4899]/50 transition-colors rounded-lg"
                     />
                   </div>
                   <button aria-label="Action button" type="submit"

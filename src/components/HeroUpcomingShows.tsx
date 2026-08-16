@@ -162,7 +162,7 @@ export default function HeroUpcomingShows({ upcomingShows }: HeroUpcomingShowsPr
             </div>
 
             {/* Compact Countdown widget */}
-            <CountdownTimer targetDate={`${nextShow.date}, ${new Date().getFullYear()}`} targetTime={nextShow.playTime || nextShow.time} compact />
+            <CountdownTimer targetDate={nextShow.startDate || nextShow.date} targetTime={nextShow.playTime || nextShow.time} compact />
           </div>
 
           {/* Middle block: Venue & details (clickable link to tour page) */}

@@ -24,6 +24,15 @@ html {
   max-width: 100vw;
 }
 
+/* Universal Button Text Wrapping Rule — Force all buttons site-wide to never wrap text */
+button,
+.btn,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  white-space: nowrap !important;
+}
+
 body {
   background-color: transparent !important;
   background: transparent !important;

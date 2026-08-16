@@ -37,7 +37,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   return (
-    <section id="news" className="site-container relative py-16 md:py-24 bg-[var(--card-bg)] text-[var(--text-color)]">
+    <section id="news" className="site-container relative py-8 md:py-24 bg-[var(--card-bg)] text-[var(--text-color)]">
       <>
         {/* Section Header */}
         <div className="mb-12 text-left">
@@ -50,10 +50,10 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
         </div>
 
         {/* Featured Article + Remaining Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <div className="lg:col-span-7 border-0 p-8 md:p-10 relative overflow-hidden group transition-colors">
+            <div className="lg:col-span-7 border-0 pt-8  pb-10  relative overflow-hidden group transition-colors">
               <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest  text-[var(--color-accent)] bg-[var(--color-accent)]/10 rounded-md">
                   ⭐ Featured Announcement
@@ -77,7 +77,7 @@ export default function HomeNewsSection({ items }: { items?: NewsItem[] }) {
               <button
                 type="button"
                 key={item.title} onClick={() => setSelectedArticle(item)}
-                className="w-full text-left border-0 p-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group font-sans font-normal"
+                className="w-full text-left border-0 pt-5 pb-5 cursor-pointer transition-colors hover:-translate-y-0.5 hover:shadow-md group font-sans font-normal"
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest  text-[var(--color-accent)]">

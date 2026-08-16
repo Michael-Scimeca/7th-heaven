@@ -300,6 +300,7 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
 
   const [spineGap, setSpineGap] = useState<number>(32);
   const [spineVideoHeight, setSpineVideoHeight] = useState<number>(85);
+  const [isTabletView, setIsTabletView] = useState<boolean>(false);
 
   // Dynamic window height & width scaling — makes slider images & video spine gap scale smoothly across all device sizes
   useEffect(() => {
@@ -308,10 +309,18 @@ export default function BioParallaxSlider({ members = FALLBACK_MEMBERS }: BioPar
       const vh = window.innerHeight;
       const vw = window.innerWidth;
       const isMobile = vw < 640;
+      const isTablet = vw >= 640 && vw < 1024;
+      setIsTabletView(isTablet);
 
-      const targetHeight = isMobile
-        ? Math.max(300, Math.min(520, Math.round((vh - 80) * 0.52)))
-        : Math.max(360, Math.min(730, Math.round((vh - 100) * 0.57)));
+      let targetHeight: number;
+      if (isMobile) {
+        targetHeight = Math.max(300, Math.min(520, Math.round((vh - 80) * 0.52)));
+      } else if (isTablet) {
+        // Tablet view (iPad): scale member image heights down by 30%
+        targetHeight = Math.max(250, Math.min(480, Math.round((vh - 100) * 0.57 * 0.70)));
+      } else {
+        targetHeight = Math.max(360, Math.min(730, Math.round((vh - 100) * 0.57)));
+      }
 
       const targetWidth = isMobile
         ? Math.min(Math.round(vw * 0.72), Math.round(targetHeight * 0.72))
@@ -502,7 +511,8 @@ lerpSpeed: ${lerpSpeed}`;
           if (imgEl) {
             const cardOffset = i * itemTotalWidth - currentXRef.current;
             const parallaxX = cardOffset * parallaxDepthRef.current;
-            const speedScale = imageScale + Math.min(Math.abs(vel) * 0.005, 0.06);
+            const baseScale = isTabletView ? imageScale * 0.70 : imageScale;
+            const speedScale = baseScale + Math.min(Math.abs(vel) * 0.005, 0.06);
             const transformStr = `translate3d(${parallaxX}px, ${imageOffsetY}px, 0) scale(${speedScale})`;
 
             imgEl.style.transformOrigin = "bottom center";
@@ -604,8 +614,7 @@ lerpSpeed: ${lerpSpeed}`;
 
   return (
     <div
-      style={{ marginTop: '80px' }}
-      className="w-full max-w-full overflow-x-clip h-[calc(100vh-95px)] min-h-[calc(100vh-95px)] flex flex-col justify-end select-none font-sans relative bg-transparent pt-0 pb-0 mt-[80px]"
+      className="w-full max-w-full overflow-x-clip h-auto min-h-[400px] flex flex-col justify-end select-none font-sans relative bg-transparent pt-16 md:pt-24 lg:pt-28 pb-4 mt-8 md:mt-16 lg:mt-20"
     >
 
 

@@ -85,7 +85,7 @@ async function waitForPageReady(): Promise<void> {
           setTimeout(resolve, 600);
         });
       }
-    } catch {}
+    } catch { }
   }
 
   // 2. Ensure text content is rendered in DOM and images/paint passes complete
@@ -261,7 +261,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div ref={contentRef} className="flex-1 flex flex-col">
+      <div ref={contentRef}>
         {children}
       </div>
 

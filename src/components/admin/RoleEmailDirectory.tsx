@@ -171,7 +171,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleCopyEmails}
-            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 border-none text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg shadow-sm"
+            className="px-3.5 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/90 border-none text-white text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg shadow-sm whitespace-nowrap"
             title="Copy all email addresses for BCC email dispatch"
           >
             <span></span> {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
@@ -180,7 +180,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <button aria-label="Action button"
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg"
+            className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border-none text-white font-bold uppercase text-xs transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap"
           >
             <span></span> Export CSV
           </button>
@@ -206,7 +206,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 <th className="py-3 px-4">Email Address</th>
                 <th className="py-3 px-4">Role</th>
                 <th className="py-3 px-4">Phone Number</th>
-                <th className="py-3 px-4 text-right">Quick Action</th>
+                <th className="pl-3  text-right">Quick Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/10 text-xs">
@@ -220,12 +220,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                 filteredUsers.map(user => (
                   <tr key={user.id} className="hover:bg-white/5 transition-colors border-b border-white/10">
                     <td className="py-3 pr-4 pl-0 font-bold text-white">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-purple-300 font-black text-[var(--font-size-3xs)]">
-                          {user.name.charAt(0)}
-                        </div>
-                        <span>{user.name}</span>
-                      </div>
+                      <span>{user.name}</span>
                     </td>
                     <td className="py-3 px-4 text-cyan-300 font-mono text-xs font-extrabold select-all">
                       {user.email}
@@ -238,7 +233,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
                     <td className="py-3 px-4 font-mono text-white/50 font-semibold">
                       {user.phone || "—"}
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-3 pl-4 text-right">
                       <a
                         href={`mailto:${user.email}`}
                         className="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-white font-extrabold rounded-lg text-[var(--font-size-3xs)] uppercase transition-colors inline-flex items-center gap-1"

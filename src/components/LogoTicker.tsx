@@ -112,11 +112,11 @@ export default function LogoTicker({
             item.src ? (
               <div
                 key={item.src + "-" + i}
-                className="flex shrink-0 items-center justify-center transition-all duration-150"
+                className="flex shrink-0 items-center justify-center transition-all duration-150 transform-gpu"
                 style={{
                   height: "clamp(60px, 10vw, 142px)",
-                  paddingLeft: "clamp(14px, 4vw, 70px)",
-                  paddingRight: "clamp(14px, 4vw, 70px)",
+                  paddingLeft: "clamp(12px, 3.5vw, 60px)",
+                  paddingRight: "clamp(12px, 3.5vw, 60px)",
                 }}
               >
                 <Image
@@ -124,7 +124,7 @@ export default function LogoTicker({
                   alt={item.alt ?? ""}
                   width={0}
                   height={0}
-                  className={`w-auto max-w-full object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
+                  className={`w-auto max-w-none object-contain transition-[height,filter] duration-150 ${config.invert ? "hoy-ticker-logo" : ""
                     }`}
                   style={{ height: "clamp(32px, 5.5vw, 82px)", width: "auto", maxHeight: "100%" }}
                   unoptimized
@@ -133,7 +133,7 @@ export default function LogoTicker({
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 items-center gap-6 border-r border-white/20 px-6 sm:px-10"
+                className="flex shrink-0 items-center gap-6 border-r border-white/20 px-6 sm:px-10 transform-gpu"
                 style={{ height: "clamp(60px, 10vw, 142px)" }}
               >
                 {item.icon && <Icon kind={item.icon} />}
@@ -156,7 +156,12 @@ export default function LogoTicker({
           .hoy-ticker-track {
             animation: hoy-ticker-scroll var(--ticker-speed, 40s) linear infinite;
             will-change: transform;
-            transform: translateZ(0);
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
           }
           .hoy-ticker-track.hoy-ticker-reverse {
             animation-direction: reverse;
@@ -165,12 +170,19 @@ export default function LogoTicker({
             filter: brightness(0) invert(1);
           }
           .hoy-ticker {
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-            mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+            isolation: isolate;
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
           }
           @keyframes hoy-ticker-scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
+            from {
+              transform: translate3d(0, 0, 0);
+              -webkit-transform: translate3d(0, 0, 0);
+            }
+            to {
+              transform: translate3d(-50%, 0, 0);
+              -webkit-transform: translate3d(-50%, 0, 0);
+            }
           }
         `}</style>
       </div>

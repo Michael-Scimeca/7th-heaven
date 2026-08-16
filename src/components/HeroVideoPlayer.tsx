@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
 const mqSubscribe = (cb: () => void) => {
@@ -298,7 +298,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
     if (video && !isYouTube) {
       const setTimeAt10 = () => {
         if (video.currentTime < 10) {
-          try { video.currentTime = 10; } catch (_) {}
+          try { video.currentTime = 10; } catch (_) { }
         }
       };
       video.addEventListener("loadedmetadata", setTimeAt10, { once: true });
@@ -307,7 +307,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       video.load();
       video.play().then(() => {
         setTimeAt10();
-      }).catch(() => {});
+      }).catch(() => { });
       return () => {
         video.removeEventListener("loadedmetadata", setTimeAt10);
         video.removeEventListener("canplay", setTimeAt10);
@@ -325,7 +325,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            video.play().catch(() => {});
+            video.play().catch(() => { });
           } else {
             video.pause();
           }
@@ -349,14 +349,14 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
   const handleLoadedMetadata = useCallback(() => {
     const video = videoRef.current;
     if (video && video.currentTime < 10) {
-      try { video.currentTime = 10; } catch (_) {}
+      try { video.currentTime = 10; } catch (_) { }
     }
   }, []);
 
   const handleCanPlay = useCallback(() => {
     const video = videoRef.current;
     if (video && video.currentTime < 10) {
-      try { video.currentTime = 10; } catch (_) {}
+      try { video.currentTime = 10; } catch (_) { }
     }
     captureFrame();
   }, [captureFrame]);
@@ -368,7 +368,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
         video.currentTime = 10;
       }
       video.muted = true;
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     }
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("7h-play-hero-music"));
@@ -414,7 +414,7 @@ export default function HeroVideoPlayer({ children }: { children?: ReactNode }) 
           fill
           priority
           fetchPriority="high"
-          quality={60}
+          quality={30}
           sizes="100vw"
           className="absolute inset-0 w-full h-full object-cover z-0 brightness-[0.65]"
         />

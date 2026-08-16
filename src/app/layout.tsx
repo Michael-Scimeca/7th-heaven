@@ -179,7 +179,7 @@ export default async function RootLayout({
                   <Header />
                   {/* content-area class + CSS guarantees min-height: 100svh so footer
                       can NEVER appear before page content loads */}
-                  <div className="content-area flex-1 flex flex-col">
+                  <div className="content-area flex-1 flex flex-col time">
                     <PageTransition>
                       {children}
                     </PageTransition>
