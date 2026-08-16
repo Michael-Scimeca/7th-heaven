@@ -45,7 +45,8 @@ import {
   Film,
   UserPlus,
   LogIn,
-  CheckSquare,
+  Camera,
+  Send,
 } from "lucide-react";
 
 // --- Color System Matching admin/email-map ---
@@ -125,6 +126,8 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   film: Film,
   userPlus: UserPlus,
   logIn: LogIn,
+  camera: Camera,
+  send: Send,
 };
 
 // --- CUSTOM REACT FLOW NODE COMPONENTS ---
@@ -140,7 +143,7 @@ function NavFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
     >
       <div className="flex items-center justify-between gap-1 mb-1.5 border-b border-white/10 pb-1.5">
         <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[9px] font-mono font-black uppercase tracking-widest">
-          TOP NAV PAGE
+          HEADER NAV PAGE
         </span>
         <span className={`w-2 h-2 rounded-full ${scheme.dot}`} />
       </div>
@@ -204,7 +207,7 @@ function CustomFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   );
 }
 
-// 3. Distinct Email Touchpoint Node (Dashed border, Envelope Badge, Email Subject)
+// 3. Distinct Email Touchpoint Node
 function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
   const scheme = COLOR_SCHEMES[data.system || "purple"];
   const IconComp = ICON_MAP[data.iconName] || Mail;
@@ -257,16 +260,19 @@ const nodeTypes = {
   emailNode: EmailFlowNode,
 };
 
-// --- DATA SET 1: ALL NAVIGATION PAGES & FULL ARCHITECTURE ---
+// --- DATA SET 1: ALL NAVIGATION PAGES (10 HEADER NAV ITEMS ON ROW 0) ---
 const NAV_NODES: Node<FlowNodeData>[] = [
   // Top Line Nav Nodes (Row 0: Y = 40)
   { id: "nav-home", type: "navNode", position: { x: 0, y: 40 }, data: { label: "Home", sub: "/", system: "purple", kind: "nav", iconName: "globe" } },
   { id: "nav-shows", type: "navNode", position: { x: 300, y: 40 }, data: { label: "Shows & Concerts", sub: "/shows/past", system: "purple", kind: "nav", iconName: "calendar" } },
-  { id: "nav-fans", type: "navNode", position: { x: 600, y: 40 }, data: { label: "Fan Club", sub: "/fans", system: "purple", kind: "nav", iconName: "user" } },
+  { id: "nav-book", type: "navNode", position: { x: 600, y: 40 }, data: { label: "Band Booking", sub: "/book", system: "emerald", kind: "nav", iconName: "calendar" } },
   { id: "nav-merch", type: "navNode", position: { x: 900, y: 40 }, data: { label: "Merchandise", sub: "/merch", system: "emerald", kind: "nav", iconName: "shopping" } },
-  { id: "nav-cruise", type: "navNode", position: { x: 1200, y: 40 }, data: { label: "Cruise 2026", sub: "/cruise", system: "cyan", kind: "nav", iconName: "sparkles" } },
-  { id: "nav-live", type: "navNode", position: { x: 1750, y: 40 }, data: { label: "Live Cams", sub: "/live", system: "red", kind: "nav", iconName: "radio" } },
-  { id: "nav-admin", type: "navNode", position: { x: 2050, y: 40 }, data: { label: "Crew & Admin", sub: "/admin", system: "red", kind: "nav", iconName: "shield" } },
+  { id: "nav-wall", type: "navNode", position: { x: 1200, y: 40 }, data: { label: "Fan Photo Wall", sub: "/fan-photo-wall", system: "purple", kind: "nav", iconName: "camera" } },
+  { id: "nav-fans", type: "navNode", position: { x: 1500, y: 40 }, data: { label: "Fan Club", sub: "/fans", system: "purple", kind: "nav", iconName: "user" } },
+  { id: "nav-cruise", type: "navNode", position: { x: 1800, y: 40 }, data: { label: "Cruise 2026", sub: "/cruise", system: "cyan", kind: "nav", iconName: "sparkles" } },
+  { id: "nav-live", type: "navNode", position: { x: 2350, y: 40 }, data: { label: "Live Cams", sub: "/live", system: "red", kind: "nav", iconName: "radio" } },
+  { id: "nav-contact", type: "navNode", position: { x: 2650, y: 40 }, data: { label: "Contact & Media", sub: "/contact", system: "purple", kind: "nav", iconName: "mail" } },
+  { id: "nav-admin", type: "navNode", position: { x: 2950, y: 40 }, data: { label: "Crew & Admin", sub: "/admin", system: "red", kind: "nav", iconName: "shield" } },
 
   // Columns Underneath
   { id: "f3-1", type: "customNode", position: { x: 0, y: 190 }, data: { label: "Login Modal", sub: "LoginModal.tsx", system: "purple", kind: "component", iconName: "user" } },
@@ -277,52 +283,68 @@ const NAV_NODES: Node<FlowNodeData>[] = [
   { id: "f3-6", type: "customNode", position: { x: 0, y: 890 }, data: { label: "Role Destination", sub: "/fans | /crew", system: "purple", kind: "page", iconName: "user" } },
 
   { id: "f-shows-1", type: "customNode", position: { x: 300, y: 190 }, data: { label: "Show Detail Page", sub: "/shows/[id]", system: "purple", kind: "page", iconName: "globe" } },
-  { id: "f-shows-2", type: "customNode", position: { x: 300, y: 330 }, data: { label: "Booking Form", sub: "/book", system: "emerald", kind: "page", iconName: "calendar" } },
-  { id: "f-shows-3", type: "customNode", position: { x: 300, y: 470 }, data: { label: "POST Submit Booking", sub: "/api/booking/submit", system: "emerald", kind: "api", iconName: "terminal" } },
-  { id: "f4-1", type: "emailNode", position: { x: 300, y: 610 }, data: { label: "Booking Request Email", sub: "bookingConfirmation", system: "emerald", kind: "email", iconName: "mail", details: { emailSubject: "🎸 7th Heaven Booking Request Received" } } },
+  { id: "f-shows-2", type: "customNode", position: { x: 300, y: 330 }, data: { label: "Concert Setlists", sub: "Setlists & Tickets", system: "purple", kind: "page", iconName: "calendar" } },
 
-  { id: "f-fans-1", type: "customNode", position: { x: 600, y: 190 }, data: { label: "Complete Profile", sub: "/fans/complete-profile", system: "purple", kind: "page", iconName: "user" } },
-  { id: "f-fans-2", type: "customNode", position: { x: 600, y: 330 }, data: { label: "Member Profile", sub: "/fans/[username]", system: "purple", kind: "page", iconName: "user" } },
-  { id: "f-fans-3", type: "customNode", position: { x: 600, y: 470 }, data: { label: "Fan Photo Wall", sub: "/fan-photo-wall", system: "purple", kind: "page", iconName: "film" } },
-  { id: "f-fans-4", type: "customNode", position: { x: 600, y: 610 }, data: { label: "Pick Lottery", sub: "/picks", system: "purple", kind: "page", iconName: "sparkles" } },
-  { id: "f4-4", type: "emailNode", position: { x: 600, y: 750 }, data: { label: "Raffle Win Email", sub: "raffleWin", system: "purple", kind: "email", iconName: "mail", details: { emailSubject: "🎉 You Won 7th Heaven VIP Passes!" } } },
+  { id: "f-book-1", type: "customNode", position: { x: 600, y: 190 }, data: { label: "Booking Request Form", sub: "/book", system: "emerald", kind: "page", iconName: "calendar" } },
+  { id: "f-book-2", type: "customNode", position: { x: 600, y: 330 }, data: { label: "POST Submit Booking", sub: "/api/booking/submit", system: "emerald", kind: "api", iconName: "terminal" } },
+  { id: "f4-1", type: "emailNode", position: { x: 600, y: 470 }, data: { label: "Booking Request Email", sub: "bookingConfirmation", system: "emerald", kind: "email", iconName: "mail", details: { emailSubject: "🎸 7th Heaven Booking Request Received" } } },
+  { id: "f-book-3", type: "customNode", position: { x: 600, y: 610 }, data: { label: "Booking Confirmed", sub: "/book/success", system: "emerald", kind: "page", iconName: "check" } },
 
   { id: "f-merch-1", type: "customNode", position: { x: 900, y: 190 }, data: { label: "QR Merch Scanner", sub: "/qr/merch", system: "emerald", kind: "page", iconName: "shopping" } },
   { id: "f-merch-2", type: "emailNode", position: { x: 900, y: 330 }, data: { label: "Flash Pickup Email", sub: "flashMerchPickup", system: "emerald", kind: "email", iconName: "mail", details: { emailSubject: "⚡ Your Merch Pickup Code" } } },
 
-  { id: "f1-2", type: "customNode", position: { x: 1200, y: 190 }, data: { label: "POST Cruise Signup", sub: "/api/cruise/signup", system: "cyan", kind: "api", iconName: "terminal" } },
-  { id: "f1-3", type: "emailNode", position: { x: 1200, y: 330 }, data: { label: "Cruise PIN Email", sub: "cruiseCommunityWelcome", system: "cyan", kind: "email", iconName: "mail", details: { emailSubject: "🔑 Your Cruise Verification Code" } } },
-  { id: "f1-4", type: "customNode", position: { x: 1200, y: 470 }, data: { label: "Verify PIN Page", sub: "/cruise/verify", system: "cyan", kind: "page", iconName: "key" } },
-  { id: "f1-5", type: "customNode", position: { x: 1200, y: 610 }, data: { label: "POST Verify PIN", sub: "/api/cruise/verify-pin", system: "cyan", kind: "api", iconName: "terminal" } },
-  { id: "f1-6", type: "emailNode", position: { x: 1200, y: 750 }, data: { label: "Cruise Confirmed Email", sub: "cruiseConfirmation", system: "cyan", kind: "email", iconName: "mail", details: { emailSubject: "🚢 Thanks for Signing Up! Welcome!" } } },
-  { id: "f1-7", type: "customNode", position: { x: 1350, y: 890 }, data: { label: "Cruise Member Hub", sub: "/cruise/dashboard", system: "cyan", kind: "page", iconName: "sparkles" } },
+  { id: "f-wall-1", type: "customNode", position: { x: 1200, y: 190 }, data: { label: "Photo Stream Gallery", sub: "/fan-photo-wall", system: "purple", kind: "page", iconName: "camera" } },
+  { id: "f-wall-2", type: "customNode", position: { x: 1200, y: 330 }, data: { label: "Upload Fan Photo", sub: "/fan-photo-wall#upload", system: "purple", kind: "page", iconName: "send" } },
 
-  { id: "f2-2", type: "customNode", position: { x: 1500, y: 190 }, data: { label: "POST Register Request", sub: "/api/cruise/register-pin", system: "cyan", kind: "api", iconName: "terminal" } },
-  { id: "f2-3", type: "emailNode", position: { x: 1500, y: 330 }, data: { label: "Register PIN Email", sub: "cruiseRegisterPin", system: "cyan", kind: "email", iconName: "mail", details: { emailSubject: "🚢 Your Verification PIN" } } },
+  { id: "f-fans-1", type: "customNode", position: { x: 1500, y: 190 }, data: { label: "Complete Profile", sub: "/fans/complete-profile", system: "purple", kind: "page", iconName: "user" } },
+  { id: "f-fans-2", type: "customNode", position: { x: 1500, y: 330 }, data: { label: "Member Profile", sub: "/fans/[username]", system: "purple", kind: "page", iconName: "user" } },
+  { id: "f-fans-4", type: "customNode", position: { x: 1500, y: 470 }, data: { label: "Pick Lottery", sub: "/picks", system: "purple", kind: "page", iconName: "sparkles" } },
+  { id: "f4-4", type: "emailNode", position: { x: 1500, y: 610 }, data: { label: "Raffle Win Email", sub: "raffleWin", system: "purple", kind: "email", iconName: "mail", details: { emailSubject: "🎉 You Won 7th Heaven VIP Passes!" } } },
 
-  { id: "f-live-1", type: "customNode", position: { x: 1750, y: 190 }, data: { label: "Michael Stage Cam", sub: "/live/live_michael", system: "red", kind: "page", iconName: "radio" } },
-  { id: "f-admin-1", type: "customNode", position: { x: 2050, y: 190 }, data: { label: "Crew HQ Dashboard", sub: "/crew", system: "red", kind: "page", iconName: "shield" } },
+  { id: "f1-2", type: "customNode", position: { x: 1800, y: 190 }, data: { label: "POST Cruise Signup", sub: "/api/cruise/signup", system: "cyan", kind: "api", iconName: "terminal" } },
+  { id: "f1-3", type: "emailNode", position: { x: 1800, y: 330 }, data: { label: "Cruise PIN Email", sub: "cruiseCommunityWelcome", system: "cyan", kind: "email", iconName: "mail", details: { emailSubject: "🔑 Your Cruise Verification Code" } } },
+  { id: "f1-4", type: "customNode", position: { x: 1800, y: 470 }, data: { label: "Verify PIN Page", sub: "/cruise/verify", system: "cyan", kind: "page", iconName: "key" } },
+  { id: "f1-5", type: "customNode", position: { x: 1800, y: 610 }, data: { label: "POST Verify PIN", sub: "/api/cruise/verify-pin", system: "cyan", kind: "api", iconName: "terminal" } },
+  { id: "f1-6", type: "emailNode", position: { x: 1800, y: 750 }, data: { label: "Cruise Confirmed Email", sub: "cruiseConfirmation", system: "cyan", kind: "email", iconName: "mail", details: { emailSubject: "🚢 Thanks for Signing Up! Welcome!" } } },
+  { id: "f1-7", type: "customNode", position: { x: 1950, y: 890 }, data: { label: "Cruise Member Hub", sub: "/cruise/dashboard", system: "cyan", kind: "page", iconName: "sparkles" } },
+
+  { id: "f2-2", type: "customNode", position: { x: 2100, y: 190 }, data: { label: "POST Register Request", sub: "/api/cruise/register-pin", system: "cyan", kind: "api", iconName: "terminal" } },
+  { id: "f2-3", type: "emailNode", position: { x: 2100, y: 330 }, data: { label: "Register PIN Email", sub: "cruiseRegisterPin", system: "cyan", kind: "email", iconName: "mail", details: { emailSubject: "🚢 Your Verification PIN" } } },
+
+  { id: "f-live-1", type: "customNode", position: { x: 2350, y: 190 }, data: { label: "Michael Stage Cam", sub: "/live/live_michael", system: "red", kind: "page", iconName: "radio" } },
+
+  { id: "f-contact-1", type: "customNode", position: { x: 2650, y: 190 }, data: { label: "Media & Press Kit", sub: "/media", system: "purple", kind: "page", iconName: "film" } },
+  { id: "f-contact-2", type: "customNode", position: { x: 2650, y: 330 }, data: { label: "Career Milestones", sub: "/features", system: "purple", kind: "page", iconName: "globe" } },
+
+  { id: "f-admin-1", type: "customNode", position: { x: 2950, y: 190 }, data: { label: "Crew HQ Dashboard", sub: "/crew", system: "red", kind: "page", iconName: "shield" } },
 ];
 
 const NAV_EDGES: Edge[] = [
   { id: "e-home-1", source: "nav-home", target: "f3-1", label: "Sign In", style: { stroke: "#a855f7", strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#a855f7" } },
-  { id: "e3-1", source: "f3-1", target: "f3-2", label: "Email", style: { stroke: "#a855f7", strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#a855f7" } },
-  { id: "e3-2", source: "f3-2", target: "f3-3", label: "PIN Email", style: { stroke: "#a855f7", strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#a855f7" } },
-  { id: "e3-3", source: "f3-3", target: "f3-4", label: "Receives PIN", style: { stroke: "#a855f7", strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#a855f7" } },
-  { id: "e3-4", source: "f3-4", target: "f3-5", label: "Verifies", style: { stroke: "#a855f7", strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#a855f7" } },
-  { id: "e3-5", source: "f3-5", target: "f3-6", label: "Session", style: { stroke: "#a855f7", strokeWidth: 2 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#a855f7" } },
+  { id: "e3-1", source: "f3-1", target: "f3-2", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e3-2", source: "f3-2", target: "f3-3", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e3-3", source: "f3-3", target: "f3-4", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e3-4", source: "f3-4", target: "f3-5", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e3-5", source: "f3-5", target: "f3-6", style: { stroke: "#a855f7", strokeWidth: 2 } },
 
   { id: "e-shows-1", source: "nav-shows", target: "f-shows-1", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "e-shows-2", source: "nav-shows", target: "f-shows-2", style: { stroke: "#10b981", strokeWidth: 2 } },
-  { id: "e-shows-3", source: "f-shows-2", target: "f-shows-3", style: { stroke: "#10b981", strokeWidth: 2 } },
-  { id: "e-shows-4", source: "f-shows-3", target: "f4-1", style: { stroke: "#10b981", strokeWidth: 2 } },
+  { id: "e-shows-2", source: "f-shows-1", target: "f-shows-2", style: { stroke: "#a855f7", strokeWidth: 2 } },
 
-  { id: "e-fans-1", source: "nav-fans", target: "f-fans-1", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "e-fans-3", source: "nav-fans", target: "f-fans-3", style: { stroke: "#a855f7", strokeWidth: 2 } },
-  { id: "e-fans-4", source: "nav-fans", target: "f-fans-4", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e-book-1", source: "nav-book", target: "f-book-1", style: { stroke: "#10b981", strokeWidth: 2 } },
+  { id: "e-book-2", source: "f-book-1", target: "f-book-2", style: { stroke: "#10b981", strokeWidth: 2 } },
+  { id: "e-book-3", source: "f-book-2", target: "f4-1", style: { stroke: "#10b981", strokeWidth: 2 } },
+  { id: "e-book-4", source: "f4-1", target: "f-book-3", style: { stroke: "#10b981", strokeWidth: 2 } },
 
   { id: "e-merch-1", source: "nav-merch", target: "f-merch-1", style: { stroke: "#f59e0b", strokeWidth: 2 } },
   { id: "e-merch-2", source: "f-merch-1", target: "f-merch-2", style: { stroke: "#f59e0b", strokeWidth: 2 } },
+
+  { id: "e-wall-1", source: "nav-wall", target: "f-wall-1", style: { stroke: "#ec4899", strokeWidth: 2 } },
+  { id: "e-wall-2", source: "f-wall-1", target: "f-wall-2", style: { stroke: "#ec4899", strokeWidth: 2 } },
+
+  { id: "e-fans-1", source: "nav-fans", target: "f-fans-1", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e-fans-2", source: "f-fans-1", target: "f-fans-2", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e-fans-3", source: "nav-fans", target: "f-fans-4", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e-fans-4", source: "f-fans-4", target: "f4-4", style: { stroke: "#a855f7", strokeWidth: 2 } },
 
   { id: "e1-1", source: "nav-cruise", target: "f1-2", style: { stroke: "#06b6d4", strokeWidth: 2 } },
   { id: "e1-2", source: "f1-2", target: "f1-3", style: { stroke: "#06b6d4", strokeWidth: 2 } },
@@ -335,121 +357,20 @@ const NAV_EDGES: Edge[] = [
   { id: "e2-2", source: "f2-2", target: "f2-3", style: { stroke: "#06b6d4", strokeWidth: 2 } },
 
   { id: "e-live-1", source: "nav-live", target: "f-live-1", style: { stroke: "#ef4444", strokeWidth: 2 } },
+  { id: "e-contact-1", source: "nav-contact", target: "f-contact-1", style: { stroke: "#a855f7", strokeWidth: 2 } },
+  { id: "e-contact-2", source: "f-contact-1", target: "f-contact-2", style: { stroke: "#a855f7", strokeWidth: 2 } },
+
   { id: "e-admin-1", source: "nav-admin", target: "f-admin-1", style: { stroke: "#ef4444", strokeWidth: 2 } },
 ];
 
-// --- DATA SET 2: DEDICATED STEP-BY-STEP SIGN-UP JOURNEY & EMAIL PIPELINE ---
+// --- DATA SET 2: DEDICATED STEP-BY-STEP SIGN-UP JOURNEY ---
 const SIGNUP_STEPS_NODES: Node<FlowNodeData>[] = [
-  {
-    id: "sup-step-1",
-    type: "customNode",
-    position: { x: 50, y: 120 },
-    data: {
-      label: "User Fills Sign-Up Form",
-      sub: "/cruise or /fans/complete-profile",
-      system: "cyan",
-      kind: "step",
-      stepNumber: 1,
-      iconName: "userPlus",
-      details: {
-        summary: "Step 1: User submits registration form entering name, email, phone number, and guest details.",
-        endpointOrPath: "/cruise",
-        payloadOrParams: "{ name, email, phone, guest_count, guest_list[] }",
-      },
-    },
-  },
-  {
-    id: "sup-step-2",
-    type: "customNode",
-    position: { x: 380, y: 120 },
-    data: {
-      label: "POST Signup API & PIN Gen",
-      sub: "/api/cruise/signup",
-      system: "cyan",
-      kind: "step",
-      stepNumber: 2,
-      iconName: "terminal",
-      details: {
-        summary: "Step 2: Server checks spam filters, creates registration row in Supabase database, and generates a 6-digit PIN code with 30-min expiry.",
-        endpointOrPath: "/api/cruise/signup",
-        dbActions: [
-          "Inserts row into Supabase `cruise_signups`",
-          "Generates 6-digit PIN in `pins` table",
-          "Encrypts sensitive notes/phone data",
-        ],
-      },
-    },
-  },
-  {
-    id: "sup-step-3",
-    type: "emailNode",
-    position: { x: 710, y: 120 },
-    data: {
-      label: "Verification PIN Email Sent",
-      sub: "cruiseCommunityWelcome",
-      system: "cyan",
-      kind: "email",
-      stepNumber: 3,
-      iconName: "mail",
-      details: {
-        summary: "Step 3: Transactional email sent to user inbox containing the 6-digit PIN code and security instructions.",
-        emailSubject: "🔑 Your 7th Heaven Cruise Verification Code",
-        endpointOrPath: "src/lib/email-templates.ts -> cruiseCommunityWelcome",
-      },
-    },
-  },
-  {
-    id: "sup-step-4",
-    type: "customNode",
-    position: { x: 1060, y: 120 },
-    data: {
-      label: "User Submits PIN Code",
-      sub: "/cruise/verify?email=...",
-      system: "cyan",
-      kind: "step",
-      stepNumber: 4,
-      iconName: "key",
-      details: {
-        summary: "Step 4: User opens verification page and inputs the 6-digit PIN received in their email.",
-        endpointOrPath: "/cruise/verify",
-      },
-    },
-  },
-  {
-    id: "sup-step-5",
-    type: "emailNode",
-    position: { x: 1390, y: 120 },
-    data: {
-      label: "Thanks for Signing Up Email",
-      sub: "cruiseConfirmation",
-      system: "cyan",
-      kind: "email",
-      stepNumber: 5,
-      iconName: "mail",
-      details: {
-        summary: "Step 5: Confirmation welcome email sent to user inbox with 'Thanks for Signing Up' badge & Magic Link CTA button.",
-        emailSubject: "🚢 Thanks for Signing Up! Welcome to the Cruise Hub!",
-        endpointOrPath: "src/lib/email-templates.ts -> cruiseConfirmation",
-      },
-    },
-  },
-  {
-    id: "sup-step-6",
-    type: "customNode",
-    position: { x: 1740, y: 120 },
-    data: {
-      label: "Dashboard Access Granted",
-      sub: "/cruise/dashboard",
-      system: "cyan",
-      kind: "step",
-      stepNumber: 6,
-      iconName: "sparkles",
-      details: {
-        summary: "Step 6: Magic Link auto-authenticates the session. User gains full access to member dashboard!",
-        endpointOrPath: "/cruise/dashboard",
-      },
-    },
-  },
+  { id: "sup-step-1", type: "customNode", position: { x: 50, y: 120 }, data: { label: "User Fills Sign-Up Form", sub: "/cruise or /fans/complete-profile", system: "cyan", kind: "step", stepNumber: 1, iconName: "userPlus" } },
+  { id: "sup-step-2", type: "customNode", position: { x: 380, y: 120 }, data: { label: "POST Signup API & PIN Gen", sub: "/api/cruise/signup", system: "cyan", kind: "step", stepNumber: 2, iconName: "terminal" } },
+  { id: "sup-step-3", type: "emailNode", position: { x: 710, y: 120 }, data: { label: "Verification PIN Email Sent", sub: "cruiseCommunityWelcome", system: "cyan", kind: "email", stepNumber: 3, iconName: "mail", details: { emailSubject: "🔑 Your 7th Heaven Cruise Verification Code" } } },
+  { id: "sup-step-4", type: "customNode", position: { x: 1060, y: 120 }, data: { label: "User Submits PIN Code", sub: "/cruise/verify?email=...", system: "cyan", kind: "step", stepNumber: 4, iconName: "key" } },
+  { id: "sup-step-5", type: "emailNode", position: { x: 1390, y: 120 }, data: { label: "Thanks for Signing Up Email", sub: "cruiseConfirmation", system: "cyan", kind: "email", stepNumber: 5, iconName: "mail", details: { emailSubject: "🚢 Thanks for Signing Up! Welcome to the Cruise Hub!" } } },
+  { id: "sup-step-6", type: "customNode", position: { x: 1740, y: 120 }, data: { label: "Dashboard Access Granted", sub: "/cruise/dashboard", system: "cyan", kind: "step", stepNumber: 6, iconName: "sparkles" } },
 ];
 
 const SIGNUP_STEPS_EDGES: Edge[] = [
@@ -460,103 +381,13 @@ const SIGNUP_STEPS_EDGES: Edge[] = [
   { id: "es-5", source: "sup-step-5", target: "sup-step-6", label: "Magic Link Auto-Login", style: { stroke: "#06b6d4", strokeWidth: 3 }, markerEnd: { type: MarkerType.ArrowClosed, color: "#06b6d4" } },
 ];
 
-// --- DATA SET 3: DEDICATED STEP-BY-STEP SIGN-IN JOURNEY & EMAIL PIPELINE ---
+// --- DATA SET 3: DEDICATED STEP-BY-STEP SIGN-IN JOURNEY ---
 const SIGNIN_STEPS_NODES: Node<FlowNodeData>[] = [
-  {
-    id: "sin-step-1",
-    type: "customNode",
-    position: { x: 50, y: 120 },
-    data: {
-      label: "Click Sign In Button",
-      sub: "Header / Navigation / Hero",
-      system: "purple",
-      kind: "step",
-      stepNumber: 1,
-      iconName: "logIn",
-      details: {
-        summary: "Step 1: User clicks Sign In button on any page to open authentication modal.",
-        endpointOrPath: "LoginModal Trigger",
-      },
-    },
-  },
-  {
-    id: "sin-step-2",
-    type: "customNode",
-    position: { x: 380, y: 120 },
-    data: {
-      label: "Enter Registered Email",
-      sub: "LoginModal.tsx (Step 1)",
-      system: "purple",
-      kind: "step",
-      stepNumber: 2,
-      iconName: "user",
-      details: {
-        summary: "Step 2: User enters their email address into the glassmorphism modal input field.",
-        endpointOrPath: "src/components/LoginModal.tsx",
-      },
-    },
-  },
-  {
-    id: "sin-step-3",
-    type: "customNode",
-    position: { x: 710, y: 120 },
-    data: {
-      label: "POST Send Auth PIN API",
-      sub: "/api/auth/send-pin",
-      system: "purple",
-      kind: "step",
-      stepNumber: 3,
-      iconName: "terminal",
-      details: {
-        summary: "Step 3: Server generates 6-digit login PIN code. Checks fake-logins.json in dev mode.",
-        endpointOrPath: "/api/auth/send-pin",
-        dbActions: [
-          "Generates 6-digit login PIN",
-          "Stores PIN in memory/Redis cache",
-        ],
-      },
-    },
-  },
-  {
-    id: "sin-step-4",
-    type: "emailNode",
-    position: { x: 1040, y: 120 },
-    data: {
-      label: "Login Verification PIN Email",
-      sub: "sendAuthPin",
-      system: "purple",
-      kind: "email",
-      stepNumber: 4,
-      iconName: "mail",
-      details: {
-        summary: "Step 4: Email sent to user inbox with 6-digit sign-in PIN code.",
-        emailSubject: "🔑 Your 7th Heaven Sign-In Verification Code",
-        endpointOrPath: "src/lib/email-templates.ts -> sendAuthPin",
-      },
-    },
-  },
-  {
-    id: "sin-step-5",
-    type: "customNode",
-    position: { x: 1390, y: 120 },
-    data: {
-      label: "Enter PIN & Verify Session",
-      sub: "LoginModal.tsx -> /api/auth/verify-pin",
-      system: "purple",
-      kind: "step",
-      stepNumber: 5,
-      iconName: "key",
-      details: {
-        summary: "Step 5: User inputs 6-digit code into modal. Server validates PIN, sets auth cookie, and redirects user to Dashboard!",
-        endpointOrPath: "/api/auth/verify-pin",
-        dbActions: [
-          "Validates 6-digit PIN match",
-          "Creates authenticated session cookie",
-          "Redirects to member dashboard",
-        ],
-      },
-    },
-  },
+  { id: "sin-step-1", type: "customNode", position: { x: 50, y: 120 }, data: { label: "Click Sign In Button", sub: "Header / Navigation", system: "purple", kind: "step", stepNumber: 1, iconName: "logIn" } },
+  { id: "sin-step-2", type: "customNode", position: { x: 380, y: 120 }, data: { label: "Enter Registered Email", sub: "LoginModal.tsx (Step 1)", system: "purple", kind: "step", stepNumber: 2, iconName: "user" } },
+  { id: "sin-step-3", type: "customNode", position: { x: 710, y: 120 }, data: { label: "POST Send Auth PIN API", sub: "/api/auth/send-pin", system: "purple", kind: "step", stepNumber: 3, iconName: "terminal" } },
+  { id: "sin-step-4", type: "emailNode", position: { x: 1040, y: 120 }, data: { label: "Login Verification PIN Email", sub: "sendAuthPin", system: "purple", kind: "email", stepNumber: 4, iconName: "mail", details: { emailSubject: "🔑 Your 7th Heaven Sign-In Verification Code" } } },
+  { id: "sin-step-5", type: "customNode", position: { x: 1390, y: 120 }, data: { label: "Enter PIN & Verify Session", sub: "LoginModal.tsx -> /api/auth/verify-pin", system: "purple", kind: "step", stepNumber: 5, iconName: "key" } },
 ];
 
 const SIGNIN_STEPS_EDGES: Edge[] = [
@@ -591,7 +422,6 @@ export default function UserFlowMap() {
     setSelectedNode(null);
   }, [nodes, edges, setNodes, setEdges]);
 
-  // Handle node click
   const onNodeClick = useCallback((_: React.MouseEvent, node: Node<FlowNodeData>) => {
     setSelectedNode(node);
   }, []);
@@ -601,7 +431,7 @@ export default function UserFlowMap() {
 
       {/* FILTER SUB-BAR FOR SPECIFIC FLOW PIPELINES */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-black/80 border border-purple-500/30 p-2.5 rounded-2xl backdrop-blur-xl shadow-xl">
-        <div className="flex items-center gap-1.5 p-1 bg-white/[0.04] rounded-xl border border-white/10">
+        <div className="flex items-center gap-1.5 p-1 bg-white/[0.04] rounded-xl border border-white/10 overflow-x-auto">
           <button
             onClick={() => setActiveFlowFilter("all")}
             className={`px-3.5 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition flex items-center gap-2 ${
@@ -611,7 +441,7 @@ export default function UserFlowMap() {
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
-            <span>Full Nav & Page Map</span>
+            <span>Full Header Nav & Page Map</span>
           </button>
 
           <button
@@ -623,7 +453,7 @@ export default function UserFlowMap() {
             }`}
           >
             <UserPlus className="w-3.5 h-3.5 text-cyan-300" />
-            <span>Step-by-Step Sign Up Pipeline</span>
+            <span>Sign Up Steps Pipeline</span>
           </button>
 
           <button
@@ -635,12 +465,12 @@ export default function UserFlowMap() {
             }`}
           >
             <LogIn className="w-3.5 h-3.5 text-purple-300" />
-            <span>Step-by-Step Sign In Pipeline</span>
+            <span>Sign In Steps Pipeline</span>
           </button>
         </div>
 
         <div className="text-xs font-mono text-white/50 px-3">
-          {activeFlowFilter === "all" && "Showing all top nav pages and vertical user journeys"}
+          {activeFlowFilter === "all" && "Showing 10 top header nav pages & vertical user journeys"}
           {activeFlowFilter === "signup" && "Step 1 (Form) ➔ Step 2 (PIN Gen) ➔ Step 3 (PIN Email) ➔ Step 4 (Verify) ➔ Step 5 (Thanks Email) ➔ Step 6 (Dashboard)"}
           {activeFlowFilter === "signin" && "Step 1 (Modal) ➔ Step 2 (Email) ➔ Step 3 (PIN Gen) ➔ Step 4 (PIN Email) ➔ Step 5 (Verify & Cookie Redirect)"}
         </div>
@@ -653,9 +483,9 @@ export default function UserFlowMap() {
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             <span className="font-black uppercase tracking-widest text-white">
-              {activeFlowFilter === "all" && "7th Heaven Site Map & Navigation Journeys"}
-              {activeFlowFilter === "signup" && "Dedicated Sign-Up Steps & Verification Email Pipeline"}
-              {activeFlowFilter === "signin" && "Dedicated Sign-In Steps & Login PIN Email Pipeline"}
+              {activeFlowFilter === "all" && "7th Heaven Header Nav Map & User Journeys"}
+              {activeFlowFilter === "signup" && "Sign-Up Steps & Verification Email Pipeline"}
+              {activeFlowFilter === "signin" && "Sign-In Steps & Login PIN Email Pipeline"}
             </span>
           </div>
 
@@ -673,7 +503,7 @@ export default function UserFlowMap() {
           onNodeClick={onNodeClick}
           nodeTypes={nodeTypes}
           fitView
-          fitViewOptions={{ padding: 0.15 }}
+          fitViewOptions={{ padding: 0.12 }}
           colorMode="dark"
           className="pt-10"
         >
