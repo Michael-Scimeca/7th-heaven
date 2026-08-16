@@ -2,319 +2,284 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import {
-  GitBranch,
   Globe,
-  Terminal,
-  FileCode,
-  ExternalLink,
-  Layers,
-  DollarSign,
-  Server,
-  CheckCircle2,
-  ListFilter,
-  Network,
-  ArrowRight,
-  Search,
-  X,
-  Sparkles,
-  Calendar,
   ShoppingBag,
   UserCheck,
   Radio,
-  Mail,
-  ShieldCheck,
+  Sparkles,
   Lock,
+  ShieldCheck,
+  Layers,
+  Terminal,
+  Search,
+  ExternalLink,
+  CheckCircle2,
+  FileCode,
+  ArrowRight,
+  Compass,
+  Film,
+  Calendar,
+  CreditCard,
+  X,
+  ChevronRight,
+  ChevronDown,
+  Maximize2,
+  Minimize2,
+  ZoomIn,
+  ZoomOut,
+  RefreshCw,
+  GitBranch,
+  LayoutGrid,
+  ListTree,
+  Eye,
+  Info,
 } from "lucide-react";
 
-// Dynamic Import for @xyflow/react User Flow Map Engine
-const UserFlowMap = dynamic(() => import("@/components/UserFlowMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-[850px] rounded-3xl border border-purple-500/30 bg-[#050505] flex flex-col items-center justify-center gap-4 text-purple-300 animate-pulse">
-      <GitBranch className="w-10 h-10 animate-spin text-purple-400" />
-      <span className="text-xs font-mono font-bold uppercase tracking-widest text-white/60">
-        Loading Interactive User Flow Graph Engine...
-      </span>
-    </div>
-  ),
-});
+interface NodeItem {
+  id: string;
+  code: string;
+  path: string;
+  type: "Static" | "SSG" | "Dynamic" | "API";
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isPublic?: boolean;
+  color: string; // Tailored color badge
+  children?: NodeItem[];
+}
 
-// --- RESTORED SITE STRUCTURE DATA FROM COMMIT 7f421dc ---
-const siteStructure = [
+interface TreeCategory {
+  id: string;
+  code: string;
+  title: string;
+  path: string;
+  color: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  children: NodeItem[];
+}
+
+const TREE_DATA: TreeCategory[] = [
   {
-    title: "Public Experience (Fans & Band)",
-    routes: [
-      {
-        path: "/",
-        name: "Home Page",
-        sections: ["Cinematic Hero Hub", "Proximity Notifications", "Next Show Banner", "Upcoming Shows Grid", "Cruise Promo Banner", "Tour Map", "Latest Release", "Music Player", "Merch Quick Shop", "Photo Gallery", "Video Section", "Behind the Scenes"],
-        features: ["Dynamic Header Intersection", "Local Storage Opt-in tracking", "Live Stream Detection", "Supabase Real-Time Feed", "E2E Verified ⭐"],
-        color: "text-purple-400",
-        border: "border-purple-500/30",
-        bg: "bg-purple-500/5",
-      },
-      {
-        path: "/shows/past",
-        name: "Past Shows Archive",
-        sections: ["Searchable Historical Show Archive", "Past Venue Performances", "Setlists & Photos"],
-        features: ["Supabase Real-Time Search", "Date Filtering", "Venue Geolocation"],
-        color: "text-blue-400",
-        border: "border-blue-500/30",
-        bg: "bg-blue-500/5",
-      },
-      {
-        path: "/shows/075144a7-588c-4d9a-a8b5-b44bca910b90",
-        name: "Show Detail View",
-        sections: ["Show Hero", "RSVP Controls", "Attendee List", "Invite Challenge Card", "QR Share Code", "Venue Directions", "Live Feed Banner"],
-        features: ["Auto-RSVP via SMS Deep Link", "Twilio Webhook Reply Handling", "Supabase show_attendance", "Dynamic QR Generation"],
-        color: "text-blue-400",
-        border: "border-blue-500/30",
-        bg: "bg-blue-500/5",
-      },
-      {
-        path: "/video",
-        name: "Video Gallery",
-        sections: ["16:9 Thumbnail Grids", "Custom Inline Player", "Categorized Playlists"],
-        features: ["Intelligent API Fallbacks", "Aspect Ratio Scaling", "Hydration Error Immunity"],
-        color: "text-pink-400",
-        border: "border-pink-500/30",
-        bg: "bg-pink-500/5",
-      },
-      {
-        path: "/fan-photo-wall",
-        name: "Fan Photo Wall",
-        sections: ["Dynamic Masonry Grid", "Hover Interactions", "Fullscreen Lightbox", "Upload Fan Photo Modal"],
-        features: ["CSS Column-Based Masonry", "Focus Trapping Modal", "Optimized Image Loading"],
-        color: "text-emerald-400",
-        border: "border-emerald-500/30",
-        bg: "bg-emerald-500/5",
-      },
-      {
-        path: "/live",
-        name: "Live Stream Hub",
-        sections: ["Active Broadcast Gallery", "Real-Time Stream Detection", "Michael, Ryan, Sammy & Tony Cams"],
-        features: ["LiveKit Room Aggregation", "Supabase Cross-Validation", "WebRTC Video Streams"],
-        color: "text-rose-400",
-        border: "border-rose-500/30",
-        bg: "bg-rose-500/5",
-      },
-      {
-        path: "/merch",
-        name: "Official Merch Store",
-        sections: ["Product Grid", "Headless Checkout", "Cart System", "QR Scanner Link"],
-        features: ["Shopify Storefront API", "GraphQL Cart Mutations", "Dynamic Inventory"],
-        color: "text-lime-400",
-        border: "border-lime-500/30",
-        bg: "bg-lime-500/5",
-      },
-      {
-        path: "/book",
-        name: "Book the Band",
-        sections: ["Multi-Step Booking Form", "Event Type Selection", "Production & Extras", "Planner Dashboard Access"],
-        features: ["Supabase Form Submission", "Role-Based Planner Accounts", "Token-Based Cancellation Links", "Booking Alert Emails"],
-        color: "text-fuchsia-400",
-        border: "border-fuchsia-500/30",
-        bg: "bg-fuchsia-500/5",
-      },
-      {
-        path: "/contact",
-        name: "Contact HQ",
-        sections: ["Contact Form", "Social Links", "Media Kit Link"],
-        features: ["Form Validation", "Resend Integration"],
-        color: "text-sky-400",
-        border: "border-sky-500/30",
-        bg: "bg-sky-500/5",
-      },
-      {
-        path: "/cruise",
-        name: "Caribbean Cruise 2026",
-        sections: ["Cinematic Hero", "Interest Signup Form", "Live Fan Counter", "Day-by-Day Itinerary", "FAQ Accordion"],
-        features: ["Supabase Interest Tracking", "Resend Email PIN Confirmation", "Token-Based Cancellation", "Cruiser Dashboard Link"],
-        color: "text-cyan-400",
-        border: "border-cyan-500/30",
-        bg: "bg-cyan-500/5",
-      },
+    id: "shows",
+    code: "1.0",
+    title: "Shows & Concerts",
+    path: "/shows/past",
+    color: "#a855f7", // Purple
+    icon: Calendar,
+    description: "Live concert schedules, past show archives, venue details & booking requests.",
+    children: [
+      { id: "shows-past", code: "1.1", path: "/shows/past", type: "Static", title: "Past Shows Archive", description: "Searchable historical show archive and past venue performances.", icon: Globe, isPublic: true, color: "#a855f7" },
+      { id: "shows-detail", code: "1.2", path: "/shows/075144a7-588c-4d9a-a8b5-b44bca910b90", type: "SSG", title: "Show Detail View", description: "Individual performance page with venue map, setlists & tickets.", icon: Globe, isPublic: true, color: "#a855f7" },
+      { id: "shows-book", code: "1.3", path: "/book", type: "Static", title: "Booking Request", description: "Private party, festival, and venue booking inquiry form.", icon: Calendar, isPublic: true, color: "#a855f7" },
+      { id: "shows-book-success", code: "1.3.1", path: "/book/success", type: "Static", title: "Booking Confirmation", description: "Inquiry submission success screen.", icon: CheckCircle2, isPublic: true, color: "#a855f7" },
+      { id: "shows-book-cancel", code: "1.3.2", path: "/book/cancel", type: "Static", title: "Booking Canceled", description: "Inquiry cancellation feedback screen.", icon: Globe, isPublic: true, color: "#a855f7" },
+      { id: "shows-faq", code: "1.4", path: "/faq", type: "Static", title: "Show FAQ", description: "Frequently asked questions regarding tickets, VIP & doors.", icon: Globe, isPublic: true, color: "#a855f7" },
     ],
   },
   {
-    title: "Authentication & Dashboards",
-    routes: [
-      {
-        path: "/fans",
-        name: "Fan Club Dashboard",
-        sections: ["Fan vs Crew Pathing", "Backstage Live Feed", "SMS Live Alert Opt-In", "Proximity Show Alerts", "Referral Program + QR Code", "Guitar Pick Lottery"],
-        features: ["Role-Based Automatic Routing", "JWT Passwordless Auth PIN", "isCruiser Email Reconciliation", "Cross-Promo Cruise Banner"],
-        color: "text-cyan-400",
-        border: "border-cyan-500/30",
-        bg: "bg-cyan-500/5",
-      },
-      {
-        path: "/planner",
-        name: "Planner Dashboard",
-        sections: ["Booking Status Tracker", "Event Details View", "Re-Book Flow", "Inline Checklist Editing"],
-        features: ["Role-Based Access", "Supabase Row-Level Security", "Real-Time Status Updates"],
-        color: "text-teal-400",
-        border: "border-teal-500/30",
-        bg: "bg-teal-500/5",
-      },
-      {
-        path: "/cruise/dashboard",
-        name: "Cruise Passenger Dashboard",
-        sections: ["Stateroom Cabin Setup", "Itinerary Calendar", "Lounge Chat", "Deck Tour Preview"],
-        features: ["Supabase site_settings Messaging", "Real-time Notifications", "Role-Based Access"],
-        color: "text-cyan-400",
-        border: "border-cyan-500/30",
-        bg: "bg-cyan-500/5",
-      },
-      {
-        path: "/crew",
-        name: "Crew HQ Dashboard",
-        sections: ["Live Broadcast Studio", "Live Chat & Reactions", "Interactive Raffle Engine", "Gear Checklists"],
-        features: ["LiveKit Streaming Control", "Cross-Tab Synchronization", "Real-Time Broadcast Toggles"],
-        color: "text-emerald-400",
-        border: "border-emerald-500/30",
-        bg: "bg-emerald-500/5",
-      },
-      {
-        path: "/admin",
-        name: "Master Admin Command Center",
-        sections: ["Band & Site Tab: Announcements, Analytics, Shopify Sales, Booking Approval, Live Streams, Photo Moderation, SMS/Newsletter Studio"],
-        features: ["Band/Cruise Tab Toggle", "Leaflet Map Integration", "Secure Role-Based Access", "Supabase Read/Write", "Shopify API Aggregation"],
-        color: "text-red-400",
-        border: "border-red-500/30",
-        bg: "bg-red-500/5",
-      },
-      {
-        path: "/admin/emails",
-        name: "Transactional Email Previews",
-        sections: ["14 Email Templates (Booking, Auth PIN, Cruise Verification, Live Alert, Newsletter)"],
-        features: ["Centralized Template Registry", "Resend API Test Sender", "HTML & Code Viewers"],
-        color: "text-red-400",
-        border: "border-red-500/30",
-        bg: "bg-red-500/5",
-      },
+    id: "fans",
+    code: "2.0",
+    title: "Fan Club & Community",
+    path: "/fans",
+    color: "#ec4899", // Pink
+    icon: UserCheck,
+    description: "Member portal, photo galleries, guitar pick lottery & fan profiles.",
+    children: [
+      { id: "fans-hub", code: "2.1", path: "/fans", type: "Static", title: "Fan Club Hub", description: "Central fan member dashboard, announcements & VIP perks.", icon: UserCheck, isPublic: true, color: "#ec4899" },
+      { id: "fans-profile", code: "2.2", path: "/fans/sample_fan", type: "Dynamic", title: "Member Profile", description: "Public member profile showing badges & favorite tracks.", icon: UserCheck, isPublic: true, color: "#ec4899" },
+      { id: "fans-complete", code: "2.3", path: "/fans/complete-profile", type: "Static", title: "Complete Profile", description: "Fan account onboarding and profile details setup.", icon: UserCheck, color: "#ec4899" },
+      { id: "fans-photowall", code: "2.4", path: "/fan-photo-wall", type: "Static", title: "Fan Photo Wall", description: "Community concert photo stream & fan uploads.", icon: Film, isPublic: true, color: "#ec4899" },
+      { id: "fans-picks", code: "2.5", path: "/picks", type: "Static", title: "Guitar Pick Lottery", description: "Collect digital guitar picks at live shows for prizes.", icon: Sparkles, isPublic: true, color: "#ec4899" },
+      { id: "fans-planner", code: "2.6", path: "/planner", type: "Static", title: "Show Planner Portal", description: "Private event planner coordinator dashboard.", icon: UserCheck, color: "#ec4899" },
+      { id: "fans-planner-verify", code: "2.6.1", path: "/planner/verify", type: "Static", title: "Planner Verify PIN", description: "Security PIN check for show planner access.", icon: Lock, color: "#ec4899" },
+    ],
+  },
+  {
+    id: "merch",
+    code: "3.0",
+    title: "Store & Merchandise",
+    path: "/merch",
+    color: "#f59e0b", // Amber
+    icon: ShoppingBag,
+    description: "Official band t-shirts, CDs, accessories & QR instant checkout.",
+    children: [
+      { id: "merch-shop", code: "3.1", path: "/merch", type: "Static", title: "Official Merch Store", description: "Browse and buy official 7th Heaven gear and albums.", icon: ShoppingBag, isPublic: true, color: "#f59e0b" },
+      { id: "merch-qr", code: "3.2", path: "/qr/merch", type: "Dynamic", title: "QR Merch Scanner", description: "Fast mobile checkout at live venue merchandise tables.", icon: ShoppingBag, isPublic: true, color: "#f59e0b" },
+      { id: "merch-paytest", code: "3.3", path: "/payment-test", type: "Static", title: "Payment Sandbox", description: "EPX payment gateway test environment.", icon: CreditCard, color: "#f59e0b" },
+      { id: "merch-returns", code: "3.4", path: "/returns", type: "Static", title: "Return Policy", description: "Merchandise return & refund policy information.", icon: Globe, isPublic: true, color: "#f59e0b" },
+    ],
+  },
+  {
+    id: "live",
+    code: "4.0",
+    title: "Live Stream Hub",
+    path: "/live",
+    color: "#ef4444", // Red
+    icon: Radio,
+    description: "Multi-angle concert streams, member cams & live chat.",
+    children: [
+      { id: "live-hub", code: "4.1", path: "/live", type: "Static", title: "Main Broadcast Room", description: "Interactive live concert stream with stage chat.", icon: Radio, isPublic: true, color: "#ef4444" },
+      { id: "live-michael", code: "4.2", path: "/live/live_michael", type: "Static", title: "Michael Cam", description: "Dedicated Michael Scimeca stage angle.", icon: Radio, color: "#ef4444" },
+      { id: "live-ryan", code: "4.3", path: "/live/live_ryan", type: "Static", title: "Ryan Cam", description: "Dedicated Ryan Cook guitar angle.", icon: Radio, color: "#ef4444" },
+      { id: "live-sammy", code: "4.4", path: "/live/live_sammy", type: "Static", title: "Sammy Cam", description: "Dedicated Sammy drum kit angle.", icon: Radio, color: "#ef4444" },
+      { id: "live-tony", code: "4.5", path: "/live/live_tony", type: "Static", title: "Tony Cam", description: "Dedicated Tony bass angle.", icon: Radio, color: "#ef4444" },
+    ],
+  },
+  {
+    id: "cruise",
+    code: "5.0",
+    title: "Caribbean Cruise 2026",
+    path: "/cruise",
+    color: "#06b6d4", // Cyan
+    icon: Sparkles,
+    description: "Official 7th Heaven Fan Cruise booking, itinerary & stateroom hub.",
+    children: [
+      { id: "cruise-home", code: "5.1", path: "/cruise", type: "Static", title: "Cruise Main Landing", description: "Cruise details, lineup, ship amenities & booking info.", icon: Sparkles, isPublic: true, color: "#06b6d4" },
+      { id: "cruise-dash", code: "5.2", path: "/cruise/dashboard", type: "Static", title: "Cruiser Dashboard", description: "Stateroom portal, itinerary calendar & party packages.", icon: Sparkles, color: "#06b6d4" },
+      { id: "cruise-prev", code: "5.3", path: "/cruise/preview", type: "Static", title: "Cruise Ship Tour", description: "Virtual tour of ship decks and VIP venues.", icon: Sparkles, isPublic: true, color: "#06b6d4" },
+      { id: "cruise-verify", code: "5.4", path: "/cruise/verify", type: "Static", title: "Verify Cruise PIN", description: "Cruiser security PIN verification screen.", icon: Lock, color: "#06b6d4" },
+      { id: "cruise-cancel", code: "5.5", path: "/cruise/cancel", type: "Static", title: "Cruise Cancel", description: "Booking cancellation request procedure.", icon: Sparkles, color: "#06b6d4" },
+    ],
+  },
+  {
+    id: "admin",
+    code: "6.0",
+    title: "Band HQ & Admin",
+    path: "/admin",
+    color: "#10b981", // Emerald
+    icon: ShieldCheck,
+    description: "Band management, road crew dashboards & contract repositories.",
+    children: [
+      { id: "admin-main", code: "6.1", path: "/admin", type: "Static", title: "Admin Portal", description: "Band leadership admin controls & site options.", icon: Lock, color: "#10b981" },
+      { id: "admin-email-map", code: "6.1.1", path: "/admin/email-map", type: "Static", title: "Email Routing Matrix", description: "Venue & booking contact email routing map.", icon: Lock, color: "#10b981" },
+      { id: "admin-emails", code: "6.1.2", path: "/admin/emails", type: "Static", title: "Newsletters", description: "Fan newsletter broadcasting studio.", icon: Lock, color: "#10b981" },
+      { id: "admin-legal", code: "6.1.3", path: "/admin/legal", type: "Static", title: "Legal Contracts", description: "Venue agreements and stage technical riders.", icon: Lock, color: "#10b981" },
+      { id: "crew-main", code: "6.2", path: "/crew", type: "Static", title: "Crew HQ", description: "Road crew schedule & gear checklists.", icon: ShieldCheck, color: "#10b981" },
+      { id: "crew-michael", code: "6.2.1", path: "/crew-michael", type: "Static", title: "Michael Crew Setup", description: "Vocal mic & channel monitoring notes.", icon: ShieldCheck, color: "#10b981" },
+      { id: "crew-ryan", code: "6.2.2", path: "/crew-ryan", type: "Static", title: "Ryan Rig Setup", description: "Guitar wireless & amp setup map.", icon: ShieldCheck, color: "#10b981" },
+      { id: "crew-sam", code: "6.2.3", path: "/crew-sam", type: "Static", title: "Sam Drum Setup", description: "Drum kit mic map & monitor mix.", icon: ShieldCheck, color: "#10b981" },
+      { id: "crew-tony", code: "6.2.4", path: "/crew-tony", type: "Static", title: "Tony Bass Setup", description: "Bass wireless & monitor mix.", icon: ShieldCheck, color: "#10b981" },
+      { id: "crew-abbie", code: "6.2.5", path: "/crew-abbie", type: "Static", title: "Abbie Stage Ops", description: "Production & stage management notes.", icon: ShieldCheck, color: "#10b981" },
+      { id: "crew-verify", code: "6.2.6", path: "/crew/verify", type: "Static", title: "Crew PIN Check", description: "Road crew security verification PIN.", icon: ShieldCheck, color: "#10b981" },
+    ],
+  },
+  {
+    id: "labs",
+    code: "7.0",
+    title: "UI Design System & Legal",
+    path: "/style-guide",
+    color: "#6366f1", // Indigo
+    icon: Layers,
+    description: "Component library, media press kit, animation labs & legal terms.",
+    children: [
+      { id: "labs-style", code: "7.1", path: "/style-guide", type: "Static", title: "UI Style Guide & Studio", description: "Unified design tokens, fluid typography studio & swatches.", icon: Layers, isPublic: true, color: "#6366f1" },
+      { id: "labs-media", code: "7.2", path: "/media", type: "Static", title: "Media & Press Kit", description: "Promotional photos, logos & stage riders.", icon: Film, isPublic: true, color: "#6366f1" },
+      { id: "labs-contact", code: "7.3", path: "/contact", type: "Static", title: "Contact Us", description: "General contact & band management email.", icon: Globe, isPublic: true, color: "#6366f1" },
+      { id: "labs-features", code: "7.4", path: "/features", type: "Static", title: "Band Features", description: "Career milestones, Billboard records & press.", icon: Globe, isPublic: true, color: "#6366f1" },
+      { id: "labs-privacy", code: "7.5", path: "/privacy", type: "Static", title: "Privacy Policy", description: "Official data privacy terms.", icon: Globe, isPublic: true, color: "#6366f1" },
+      { id: "labs-terms", code: "7.6", path: "/terms", type: "Static", title: "Terms of Service", description: "Website terms and conditions.", icon: Globe, isPublic: true, color: "#6366f1" },
+      { id: "labs-hambuger", code: "7.7", path: "/hambuger", type: "Static", title: "Hamburger Menu Lab", description: "Menu animation test lab.", icon: Layers, color: "#6366f1" },
+      { id: "labs-pagetransition", code: "7.8", path: "/pagetransition", type: "Static", title: "Page Transition Lab", description: "Curtain slide animation lab.", icon: Layers, color: "#6366f1" },
+      { id: "labs-slideup", code: "7.9", path: "/slideup", type: "Static", title: "Slideup Stack Lab", description: "Scroll section stacking animation lab.", icon: Layers, color: "#6366f1" },
+      { id: "labs-textcolor", code: "7.10", path: "/textcolor", type: "Static", title: "Gradient Text Lab", description: "Interactive gradient text generator.", icon: Layers, color: "#6366f1" },
+      { id: "labs-video", code: "7.11", path: "/video", type: "Static", title: "Video Showcase Lab", description: "Custom YouTube video modal player lab.", icon: Film, color: "#6366f1" },
+    ],
+  },
+  {
+    id: "api",
+    code: "8.0",
+    title: "REST API Endpoints",
+    path: "/api/tour",
+    color: "#3b82f6", // Blue
+    icon: Terminal,
+    description: "JSON data feeds for tour dates, system health & playlists.",
+    children: [
+      { id: "api-tour", code: "8.1", path: "/api/tour", type: "API", title: "GET /api/tour", description: "Public REST endpoint returning upcoming show dates JSON.", icon: Terminal, color: "#3b82f6" },
+      { id: "api-health", code: "8.2", path: "/api/health", type: "API", title: "GET /api/health", description: "System uptime and server health diagnostic API.", icon: Terminal, color: "#3b82f6" },
+      { id: "api-announcement", code: "8.3", path: "/api/announcement", type: "API", title: "GET/POST /api/announcement", description: "Banner alerts & show update notifications feed.", icon: Terminal, color: "#3b82f6" },
+      { id: "api-audio", code: "8.4", path: "/api/audio", type: "API", title: "GET /api/audio", description: "Music player audio tracklist JSON feed.", icon: Terminal, color: "#3b82f6" },
     ],
   },
 ];
 
-// --- RESTORED API ENDPOINTS FROM COMMIT 7f421dc ---
-const apiEndpoints = [
-  { method: "GET", path: "/api/tour", desc: "Public show dates JSON feed", auth: "Public" },
-  { method: "GET", path: "/api/health", desc: "System uptime and server diagnostic", auth: "Public" },
-  { method: "POST", path: "/api/cruise/signup", desc: "Cruise interest registration & PIN gen", auth: "Public" },
-  { method: "POST", path: "/api/cruise/verify-pin", desc: "Verify 6-digit PIN & generate session", auth: "Public" },
-  { method: "POST", path: "/api/auth/send-pin", desc: "Passwordless authentication PIN email", auth: "Public" },
-  { method: "POST", path: "/api/auth/verify-pin", desc: "Verify sign-in PIN & set session cookie", auth: "Public" },
-  { method: "POST", path: "/api/booking/submit", desc: "Band booking inquiry submission", auth: "Public" },
-  { method: "GET", path: "/api/live-rooms", desc: "LiveKit active broadcast room status", auth: "Public" },
-  { method: "POST", path: "/api/admin/broadcast", desc: "Broadcast live notification alert to fans", auth: "Admin" },
-];
-
-// --- RESTORED INFRASTRUCTURE COST SERVICES FROM COMMIT 7f421dc ---
-const infraServices = [
-  { service: "Vercel Pro", icon: "▲", cost: "$20", unit: "/mo", plan: "App Host & Edge Routing", what: "Next.js Serverless SSR, ISR, Edge Middleware & SSL", color: "text-purple-400", link: "https://vercel.com" },
-  { service: "Shopify Storefront", icon: "🛍️", cost: "$39", unit: "/mo", plan: "E-Commerce Engine", what: "Headless GraphQL Cart API & Product Catalog", color: "text-emerald-400", link: "https://shopify.com" },
-  { service: "Supabase Pro", icon: "⚡", cost: "$25", unit: "/mo", plan: "Postgres & Auth", what: "PostgreSQL Database, Real-Time Sync & Row Security", color: "text-cyan-400", link: "https://supabase.com" },
-  { service: "Resend API", icon: "✉️", cost: "Free–$20", unit: "/mo", plan: "Transactional Emails", what: "14 Custom HTML Email Templates for PINs & Bookings", color: "text-amber-400", link: "https://resend.com" },
-  { service: "Twilio SMS", icon: "📲", cost: "~$0.0079", unit: "/msg", plan: "SMS Alerts & RSVPs", what: "Concert SMS Blasts & 2-Way Reply Webhooks", color: "text-rose-400", link: "https://twilio.com" },
-  { service: "LiveKit Starter", icon: "📡", cost: "Free–$50", unit: "/mo", plan: "WebRTC Live Cams", what: "Multi-Angle Live Stage Streams & Low-Latency Video", color: "text-red-400", link: "https://livekit.io" },
-];
-
-// Tree Helper Sub-Components from Commit 7f421dc
-function SiteNode({
-  href,
-  label,
-  sub,
-  color = "white",
-  desc,
-}: {
-  href: string;
-  label: string;
-  sub?: string;
-  desc?: string;
-  color?: "white" | "purple" | "red" | "amber" | "cyan" | "teal" | "blue";
-}) {
-  const colorMap: Record<string, string> = {
-    white: "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]",
-    purple: "border-purple-500/30 bg-purple-500/5 hover:border-purple-400/50 hover:bg-purple-500/10",
-    red: "border-red-500/30 bg-red-500/5 hover:border-red-400/50 hover:bg-red-500/10",
-    amber: "border-amber-500/30 bg-amber-500/5 hover:border-amber-400/50 hover:bg-amber-500/10",
-    cyan: "border-cyan-500/30 bg-cyan-500/5 hover:border-cyan-400/50 hover:bg-cyan-500/10",
-    teal: "border-teal-500/30 bg-teal-500/5 hover:border-teal-400/50 hover:bg-teal-500/10",
-    blue: "border-blue-500/30 bg-blue-500/5 hover:border-blue-400/50 hover:bg-blue-500/10",
-  };
-  const dotMap: Record<string, string> = { white: "bg-white/40", purple: "bg-purple-400", red: "bg-red-400", amber: "bg-amber-400", cyan: "bg-cyan-400", teal: "bg-teal-400", blue: "bg-blue-400" };
-  const textMap: Record<string, string> = { white: "text-white/80", purple: "text-purple-300", red: "text-red-300", amber: "text-amber-300", cyan: "text-cyan-300", teal: "text-teal-300", blue: "text-blue-300" };
-
-  const isLinkable = !href.includes("[") && href !== "#";
-  const cls = `flex flex-col items-center justify-center border rounded-xl p-3 transition-all text-center group w-full cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${colorMap[color]}`;
-
-  const inner = (
-    <>
-      <div className="flex items-center gap-1.5 mb-0.5">
-        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotMap[color]}`} />
-        <span className={`text-xs font-black uppercase tracking-widest leading-tight ${textMap[color]}`}>{label}</span>
-      </div>
-      {sub && <span className="text-[10px] text-white/30 font-mono mt-0.5">{sub}</span>}
-      {desc && <span className="text-[10px] text-white/20 leading-snug mt-1 max-w-[140px]">{desc}</span>}
-    </>
-  );
-
-  if (isLinkable) {
-    return <Link href={href} className={cls}>{inner}</Link>;
-  }
-  return <div className={cls}>{inner}</div>;
-}
-
-function BranchLine({ cols }: { cols: number }) {
-  return (
-    <div className="flex justify-around items-start py-3 relative">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-3 bg-white/10" />
-      <div className="absolute top-3 bg-white/10 h-px" style={{ left: `calc(100%/${cols}/2)`, right: `calc(100%/${cols}/2)` }} />
-      {Array.from({ length: cols }).map((_, i) => (
-        <div key={i} className="flex-1 flex flex-col items-center">
-          <div className="w-px h-3 bg-white/10 mt-3" />
-          <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
-          <div className="w-px h-2 bg-white/10" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-export default function VisualSitemapClient({ initialTab = "flows" }: { initialTab?: "directory" | "flows" }) {
-  const [activeTab, setActiveTab] = useState<"directory" | "flows">(initialTab);
+export default function VisualSitemapClient() {
+  const [viewMode, setViewMode] = useState<"tree" | "compact" | "grid">("tree");
   const [searchQuery, setSearchQuery] = useState("");
+  const [zoomLevel, setZoomLevel] = useState(100);
+  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
 
-  const filteredCategories = useMemo(() => {
+  const toggleCategoryCollapse = (catId: string) => {
+    setCollapsedCategories((prev) => ({
+      ...prev,
+      [catId]: !prev[catId],
+    }));
+  };
+
+  const collapseAll = () => {
+    const nextState: Record<string, boolean> = {};
+    TREE_DATA.forEach((c) => (nextState[c.id] = true));
+    setCollapsedCategories(nextState);
+  };
+
+  const expandAll = () => {
+    setCollapsedCategories({});
+  };
+
+  // Compute total statistics
+  const stats = useMemo(() => {
+    let totalNodes = 1; // root node /
+    let publicCount = 1;
+    let dynamicCount = 0;
+    let apiCount = 0;
+
+    TREE_DATA.forEach((cat) => {
+      cat.children.forEach((child) => {
+        totalNodes++;
+        if (child.isPublic) publicCount++;
+        if (child.type === "Dynamic" || child.type === "SSG") dynamicCount++;
+        if (child.type === "API") apiCount++;
+      });
+    });
+
+    return { total: totalNodes, public: publicCount, dynamic: dynamicCount, api: apiCount };
+  }, []);
+
+  // Filtered Tree based on search query
+  const filteredTree = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
-    if (!q) return siteStructure;
+    if (!q) return TREE_DATA;
 
-    return siteStructure
-      .map((cat) => {
-        const matchingRoutes = cat.routes.filter(
-          (r) =>
-            r.name.toLowerCase().includes(q) ||
-            r.path.toLowerCase().includes(q) ||
-            r.sections.some((s) => s.toLowerCase().includes(q)) ||
-            r.features.some((f) => f.toLowerCase().includes(q))
-        );
+    return TREE_DATA.map((cat) => {
+      const catMatches =
+        cat.title.toLowerCase().includes(q) ||
+        cat.path.toLowerCase().includes(q) ||
+        cat.description.toLowerCase().includes(q);
 
-        if (matchingRoutes.length > 0) {
-          return { ...cat, routes: matchingRoutes };
-        }
-        return null;
-      })
-      .filter(Boolean) as typeof siteStructure;
+      const matchingChildren = cat.children.filter(
+        (child) =>
+          child.title.toLowerCase().includes(q) ||
+          child.path.toLowerCase().includes(q) ||
+          child.description.toLowerCase().includes(q) ||
+          child.type.toLowerCase().includes(q)
+      );
+
+      if (catMatches || matchingChildren.length > 0) {
+        return {
+          ...cat,
+          children: catMatches ? cat.children : matchingChildren,
+        };
+      }
+      return null;
+    }).filter(Boolean) as TreeCategory[];
   }, [searchQuery]);
 
   return (
-    <div className="min-h-screen text-white pt-24 pb-20 px-4 sm:px-8 lg:px-[42px] max-w-[1700px] mx-auto space-y-8">
+    <div className="min-h-screen text-white pt-24 pb-20 px-4 sm:px-8 lg:px-[42px] max-w-[1600px] mx-auto space-y-8">
 
       {/* Top Header Card */}
-      <div className="relative rounded-3xl border border-purple-500/20 bg-gradient-to-r from-purple-950/40 via-black/80 to-cyan-950/40 p-6 sm:p-10 shadow-2xl overflow-hidden backdrop-blur-xl">
+      <div className="relative rounded-3xl border border-purple-500/20 bg-gradient-to-b from-purple-950/40 via-black/60 to-black/80 p-6 sm:p-10 shadow-2xl overflow-hidden backdrop-blur-xl">
         <div className="pointer-events-none absolute -top-32 -right-32 w-80 h-80 rounded-full bg-purple-600/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-cyan-600/15 blur-3xl" />
 
@@ -322,14 +287,14 @@ export default function VisualSitemapClient({ initialTab = "flows" }: { initialT
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-extrabold text-xs tracking-wider uppercase flex items-center gap-1.5">
-                <GitBranch className="w-3.5 h-3.5 text-purple-400" /> Octopus.do Visual Sitemap & Flow Engine
+                <GitBranch className="w-3.5 h-3.5 text-purple-400" /> Octopus.do Visual Sitemap Engine
               </span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-white to-cyan-300">
-              7th Heaven Site Engine
+              7th Heaven Visual Sitemap
             </h1>
-            <p className="text-white/60 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              Complete architectural sitemap, route hierarchy, API catalog, tech stack cost matrix, and interactive user flow map.
+            <p className="text-white/60 text-xs sm:text-sm max-w-2xl leading-relaxed">
+              Interactive architectural map & route hierarchy modeled after Octopus.do. Inspect page branches, status cards, dynamic routes, and API endpoints in real-time.
             </p>
           </div>
 
@@ -347,238 +312,490 @@ export default function VisualSitemapClient({ initialTab = "flows" }: { initialT
           </div>
         </div>
 
-        {/* TOP LEVEL TAB SWITCHER */}
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 relative z-10">
-          <div className="flex items-center gap-2 p-1.5 bg-black/60 rounded-2xl border border-purple-500/30">
-            <button
-              onClick={() => setActiveTab("flows")}
-              className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition flex items-center gap-2 ${
-                activeTab === "flows"
-                  ? "bg-gradient-to-r from-cyan-600 to-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.5)] border border-cyan-300"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              <Network className="w-4 h-4 text-cyan-300" />
-              <span>Interactive User Flow Map (@xyflow/react)</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("directory")}
-              className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition flex items-center gap-2 ${
-                activeTab === "directory"
-                  ? "bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] border border-purple-300"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              <ListFilter className="w-4 h-4" />
-              <span>Sitemap Tree & Tech Stack (Commit 7f421dc)</span>
-            </button>
+        {/* Quick Stats Bar */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
+          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
+            <span className="block text-white/40 text-[9px] font-mono uppercase tracking-widest">Total Pages & Nodes</span>
+            <span className="text-2xl font-black text-purple-300 font-mono">{stats.total}</span>
           </div>
-
-          <div className="flex items-center gap-4 text-xs text-white/50 font-mono">
-            <span>Current Mode: <strong className="text-purple-300 font-bold">{activeTab === "flows" ? "Interactive Screenshot Flow Map" : "Site Matrix & Infrastructure Costs"}</strong></span>
+          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
+            <span className="block text-white/40 text-[9px] font-mono uppercase tracking-widest">Public Routes</span>
+            <span className="text-2xl font-black text-cyan-300 font-mono">{stats.public}</span>
+          </div>
+          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
+            <span className="block text-white/40 text-[9px] font-mono uppercase tracking-widest">Dynamic / SSG</span>
+            <span className="text-2xl font-black text-emerald-300 font-mono">{stats.dynamic}</span>
+          </div>
+          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
+            <span className="block text-white/40 text-[9px] font-mono uppercase tracking-widest">API Endpoints</span>
+            <span className="text-2xl font-black text-amber-300 font-mono">{stats.api}</span>
           </div>
         </div>
       </div>
 
-      {/* =========================================================================
-         TAB 1: INTERACTIVE USER FLOW MAP (@xyflow/react)
-         ========================================================================= */}
-      {activeTab === "flows" ? (
-        <UserFlowMap />
-      ) : (
-        /* =========================================================================
-           TAB 2: RESTORED SITEMAP TREE & TECH STACK FROM COMMIT 7f421dc
-           ========================================================================= */
-        <div className="space-y-12">
-          
-          {/* Visual Architecture Tree */}
-          <section className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-black uppercase tracking-wider text-purple-300 flex items-center gap-2">
-                <GitBranch className="w-5 h-5" /> Visual Architecture Tree
-              </h2>
-            </div>
+      {/* Octopus.do Toolbar & View Switcher */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-black/60 border border-purple-500/30 p-3 rounded-2xl backdrop-blur-xl shadow-xl">
+        
+        {/* Left: View Mode Selector */}
+        <div className="flex items-center gap-1.5 p-1 bg-white/[0.05] rounded-xl border border-white/10">
+          <button
+            onClick={() => setViewMode("tree")}
+            className={`px-3.5 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition flex items-center gap-2 ${
+              viewMode === "tree"
+                ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.5)]"
+                : "text-white/60 hover:text-white"
+            }`}
+          >
+            <GitBranch className="w-3.5 h-3.5" />
+            <span>Visual Tree Diagram</span>
+          </button>
 
-            <div className="p-6 rounded-3xl border border-purple-500/20 bg-black/80 backdrop-blur-xl overflow-x-auto space-y-4">
-              <div className="flex justify-center">
-                <SiteNode href="/" label="Home (7th Heaven Root)" sub="/" color="purple" wide desc="Hero Stream, Shows, Cruise & Audio" />
+          <button
+            onClick={() => setViewMode("compact")}
+            className={`px-3.5 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition flex items-center gap-2 ${
+              viewMode === "compact"
+                ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.5)]"
+                : "text-white/60 hover:text-white"
+            }`}
+          >
+            <ListTree className="w-3.5 h-3.5" />
+            <span>Compact Hierarchy</span>
+          </button>
+
+          <button
+            onClick={() => setViewMode("grid")}
+            className={`px-3.5 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition flex items-center gap-2 ${
+              viewMode === "grid"
+                ? "bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.5)]"
+                : "text-white/60 hover:text-white"
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Card Grid</span>
+          </button>
+        </div>
+
+        {/* Center: Search Box */}
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+          <input
+            type="text"
+            placeholder="Search sitemap nodes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-9 py-2 rounded-xl bg-black/50 border border-white/10 text-white placeholder:text-white/40 text-xs outline-none focus:border-purple-400 transition"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        {/* Right: Expand/Collapse & Zoom Controls */}
+        <div className="flex items-center gap-2">
+          {viewMode === "tree" && (
+            <div className="hidden lg:flex items-center gap-1 bg-white/[0.05] p-1 rounded-xl border border-white/10">
+              <button
+                onClick={() => setZoomLevel((z) => Math.max(60, z - 10))}
+                className="p-1.5 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition"
+                title="Zoom Out"
+              >
+                <ZoomOut className="w-3.5 h-3.5" />
+              </button>
+              <span className="text-[10px] font-mono text-white/80 px-2 font-bold">{zoomLevel}%</span>
+              <button
+                onClick={() => setZoomLevel((z) => Math.min(130, z + 10))}
+                className="p-1.5 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition"
+                title="Zoom In"
+              >
+                <ZoomIn className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => setZoomLevel(100)}
+                className="p-1.5 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition"
+                title="Reset Zoom"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+
+          <button
+            onClick={expandAll}
+            className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 font-bold text-[11px] uppercase tracking-wider transition"
+          >
+            Expand All
+          </button>
+          <button
+            onClick={collapseAll}
+            className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 font-bold text-[11px] uppercase tracking-wider transition"
+          >
+            Collapse All
+          </button>
+        </div>
+      </div>
+
+      {/* VIEW MODE 1: OCTOPUS.DO VISUAL TREE DIAGRAM */}
+      {viewMode === "tree" && (
+        <div className="overflow-x-auto pb-12 scrollbar-thin scrollbar-thumb-purple-500/20">
+          <div
+            style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: "top left" }}
+            className="transition-transform duration-200 min-w-[1200px] space-y-12"
+          >
+            {/* ROOT NODE: HOME PAGE (0.0) */}
+            <div className="flex flex-col items-center relative">
+              <div className="relative group p-4 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-cyan-500 text-white font-black shadow-[0_0_30px_rgba(168,85,247,0.4)] border border-purple-300 w-72 text-center z-20">
+                <div className="flex items-center justify-between gap-2 border-b border-white/20 pb-2 mb-2">
+                  <span className="px-2 py-0.5 rounded bg-black/40 text-cyan-300 font-mono text-[10px] font-bold">
+                    ROOT NODE 0.0
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-white/20 text-white font-mono text-[9px] uppercase tracking-wider">
+                    PUBLIC
+                  </span>
+                </div>
+
+                <Link href="/" className="flex items-center justify-center gap-2 text-lg uppercase tracking-wider hover:underline">
+                  <Globe className="w-5 h-5 text-cyan-200" />
+                  <span>Home Page (/)</span>
+                </Link>
+                <p className="text-[11px] font-normal text-white/80 mt-1">
+                  7th Heaven Official Band Website Root Entry
+                </p>
               </div>
 
-              <BranchLine cols={7} />
-
-              <div className="grid grid-cols-7 gap-3 min-w-[1200px]">
-                <SiteNode href="/merch" label="Store & Merch" sub="/merch" color="teal" desc="Headless Shopify Storefront" />
-                <SiteNode href="/shows/past" label="Shows Archive" sub="/shows/past" color="blue" desc="Past Show Archives & Booking" />
-                <SiteNode href="/cruise" label="Cruise 2026" sub="/cruise" color="cyan" desc="Fan Cruise & Verification" />
-                <SiteNode href="/fans" label="Fan Club Portal" sub="/fans" color="purple" desc="Member Hub & Pick Lottery" />
-                <SiteNode href="/contact" label="Contact HQ" sub="/contact" color="amber" desc="Band Contact & Press Kit" />
-                <SiteNode href="/live" label="Live Broadcasts" sub="/live" color="red" desc="LiveKit WebRTC Multi-Cam" />
-                <SiteNode href="/admin" label="Crew & Admin" sub="/admin" color="teal" desc="Band HQ Command Center" />
-              </div>
+              {/* Connecting Trunk Line */}
+              <div className="w-0.5 h-12 bg-gradient-to-b from-purple-400 to-purple-600/50 my-1" />
             </div>
-          </section>
 
-          {/* Search Bar for Site Matrix */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-black/60 border border-purple-500/30 p-4 rounded-2xl backdrop-blur-xl shadow-xl">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-              <input
-                type="text"
-                placeholder="Search routes, features, or components..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder:text-white/40 text-xs outline-none focus:border-purple-400 transition"
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white">
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-            <span className="text-xs font-mono text-white/50">Showing {filteredCategories.flatMap(c => c.routes).length} Route Cards</span>
-          </div>
+            {/* LEVEL 1: CATEGORY COLUMNS TREE MAP */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative items-start">
+              
+              {filteredTree.map((cat) => {
+                const CatIcon = cat.icon;
+                const isCollapsed = collapsedCategories[cat.id];
 
-          {/* Detailed Route Matrix */}
-          <section className="space-y-8">
-            {filteredCategories.map((category) => (
-              <div key={category.title} className="space-y-4">
-                <h3 className="text-lg font-black uppercase tracking-wider text-purple-300 border-b border-purple-500/20 pb-2 flex items-center gap-2">
-                  <Layers className="w-4 h-4" /> {category.title}
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {category.routes.map((route) => (
+                return (
+                  <div key={cat.id} className="relative flex flex-col space-y-4">
+                    
+                    {/* Category Header Card (Level 1 Node) */}
                     <div
-                      key={route.path}
-                      className={`rounded-2xl border p-6 ${route.border} ${route.bg} backdrop-blur-md flex flex-col justify-between space-y-4 hover:border-purple-400/60 transition-all duration-200 group`}
+                      style={{ borderColor: `${cat.color}60` }}
+                      className="relative rounded-2xl border bg-black/80 p-4 shadow-xl backdrop-blur-md space-y-2 z-10 transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                     >
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className={`text-xs font-black uppercase tracking-widest ${route.color}`}>
-                            {route.name}
-                          </span>
-                        </div>
+                      {/* Top Code Badge Strip */}
+                      <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
+                        <span
+                          style={{ backgroundColor: `${cat.color}25`, color: cat.color }}
+                          className="px-2 py-0.5 rounded font-mono text-[10px] font-bold"
+                        >
+                          {cat.code}
+                        </span>
 
-                        <code className="text-xs font-mono text-cyan-300 block bg-black/40 px-2.5 py-1 rounded-lg border border-white/5">
-                          {route.path}
-                        </code>
-
-                        <div className="space-y-1 pt-2">
-                          <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest block font-bold">Key Sections</span>
-                          <div className="flex flex-wrap gap-1">
-                            {route.sections.map((sec) => (
-                              <span key={sec} className="text-[10px] px-2 py-0.5 rounded bg-white/5 text-white/70 border border-white/5">
-                                {sec}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="space-y-1 pt-2">
-                          <span className="text-[10px] font-mono text-purple-300/60 uppercase tracking-widest block font-bold">Tech Features</span>
-                          <div className="flex flex-wrap gap-1">
-                            {route.features.map((feat) => (
-                              <span key={feat} className="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-200 border border-purple-500/20 font-mono">
-                                {feat}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
+                        <button
+                          onClick={() => toggleCategoryCollapse(cat.id)}
+                          className="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white/70 font-mono text-[10px] font-bold flex items-center gap-1 transition"
+                        >
+                          <span>{cat.children.length} Pages</span>
+                          {isCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                        </button>
                       </div>
 
-                      <div className="pt-4 border-t border-white/5 flex justify-end">
-                        {!route.path.includes("[") && route.path !== "#" ? (
-                          <Link href={route.path} className="text-xs font-extrabold text-purple-400 group-hover:text-purple-300 flex items-center gap-1">
-                            <span>Open Route</span>
-                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition" />
-                          </Link>
-                        ) : (
-                          <span className="text-[10px] font-mono text-white/30">Dynamic Route Pattern</span>
-                        )}
+                      {/* Title & Icon */}
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
+                          className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border border-white/10"
+                        >
+                          <CatIcon className="w-4 h-4" />
+                        </div>
+                        <h3 className="font-extrabold text-sm text-white uppercase tracking-wider">
+                          {cat.title}
+                        </h3>
                       </div>
+
+                      <p className="text-[11px] text-white/50 leading-relaxed">
+                        {cat.description}
+                      </p>
                     </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </section>
 
-          {/* REST API Endpoints Catalog */}
-          <section className="space-y-4 pt-6 border-t border-white/10">
-            <h2 className="text-xl font-black uppercase tracking-wider text-amber-300 flex items-center gap-2">
-              <Terminal className="w-5 h-5" /> REST API Endpoints Catalog
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {apiEndpoints.map((api) => (
-                <div key={api.path} className="p-4 rounded-2xl bg-black/60 border border-amber-500/20 backdrop-blur-md space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">
-                      {api.method}
-                    </span>
-                    <span className="text-[9px] font-mono text-white/40 uppercase">{api.auth}</span>
+                    {/* Sub-Tree Branch Connecting Stem */}
+                    {!isCollapsed && cat.children.length > 0 && (
+                      <div className="pl-6 space-y-3 relative border-l-2 border-dashed border-purple-500/30 ml-4 pt-1">
+                        {cat.children.map((child) => {
+                          const ChildIcon = child.icon;
+
+                          return (
+                            <div
+                              key={child.id}
+                              className="group relative flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-purple-500/40 p-3 transition-all duration-200"
+                            >
+                              {/* Horizontal Tree Line Connector */}
+                              <div className="absolute -left-[25px] top-4 w-5 h-0.5 bg-purple-500/30 group-hover:bg-purple-400 transition" />
+
+                              <div
+                                style={{ backgroundColor: `${child.color}15`, color: child.color }}
+                                className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border border-white/10 mt-0.5"
+                              >
+                                <ChildIcon className="w-3.5 h-3.5" />
+                              </div>
+
+                              <div className="flex-1 min-w-0 space-y-1">
+                                <div className="flex items-center justify-between gap-1">
+                                  <span className="font-mono text-[9px] text-white/40">{child.code}</span>
+                                  <span
+                                    className={`px-1.5 py-0.2 rounded text-[8px] font-mono font-bold uppercase tracking-wider ${
+                                      child.type === "API"
+                                        ? "bg-amber-500/20 text-amber-300"
+                                        : child.type === "Dynamic"
+                                        ? "bg-cyan-500/20 text-cyan-300"
+                                        : child.type === "SSG"
+                                        ? "bg-emerald-500/20 text-emerald-300"
+                                        : "bg-white/10 text-white/60"
+                                    }`}
+                                  >
+                                    {child.type}
+                                  </span>
+                                </div>
+
+                                <h4 className="font-bold text-xs text-white group-hover:text-purple-300 transition truncate">
+                                  {child.title}
+                                </h4>
+
+                                <code className="text-[10px] font-mono text-cyan-400/80 block truncate">
+                                  {child.path}
+                                </code>
+
+                                <p className="text-[10px] text-white/50 line-clamp-2 leading-tight">
+                                  {child.description}
+                                </p>
+
+                                <div className="pt-1 flex items-center justify-between">
+                                  <span className="text-[8px] font-mono text-white/30">
+                                    {child.isPublic ? "PUBLIC" : "MEMBER"}
+                                  </span>
+                                  {child.type === "API" ? (
+                                    <a
+                                      href={child.path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-[10px] font-extrabold text-amber-400 hover:underline flex items-center gap-1"
+                                    >
+                                      <span>JSON</span>
+                                      <ExternalLink className="w-2.5 h-2.5" />
+                                    </a>
+                                  ) : (
+                                    <Link
+                                      href={child.path}
+                                      className="text-[10px] font-extrabold text-purple-400 hover:underline flex items-center gap-1"
+                                    >
+                                      <span>Open</span>
+                                      <ArrowRight className="w-2.5 h-2.5" />
+                                    </Link>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
                   </div>
-                  <code className="text-xs font-mono text-white font-bold block">{api.path}</code>
-                  <p className="text-xs text-white/50">{api.desc}</p>
-                </div>
-              ))}
+                );
+              })}
+
             </div>
-          </section>
-
-          {/* Restored Monthly Cost & Tech Stack Matrix from Commit 7f421dc */}
-          <section className="space-y-6 pt-6 border-t border-white/10">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <h2 className="text-xl font-black uppercase tracking-wider text-emerald-400 flex items-center gap-2">
-                  <Server className="w-5 h-5" /> Platform Infrastructure & Cost Matrix (7f421dc)
-                </h2>
-                <p className="text-xs text-white/50 mt-1">Services powering 7th Heaven web app, hosting, database & live streaming.</p>
-              </div>
-
-              <div className="px-4 py-2 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-right">
-                <span className="text-xs text-white/40 uppercase font-mono block font-bold">Estimated Monthly Total</span>
-                <span className="text-xl font-black text-emerald-300">~$62–$157 / mo</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {infraServices.map((s) => (
-                <div key={s.service} className="p-5 rounded-2xl bg-black/60 border border-white/10 backdrop-blur-md flex flex-col justify-between space-y-3">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">{s.icon}</span>
-                      <h3 className={`font-black text-sm uppercase tracking-wider ${s.color}`}>{s.service}</h3>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-black text-white text-base">{s.cost}</span>
-                      <span className="text-[10px] text-white/40 font-mono">{s.unit}</span>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-white/60 leading-relaxed">{s.what}</p>
-
-                  <div className="pt-2 flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-white/40">{s.plan}</span>
-                    <a href={s.link} target="_blank" rel="noopener noreferrer" className="text-purple-300 font-bold hover:underline flex items-center gap-1">
-                      <span>Visit</span>
-                      <ExternalLink className="w-2.5 h-2.5" />
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-
+          </div>
         </div>
       )}
 
-      {/* Footer Meta */}
+      {/* VIEW MODE 2: COMPACT HIERARCHY TREE LIST */}
+      {viewMode === "compact" && (
+        <div className="space-y-4">
+          {filteredTree.map((cat) => {
+            const CatIcon = cat.icon;
+            const isCollapsed = collapsedCategories[cat.id];
+
+            return (
+              <div
+                key={cat.id}
+                className="rounded-2xl border border-white/10 bg-black/60 overflow-hidden shadow-lg backdrop-blur-md"
+              >
+                {/* Accordion Bar */}
+                <button
+                  onClick={() => toggleCategoryCollapse(cat.id)}
+                  className="w-full px-5 py-4 flex items-center justify-between gap-4 bg-white/[0.02] hover:bg-white/[0.05] transition text-left"
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
+                      className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border border-white/10"
+                    >
+                      <CatIcon className="w-4.5 h-4.5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold text-white/40">{cat.code}</span>
+                        <h3 className="font-black text-sm text-white uppercase tracking-wider">
+                          {cat.title}
+                        </h3>
+                      </div>
+                      <p className="text-xs text-white/50 mt-0.5">{cat.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="px-2.5 py-1 rounded-full bg-white/10 text-white/70 font-mono text-xs font-bold">
+                      {cat.children.length} Pages
+                    </span>
+                    {isCollapsed ? <ChevronRight className="w-4 h-4 text-white/50" /> : <ChevronDown className="w-4 h-4 text-white/50" />}
+                  </div>
+                </button>
+
+                {/* Expanded Children List */}
+                {!isCollapsed && (
+                  <div className="p-4 border-t border-white/10 bg-black/40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {cat.children.map((child) => {
+                      const ChildIcon = child.icon;
+                      return (
+                        <div
+                          key={child.id}
+                          className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/10 hover:border-purple-500/40 transition"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div
+                              style={{ backgroundColor: `${child.color}20`, color: child.color }}
+                              className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border border-white/10"
+                            >
+                              <ChildIcon className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-bold text-xs text-white block truncate">{child.title}</span>
+                              <code className="text-[10px] font-mono text-cyan-400 block truncate">{child.path}</code>
+                            </div>
+                          </div>
+
+                          {child.type === "API" ? (
+                            <a
+                              href={child.path}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-extrabold text-[10px] uppercase tracking-wider transition shrink-0"
+                            >
+                              JSON
+                            </a>
+                          ) : (
+                            <Link
+                              href={child.path}
+                              className="px-2.5 py-1 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 font-extrabold text-[10px] uppercase tracking-wider transition shrink-0"
+                            >
+                              Visit
+                            </Link>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* VIEW MODE 3: CARD GRID DIRECTORY */}
+      {viewMode === "grid" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredTree.flatMap((cat) =>
+            cat.children.map((child) => {
+              const ChildIcon = child.icon;
+              return (
+                <div
+                  key={child.id}
+                  className="group relative flex flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-purple-500/40 p-6 transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 font-mono text-[10px] font-bold uppercase tracking-wider">
+                        {cat.title}
+                      </span>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-widest border ${
+                          child.type === "API"
+                            ? "bg-amber-500/10 text-amber-300 border-amber-500/30"
+                            : child.type === "Dynamic"
+                            ? "bg-cyan-500/10 text-cyan-300 border-cyan-500/30"
+                            : child.type === "SSG"
+                            ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+                            : "bg-white/10 text-white/70 border-white/20"
+                        }`}
+                      >
+                        {child.type}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center shrink-0 text-purple-300 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition duration-300">
+                        <ChildIcon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-extrabold text-base text-white group-hover:text-purple-300 transition">
+                          {child.title}
+                        </h3>
+                        <code className="text-[11px] font-mono text-cyan-400/80 group-hover:text-cyan-300 transition block mt-0.5">
+                          {child.path}
+                        </code>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-white/60 leading-relaxed">
+                      {child.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-6 mt-4 border-t border-white/5 flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-white/30 uppercase tracking-widest">
+                      {child.isPublic ? "● Public Access" : "🔒 Member / Protected"}
+                    </span>
+
+                    {child.type === "API" ? (
+                      <a
+                        href={child.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-extrabold text-amber-400 hover:text-amber-300 transition"
+                      >
+                        <span>Fetch JSON</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : (
+                      <Link
+                        href={child.path}
+                        className="inline-flex items-center gap-1.5 text-xs font-extrabold text-purple-400 group-hover:text-purple-300 transition"
+                      >
+                        <span>Visit Page</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition" />
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
+
+      {/* Footer Meta Bar */}
       <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
         <div className="flex items-center gap-2">
           <Globe className="w-4 h-4 text-purple-400" />
-          <span>7th Heaven Official Website — Complete Sitemap & Flow Engine</span>
+          <span>7th Heaven Official Website — Visual Sitemap Diagram</span>
         </div>
-        <span>Includes full commit 7f421dc sitemap tree & cost matrix</span>
+        <span>Modeled after Octopus.do visual sitemap architecture</span>
       </div>
 
     </div>
