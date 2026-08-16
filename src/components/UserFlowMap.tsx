@@ -38,6 +38,10 @@ import {
   Camera,
   HelpCircle as QuestionIcon,
   GitBranch,
+  Layers,
+  Key,
+  Bell,
+  Send,
 } from "lucide-react";
 
 // --- Color System ---

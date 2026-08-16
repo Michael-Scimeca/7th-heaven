@@ -552,13 +552,14 @@ export default function ReferralProgramPanel() {
                       </div>
                     )}
                   </div>
-                  );
-                })}
-              </div>
-            );
-          })()}
-        </div>
+                );
+              })}
+            </div>
+          );
+        })()}
       </div>
     </div>
   );
 }
+
+
