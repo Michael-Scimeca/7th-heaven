@@ -109,7 +109,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </div>
                 <h2 className="text-2xl md:text-3xl font-black text-white mb-4">{featured.title}</h2>
                 <p className="text-white/80 text-sm leading-relaxed mb-6">{featured.content}</p>
-                <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-cyan-500 text-black font-black text-xs uppercase tracking-widest hover:bg-cyan-400 transition-colors cursor-pointer">
+                <button aria-label="Action button" type="button" className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-lg shadow-purple-600/30">
                   Read Full Story →
                 </button>
               </div>

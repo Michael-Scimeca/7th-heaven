@@ -1028,44 +1028,18 @@ ${filterLine}
 
   return (
     <>
-      {/* Style override tag for font & layout customizer */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-      #tour-table-container a,
-      #tour-table-container button,
-      #tour-table-container select,
-      #tour-table-container input {
-        font-family: ${tourFontFamily} !important;
-      }
-      #tour-sort-bar select,
-      #tour-sort-bar option {
-        font-family: ${tourFontFamily} !important;
-      }
-      @media (min-width: 1024px) {
-        #tour-table-container .tour-row-item {
-          padding-top: ${tourRowPadding} !important;
-          padding-bottom: ${tourRowPadding} !important;
-          min-height: ${tourRowHeight} !important;
-        }
-      }
-      @media (max-width: 1023px) {
-        #tour-table-container .tour-row-item {
-          min-height: auto !important;
-        }
-      }
-      #tour-rows-container {
-        gap: ${tourRowGap} !important;
-      }
-      #tour-table-container .tour-badge {
-        font-size: 13px !important;
-        padding-top: 1px !important;
-        padding-bottom: 1px !important;
-        line-height: 1 !important;
-      }
-    `}} />
-
       {/* Table */}
-      <section className="py-0 relative" ref={tableRef} id="tour-table-container">
+      <section
+        className="py-0 relative"
+        ref={tableRef}
+        id="tour-table-container"
+        style={{
+          '--tour-font-family': tourFontFamily,
+          '--tour-row-padding': tourRowPadding,
+          '--tour-row-height': tourRowHeight,
+          '--tour-row-gap': tourRowGap,
+        } as React.CSSProperties}
+      >
         <div className="w-full relative site-container">
 
           {!hideMap && (

@@ -447,9 +447,7 @@ export default function HomeVideoShowcase() {
   const gapPx = getGapPx();
 
   return (
-    <section className={`py-8 md:py-12 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
-      {/* 🎭 7th Heaven Cutout Mask & Gradient Overlay */}
-      <div className="smooothy-overlay-div absolute inset-x-0 h-44 pointer-events-none z-20 bottom-0" />
+    <section id="video-slider" className={`py-8 md:py-12 bg-gradient-to-b ${sectionTheme} relative overflow-hidden w-screen left-1/2 -translate-x-1/2 select-none`}>
 
       <div className="w-full relative z-10">
         {/* Section Header with Container Padding */}

@@ -537,7 +537,7 @@ export default function CruiseDashboard() {
 
                   {authError && <p className="text-rose-500 text-xs mt-2 text-center font-bold">{authError}</p>}
 
-                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest text-xs transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                  <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                     {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Verify PIN & Access Hub →"}
                   </button>
 
@@ -586,7 +586,7 @@ export default function CruiseDashboard() {
 
                       {authError && <p className="text-rose-500 text-xs mt-2 font-bold">{authError}</p>}
 
-                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-black uppercase tracking-widest text-xs transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+                      <button aria-label="Action button" type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest text-xs transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
                         {submitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Access Cruise Hub →"}
                       </button>
                     </form>
@@ -699,7 +699,7 @@ export default function CruiseDashboard() {
                     <button aria-label="Action button" onClick={() => setIsEditingAnnouncement(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                       Cancel
                     </button>
-                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
+                    <button aria-label="Action button" onClick={handleSaveAnnouncement} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl shadow-lg shadow-purple-600/30">
                       Save Announcement
                     </button>
                   </div>
@@ -775,7 +775,7 @@ export default function CruiseDashboard() {
                       <button aria-label="Action button" onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
                         Cancel
                       </button>
-                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl">
+                      <button aria-label="Action button" onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer rounded-xl shadow-lg shadow-purple-600/30">
                         Save Guidelines
                       </button>
                     </div>

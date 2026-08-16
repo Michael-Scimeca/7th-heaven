@@ -163,7 +163,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   };
 
   return (
-    <section className="site-container relative pt-16 md:pt-24 lg:pt-32 bg-transparent overflow-hidden" id="proximity-notify">
+    <section id="proximity-notify" className="site-container relative pt-16 md:pt-24 lg:pt-32 bg-transparent overflow-hidden">
 
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
       <div className="relative z-10  max-w-[1100px] mx-auto">

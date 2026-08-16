@@ -533,14 +533,14 @@ export default function AudioPlayerSection() {
       className="h-[calc(100dvh-90px)] flex flex-col justify-between relative w-full bg-transparent overflow-hidden"
       id="music-player-section"
       style={{
-        WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 43px, black calc(100% - 25px), transparent 100%)",
-        maskImage: "linear-gradient(to bottom, transparent 0px, black 43px, black calc(100% - 25px), transparent 100%)",
+        WebkitMaskImage: "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
+        maskImage: "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
       }}
     >
       <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch bg-transparent overflow-hidden">
 
         {/* --- SIDEBAR --- */}
-        <div className="w-full md:w-[240px] lg:w-[320px] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
+        <div className="w-full md:w-[clamp(200px,24vw,320px)] backdrop-blur-xl border-r border-white/10 pt-6 md:pt-10 pl-4 md:pl-8 pb-0 flex flex-col shrink-0 relative z-10 hidden md:flex self-stretch h-full min-h-full overflow-hidden shadow-2xl">
           {/* Fading Vertical Divider on Right */}
           <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none" />
           {/* Fast Search Input */}
@@ -598,148 +598,297 @@ export default function AudioPlayerSection() {
           </div>
         </div>
 
-        {/* --- MAIN AREA (MIDDLE SECTION) --- */}
+        {/* --- MAIN AREA (MIDDLE TRACKLIST + CREDITS SIDEBAR + BOTTOM PLAYBAR) --- */}
         <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
 
-          {/* Tablet & Mobile Album Header Bar */}
-          <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/20 shrink-0 shadow-md">
+          {/* Top Section: Tracklist + Credits Sidebar */}
+          <div className="flex-1 min-h-0 flex flex-col md:flex-row md:items-stretch overflow-hidden relative">
+
+            {/* Middle Tracklist Column */}
+            <div className="flex-1 relative flex flex-col justify-between bg-transparent self-stretch h-full min-h-full overflow-hidden min-w-0">
+              {/* Tablet & Mobile Album Header Bar */}
+              <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-xl border-b border-white/10 shrink-0 z-20">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="relative w-11 h-11 rounded-lg overflow-hidden border border-white/20 shrink-0 shadow-md">
+                    {activeAlbum?.image ? (
+                      <Image src={activeAlbum.image} alt={activeAlbum.title} fill sizes="44px" style={{ objectFit: 'cover' }} />
+                    ) : (
+                      <div className="w-full h-full bg-purple-900/50" />
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-black uppercase text-white truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
+                    <p className="text-[10px] text-white/50 font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
+                  </div>
+                </div>
+                <div className="md:hidden relative w-full max-w-[144px] min-w-[88px] shrink">
+                  <input aria-label="Search"
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Tracklist */}
+              <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
+                <div
+                  ref={tracklistScrollRef}
+                  data-lenis-prevent="true"
+                  onScroll={handleTracklistScroll}
+                  className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
+                  style={{
+                    overscrollBehavior: "contain",
+                    WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
+                    maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
+                  }}
+                >
+                  {searchQuery.trim() ? (
+                    searchResults.length > 0 ? (
+                      searchResults.map(({ track, trackIdx, album, albumIdx }) => {
+                        const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
+                        const cleanName = cleanTitle(track.title);
+                        return (
+                          <button
+                            type="button"
+                            key={`${albumIdx}-${trackIdx}`}
+                            className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
+                              setActiveAlbumIndex(albumIdx);
+                              setActiveTrackIndex(trackIdx);
+                              setIsPlaying(true);
+                            }}
+                          >
+                            <div className="flex items-center gap-4 min-w-0">
+                              <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] shrink-0">
+                                {album.title.split(' ')[0]}
+                              </span>
+                              <span className={`text-sm font-bold truncate ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
+                                {cleanName}
+                              </span>
+                            </div>
+                            <span className="text-[var(--font-size-2xs)] text-white/40 font-mono font-bold">
+                              {getDummyDuration(track.title, trackIdx)}
+                            </span>
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <div className="p-8 text-center text-white/40 text-xs font-bold uppercase tracking-widest">
+                        No songs found matching &ldquo;{searchQuery}&rdquo;
+                      </div>
+                    )
+                  ) : (
+                    activeAlbum?.tracks && Array.from(activeAlbum.tracks, (track, idx) => ({ track, idx })).map(({ track, idx }) => {
+                      const isActive = idx === activeTrackIndex;
+                      const trackNumber = String(idx + 1).padStart(2, '0');
+                      const cleanName = cleanTitle(track.title);
+
+                      return (
+                        <button
+                          type="button"
+                          key={track.title}
+                          className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
+                            if (isActive) togglePlay();
+                            else {
+                              setActiveTrackIndex(idx);
+                              setIsPlaying(true);
+                            }
+                          }}
+                        >
+                          <div className="flex items-center gap-5">
+                            <span className={`text-xs font-bold tracking-widest w-6 text-left ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
+                              {trackNumber}
+                            </span>
+                            <span className={`text-sm font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
+                              {cleanName}
+                            </span>
+                          </div>
+
+                          <span className={`text-xs font-bold tracking-widest mr-2 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
+                            {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
+                          </span>
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
+                <div
+                  onClick={handleTracklistTrackClick}
+                  className={`w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
+                >
+                  <div
+                    onMouseDown={handleTracklistThumbMouseDown}
+                    className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
+                    style={{
+                      height: `${tracklistThumbHeight}%`,
+                      top: `${(tracklistScrollProgress * (100 - tracklistThumbHeight)) / 100}%`
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* --- CREDITS SIDEBAR --- */}
+            <div
+              data-lenis-prevent="true"
+              data-lenis-prevent-wheel="true"
+              data-lenis-prevent-touch="true"
+              onWheel={(e) => e.stopPropagation()}
+              className="w-full md:w-[clamp(220px,22vw,350px)] backdrop-blur-xl border-l border-white/10 pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full xl:h-[calc(100%+54px)] xl:-mb-[54px] xl:z-40 shadow-2xl"
+              style={{ overscrollBehavior: "contain" }}
+            >
+
+              {/* Fading Vertical Divider on Left */}
+              <div className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none z-10" />
+
+              {/* Animated gradient orb */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[300px] h-[300px] rounded-full opacity-10 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
+                  style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
+                />
+              </div>
+
+              {/* Sound Wave Animation */}
+              <div className="relative z-[2] w-[140px] h-[36px] mb-3 flex items-center justify-center">
+                <SoundWaveCanvas isPlaying={isPlaying} />
+              </div>
+
+              {/* Album cover thumbnail container */}
+              <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-white/5 overflow-hidden shrink-0 shadow-md">
                 {activeAlbum?.image ? (
-                  <Image src={activeAlbum.image} alt={activeAlbum.title} fill sizes="44px" style={{ objectFit: 'cover' }} />
+                  <Image
+                    src={activeAlbum.image}
+                    alt={activeAlbum.title}
+                    fill
+                    sizes="100px"
+                    style={{ objectFit: 'cover' }}
+                  />
                 ) : (
-                  <div className="w-full h-full bg-purple-900/50" />
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-white/20">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
                 )}
               </div>
-              <div className="min-w-0">
-                <p className="text-xs font-black uppercase text-white truncate tracking-wider">{activeAlbum?.title?.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&") || "7th Heaven"}</p>
-                <p className="text-[10px] text-white/50 font-mono truncate">{activeAlbum?.tracks?.length || 0} TRACKS · {activeAlbum?.type || 'ALBUM'}</p>
-              </div>
-            </div>
-            {/* Search Input on Mobile */}
-            <div className="md:hidden relative w-36">
-              <input aria-label="Search"
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
-              />
-            </div>
-          </div>
 
-          {/* Tracklist */}
-          <div className="relative flex-1 min-h-0 flex items-stretch h-full overflow-hidden">
-            <div
-              ref={tracklistScrollRef}
-              data-lenis-prevent="true"
-              onScroll={handleTracklistScroll}
-              className="flex-1 overflow-y-auto overscroll-contain px-0 pt-10 pb-8 no-scrollbar h-full min-h-0"
-              style={{
-                overscrollBehavior: "contain",
-                WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
-                maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
-              }}
-            >
-              {searchQuery.trim() ? (
-                searchResults.length > 0 ? (
-                  searchResults.map(({ track, trackIdx, album, albumIdx }) => {
-                    const isActive = albumIdx === activeAlbumIndex && trackIdx === activeTrackIndex;
-                    const cleanName = cleanTitle(track.title);
-                    return (
-                      <button
-                        type="button"
-                        key={`${albumIdx}-${trackIdx}`}
-                        className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
-                          setActiveAlbumIndex(albumIdx);
-                          setActiveTrackIndex(trackIdx);
-                          setIsPlaying(true);
-                        }}
-                      >
-                        <div className="flex items-center gap-4 min-w-0">
-                          <span className="text-[var(--font-size-2xs)] font-bold uppercase tracking-widest  text-[var(--color-accent)] shrink-0">
-                            {album.title.split(' ')[0]}
-                          </span>
-                          <span className={`text-sm font-bold truncate ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white'}`}>
-                            {cleanName}
-                          </span>
-                        </div>
-                        <span className="text-[var(--font-size-2xs)] text-white/40 font-mono font-bold">
-                          {getDummyDuration(track.title, trackIdx)}
-                        </span>
-                      </button>
-                    );
-                  })
+              {/* Album Title */}
+              <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/60 text-center font-black px-4 max-w-full">
+                {activeAlbum ? (
+                  <span className="block text-white font-black text-sm truncate max-w-[220px]">
+                    {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
+                  </span>
                 ) : (
-                  <div className="p-8 text-center text-white/40 text-xs font-bold uppercase tracking-widest">
-                    No songs found matching &ldquo;{searchQuery}&rdquo;
+                  <span>Select an album</span>
+                )}
+              </span>
+
+              {/* Dynamic Content: Credits/Lineup OR No Credits Available */}
+              {activeAlbum ? (
+                (activeAlbum?.lineup?.length > 0 || activeAlbum?.credits?.length > 0) ? (
+                  <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-white/10">
+                    {activeAlbum?.lineup?.length > 0 && (
+                      <div className="mb-4">
+                        <h3 className="text-[14px] font-black tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
+                        <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
+                          {activeAlbum.lineup.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {activeAlbum?.credits?.length > 0 && (
+                      <div className="mb-4">
+                        <h3 className="text-[14px] font-black tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
+                        <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
+                          {activeAlbum.credits.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Lyrics Button */}
+                    {activeAlbum?.id && ALBUMS_WITH_LYRICS.has(activeAlbum.id) && (
+                      <button aria-label="Action button"
+                        onClick={() => setShowLyrics(true)}
+                        className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
+                      >
+                        Lyrics
+                      </button>
+                    )}
+
+                    {/* Buy / Stream Buttons */}
+                    <div className="pt-4 border-t border-white/10 mt-6 flex flex-col gap-2 w-full">
+                      {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
+                        <a
+                          href={activeAlbum?.paypalButtonId
+                            ? `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${activeAlbum.paypalButtonId}`
+                            : activeAlbum?.storeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 !text-white font-bold text-xs uppercase tracking-widest py-2.5 px-4 rounded transition-colors hover:scale-[1.02] active:scale-[0.98] w-full"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
+                          Buy CD
+                        </a>
+                      )}
+                      <div className="flex flex-col xl:flex-row gap-2 w-full">
+                        {activeAlbum?.spotifyUrl && (
+                          <a
+                            href={activeAlbum.spotifyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-[#1DB954] hover:bg-[#179a45] border border-[#1DB954] !text-white font-bold text-[var(--font-size-3xs)] uppercase tracking-widest py-2 px-3 rounded transition-colors w-full"
+                          >
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" /></svg>
+                            Spotify
+                          </a>
+                        )}
+                        {activeAlbum?.appleMusicUrl && (
+                          <a
+                            href={activeAlbum.appleMusicUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 flex items-center justify-center gap-1.5 !bg-black hover:!bg-zinc-900 !text-white font-bold text-[var(--font-size-3xs)] uppercase tracking-widest py-2 px-3 rounded transition-colors w-full"
+                          >
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.802.42.127.856.187 1.297.228.56.053 1.122.07 1.684.077.55.006 1.1.008 1.65.006h7.7c.51 0 1.02-.006 1.53-.022.62-.02 1.24-.05 1.85-.17.93-.18 1.77-.545 2.468-1.188.71-.654 1.18-1.454 1.434-2.38.167-.604.234-1.224.27-1.848.03-.503.04-1.008.047-1.512V6.124zm-6.772 8.89v3.63c0 .27-.04.533-.15.78a1.57 1.57 0 01-.967.876c-.383.14-.78.2-1.18.228-.5.03-1.003.003-1.48-.177a1.6 1.6 0 01-1.028-.975c-.167-.44-.103-.87.098-1.288.26-.545.718-.87 1.272-1.06.44-.15.9-.213 1.36-.287.31-.05.62-.098.92-.183.2-.06.32-.18.37-.39.01-.03.01-.06.01-.09V9.43c0-.09-.023-.16-.1-.21-.06-.04-.13-.03-.2-.02l-4.87 1.06c-.04.01-.07.02-.1.03-.1.04-.15.11-.16.22v6.24c.005.07.003.14 0 .21-.03.56-.07 1.12-.38 1.62-.29.48-.7.79-1.22.96-.37.12-.76.16-1.15.18-.47.02-.94-.02-1.39-.18-.61-.22-1.03-.62-1.19-1.26-.12-.47-.06-.93.16-1.37.27-.54.71-.87 1.27-1.06.44-.15.9-.21 1.36-.29.3-.05.6-.09.9-.18.19-.06.32-.18.37-.39.01-.03.01-.06.01-.09V7.54c0-.2.06-.36.22-.47.09-.06.18-.1.28-.12l6.2-1.35c.17-.04.34-.07.51-.08.26-.01.42.13.45.39.01.06.01.12.01.18v8.94z" /></svg>
+                            Apple
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
+                ) : (
+                  <span className="relative z-[2] block text-[var(--font-size-3xs)] text-black/40 uppercase tracking-widest font-normal text-center mt-3">
+                    No Credits Available
+                  </span>
                 )
               ) : (
-                activeAlbum?.tracks && Array.from(activeAlbum.tracks, (track, idx) => ({ track, idx })).map(({ track, idx }) => {
-                  const isActive = idx === activeTrackIndex;
-                  const trackNumber = String(idx + 1).padStart(2, '0');
-                  const cleanName = cleanTitle(track.title);
-
-                  return (
-                    <button
-                      type="button"
-                      key={track.title}
-                      className={`w-full text-left group flex items-center justify-between px-6 py-2.5 cursor-pointer transition-colors select-none border-0 ${isActive ? 'bg-[var(--color-accent)]/15 border-0' : 'border-0 hover:bg-white/5'}`} onClick={() => {
-                        if (isActive) togglePlay();
-                        else {
-                          setActiveTrackIndex(idx);
-                          setIsPlaying(true);
-                        }
-                      }}
-                    >
-                      <div className="flex items-center gap-5">
-                        <span className={`text-xs font-bold tracking-widest w-6 text-left ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
-                          {trackNumber}
-                        </span>
-                        <span className={`text-sm font-bold tracking-wide truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? ' text-[var(--color-accent)]' : 'text-white/80 group-hover:text-white transition-colors'}`}>
-                          {cleanName}
-                        </span>
-                      </div>
-
-                      {/* Display duration */}
-                      <span className={`text-xs font-bold tracking-widest mr-2 ${isActive ? ' text-[var(--color-accent)]' : 'text-white/40'}`}>
-                        {isActive && duration ? formatTime(duration) : getDummyDuration(track.title, idx)}
-                      </span>
-
-                    </button>
-                  );
-                })
+                <span className="relative z-[2] block text-[var(--font-size-3xs)] text-white/20 uppercase tracking-widest font-normal text-center mt-3">
+                  Select an album
+                </span>
               )}
-            </div>
 
-            {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
-            <div
-              onClick={handleTracklistTrackClick}
-              className={`w-2.5 my-8 mr-2 bg-purple-950/50 border border-purple-500/30 rounded-full relative overflow-hidden shrink-0 cursor-pointer shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 transition-all duration-300 z-20 ${tracklistThumbHeight >= 99 ? 'opacity-0 pointer-events-none hidden' : 'opacity-100'}`}
-            >
-              <div
-                onMouseDown={handleTracklistThumbMouseDown}
-                className="absolute w-full bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 rounded-full shadow-[0_0_12px_#c084fc] border border-white/40 cursor-grab active:cursor-grabbing hover:brightness-125 transition-transform"
-                style={{
-                  height: `${tracklistThumbHeight}%`,
-                  top: `${(tracklistScrollProgress * (100 - tracklistThumbHeight)) / 100}%`
-                }}
-              />
             </div>
           </div>
 
-          {/* --- PLAY CONTROLS STRIP (MIDDLE SECTION ONLY) --- */}
-          <div className="bg-transparent border-t border-white/10 h-[50px] flex items-center pr-4 md:pr-8 pl-0 gap-4 relative w-full shrink-0 z-20">
+          {/* --- PLAY CONTROLS STRIP (EXTENDS ON TABLET, CONFINED TO MIDDLE COLUMN ON DESKTOP) --- */}
+          <div className="bg-black/50 backdrop-blur-xl border-t border-white/10 h-[54px] flex items-center px-4 md:px-8 gap-3 sm:gap-4 relative w-full xl:w-[calc(100%-clamp(220px,22vw,350px))] shrink-0 z-30">
 
             {/* Album Cover & Play Button Overlay */}
             <button
               type="button"
               aria-label="Toggle play"
-              className="relative w-[50px] h-[50px] shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20 border-0 p-0" onClick={togglePlay}
+              className="relative w-[46px] h-[46px] rounded-lg overflow-hidden shrink-0 cursor-pointer group shadow-[4px_0_15px_rgba(0,0,0,0.5)] z-20 border-0 p-0"
+              onClick={togglePlay}
             >
               {activeAlbum?.image ? (
-                <Image src={activeAlbum.image} alt="Cover" fill sizes="50px" style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
+                <Image src={activeAlbum.image} alt="Cover" fill sizes="46px" style={{ objectFit: 'cover' }} className="transition-transform group-hover:scale-105" />
               ) : (
                 <div className="w-full h-full bg-[var(--color-bg-card)]" />
               )}
@@ -755,19 +904,19 @@ export default function AudioPlayerSection() {
             </button>
 
             {/* Song Title */}
-            <div className="min-w-0 max-w-[160px] shrink-0 hidden md:block">
+            <div className="min-w-0 max-w-[180px] shrink-0 hidden md:block">
               <p className="text-xs font-bold text-white truncate leading-tight">{activeTrack?.title?.replace(/^\d+\s*/, '').replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
               <p className="text-[10px] text-white/40 truncate leading-tight">{activeAlbum?.title?.replace(/&apos;/g, "'").replace(/&amp;/g, "&")}</p>
             </div>
 
             {/* Prev / Next Controls */}
-            <div className="flex items-center gap-3 shrink-0 ml-2">
-              <button aria-label="Previous" className="text-white/50 hover:text-white transition-colors" onClick={handlePrev}>
+            <div className="flex items-center gap-3 shrink-0 ml-1 sm:ml-2">
+              <button aria-label="Previous" className="text-white/50 hover:text-white transition-colors cursor-pointer" onClick={handlePrev}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
               </button>
 
               {/* Play / Pause */}
-              <button aria-label="Action button" className="text-white hover:scale-110 transition-transform" onClick={togglePlay}>
+              <button aria-label="Action button" className="text-white hover:scale-110 transition-transform cursor-pointer" onClick={togglePlay}>
                 {isPlaying ? (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                 ) : (
@@ -775,18 +924,18 @@ export default function AudioPlayerSection() {
                 )}
               </button>
 
-              <button aria-label="Next" className="text-white/50 hover:text-white transition-colors" onClick={handleNext}>
+              <button aria-label="Next" className="text-white/50 hover:text-white transition-colors cursor-pointer" onClick={handleNext}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
               </button>
             </div>
 
             {/* Current Time */}
-            <div className="text-xs font-mono font-bold tracking-wider text-white ml-2 hidden sm:block">
+            <div className="text-xs font-mono font-bold tracking-wider text-white ml-1 shrink-0">
               {formatTime(currentTime)}
             </div>
 
-            {/* Progress Bar */}
-            <div className="relative flex-1 h-[3px] bg-white/10 group mx-3 hidden sm:block max-w-[800px]">
+            {/* Progress Bar (Extends across all available space to the right!) */}
+            <div className="relative flex-1 h-[4px] bg-white/15 group mx-2 sm:mx-3 min-w-[100px]">
               <input aria-label="Input field"
                 type="range"
                 min="0"
@@ -805,15 +954,14 @@ export default function AudioPlayerSection() {
             </div>
 
             {/* Full Time */}
-            <div className="text-xs font-mono font-bold tracking-wider text-white mr-2 hidden sm:block">
+            <div className="text-xs font-mono font-bold tracking-wider text-white mr-1 shrink-0">
               {duration ? formatTime(duration) : getDummyDuration(activeTrack?.title || '', activeTrackIndex)}
             </div>
 
             {/* Right Controls (Volume) */}
             <div className="flex items-center gap-4 shrink-0 ml-auto">
-
               {/* Volume */}
-              <div className="flex items-center gap-2.5 w-[90px] hidden md:flex">
+              <div className="flex items-center gap-2.5 w-[80px] sm:w-[100px]">
                 <button
                   type="button"
                   aria-label="Toggle mute"
@@ -850,149 +998,6 @@ export default function AudioPlayerSection() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* --- CREDITS SIDEBAR --- */}
-        <div
-          data-lenis-prevent="true"
-          data-lenis-prevent-wheel="true"
-          data-lenis-prevent-touch="true"
-          onWheel={(e) => e.stopPropagation()}
-          className="w-full md:w-[240px] lg:w-[300px] xl:w-[350px] backdrop-blur-xl border-l border-white/10 pt-5 pl-4 lg:pl-6 pr-4 lg:pr-8 pb-8 shrink-0 overflow-y-auto overscroll-contain custom-scrollbar hidden md:flex md:flex-col items-center relative overflow-hidden self-stretch h-full shadow-2xl"
-          style={{ overscrollBehavior: "contain" }}
-        >
-          {/* Fading Vertical Divider on Left */}
-          <div className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-transparent via-black/20 dark:via-white/20 to-transparent pointer-events-none z-10" />
-
-          {/* Animated gradient orb */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[300px] h-[300px] rounded-full opacity-10 blur-[80px] animate-[orbPulse_8s_ease-in-out_infinite]"
-              style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
-            />
-          </div>
-
-          {/* Sound Wave Animation */}
-          <div className="relative z-[2] w-[140px] h-[36px] mb-3 flex items-center justify-center">
-            <SoundWaveCanvas isPlaying={isPlaying} />
-          </div>
-
-          {/* Album cover thumbnail container */}
-          <div className="relative z-[2] w-[100px] h-[100px] border border-white/15 rounded-sm mb-3 flex items-center justify-center bg-white/5 overflow-hidden shrink-0 shadow-md">
-            {activeAlbum?.image ? (
-              <Image
-                src={activeAlbum.image}
-                alt={activeAlbum.title}
-                fill
-                sizes="100px"
-                style={{ objectFit: 'cover' }}
-              />
-            ) : (
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-white/20">
-                <circle cx="12" cy="12" r="10" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            )}
-          </div>
-
-          {/* Album Title */}
-          <span className="relative z-[2] text-xs uppercase tracking-[0.2em] text-white/60 text-center font-black px-4 max-w-full">
-            {activeAlbum ? (
-              <span className="block text-white font-black text-sm truncate max-w-[220px]">
-                {activeAlbum.title.replace(/&apos;/gi, "'").replace(/&amp;/gi, "&")}
-              </span>
-            ) : (
-              <span>Select an album</span>
-            )}
-          </span>
-
-          {/* Dynamic Content: Credits/Lineup OR No Credits Available */}
-          {activeAlbum ? (
-            (activeAlbum?.lineup?.length > 0 || activeAlbum?.credits?.length > 0) ? (
-              <div className="relative z-[2] w-full text-left mt-4 pt-4 border-t border-white/10">
-                {activeAlbum?.lineup?.length > 0 && (
-                  <div className="mb-4">
-                    <h3 className="text-[14px] font-black tracking-wider text-white/90 uppercase mb-1.5">Line-Up</h3>
-                    <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
-                      {activeAlbum.lineup.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {activeAlbum?.credits?.length > 0 && (
-                  <div className="mb-4">
-                    <h3 className="text-[14px] font-black tracking-wider text-white/90 uppercase mb-1.5">Credits</h3>
-                    <ul className="flex flex-col gap-1 text-[14px] font-medium text-white/80 leading-snug">
-                      {activeAlbum.credits.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Lyrics Button */}
-                {activeAlbum?.id && ALBUMS_WITH_LYRICS.has(activeAlbum.id) && (
-                  <button aria-label="Action button"
-                    onClick={() => setShowLyrics(true)}
-                    className=" text-[var(--color-accent)] hover: text-[var(--color-accent)] text-sm font-black transition-colors cursor-pointer text-left mt-2 block"
-                  >
-                    Lyrics
-                  </button>
-                )}
-
-                {/* Buy / Stream Buttons */}
-                <div className="pt-4 border-t border-white/10 mt-6 flex flex-col gap-2">
-                  {(activeAlbum?.paypalButtonId || activeAlbum?.storeUrl) && (
-                    <a
-                      href={activeAlbum?.paypalButtonId
-                        ? `https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=${activeAlbum.paypalButtonId}`
-                        : activeAlbum?.storeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 !text-white font-bold text-xs uppercase tracking-widest py-2.5 px-4 rounded transition-colors hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
-                      Buy CD
-                    </a>
-                  )}
-                  <div className="flex gap-2">
-                    {activeAlbum?.spotifyUrl && (
-                      <a
-                        href={activeAlbum.spotifyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-1.5 bg-[#1DB954] hover:bg-[#179a45] border border-[#1DB954] !text-white font-bold text-[var(--font-size-3xs)] uppercase tracking-widest py-2 px-3 rounded transition-colors"
-                      >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" /></svg>
-                        Spotify
-                      </a>
-                    )}
-                    {activeAlbum?.appleMusicUrl && (
-                      <a
-                        href={activeAlbum.appleMusicUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-1.5 !bg-black hover:!bg-zinc-900 !text-white font-bold text-[var(--font-size-3xs)] uppercase tracking-widest py-2 px-3 rounded transition-colors"
-                      >
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.802.42.127.856.187 1.297.228.56.053 1.122.07 1.684.077.55.006 1.1.008 1.65.006h7.7c.51 0 1.02-.006 1.53-.022.62-.02 1.24-.05 1.85-.17.93-.18 1.77-.545 2.468-1.188.71-.654 1.18-1.454 1.434-2.38.167-.604.234-1.224.27-1.848.03-.503.04-1.008.047-1.512V6.124zm-6.772 8.89v3.63c0 .27-.04.533-.15.78a1.57 1.57 0 01-.967.876c-.383.14-.78.2-1.18.228-.5.03-1.003.003-1.48-.177a1.6 1.6 0 01-1.028-.975c-.167-.44-.103-.87.098-1.288.26-.545.718-.87 1.272-1.06.44-.15.9-.213 1.36-.287.31-.05.62-.098.92-.183.2-.06.32-.18.37-.39.01-.03.01-.06.01-.09V9.43c0-.09-.023-.16-.1-.21-.06-.04-.13-.03-.2-.02l-4.87 1.06c-.04.01-.07.02-.1.03-.1.04-.15.11-.16.22v6.24c.005.07.003.14 0 .21-.03.56-.07 1.12-.38 1.62-.29.48-.7.79-1.22.96-.37.12-.76.16-1.15.18-.47.02-.94-.02-1.39-.18-.61-.22-1.03-.62-1.19-1.26-.12-.47-.06-.93.16-1.37.27-.54.71-.87 1.27-1.06.44-.15.9-.21 1.36-.29.3-.05.6-.09.9-.18.19-.06.32-.18.37-.39.01-.03.01-.06.01-.09V7.54c0-.2.06-.36.22-.47.09-.06.18-.1.28-.12l6.2-1.35c.17-.04.34-.07.51-.08.26-.01.42.13.45.39.01.06.01.12.01.18v8.94z" /></svg>
-                        Apple
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <span className="relative z-[2] block text-[var(--font-size-3xs)] text-black/40 uppercase tracking-widest font-normal text-center mt-3">
-                No Credits Available
-              </span>
-            )
-          ) : (
-            <span className="relative z-[2] block text-[var(--font-size-3xs)] text-white/20 uppercase tracking-widest font-normal text-center mt-3">
-              Select an album
-            </span>
-          )}
-
         </div>
       </div>
 

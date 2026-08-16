@@ -40,6 +40,38 @@ export function Header() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Open/close animation for the mobile overlay. Two states instead of one
+  // because a plain `{mobileOpen && ...}` conditional mount/unmounts the
+  // portal instantly — there's no DOM node present during the transition
+  // for the browser to animate, so it just pops in/out with no animation
+  // at all. `overlayMounted` keeps it in the DOM for the exit transition;
+  // `overlayVisible` is flipped a frame after mount so the browser sees a
+  // real 0 -> 1 style change to animate (flipping both on the same frame
+  // the node mounts collapses the transition to nothing, same bug as above).
+  const [overlayMounted, setOverlayMounted] = useState(false);
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const OVERLAY_TRANSITION_MS = 320;
+
+  useEffect(() => {
+    if (mobileOpen) {
+      setOverlayMounted(true);
+      // A rAF-only "flip to visible next frame" is the more common pattern
+      // for this, but requestAnimationFrame callbacks are fully suspended
+      // (not just throttled) on a backgrounded/non-visible tab in Chrome —
+      // so if someone opens this in a background tab, or a test/automation
+      // tool drives it without focusing the tab, the menu would mount and
+      // then just sit at opacity 0 forever, since the frame that flips it
+      // visible never comes. A short setTimeout still gets clamped in a
+      // background tab (~1s floor) rather than fully paused, so it reliably
+      // fires either way — 20ms is imperceptible in a focused tab.
+      const t0 = setTimeout(() => setOverlayVisible(true), 20);
+      return () => clearTimeout(t0);
+    }
+    setOverlayVisible(false);
+    const t = setTimeout(() => setOverlayMounted(false), OVERLAY_TRANSITION_MS);
+    return () => clearTimeout(t);
+  }, [mobileOpen]);
+
   // During a transition the pathname hasn't changed yet (we delay navigation).
   // Use the pending destination so the correct nav link highlights immediately.
   const effectivePathname =
@@ -211,7 +243,7 @@ export function Header() {
     displayRole === "admin"
       ? "bg-[var(--color-purple-primary)]"
       : displayRole === "crew"
-        ? "bg-purple-600"
+        ? "bg-emerald-600"
         : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
           ? "bg-[var(--color-accent)]"
           : displayRole === "cruise"
@@ -437,7 +469,7 @@ export function Header() {
                   y1="6"
                   x2="22.5"
                   y2="6"
-                  className="transition-colors duration-300 ease-in-out origin-[12px_12px]"
+                  className="transition-[transform,opacity,color] duration-300 ease-in-out origin-[12px_12px]"
                   style={{
                     transform: mobileOpen ? "translateY(6px) rotate(45deg)" : "translateY(0px) rotate(0deg)",
                   }}
@@ -447,7 +479,7 @@ export function Header() {
                   y1="12"
                   x2="22.5"
                   y2="12"
-                  className="transition-colors duration-300 ease-in-out origin-[12px_12px]"
+                  className="transition-[transform,opacity,color] duration-300 ease-in-out origin-[12px_12px]"
                   style={{
                     opacity: mobileOpen ? 0 : 1,
                     transform: mobileOpen ? "scaleX(0)" : "scaleX(1)",
@@ -458,7 +490,7 @@ export function Header() {
                   y1="18"
                   x2="22.5"
                   y2="18"
-                  className="transition-colors duration-300 ease-in-out origin-[12px_12px]"
+                  className="transition-[transform,opacity,color] duration-300 ease-in-out origin-[12px_12px]"
                   style={{
                     transform: mobileOpen ? "translateY(-6px) rotate(-45deg)" : "translateY(0px) rotate(0deg)",
                   }}
@@ -479,11 +511,27 @@ export function Header() {
               approach used there.
               Portaled to document.body — see the `mounted` note above for
               why this can't just render inline here. */}
-          {mobileOpen && mounted && createPortal(
-            <div
-              className="fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto"
-              style={{ backgroundColor: "rgb(13, 14, 19)" }}
-            >
+          {overlayMounted && mounted && createPortal(
+            <>
+              {/* globals.css has a PageSpeed hack — `html body > *{ opacity:1
+                  !important }` — meant to force above-the-fold content
+                  visible on first paint. It targets every direct child of
+                  <body>, which now includes this portal, so it was flattening
+                  the fade to a permanent opacity:1 no matter what Tailwind
+                  opacity-0/opacity-100 utility classes we put on the div
+                  (this is the actual reason the menu had "no animation" —
+                  the transform half of the transition worked fine, opacity
+                  was just pinned). Two classes here (0,2,0 specificity) beat
+                  that rule's two-type-selector (0,0,2) specificity even
+                  though both are !important, so this wins the cascade.  */}
+              <style>{`
+                .mobile-overlay-portal.is-hidden { opacity: 0 !important; transform: translateY(-0.75rem); }
+                .mobile-overlay-portal.is-visible { opacity: 1 !important; transform: translateY(0); }
+              `}</style>
+              <div
+                className={`mobile-overlay-portal ${overlayVisible ? "is-visible" : "is-hidden"} fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto transition-[opacity,transform] ease-out`}
+                style={{ backgroundColor: "rgb(13, 14, 19)", transitionDuration: `${OVERLAY_TRANSITION_MS}ms` }}
+              >
               {/* Top bar: logo left, close right — mirrors the main header's
                   row but doesn't reuse it directly since #header-logo is
                   absolutely centered for the regular bar, not left-aligned. */}
@@ -543,13 +591,20 @@ export function Header() {
                     { href: "/cruise", label: "CRUISE" },
                     { href: "/book", label: "BOOK US" },
                     { href: "/contact", label: "CONTACT" },
-                  ].map((link) => (
+                  ].map((link, i) => (
                     <TransitionLink
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] transition-colors ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
-                        }`}
+                      className={`text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] transition-[color,opacity,transform] ease-out ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
+                        } ${overlayVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
+                      style={{
+                        transitionDuration: "300ms",
+                        // Stagger each link slightly behind the panel fade so the
+                        // list reads as cascading in rather than a flat block —
+                        // capped at 10 links' worth of delay, harmless if more are added.
+                        transitionDelay: overlayVisible ? `${60 + i * 35}ms` : "0ms",
+                      }}
                     >
                       {link.label}
                     </TransitionLink>
@@ -602,7 +657,8 @@ export function Header() {
                   </button>
                 )}
               </div>
-            </div>,
+              </div>
+            </>,
             document.body
           )}
 

@@ -202,30 +202,13 @@ export default async function Home() {
 
       {/* ====== TOUR LIST (full — same as /tour page) ====== */}
       <LazySection fallbackHeight="500px">
-        <section
-          id="tour"
-          className="bg-transparent py-0"
-          style={{
-            marginLeft: "calc(-1 * var(--page-padding-x))",
-            marginRight: "calc(-1 * var(--page-padding-x))",
-            width: "calc(100% + 2 * var(--page-padding-x))",
-          }}
-        >
+        <section id="tour" className="bg-transparent py-0">
           <TourList initialShows={finalShowsToRender} />
         </section>
       </LazySection>
 
       <LazySection fallbackHeight="600px">
-        <section
-          id="band"
-          className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]"
-          style={{
-            marginTop: '80px',
-            marginLeft: "calc(-1 * var(--page-padding-x))",
-            marginRight: "calc(-1 * var(--page-padding-x))",
-            width: "calc(100% + 2 * var(--page-padding-x))",
-          }}
-        >
+        <section id="band" className="relative w-full bg-transparent overflow-x-clip py-0 mt-[80px]">
           <BioParallaxSlider />
         </section>
       </LazySection>
@@ -242,15 +225,7 @@ export default async function Home() {
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON (scrolling logo tickers) ====== */}
       <LazySection fallbackHeight="180px">
-        <section
-          id="logos"
-          className="relative w-full py-4"
-          style={{
-            marginLeft: "calc(-1 * var(--page-padding-x))",
-            marginRight: "calc(-1 * var(--page-padding-x))",
-            width: "calc(100% + 2 * var(--page-padding-x))",
-          }}
-        >
+        <section id="logos" className="relative w-full py-4">
           <LogoTicker items={ARTIST_LOGOS} direction="left" />
           <LogoTicker items={PRESS_LOGOS} direction="right" />
         </section>
@@ -273,15 +248,7 @@ export default async function Home() {
 
       {/* ====== MUSIC / AUDIO PLAYER SECTION (At Very Bottom) ====== */}
       <LazySection fallbackHeight="500px">
-        <section
-          id="music"
-          className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden"
-          style={{
-            marginLeft: "calc(-1 * var(--page-padding-x))",
-            marginRight: "calc(-1 * var(--page-padding-x))",
-            width: "calc(100% + 2 * var(--page-padding-x))",
-          }}
-        >
+        <section id="music" className="relative w-full h-[calc(100dvh-90px)] mt-0 overflow-hidden">
           <AudioPlayerSection />
         </section>
       </LazySection>

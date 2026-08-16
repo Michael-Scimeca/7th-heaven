@@ -1744,6 +1744,179 @@ ${deskRules.join("\n")}
                 }
               `}</style>
             </div>
+
+            {/* Sparkle Generate Button (FreeFrontend import) */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Sparkle Generate Button</h3>
+                <SectionBadge label="FreeFrontend Import" color="purple" />
+              </div>
+
+              {/* Standalone Button without giant surrounding container */}
+              <div className="flex flex-wrap items-center gap-6 p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                <div className="relative inline-flex items-center justify-center">
+                  <button
+                    type="button"
+                    className="sgb1-btn"
+                    style={{
+                      '--sgb1-hue': 260,
+                      '--sgb1-hue2': 270,
+                      '--sgb1-spark': '0.60s',
+                      '--sgb1-transition': '0.55s',
+                      '--sgb1-drift-duration': '4.5s',
+                      '--sgb1-font-size': '0.95rem',
+                      '--sgb1-radius': '8px',
+                      '--sgb1-glow': 0.25,
+                    } as React.CSSProperties}
+                  >
+                    <span className="sgb1-text">Generate Site</span>
+                  </button>
+                  <span aria-hidden="true" className="sgb1-particle-pen">
+                    {Array.from({ length: 7 }).map((_, i) => (
+                      <svg key={i} className="sgb1-particle" viewBox="0 0 175.61 205.14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M104.95,197.32c-10.36,10.42-23.6,10.5-34.38-.13-14.06-13.86-25.31-29.37-35.52-46.39-11.28-18.79-21.13-37.58-28.91-58.02C-6.08,60.65-1.19,26.78,31.05,12.17c35.54-16.11,77.06-16.22,112.7-.38,32.89,14.62,38.16,48.45,25.63,81.07-9.81,25.55-22.66,49.2-37.85,72.02-7.93,11.91-16.58,22.37-26.58,32.43Z" />
+                      </svg>
+                    ))}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-white/40">
+                Source:{" "}
+                <a
+                  href="https://freefrontend.com/css-gradient-buttons/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white/60"
+                >
+                  freefrontend.com – CSS Gradient Buttons (Sparkle Generate Button)
+                </a>
+              </p>
+
+              <style jsx>{`
+                .sgb1-btn {
+                  --sgb1-active: 1;
+                  --sgb1-cut: 0.1em;
+                  --sgb1-bg:
+                    radial-gradient(40% 50% at var(--sgb1-driftx1, 35%) var(--sgb1-drifty1, 100%), hsl(var(--sgb1-hue2, 270) calc(var(--sgb1-active) * 97%) 72% / var(--sgb1-active)), transparent),
+                    radial-gradient(80% 100% at var(--sgb1-driftx2, 65%) var(--sgb1-drifty2, 120%), hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) 70% / var(--sgb1-active)), transparent),
+                    hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) calc((var(--sgb1-active) * 44%) + 12%));
+                  background: var(--sgb1-bg);
+                  font-family: var(--font-barlow), 'Barlow', system-ui, -apple-system, sans-serif;
+                  font-size: var(--sgb1-font-size, 0.95rem);
+                  font-weight: 500;
+                  border: 0;
+                  cursor: pointer;
+                  padding: 0.9em 1.3em;
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 0.25em;
+                  white-space: nowrap;
+                  border-radius: var(--sgb1-radius, 8px);
+                  position: relative;
+                  box-shadow:
+                    0 0 calc(var(--sgb1-active) * 6em * var(--sgb1-glow, 0.25)) calc(var(--sgb1-active) * 3em * var(--sgb1-glow, 0.25)) hsl(var(--sgb1-hue, 260) 97% 61% / calc(0.75 * var(--sgb1-glow, 0.25))),
+                    0 0.05em 0 0 hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) calc((var(--sgb1-active) * 50%) + 30%)) inset,
+                    0 -0.05em 0 0 hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) calc(var(--sgb1-active) * 60%)) inset;
+                  transition: box-shadow var(--sgb1-transition, 0.55s), scale var(--sgb1-transition, 0.55s), background var(--sgb1-transition, 0.55s);
+                  animation: sgb1-gradient-drift var(--sgb1-drift-duration, 4.5s) ease-in-out infinite;
+                  scale: calc(1 + (var(--sgb1-active) * 0.1));
+                }
+                @property --sgb1-driftx1 {
+                  syntax: '<percentage>';
+                  inherits: false;
+                  initial-value: 35%;
+                }
+                @property --sgb1-drifty1 {
+                  syntax: '<percentage>';
+                  inherits: false;
+                  initial-value: 100%;
+                }
+                @property --sgb1-driftx2 {
+                  syntax: '<percentage>';
+                  inherits: false;
+                  initial-value: 65%;
+                }
+                @property --sgb1-drifty2 {
+                  syntax: '<percentage>';
+                  inherits: false;
+                  initial-value: 120%;
+                }
+                @keyframes sgb1-gradient-drift {
+                  0%, 100% {
+                    --sgb1-driftx1: 20%;
+                    --sgb1-drifty1: 90%;
+                    --sgb1-driftx2: 80%;
+                    --sgb1-drifty2: 130%;
+                  }
+                  50% {
+                    --sgb1-driftx1: 80%;
+                    --sgb1-drifty1: 115%;
+                    --sgb1-driftx2: 20%;
+                    --sgb1-drifty2: 105%;
+                  }
+                }
+                .sgb1-btn:active {
+                  scale: 1;
+                }
+                .sgb1-particle-pen {
+                  position: absolute;
+                  width: 200%;
+                  aspect-ratio: 1;
+                  top: 50%;
+                  left: 50%;
+                  translate: -50% -50%;
+                  mask: radial-gradient(white, transparent 65%);
+                  z-index: -1;
+                  opacity: 0;
+                  transition: opacity var(--sgb1-transition, 0.55s);
+                  pointer-events: none;
+                }
+                .sgb1-btn:is(:hover, :focus-visible) ~ .sgb1-particle-pen {
+                  opacity: 1;
+                }
+                .sgb1-particle {
+                  fill: white;
+                  width: calc(var(--sgb1-size, 0.25) * 1rem);
+                  aspect-ratio: 1;
+                  position: absolute;
+                  top: calc(var(--sgb1-y, 50) * 1%);
+                  left: calc(var(--sgb1-x, 50) * 1%);
+                  opacity: var(--sgb1-alpha, 0.7);
+                  animation: sgb1-float-out calc(var(--sgb1-duration, 8) * 1s) calc(var(--sgb1-delay, 0) * -1s) infinite linear;
+                  transform-origin: var(--sgb1-origin-x, 400%) var(--sgb1-origin-y, 400%);
+                  z-index: -1;
+                  animation-play-state: paused;
+                }
+                .sgb1-btn:is(:hover, :focus-visible) ~ .sgb1-particle-pen .sgb1-particle {
+                  animation-play-state: running;
+                }
+                .sgb1-particle path {
+                  fill: hsl(0 0% 90%);
+                  stroke: none;
+                }
+                .sgb1-particle:nth-of-type(even) {
+                  animation-direction: reverse;
+                }
+                @keyframes sgb1-float-out {
+                  to { rotate: 360deg; }
+                }
+                .sgb1-text {
+                  translate: 2% -6%;
+                  letter-spacing: 0.01ch;
+                  background: linear-gradient(90deg, hsl(0 0% calc((var(--sgb1-active) * 100%) + 65%)), hsl(0 0% calc((var(--sgb1-active) * 100%) + 26%)));
+                  -webkit-background-clip: text;
+                  background-clip: text;
+                  color: transparent;
+                  transition: background var(--sgb1-transition, 0.55s);
+                }
+                @media (prefers-reduced-motion: reduce) {
+                  .sgb1-particle {
+                    animation: none;
+                  }
+                }
+              `}</style>
+            </div>
           </div>
         </section>
 
