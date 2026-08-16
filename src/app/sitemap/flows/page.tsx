@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import VisualSitemapClient from "../VisualSitemapClient";
+import UserFlowMap from "@/components/UserFlowMap";
 
 export const metadata: Metadata = {
   title: "User Flow Map & Journey Diagrams — 7th Heaven",
@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function UserFlowsPage() {
-  return <VisualSitemapClient initialTab="flows" />;
+  return (
+    <div className="min-h-screen pt-24 pb-12 px-4 max-w-[1700px] mx-auto">
+      <UserFlowMap />
+    </div>
+  );
 }

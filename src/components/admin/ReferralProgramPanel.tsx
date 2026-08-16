@@ -357,7 +357,7 @@ export default function ReferralProgramPanel() {
                     <Dropdown
                       id="referral-referrer-select"
                       selected={selectedReferrer}
-                      onSelect={(val) => setSelectedReferrer(val)}
+                      onSelect={(val: any) => setSelectedReferrer(typeof val === "string" ? val : (val as { value?: string })?.value || "all")}
                       options={[
                         { label: "All Referrers", value: "all" },
                         ...displayLeaderboard.map((e) => ({

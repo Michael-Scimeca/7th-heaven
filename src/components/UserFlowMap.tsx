@@ -120,14 +120,14 @@ const COLOR_SCHEMES = {
   },
 };
 
-export interface FlowNodeData {
+export interface FlowNodeData extends Record<string, unknown> {
   label: string;
   sub: string;
   system: "pink" | "teal" | "blue" | "gold" | "purple" | "peach" | "emerald" | "red";
   kind: "root" | "nav" | "page" | "decision" | "api" | "email";
   iconName: string;
   details?: {
-    summary: string;
+    summary?: string;
     endpointOrPath?: string;
     payloadOrParams?: string;
     emailSubject?: string;
