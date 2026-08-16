@@ -26,124 +26,11 @@ export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
   title: string;
   path?: string;
+  imgUrl: string;
   description?: string;
 }
 
-// --- MINI PAGE SCREENSHOT PREVIEW THUMBNAIL COMPONENT ---
-function MiniPageScreenshot({ header, path }: { header: string; path?: string }) {
-  const normalizedPath = path || "/";
-
-  return (
-    <div className="w-full h-24 bg-[#07070d] border-y border-white/10 p-2 flex flex-col justify-between overflow-hidden relative group-hover:border-purple-400/50 transition select-none">
-      {/* Mock Browser Titlebar */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-1">
-        <div className="flex items-center gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
-        </div>
-        <span className="text-[7.5px] font-mono text-cyan-300 truncate max-w-[150px] font-semibold">
-          {normalizedPath}
-        </span>
-      </div>
-
-      {/* Mini Visual Page Mockup Rendering */}
-      <div className="py-1 flex-1 flex flex-col justify-center space-y-1">
-        {header === "Home Page" ? (
-          <div className="space-y-1">
-            <div className="h-4 bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 rounded flex items-center justify-between px-1.5 text-[7px] font-extrabold text-white uppercase tracking-wider shadow">
-              <span>HERO STREAM</span>
-              <span className="text-[6px] bg-red-500 px-1 py-0.2 rounded font-black">LIVE</span>
-            </div>
-            <div className="flex gap-1">
-              <div className="h-1 bg-white/30 rounded w-2/3" />
-              <div className="h-1 bg-purple-400/50 rounded w-1/3" />
-            </div>
-          </div>
-        ) : header === "Merch" ? (
-          <div className="grid grid-cols-3 gap-1">
-            <div className="h-6 bg-amber-500/20 border border-amber-500/30 rounded flex flex-col items-center justify-center text-[8px]">
-              <span>👕</span>
-              <span className="text-[5.5px] text-amber-200 font-bold">$25</span>
-            </div>
-            <div className="h-6 bg-amber-500/20 border border-amber-500/30 rounded flex flex-col items-center justify-center text-[8px]">
-              <span>💿</span>
-              <span className="text-[5.5px] text-amber-200 font-bold">$15</span>
-            </div>
-            <div className="h-6 bg-amber-500/20 border border-amber-500/30 rounded flex flex-col items-center justify-center text-[8px]">
-              <span>🎫</span>
-              <span className="text-[5.5px] text-amber-200 font-bold">VIP</span>
-            </div>
-          </div>
-        ) : header === "Shows" || header === "Past" ? (
-          <div className="space-y-1">
-            <div className="h-3 bg-sky-500/25 border border-sky-500/30 rounded flex items-center justify-between px-1 text-[6.5px] font-bold text-white">
-              <span>CONCERT ARCHIVE</span>
-              <span className="font-mono text-cyan-300">1,200+ DATES</span>
-            </div>
-            <div className="h-2.5 bg-white/10 rounded flex items-center justify-between px-1 text-[6px] text-white/70">
-              <span>VENUES & MAP</span>
-              <span className="text-emerald-300 font-bold">TICKETS</span>
-            </div>
-          </div>
-        ) : header === "Crew" || header === "Verify" ? (
-          <div className="space-y-1">
-            <div className="h-3.5 bg-emerald-500/20 border border-emerald-500/30 rounded flex items-center justify-between px-1.5 text-[6.5px] font-bold text-emerald-300">
-              <span>BAND HQ STAFF</span>
-              <span className="bg-emerald-500/30 px-1 rounded text-[5.5px] text-emerald-200">CREW KEY</span>
-            </div>
-            <div className="h-1.5 bg-white/20 rounded w-3/4" />
-          </div>
-        ) : header === "Pagetransition" ? (
-          <div className="h-6 bg-pink-950/80 border border-pink-500/40 rounded flex items-center justify-center gap-1 text-[7px] font-bold text-pink-300">
-            <span className="animate-spin text-[9px]">💿</span>
-            <span>PRELOADER REVEAL</span>
-          </div>
-        ) : header === "Planner" ? (
-          <div className="space-y-1">
-            <div className="h-3 bg-purple-500/25 border border-purple-500/30 rounded flex items-center justify-between px-1 text-[6.5px] font-bold text-purple-200">
-              <span>EVENT DASHBOARD</span>
-              <span>CHECKLIST</span>
-            </div>
-            <div className="h-2 bg-white/10 rounded w-2/3" />
-          </div>
-        ) : header === "Admin" || header === "Email Map" || header === "Legal" ? (
-          <div className="space-y-1">
-            <div className="h-3 bg-red-500/20 border border-red-500/30 rounded flex items-center justify-between px-1 text-[6.5px] font-bold text-red-300">
-              <span>COMMAND CENTER</span>
-              <span className="text-amber-300">ANNOUNCEMENTS</span>
-            </div>
-            <div className="h-2 bg-white/10 rounded w-4/5" />
-          </div>
-        ) : header === "Book" || header === "Success" ? (
-          <div className="space-y-1">
-            <div className="h-3.5 bg-fuchsia-500/20 border border-fuchsia-500/30 rounded flex items-center justify-between px-1 text-[6.5px] font-bold text-fuchsia-200">
-              <span>BOOKING FORM</span>
-              <span className="text-emerald-300">CONFIRMED</span>
-            </div>
-            <div className="h-1.5 bg-white/20 rounded w-1/2" />
-          </div>
-        ) : (
-          <div className="space-y-1">
-            <div className="h-3 bg-cyan-500/20 border border-cyan-500/30 rounded flex items-center justify-between px-1 text-[6.5px] font-bold text-cyan-200">
-              <span>PAGE CONTENT</span>
-              <span>PLATFORM</span>
-            </div>
-            <div className="h-1.5 bg-white/15 rounded w-1/2" />
-          </div>
-        )}
-      </div>
-
-      {/* Mini Page Footer */}
-      <div className="flex items-center justify-between pt-0.5 border-t border-white/10 text-[6.5px] font-mono">
-        <span className="text-white/40 truncate max-w-[120px]">{header}</span>
-        <span className="text-purple-300 font-extrabold">LIVE PREVIEW</span>
-      </div>
-    </div>
-  );
-}
-
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH EMBEDDED PAGE PREVIEW ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH REAL PNG PAGE SCREENSHOT ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   return (
     <div className="w-64 rounded-xl border border-white/15 bg-[#0f0f17] shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl">
@@ -156,8 +43,21 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         </span>
       </div>
 
-      {/* Embedded Real Mini Page Screenshot Preview */}
-      <MiniPageScreenshot header={data.header} path={data.path} />
+      {/* REAL PNG PAGE SCREENSHOT PREVIEW */}
+      <div className="w-full h-32 bg-black border-b border-white/10 overflow-hidden relative group">
+        <img
+          src={data.imgUrl}
+          alt={data.title}
+          className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+          onError={(e) => {
+            // Fallback if image fails
+            (e.target as HTMLElement).style.display = "none";
+          }}
+        />
+        <div className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 border border-white/20 text-[7px] font-mono text-cyan-300 font-bold">
+          REAL PREVIEW
+        </div>
+      </div>
 
       {/* Body Content */}
       <div className="p-3 text-left space-y-1">
@@ -229,7 +129,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- IMMACULATE ZERO-OVERLAP GRID (380px Column Pitch, 300px Row Pitch) ---
+// --- IMMACULATE ZERO-OVERLAP GRID WITH REAL PAGE & MODAL SCREENSHOTS ---
 const INITIAL_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME (Center Top at x = 1520, y = 30)
   {
@@ -240,31 +140,34 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Home Page",
       title: "7th Heaven — Official Band Website",
       path: "/",
+      imgUrl: "/sitemap-screenshots/home.png",
       description:
-        "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.",
+        "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of live performances.",
     },
   },
 
-  // FIRST ROW CHILDREN (y = 300, 380px horizontal pitch)
+  // FIRST ROW CHILDREN (y = 350, 380px horizontal pitch)
   {
     id: "node-sitemap",
     type: "sitemapCard",
-    position: { x: 0, y: 300 },
+    position: { x: 0, y: 350 },
     data: {
       header: "Sitemap",
       title: "7th Heaven — Platform Sitemap",
       path: "/sitemap",
+      imgUrl: "/sitemap-screenshots/flowchart-sitemap.png",
       description: "Complete platform sitemap, page directory, and visual site architecture.",
     },
   },
   {
     id: "node-privacy",
     type: "sitemapCard",
-    position: { x: 380, y: 300 },
+    position: { x: 380, y: 350 },
     data: {
       header: "Privacy",
       title: "Privacy Policy — 7th Heaven",
       path: "/privacy",
+      imgUrl: "/sitemap-screenshots/privacy.png",
       description:
         "How 7th Heaven collects, uses, and protects your personal information.",
     },
@@ -272,162 +175,212 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-merch",
     type: "sitemapCard",
-    position: { x: 760, y: 300 },
+    position: { x: 760, y: 350 },
     data: {
       header: "Merch",
       title: "Merch — 7th Heaven Official Store",
       path: "/merch",
+      imgUrl: "/sitemap-screenshots/merch.png",
       description:
-        "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and more. Ships worldwide.",
+        "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and more.",
     },
   },
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 1140, y: 300 },
+    position: { x: 1140, y: 350 },
     data: {
       header: "Crew",
-      title: "7th Heaven — Official Website",
+      title: "7th Heaven — Crew Portal",
       path: "/crew",
+      imgUrl: "/sitemap-screenshots/crew.png",
       description:
-        "7th Heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.",
+        "Band member profiles, tour staff roster, stage setup checklists, and live tools.",
     },
   },
   {
     id: "node-shows",
     type: "sitemapCard",
-    position: { x: 1520, y: 300 },
+    position: { x: 1520, y: 350 },
     data: {
       header: "Shows",
       title: "7th Heaven — Live Concerts & Shows",
       path: "/shows/past",
+      imgUrl: "/sitemap-screenshots/shows.png",
       description: "Live concert archives, tour dates schedule, venue details, and booking inquiry.",
     },
   },
   {
     id: "node-pagetransition",
     type: "sitemapCard",
-    position: { x: 1900, y: 300 },
+    position: { x: 1900, y: 350 },
     data: {
       header: "Pagetransition",
-      title: "7th Heaven — Official Website",
+      title: "Preloader Reveal Demo",
       path: "/demo/preloader",
+      imgUrl: "/sitemap-screenshots/ticker.png",
       description:
-        "7th Heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.",
+        "Real resource tracking, preloader animations, minimum display times, and page transitions.",
     },
   },
   {
     id: "node-planner",
     type: "sitemapCard",
-    position: { x: 2280, y: 300 },
+    position: { x: 2280, y: 350 },
     data: {
       header: "Planner",
-      title: "7th Heaven — Official Website",
+      title: "Planner Dashboard",
       path: "/planner",
+      imgUrl: "/sitemap-screenshots/planner.png",
       description:
-        "7th Heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.",
+        "Event booking coordinator portal, status tracker, event checklist, and re-booking.",
     },
   },
   {
     id: "node-admin",
     type: "sitemapCard",
-    position: { x: 2660, y: 300 },
+    position: { x: 2660, y: 350 },
     data: {
       header: "Admin",
-      title: "7th Heaven — Official Website",
+      title: "Admin Command Center",
       path: "/admin",
+      imgUrl: "/sitemap-screenshots/admin.png",
       description:
-        "7th Heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.",
+        "Master admin command center, analytics, Shopify sales, live stream control, and broadcasts.",
     },
   },
   {
     id: "node-book",
     type: "sitemapCard",
-    position: { x: 3040, y: 300 },
+    position: { x: 3040, y: 350 },
     data: {
       header: "Book",
       title: "Book 7th Heaven — Chicago's Premier Live Band",
       path: "/book",
+      imgUrl: "/sitemap-screenshots/book.png",
       description:
-        "Book 7th Heaven for your next corporate event, wedding, festival, or private party. Premier live rock band serving Chicago, Illinois, and the Midwest. Fast quotes and seamless event planning.",
+        "Book 7th Heaven for corporate events, weddings, and festivals. Premier live rock band.",
     },
   },
 
-  // SECOND ROW SUB-CHILDREN (y = 580)
+  // SECOND ROW SUB-CHILDREN: MODULES, VERIFICATION & SPECIALIZED PAGES (y = 670)
+  {
+    id: "node-login-modal",
+    type: "sitemapCard",
+    position: { x: 0, y: 670 },
+    data: {
+      header: "Sign In Module",
+      title: "Passwordless Auth Modal",
+      imgUrl: "/sitemap-screenshots/login-modal.png",
+      description: "Passwordless OTP email sign in modal and JWT session authentication.",
+    },
+  },
+  {
+    id: "node-signup-modal",
+    type: "sitemapCard",
+    position: { x: 380, y: 670 },
+    data: {
+      header: "Sign Up Module",
+      title: "Fan Club Registration Modal",
+      imgUrl: "/sitemap-screenshots/signup-modal.png",
+      description: "Fan registration, username creation, opt-in tracking, and instant signup PIN.",
+    },
+  },
+  {
+    id: "node-cruise-reg",
+    type: "sitemapCard",
+    position: { x: 760, y: 670 },
+    data: {
+      header: "Cruise Signup Module",
+      title: "Caribbean Cruise Registration",
+      path: "/cruise",
+      imgUrl: "/sitemap-screenshots/cruise-form-filled.png",
+      description: "2026 Cruise cabin registration form with email PIN verification.",
+    },
+  },
   {
     id: "node-crew-verify",
     type: "sitemapCard",
-    position: { x: 1140, y: 580 },
+    position: { x: 1140, y: 670 },
     data: {
-      header: "Verify",
-      title: "7th Heaven — Official Website",
+      header: "Crew Verify Module",
+      title: "Crew PIN Verification",
       path: "/crew/verify",
+      imgUrl: "/sitemap-screenshots/verify-admin-funnel.png",
+      description: "6-digit passcode security check for road crew and staff access.",
     },
   },
   {
     id: "node-shows-past",
     type: "sitemapCard",
-    position: { x: 1520, y: 580 },
+    position: { x: 1520, y: 670 },
     data: {
-      header: "Past",
-      title: "Past Shows & Concert Archive (1985–Present) | 7th Heaven",
+      header: "Past Shows Archive",
+      title: "Past Shows & Concert Archive (1985–Present)",
       path: "/shows/past",
-      description:
-        "Explore 7th Heaven's historical performance archive containing over 1,200 past concerts, festivals, casinos, and events played since 1985.",
+      imgUrl: "/sitemap-screenshots/shows.png",
+      description: "1,200+ historical concert dates, venue search, and setlist archives.",
+    },
+  },
+  {
+    id: "node-email-pin",
+    type: "sitemapCard",
+    position: { x: 1900, y: 670 },
+    data: {
+      header: "PIN Email Template",
+      title: "Verification PIN Email",
+      imgUrl: "/sitemap-screenshots/email-pin-verification.png",
+      description: "Resend transactional HTML email containing 6-digit authentication security PIN.",
     },
   },
   {
     id: "node-planner-verify",
     type: "sitemapCard",
-    position: { x: 2280, y: 580 },
+    position: { x: 2280, y: 670 },
     data: {
-      header: "Verify",
-      title: "7th Heaven — Official Website",
+      header: "Planner Verify Module",
+      title: "Planner Security Verification",
       path: "/planner/verify",
+      imgUrl: "/sitemap-screenshots/cruise-verify.png",
+      description: "Security PIN verification module for private event coordinators.",
     },
   },
 
-  // ADMIN SUB-TREE (y = 580)
-  {
-    id: "node-admin-verify",
-    type: "sitemapCard",
-    position: { x: 2480, y: 580 },
-    data: {
-      header: "Verify",
-      title: "7th Heaven — Official Website",
-      path: "/admin",
-    },
-  },
+  // ADMIN & BOOK SUB-TREE (y = 670)
   {
     id: "node-admin-emailmap",
     type: "sitemapCard",
-    position: { x: 2660, y: 580 },
+    position: { x: 2660, y: 670 },
     data: {
-      header: "Email Map",
-      title: "7th Heaven — Official Website",
+      header: "Email System Map",
+      title: "Transactional Email Directory",
       path: "/admin/emails",
+      imgUrl: "/sitemap-screenshots/admin-emailmap.png",
+      description: "Live preview registry of all 14 Resend transactional email templates.",
     },
   },
   {
     id: "node-admin-legal",
     type: "sitemapCard",
-    position: { x: 2840, y: 580 },
+    position: { x: 2840, y: 670 },
     data: {
-      header: "Legal",
-      title: "7th Heaven — Official Website",
+      header: "Legal Module",
+      title: "Legal & TCPA Compliance",
       path: "/admin/legal",
+      imgUrl: "/sitemap-screenshots/admin-legal.png",
+      description: "TCPA SMS regulations, COPPA, ADA accessibility, and E-commerce PCI rules.",
     },
   },
-
-  // BOOK SUB-TREE (y = 580)
   {
     id: "node-book-success",
     type: "sitemapCard",
-    position: { x: 3040, y: 580 },
+    position: { x: 3040, y: 670 },
     data: {
-      header: "Success",
-      title: "Book 7th Heaven — Confirmation",
+      header: "Booking Success Module",
+      title: "Booking Confirmation Email",
       path: "/book/success",
+      imgUrl: "/sitemap-screenshots/email-booking-confirm.png",
+      description: "Confirmation alert and admin notification dispatch upon booking submission.",
     },
   },
 ];
@@ -444,11 +397,14 @@ const INITIAL_EDGES: Edge[] = [
   { id: "e-root-admin", source: "root", target: "node-admin", type: "smoothstep" },
   { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep" },
 
-  // Sub-tree connections
+  // Sub-tree connections (Modals, PINs & Emails)
+  { id: "e-sitemap-login", source: "node-sitemap", target: "node-login-modal", type: "smoothstep" },
+  { id: "e-privacy-signup", source: "node-privacy", target: "node-signup-modal", type: "smoothstep" },
+  { id: "e-merch-cruise", source: "node-merch", target: "node-cruise-reg", type: "smoothstep" },
   { id: "e-crew-verify", source: "node-crew", target: "node-crew-verify", type: "smoothstep" },
   { id: "e-shows-past", source: "node-shows", target: "node-shows-past", type: "smoothstep" },
+  { id: "e-page-emailpin", source: "node-pagetransition", target: "node-email-pin", type: "smoothstep" },
   { id: "e-planner-verify", source: "node-planner", target: "node-planner-verify", type: "smoothstep" },
-  { id: "e-admin-verify", source: "node-admin", target: "node-admin-verify", type: "smoothstep" },
   { id: "e-admin-emailmap", source: "node-admin", target: "node-admin-emailmap", type: "smoothstep" },
   { id: "e-admin-legal", source: "node-admin", target: "node-admin-legal", type: "smoothstep" },
   { id: "e-book-success", source: "node-book", target: "node-book-success", type: "smoothstep" },
@@ -483,7 +439,7 @@ export default function VisualSitemapClient() {
               7th Heaven Visual Sitemap Engine
             </h1>
             <p className="text-xs text-white/50">
-              Interactive visual sitemap tree architecture with mini page screenshot previews
+              Interactive visual sitemap tree architecture with REAL page, modal & email screenshots
             </p>
           </div>
         </div>
@@ -502,7 +458,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="max-w-[1700px] mx-auto h-[860px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
+      <div className="max-w-[1700px] mx-auto h-[880px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -511,7 +467,7 @@ export default function VisualSitemapClient() {
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
-          fitViewOptions={{ padding: 0.1 }}
+          fitViewOptions={{ padding: 0.08 }}
           colorMode="dark"
         >
           <Background color="#1e1b4b" gap={24} size={1} />

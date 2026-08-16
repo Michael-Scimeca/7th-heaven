@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { cruiseCommunityBlast } from '@/lib/email-templates';
 import { requireAdmin, maskEmail } from '@/lib/api-utils';
+import { publishToGroup } from '@/lib/ntfy';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,12 +17,24 @@ export async function POST(req: NextRequest) {
   if (authError) return authError;
 
   try {
-    const { subject, body } = await req.json();
+    const { subject, body, push = true } = await req.json();
     const cleanBody = cleanWysiwygHtml(body);
 
     if (!subject || !cleanBody) {
       return NextResponse.json({ error: 'Subject and body are required' }, { status: 400 });
     }
+
+    // Push notification (ntfy) — free, and independent of the email-signup
+    // list below: it reaches whoever is subscribed to the cruise topic,
+    // regardless of whether they've also given an email address.
+    const pushResult = push
+      ? await publishToGroup('cruise', {
+          title: subject,
+          message: cleanBody.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 500),
+          priority: 'default',
+          tags: ['ship'],
+        })
+      : null;
 
     // Fetch all cruise signups & unsubscribed preferences
     const [{ data: signups, error }, { data: unsubscribedRecords }] = await Promise.all([
@@ -37,7 +50,7 @@ export async function POST(req: NextRequest) {
     const eligibleSignups = (signups || []).filter(s => s.email && !unsubscribedSet.has(s.email.toLowerCase().trim()));
 
     if (eligibleSignups.length === 0) {
-      return NextResponse.json({ error: 'No eligible subscribers found', sent: 0 }, { status: 404 });
+      return NextResponse.json({ error: 'No eligible subscribers found', sent: 0, push: pushResult }, { status: 404 });
     }
 
     const html = cruiseCommunityBlast({ subject, body: cleanBody });
@@ -77,6 +90,7 @@ export async function POST(req: NextRequest) {
       failed,
       total: signups.length,
       errors: errors.length > 0 ? errors : undefined,
+      push: pushResult,
     });
   } catch (err: any) {
     console.error('Cruise blast error:', err);

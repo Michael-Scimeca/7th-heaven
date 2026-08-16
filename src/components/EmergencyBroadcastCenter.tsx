@@ -28,6 +28,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
   const [sendSms, setSendSms] = useState(true);
   const [sendEmail, setSendEmail] = useState(true);
   const [sendDashboardBanner, setSendDashboardBanner] = useState(true);
+  const [sendPush, setSendPush] = useState(true);
 
   const [customTitle, setCustomTitle] = useState("");
   const [customBody, setCustomBody] = useState("");
@@ -115,6 +116,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
             sms: sendSms,
             email: sendEmail,
             dashboardBanner: sendDashboardBanner,
+            push: sendPush,
           },
           targetAudience,
           recipientCount,
@@ -275,7 +277,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
         <span className="text-[10px] font-black text-[var(--muted-text)] uppercase tracking-wider block mb-1.5">
           4. Delivery Channels & Cost Estimator
         </span>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
           <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
             <div className="flex items-center gap-2">
               <SquishyToggle id="send-sms" label="Send via Twilio SMS" checked={sendSms} onChange={setSendSms} />
@@ -298,6 +300,19 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
                   Email Broadcast
                 </span>
                 <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">${estimatedEmailCost.toFixed(2)} total</span>
+              </div>
+            </div>
+          </label>
+
+          <label className="p-2.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between border-none bg-transparent">
+            <div className="flex items-center gap-2">
+              <SquishyToggle id="send-push" label="Send via ntfy push notification" checked={sendPush} onChange={setSendPush} />
+              <div>
+                <span className="text-[10px] font-black text-[var(--text-color)] flex items-center gap-1.5">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                  Push Notification (ntfy)
+                </span>
+                <span className="text-[9px] text-[var(--muted-text)] font-mono font-bold">Free ($0.00) — real send</span>
               </div>
             </div>
           </label>
@@ -382,7 +397,7 @@ export function EmergencyBroadcastCenter({ tourDates = EMPTY_TOUR_DATES }: Emerg
       {/* Dispatch CTA Button */}
       <div className="pt-1.5 flex items-center justify-between gap-3 flex-wrap">
         <div className="text-[10px] text-white/60 font-mono font-bold">
-          Ready to dispatch across <strong className="text-white font-black">{[sendSms && "SMS", sendEmail && "Email", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong className="text-white font-black">{recipientCount.toLocaleString()}</strong> recipients.
+          Ready to dispatch across <strong className="text-white font-black">{[sendSms && "SMS", sendEmail && "Email", sendPush && "Push", sendDashboardBanner && "Banner"].filter(Boolean).join(", ")}</strong> to <strong className="text-white font-black">{recipientCount.toLocaleString()}</strong> recipients.
         </div>
 
         <button aria-label="Action button"

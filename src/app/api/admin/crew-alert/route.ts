@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { requireAdmin } from '@/lib/api-utils';
+import { publishToGroups } from '@/lib/ntfy';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,11 +27,23 @@ export async function POST(request: Request) {
     const authError = await requireAdmin(request);
     if (authError) return authError;
 
-    const { message, selectedPhones, additionalPhones, showDate, showVenue, showTime, sentToNames, sendSms = true, sendEmail = true, emailSubject, sendAsGroup = false } = await request.json();
+    const { message, selectedPhones, additionalPhones, showDate, showVenue, showTime, sentToNames, sendSms = true, sendEmail = true, emailSubject, sendAsGroup = false, sendPush = true } = await request.json();
 
     if (!message?.trim()) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
+
+    // Push notification (ntfy) — free, instant, and not tied to which phone
+    // numbers were selected: it goes to everyone subscribed to the crew /
+    // admin topics, alongside whatever SMS/email targeting happens below.
+    const pushResult = sendPush
+      ? await publishToGroups(['crew', 'admins'], {
+          title: `🛡️ Crew Alert${showVenue ? ` — ${showVenue}` : ''}`,
+          message,
+          priority: 'high',
+          tags: ['shield', 'rotating_light'],
+        })
+      : null;
 
     const phoneSet = new Set<string>();
     const targets: { name: string; phone: string; email: string }[] = [];
@@ -151,6 +164,7 @@ export async function POST(request: Request) {
           sent,
           failed,
           withPhone: targets.length,
+          push: pushResult,
         });
       } catch (twilioErr) {
         console.error('[Crew Alert] Twilio error, falling back to dev mode:', twilioErr);
@@ -182,6 +196,7 @@ export async function POST(request: Request) {
       withPhone: targets.length,
       dev: true,
       note: sendSms ? 'Twilio not configured — SMS not actually sent' : 'SMS sending disabled',
+      push: pushResult,
     });
   } catch (err: any) {
     console.error('Crew alert error:', err);

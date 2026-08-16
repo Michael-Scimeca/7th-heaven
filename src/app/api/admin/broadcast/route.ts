@@ -1,6 +1,21 @@
 import { NextResponse } from 'next/server';
 import { sanitizeInput } from '@/lib/security';
 import { requireAdmin, applyRateLimit, getClientIp } from '@/lib/api-utils';
+import { publishToGroups, type NtfyGroup, type NtfyPriority } from '@/lib/ntfy';
+
+// Which ntfy topic(s) a given target audience should reach.
+const AUDIENCE_TO_NTFY_GROUPS: Record<string, NtfyGroup[]> = {
+  all_fans: ['fans'],
+  show_fans: ['fans'],
+  crew_and_band: ['crew', 'admins'],
+};
+
+const ALERT_TYPE_TO_NTFY = {
+  cancellation: { priority: 'urgent' as NtfyPriority, tags: ['rotating_light'] },
+  time_change: { priority: 'high' as NtfyPriority, tags: ['alarm_clock'] },
+  venue_change: { priority: 'high' as NtfyPriority, tags: ['round_pushpin'] },
+  announcement: { priority: 'default' as NtfyPriority, tags: ['loudspeaker'] },
+} as const;
 
 export async function POST(req: Request) {
   try {
@@ -20,7 +35,7 @@ export async function POST(req: Request) {
       alertType = 'cancellation',
       messageTitle,
       messageBody,
-      channels = { sms: true, email: true, dashboardBanner: true },
+      channels = { sms: true, email: true, dashboardBanner: true, push: true },
       targetAudience = 'all_fans',
       recipientCount = 1482,
     } = body;
@@ -36,6 +51,21 @@ export async function POST(req: Request) {
     const estimatedEmailCost = channels.email ? Number((recipientCount * 0.001).toFixed(2)) : 0;
     const totalEstimatedCost = Number((estimatedSmsCost + estimatedEmailCost).toFixed(2));
 
+    // Push (ntfy) is the one channel here that actually sends for real, for
+    // free — unlike SMS/email above, which are cost-estimated but not wired
+    // to a live provider in this demo broadcast flow.
+    let pushResults: Awaited<ReturnType<typeof publishToGroups>> = [];
+    if (channels.push !== false) {
+      const groups = AUDIENCE_TO_NTFY_GROUPS[targetAudience] || ['fans'];
+      const { priority, tags } = ALERT_TYPE_TO_NTFY[alertType as keyof typeof ALERT_TYPE_TO_NTFY] || ALERT_TYPE_TO_NTFY.announcement;
+      pushResults = await publishToGroups(groups, {
+        title: cleanTitle,
+        message: cleanBody,
+        priority,
+        tags: [...tags],
+      });
+    }
+
     const dispatchRecord = {
       id: `broadcast-${Date.now()}`,
       showName: cleanShowName,
@@ -49,6 +79,7 @@ export async function POST(req: Request) {
       estimatedCost: totalEstimatedCost,
       timestamp: new Date().toISOString(),
       status: 'sent',
+      push: pushResults,
     };
 
     return NextResponse.json({
