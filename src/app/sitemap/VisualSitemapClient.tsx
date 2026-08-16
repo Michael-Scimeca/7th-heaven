@@ -33,6 +33,9 @@ import {
   ListTree,
   Network,
   ListFilter,
+  UserPlus,
+  LogIn,
+  Key,
 } from "lucide-react";
 
 const UserFlowMap = dynamic(() => import("@/components/UserFlowMap"), {
@@ -71,7 +74,21 @@ interface TreeCategory {
   children: NodeItem[];
 }
 
-const TREE_DATA: TreeCategory[] = [
+const HEADER_NAV_DATA: TreeCategory[] = [
+  {
+    id: "home",
+    code: "0.0",
+    title: "Home & Auth (/) ",
+    path: "/",
+    color: "#c084fc", // Purple Accent
+    icon: Globe,
+    description: "Website root entry, hero video, site navigation header & passwordless sign-in modal.",
+    children: [
+      { id: "home-signin", code: "0.1", path: "/#login", type: "Static", title: "Sign In / Login Modal", description: "Passwordless 6-digit PIN login modal window.", icon: LogIn, isPublic: true, color: "#c084fc" },
+      { id: "home-signup", code: "0.2", path: "/fans/complete-profile", type: "Static", title: "Sign Up & Onboarding", description: "Fan account creation & profile details onboarding.", icon: UserPlus, isPublic: true, color: "#c084fc" },
+      { id: "home-verify", code: "0.3", path: "/cruise/verify", type: "Static", title: "PIN Verification Screen", description: "Enter 6-digit email PIN code to authenticate.", icon: Key, isPublic: true, color: "#c084fc" },
+    ],
+  },
   {
     id: "shows",
     code: "1.0",
@@ -231,7 +248,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
 
   const collapseAll = () => {
     const nextState: Record<string, boolean> = {};
-    TREE_DATA.forEach((c) => (nextState[c.id] = true));
+    HEADER_NAV_DATA.forEach((c) => (nextState[c.id] = true));
     setCollapsedCategories(nextState);
   };
 
@@ -246,7 +263,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
     let dynamicCount = 0;
     let apiCount = 0;
 
-    TREE_DATA.forEach((cat) => {
+    HEADER_NAV_DATA.forEach((cat) => {
       cat.children.forEach((child) => {
         totalNodes++;
         if (child.isPublic) publicCount++;
@@ -261,9 +278,9 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
   // Filtered Tree based on search query
   const filteredTree = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
-    if (!q) return TREE_DATA;
+    if (!q) return HEADER_NAV_DATA;
 
-    return TREE_DATA.map((cat) => {
+    return HEADER_NAV_DATA.map((cat) => {
       const catMatches =
         cat.title.toLowerCase().includes(q) ||
         cat.path.toLowerCase().includes(q) ||
@@ -336,7 +353,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
               }`}
             >
               <ListFilter className="w-4 h-4" />
-              <span>Sitemap Directory Tree</span>
+              <span>Header Nav Sitemap Tree</span>
             </button>
 
             <button
@@ -353,7 +370,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
           </div>
 
           <div className="flex items-center gap-4 text-xs text-white/50">
-            <span>Mode: <strong className="text-purple-300 font-mono">{activeTab === "directory" ? "Directory Tree" : "Interactive React Flow Engine"}</strong></span>
+            <span>Mode: <strong className="text-purple-300 font-mono">{activeTab === "directory" ? "Header Nav Sitemap Tree" : "Interactive React Flow Engine"}</strong></span>
           </div>
         </div>
       </div>
@@ -366,7 +383,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
       ) : (
         <>
           {/* =========================================================================
-             TAB 1: OCTOPUS.DO DIRECTORY TREE
+             TAB 1: OCTOPUS.DO DIRECTORY TREE (FIRST ROW = HEADER NAV CATEGORIES)
              ========================================================================= */}
           {/* Octopus.do Toolbar & View Switcher */}
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-black/60 border border-purple-500/30 p-3 rounded-2xl backdrop-blur-xl shadow-xl">
@@ -382,7 +399,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
                 }`}
               >
                 <GitBranch className="w-3.5 h-3.5" />
-                <span>Visual Tree Diagram</span>
+                <span>Header Nav Tree Diagram</span>
               </button>
 
               <button
@@ -474,40 +491,15 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
             </div>
           </div>
 
-          {/* VIEW MODE 1: VISUAL TREE DIAGRAM */}
+          {/* VIEW MODE 1: VISUAL TREE DIAGRAM (FIRST ROW IS ALL HEADER NAV ITEMS) */}
           {viewMode === "tree" && (
             <div className="overflow-x-auto pb-12 scrollbar-thin scrollbar-thumb-purple-500/20">
               <div
                 style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: "top left" }}
-                className="transition-transform duration-200 min-w-[1200px] space-y-12"
+                className="transition-transform duration-200 min-w-[1400px] space-y-12"
               >
-                {/* ROOT NODE: HOME PAGE (0.0) */}
-                <div className="flex flex-col items-center relative">
-                  <div className="relative group p-4 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-500 to-cyan-500 text-white font-black shadow-[0_0_30px_rgba(168,85,247,0.4)] border border-purple-300 w-72 text-center z-20">
-                    <div className="flex items-center justify-between gap-2 border-b border-white/20 pb-2 mb-2">
-                      <span className="px-2 py-0.5 rounded bg-black/40 text-cyan-300 font-mono text-[10px] font-bold">
-                        ROOT NODE 0.0
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-white/20 text-white font-mono text-[9px] uppercase tracking-wider">
-                        PUBLIC
-                      </span>
-                    </div>
-
-                    <Link href="/" className="flex items-center justify-center gap-2 text-lg uppercase tracking-wider hover:underline">
-                      <Globe className="w-5 h-5 text-cyan-200" />
-                      <span>Home Page (/)</span>
-                    </Link>
-                    <p className="text-[11px] font-normal text-white/80 mt-1">
-                      7th Heaven Official Band Website Root Entry
-                    </p>
-                  </div>
-
-                  {/* Connecting Trunk Line */}
-                  <div className="w-0.5 h-12 bg-gradient-to-b from-purple-400 to-purple-600/50 my-1" />
-                </div>
-
-                {/* LEVEL 1: CATEGORY COLUMNS TREE MAP */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative items-start">
+                {/* FIRST ROW: HEADER NAV CATEGORIES DIRECTLY AT THE TOP LEVEL */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 relative items-start">
                   
                   {filteredTree.map((cat) => {
                     const CatIcon = cat.icon;
@@ -516,24 +508,24 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
                     return (
                       <div key={cat.id} className="relative flex flex-col space-y-4">
                         
-                        {/* Category Header Card (Level 1 Node) */}
+                        {/* FIRST ROW NODE: Header Navigation Category Card */}
                         <div
                           style={{ borderColor: `${cat.color}60` }}
-                          className="relative rounded-2xl border bg-black/80 p-4 shadow-xl backdrop-blur-md space-y-2 z-10 transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                          className="relative rounded-2xl border bg-black/90 p-4 shadow-xl backdrop-blur-md space-y-2 z-10 transition-all hover:shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:-translate-y-0.5"
                         >
                           <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
                             <span
                               style={{ backgroundColor: `${cat.color}25`, color: cat.color }}
                               className="px-2 py-0.5 rounded font-mono text-[10px] font-bold"
                             >
-                              {cat.code}
+                              HEADER NAV {cat.code}
                             </span>
 
                             <button
                               onClick={() => toggleCategoryCollapse(cat.id)}
                               className="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white/70 font-mono text-[10px] font-bold flex items-center gap-1 transition"
                             >
-                              <span>{cat.children.length} Pages</span>
+                              <span>{cat.children.length} Sub-Pages</span>
                               {isCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                             </button>
                           </div>
@@ -681,7 +673,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
 
                       <div className="flex items-center gap-3">
                         <span className="px-2.5 py-1 rounded-full bg-white/10 text-white/70 font-mono text-xs font-bold">
-                          {cat.children.length} Pages
+                          {cat.children.length} Sub-Pages
                         </span>
                         {isCollapsed ? <ChevronRight className="w-4 h-4 text-white/50" /> : <ChevronDown className="w-4 h-4 text-white/50" />}
                       </div>
@@ -825,7 +817,7 @@ export default function VisualSitemapClient({ initialTab = "directory" }: { init
       <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
         <div className="flex items-center gap-2">
           <Globe className="w-4 h-4 text-purple-400" />
-          <span>7th Heaven Official Website — Sitemap & User Journey Flow Engine</span>
+          <span>7th Heaven Official Website — Header Nav Sitemap & Flow Engine</span>
         </div>
         <span>Modeled after Octopus.do visual sitemap & graph architecture</span>
       </div>
