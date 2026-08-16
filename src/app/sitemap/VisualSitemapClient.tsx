@@ -31,7 +31,7 @@ export interface SitemapNodeData extends Record<string, unknown> {
   badgeType?: "PAGE" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH REAL PNG PAGE & EMAIL SCREENSHOTS ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH REAL JPG PAGE & EMAIL SCREENSHOTS ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const isEmail = data.badgeType === "EMAIL";
 
@@ -51,7 +51,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         )}
       </div>
 
-      {/* REAL PNG SCREENSHOT PREVIEW */}
+      {/* REAL HIGH-SPEED JPG SCREENSHOT PREVIEW */}
       <div className="w-full h-36 bg-black border-b border-white/10 overflow-hidden relative group">
         <img
           src={data.imgUrl}
@@ -144,7 +144,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Home Page",
       title: "7th Heaven — Official Band Website",
       path: "/",
-      imgUrl: "/sitemap-screenshots/home.png",
+      imgUrl: "/sitemap-thumbs/home.jpg",
       badgeType: "PAGE",
       description:
         "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of live performances.",
@@ -160,7 +160,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Sitemap Page",
       title: "7th Heaven — Platform Sitemap",
       path: "/sitemap",
-      imgUrl: "/sitemap-screenshots/flowchart-sitemap.png",
+      imgUrl: "/sitemap-thumbs/flowchart-sitemap.jpg",
       badgeType: "PAGE",
       description: "Complete platform sitemap, page directory, and visual site architecture.",
     },
@@ -173,7 +173,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Privacy Policy",
       title: "Privacy Policy — 7th Heaven",
       path: "/privacy",
-      imgUrl: "/sitemap-screenshots/privacy.png",
+      imgUrl: "/sitemap-thumbs/privacy.jpg",
       badgeType: "PAGE",
       description:
         "How 7th Heaven collects, uses, and protects your personal information.",
@@ -187,7 +187,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Merch Store",
       title: "Merch — Official Store",
       path: "/merch",
-      imgUrl: "/sitemap-screenshots/merch.png",
+      imgUrl: "/sitemap-thumbs/merch.jpg",
       badgeType: "PAGE",
       description:
         "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and tickets.",
@@ -201,7 +201,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Crew Portal",
       title: "7th Heaven — Crew Portal",
       path: "/crew",
-      imgUrl: "/sitemap-screenshots/crew.png",
+      imgUrl: "/sitemap-thumbs/crew.jpg",
       badgeType: "PAGE",
       description:
         "Band member profiles, tour staff roster, stage setup checklists, and shift tools.",
@@ -215,7 +215,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Concert Shows",
       title: "Live Concerts & Tour Dates",
       path: "/shows/past",
-      imgUrl: "/sitemap-screenshots/shows.png",
+      imgUrl: "/sitemap-thumbs/shows.jpg",
       badgeType: "PAGE",
       description: "Live concert archives, tour dates schedule, venue details, and booking inquiry.",
     },
@@ -228,7 +228,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Pagetransition",
       title: "Preloader Reveal Demo",
       path: "/demo/preloader",
-      imgUrl: "/sitemap-screenshots/ticker.png",
+      imgUrl: "/sitemap-thumbs/ticker.jpg",
       badgeType: "PAGE",
       description:
         "Real resource tracking, preloader animations, minimum display times, and page transitions.",
@@ -242,7 +242,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Planner Hub",
       title: "Planner Dashboard",
       path: "/planner",
-      imgUrl: "/sitemap-screenshots/planner.png",
+      imgUrl: "/sitemap-thumbs/planner.jpg",
       badgeType: "PAGE",
       description:
         "Event booking coordinator portal, status tracker, event checklist, and re-booking.",
@@ -256,7 +256,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Master Admin",
       title: "Admin Command Center",
       path: "/admin",
-      imgUrl: "/sitemap-screenshots/admin.png",
+      imgUrl: "/sitemap-thumbs/admin.jpg",
       badgeType: "PAGE",
       description:
         "Master admin command center, analytics, Shopify sales, live stream control, and broadcasts.",
@@ -270,7 +270,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Booking Page",
       title: "Book 7th Heaven — Live Band",
       path: "/book",
-      imgUrl: "/sitemap-screenshots/book.png",
+      imgUrl: "/sitemap-thumbs/book.jpg",
       badgeType: "PAGE",
       description:
         "Book 7th Heaven for corporate events, weddings, and festivals. Premier live rock band.",
@@ -285,7 +285,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "Sign In Module",
       title: "Passwordless Auth Modal",
-      imgUrl: "/sitemap-screenshots/login-modal.png",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "MODULE",
       description: "Passwordless OTP email sign in modal and JWT session authentication.",
     },
@@ -297,7 +297,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "Sign Up Module",
       title: "Fan Registration Modal",
-      imgUrl: "/sitemap-screenshots/signup-modal.png",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
       badgeType: "MODULE",
       description: "Fan registration, username creation, opt-in tracking, and instant signup PIN.",
     },
@@ -310,7 +310,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Cruise Signup Form",
       title: "Caribbean Cruise Registration",
       path: "/cruise",
-      imgUrl: "/sitemap-screenshots/cruise-form-filled.png",
+      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
       badgeType: "MODULE",
       description: "2026 Cruise cabin registration form triggering email PIN verification.",
     },
@@ -323,7 +323,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Crew Verify Module",
       title: "Crew Passcode Verification",
       path: "/crew/verify",
-      imgUrl: "/sitemap-screenshots/verify-admin-funnel.png",
+      imgUrl: "/sitemap-thumbs/verify-admin-funnel.jpg",
       badgeType: "MODULE",
       description: "6-digit passcode security check for road crew and staff access.",
     },
@@ -336,7 +336,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Past Shows Archive",
       title: "1,200+ Performance Archive",
       path: "/shows/past",
-      imgUrl: "/sitemap-screenshots/shows.png",
+      imgUrl: "/sitemap-thumbs/shows.jpg",
       badgeType: "PAGE",
       description: "Historical concert dates, venue search, and setlist archives since 1985.",
     },
@@ -349,7 +349,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Planner Verify Module",
       title: "Planner Security Check",
       path: "/planner/verify",
-      imgUrl: "/sitemap-screenshots/cruise-verify.png",
+      imgUrl: "/sitemap-thumbs/cruise-verify.jpg",
       badgeType: "MODULE",
       description: "Security PIN verification module for private event coordinators.",
     },
@@ -362,7 +362,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Email System Map",
       title: "Transactional Email Directory",
       path: "/admin/emails",
-      imgUrl: "/sitemap-screenshots/admin-emailmap.png",
+      imgUrl: "/sitemap-thumbs/admin-emailmap.jpg",
       badgeType: "MODULE",
       description: "Live preview registry of all 14 Resend transactional email templates.",
     },
@@ -375,7 +375,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Legal Module",
       title: "Legal & TCPA Compliance",
       path: "/admin/legal",
-      imgUrl: "/sitemap-screenshots/admin-legal.png",
+      imgUrl: "/sitemap-thumbs/admin-legal.jpg",
       badgeType: "MODULE",
       description: "TCPA SMS regulations, COPPA, ADA accessibility, and E-commerce PCI rules.",
     },
@@ -388,7 +388,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Booking Form Submit",
       title: "Booking Submitted Action",
       path: "/book/success",
-      imgUrl: "/sitemap-screenshots/email-booking-confirm.png",
+      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
       badgeType: "MODULE",
       description: "Triggers Resend API dispatch for Planner Receipt & Admin Alert Emails.",
     },
@@ -402,7 +402,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 1: OTP PIN",
       title: "Verification PIN Email",
-      imgUrl: "/sitemap-screenshots/email-pin-verification.png",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
       description: "Sent via Resend API on Sign Up / Cruise Signup. Contains 6-digit security code.",
     },
@@ -414,7 +414,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 2: Cruise Confirm",
       title: "Cruise Confirmation Email",
-      imgUrl: "/sitemap-screenshots/email-cruise-confirm.png",
+      imgUrl: "/sitemap-thumbs/email-cruise-confirm.jpg",
       badgeType: "EMAIL",
       description: "Sent automatically once the 6-digit verification PIN is entered successfully.",
     },
@@ -426,7 +426,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 3: Booking Receipt",
       title: "Planner Booking Receipt",
-      imgUrl: "/sitemap-screenshots/email-booking-confirm.png",
+      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
       badgeType: "EMAIL",
       description: "Sent to event planner upon booking form submission with event summary.",
     },
@@ -438,7 +438,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 4: Admin Alert",
       title: "New Booking Admin Alert",
-      imgUrl: "/sitemap-screenshots/email-booking-admin.png",
+      imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
       badgeType: "EMAIL",
       description: "Sent to 7th Heaven band management with quick Approve / Decline links.",
     },
@@ -450,7 +450,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 5: Booking Status",
       title: "Booking Approved Email",
-      imgUrl: "/sitemap-screenshots/email-booking-status.png",
+      imgUrl: "/sitemap-thumbs/email-booking-status.jpg",
       badgeType: "EMAIL",
       description: "Sent to event planner when admin approves or updates booking status.",
     },
@@ -462,7 +462,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 6: Merch Receipt",
       title: "Flash Merch Pickup Email",
-      imgUrl: "/sitemap-screenshots/email-flash-pickup.png",
+      imgUrl: "/sitemap-thumbs/email-flash-pickup.jpg",
       badgeType: "EMAIL",
       description: "Sent instantly upon Shopify payment test completion for venue pickup.",
     },
@@ -474,7 +474,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 7: Shift Alert",
       title: "Crew Schedule Change Alert",
-      imgUrl: "/sitemap-screenshots/email-schedule-change-alert.png",
+      imgUrl: "/sitemap-thumbs/email-schedule-change-alert.jpg",
       badgeType: "EMAIL",
       description: "Sent to road crew staff when stage shift times or call times are updated.",
     },
@@ -486,7 +486,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Email 8: Tour Blast",
       title: "Newsletter Tour Announcement",
-      imgUrl: "/sitemap-screenshots/email-newsletter-blast.png",
+      imgUrl: "/sitemap-thumbs/email-newsletter-blast.jpg",
       badgeType: "EMAIL",
       description: "Sent to all subscribed fan club members for tour announcements.",
     },
@@ -556,7 +556,7 @@ export default function VisualSitemapClient() {
               7th Heaven Visual Sitemap & Email Pipeline Engine
             </h1>
             <p className="text-xs text-white/50">
-              Interactive visual sitemap tree architecture with REAL PNG screenshots of all pages & transactional emails
+              Interactive visual sitemap tree architecture with fast 15KB real JPG screenshots of all pages & emails
             </p>
           </div>
         </div>

@@ -49,7 +49,6 @@ const nextConfig: NextConfig = {
       'public/movie/**',
       'public/demos/**',
       'public/images/**',
-      'public/sitemap-screenshots/**',
       'public/uploads/**',
       'public/audio/**',
       'public/assets/**',
