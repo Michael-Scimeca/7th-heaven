@@ -11,6 +11,7 @@ const PAGES = [
   { name: "contact", path: "/contact" },
   { name: "book", path: "/book" },
   { name: "media", path: "/media" },
+  { name: "fan-photo-wall", path: "/fan-photo-wall" },
   { name: "faq", path: "/faq" },
   { name: "privacy", path: "/privacy" },
   { name: "merch", path: "/merch" },
@@ -32,7 +33,7 @@ async function captureAll() {
   if (!fs.existsSync(screenshotsDir)) fs.mkdirSync(screenshotsDir, { recursive: true });
   if (!fs.existsSync(thumbsDir)) fs.mkdirSync(thumbsDir, { recursive: true });
 
-  console.log("📸 Starting full page screenshot capture via Headless Chrome...");
+  console.log("📸 Capturing 16:9 widescreen full page screenshots via Headless Chrome...");
 
   for (const pageItem of PAGES) {
     const targetUrl = `${BASE_URL}${pageItem.path}`;
@@ -42,20 +43,21 @@ async function captureAll() {
     console.log(` capturing: ${pageItem.name} (${targetUrl})`);
 
     try {
-      const cmd = `${CHROME_PATH} --headless --disable-gpu --window-size=1400,900 --virtual-time-budget=3500 --screenshot="${outPng}" "${targetUrl}"`;
+      // 1440x810 matches 16:9 widescreen aspect ratio perfectly (zero squishing)
+      const cmd = `${CHROME_PATH} --headless --disable-gpu --window-size=1440,810 --virtual-time-budget=3500 --screenshot="${outPng}" "${targetUrl}"`;
       execSync(cmd, { stdio: "ignore" });
 
       if (fs.existsSync(outPng)) {
-        // Resample to fast 400x250 crisp thumbnail
-        execSync(`sips -z 250 400 -s format jpeg "${outPng}" --out "${outJpg}"`, { stdio: "ignore" });
-        console.log(`  ✓ Saved thumbnail: ${pageItem.name}.jpg`);
+        // -Z 600 resizes proportionally preserving true 16:9 aspect ratio with zero distortion
+        execSync(`sips -Z 600 -s format jpeg "${outPng}" --out "${outJpg}"`, { stdio: "ignore" });
+        console.log(`  ✓ Saved 16:9 thumbnail: ${pageItem.name}.jpg`);
       }
     } catch (err) {
       console.error(`  ✕ Error capturing ${pageItem.name}:`, err.message);
     }
   }
 
-  console.log("✨ All sitemap page screenshots fully captured & resampled!");
+  console.log("✨ All 16:9 page screenshots fully captured & proportionally resampled!");
 }
 
 captureAll();
