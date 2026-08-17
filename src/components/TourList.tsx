@@ -1185,7 +1185,7 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] z-[900] mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck bg-[#0d0e13]/90 backdrop-blur-md py-3 border-b border-white/10 shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] z-[900] mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck  py-3 ' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="hidden lg:inline-block text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative flex-1 min-w-[120px] lg:min-w-0">
               <GooeyMessagesDropdown
@@ -1248,8 +1248,8 @@ ${filterLine}
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
-                    <span className="font-[var(--font-heading)] font-extrabold text-[21px] uppercase text-[var(--color-accent)]">{show.day}</span>
-                    <span className="text-white font-bold text-[23px]">{show.date}</span>
+                    <span className="font-[var(--font-heading)] font-extrabold text-[21px] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
+                    <span className="text-white font-bold text-[23px] whitespace-nowrap">{show.date}</span>
                     <span className="font-black text-white text-[23px]">{show.venue}</span>
                     <span className="text-white/80 font-medium text-[19px]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
                     <span className="flex items-center gap-2 flex-wrap text-left text-[21px]">
@@ -1414,9 +1414,9 @@ ${filterLine}
 
                     {/* Header Row: Date & Time */}
                     <div className="flex items-center justify-between pb-2.5">
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-[var(--font-heading)] font-bold text-[15px] uppercase text-[var(--color-accent)]">{show.day}</span>
-                        <span className="text-white font-bold text-[19px]">{show.date}</span>
+                      <div className="flex items-baseline gap-2 whitespace-nowrap">
+                        <span className="font-[var(--font-heading)] font-bold text-[15px] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
+                        <span className="text-white font-bold text-[19px] whitespace-nowrap">{show.date}</span>
                       </div>
                       <div className="flex flex-col items-end gap-1">
                         {(show.doorsTime || show.time || show.playTime) && (
