@@ -150,7 +150,7 @@ export default function HomeVideoShowcase() {
   const [smooothySnap, setSmooothySnap] = useState<boolean>(false); // false = Free Mode continuous parallax scrolling
   const [smooothyVariableWidth, setSmooothyVariableWidth] = useState<boolean>(false);
   const [smooothyVertical, setSmooothyVertical] = useState<boolean>(false);
-  const [smooothyScrollInput, setSmooothyScrollInput] = useState<boolean>(true); // true = Mouse wheel / trackpad horizontal scrolling enabled
+  const [smooothyScrollInput, setSmooothyScrollInput] = useState<boolean>(false); // false = Vertical page scroll down passes through naturally without wheel trapping
   const [smooothyDragSensitivity, setSmooothyDragSensitivity] = useState<number>(0.005);
   const [smooothyLerpFactor, setSmooothyLerpFactor] = useState<number>(0.30);
   const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] = useState<number>(1.00);
@@ -403,7 +403,7 @@ export default function HomeVideoShowcase() {
     setSmooothySnap(false);
     setSmooothyVariableWidth(false);
     setSmooothyVertical(false);
-    setSmooothyScrollInput(true);
+    setSmooothyScrollInput(false);
     setSmooothyDragSensitivity(0.005);
     setSmooothyLerpFactor(0.30);
     setSmooothyScrollSensitivity(1.00);

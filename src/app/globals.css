@@ -1843,6 +1843,9 @@ select::placeholder,
   }
 }
 
+
+
+
 :root {
   --page-padding-x: 18px;
 }
@@ -3407,6 +3410,8 @@ textarea,
   background: transparent;
 }
 
+
+
 .su-card-inner {
   position: relative;
   z-index: 2;
@@ -3416,6 +3421,7 @@ textarea,
   align-items: center;
   text-align: center;
   gap: 16px;
+
 }
 
 .su-tag {
