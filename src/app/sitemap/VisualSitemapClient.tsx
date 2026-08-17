@@ -427,10 +427,10 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "3. ✉ PLANNER SECURITY PIN EMAIL",
       title: "3. Email Dispatched with PIN 582901",
-      path: "/admin/emails",
+      path: "/api/dev/email-preview?id=auth_pin",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "Planner receives automated Resend email containing the 6-digit security PIN 582901 to enter into the modal.",
+      description: "Planner receives automated Resend email containing the 6-digit security PIN 582901. Click to view live email template.",
     },
   },
   {
@@ -619,10 +619,10 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "3. ✉ PLANNER SECURITY PIN EMAIL",
       title: "3. Email Dispatched with PIN 582901",
-      path: "/admin/emails",
+      path: "/api/dev/email-preview?id=auth_pin",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "Planner receives automated Resend email containing the 6-digit security PIN 582901 to enter into the modal.",
+      description: "Planner receives automated Resend email containing the 6-digit security PIN 582901. Click to view live email template.",
     },
   },
   {
@@ -681,10 +681,10 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "STEP 3 · ✉ CRUISE PIN EMAIL",
       title: "3. Email Dispatched with PIN 582901",
-      path: "/admin/emails",
+      path: "/api/dev/email-preview?id=auth_pin",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "Fan receives automated email with 6-digit security PIN 582901 to confirm email ownership.",
+      description: "Fan receives automated email with 6-digit security PIN 582901 to confirm email ownership. Click to view live template.",
     },
   },
   {
