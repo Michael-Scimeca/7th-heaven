@@ -624,7 +624,7 @@ export function Header() {
                     router.push("/");
                     router.refresh();
                   }}
-                  className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-all cursor-pointer bg-white/5 hover:bg-white/10 rounded-full border border-purple-500/20 ml-3"
+                  className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-all cursor-pointer ml-3"
                   title="Sign Out of Account"
                   id="header-sign-out"
                 >

@@ -84,7 +84,6 @@ const ALL_SITE_ROUTES: RouteItem[] = [
   // ── UI Demos & Labs ──
   { path: "/style-guide", type: "Static", label: "UI Style Guide & Studio", category: "UI Demos & Labs", icon: Layers },
   { path: "/hambuger", type: "Static", label: "Hamburger Menu Demo", category: "UI Demos & Labs", icon: Layers },
-  { path: "/pagetransition", type: "Static", label: "Page Transition Demo", category: "UI Demos & Labs", icon: Layers },
   { path: "/slideup", type: "Static", label: "Slideup Section Stacking", category: "UI Demos & Labs", icon: Layers },
   { path: "/textcolor", type: "Static", label: "Text Color Gradient Studio", category: "UI Demos & Labs", icon: Layers },
   { path: "/video", type: "Static", label: "Video Showcase Studio", category: "UI Demos & Labs", icon: Film },
