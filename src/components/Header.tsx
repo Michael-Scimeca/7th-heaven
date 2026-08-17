@@ -40,22 +40,72 @@ const EASE_IN_OUT_LINEAR =
 const EASE_OUT_LINEAR =
   "linear(0, 0.1709, 0.2591, 0.33, 0.3902, 0.4437, 0.4913, 0.5343, 0.5735, 0.6094, 0.6426, 0.6732, 0.7016, 0.7279, 0.7525, 0.7753, 0.7964, 0.8161, 0.8344, 0.8514, 0.8673, 0.8819, 0.8955, 0.9081, 0.9196, 0.9302, 0.94, 0.9489, 0.957, 0.9643, 0.9708, 0.9765, 0.9817, 0.9862, 0.9899, 0.993, 0.9955, 0.9975, 0.9988, 0.9996, 1)";
 
-// NOTE: an earlier version of this file also transformed `.content-area`
-// (scale/rotate/translateY) on menu open, on the theory that exoape's page
-// recedes behind the menu the same way it apparently does on their actual
-// route-to-route navigation. Checked that against a real recording of
-// exoape's menu opening and closing (tracked the hero headline pixel-by-
-// pixel across the whole clip) and it does NOT move at all — the menu is
-// only the clip-path wipe below, nothing else. Removed the page-recede
-// effect here; PAGE_RECEDE_EASE is kept only because the icon timeline
-// below (a separate, confirmed finding) reuses this exact curve as its
-// GSAP timeline default.
+// exoape doesn't just animate the menu's own content in — the underlying
+// PAGE recedes at the same moment. This got second-guessed and briefly
+// removed earlier after eyeballing a screen recording frame by frame and
+// seeing no movement — that eyeballing was wrong. Re-checked properly with
+// OpenCV template matching (tracking one letterform's exact pixel position
+// across every frame of TWO separate recordings) and the page is rock
+// solid for the first ~0.8s, then accelerates hard — 13px of shift at
+// +100ms, 183px by +160ms — right before the wipe covers it. Fast and easy
+// to miss by eye at normal screenshot intervals; unmissable once measured.
+// Matches the original finding almost exactly: a `.page` ref — the routed
+// page's own root wrapper, a sibling of their <nav> header, not a
+// descendant of it — with:
+//   leave (runs when the menu opens): {scale:1,rotate:0,y:0} -> {scale:1.3,
+//     rotate:7deg,y:+50vh}
+//   enter (runs when the menu closes): the reverse
+// Confirmed live (separately, on their actual DOM): with their menu open,
+// `.page` measured `translate3d(0,519.6px,0) rotate(6.69deg) scale(1.2868)`
+// — matches the leave target almost exactly (windowSize.height/2 ≈ 519.6 at
+// that viewport). It's the opposite rotation/slide direction from the
+// menu's own wrapper (which goes -7deg / -50vh), so the two counter-rotate
+// past each other — the departing page and the arriving menu content spin
+// opposite ways, which is what gives it that "swap" feel. Its ease is a
+// GSAP CustomEase built from an SVG-path bezier "M0,0 C0.496,0.004 0,1 1,1"
+// — that decodes directly to a plain CSS cubic-bezier (start/end pinned at
+// (0,0)/(1,1), the two control points are the C command's first pair and
+// third pair), no linear()-sampling needed like the eases above.
 //
-// Ease is a GSAP CustomEase built from an SVG-path bezier
-// "M0,0 C0.496,0.004 0,1 1,1" — decodes directly to a plain CSS
-// cubic-bezier (start/end pinned at (0,0)/(1,1), the two control points
-// are the C command's first pair and third pair).
+// 7th Heaven's equivalent of their `.page` is `.content-area` in
+// src/app/layout.tsx — the actual routed page content, deliberately NOT
+// `#page-content-wrapper` (which also contains <Header/>): exoape's own
+// nav is a sibling of `.page`, outside what gets transformed, for a
+// concrete reason — <Header> here is `position: fixed`, and transforming
+// an ANCESTOR of a fixed element makes that ancestor the fixed element's
+// containing block instead of the viewport (the exact bug this file's
+// `mounted`/portal comment above already ran into once) — transforming
+// `#page-content-wrapper` would drag the fixed header along with the page
+// instead of leaving it pinned. `.content-area` sits below <Header/> as a
+// sibling, so it can safely recede without taking the header with it.
+// Applied imperatively (not React state/JSX) since `.content-area` is a
+// sibling of this component in the tree, not a descendant of it.
 const PAGE_RECEDE_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
+
+// Distance from `el`'s top edge to the top of the viewport, using ONLY
+// layout-based offsets (walking `offsetTop` up the `offsetParent` chain) —
+// never getBoundingClientRect(), which reports the element's rendered,
+// TRANSFORMED box. An earlier version measured by temporarily setting
+// `transform: none`, reading getBoundingClientRect(), then restoring the
+// old value — that forced a synchronous layout flush WHILE transform was
+// "none", and the browser used that flushed "none" as the transition's
+// actual starting point instead of the real previous value. Identity
+// ("none") happens to equal this effect's CLOSED state, so opening
+// (identity is the origin) looked fine by coincidence while closing
+// (identity is the destination) silently had zero visible distance left
+// to animate — exactly the "goes down fine, doesn't come back up" bug.
+// offsetTop is defined purely from layout and is unaffected by an
+// element's own CSS transform, so it can be read without touching (and
+// corrupting) the transform this effect is about to animate.
+function getUntransformedViewportTop(el: HTMLElement): number {
+  let top = 0;
+  let node: HTMLElement | null = el;
+  while (node) {
+    top += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return top - window.scrollY;
+}
 
 // The hamburger icon itself isn't a rotate-lines-into-an-X morph on exoape —
 // dug into their menu-button component (also in d5d162b.js) and it's two
@@ -138,6 +188,64 @@ export function Header() {
     const t = setTimeout(() => setOverlayMounted(false), OVERLAY_TRANSITION_MS);
     return () => clearTimeout(t);
   }, [mobileOpen]);
+
+  // Drives the page-recede effect described in the PAGE_RECEDE_EASE comment
+  // above — `.content-area` (the actual routed page, not this header) grows,
+  // rotates, and slides down while the menu wipes open over it, then reverses
+  // on close. Tied to `overlayVisible` (not `mobileOpen`) so it's on the exact
+  // same clock as the clip-path wipe and the menu's own content settle —
+  // exoape runs both tweens together, not one after the other. Imperative
+  // rather than JSX/React state because `.content-area` lives in
+  // src/app/layout.tsx, a sibling of <Header>, not something this
+  // component renders — there's no element here to attach this style to.
+  useEffect(() => {
+    const content = document.querySelector<HTMLElement>(".content-area");
+    if (!content) return;
+
+    // exoape's recede pivots around the middle of what's currently ON
+    // SCREEN — not the middle of the full page. `.content-area` spans the
+    // ENTIRE scrollable page (Lenis does real document-flow scrolling, so
+    // on a long page like the homepage this div is genuinely ~25,000px
+    // tall), so a plain "50% 50%" transform-origin was pivoting ~12,000px
+    // down the document — scaling/rotating from a point nowhere near the
+    // viewport. That's what was causing the brief flash of an unrelated
+    // section (the Shows/tour listing) partway through the transition.
+    // Fix: compute the origin in `.content-area`'s own local coordinate
+    // space so it lands on wherever the viewport's vertical center
+    // currently is, instead of the element's own vertical center. See
+    // getUntransformedViewportTop's comment for why this reads offsetTop
+    // rather than clearing/restoring the transform to measure it.
+    const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
+
+    content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
+    content.style.transformOrigin = `50% ${originY}px`;
+    content.style.transform = overlayVisible
+      ? "scale(1.3) rotate(7deg) translateY(50vh)"
+      : "scale(1) rotate(0deg) translateY(0)";
+    // No cleanup here on purpose — this effect re-runs every time
+    // `overlayVisible` flips, and React always runs a hook's cleanup
+    // BEFORE re-running its body on a dependency change. A `return () =>
+    // { content.style.transform = "" }` here used to fire right before
+    // every new transform was applied, resetting the page to identity a
+    // tick before the transition to the target value started. Identity
+    // happens to equal this effect's CLOSED state, so opening (identity
+    // is the origin anyway) looked fine, while closing (identity is the
+    // destination) collapsed to "before === after" — zero visible
+    // distance, no animation, exactly the "opens fine, doesn't reverse on
+    // close" bug. The true "don't leave a stray transform behind on
+    // unmount" cleanup now lives in its own effect below, which only
+    // fires once, on unmount, not on every toggle.
+  }, [overlayVisible]);
+
+  useEffect(() => {
+    return () => {
+      const content = document.querySelector<HTMLElement>(".content-area");
+      if (!content) return;
+      content.style.transform = "";
+      content.style.transition = "";
+      content.style.transformOrigin = "";
+    };
+  }, []);
 
   // During a transition the pathname hasn't changed yet (we delay navigation).
   // Use the pending destination so the correct nav link highlights immediately.

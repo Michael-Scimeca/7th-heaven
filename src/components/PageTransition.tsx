@@ -20,6 +20,40 @@ const CURTAIN_SLANT = -0.15;
 // end regardless of CURTAIN_SLANT.
 const CURTAIN_SLANT_START = 0.75;
 
+// exoape.com's own nav-triggered page transition pairs its cover/reveal with
+// a scale + rotate + vertical slide on the page content itself — the
+// departing page grows to 130%, rotates -7deg, and slides up half the
+// viewport height as it's covered; the arriving page does the mirror image
+// (130% -> 100%, +7deg -> 0, +50vh -> 0) as it's revealed. Same signature
+// ease on both (a full writeup of where these numbers came from is in
+// Header.tsx — search PAGE_RECEDE_EASE there — which already reuses this
+// exact curve for the mobile menu's own page-recede effect). Layered on top
+// of the curtain / two-stage-ready-check machinery below, not a replacement
+// for it — the curtain still does the actual work of hiding the DOM swap;
+// this just makes the page's own departure/arrival visibly move instead of
+// only fading.
+const PAGE_RECEDE_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
+
+// Distance from `el`'s top edge to the top of the viewport, using ONLY
+// layout-based offsets (walking `offsetTop` up the `offsetParent` chain) —
+// never getBoundingClientRect(), which reports the element's rendered,
+// TRANSFORMED box. See the matching comment in Header.tsx (same helper,
+// same reasoning) for why: temporarily clearing `transform` to measure
+// with getBoundingClientRect() forces a layout flush that the browser then
+// treats as the transition's real starting point, silently killing the
+// animation whenever the cleared/identity value happens to match one end
+// of the tween. offsetTop is unaffected by an element's own CSS transform,
+// so it's safe to read without disturbing the transform being animated.
+function getUntransformedViewportTop(el: HTMLElement): number {
+  let top = 0;
+  let node: HTMLElement | null = el;
+  while (node) {
+    top += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return top - window.scrollY;
+}
+
 /**
  * PageTransition
  * ─────────────────────────────────────────────────────────────────────────
@@ -85,7 +119,7 @@ async function waitForPageReady(): Promise<void> {
           setTimeout(resolve, 600);
         });
       }
-    } catch { }
+    } catch {}
   }
 
   // 2. Ensure text content is rendered in DOM and images/paint passes complete
@@ -175,14 +209,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       },
     });
 
+    // `content` wraps the whole routed page (not just the viewport) — on a
+    // long page a plain "50% 50%" transform-origin pivots from the middle
+    // of the FULL page rather than the middle of what's actually on screen,
+    // which flashes unrelated sections into view mid-tween (same bug as
+    // `.content-area`'s recede effect in Header.tsx — see the comment
+    // there for the full writeup and how this was diagnosed).
+    const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
+
     tl.set(curtain, {
       autoAlpha: 0,
       clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
       pointerEvents: "auto",
     })
-      .to(content, { autoAlpha: 0, duration: 0.35, ease: "power2.out" })
-      .to(curtain, { autoAlpha: 1, duration: 0.001 }, "<0.2")
-      .to({}, { duration: 0.3 }); // hold beat, wordmark visible
+      .set(content, { transformOrigin: `50% ${originY}px` })
+      // The departing page itself grows/rotates/slides up — exoape's own
+      // "leave" motion — running the full length of the cover so it's
+      // actually visible before the curtain finishes hiding it (their own
+      // leave tween doesn't fade the page's opacity at all, only transforms
+      // it; the curtain fading in on top is what actually hides the DOM
+      // swap, same division of labor as their firstChild-fade + page-tween
+      // running in parallel).
+      .to(content, { scale: 1.3, rotate: -7, y: "-50vh", duration: 0.9, ease: PAGE_RECEDE_EASE }, 0)
+      .to(curtain, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, 0.3)
+      .to({}, { duration: 0.15 }); // hold beat, wordmark visible
 
     return () => {
       tl.kill();
@@ -229,7 +279,34 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     const curtain = curtainRef.current;
     if (!content || !curtain) return;
 
-    gsap.set(content, { autoAlpha: 1 });
+    // Reset to the "just arrived" pose before revealing — the mirror image
+    // of the leave tween above (130% -> 100%, +7deg -> 0, +50vh -> 0),
+    // exoape's own "enter" motion. Set explicitly rather than continuing
+    // from wherever the leave tween left off, since covering's outgoing
+    // pose (rotate:-7) and this incoming one (rotate:+7) are opposite signs.
+    // Same viewport-center transform-origin fix as the covering effect
+    // above. `content` is still sitting at the leave tween's final pose
+    // (scale 1.3, rotate -7, y -50vh) at this point, but offsetTop-based
+    // measurement is unaffected by that (or any) CSS transform, so it
+    // reads the correct untransformed position regardless.
+    const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
+
+    gsap.set(content, {
+      autoAlpha: 1,
+      transformOrigin: `50% ${originY}px`,
+      scale: 1.3,
+      rotate: 7,
+      y: "50vh",
+    });
+    gsap.to(content, {
+      scale: 1,
+      rotate: 0,
+      y: 0,
+      duration: 1,
+      ease: PAGE_RECEDE_EASE,
+      clearProps: "transform,transformOrigin",
+    });
+
     const proxy = { p: 0 };
     const tween = gsap.to(proxy, {
       p: 1,
@@ -261,7 +338,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div ref={contentRef}>
+      <div ref={contentRef} className="flex-1 flex flex-col">
         {children}
       </div>
 
