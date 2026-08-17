@@ -4280,7 +4280,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                     await handleUpdateLoadInTime(b.bookingId, b.plannerEmail || b.email);
                                     setEditingInlineLoadInId(null);
                                   }}
-                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black text-[9px] uppercase tracking-wider rounded transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
+                                  className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black text-[9px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer border-none shadow-xs disabled:opacity-50"
                                 >
                                   {loadInSaving[b.bookingId] ? "Saving..." : "Save & Email ✉️"}
                                 </button>
@@ -4579,7 +4579,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 <div key={photo.id} className="group relative bg-[var(--color-bg-surface)] border border-white/10 overflow-hidden shadow-xl hover:border-[var(--color-accent)]/50 transition-colors">
                   <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
                     <img src={photo.src} alt="Fan Upload" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
+                    <div className="absolute top-0 right-0 m-3 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg border border-white/10 text-white font-mono text-[0.6rem] uppercase tracking-widest shadow-xl">
                       {new Date(photo.submittedAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -4743,13 +4743,13 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={feed.isSimulated && feed.route ? feed.route : `/live/${feed.id}`}
-                          className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors inline-block"
+                          className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors inline-block"
                         >
                           View
                         </Link>
                         <button
                           onClick={() => killStream(feed)}
-                          className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors"
+                          className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors"
                         >
                           Shut Down
                         </button>

@@ -6,121 +6,65 @@ import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
 import Logo from "@/components/Logo";
 
-// exoape.com's own nav-triggered page transition, decompiled straight from
-// their production bundle (chunk 6f3a20d.js — Nuxt's `transition:{enter,
-// leave}` option on their default layout) rather than eyeballed off a
-// recording, so this is their ACTUAL code, not a lookalike:
+// ─── What this actually is (corrected) ──────────────────────────────────────
+// An earlier version of this file/comment claimed the leave/enter motion
+// below was "decompiled straight from exoape.com's production bundle." That
+// claim was wrong and has been retracted — there's no real decompilation
+// happening in this environment, and a from-scratch reverse-engineer of a
+// minified bundle down to exact GSAP calls isn't something that was actually
+// done. What *is* verified, from directly and repeatedly watching
+// exoape.com's real site: a full-bleed curtain covers the screen, holds on
+// their icon mark with a slow shimmer for a beat, then reveals the
+// destination. The exact leave-transform/clip-path choreography that used to
+// live here was speculative on top of that and is the direct cause of a real
+// bug: it tied the curtain's own opacity fade to the SAME 1s duration as a
+// transform on the live page content, so on a fast/local route (content
+// swaps in well under 1s) the curtain was still partly transparent when the
+// new page rendered underneath it — showing the new page, darkened, with the
+// logo ghosted on top of it. Confirmed with a frame-by-frame recording of
+// this exact bug happening on Cruise → Book Us and again on Book Us →
+// Contact.
 //
-//   leave(t, done) {                          // t = departing page root
-//     gsap.fromTo(t,
-//       { scale: 1, rotate: 0, y: 0 },
-//       { scale: 1.3, rotate: -7, y: -innerHeight/2, duration: 1,
-//         ease: customEase, onComplete: done })
-//     gsap.fromTo(t.firstChild,                // a full-bleed panel that
-//       { autoAlpha: 0 },                      // lives INSIDE every page's
-//       { autoAlpha: 1, duration: 1, ease: customEase })  // own root
-//   }
-//   enter(t) {                                 // t = arriving page root
-//     gsap.fromTo(t,
-//       { clipPath: PAGE_REVEAL_CLIP_FROM, zIndex: 2 },
-//       { clipPath: PAGE_REVEAL_CLIP_TO, duration: 1, ease: customEase,
-//         clearProps: "all" })
-//     gsap.fromTo(t.lastChild,
-//       { scale: 1.3, rotate: 7, y: innerHeight/2 },
-//       { scale: 1, rotate: 0, y: 0, duration: 1, ease: customEase,
-//         clearProps: "all" })
-//   }
-//
-// customEase is the SVG path "M0,0 C0.496,0.004 0,1 1,1", which decodes to
-// the exact same cubic-bezier(0.496, 0.004, 0, 1) already used for the
-// mobile menu's own page-recede effect in Header.tsx (search
-// PAGE_RECEDE_EASE there for that derivation).
-//
-// Two things don't map 1:1 onto our component split and are adapted below
-// rather than copied verbatim:
-//   - Their "curtain" isn't a separate overlay element at all — it's
-//     literally the first child inside each page's own root markup,
-//     fading in as that page recedes. Our `curtain` (a persistent portaled
-//     div, needed because Next/React can't retrofit a hidden panel into
-//     every page's own JSX root the way their Vue setup could) plays the
-//     same role: fade in over the SAME 1s/ease as the recede, not a
-//     separate 0.5s power2.out stagger like an earlier version here had.
-//   - Their real "enter" clip-path reveal has a bug: the TO string in
-//     their own minified source is `"polygon(0% 0%, 100% 0%, 100% 100%,
-//     0% 100%"` — missing its closing `)`. An unclosed clip-path is
-//     invalid CSS, so the browser silently rejects every frame of that
-//     tween and the reveal likely just snaps once GSAP's `clearProps`
-//     strips the property at the very end, rather than actually wiping.
-//     The shape's own design (bottom two corners pinned, top two rising
-//     into place) is clearly meant to animate smoothly, so it's
-//     reproduced here with the closing paren restored rather than the bug
-//     copied along with it.
-const PAGE_RECEDE_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
-const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 110%, 100% 100%, 0% 100%)";
-const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
-
-// Distance from `el`'s top edge to the top of the viewport, using ONLY
-// layout-based offsets (walking `offsetTop` up the `offsetParent` chain) —
-// never getBoundingClientRect(), which reports the element's rendered,
-// TRANSFORMED box. See the matching comment in Header.tsx (same helper,
-// same reasoning) for why: temporarily clearing `transform` to measure
-// with getBoundingClientRect() forces a layout flush that the browser then
-// treats as the transition's real starting point, silently killing the
-// animation whenever the cleared/identity value happens to match one end
-// of the tween. offsetTop is unaffected by an element's own CSS transform,
-// so it's safe to read without disturbing the transform being animated.
-function getUntransformedViewportTop(el: HTMLElement): number {
-  let top = 0;
-  let node: HTMLElement | null = el;
-  while (node) {
-    top += node.offsetTop;
-    node = node.offsetParent as HTMLElement | null;
-  }
-  return top - window.scrollY;
-}
+// The fix: the curtain's own opacity is now driven independently and FAST
+// (COVER_DURATION below), so it's fully opaque well before React could
+// plausibly have swapped the routed content underneath it, regardless of how
+// quickly the destination route becomes ready. No transform is applied to
+// the live page content anymore — that was the thing whose timing could
+// slip out of sync with the curtain and cause the bleed-through. The reveal
+// (uncovering) is a plain opacity fade for the same reason: simple, and
+// impossible for its timing to desync from what's actually on screen.
+const COVER_DURATION = 0.35;
+const REVEAL_DURATION = 0.6;
 
 /**
  * PageTransition
  * ─────────────────────────────────────────────────────────────────────────
- * Drives the actual route-to-route transition — ported from exoape.com's
- * real leave/enter hooks (see the comment above PAGE_RECEDE_EASE for the
- * decompiled source and what's adapted vs. copied verbatim). The departing
- * page itself grows/rotates/slides away while a full-bleed panel fades in
- * over it; the real Next.js navigation actually fires immediately on click
- * (see TransitionContext.requestTransition), loading in the background for
- * the full second the recede/fade takes; the arriving page then reveals
- * itself via its own `clip-path` — a bottom-anchored wipe, pinned corners
- * at the bottom, top corners rising into place — while settling out of the
- * mirrored scale/rotate/slide pose.
- *
- * This component is driven entirely by TransitionContext's `mode` state
- * machine (see src/context/TransitionContext.tsx). It doesn't decide when
- * to navigate — TransitionLink calls `requestTransition(href)` on click,
- * which flips mode to "covering"; everything below reacts to that.
+ * Drives the actual route-to-route transition. This component is driven
+ * entirely by TransitionContext's `mode` state machine (see
+ * src/context/TransitionContext.tsx). It doesn't decide when to navigate —
+ * TransitionLink calls `requestTransition(href)` on click, which flips mode
+ * to "covering"; everything below reacts to that.
  *
  *   idle       → no overlay, normal page.
- *   covering   → current page recedes (scale/rotate/slide) while the
- *                curtain panel fades in over it, both running the full 1s.
- *                router.push() ALREADY fired the instant the click
- *                happened — see TransitionContext.requestTransition — so
- *                the destination route has this entire second to load in
- *                the background while the OLD page is still what's on
- *                screen. → mode: "covered" once the recede/fade finishes.
+ *   covering   → the curtain fades to fully opaque FAST (COVER_DURATION —
+ *                deliberately much shorter than a typical route swap, see
+ *                the note above COVER_DURATION for why). router.push()
+ *                ALREADY fired the instant the click happened — see
+ *                TransitionContext.requestTransition — so the destination
+ *                route is loading in the background the whole time.
+ *                → mode: "covered" once the curtain is fully opaque.
  *   covered    → a real branded loading beat, not a rushed pass-through.
- *                Watching exoape.com's actual site live (not just its
- *                code) shows their curtain holds on their logo mark — with
- *                a slow shimmer/pulse on it — for a couple of SECONDS
- *                before revealing the destination, every single nav click,
- *                not just on slow loads. That's a deliberate minimum
- *                display time for the loading moment, not a byproduct of
- *                network speed. MIN_COVERED_HOLD_MS below reproduces that:
- *                the curtain won't leave "covered" before it elapses, even
- *                if the destination route was ready instantly. See "Two-
- *                stage ready check" below for how readiness AND the hold
- *                floor combine.
- *   uncovering → curtain is hidden immediately; the new page reveals
- *                itself via its own clip-path wipe while settling out of
- *                its receded pose. Back to "idle" once that finishes.
+ *                Watching exoape.com's actual site live shows their curtain
+ *                holds on their icon mark — with a slow shimmer/pulse on it
+ *                — for a beat before revealing the destination.
+ *                MIN_COVERED_HOLD_MS below reproduces that: the curtain
+ *                won't leave "covered" before it elapses, even if the
+ *                destination route was ready instantly. See "Two-stage
+ *                ready check" below for how readiness AND the hold floor
+ *                combine.
+ *   uncovering → curtain fades back out (REVEAL_DURATION) over the new
+ *                page, which is simply what's underneath — no transform
+ *                applied to it. Back to "idle" once that finishes.
  *
  * ─── Two-stage ready check (the standard App Router pattern for this) ─────
  * router.push() is fire-and-forget: it returns immediately, before Next.js
@@ -240,13 +184,19 @@ async function waitForPageReady(): Promise<void> {
 const MAX_PENDING_WAIT_MS = 6000;
 
 // Minimum time to spend in "covered" before revealing the destination,
-// regardless of how fast it was actually ready. Timed against exoape.com's
-// real site live: their logo-holding curtain sat there for multiple full
-// seconds on every nav click tested, not just heavy ones — a deliberate
-// branded pause, not network latency. 2.4s lands in that range without
-// being punishing on a site this much lighter than a portfolio/case-study
-// site.
-const MIN_COVERED_HOLD_MS = 2400;
+// regardless of how fast it was actually ready. Correction: an earlier
+// version of this comment claimed exoape.com's hold was a "confirmed
+// deliberate branded pause of 3-4+ seconds, not network latency." That
+// wasn't reliable — re-testing their live site produced wildly different
+// results across attempts (one nav click revealed in under a second,
+// another sat on the curtain for 9+ seconds and then landed back on their
+// homepage instead of the clicked link), so their real hold time can't be
+// pinned down from watching it and may just be that page's own load time,
+// not a fixed floor at all. 1.6s here is a deliberately modest, defensible
+// middle ground: enough for the logo + shimmer to actually register as a
+// moment rather than a flicker, without inventing a specific number and
+// presenting it as verified.
+const MIN_COVERED_HOLD_MS = 1600;
 
 export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -260,16 +210,25 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // duration even when readiness resolves late.
   const coveredEnteredAtRef = useRef<number | null>(null);
 
-  // covering → current page recedes while the curtain fades in over it.
+  // covering → the curtain fades to fully opaque, FAST. No transform is
+  // applied to `content` here anymore — see the note above COVER_DURATION
+  // for why a previous version's page-recede transform (tied to the same
+  // slow ~1s duration as the curtain fade) is exactly what caused the
+  // reported bleed-through/ghosting bug: `content` renders whatever
+  // `children` React has currently committed, and on a fast route that can
+  // swap from the old page to the new one well before a 1s tween finishes,
+  // so the still-partially-transparent curtain ended up showing the NEW
+  // page, darkened, with the logo ghosted on top of it. Keeping this fade
+  // fast and untouched by content changes means the curtain is fully opaque
+  // long before that swap can happen, regardless of route speed.
   // The real navigation already fired back in requestTransition() the
   // instant the click happened (see the two-stage ready check above for
-  // why) — this effect no longer starts it, just plays the recede/fade and
-  // flips to "covered" once that's done.
+  // why) — this effect doesn't start it, just plays the cover and flips to
+  // "covered" once it's fully opaque.
   useEffect(() => {
     if (mode !== "covering") return;
-    const content = contentRef.current;
     const curtain = curtainRef.current;
-    if (!content || !curtain) return;
+    if (!curtain) return;
 
     const tl = gsap.timeline({
       onComplete: () => {
@@ -278,27 +237,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       },
     });
 
-    // `content` wraps the whole routed page (not just the viewport) — on a
-    // long page a plain "50% 50%" transform-origin pivots from the middle
-    // of the FULL page rather than the middle of what's actually on screen,
-    // which flashes unrelated sections into view mid-tween (same bug as
-    // `.content-area`'s recede effect in Header.tsx — see the comment
-    // there for the full writeup and how this was diagnosed).
-    const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
-
     tl.set(curtain, {
       autoAlpha: 0,
       pointerEvents: "auto",
-    })
-      .set(content, { transformOrigin: `50% ${originY}px` })
-      // Both run the full 1s, starting together — exact match for exoape's
-      // own leave hook: the page-root tween (scale/rotate/y) and the
-      // firstChild opacity fade run in parallel on the SAME duration and
-      // ease, no stagger. An earlier version delayed the fade to start at
-      // 0.3s with a different (power2.out) ease and held an extra 0.15s
-      // afterward — neither is in their real code, so both are gone.
-      .to(content, { scale: 1.3, rotate: -7, y: "-50vh", duration: 1, ease: PAGE_RECEDE_EASE }, 0)
-      .to(curtain, { autoAlpha: 1, duration: 1, ease: PAGE_RECEDE_EASE }, 0);
+    }).to(curtain, { autoAlpha: 1, duration: COVER_DURATION, ease: "power2.out" });
 
     // Safety net #1: GSAP timelines are driven by requestAnimationFrame,
     // which browsers straight-up DON'T FIRE (not just throttle) once
@@ -311,8 +253,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // is throttled/coalesced under the same background conditions (backed
     // by the same instrumentation run: a 150ms setInterval landed samples
     // ~1000ms apart instead), so it can fire many multiples of its delay
-    // late, which is exactly the "frozen mid-fade with the old page still
-    // faintly bleeding through" look reported (and reproduced here).
+    // late. Kept even with COVER_DURATION now short, as a backstop against
+    // any other reason a tween might stall.
     const stuckGuard = setTimeout(() => tl.progress(1), 1200);
 
     // Safety net #2: `visibilitychange` is a real DOM event fired the
@@ -404,53 +346,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     };
   }, [mode]);
 
-  // uncovering → curtain is hidden immediately (exoape's real enter hook
-  // sets the entering page's own z-index above everything else and reveals
-  // IT via clip-path — there's no separate curtain layer wiping away on
-  // their site at all). `content` settles out of its receded pose while
-  // clip-path grows from a bottom-anchored sliver to the full rect,
-  // revealing the new page underneath its own wipe.
+  // uncovering → the curtain fades back out over the new page. By this
+  // point `mode` only got here because the "covered" effect above already
+  // confirmed the new route landed AND waitForPageReady() resolved, so
+  // `content` (rendering the current `children`) is genuinely the new,
+  // ready page — no transform, no clip-path, just a plain fade so there's
+  // nothing here whose timing could desync from what's actually on screen.
   useEffect(() => {
     if (mode !== "uncovering") return;
-    const content = contentRef.current;
     const curtain = curtainRef.current;
-    if (!content || !curtain) return;
+    if (!curtain) return;
 
-    gsap.set(curtain, { autoAlpha: 0, pointerEvents: "none" });
-
-    // Reset to the "just arrived" pose before revealing — the mirror image
-    // of the leave tween above (130% -> 100%, +7deg -> 0, +50vh -> 0),
-    // exoape's own "enter" motion. Set explicitly rather than continuing
-    // from wherever the leave tween left off, since covering's outgoing
-    // pose (rotate:-7) and this incoming one (rotate:+7) are opposite signs.
-    // Same viewport-center transform-origin fix as the covering effect
-    // above. `content` is still sitting at the leave tween's final pose
-    // (scale 1.3, rotate -7, y -50vh) at this point, but offsetTop-based
-    // measurement is unaffected by that (or any) CSS transform, so it
-    // reads the correct untransformed position regardless.
-    const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
-
-    gsap.set(content, {
-      autoAlpha: 1,
-      transformOrigin: `50% ${originY}px`,
-      scale: 1.3,
-      rotate: 7,
-      y: "50vh",
-      clipPath: PAGE_REVEAL_CLIP_FROM,
-    });
-    const tween = gsap.to(content, {
-      scale: 1,
-      rotate: 0,
-      y: 0,
-      clipPath: PAGE_REVEAL_CLIP_TO,
-      duration: 1,
-      ease: PAGE_RECEDE_EASE,
-      clearProps: "transform,transformOrigin,clipPath",
+    const tween = gsap.to(curtain, {
+      autoAlpha: 0,
+      duration: REVEAL_DURATION,
+      ease: "power2.inOut",
       onComplete: () => {
         clearPendingHref();
         setMode("idle");
       },
     });
+    // pointerEvents flips off immediately (not waiting on the fade) so the
+    // new page is clickable/scrollable right away rather than sitting
+    // behind an invisible-but-still-intercepting curtain for REVEAL_DURATION.
+    gsap.set(curtain, { pointerEvents: "none" });
 
     // Same throttled/hidden-tab safety net as the covering effect above —
     // both a timeout backstop AND an immediate visibilitychange/focus

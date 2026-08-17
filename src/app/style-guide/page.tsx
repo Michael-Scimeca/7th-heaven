@@ -137,6 +137,18 @@ const sections = [
   { id: "crew-scheduling", label: "13. Crew Scheduling & Groups", icon: Calendar },
 ];
 
+// Default configuration for the FreeFrontend Sparkle Generate Button demo (Module Scope)
+const SGB_DEFAULTS = {
+  hue: 260,
+  speed: 1.8,
+  transitionSpeed: 0.25,
+  driftSpeed: 9,
+  fontSize: 1.5,
+  radius: 100,
+  glow: 1,
+  particleCount: 12,
+};
+
 export default function StyleGuidePage() {
   const { openModal } = useMember();
   const { tokens, isSaving, hasUnsavedChanges, updateToken, saveTheme, resetToDefaults, exportThemeJson } = useThemeTokens();
@@ -166,24 +178,14 @@ export default function StyleGuidePage() {
   const [sbPanelOpen, setSbPanelOpen] = useState(false);
 
   /* ── FreeFrontend Sparkle Generate Button Demo State ── */
-  const sgbDefaults = {
-    hue: 260,
-    speed: 1.8,
-    transitionSpeed: 0.25,
-    driftSpeed: 9,
-    fontSize: 1.5,
-    radius: 100,
-    glow: 1,
-    particleCount: 12,
-  };
-  const [sgbHue, setSgbHue] = useState(sgbDefaults.hue);
-  const [sgbSpeed, setSgbSpeed] = useState(sgbDefaults.speed);
-  const [sgbTransitionSpeed, setSgbTransitionSpeed] = useState(sgbDefaults.transitionSpeed);
-  const [sgbDriftSpeed, setSgbDriftSpeed] = useState(sgbDefaults.driftSpeed);
-  const [sgbFontSize, setSgbFontSize] = useState(sgbDefaults.fontSize);
-  const [sgbRadius, setSgbRadius] = useState(sgbDefaults.radius);
-  const [sgbGlowSize, setSgbGlowSize] = useState(sgbDefaults.glow);
-  const [sgbParticleCount, setSgbParticleCount] = useState(sgbDefaults.particleCount);
+  const [sgbHue, setSgbHue] = useState(SGB_DEFAULTS.hue);
+  const [sgbSpeed, setSgbSpeed] = useState(SGB_DEFAULTS.speed);
+  const [sgbTransitionSpeed, setSgbTransitionSpeed] = useState(SGB_DEFAULTS.transitionSpeed);
+  const [sgbDriftSpeed, setSgbDriftSpeed] = useState(SGB_DEFAULTS.driftSpeed);
+  const [sgbFontSize, setSgbFontSize] = useState(SGB_DEFAULTS.fontSize);
+  const [sgbRadius, setSgbRadius] = useState(SGB_DEFAULTS.radius);
+  const [sgbGlowSize, setSgbGlowSize] = useState(SGB_DEFAULTS.glow);
+  const [sgbParticleCount, setSgbParticleCount] = useState(SGB_DEFAULTS.particleCount);
   const [sgbPanelOpen, setSgbPanelOpen] = useState(false);
   const [sgbForceHover, setSgbForceHover] = useState(false);
   const [sgbReady, setSgbReady] = useState(false);
@@ -192,14 +194,14 @@ export default function StyleGuidePage() {
   const SGB_STORAGE_KEY = "7thheaven-style-guide:sgb1-sparkle-button";
 
   const sgbResetDefaults = () => {
-    setSgbHue(sgbDefaults.hue);
-    setSgbSpeed(sgbDefaults.speed);
-    setSgbTransitionSpeed(sgbDefaults.transitionSpeed);
-    setSgbDriftSpeed(sgbDefaults.driftSpeed);
-    setSgbFontSize(sgbDefaults.fontSize);
-    setSgbRadius(sgbDefaults.radius);
-    setSgbGlowSize(sgbDefaults.glow);
-    setSgbParticleCount(sgbDefaults.particleCount);
+    setSgbHue(SGB_DEFAULTS.hue);
+    setSgbSpeed(SGB_DEFAULTS.speed);
+    setSgbTransitionSpeed(SGB_DEFAULTS.transitionSpeed);
+    setSgbDriftSpeed(SGB_DEFAULTS.driftSpeed);
+    setSgbFontSize(SGB_DEFAULTS.fontSize);
+    setSgbRadius(SGB_DEFAULTS.radius);
+    setSgbGlowSize(SGB_DEFAULTS.glow);
+    setSgbParticleCount(SGB_DEFAULTS.particleCount);
   };
 
   // Load any previously-saved styling from this browser on mount.
