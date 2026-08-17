@@ -35,7 +35,6 @@ import CustomScrollbar from "@/components/CustomScrollbar";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
-import GradientText from "@/components/GradientText";
 import { useThemeTokens } from "@/components/ThemeProvider";
 import { useMember } from "@/context/MemberContext";
 import {
@@ -300,6 +299,86 @@ export default function StyleGuidePage() {
     // Removing the inline values lets the registered properties transition back to their 50%/50% initial values.
     btn.style.removeProperty("--ctg1-x");
     btn.style.removeProperty("--ctg1-y");
+  };
+
+  /* ── Hold-to-Confirm Charging Button Demo State (original build, inspired by CodeFronts' hold-to-confirm pattern) ── */
+  const HTC1_HOLD_MS = 1200;
+  const htc1BtnRef = useRef<HTMLButtonElement>(null);
+  const htc1StatusRef = useRef<HTMLParagraphElement>(null);
+  const htc1RafRef = useRef<number | null>(null);
+  const htc1StartRef = useRef<number | null>(null);
+  const htc1DoneRef = useRef(false);
+
+  const htc1SetCharge = (pct: number) => {
+    htc1BtnRef.current?.style.setProperty("--htc1-charge", String(pct));
+  };
+
+  const htc1Tick = (t: number) => {
+    const btn = htc1BtnRef.current;
+    if (!btn || htc1StartRef.current == null) return;
+    const elapsed = t - htc1StartRef.current;
+    const pct = Math.min(100, (elapsed / HTC1_HOLD_MS) * 100);
+    htc1SetCharge(pct);
+    if (pct >= 75 && pct < 100) {
+      btn.classList.add("is-arming");
+    }
+    if (pct >= 100) {
+      htc1DoneRef.current = true;
+      htc1StartRef.current = null;
+      btn.classList.remove("is-arming");
+      btn.classList.add("is-done");
+      if (htc1StatusRef.current) htc1StatusRef.current.textContent = "Confirmed";
+      return;
+    }
+    if (htc1StatusRef.current) {
+      htc1StatusRef.current.textContent = `Keep holding… ${Math.round(pct)}%`;
+    }
+    htc1RafRef.current = requestAnimationFrame(htc1Tick);
+  };
+
+  const handleHtc1PointerDown = () => {
+    const btn = htc1BtnRef.current;
+    if (!btn || htc1DoneRef.current) return;
+    if (htc1RafRef.current) cancelAnimationFrame(htc1RafRef.current);
+    htc1StartRef.current = performance.now();
+    htc1RafRef.current = requestAnimationFrame(htc1Tick);
+  };
+
+  const htc1CancelHold = () => {
+    if (htc1RafRef.current) {
+      cancelAnimationFrame(htc1RafRef.current);
+      htc1RafRef.current = null;
+    }
+    const wasCharging = htc1StartRef.current != null;
+    htc1StartRef.current = null;
+    const btn = htc1BtnRef.current;
+    if (!btn || htc1DoneRef.current || !wasCharging) return;
+    btn.classList.remove("is-arming");
+    const startPct = parseFloat(btn.style.getPropertyValue("--htc1-charge") || "0");
+    if (startPct <= 0) return;
+    const drainStart = performance.now();
+    const DRAIN_MS = 400;
+    const drainTick = (t: number) => {
+      const elapsed = t - drainStart;
+      const pct = Math.max(0, startPct * (1 - elapsed / DRAIN_MS));
+      htc1SetCharge(pct);
+      if (htc1StatusRef.current) htc1StatusRef.current.textContent = "Hold for 1.2s to confirm";
+      if (pct > 0) {
+        htc1RafRef.current = requestAnimationFrame(drainTick);
+      }
+    };
+    htc1RafRef.current = requestAnimationFrame(drainTick);
+  };
+
+  const handleHtc1Reset = () => {
+    if (htc1RafRef.current) cancelAnimationFrame(htc1RafRef.current);
+    htc1RafRef.current = null;
+    htc1StartRef.current = null;
+    htc1DoneRef.current = false;
+    const btn = htc1BtnRef.current;
+    btn?.classList.remove("is-done", "is-arming");
+    htc1SetCharge(0);
+    if (htc1StatusRef.current) htc1StatusRef.current.textContent = "Hold for 1.2s to confirm";
   };
 
   /* ── PIN Input Demo State ── */
@@ -2404,23 +2483,17 @@ ${deskRules.join("\n")}
             </div>
 
             <div className="ctg1 relative flex items-center justify-center p-8 rounded-xl min-h-[320px] overflow-hidden">
-              <div className="ctg1-card">
-                <span className="ctg1-badge">Early access</span>
-                <h3 className="ctg1-title">The next cruise drops soon</h3>
-                <p className="ctg1-copy">Fans on the waitlist get first pick of cabins and presale tickets before the lineup goes public.</p>
-                <button
-                  type="button"
-                  className="ctg1-btn"
-                  ref={ctg1BtnRef}
-                  onPointerMove={handleCtg1PointerMove}
-                  onPointerEnter={handleCtg1PointerEnter}
-                  onPointerLeave={handleCtg1PointerLeave}
-                >
-                  <span className="ctg1-spark" aria-hidden="true">✦</span>
-                  Join the waitlist
-                </button>
-                <p className="ctg1-fine">No spam · 2,418 fans already in</p>
-              </div>
+              <button
+                type="button"
+                className="ctg1-btn"
+                ref={ctg1BtnRef}
+                onPointerMove={handleCtg1PointerMove}
+                onPointerEnter={handleCtg1PointerEnter}
+                onPointerLeave={handleCtg1PointerLeave}
+              >
+                <span className="ctg1-spark" aria-hidden="true">✦</span>
+                Join the waitlist
+              </button>
             </div>
 
             <p className="text-[11px] text-white/40">
@@ -2458,10 +2531,10 @@ ${deskRules.join("\n")}
                 --ctg1-bg: #0a0d1c;
                 --ctg1-ink: #e6e9f5;
                 --ctg1-mut: #8a91ad;
-                --ctg1-a1: #67e8f9;
-                --ctg1-a2: #a78bfa;
-                background: radial-gradient(90% 70% at 15% 0%, rgba(103, 232, 249, 0.06), transparent 55%),
-                  radial-gradient(80% 60% at 90% 100%, rgba(167, 139, 250, 0.08), transparent 55%),
+                --ctg1-a1: #c084fc;
+                --ctg1-a2: #9333ea;
+                background: radial-gradient(90% 70% at 15% 0%, rgba(168, 85, 247, 0.07), transparent 55%),
+                  radial-gradient(80% 60% at 90% 100%, rgba(147, 51, 234, 0.09), transparent 55%),
                   var(--ctg1-bg);
               }
               .ctg1-card {
@@ -2479,7 +2552,7 @@ ${deskRules.join("\n")}
                 gap: 7px;
                 padding: 5px 12px;
                 border-radius: 999px;
-                border: 1px solid rgba(103, 232, 249, 0.25);
+                border: 1px solid rgba(168, 85, 247, 0.3);
                 font-size: 11px;
                 font-weight: 600;
                 letter-spacing: 0.1em;
@@ -2514,8 +2587,6 @@ ${deskRules.join("\n")}
                 align-items: center;
                 justify-content: center;
                 gap: 9px;
-                width: 100%;
-                margin-top: 26px;
                 padding: 17px 28px;
                 border: 0;
                 border-radius: 16px;
@@ -2526,7 +2597,7 @@ ${deskRules.join("\n")}
                 color: var(--ctg1-ink);
                 cursor: pointer;
                 isolation: isolate;
-                background: radial-gradient(150% 120% at var(--ctg1-x) var(--ctg1-y), rgba(124, 58, 237, 0.28), transparent 55%), #10142b;
+                background: radial-gradient(150% 120% at var(--ctg1-x) var(--ctg1-y), rgba(147, 51, 234, 0.32), transparent 55%), #10142b;
                 transition: --ctg1-x 0.35s ease-out, --ctg1-y 0.35s ease-out, transform 0.3s ease;
               }
               .ctg1-btn:active {
@@ -2554,7 +2625,7 @@ ${deskRules.join("\n")}
                 position: absolute;
                 inset: 0;
                 border-radius: inherit;
-                background: radial-gradient(140px 100px at var(--ctg1-x) var(--ctg1-y), rgba(103, 232, 249, 0.3), rgba(167, 139, 250, 0.22) 45%, rgba(240, 171, 252, 0.1) 65%, transparent 78%);
+                background: radial-gradient(140px 100px at var(--ctg1-x) var(--ctg1-y), rgba(192, 132, 252, 0.32), rgba(147, 51, 234, 0.24) 45%, rgba(216, 180, 254, 0.12) 65%, transparent 78%);
                 opacity: 0.35;
                 transition: opacity 0.45s ease;
                 z-index: -1;
@@ -2576,6 +2647,179 @@ ${deskRules.join("\n")}
               @media (prefers-reduced-motion: reduce) {
                 .ctg1-btn,
                 .ctg1-btn:after {
+                  transition: none;
+                }
+              }
+            `}</style>
+          </div>
+
+          {/* Hold-to-Confirm Charging Button (original build, inspired by CodeFronts) */}
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h3 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Hold-to-Confirm Charging Button</h3>
+              <SectionBadge label="CodeFronts Inspired" color="amber" />
+            </div>
+
+            <div className="htc1 relative flex flex-col items-center justify-center p-8 sm:p-12 rounded-2xl min-h-[200px] overflow-hidden">
+              <button
+                type="button"
+                className="htc1-btn"
+                ref={htc1BtnRef}
+                onPointerDown={handleHtc1PointerDown}
+                onPointerUp={htc1CancelHold}
+                onPointerLeave={htc1CancelHold}
+                onPointerCancel={htc1CancelHold}
+              >
+                <span className="htc1-labs">
+                  <span className="htc1-lab htc1-lab-idle">Hold to cancel pass</span>
+                  <span className="htc1-lab htc1-lab-done" aria-hidden="true">✓ Pass canceled</span>
+                </span>
+              </button>
+              <p className="htc1-status mt-3" ref={htc1StatusRef} aria-live="polite">Hold for 1.2s to confirm</p>
+              <button type="button" onClick={handleHtc1Reset} className="htc1-reset mt-2">Reset demo</button>
+            </div>
+
+            <p className="text-[11px] text-white/40">
+              Inspired by:{" "}
+              <a
+                href="https://codefronts.com/components/css-gradient-buttons/hold-to-confirm-charging-gradient-button/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60"
+              >
+                codefronts.com – Hold To Confirm Charging Gradient Button
+              </a>
+              {" "}(original build: own CSS/JS implementation of the press-and-hold charging pattern, themed and copy-written for 7th Heaven)
+            </p>
+
+            <style jsx>{`
+              .htc1, .htc1 *, .htc1 *::before, .htc1 *::after {
+                box-sizing: border-box;
+              }
+              .htc1 {
+                --htc1-bg: transparent;
+                --htc1-panel: rgba(18, 18, 24, 0.45);
+                --htc1-line: rgba(168, 85, 247, 0.25);
+                --htc1-c1: #c084fc;
+                --htc1-c2: #a855f7;
+                --htc1-c3: #9333ea;
+                --htc1-ink: #ffffff;
+                --htc1-mut: #a78bfa;
+                font-family: inherit;
+                background: radial-gradient(120% 140% at 50% 50%, rgba(168, 85, 247, 0.12), transparent 70%);
+              }
+              .htc1-btn {
+                --htc1-charge: 0;
+                position: relative;
+                width: min(340px, 100%);
+                margin: 0 auto;
+                padding: 16px 28px;
+                border: 1px solid rgba(168, 85, 247, 0.35);
+                border-radius: 999px;
+                background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(126, 34, 206, 0.2));
+                color: var(--htc1-ink);
+                font: inherit;
+                font-size: 15px;
+                font-weight: 700;
+                cursor: pointer;
+                isolation: isolate;
+                touch-action: none;
+                user-select: none;
+                box-shadow: 0 8px 32px rgba(147, 51, 234, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(12px);
+              }
+              .htc1-btn:before {
+                content: "";
+                position: absolute;
+                inset: -1px;
+                border-radius: inherit;
+                padding: 2px;
+                background: conic-gradient(from 0deg, var(--htc1-c1) calc(var(--htc1-charge) * 3.6deg), var(--htc1-c2) calc(var(--htc1-charge) * 3.6deg), var(--htc1-c3) calc(var(--htc1-charge) * 3.6deg), rgba(255, 255, 255, 0.15) 0);
+                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                mask-composite: exclude;
+                z-index: -1;
+              }
+              .htc1-btn:after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                background: linear-gradient(120deg, var(--htc1-c1), var(--htc1-c2) 50%, var(--htc1-c3));
+                opacity: calc(var(--htc1-charge) / 100);
+                z-index: -1;
+              }
+              .htc1-btn:focus-visible {
+                outline: 2px solid var(--htc1-c1);
+                outline-offset: 5px;
+              }
+              @keyframes htc1-jitter {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-1.5px); }
+                75% { transform: translateX(1.5px); }
+              }
+              .htc1-btn.is-arming {
+                animation: htc1-jitter 0.12s linear infinite;
+              }
+              .htc1-labs {
+                position: relative;
+                display: block;
+                pointer-events: none;
+              }
+              .htc1-lab {
+                display: block;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+              }
+              .htc1-lab-done {
+                position: absolute;
+                inset: 0;
+                opacity: 0;
+                transform: translateY(6px);
+                color: #ffffff;
+                font-weight: 700;
+              }
+              .htc1-btn.is-done {
+                background: linear-gradient(120deg, var(--htc1-c1), var(--htc1-c2) 50%, var(--htc1-c3));
+                box-shadow: 0 0 24px rgba(168, 85, 247, 0.6);
+              }
+              .htc1-btn.is-done .htc1-lab-idle {
+                opacity: 0;
+                transform: translateY(-6px);
+              }
+              .htc1-btn.is-done .htc1-lab-done {
+                opacity: 1;
+                transform: translateY(0);
+              }
+              .htc1-status {
+                margin-top: 14px;
+                text-align: center;
+                font-size: 12px;
+                letter-spacing: 0.04em;
+                color: var(--htc1-mut);
+                font-variant-numeric: tabular-nums;
+                min-height: 1.2em;
+              }
+              .htc1-reset {
+                display: block;
+                margin: 8px auto 0;
+                font-size: 10.5px;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--htc1-mut);
+                background: transparent;
+                border: none;
+                cursor: pointer;
+              }
+              .htc1-reset:hover {
+                color: var(--htc1-ink);
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .htc1-btn.is-arming {
+                  animation: none;
+                }
+                .htc1-lab {
                   transition: none;
                 }
               }
@@ -3878,36 +4122,13 @@ ${deskRules.join("\n")}
 
           {/* Role Badges */}
           <div className="space-y-3">
-            <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Role & Section Badges</h3>
+            <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Role & Section Badges</h3>
             <div className="flex flex-wrap items-center gap-3">
               <RoleBadge role="admin" />
               <RoleBadge role="crew" />
               <RoleBadge role="fan" />
               <SectionBadge label="VIP BACKSTAGE PASS" color="amber" />
               <SectionBadge label="LIVE SHOW HUB" color="cyan" />
-            </div>
-          </div>
-
-          {/* React Bits Gradient Text Component */}
-          <div className="space-y-4 pt-4 border-t border-white/10">
-            <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">React Bits — GradientText Component</h3>
-            <div className="flex flex-wrap items-center gap-6 p-6 rounded-2xl bg-black/40 border border-white/10">
-              <GradientText
-                colors={["#5227FF", "#a826cc", "#9625ff"]}
-                animationSpeed={6}
-                showBorder={true}
-                className="text-lg font-black"
-              >
-                Add a splash of color!
-              </GradientText>
-              <GradientText
-                colors={["#FF0A3D", "#FF9FFC", "#851def"]}
-                animationSpeed={4}
-                showBorder={false}
-                className="text-2xl font-black uppercase tracking-widest"
-              >
-                7TH HEAVEN LIVE
-              </GradientText>
             </div>
           </div>
 

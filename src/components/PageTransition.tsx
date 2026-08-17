@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useTransition as useReactTransition, ReactNode } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useRef, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
 
@@ -85,10 +85,12 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  * real leave/enter hooks (see the comment above PAGE_RECEDE_EASE for the
  * decompiled source and what's adapted vs. copied verbatim). The departing
  * page itself grows/rotates/slides away while a full-bleed panel fades in
- * over it; once hidden, the real Next.js navigation fires; the arriving
- * page then reveals itself via its own `clip-path` — a bottom-anchored
- * wipe, pinned corners at the bottom, top corners rising into place —
- * while settling out of the mirrored scale/rotate/slide pose.
+ * over it; the real Next.js navigation actually fires immediately on click
+ * (see TransitionContext.requestTransition), loading in the background for
+ * the full second the recede/fade takes; the arriving page then reveals
+ * itself via its own `clip-path` — a bottom-anchored wipe, pinned corners
+ * at the bottom, top corners rising into place — while settling out of the
+ * mirrored scale/rotate/slide pose.
  *
  * This component is driven entirely by TransitionContext's `mode` state
  * machine (see src/context/TransitionContext.tsx). It doesn't decide when
@@ -97,11 +99,17 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  *
  *   idle       → no overlay, normal page.
  *   covering   → current page recedes (scale/rotate/slide) while the
- *                curtain panel fades in over it, both running the full 1s,
- *                THEN router.push() fires (navigation happens while fully
- *                hidden) → mode: "covered".
+ *                curtain panel fades in over it, both running the full 1s.
+ *                router.push() ALREADY fired the instant the click
+ *                happened — see TransitionContext.requestTransition — so
+ *                the destination route has this entire second to load in
+ *                the background while the OLD page is still what's on
+ *                screen. → mode: "covered" once the recede/fade finishes.
  *   covered    → waiting for the ACTUAL new route to be ready before
- *                revealing it — see "Two-stage ready check" below.
+ *                revealing it — see "Two-stage ready check" below. Since
+ *                loading started a full second earlier (not after reaching
+ *                this state), this is usually near-instant now instead of
+ *                a visible hold.
  *   uncovering → curtain is hidden immediately; the new page reveals
  *                itself via its own clip-path wipe while settling out of
  *                its receded pose. Back to "idle" once that finishes.
@@ -116,9 +124,14 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  *
  * The fix (the same pattern Next.js's own docs use for coordinating
  * navigation with UI state — see "Understanding the pending state" for
- * `useTransition`): wrap the router.push() call in React's `startTransition`
- * and track its `isPending` flag. React only clears `isPending` once the
- * new route's tree has actually rendered and committed to the DOM, so:
+ * `useTransition`): TransitionContext wraps the router.push() call in
+ * React's `startTransition` and tracks its `isPending` flag (exposed here
+ * via the same context, NOT a second independent useTransition() call —
+ * React's isPending only reflects a startTransition call from the SAME hook
+ * instance, so this component reads the actual pending state of that push
+ * rather than one of its own that would never see it flip). React only
+ * clears `isPending` once the new route's tree has actually rendered and
+ * committed to the DOM, so:
  *
  *   1. Wait for `isPending` to go false AND `pathname` to actually equal
  *      the href we navigated to (belt-and-suspenders — confirms the swap
@@ -126,6 +139,11 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  *   2. Only THEN run waitForPageReady() — the fonts/images/double-RAF
  *      check — since step 1 only guarantees the new React tree is mounted,
  *      not that its images have decoded or its web fonts have painted.
+ *
+ * Because startTransition defers committing the new tree, the OLD page
+ * keeps rendering (and the leave animation keeps playing over it
+ * uninterrupted) for however long step 1 takes — an early router.push()
+ * doesn't yank content out from under the recede/fade.
  */
 
 // ─── Page-ready check (Fonts + DOM Text + Images + Double RAF) ─────────────
@@ -208,16 +226,16 @@ async function waitForPageReady(): Promise<void> {
 const MAX_PENDING_WAIT_MS = 6000;
 
 export default function PageTransition({ children }: { children: ReactNode }) {
-  const router = useRouter();
   const pathname = usePathname();
-  const [isPending, startReactTransition] = useReactTransition();
-  const { mode, setMode, pendingHref, clearPendingHref } = useTransition();
+  const { mode, setMode, pendingHref, clearPendingHref, isPending } = useTransition();
   const contentRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
 
-  // covering → dim current content, curtain snaps opaque + holds, then the
-  // real navigation fires (wrapped in startTransition, see the two-stage
-  // ready check above) while fully hidden behind it.
+  // covering → current page recedes while the curtain fades in over it.
+  // The real navigation already fired back in requestTransition() the
+  // instant the click happened (see the two-stage ready check above for
+  // why) — this effect no longer starts it, just plays the recede/fade and
+  // flips to "covered" once that's done.
   useEffect(() => {
     if (mode !== "covering") return;
     const content = contentRef.current;
@@ -225,14 +243,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (!content || !curtain) return;
 
     const tl = gsap.timeline({
-      onComplete: () => {
-        if (pendingHref) {
-          startReactTransition(() => {
-            router.push(pendingHref);
-          });
-        }
-        setMode("covered");
-      },
+      onComplete: () => setMode("covered"),
     });
 
     // `content` wraps the whole routed page (not just the viewport) — on a
@@ -249,26 +260,46 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     })
       .set(content, { transformOrigin: `50% ${originY}px` })
       // Both run the full 1s, starting together — exact match for exoape's
-      // own leave hook: the page-root tween (scale/rotate/y, onComplete
-      // fires navigation) and the firstChild opacity fade run in parallel
-      // on the SAME duration and ease, no stagger. An earlier version
-      // delayed the fade to start at 0.3s with a different (power2.out)
-      // ease and held an extra 0.15s afterward — neither is in their real
-      // code, so both are gone.
+      // own leave hook: the page-root tween (scale/rotate/y) and the
+      // firstChild opacity fade run in parallel on the SAME duration and
+      // ease, no stagger. An earlier version delayed the fade to start at
+      // 0.3s with a different (power2.out) ease and held an extra 0.15s
+      // afterward — neither is in their real code, so both are gone.
       .to(content, { scale: 1.3, rotate: -7, y: "-50vh", duration: 1, ease: PAGE_RECEDE_EASE }, 0)
       .to(curtain, { autoAlpha: 1, duration: 1, ease: PAGE_RECEDE_EASE }, 0);
 
-    // Safety net: GSAP timelines are driven by requestAnimationFrame, which
-    // browsers can throttle or fully suspend for a backgrounded/unfocused
-    // tab — if that happens mid-tween, onComplete above never fires,
-    // router.push() never happens, and the curtain would sit there frozen
-    // with no way forward. tl.progress(1) forces the SAME timeline to its
-    // end state, which fires the onComplete above exactly once (a no-op if
-    // it already fired naturally) rather than duplicating that logic here.
-    const stuckGuard = setTimeout(() => tl.progress(1), 2500);
+    // Safety net #1: GSAP timelines are driven by requestAnimationFrame,
+    // which browsers straight-up DON'T FIRE (not just throttle) once
+    // `document.visibilityState` is "hidden" — confirmed by direct
+    // instrumentation: sampling this exact curtain's computed opacity every
+    // 150ms showed it pinned at the tween's starting value for 6+ seconds
+    // straight while visibilityState read "hidden", even though the tab was
+    // the active/focused one from the OS's point of view. A plain
+    // setTimeout guard is NOT a reliable rescue for this case — setTimeout
+    // is throttled/coalesced under the same background conditions (backed
+    // by the same instrumentation run: a 150ms setInterval landed samples
+    // ~1000ms apart instead), so it can fire many multiples of its delay
+    // late, which is exactly the "frozen mid-fade with the old page still
+    // faintly bleeding through" look reported (and reproduced here).
+    const stuckGuard = setTimeout(() => tl.progress(1), 1200);
+
+    // Safety net #2: `visibilitychange` is a real DOM event fired the
+    // instant the tab's visibility flips, NOT a timer — it isn't subject to
+    // the throttling/suspension above, so it's the reliable way to catch
+    // "the tab was hidden for however long mid-tween, and just came back."
+    // Forcing straight to the end state (rather than letting the tween try
+    // to resume from wherever it was) avoids any weird half-animated catch
+    // up after an arbitrarily long hidden gap.
+    const forceCompleteIfVisible = () => {
+      if (document.visibilityState === "visible") tl.progress(1);
+    };
+    document.addEventListener("visibilitychange", forceCompleteIfVisible);
+    window.addEventListener("focus", forceCompleteIfVisible);
 
     return () => {
       clearTimeout(stuckGuard);
+      document.removeEventListener("visibilitychange", forceCompleteIfVisible);
+      window.removeEventListener("focus", forceCompleteIfVisible);
       tl.kill();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -353,11 +384,21 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       },
     });
 
-    // Same throttled-tab safety net as the covering effect above.
-    const stuckGuard = setTimeout(() => tween.progress(1), 2500);
+    // Same throttled/hidden-tab safety net as the covering effect above —
+    // both a timeout backstop AND an immediate visibilitychange/focus
+    // rescue, since the timeout alone is unreliable while hidden (see the
+    // long comment on the covering effect's version of this).
+    const stuckGuard = setTimeout(() => tween.progress(1), 1200);
+    const forceCompleteIfVisible = () => {
+      if (document.visibilityState === "visible") tween.progress(1);
+    };
+    document.addEventListener("visibilitychange", forceCompleteIfVisible);
+    window.addEventListener("focus", forceCompleteIfVisible);
 
     return () => {
       clearTimeout(stuckGuard);
+      document.removeEventListener("visibilitychange", forceCompleteIfVisible);
+      window.removeEventListener("focus", forceCompleteIfVisible);
       tween.kill();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
