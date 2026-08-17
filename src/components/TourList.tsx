@@ -1248,17 +1248,17 @@ ${filterLine}
                     className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
-                    <span className="font-[var(--font-heading)] font-extrabold text-[21px] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
-                    <span className="text-white font-bold text-[23px] whitespace-nowrap">{show.date}</span>
-                    <span className="font-black text-white text-[23px]">{show.venue}</span>
-                    <span className="text-white/80 font-medium text-[19px]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
-                    <span className="flex items-center gap-2 flex-wrap text-left text-[21px]">
+                    <span className="font-[var(--font-heading)] font-extrabold text-[clamp(14px,1.3vw,21px)] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
+                    <span className="text-white font-bold text-[clamp(15px,1.5vw,23px)] whitespace-nowrap">{show.date}</span>
+                    <span className="font-black text-white text-[clamp(15px,1.5vw,23px)]">{show.venue}</span>
+                    <span className="text-white/80 font-medium text-[clamp(13px,1.2vw,19px)]">{show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : ""}</span>
+                    <span className="flex items-center gap-2 flex-wrap text-left text-[clamp(14px,1.3vw,21px)]">
                       {(show.doorsTime || show.time || show.playTime) ? (
                         <div className="flex flex-col gap-0.5">
                           {show.doorsTime && <span className="text-white/60 text-xs font-medium whitespace-nowrap">Doors: {show.doorsTime}</span>}
                           {show.playTime && <span className="text-rose-400 font-extrabold text-[0.92rem] whitespace-nowrap">Show: {show.playTime}</span>}
                           {show.time && (show.doorsTime || show.playTime) && <span className="text-white/70 text-xs font-medium whitespace-nowrap">Event: {show.time}</span>}
-                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[21px] whitespace-nowrap">{show.time}</span>}
+                          {!show.doorsTime && !show.playTime && show.time && <span className="text-white font-bold text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">{show.time}</span>}
                         </div>
                       ) : null}
                       {isShowToday(show) && (
