@@ -20,7 +20,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { ExternalLink, Layers, ArrowRight, Mail, Calendar, Ship, ShoppingBag } from "lucide-react";
+import { ExternalLink, Layers, Calendar, Ship } from "lucide-react";
 
 export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
@@ -31,7 +31,7 @@ export interface SitemapNodeData extends Record<string, unknown> {
   badgeType?: "HEADER_NAV" | "FOOTER_NAV" | "PORTAL" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH DISTINCT HEADER NAV vs FOOTER NAV BADGES ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH DISTINCT BADGES ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const [imgError, setImgError] = useState(false);
   const isHeaderNav = data.badgeType === "HEADER_NAV";
@@ -120,7 +120,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
             </span>
           ) : (
             <span className="px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-200 text-[7px] font-mono font-black shrink-0">
-              MODULE
+              PIN MODAL
             </span>
           )}
         </div>
@@ -227,7 +227,7 @@ function CustomTreeEdge({
         ...style,
         fill: "none",
         stroke: "#a855f7",
-        strokeWidth: 2,
+        strokeWidth: 2.5,
       }}
     />
   );
@@ -242,7 +242,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- VIEW 1: FULL SITE ARCHITECTURE (HEADER NAV, FOOTER NAV, PORTALS & EMAILS) ---
+// --- VIEW 1: FULL SITE ARCHITECTURE WITH DIRECT VERTICAL BOOKING & PIN EMAIL FLOW ---
 const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME PAGE
   {
@@ -258,7 +258,8 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "7th Heaven chart-topping rock experience from Chicago with #1 Billboard hits.",
     },
   },
-  // ROW 1: HEADER NAV
+
+  // ── ROW 1: HEADER NAV ──
   {
     id: "nav-merch",
     type: "sitemapCard",
@@ -329,12 +330,12 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1900, y: 360 },
     data: {
-      header: "BOOK US",
-      title: "Book 7th Heaven — Live Band",
+      header: "BOOK US FORM",
+      title: "1. Fill Event Booking Form",
       path: "/book",
       imgUrl: "/sitemap-thumbs/book.jpg",
       badgeType: "HEADER_NAV",
-      description: "Multi-step event booking request form with date picker and instant quote.",
+      description: "Planner fills event date, venue, times, budget, and inputs contact email.",
     },
   },
   {
@@ -350,7 +351,21 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Direct contact inquiry form for booking agents and event organizers.",
     },
   },
-  // ROW 2: FOOTER NAV
+
+  // ── ROW 2: VERTICAL CHILD OF BOOK US (PIN MODULE: CREATE ACCOUNT) ──
+  {
+    id: "node-book-pin-module",
+    type: "sitemapCard",
+    position: { x: 1900, y: 700 },
+    data: {
+      header: "PIN VERIFICATION MODULE",
+      title: "2. Create Account & PIN Modal",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      badgeType: "MODULE",
+      description: "Form triggers passwordless account creation modal asking for 6-digit PIN.",
+    },
+  },
   {
     id: "footer-shows",
     type: "sitemapCard",
@@ -403,7 +418,21 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Footer legal terms of service, ticket policies, and user agreements.",
     },
   },
-  // ROW 3: PORTALS
+
+  // ── ROW 3: VERTICAL CHILD UNDER PIN MODULE (EMAIL WITH PIN) ──
+  {
+    id: "email-book-pin-email",
+    type: "sitemapCard",
+    position: { x: 1900, y: 1040 },
+    data: {
+      header: "✉ SECURITY PIN EMAIL",
+      title: "3. Receive Email With PIN",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      badgeType: "EMAIL",
+      description: "User receives automated email containing the 6-digit security PIN (e.g. 849201) to enter into modal.",
+    },
+  },
   {
     id: "node-fans",
     type: "sitemapCard",
@@ -469,24 +498,38 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       description: "Master admin dashboard, concert manager, financial reports, and broadcast center.",
     },
   },
-  // ROW 4: TRANSACTIONAL EMAILS
+
+  // ── ROW 4: CONFIRMATION & ADMIN NOTIFICATION EMAILS ──
   {
-    id: "email-otp-pin",
+    id: "email-booking-planner",
     type: "sitemapCard",
-    position: { x: 0, y: 1380 },
+    position: { x: 1900, y: 1380 },
     data: {
-      header: "✉ OTP Verification",
-      title: "6-Digit Security PIN Email",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      header: "✉ PLANNER RECEIPT EMAIL",
+      title: "4. Planner Booking Receipt",
+      path: "/book/success",
+      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
       badgeType: "EMAIL",
-      description: "Dispatched via Resend API on Fan Signup & Cruise Registration.",
+      description: "Sent to planner upon PIN verification with official event summary.",
+    },
+  },
+  {
+    id: "email-booking-admin",
+    type: "sitemapCard",
+    position: { x: 1900, y: 1720 },
+    data: {
+      header: "✉ ADMIN ALERT EMAIL",
+      title: "5. Band Booking Alert Email",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
+      badgeType: "EMAIL",
+      description: "Sent to 7th Heaven management with Quick Approve action links.",
     },
   },
   {
     id: "email-cruise-confirm",
     type: "sitemapCard",
-    position: { x: 380, y: 1380 },
+    position: { x: 1520, y: 1380 },
     data: {
       header: "✉ Cruise Confirmation",
       title: "Cruise Cabin Reservation Email",
@@ -497,35 +540,9 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "email-booking-planner",
-    type: "sitemapCard",
-    position: { x: 760, y: 1380 },
-    data: {
-      header: "✉ Booking Receipt",
-      title: "Planner Booking Confirmation",
-      path: "/book/success",
-      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
-      badgeType: "EMAIL",
-      description: "Sent to show planner upon booking form submission with event summary.",
-    },
-  },
-  {
-    id: "email-booking-admin",
-    type: "sitemapCard",
-    position: { x: 1140, y: 1380 },
-    data: {
-      header: "✉ Admin Booking Alert",
-      title: "New Booking Notification",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
-      badgeType: "EMAIL",
-      description: "Sent to 7th Heaven management with quick Approve / Decline action links.",
-    },
-  },
-  {
     id: "email-merch-pickup",
     type: "sitemapCard",
-    position: { x: 1520, y: 1380 },
+    position: { x: 0, y: 1380 },
     data: {
       header: "✉ Merch Pickup Email",
       title: "Flash Order Pickup Receipt",
@@ -538,7 +555,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-newsletter-blast",
     type: "sitemapCard",
-    position: { x: 1900, y: 1380 },
+    position: { x: 1140, y: 1380 },
     data: {
       header: "✉ Tour Announcement",
       title: "Newsletter Broadcast Email",
@@ -550,6 +567,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   },
 ];
 
+// --- VERTICAL FLOW CONNECTIONS DIRECTLY UNDER BOOK US ---
 const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-merch", source: "root", target: "nav-merch", type: "smoothstep" },
   { id: "e-root-media", source: "root", target: "nav-media", type: "smoothstep" },
@@ -562,15 +580,20 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-faq", source: "root", target: "footer-faq", type: "smoothstep" },
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
+
+  // DIRECT VERTICAL FLOW UNDER BOOK US FORM
+  { id: "flow-book-to-pin-module", source: "nav-book", target: "node-book-pin-module", type: "smoothstep", animated: true },
+  { id: "flow-module-to-pin-email", source: "node-book-pin-module", target: "email-book-pin-email", type: "smoothstep", animated: true },
+  { id: "flow-pin-email-to-receipt", source: "email-book-pin-email", target: "email-booking-planner", type: "smoothstep", animated: true },
+  { id: "flow-receipt-to-admin", source: "email-booking-planner", target: "email-booking-admin", type: "smoothstep", animated: true },
+
+  // Other section connections
   { id: "e-shows-planner", source: "footer-shows", target: "node-planner", type: "smoothstep" },
   { id: "e-shows-crew", source: "footer-shows", target: "node-crew", type: "smoothstep" },
   { id: "e-fanwall-fans", source: "nav-fanwall", target: "node-fans", type: "smoothstep" },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
-  { id: "flow-fans-otp", source: "node-fans", target: "email-otp-pin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
-  { id: "flow-book-receipt", source: "nav-book", target: "email-booking-planner", type: "smoothstep" },
-  { id: "flow-book-admin", source: "nav-book", target: "email-booking-admin", type: "smoothstep" },
   { id: "flow-merch-pickup", source: "nav-merch", target: "email-merch-pickup", type: "smoothstep" },
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
 ];
@@ -595,12 +618,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 380, y: 150 },
     data: {
-      header: "STEP 2 · OTP PIN TRIGGERED",
-      title: "2. Verification PIN Dispatched",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
-      badgeType: "EMAIL",
-      description: "Resend API sends an automated email with 6-digit security PIN (e.g. 849201) to planner.",
+      header: "STEP 2 · CREATE ACCOUNT & PIN MODAL",
+      title: "2. Passwordless PIN Modal",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      badgeType: "MODULE",
+      description: "Form triggers account creation modal asking for 6-digit security PIN.",
     },
   },
   {
@@ -608,12 +631,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 760, y: 150 },
     data: {
-      header: "STEP 3 · ENTER PIN IN MODAL",
-      title: "3. Verify 6-Digit PIN",
-      path: "/book",
-      imgUrl: "/sitemap-thumbs/login-modal.jpg",
-      badgeType: "MODULE",
-      description: "Planner enters 6-digit PIN into popup modal to authenticate and lock in booking request.",
+      header: "STEP 3 · RECEIVE EMAIL WITH PIN",
+      title: "3. Resend Dispatches 6-Digit PIN",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      badgeType: "EMAIL",
+      description: "User receives automated email with 6-digit security PIN (e.g. 849201) to enter into modal.",
     },
   },
   {
@@ -621,12 +644,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 150 },
     data: {
-      header: "STEP 4 · PLANNER RECEIPT EMAIL",
-      title: "4. Planner Gets Receipt Email",
-      path: "/book/success",
-      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
-      badgeType: "EMAIL",
-      description: "Planner receives official booking confirmation email with event summary & details.",
+      header: "STEP 4 · ENTER PIN & CONFIRM",
+      title: "4. Verify 6-Digit PIN",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      badgeType: "MODULE",
+      description: "Planner enters 6-digit PIN into popup modal to authenticate and lock in booking request.",
     },
   },
   {
@@ -634,8 +657,21 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1520, y: 150 },
     data: {
-      header: "STEP 5 · ADMIN ALERT EMAIL",
-      title: "5. Band Gets Booking Alert",
+      header: "STEP 5 · PLANNER RECEIPT EMAIL",
+      title: "5. Planner Gets Receipt Email",
+      path: "/book/success",
+      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
+      badgeType: "EMAIL",
+      description: "Planner receives official booking confirmation email with event summary & details.",
+    },
+  },
+  {
+    id: "bf-step6",
+    type: "sitemapCard",
+    position: { x: 1900, y: 150 },
+    data: {
+      header: "STEP 6 · ADMIN ALERT EMAIL",
+      title: "6. Band Gets Booking Alert",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
       badgeType: "EMAIL",
@@ -649,6 +685,7 @@ const BOOKING_FLOW_EDGES: Edge[] = [
   { id: "bf-e2", source: "bf-step2", sourceHandle: "right", target: "bf-step3", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "bf-e3", source: "bf-step3", sourceHandle: "right", target: "bf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "bf-e4", source: "bf-step4", sourceHandle: "right", target: "bf-step5", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "bf-e5", source: "bf-step5", sourceHandle: "right", target: "bf-step6", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
 // --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW ---
@@ -714,7 +751,7 @@ const CRUISE_FLOW_EDGES: Edge[] = [
 ];
 
 export default function VisualSitemapClient() {
-  const [activeTab, setActiveTab] = useState<"ARCH" | "BOOKING" | "CRUISE">("BOOKING");
+  const [activeTab, setActiveTab] = useState<"ARCH" | "BOOKING" | "CRUISE">("ARCH");
 
   const nodes =
     activeTab === "BOOKING"
@@ -752,24 +789,36 @@ export default function VisualSitemapClient() {
           </div>
           <div>
             <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
-              {activeTab === "BOOKING"
-                ? "Event Booking & PIN Email Step-by-Step Flow"
-                : activeTab === "CRUISE"
-                ? "Cruise Reservation & Security PIN Flow"
-                : "7th Heaven Complete Site Architecture"}
+              {activeTab === "ARCH"
+                ? "7th Heaven Site Directory & Direct Vertical Booking PIN Flow"
+                : activeTab === "BOOKING"
+                ? "Event Booking & PIN Email Step-by-Step Horizontal Flow"
+                : "Cruise Reservation & Security PIN Flow"}
             </h1>
             <p className="text-xs text-white/50">
-              {activeTab === "BOOKING"
+              {activeTab === "ARCH"
+                ? "Direct Vertical Flow under Book Us: Booking Form ➔ PIN Verification Module ➔ Security PIN Email ➔ Receipt & Admin Alert"
+                : activeTab === "BOOKING"
                 ? "Step-by-step user journey: Form Fill ➔ Email with PIN ➔ Enter PIN ➔ Planner Receipt ➔ Admin Alert"
-                : activeTab === "CRUISE"
-                ? "Step-by-step user journey: Cabin Request ➔ Email PIN ➔ Verify PIN ➔ Cruise Confirmation"
-                : "Interactive visual tree of Header Links, Footer Links, Portals, and Resend Email Workflows"}
+                : "Step-by-step user journey: Cabin Request ➔ Email PIN ➔ Verify PIN ➔ Cruise Confirmation"}
             </p>
           </div>
         </div>
 
         {/* VIEW SELECTOR TABS */}
         <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-xl border border-white/10">
+          <button
+            onClick={() => setActiveTab("ARCH")}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
+              activeTab === "ARCH"
+                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 text-purple-300" />
+            <span>Full Architecture & Vertical Flow</span>
+          </button>
+
           <button
             onClick={() => setActiveTab("BOOKING")}
             className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
@@ -779,7 +828,7 @@ export default function VisualSitemapClient() {
             }`}
           >
             <Calendar className="w-3.5 h-3.5 text-cyan-300" />
-            <span>Booking & PIN Email Flow</span>
+            <span>Horizontal Step-by-Step Flow</span>
           </button>
 
           <button
@@ -791,19 +840,7 @@ export default function VisualSitemapClient() {
             }`}
           >
             <Ship className="w-3.5 h-3.5 text-amber-300" />
-            <span>Cruise & PIN Flow</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("ARCH")}
-            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
-              activeTab === "ARCH"
-                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <Layers className="w-3.5 h-3.5 text-purple-300" />
-            <span>Full Site Architecture</span>
+            <span>Cruise PIN Flow</span>
           </button>
 
           <a
