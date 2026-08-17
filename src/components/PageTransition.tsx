@@ -360,17 +360,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           backgroundColor: "#000",
           opacity: 0,
           visibility: "hidden",
-          pointerEvents: "none",
           clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
         }}
-      >
-        <span
-          className="text-2xl md:text-4xl font-black italic uppercase tracking-tight text-white"
-          style={{ fontFamily: "var(--font-barlow-condensed)" }}
-        >
-          7th heaven
-        </span>
-      </div>
+      />
     </>
   );
 }

@@ -27,26 +27,8 @@ export default function TransitionLink({
   onClick,
   ...rest
 }: TransitionLinkProps) {
-  const { requestTransition } = useTransition();
-
-  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    onClick?.(e);
-    if (e.defaultPrevented) return;
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
-      return;
-    }
-
-    const targetHref = typeof href === "string" ? href : href.pathname ?? "";
-    if (!targetHref || targetHref.includes("#")) return; // anchor scroll, not a page change
-    const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
-    if (targetHref === currentPath) return; // already there
-
-    e.preventDefault();
-    requestTransition(targetHref);
-  };
-
   return (
-    <Link href={href} onClick={handleClick} {...rest}>
+    <Link href={href} onClick={onClick} {...rest}>
       {children}
     </Link>
   );
