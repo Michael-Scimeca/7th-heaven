@@ -3533,6 +3533,34 @@ textarea,
   pointer-events: none;
 }
 
+@media (min-width: 721px) and (max-width: 1124px) {
+  .su-thumbs {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .su-thumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .su-thumb {
+    flex: 0 0 calc((100% - 28px) / 3);
+    width: calc((100% - 28px) / 3);
+    aspect-ratio: 4/3;
+    height: auto;
+    max-height: 320px;
+    scroll-snap-align: start;
+    shrink: 0;
+  }
+}
+
 @media (max-width: 720px) {
   .su-thumbs {
     flex-direction: row;
