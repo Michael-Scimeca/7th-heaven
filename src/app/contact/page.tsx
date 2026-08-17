@@ -22,7 +22,7 @@ export default async function ContactPage() {
     const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 
     return (
-        <section className="site-container pt-[123px] min-h-[calc(100vh-88px)] flex flex-col justify-center text-[var(--text-color)]">
+        <section className="site-container pt-[123px] min-h-[calc(100vh-88px)] flex flex-col text-[var(--text-color)]">
             {/* Header */}
             <div className="mb-8 text-left">
                 <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight text-left text-[var(--text-color)]">
@@ -33,8 +33,8 @@ export default async function ContactPage() {
                 </p>
             </div>
 
-            {/* Contact Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 md:gap-y-12 gap-x-12 md:gap-x-16">
+            {/* Contact Cards (Single Column) */}
+            <div className="flex flex-col gap-10 md:gap-12 max-w-2xl">
                 {contacts.map((contact) => (
                     <div key={contact.category || contact.name} className="flex flex-col justify-between" id={`contact-card-${contact.category}`}>
                         <div>
