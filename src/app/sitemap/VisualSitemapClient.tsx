@@ -242,7 +242,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- VIEW 1: FULL SITE ARCHITECTURE (DIRECT VERTICAL FLOW UNDER BOOK US: FORM -> SECURITY PIN EMAIL -> VERIFY PIN IN MODAL -> PLANNER RECEIPT -> ADMIN ALERT) ---
+// --- VIEW 1: FULL SITE ARCHITECTURE (DIRECT VERTICAL FLOW UNDER BOOK US: FORM -> SECURITY PIN EMAIL -> PLANNER ACCESS PIN MODAL -> PLANNER RECEIPT -> ADMIN ALERT) ---
 const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME PAGE
   {
@@ -419,18 +419,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 3: ENTER PIN 582901 INTO VERIFICATION MODAL ON SCREEN (y = 1040) ──
+  // ── ROW 3: ENTER PIN INTO PLANNER ACCESS MODAL ON SCREEN (y = 1040) ──
   {
     id: "node-book-verify-pin",
     type: "sitemapCard",
     position: { x: 1900, y: 1040 },
     data: {
-      header: "3. VERIFY PIN 582901 IN MODAL",
-      title: "3. Enter PIN 582901 into Modal",
+      header: "3. PLANNER ACCESS PIN MODAL",
+      title: "3. Enter PIN into Planner Access Modal",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
+      imgUrl: "/sitemap-thumbs/planner-pin-modal.jpg",
       badgeType: "MODULE",
-      description: "User inputs the 6-digit PIN [5][8][2][9][0][1] from email into the 6-box modal screen to verify & lock in booking.",
+      description: "Planner enters the 6-digit PIN from their email into the Planner Access PIN modal on screen to verify identity and enter dashboard.",
     },
   },
   {
@@ -583,7 +583,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
 
-  // DIRECT VERTICAL FLOW: FORM -> SECURITY PIN EMAIL FIRST -> VERIFY PIN IN MODAL -> PLANNER RECEIPT -> ADMIN ALERT
+  // DIRECT VERTICAL FLOW: FORM -> SECURITY PIN EMAIL FIRST -> PLANNER ACCESS PIN MODAL -> PLANNER RECEIPT -> ADMIN ALERT
   { id: "flow-book-to-pin-email", source: "nav-book", target: "email-book-pin-email", type: "smoothstep", animated: true },
   { id: "flow-pin-email-to-verify", source: "email-book-pin-email", target: "node-book-verify-pin", type: "smoothstep", animated: true },
   { id: "flow-verify-to-receipt", source: "node-book-verify-pin", target: "email-booking-planner", type: "smoothstep", animated: true },
@@ -600,7 +600,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
-// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW (PIN EMAIL FIRST -> VERIFY IN MODAL -> RECEIPT -> ADMIN ALERT) ---
+// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW (PIN EMAIL FIRST -> PLANNER ACCESS MODAL -> RECEIPT -> ADMIN ALERT) ---
 const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
   {
     id: "bf-step1",
@@ -633,12 +633,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 760, y: 150 },
     data: {
-      header: "3. VERIFY PIN 582901 IN MODAL",
-      title: "3. Enter PIN 582901 into Modal",
+      header: "3. PLANNER ACCESS PIN MODAL",
+      title: "3. Enter PIN into Planner Access Modal",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
+      imgUrl: "/sitemap-thumbs/planner-pin-modal.jpg",
       badgeType: "MODULE",
-      description: "User inputs the 6-digit PIN [5][8][2][9][0][1] from email into the 6 input boxes on screen to verify and lock in booking.",
+      description: "Planner enters the 6-digit PIN from their email into the Planner Access PIN modal on screen to verify identity and enter dashboard.",
     },
   },
   {
@@ -710,11 +710,11 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 760, y: 150 },
     data: {
       header: "STEP 3 · VERIFY PIN IN MODAL",
-      title: "3. Enter PIN 582901 into 6 Boxes",
+      title: "3. Enter PIN into Planner Access Modal",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
+      imgUrl: "/sitemap-thumbs/planner-pin-modal.jpg",
       badgeType: "MODULE",
-      description: "Fan inputs 6-digit PIN [5][8][2][9][0][1] received in email into 6-box verification screen to reserve cabin on 2026 Cruise.",
+      description: "Fan inputs 6-digit PIN received in email into the Planner Access PIN modal on screen to reserve cabin on 2026 Cruise.",
     },
   },
   {
@@ -785,10 +785,10 @@ export default function VisualSitemapClient() {
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "ARCH"
-                ? "Direct Vertical Flow under Book Us: Form ➔ Email Received with PIN 582901 FIRST ➔ Enter PIN [5][8][2][9][0][1] in Modal ➔ Planner Receipt ➔ Admin Alert"
+                ? "Direct Vertical Flow under Book Us: Form ➔ Email Received with PIN FIRST ➔ Enter PIN into Planner Access Modal ➔ Planner Receipt ➔ Admin Alert"
                 : activeTab === "BOOKING"
-                ? "Step-by-step user journey: Form Fill ➔ Email Received with PIN 582901 FIRST ➔ Enter PIN [5][8][2][9][0][1] in Modal ➔ Planner Receipt ➔ Admin Alert"
-                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN [5][8][2][9][0][1] into Screen ➔ Cruise Confirmation"}
+                ? "Step-by-step user journey: Form Fill ➔ Email Received with PIN FIRST ➔ Enter PIN into Planner Access Modal ➔ Planner Receipt ➔ Admin Alert"
+                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN into Planner Access Modal ➔ Cruise Confirmation"}
             </p>
           </div>
         </div>
