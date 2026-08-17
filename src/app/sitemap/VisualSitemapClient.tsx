@@ -28,42 +28,58 @@ export interface SitemapNodeData extends Record<string, unknown> {
   path?: string;
   imgUrl: string;
   description?: string;
-  badgeType?: "NAV" | "PAGE" | "MODULE" | "EMAIL";
+  badgeType?: "HEADER_NAV" | "FOOTER_NAV" | "PORTAL" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH CLICKABLE SCREENSHOTS & HEADER NAV BADGE ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH DISTINCT HEADER NAV vs FOOTER NAV BADGES ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const [imgError, setImgError] = useState(false);
-  const isNav = data.badgeType === "NAV";
+  const isHeaderNav = data.badgeType === "HEADER_NAV";
+  const isFooterNav = data.badgeType === "FOOTER_NAV";
+  const isPortal = data.badgeType === "PORTAL";
   const isEmail = data.badgeType === "EMAIL";
   const isModule = data.badgeType === "MODULE";
   const targetPath = data.path || "/";
 
   return (
     <div className={`w-64 rounded-xl border ${
-      isNav
+      isHeaderNav
         ? "border-purple-400/60 bg-[#120b22]"
+        : isFooterNav
+        ? "border-blue-400/60 bg-[#081022]"
+        : isPortal
+        ? "border-cyan-400/50 bg-[#051218]"
         : isEmail
         ? "border-amber-400/50 bg-[#161005]"
         : isModule
-        ? "border-cyan-400/50 bg-[#051218]"
+        ? "border-emerald-400/50 bg-[#051810]"
         : "border-white/15 bg-[#0f0f17]"
     } shadow-2xl overflow-hidden select-none hover:border-purple-400/90 transition-all duration-200 backdrop-blur-xl group`}>
       <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${
-        isNav ? "!bg-purple-400" : isEmail ? "!bg-amber-400" : isModule ? "!bg-cyan-400" : "!bg-purple-400"
+        isHeaderNav
+          ? "!bg-purple-400"
+          : isFooterNav
+          ? "!bg-blue-400"
+          : isPortal
+          ? "!bg-cyan-400"
+          : isEmail
+          ? "!bg-amber-400"
+          : "!bg-emerald-400"
       } !border-0`} />
       
       {/* CLICKABLE SCREENSHOT & HEADER CONTAINER */}
       <Link href={targetPath} className="block cursor-pointer">
         {/* Top Browser Header Bar */}
         <div className={`${
-          isNav
+          isHeaderNav
             ? "bg-purple-600/30 border-b border-purple-500/40 group-hover:bg-purple-600/40"
+            : isFooterNav
+            ? "bg-blue-600/30 border-b border-blue-500/40 group-hover:bg-blue-600/40"
+            : isPortal
+            ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
             : isEmail
             ? "bg-amber-500/20 border-b border-amber-500/30 group-hover:bg-amber-500/30"
-            : isModule
-            ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
-            : "bg-[#181824] border-b border-white/10 group-hover:bg-[#222234]"
+            : "bg-emerald-500/20 border-b border-emerald-500/30 group-hover:bg-emerald-500/30"
         } py-1.5 px-3 flex items-center justify-between transition-colors`}>
           <div className="flex items-center gap-1.5 min-w-0">
             <div className="flex items-center gap-1 shrink-0">
@@ -72,21 +88,39 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
             </div>
             <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${
-              isNav ? "text-purple-200" : isEmail ? "text-amber-300" : isModule ? "text-cyan-300" : "text-purple-300"
+              isHeaderNav
+                ? "text-purple-200"
+                : isFooterNav
+                ? "text-blue-200"
+                : isPortal
+                ? "text-cyan-300"
+                : isEmail
+                ? "text-amber-300"
+                : "text-emerald-300"
             }`}>
               {data.header}
             </span>
           </div>
-          {isNav ? (
+          {isHeaderNav ? (
             <span className="px-1.5 py-0.2 rounded bg-purple-500/40 text-purple-200 text-[7px] font-mono font-black shrink-0">
               HEADER NAV
+            </span>
+          ) : isFooterNav ? (
+            <span className="px-1.5 py-0.2 rounded bg-blue-500/40 text-blue-200 text-[7px] font-mono font-black shrink-0">
+              FOOTER NAV
+            </span>
+          ) : isPortal ? (
+            <span className="px-1.5 py-0.2 rounded bg-cyan-500/30 text-cyan-200 text-[7px] font-mono font-black shrink-0">
+              PORTAL
             </span>
           ) : isEmail ? (
             <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black shrink-0">
               ✉ RESEND
             </span>
           ) : (
-            <ExternalLink className="w-3 h-3 text-white/50 group-hover:text-cyan-300 transition-colors shrink-0" />
+            <span className="px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-200 text-[7px] font-mono font-black shrink-0">
+              MODULE
+            </span>
           )}
         </div>
 
@@ -121,8 +155,10 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
           </div>
 
           <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${
-            isNav
+            isHeaderNav
               ? "bg-purple-950/90 border-purple-400/50 text-purple-300"
+              : isFooterNav
+              ? "bg-blue-950/90 border-blue-400/50 text-blue-300"
               : isEmail
               ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
               : "bg-black/80 border-white/20 text-cyan-300"
@@ -146,7 +182,13 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
       </div>
 
       <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${
-        isNav ? "!bg-purple-400" : isEmail ? "!bg-amber-400" : "!bg-cyan-400"
+        isHeaderNav
+          ? "!bg-purple-400"
+          : isFooterNav
+          ? "!bg-blue-400"
+          : isEmail
+          ? "!bg-amber-400"
+          : "!bg-cyan-400"
       } !border-0`} />
     </div>
   );
@@ -198,7 +240,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- LOGICAL & DOMAIN-ACCURATE SITEMAP TREE (ROW 1 = PRIMARY NAV & MAIN PAGES) ---
+// --- IMMACULATE SITEMAP TREE: ROW 1 = HEADER NAV, ROW 2 = FOOTER NAV & LEGAL PAGES ---
 const INITIAL_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME PAGE (Center Top at x = 1330, y = 30)
   {
@@ -210,203 +252,231 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       title: "7th Heaven — Official Band Website",
       path: "/",
       imgUrl: "/sitemap-thumbs/home.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description:
         "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of live performances.",
     },
   },
 
-  // ── ROW 1: PRIMARY MAIN SITE PAGES & HEADER NAV (8 MAIN SECTIONS) (y = 360, 380px pitch) ──
-  {
-    id: "nav-shows",
-    type: "sitemapCard",
-    position: { x: 0, y: 360 },
-    data: {
-      header: "CONCERT SHOWS",
-      title: "1,200+ Performance Archive",
-      path: "/shows/past",
-      imgUrl: "/sitemap-thumbs/shows.jpg",
-      badgeType: "NAV",
-      description: "Historical concert dates, venue search, and setlist archives since 1985.",
-    },
-  },
+  // ── ROW 1: PRIMARY HEADER NAVIGATION BAR LINKS (7 MAIN HEADER LINKS) (y = 360) ──
   {
     id: "nav-merch",
     type: "sitemapCard",
-    position: { x: 380, y: 360 },
+    position: { x: 0, y: 360 },
     data: {
-      header: "MERCH STORE",
+      header: "MERCH",
       title: "Official Band Store & Merchandise",
       path: "/merch",
       imgUrl: "/sitemap-thumbs/merch.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "Official band merchandise — tees, hoodies, vinyl records, and stage picks.",
     },
   },
   {
     id: "nav-media",
     type: "sitemapCard",
-    position: { x: 760, y: 360 },
+    position: { x: 380, y: 360 },
     data: {
       header: "MEDIA",
       title: "Photos, Videos & Press Kit",
       path: "/media",
       imgUrl: "/sitemap-thumbs/media.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "Official promotional assets, high-res photos, stage rider, and press kit downloads.",
     },
   },
   {
     id: "nav-fanwall",
     type: "sitemapCard",
-    position: { x: 1140, y: 360 },
+    position: { x: 760, y: 360 },
     data: {
       header: "FAN WALL",
       title: "Fan Photo Wall & Concert Uploads",
       path: "/fan-photo-wall",
       imgUrl: "/sitemap-thumbs/fan-photo-wall.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "Live concert photo upload wall, AI face scanning, and fan gallery.",
     },
   },
   {
     id: "nav-live",
     type: "sitemapCard",
-    position: { x: 1520, y: 360 },
+    position: { x: 1140, y: 360 },
     data: {
       header: "LIVE STREAM",
       title: "Live Concert Stream & Broadcast",
       path: "/live",
       imgUrl: "/sitemap-thumbs/live.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "LiveKit powered multi-camera live video stream, band audio feeds, and fan chat.",
     },
   },
   {
     id: "nav-cruise",
     type: "sitemapCard",
-    position: { x: 1900, y: 360 },
+    position: { x: 1520, y: 360 },
     data: {
       header: "CRUISE 2026",
       title: "Caribbean Rock Cruise 2026",
       path: "/cruise",
       imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "2026 Fan Cruise itinerary, cabin options, and reservation signup.",
     },
   },
   {
     id: "nav-book",
     type: "sitemapCard",
-    position: { x: 2280, y: 360 },
+    position: { x: 1900, y: 360 },
     data: {
       header: "BOOK US",
       title: "Book 7th Heaven — Live Band",
       path: "/book",
       imgUrl: "/sitemap-thumbs/book.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "Multi-step event booking request form with date picker and instant quote.",
     },
   },
   {
     id: "nav-contact",
     type: "sitemapCard",
-    position: { x: 2660, y: 360 },
+    position: { x: 2280, y: 360 },
     data: {
       header: "CONTACT",
       title: "Contact Management & Inquiries",
       path: "/contact",
       imgUrl: "/sitemap-thumbs/contact.jpg",
-      badgeType: "NAV",
+      badgeType: "HEADER_NAV",
       description: "Direct contact inquiry form for booking agents and event organizers.",
     },
   },
 
-  // ── ROW 2: PORTAL DASHBOARDS & SUB-PAGES (y = 700) ──
+  // ── ROW 2: FOOTER NAVIGATION & LEGAL PAGES (BLUE BADGES) (y = 700) ──
+  {
+    id: "footer-shows",
+    type: "sitemapCard",
+    position: { x: 0, y: 700 },
+    data: {
+      header: "PAST SHOWS ARCHIVE",
+      title: "1,200+ Performance Archive",
+      path: "/shows/past",
+      imgUrl: "/sitemap-thumbs/shows.jpg",
+      badgeType: "FOOTER_NAV",
+      description: "Footer link to past concert dates, venue search, and setlist archives.",
+    },
+  },
+  {
+    id: "footer-faq",
+    type: "sitemapCard",
+    position: { x: 380, y: 700 },
+    data: {
+      header: "FAQ & HELP",
+      title: "Frequently Asked Questions",
+      path: "/faq",
+      imgUrl: "/sitemap-thumbs/faq.jpg",
+      badgeType: "FOOTER_NAV",
+      description: "Footer link to show tickets, venue entry, and booking answers.",
+    },
+  },
+  {
+    id: "footer-privacy",
+    type: "sitemapCard",
+    position: { x: 760, y: 700 },
+    data: {
+      header: "PRIVACY POLICY",
+      title: "Privacy Policy & Data Security",
+      path: "/privacy",
+      imgUrl: "/sitemap-thumbs/privacy.jpg",
+      badgeType: "FOOTER_NAV",
+      description: "Footer link to data protection rules, terms of service, and privacy.",
+    },
+  },
+  {
+    id: "footer-terms",
+    type: "sitemapCard",
+    position: { x: 1140, y: 700 },
+    data: {
+      header: "TERMS OF SERVICE",
+      title: "Terms & Conditions",
+      path: "/terms",
+      imgUrl: "/sitemap-thumbs/privacy.jpg",
+      badgeType: "FOOTER_NAV",
+      description: "Footer legal terms of service, ticket policies, and user agreements.",
+    },
+  },
+
+  // ── ROW 3: INTERNAL PORTALS & ADMIN DASHBOARDS (CYAN BADGES) (y = 1040) ──
   {
     id: "node-fans",
     type: "sitemapCard",
-    position: { x: 0, y: 700 },
+    position: { x: 0, y: 1040 },
     data: {
       header: "Fan Club Hub",
       title: "Fan Club VIP Member Portal",
       path: "/fans",
       imgUrl: "/sitemap-thumbs/fan-dashboard.jpg",
-      badgeType: "PAGE",
+      badgeType: "PORTAL",
       description: "VIP fan dashboard, referral badges, and exclusive member perks.",
     },
   },
   {
     id: "node-picks",
     type: "sitemapCard",
-    position: { x: 380, y: 700 },
+    position: { x: 380, y: 1040 },
     data: {
       header: "Pick Collector",
       title: "Guitar Pick Lottery Game",
       path: "/picks",
       imgUrl: "/sitemap-thumbs/picks.jpg",
-      badgeType: "PAGE",
+      badgeType: "PORTAL",
       description: "Interactive guitar pick collector game and concert raffle entry.",
     },
   },
   {
     id: "node-planner",
     type: "sitemapCard",
-    position: { x: 760, y: 700 },
+    position: { x: 760, y: 1040 },
     data: {
       header: "Show Planner",
       title: "Event Booking Coordinator",
       path: "/planner",
       imgUrl: "/sitemap-thumbs/planner.jpg",
-      badgeType: "PAGE",
+      badgeType: "PORTAL",
       description: "Private event planner dashboard, date checklist, and coordinator portal.",
     },
   },
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 1140, y: 700 },
+    position: { x: 1140, y: 1040 },
     data: {
       header: "Crew HQ",
       title: "Road Crew & Staff Portal",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/crew-dashboard.jpg",
-      badgeType: "PAGE",
+      badgeType: "PORTAL",
       description: "Tour staff schedule, stage setup checklists, and shift alerts.",
     },
   },
   {
     id: "node-admin",
     type: "sitemapCard",
-    position: { x: 1520, y: 700 },
+    position: { x: 1520, y: 1040 },
     data: {
       header: "Master Admin",
       title: "Admin Command Center",
       path: "/admin",
       imgUrl: "/sitemap-thumbs/admin.jpg",
-      badgeType: "PAGE",
+      badgeType: "PORTAL",
       description: "Master admin dashboard, concert manager, financial reports, and broadcast center.",
     },
   },
-  {
-    id: "node-privacy",
-    type: "sitemapCard",
-    position: { x: 1900, y: 700 },
-    data: {
-      header: "Privacy & Terms",
-      title: "Privacy Policy & Terms of Service",
-      path: "/privacy",
-      imgUrl: "/sitemap-thumbs/privacy.jpg",
-      badgeType: "PAGE",
-      description: "Data collection rules, user rights, terms of service, and cookie policy.",
-    },
-  },
 
-  // ── ROW 3: RESEND API TRANSACTIONAL EMAIL PIPELINES (y = 1040) ──
+  // ── ROW 4: RESEND API TRANSACTIONAL EMAIL PIPELINES (AMBER BADGES) (y = 1380) ──
   {
     id: "email-otp-pin",
     type: "sitemapCard",
-    position: { x: 0, y: 1040 },
+    position: { x: 0, y: 1380 },
     data: {
       header: "✉ OTP Verification",
       title: "6-Digit Security PIN Email",
@@ -419,7 +489,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-cruise-confirm",
     type: "sitemapCard",
-    position: { x: 380, y: 1040 },
+    position: { x: 380, y: 1380 },
     data: {
       header: "✉ Cruise Confirmation",
       title: "Cruise Cabin Reservation Email",
@@ -432,7 +502,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-booking-planner",
     type: "sitemapCard",
-    position: { x: 760, y: 1040 },
+    position: { x: 760, y: 1380 },
     data: {
       header: "✉ Booking Receipt",
       title: "Planner Booking Confirmation",
@@ -445,7 +515,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-booking-admin",
     type: "sitemapCard",
-    position: { x: 1140, y: 1040 },
+    position: { x: 1140, y: 1380 },
     data: {
       header: "✉ Admin Booking Alert",
       title: "New Booking Notification",
@@ -458,7 +528,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-merch-pickup",
     type: "sitemapCard",
-    position: { x: 1520, y: 1040 },
+    position: { x: 1520, y: 1380 },
     data: {
       header: "✉ Merch Pickup Email",
       title: "Flash Order Pickup Receipt",
@@ -471,7 +541,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-newsletter-blast",
     type: "sitemapCard",
-    position: { x: 1900, y: 1040 },
+    position: { x: 1900, y: 1380 },
     data: {
       header: "✉ Tour Announcement",
       title: "Newsletter Broadcast Email",
@@ -483,10 +553,9 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   },
 ];
 
-// --- CLEAN & DOMAIN-LOGICAL EDGES FROM ROOT HOME ---
+// --- CLEAN & TRUTHFUL NAVIGATION EDGES ---
 const INITIAL_EDGES: Edge[] = [
-  // Root Home -> All Primary Section Pages & Header Nav Links (Row 1)
-  { id: "e-root-shows", source: "root", target: "nav-shows", type: "smoothstep" },
+  // Root Home -> Primary Header Navigation Bar Links (Row 1)
   { id: "e-root-merch", source: "root", target: "nav-merch", type: "smoothstep" },
   { id: "e-root-media", source: "root", target: "nav-media", type: "smoothstep" },
   { id: "e-root-fanwall", source: "root", target: "nav-fanwall", type: "smoothstep" },
@@ -495,15 +564,20 @@ const INITIAL_EDGES: Edge[] = [
   { id: "e-root-book", source: "root", target: "nav-book", type: "smoothstep" },
   { id: "e-root-contact", source: "root", target: "nav-contact", type: "smoothstep" },
 
-  // Domain-Specific Sub-Tree Connections (Row 1 -> Row 2)
-  { id: "e-shows-planner", source: "nav-shows", target: "node-planner", type: "smoothstep" },
-  { id: "e-shows-crew", source: "nav-shows", target: "node-crew", type: "smoothstep" },
+  // Root Home -> Footer Navigation & Legal Pages (Row 2)
+  { id: "e-root-footer-shows", source: "root", target: "footer-shows", type: "smoothstep" },
+  { id: "e-root-footer-faq", source: "root", target: "footer-faq", type: "smoothstep" },
+  { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
+  { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
+
+  // Footer / Header Pages -> Portals (Row 3)
+  { id: "e-shows-planner", source: "footer-shows", target: "node-planner", type: "smoothstep" },
+  { id: "e-shows-crew", source: "footer-shows", target: "node-crew", type: "smoothstep" },
   { id: "e-fanwall-fans", source: "nav-fanwall", target: "node-fans", type: "smoothstep" },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
-  { id: "e-contact-privacy", source: "nav-contact", target: "node-privacy", type: "smoothstep" },
 
-  // Row 2 -> Transactional Email Pipelines (Row 3)
+  // Portals / Pages -> Resend Transactional Email Pipelines (Row 4)
   { id: "flow-fans-otp", source: "node-fans", target: "email-otp-pin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
   { id: "flow-book-receipt", source: "nav-book", target: "email-booking-planner", type: "smoothstep" },
@@ -538,10 +612,10 @@ export default function VisualSitemapClient() {
           </div>
           <div>
             <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
-              7th Heaven Header Navigation & Sitemap Directory
+              7th Heaven Site Directory & Navigation Architecture
             </h1>
             <p className="text-xs text-white/50">
-              Clean domain-accurate visual sitemap tree where Root Home connects to all main section pages
+              Row 1: Header Navigation Links (Purple) | Row 2: Footer Navigation Links (Blue) | Row 3: Internal Portals (Cyan) | Row 4: Transactional Emails (Amber)
             </p>
           </div>
         </div>
