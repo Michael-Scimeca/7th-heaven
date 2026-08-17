@@ -826,7 +826,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-[1.08] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
+                        className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-[1.08] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-white hover:!text-[#c084fc]"
                           }`}
                         style={{
                           // exoape's own per-link reveal: rotate:7deg -> 0 and
