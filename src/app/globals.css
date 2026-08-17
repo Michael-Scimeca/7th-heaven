@@ -3594,9 +3594,9 @@ textarea,
   .su-thumb {
     flex: 0 0 100%;
     width: 100%;
-    aspect-ratio: 16/9;
-    height: auto;
-    max-height: 250px;
+    height: 450px;
+    max-height: 450px;
+    aspect-ratio: 4/5;
     scroll-snap-align: start;
     shrink: 0;
   }
