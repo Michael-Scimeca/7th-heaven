@@ -741,10 +741,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               {/* Header - always visible, click to toggle */}
               <button aria-label="Show Types"
                 onClick={() => setLegendOpen(o => !o)}
-                className="flex items-center justify-between gap-3 px-7 md:px-8 py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover:text-[var(--color-accent)] transition-colors"
+                className="flex items-center justify-between gap-2.5 h-8 sm:h-auto px-3.5 sm:px-7 md:px-8 py-0 sm:py-2.5 w-full cursor-pointer hover:bg-white/5 text-white/80 hover:text-[var(--color-accent)] transition-colors"
               >
-                <span className="text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
-                <svg className={`w-3.5 h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <span className="text-xs sm:text-[16px] font-bold uppercase tracking-wider transition-colors">Show Types</span>
+                <svg className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-300 ${legendOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
               {/* Expandable content */}
               {legendOpen && (
@@ -797,17 +797,17 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <button
                   type="button"
                   onClick={() => setIsDateUiOpen(true)}
-                  className={`flex items-center gap-2.5 px-6 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered
+                  className={`flex items-center gap-2 h-8 sm:h-auto px-3.5 sm:px-6 py-0 sm:py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-xs sm:text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered
                       ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
                       : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
                     }`}
                   title="Zoom in on dates & filter show markers"
                 >
-                  <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse" />
+                  <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-500 animate-pulse" />
                   <span>📅 {isDateFiltered ? `${formatDateShort(activeStart)} – ${formatDateShort(activeEnd)}` : "Date Range Zoom"}</span>
                   {isDateFiltered && (
-                    <span className="ml-1 text-[10px] font-black bg-purple-600 text-white px-2 py-0.5 rounded-full border border-purple-400/50">
-                      Filtered ({markerCount})
+                    <span className="ml-1 text-[9px] sm:text-[10px] font-black bg-purple-600 text-white px-1.5 sm:px-2 py-0.5 rounded-full border border-purple-400/50">
+                      ({markerCount})
                     </span>
                   )}
                 </button>
@@ -818,37 +818,21 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                     <div className="flex items-center gap-2">
                       <span className="text-xl">📅</span>
                       <div className="flex flex-col">
-                        <span className="font-extrabold text-xs uppercase tracking-wider text-purple-300">
-                          Date Range Zoom
-                        </span>
-                        <span className="text-[10px] text-white/50 font-medium">
-                          Filter pins between start & end dates
-                        </span>
+                        <span className="font-extrabold text-sm text-purple-300 uppercase tracking-wide">Date Range Zoom</span>
+                        <span className="text-[10px] text-white/50">Filter map markers by timeframe</span>
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={() => setIsDateUiOpen(false)}
-                      className="w-6 h-6 rounded-full hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer text-xs font-bold"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors"
                     >
                       ✕
                     </button>
                   </div>
 
-                  {/* Date Range Badge & Live Counter */}
-                  <div className="flex items-center justify-between bg-purple-950/50 border border-purple-500/30 px-3 py-2 rounded-xl text-xs">
-                    <div className="flex items-center gap-1.5 font-mono text-purple-200 font-bold text-[11px]">
-                      <span>{formatDateLabel(activeStart)}</span>
-                      <span className="text-white/40">→</span>
-                      <span>{formatDateLabel(activeEnd)}</span>
-                    </div>
-                    <span className="text-[10px] font-black text-purple-300 bg-purple-600/40 px-2 py-0.5  rounded-lg  border border-purple-400/30">
-                      {markerCount} Shows
-                    </span>
-                  </div>
-
-                  {/* Dual Sliders */}
-                  <div className="space-y-3">
+                  {/* Dual Date Sliders */}
+                  <div className="space-y-3.5">
                     <div className="space-y-1">
                       <div className="flex justify-between text-[10px] font-bold text-white/70 uppercase tracking-wider">
                         <span>Start Date (From)</span>
@@ -862,7 +846,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                         value={activeStart}
                         onChange={(e) => {
                           const val = parseFloat(e.target.value);
-                          setDateRange([Math.min(val, activeEnd - 86400000), activeEnd]);
+                          setDateRange([val, Math.max(val + 86400000, activeEnd)]);
                         }}
                         className="w-full accent-purple-500 bg-white/10 h-2 rounded-lg appearance-none cursor-pointer"
                       />
@@ -953,9 +937,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom In"
               title="Zoom In"
-              className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
             >
-              <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
@@ -964,9 +948,9 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
               type="button"
               aria-label="Zoom Out"
               title="Zoom Out"
-              className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
+              className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center bg-[rgba(8,8,18,0.92)] backdrop-blur-md border border-white/10 hover:border-[var(--color-accent)]/40 rounded-lg text-white/90 hover:text-[var(--color-accent)] transition-colors cursor-pointer active:scale-95 select-none"
             >
-              <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </button>

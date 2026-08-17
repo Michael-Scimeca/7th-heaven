@@ -1119,21 +1119,21 @@ ${filterLine}
                       targetTime={upNext.playTime || upNext.time}
                       className="justify-start md:justify-end gap-4 md:gap-5"
                     />
-                    <div className="flex gap-5 sm:gap-6 items-center flex-wrap">
+                    <div className="flex gap-3 sm:gap-5 md:gap-6 items-center flex-wrap max-w-full">
                       {upNext.mapUrl && (
-                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
+                        <a href={upNext.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-map">
                           <span>Directions</span>
                         </a>
                       )}
                       {upNext.websiteUrl && (
-                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
+                        <a href={upNext.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer" id="upnext-website">
                           Website
                         </a>
                       )}
                       <div className="relative calendar-dropdown-container">
                         <button aria-label="Next"
                           onClick={() => setActiveCalDropdownId(activeCalDropdownId === 'upnext' ? null : 'upnext')}
-                          className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                          className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                           id="upnext-calendar-btn"
                         >
                           Add to Calendar
@@ -1152,7 +1152,7 @@ ${filterLine}
                       </div>
                       <button aria-label="Next"
                         onClick={handlePrintTourList}
-                        className="flex items-center gap-1.5 text-xs sm:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
+                        className="flex items-center gap-1 text-[11px] sm:text-xs md:text-[13px] font-black uppercase tracking-wider text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-accent)]/50 hover:decoration-[var(--color-accent)] hover:opacity-80 transition-colors p-0 bg-transparent border-none cursor-pointer"
                       >
                         Print Tour List
                       </button>
