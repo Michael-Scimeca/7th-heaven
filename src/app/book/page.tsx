@@ -2049,7 +2049,7 @@ function MapPickerModal({
                   onSaveNewAddress(addressInput.trim());
                 }
               }}
-              className="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600/40 border border-emerald-400/40 rounded-lg text-xs font-bold text-emerald-300 hover:text-white uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 bg-[var(--color-accent)] rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
             >
               <Bookmark className="w-3.5 h-3.5" /> Save to Favorites
             </button>

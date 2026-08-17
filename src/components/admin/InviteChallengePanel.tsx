@@ -39,16 +39,16 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       const r = await fetch(`/api/admin/invite-challenge?showId=${selectedShowId}`);
       if (r.ok) {
         const data = await r.json();
-      if (data) {
-        setChallenge({
-          enabled: data.enabled ?? false,
-          threshold: data.threshold ?? 20,
-          reward_name: data.reward_name ?? "",
-          reward_description: data.reward_description ?? "Claim at the merch table, night of show",
-        });
-      } else {
-        setChallenge({ enabled: false, threshold: 20, reward_name: "", reward_description: "Claim at the merch table, night of show" });
-      }
+        if (data) {
+          setChallenge({
+            enabled: data.enabled ?? false,
+            threshold: data.threshold ?? 20,
+            reward_name: data.reward_name ?? "",
+            reward_description: data.reward_description ?? "Claim at the merch table, night of show",
+          });
+        } else {
+          setChallenge({ enabled: false, threshold: 20, reward_name: "", reward_description: "Claim at the merch table, night of show" });
+        }
       }
     } catch { }
     finally {
@@ -225,10 +225,10 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
 
                   {/* Save */}
                   <button aria-label="Action button"
-                       onClick={save}
+                    onClick={save}
                     disabled={saving || !challenge.reward_name}
                     className={`w-full py-3.5 text-sm font-black uppercase tracking-widest transition-colors ${saved
-                      ? "bg-emerald-600 text-white"
+                      ? "bg-[var(--color-accent)]  text-white"
                       : "bg-[var(--color-accent)] text-white hover:brightness-110 disabled:opacity-40"
                       }`}
                   >

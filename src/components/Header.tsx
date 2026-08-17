@@ -441,7 +441,7 @@ export function Header() {
     displayRole === "admin"
       ? "bg-[var(--color-purple-primary)]"
       : displayRole === "crew"
-        ? "bg-emerald-600"
+        ? "bg-[var(--color-accent)] "
         : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
           ? "bg-[var(--color-accent)]"
           : displayRole === "cruise"
@@ -517,8 +517,8 @@ export function Header() {
               }
             }}
             className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:relative lg:mx-auto z-50 ${effectivePathname === "/"
-                ? "!text-[#6700ff]"
-                : "!text-white hover:!text-white/80"
+              ? "!text-[#6700ff]"
+              : "!text-white hover:!text-white/80"
               }`}
             title="7th Heaven — Go to Home Page"
           >
@@ -644,20 +644,18 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex lg:hidden w-10 h-10 items-center justify-end relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0"
+              className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer text-white hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
             >
               <svg
-                width="34"
-                height="34"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
-                className="w-8.5 h-8.5 overflow-visible"
+                className="w-full h-full overflow-visible"
               >
                 {/* Burger — 3 lines, draw themselves off + fade out on open.
                     Staggered 0.1s apart on open (matches exoape); collapsed

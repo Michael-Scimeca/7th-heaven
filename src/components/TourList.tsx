@@ -1168,7 +1168,7 @@ ${filterLine}
               {member?.role === 'admin' && (
                 <button aria-label="Action button"
                   onClick={() => { setEditingShow(null); setIsModalOpen(true); }}
-                  className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
+                  className="text-[0.7rem] font-extrabold uppercase tracking-[0.12em] rounded-lg px-5 py-2.5 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white transition-colors duration-200 cursor-pointer whitespace-nowrap flex items-center gap-2 border border-emerald-500/35 shadow-emerald-600/20"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add Show
                 </button>
@@ -1798,7 +1798,7 @@ ${filterLine}
                     Cancel
                   </button>
                   <button aria-label="Action button" type="submit" disabled={submitting}
-                    className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer">
+                    className="flex-1 py-3 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer">
                     {submitting ? "Saving..." : "Save Show"}
                   </button>
                 </div>

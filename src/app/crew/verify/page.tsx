@@ -366,7 +366,7 @@ export default function VerifyPage() {
 
               <p className="text-emerald-400/90 text-xs font-bold mb-6">Award the prize to this fan ✓</p>
 
-              <Link href="/crew" className="w-full block py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
+              <Link href="/crew" className="w-full block py-3.5 bg-[var(--color-accent)]  hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] cursor-pointer text-center mb-3 rounded-xl">
                 Access My Dashboard →
               </Link>
 

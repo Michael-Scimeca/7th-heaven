@@ -2866,7 +2866,7 @@ ${deskRules.join("\n")}
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${multiUserColorMode
-                    ? "bg-emerald-600 text-white shadow-sm"
+                    ? "bg-[var(--color-accent)]  text-white shadow-sm"
                     : "bg-white/10 text-white/50"
                     }`}
                 >
@@ -2960,7 +2960,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s
-                        ? "bg-emerald-600 border-emerald-400 text-white"
+                        ? "bg-[var(--color-accent)]  border-emerald-400 text-white"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3671,7 +3671,7 @@ ${deskRules.join("\n")}
             <button
               onClick={handleCopyCanvasSpec}
               className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
-                ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                ? "bg-[var(--color-accent)]  border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
                 : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
                 }`}
             >
@@ -3711,7 +3711,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op
-                        ? "bg-emerald-600 border-emerald-400 text-white"
+                        ? "bg-[var(--color-accent)]  border-emerald-400 text-white"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3743,7 +3743,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz
-                        ? "bg-emerald-600 border-emerald-400 text-white"
+                        ? "bg-[var(--color-accent)]  border-emerald-400 text-white"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3769,7 +3769,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val
-                        ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
+                        ? "bg-[var(--color-accent)] /40 border-emerald-400 text-emerald-200"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >

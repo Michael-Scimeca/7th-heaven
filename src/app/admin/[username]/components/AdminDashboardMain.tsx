@@ -11470,7 +11470,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
         #admin-dashboard-root .bg-red-600,
         #admin-dashboard-root .bg-purple-600,
         #admin-dashboard-root .bg-cyan-600,
-        #admin-dashboard-root .bg-emerald-600,
+        #admin-dashboard-root .bg-[var(--color-accent)] ,
         #admin-dashboard-root .bg-purple-700,
         #admin-dashboard-root button[class*="bg-red-600"],
         #admin-dashboard-root button[class*="bg-purple-600"] {

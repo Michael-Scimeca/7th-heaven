@@ -306,7 +306,7 @@ export default function ReferralProgramPanel() {
             onClick={saveMilestones}
             disabled={saving}
             className={`w-full mt-3 py-3 text-sm font-black uppercase tracking-widest transition-colors cursor-pointer ${saved
-              ? "bg-emerald-600 text-white"
+              ? "bg-[var(--color-accent)]  text-white"
               : "bg-purple-600 text-white hover:bg-purple-500 disabled:opacity-40"
               }`}
           >
@@ -395,170 +395,170 @@ export default function ReferralProgramPanel() {
 
                       return (
                         <div key={entry.referrer_code}>
-                    <button aria-label="Action button"
-                      onClick={() =>
-                        setExpandedRow(
-                          expandedRow === entry.referrer_code
-                            ? null
-                            : entry.referrer_code
-                        )
-                      }
-                      className="w-full text-left cursor-pointer"
-                    >
-                      <div
-                        className={`flex items-center justify-between p-3 border ${i === 0
-                          ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
-                          : i === 1
-                            ? "border-white/10 bg-white/[0.02]"
-                            : i === 2
-                              ? "border-white/10 bg-white/[0.015]"
-                              : "border-white/5 bg-white/[0.01]"
-                          }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          {/* Rank badge */}
-                          <div
-                            className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${i === 0
-                              ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
-                              : i === 1
-                                ? "bg-white/10 text-white/60 border border-white/10"
-                                : i === 2
-                                  ? "bg-white/5 text-white/40 border border-white/5"
-                                  : "text-white/20"
-                              }`}
+                          <button aria-label="Action button"
+                            onClick={() =>
+                              setExpandedRow(
+                                expandedRow === entry.referrer_code
+                                  ? null
+                                  : entry.referrer_code
+                              )
+                            }
+                            className="w-full text-left cursor-pointer"
                           >
-                            {i + 1}
-                          </div>
-
-                          <div>
-                            <p className="text-sm font-bold text-white">
-                              {entry.name}
-                            </p>
-                            <p className="text-xs text-white/30 font-mono">
-                              {entry.referrer_code}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                          {/* Milestone badges */}
-                          <div className="flex gap-1">
-                            {milestonesHit.map((m, mi) => (
-                              <span
-                                key={mi}
-                                className="text-sm"
-                                title={`${m.threshold}: ${m.reward}`}
-                              >
-                                {m.emoji}
-                              </span>
-                            ))}
-                          </div>
-
-                          {/* Count */}
-                          <div className="text-right">
-                            <p className="text-lg font-black text-purple-300">
-                              {entry.total}
-                            </p>
-                            <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/20 font-bold">
-                              referrals
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </button>
-
-                    {/* Expanded details */}
-                    {expandedRow === entry.referrer_code && (
-                      <div className="p-4 bg-white/[0.02] border-x border-b border-white/5 space-y-3">
-                        {/* Stats */}
-                        <div className="flex gap-4">
-                          <div>
-                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
-                              Converted
-                            </span>
-                            <p className="text-sm font-bold text-[var(--color-accent)]">
-                              {entry.signed_up}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
-                              Rewarded
-                            </span>
-                            <p className="text-sm font-bold text-yellow-400">
-                              {entry.rewarded}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
-                              Pending
-                            </span>
-                            <p className="text-sm font-bold text-white/40">
-                              {entry.pending}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Progress to next milestone */}
-                        {nextMilestone && (
-                          <div>
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
-                                Next: {nextMilestone.emoji} {nextMilestone.reward}
-                              </span>
-                              <span className="text-xs text-purple-300 font-bold">
-                                {entry.total}/{nextMilestone.threshold}
-                              </span>
-                            </div>
-                            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-purple-600 transition-colors"
-                                style={{
-                                  width: `${Math.min(100, (entry.total / nextMilestone.threshold) * 100)}%`,
-                                }}
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Recent invites */}
-                        {entry.recent.length > 0 && (
-                          <div>
-                            <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
-                              Recent Invites
-                            </span>
-                            <div className="mt-1 flex flex-wrap gap-1">
-                              {entry.recent.map((email, ei) => (
-                                <span
-                                  key={ei}
-                                  className="text-xs px-2 py-0.5 bg-white/5 border border-white/5 text-white/40 font-mono"
-                                >
-                                  {email}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Admin actions */}
-                        {milestonesHit.length > 0 &&
-                          entry.signed_up > 0 && (
-                            <button aria-label="Action button"
-                              onClick={() => markRewarded(entry.referrer_code)}
-                              className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
+                            <div
+                              className={`flex items-center justify-between p-3 border ${i === 0
+                                ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)]"
+                                : i === 1
+                                  ? "border-white/10 bg-white/[0.02]"
+                                  : i === 2
+                                    ? "border-white/10 bg-white/[0.015]"
+                                    : "border-white/5 bg-white/[0.01]"
+                                }`}
                             >
-                              Mark Rewards as Claimed
-                            </button>
+                              <div className="flex items-center gap-3">
+                                {/* Rank badge */}
+                                <div
+                                  className={`w-8 h-8 flex items-center justify-center font-black text-[var(--font-size-sm)] shrink-0 ${i === 0
+                                    ? "bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)]"
+                                    : i === 1
+                                      ? "bg-white/10 text-white/60 border border-white/10"
+                                      : i === 2
+                                        ? "bg-white/5 text-white/40 border border-white/5"
+                                        : "text-white/20"
+                                    }`}
+                                >
+                                  {i + 1}
+                                </div>
+
+                                <div>
+                                  <p className="text-sm font-bold text-white">
+                                    {entry.name}
+                                  </p>
+                                  <p className="text-xs text-white/30 font-mono">
+                                    {entry.referrer_code}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-4">
+                                {/* Milestone badges */}
+                                <div className="flex gap-1">
+                                  {milestonesHit.map((m, mi) => (
+                                    <span
+                                      key={mi}
+                                      className="text-sm"
+                                      title={`${m.threshold}: ${m.reward}`}
+                                    >
+                                      {m.emoji}
+                                    </span>
+                                  ))}
+                                </div>
+
+                                {/* Count */}
+                                <div className="text-right">
+                                  <p className="text-lg font-black text-purple-300">
+                                    {entry.total}
+                                  </p>
+                                  <p className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/20 font-bold">
+                                    referrals
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+
+                          {/* Expanded details */}
+                          {expandedRow === entry.referrer_code && (
+                            <div className="p-4 bg-white/[0.02] border-x border-b border-white/5 space-y-3">
+                              {/* Stats */}
+                              <div className="flex gap-4">
+                                <div>
+                                  <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
+                                    Converted
+                                  </span>
+                                  <p className="text-sm font-bold text-[var(--color-accent)]">
+                                    {entry.signed_up}
+                                  </p>
+                                </div>
+                                <div>
+                                  <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
+                                    Rewarded
+                                  </span>
+                                  <p className="text-sm font-bold text-yellow-400">
+                                    {entry.rewarded}
+                                  </p>
+                                </div>
+                                <div>
+                                  <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
+                                    Pending
+                                  </span>
+                                  <p className="text-sm font-bold text-white/40">
+                                    {entry.pending}
+                                  </p>
+                                </div>
+                              </div>
+
+                              {/* Progress to next milestone */}
+                              {nextMilestone && (
+                                <div>
+                                  <div className="flex items-center justify-between mb-1">
+                                    <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
+                                      Next: {nextMilestone.emoji} {nextMilestone.reward}
+                                    </span>
+                                    <span className="text-xs text-purple-300 font-bold">
+                                      {entry.total}/{nextMilestone.threshold}
+                                    </span>
+                                  </div>
+                                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-purple-600 transition-colors"
+                                      style={{
+                                        width: `${Math.min(100, (entry.total / nextMilestone.threshold) * 100)}%`,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Recent invites */}
+                              {entry.recent.length > 0 && (
+                                <div>
+                                  <span className="text-[var(--font-size-2xs)] uppercase tracking-widest text-white/30 font-bold">
+                                    Recent Invites
+                                  </span>
+                                  <div className="mt-1 flex flex-wrap gap-1">
+                                    {entry.recent.map((email, ei) => (
+                                      <span
+                                        key={ei}
+                                        className="text-xs px-2 py-0.5 bg-white/5 border border-white/5 text-white/40 font-mono"
+                                      >
+                                        {email}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Admin actions */}
+                              {milestonesHit.length > 0 &&
+                                entry.signed_up > 0 && (
+                                  <button aria-label="Action button"
+                                    onClick={() => markRewarded(entry.referrer_code)}
+                                    className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-black uppercase tracking-widest hover:bg-yellow-500/20 transition-colors cursor-pointer"
+                                  >
+                                    Mark Rewards as Claimed
+                                  </button>
+                                )}
+                            </div>
                           )}
-                      </div>
-                    )}
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </>
-      );
-    })()}
+                )}
+              </>
+            );
+          })()}
         </div>
       </div>
     </div>
