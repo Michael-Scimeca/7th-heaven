@@ -766,7 +766,7 @@ export function Header() {
                   transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
                 }}
               >
-                <div className="pt-[84px]" />
+                <div className="pt-[87px]" />
 
                 {/* Main: portrait media panel + stacked links, side by side
                   from sm up; panel drops out on phones so links get full
