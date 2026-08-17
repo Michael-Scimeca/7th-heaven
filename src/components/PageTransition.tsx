@@ -4,35 +4,59 @@ import { useEffect, useRef, useTransition as useReactTransition, ReactNode } fro
 import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
-import { buildStagedCurtainClipPath } from "@/lib/curtainClipPath";
 
-// -0.9 (left edge leads) to 0.9 (right edge leads), 0 = flat — matches what
-// thibaultguignand.com's own code actually does. Positive = the RIGHT end
-// of the edge rises first (edge tilts up toward the right as it moves);
-// negative = the LEFT end rises first (tilts up toward the left). Kept
-// small on purpose — "slide up normally, then slant a little at the end,"
-// not a dramatic diagonal. Dial in a value on the /pagetransition sandbox
-// (it has sliders for this, plus a live "which side leads" label), then
-// set it here.
-const CURTAIN_SLANT = -0.15;
-// The edge stays flat for the first 75% of the wipe and only grows into
-// the slant over the final stretch, finishing fully cleared right at the
-// end regardless of CURTAIN_SLANT.
-const CURTAIN_SLANT_START = 0.75;
-
-// exoape.com's own nav-triggered page transition pairs its cover/reveal with
-// a scale + rotate + vertical slide on the page content itself — the
-// departing page grows to 130%, rotates -7deg, and slides up half the
-// viewport height as it's covered; the arriving page does the mirror image
-// (130% -> 100%, +7deg -> 0, +50vh -> 0) as it's revealed. Same signature
-// ease on both (a full writeup of where these numbers came from is in
-// Header.tsx — search PAGE_RECEDE_EASE there — which already reuses this
-// exact curve for the mobile menu's own page-recede effect). Layered on top
-// of the curtain / two-stage-ready-check machinery below, not a replacement
-// for it — the curtain still does the actual work of hiding the DOM swap;
-// this just makes the page's own departure/arrival visibly move instead of
-// only fading.
+// exoape.com's own nav-triggered page transition, decompiled straight from
+// their production bundle (chunk 6f3a20d.js — Nuxt's `transition:{enter,
+// leave}` option on their default layout) rather than eyeballed off a
+// recording, so this is their ACTUAL code, not a lookalike:
+//
+//   leave(t, done) {                          // t = departing page root
+//     gsap.fromTo(t,
+//       { scale: 1, rotate: 0, y: 0 },
+//       { scale: 1.3, rotate: -7, y: -innerHeight/2, duration: 1,
+//         ease: customEase, onComplete: done })
+//     gsap.fromTo(t.firstChild,                // a full-bleed panel that
+//       { autoAlpha: 0 },                      // lives INSIDE every page's
+//       { autoAlpha: 1, duration: 1, ease: customEase })  // own root
+//   }
+//   enter(t) {                                 // t = arriving page root
+//     gsap.fromTo(t,
+//       { clipPath: PAGE_REVEAL_CLIP_FROM, zIndex: 2 },
+//       { clipPath: PAGE_REVEAL_CLIP_TO, duration: 1, ease: customEase,
+//         clearProps: "all" })
+//     gsap.fromTo(t.lastChild,
+//       { scale: 1.3, rotate: 7, y: innerHeight/2 },
+//       { scale: 1, rotate: 0, y: 0, duration: 1, ease: customEase,
+//         clearProps: "all" })
+//   }
+//
+// customEase is the SVG path "M0,0 C0.496,0.004 0,1 1,1", which decodes to
+// the exact same cubic-bezier(0.496, 0.004, 0, 1) already used for the
+// mobile menu's own page-recede effect in Header.tsx (search
+// PAGE_RECEDE_EASE there for that derivation).
+//
+// Two things don't map 1:1 onto our component split and are adapted below
+// rather than copied verbatim:
+//   - Their "curtain" isn't a separate overlay element at all — it's
+//     literally the first child inside each page's own root markup,
+//     fading in as that page recedes. Our `curtain` (a persistent portaled
+//     div, needed because Next/React can't retrofit a hidden panel into
+//     every page's own JSX root the way their Vue setup could) plays the
+//     same role: fade in over the SAME 1s/ease as the recede, not a
+//     separate 0.5s power2.out stagger like an earlier version here had.
+//   - Their real "enter" clip-path reveal has a bug: the TO string in
+//     their own minified source is `"polygon(0% 0%, 100% 0%, 100% 100%,
+//     0% 100%"` — missing its closing `)`. An unclosed clip-path is
+//     invalid CSS, so the browser silently rejects every frame of that
+//     tween and the reveal likely just snaps once GSAP's `clearProps`
+//     strips the property at the very end, rather than actually wiping.
+//     The shape's own design (bottom two corners pinned, top two rising
+//     into place) is clearly meant to animate smoothly, so it's
+//     reproduced here with the closing paren restored rather than the bug
+//     copied along with it.
 const PAGE_RECEDE_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
+const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 110%, 100% 100%, 0% 100%)";
+const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
 // Distance from `el`'s top edge to the top of the viewport, using ONLY
 // layout-based offsets (walking `offsetTop` up the `offsetParent` chain) —
@@ -57,14 +81,14 @@ function getUntransformedViewportTop(el: HTMLElement): number {
 /**
  * PageTransition
  * ─────────────────────────────────────────────────────────────────────────
- * Drives the actual route-to-route transition (thibaultguignand.com-style):
- * a black curtain covers the current page, the real Next.js navigation
- * happens while hidden behind it, then the curtain wipes away via
- * `clip-path` — top edge fixed, bottom edge rising, flat until it's mostly
- * done and only then curving into a slight diagonal for the final
- * stretch — revealing the new page. Solid black throughout, no accent
- * color on the edge. No scale/zoom on any content; only the curtain's own
- * clip region moves.
+ * Drives the actual route-to-route transition — ported from exoape.com's
+ * real leave/enter hooks (see the comment above PAGE_RECEDE_EASE for the
+ * decompiled source and what's adapted vs. copied verbatim). The departing
+ * page itself grows/rotates/slides away while a full-bleed panel fades in
+ * over it; once hidden, the real Next.js navigation fires; the arriving
+ * page then reveals itself via its own `clip-path` — a bottom-anchored
+ * wipe, pinned corners at the bottom, top corners rising into place —
+ * while settling out of the mirrored scale/rotate/slide pose.
  *
  * This component is driven entirely by TransitionContext's `mode` state
  * machine (see src/context/TransitionContext.tsx). It doesn't decide when
@@ -72,13 +96,15 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  * which flips mode to "covering"; everything below reacts to that.
  *
  *   idle       → no overlay, normal page.
- *   covering   → current page dims, curtain snaps to fully opaque and
- *                holds briefly with a wordmark, THEN router.push() fires
- *                (navigation happens while fully hidden) → mode: "covered".
+ *   covering   → current page recedes (scale/rotate/slide) while the
+ *                curtain panel fades in over it, both running the full 1s,
+ *                THEN router.push() fires (navigation happens while fully
+ *                hidden) → mode: "covered".
  *   covered    → waiting for the ACTUAL new route to be ready before
  *                revealing it — see "Two-stage ready check" below.
- *   uncovering → curtain wipes away bottom-up, revealing the new page.
- *                Back to "idle" once the wipe finishes.
+ *   uncovering → curtain is hidden immediately; the new page reveals
+ *                itself via its own clip-path wipe while settling out of
+ *                its receded pose. Back to "idle" once that finishes.
  *
  * ─── Two-stage ready check (the standard App Router pattern for this) ─────
  * router.push() is fire-and-forget: it returns immediately, before Next.js
@@ -219,20 +245,18 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     tl.set(curtain, {
       autoAlpha: 0,
-      clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
       pointerEvents: "auto",
     })
       .set(content, { transformOrigin: `50% ${originY}px` })
-      // The departing page itself grows/rotates/slides up — exoape's own
-      // "leave" motion — running the full length of the cover so it's
-      // actually visible before the curtain finishes hiding it (their own
-      // leave tween doesn't fade the page's opacity at all, only transforms
-      // it; the curtain fading in on top is what actually hides the DOM
-      // swap, same division of labor as their firstChild-fade + page-tween
-      // running in parallel).
-      .to(content, { scale: 1.3, rotate: -7, y: "-50vh", duration: 0.9, ease: PAGE_RECEDE_EASE }, 0)
-      .to(curtain, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, 0.3)
-      .to({}, { duration: 0.15 }); // hold beat, wordmark visible
+      // Both run the full 1s, starting together — exact match for exoape's
+      // own leave hook: the page-root tween (scale/rotate/y, onComplete
+      // fires navigation) and the firstChild opacity fade run in parallel
+      // on the SAME duration and ease, no stagger. An earlier version
+      // delayed the fade to start at 0.3s with a different (power2.out)
+      // ease and held an extra 0.15s afterward — neither is in their real
+      // code, so both are gone.
+      .to(content, { scale: 1.3, rotate: -7, y: "-50vh", duration: 1, ease: PAGE_RECEDE_EASE }, 0)
+      .to(curtain, { autoAlpha: 1, duration: 1, ease: PAGE_RECEDE_EASE }, 0);
 
     return () => {
       tl.kill();
@@ -271,13 +295,19 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, isPending]);
 
-  // uncovering → wipe the curtain away, bottom edge rising, revealing the
-  // new page. No scale/zoom on `content` — only the curtain's clip moves.
+  // uncovering → curtain is hidden immediately (exoape's real enter hook
+  // sets the entering page's own z-index above everything else and reveals
+  // IT via clip-path — there's no separate curtain layer wiping away on
+  // their site at all). `content` settles out of its receded pose while
+  // clip-path grows from a bottom-anchored sliver to the full rect,
+  // revealing the new page underneath its own wipe.
   useEffect(() => {
     if (mode !== "uncovering") return;
     const content = contentRef.current;
     const curtain = curtainRef.current;
     if (!content || !curtain) return;
+
+    gsap.set(curtain, { autoAlpha: 0, pointerEvents: "none" });
 
     // Reset to the "just arrived" pose before revealing — the mirror image
     // of the leave tween above (130% -> 100%, +7deg -> 0, +50vh -> 0),
@@ -297,34 +327,17 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       scale: 1.3,
       rotate: 7,
       y: "50vh",
+      clipPath: PAGE_REVEAL_CLIP_FROM,
     });
-    gsap.to(content, {
+    const tween = gsap.to(content, {
       scale: 1,
       rotate: 0,
       y: 0,
+      clipPath: PAGE_REVEAL_CLIP_TO,
       duration: 1,
       ease: PAGE_RECEDE_EASE,
-      clearProps: "transform,transformOrigin",
-    });
-
-    const proxy = { p: 0 };
-    const tween = gsap.to(proxy, {
-      p: 1,
-      duration: 1,
-      ease: "power3.inOut",
-      onUpdate: () => {
-        curtain.style.clipPath = buildStagedCurtainClipPath(
-          proxy.p,
-          CURTAIN_SLANT,
-          CURTAIN_SLANT_START
-        );
-      },
+      clearProps: "transform,transformOrigin,clipPath",
       onComplete: () => {
-        gsap.set(curtain, {
-          autoAlpha: 0,
-          clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
-          pointerEvents: "none",
-        });
         clearPendingHref();
         setMode("idle");
       },
@@ -360,9 +373,16 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           backgroundColor: "#000",
           opacity: 0,
           visibility: "hidden",
-          clipPath: buildStagedCurtainClipPath(0, CURTAIN_SLANT, CURTAIN_SLANT_START),
+          pointerEvents: "none",
         }}
-      />
+      >
+        <span
+          className="text-2xl md:text-4xl font-black italic uppercase tracking-tight text-white"
+          style={{ fontFamily: "var(--font-barlow-condensed)" }}
+        >
+          7th heaven
+        </span>
+      </div>
     </>
   );
 }

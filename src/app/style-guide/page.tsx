@@ -35,6 +35,7 @@ import CustomScrollbar from "@/components/CustomScrollbar";
 import { SectionBadge } from "@/components/SectionBadge";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import GradientText from "@/components/GradientText";
 import { useThemeTokens } from "@/components/ThemeProvider";
 import { useMember } from "@/context/MemberContext";
 import {
@@ -110,6 +111,16 @@ const searchBarThemes = [
   { name: "Midnight", a: "#4338ca", b: "#1e3a8a", c: "#0f172a" },
 ];
 
+// Hue presets for the FreeFrontend "Sparkle Generate" button demo's glow color swatches (Module Scope)
+const sparkleHueThemes = [
+  { name: "Violet", hue: 260 },
+  { name: "Magenta", hue: 320 },
+  { name: "Sky", hue: 205 },
+  { name: "Emerald", hue: 152 },
+  { name: "Amber", hue: 38 },
+  { name: "Crimson", hue: 0 },
+];
+
 const sections = [
   { id: "typography", label: "1. Typography", icon: Type },
   { id: "colors", label: "2. Color Palette", icon: Palette },
@@ -154,6 +165,142 @@ export default function StyleGuidePage() {
   const [sbThemeIndex, setSbThemeIndex] = useState(0);
   const [sbSpeed, setSbSpeed] = useState(0.3);
   const [sbPanelOpen, setSbPanelOpen] = useState(false);
+
+  /* ── FreeFrontend Sparkle Generate Button Demo State ── */
+  const sgbDefaults = {
+    hue: 260,
+    speed: 1.8,
+    transitionSpeed: 0.25,
+    driftSpeed: 9,
+    fontSize: 1.5,
+    radius: 100,
+    glow: 1,
+    particleCount: 12,
+  };
+  const [sgbHue, setSgbHue] = useState(sgbDefaults.hue);
+  const [sgbSpeed, setSgbSpeed] = useState(sgbDefaults.speed);
+  const [sgbTransitionSpeed, setSgbTransitionSpeed] = useState(sgbDefaults.transitionSpeed);
+  const [sgbDriftSpeed, setSgbDriftSpeed] = useState(sgbDefaults.driftSpeed);
+  const [sgbFontSize, setSgbFontSize] = useState(sgbDefaults.fontSize);
+  const [sgbRadius, setSgbRadius] = useState(sgbDefaults.radius);
+  const [sgbGlowSize, setSgbGlowSize] = useState(sgbDefaults.glow);
+  const [sgbParticleCount, setSgbParticleCount] = useState(sgbDefaults.particleCount);
+  const [sgbPanelOpen, setSgbPanelOpen] = useState(false);
+  const [sgbForceHover, setSgbForceHover] = useState(false);
+  const [sgbReady, setSgbReady] = useState(false);
+  const [sgbDefaultsCopied, setSgbDefaultsCopied] = useState(false);
+  const sgbParticlePenRef = useRef<HTMLSpanElement>(null);
+  const SGB_STORAGE_KEY = "7thheaven-style-guide:sgb1-sparkle-button";
+
+  const sgbResetDefaults = () => {
+    setSgbHue(sgbDefaults.hue);
+    setSgbSpeed(sgbDefaults.speed);
+    setSgbTransitionSpeed(sgbDefaults.transitionSpeed);
+    setSgbDriftSpeed(sgbDefaults.driftSpeed);
+    setSgbFontSize(sgbDefaults.fontSize);
+    setSgbRadius(sgbDefaults.radius);
+    setSgbGlowSize(sgbDefaults.glow);
+    setSgbParticleCount(sgbDefaults.particleCount);
+  };
+
+  // Load any previously-saved styling from this browser on mount.
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(SGB_STORAGE_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (typeof saved.hue === "number") setSgbHue(saved.hue);
+        if (typeof saved.speed === "number") setSgbSpeed(saved.speed);
+        if (typeof saved.transitionSpeed === "number") setSgbTransitionSpeed(saved.transitionSpeed);
+        if (typeof saved.driftSpeed === "number") setSgbDriftSpeed(saved.driftSpeed);
+        if (typeof saved.fontSize === "number") setSgbFontSize(saved.fontSize);
+        if (typeof saved.radius === "number") setSgbRadius(saved.radius);
+        if (typeof saved.glow === "number") setSgbGlowSize(saved.glow);
+        if (typeof saved.particleCount === "number") setSgbParticleCount(saved.particleCount);
+      }
+    } catch {
+      // localStorage unavailable (private mode, etc.) — fall back to defaults silently.
+    }
+    setSgbReady(true);
+  }, []);
+
+  // Auto-save every change to this browser, once the initial load above has settled.
+  useEffect(() => {
+    if (!sgbReady) return;
+    try {
+      window.localStorage.setItem(
+        SGB_STORAGE_KEY,
+        JSON.stringify({
+          hue: sgbHue,
+          speed: sgbSpeed,
+          transitionSpeed: sgbTransitionSpeed,
+          driftSpeed: sgbDriftSpeed,
+          fontSize: sgbFontSize,
+          radius: sgbRadius,
+          glow: sgbGlowSize,
+          particleCount: sgbParticleCount,
+        })
+      );
+    } catch {
+      // Ignore write failures (e.g. private browsing storage caps).
+    }
+  }, [sgbReady, sgbHue, sgbSpeed, sgbTransitionSpeed, sgbDriftSpeed, sgbFontSize, sgbRadius, sgbGlowSize, sgbParticleCount]);
+
+  const sgbCopyDefaultsCode = () => {
+    const code = `const sgbDefaults = {
+  hue: ${sgbHue},
+  speed: ${sgbSpeed.toFixed(2)},
+  transitionSpeed: ${sgbTransitionSpeed.toFixed(2)},
+  driftSpeed: ${sgbDriftSpeed.toFixed(1)},
+  fontSize: ${sgbFontSize.toFixed(2)},
+  radius: ${sgbRadius},
+  glow: ${sgbGlowSize.toFixed(2)},
+  particleCount: ${sgbParticleCount},
+};`;
+    navigator.clipboard.writeText(code);
+    setSgbDefaultsCopied(true);
+    setTimeout(() => setSgbDefaultsCopied(false), 2500);
+  };
+
+  useEffect(() => {
+    const pen = sgbParticlePenRef.current;
+    if (!pen) return;
+    const RANDOM = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);
+    const particles = pen.querySelectorAll<HTMLElement>(".sgb1-particle");
+    particles.forEach((p) => {
+      p.style.setProperty("--sgb1-x", `${RANDOM(20, 80)}`);
+      p.style.setProperty("--sgb1-y", `${RANDOM(20, 80)}`);
+      p.style.setProperty("--sgb1-duration", `${RANDOM(6, 20)}`);
+      p.style.setProperty("--sgb1-delay", `${RANDOM(1, 10)}`);
+      p.style.setProperty("--sgb1-alpha", `${RANDOM(40, 90) / 100}`);
+      p.style.setProperty("--sgb1-origin-x", `${Math.random() > 0.5 ? RANDOM(300, 800) * -1 : RANDOM(300, 800)}%`);
+      p.style.setProperty("--sgb1-origin-y", `${Math.random() > 0.5 ? RANDOM(300, 800) * -1 : RANDOM(300, 800)}%`);
+      p.style.setProperty("--sgb1-size", `${RANDOM(40, 90) / 100}`);
+    });
+  }, [sgbParticleCount]);
+
+  /* ── CodeFronts Cursor Tracking Aurora Gradient Button Demo State ── */
+  const ctg1BtnRef = useRef<HTMLButtonElement>(null);
+  const handleCtg1PointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const btn = ctg1BtnRef.current;
+    if (!btn) return;
+    const r = btn.getBoundingClientRect();
+    const x = Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100));
+    const y = Math.max(0, Math.min(100, ((e.clientY - r.top) / r.height) * 100));
+    btn.style.setProperty("--ctg1-x", `${x.toFixed(1)}%`);
+    btn.style.setProperty("--ctg1-y", `${y.toFixed(1)}%`);
+  };
+  const handleCtg1PointerEnter = () => {
+    ctg1BtnRef.current?.classList.add("is-lit");
+  };
+  const handleCtg1PointerLeave = () => {
+    const btn = ctg1BtnRef.current;
+    if (!btn) return;
+    btn.classList.remove("is-lit");
+    // Removing the inline values lets the registered properties transition back to their 50%/50% initial values.
+    btn.style.removeProperty("--ctg1-x");
+    btn.style.removeProperty("--ctg1-y");
+  };
 
   /* ── PIN Input Demo State ── */
   const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
@@ -1746,38 +1893,242 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Sparkle Generate Button (FreeFrontend import) */}
-            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
-                <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Sparkle Generate Button</h3>
-                <SectionBadge label="FreeFrontend Import" color="purple" />
+                <h3 className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">Sparkle Generate Button</h3>
+                <SectionBadge label="FreeFrontend Import" color="amber" />
               </div>
 
-              {/* Standalone Button without giant surrounding container */}
-              <div className="flex flex-wrap items-center gap-6 p-6 rounded-xl bg-white/[0.02] border border-white/5">
-                <div className="relative inline-flex items-center justify-center">
+              <div className="relative">
+                {/* Full style controls */}
+                <div className="absolute top-4 right-4 z-20">
                   <button
                     type="button"
-                    className="sgb1-btn"
-                    style={{
-                      '--sgb1-hue': 260,
-                      '--sgb1-hue2': 270,
-                      '--sgb1-spark': '0.60s',
-                      '--sgb1-transition': '0.55s',
-                      '--sgb1-drift-duration': '4.5s',
-                      '--sgb1-font-size': '0.95rem',
-                      '--sgb1-radius': '8px',
-                      '--sgb1-glow': 0.25,
-                    } as React.CSSProperties}
+                    onClick={() => setSgbPanelOpen(o => !o)}
+                    aria-label="Customize sparkle button styling"
+                    className="w-10 h-10 rounded-full bg-white text-[#3b2b20] shadow-[0_8px_20px_rgba(59,43,32,0.18),0_0_0_1px_rgba(59,43,32,0.06)] flex items-center justify-center cursor-pointer hover:rotate-[30deg] transition-transform duration-300 border-none"
                   >
+                    <Settings className="w-4.5 h-4.5" />
+                  </button>
+
+                  {sgbPanelOpen && (
+                    <div className="absolute top-12 right-0 w-80 max-h-[75vh] overflow-y-auto bg-white rounded-2xl p-4 shadow-[0_20px_50px_rgba(59,43,32,0.22),0_0_0_1px_rgba(59,43,32,0.06)] font-sans text-left space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] font-extrabold text-[#3b2b20] uppercase tracking-wider">Full Style Controls</span>
+                        <button
+                          type="button"
+                          onClick={sgbResetDefaults}
+                          className="text-[10.5px] font-bold text-[#a08670] hover:text-[#3b2b20] uppercase tracking-wider cursor-pointer border-none bg-transparent"
+                        >
+                          Reset
+                        </button>
+                      </div>
+
+                      <span className="block text-[10.5px] font-medium text-[#a08670] leading-snug -mt-2">
+                        Changes save automatically in this browser, so refreshing keeps your look. Use "Copy as code" below to make it the permanent default for everyone.
+                      </span>
+
+                      <label className="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-[#f7f1ea] cursor-pointer">
+                        <span className="text-[12.5px] font-bold text-[#3b2b20]">
+                          Preview hover state
+                          <span className="block text-[10.5px] font-medium text-[#a08670] normal-case">Pins the glow/particles on while you edit</span>
+                        </span>
+                        <input
+                          type="checkbox"
+                          checked={sgbForceHover}
+                          onChange={(e) => setSgbForceHover(e.target.checked)}
+                          className="w-5 h-5 accent-[#ec4899] cursor-pointer shrink-0"
+                        />
+                      </label>
+
+                      {/* Color */}
+                      <div>
+                        <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Glow color</h4>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {sparkleHueThemes.map((theme) => (
+                            <button
+                              key={theme.name}
+                              type="button"
+                              title={theme.name}
+                              aria-label={theme.name}
+                              onClick={() => setSgbHue(theme.hue)}
+                              className={`w-7 h-7 rounded-full cursor-pointer transition-transform duration-150 hover:scale-110 border-none ${theme.hue === sgbHue ? "outline outline-2 outline-[#3b2b20] outline-offset-2" : "outline outline-1 outline-[#eee0d5]"}`}
+                              style={{ background: `hsl(${theme.hue} 90% 55%)` }}
+                            />
+                          ))}
+                        </div>
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Hue</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbHue}°</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0}
+                          max={360}
+                          step={1}
+                          value={sgbHue}
+                          onChange={(e) => setSgbHue(parseInt(e.target.value, 10))}
+                          className="w-full accent-[#ec4899]"
+                        />
+                      </div>
+
+                      {/* Motion */}
+                      <div>
+                        <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Motion</h4>
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Sparkle speed</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbSpeed.toFixed(2)}s</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0.6}
+                          max={3.5}
+                          step={0.1}
+                          value={sgbSpeed}
+                          onChange={(e) => setSgbSpeed(parseFloat(e.target.value))}
+                          className="w-full accent-[#ec4899] mb-3"
+                        />
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Hover transition</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbTransitionSpeed.toFixed(2)}s</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0.05}
+                          max={0.8}
+                          step={0.05}
+                          value={sgbTransitionSpeed}
+                          onChange={(e) => setSgbTransitionSpeed(parseFloat(e.target.value))}
+                          className="w-full accent-[#ec4899] mb-3"
+                        />
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Gradient drift</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbDriftSpeed.toFixed(1)}s</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={3}
+                          max={20}
+                          step={0.5}
+                          value={sgbDriftSpeed}
+                          onChange={(e) => setSgbDriftSpeed(parseFloat(e.target.value))}
+                          className="w-full accent-[#ec4899]"
+                        />
+                      </div>
+
+                      {/* Shape */}
+                      <div>
+                        <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Shape</h4>
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Button size</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbFontSize.toFixed(2)}rem</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0.9}
+                          max={2.2}
+                          step={0.05}
+                          value={sgbFontSize}
+                          onChange={(e) => setSgbFontSize(parseFloat(e.target.value))}
+                          className="w-full accent-[#ec4899] mb-3"
+                        />
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Corner radius</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbRadius}px</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0}
+                          max={100}
+                          step={2}
+                          value={sgbRadius}
+                          onChange={(e) => setSgbRadius(parseInt(e.target.value, 10))}
+                          className="w-full accent-[#ec4899] mb-3"
+                        />
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Glow intensity</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbGlowSize.toFixed(2)}x</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0.3}
+                          max={2}
+                          step={0.05}
+                          value={sgbGlowSize}
+                          onChange={(e) => setSgbGlowSize(parseFloat(e.target.value))}
+                          className="w-full accent-[#ec4899]"
+                        />
+                      </div>
+
+                      {/* Particles */}
+                      <div>
+                        <h4 className="text-[11px] font-extrabold text-[#3b2b20] uppercase tracking-wider mb-2.5">Particles</h4>
+                        <label className="flex justify-between items-baseline text-[12.5px] font-semibold text-[#6b5f52] mb-2">
+                          <span>Count</span>
+                          <output className="text-[#3b2b20] font-extrabold">{sgbParticleCount}</output>
+                        </label>
+                        <input
+                          type="range"
+                          min={0}
+                          max={24}
+                          step={1}
+                          value={sgbParticleCount}
+                          onChange={(e) => setSgbParticleCount(parseInt(e.target.value, 10))}
+                          className="w-full accent-[#ec4899]"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={sgbCopyDefaultsCode}
+                        className={`w-full px-4 py-2.5 rounded-xl font-extrabold text-[11px] uppercase tracking-wider transition flex items-center justify-center gap-2 border cursor-pointer ${sgbDefaultsCopied
+                          ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                          : "bg-[#3b2b20] border-[#3b2b20] text-white hover:bg-[#2a1d15]"
+                          }`}
+                      >
+                        {sgbDefaultsCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{sgbDefaultsCopied ? "Copied!" : "Copy as code"}</span>
+                      </button>
+                      <span className="block text-[10px] font-medium text-[#a08670] leading-snug -mt-2">
+                        Pastes as a <code className="text-[#6b5f52]">sgbDefaults</code> object — replace the one near the top of the Sparkle Button state in <code className="text-[#6b5f52]">page.tsx</code> to lock these in for everyone.
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div
+                  className={`sgb1 relative flex items-center justify-center p-8 rounded-xl min-h-[320px] overflow-hidden ${sgbForceHover ? "sgb1-preview-active" : ""}`}
+                  style={{
+                    '--sgb1-hue': sgbHue,
+                    '--sgb1-hue2': sgbHue + 10,
+                    '--sgb1-spark': `${sgbSpeed}s`,
+                    '--sgb1-transition': `${sgbTransitionSpeed}s`,
+                    '--sgb1-drift-duration': `${sgbDriftSpeed}s`,
+                    '--sgb1-font-size': `${sgbFontSize}rem`,
+                    '--sgb1-radius': `${sgbRadius}px`,
+                    '--sgb1-glow': sgbGlowSize,
+                  } as React.CSSProperties}
+                >
+                <div className={`sgb1-stage ${sgbForceHover ? "sgb1-preview-active" : ""}`}>
+                  <button type="button" className="sgb1-btn">
+                    <span className="sgb1-spark" />
+                    <span className="sgb1-backdrop" />
+                    <svg className="sgb1-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                     <span className="sgb1-text">Generate Site</span>
                   </button>
-                  <span aria-hidden="true" className="sgb1-particle-pen">
-                    {Array.from({ length: 7 }).map((_, i) => (
+                  <div className="sgb1-bodydrop" />
+                  <span aria-hidden="true" className="sgb1-particle-pen" ref={sgbParticlePenRef}>
+                    {Array.from({ length: sgbParticleCount }).map((_, i) => (
                       <svg key={i} className="sgb1-particle" viewBox="0 0 175.61 205.14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M104.95,197.32c-10.36,10.42-23.6,10.5-34.38-.13-14.06-13.86-25.31-29.37-35.52-46.39-11.28-18.79-21.13-37.58-28.91-58.02C-6.08,60.65-1.19,26.78,31.05,12.17c35.54-16.11,77.06-16.22,112.7-.38,32.89,14.62,38.16,48.45,25.63,81.07-9.81,25.55-22.66,49.2-37.85,72.02-7.93,11.91-16.58,22.37-26.58,32.43Z" />
                       </svg>
                     ))}
                   </span>
+                </div>
                 </div>
               </div>
 
@@ -1794,32 +2145,47 @@ ${deskRules.join("\n")}
               </p>
 
               <style jsx>{`
-                .sgb1-btn {
+                .sgb1 {
+                  --sgb1-active: 0;
+                  background: hsl(var(--sgb1-hue) calc(var(--sgb1-active) * 97%) 6%);
+                  transition: background var(--sgb1-transition);
+                }
+                .sgb1:has(.sgb1-btn:is(:hover, :focus-visible)) {
                   --sgb1-active: 1;
+                }
+                .sgb1.sgb1-preview-active {
+                  --sgb1-active: 1;
+                }
+                .sgb1-stage {
+                  position: relative;
+                  isolation: isolate;
+                }
+                .sgb1-btn {
                   --sgb1-cut: 0.1em;
+                  --sgb1-active: 0;
                   --sgb1-bg:
-                    radial-gradient(40% 50% at var(--sgb1-driftx1, 35%) var(--sgb1-drifty1, 100%), hsl(var(--sgb1-hue2, 270) calc(var(--sgb1-active) * 97%) 72% / var(--sgb1-active)), transparent),
-                    radial-gradient(80% 100% at var(--sgb1-driftx2, 65%) var(--sgb1-drifty2, 120%), hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) 70% / var(--sgb1-active)), transparent),
-                    hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) calc((var(--sgb1-active) * 44%) + 12%));
+                    radial-gradient(40% 50% at var(--sgb1-driftx1, 35%) var(--sgb1-drifty1, 100%), hsl(var(--sgb1-hue2) calc(var(--sgb1-active) * 97%) 72% / var(--sgb1-active)), transparent),
+                    radial-gradient(80% 100% at var(--sgb1-driftx2, 65%) var(--sgb1-drifty2, 120%), hsl(var(--sgb1-hue) calc(var(--sgb1-active) * 97%) 70% / var(--sgb1-active)), transparent),
+                    hsl(var(--sgb1-hue) calc(var(--sgb1-active) * 97%) calc((var(--sgb1-active) * 44%) + 12%));
                   background: var(--sgb1-bg);
-                  font-family: var(--font-barlow), 'Barlow', system-ui, -apple-system, sans-serif;
-                  font-size: var(--sgb1-font-size, 0.95rem);
+                  font-family: inherit;
+                  font-size: var(--sgb1-font-size, 1.5rem);
                   font-weight: 500;
                   border: 0;
                   cursor: pointer;
                   padding: 0.9em 1.3em;
-                  display: inline-flex;
+                  display: flex;
                   align-items: center;
                   gap: 0.25em;
                   white-space: nowrap;
-                  border-radius: var(--sgb1-radius, 8px);
+                  border-radius: var(--sgb1-radius, 100px);
                   position: relative;
                   box-shadow:
-                    0 0 calc(var(--sgb1-active) * 6em * var(--sgb1-glow, 0.25)) calc(var(--sgb1-active) * 3em * var(--sgb1-glow, 0.25)) hsl(var(--sgb1-hue, 260) 97% 61% / calc(0.75 * var(--sgb1-glow, 0.25))),
-                    0 0.05em 0 0 hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) calc((var(--sgb1-active) * 50%) + 30%)) inset,
-                    0 -0.05em 0 0 hsl(var(--sgb1-hue, 260) calc(var(--sgb1-active) * 97%) calc(var(--sgb1-active) * 60%)) inset;
-                  transition: box-shadow var(--sgb1-transition, 0.55s), scale var(--sgb1-transition, 0.55s), background var(--sgb1-transition, 0.55s);
-                  animation: sgb1-gradient-drift var(--sgb1-drift-duration, 4.5s) ease-in-out infinite;
+                    0 0 calc(var(--sgb1-active) * 6em * var(--sgb1-glow, 1)) calc(var(--sgb1-active) * 3em * var(--sgb1-glow, 1)) hsl(var(--sgb1-hue) 97% 61% / 0.75),
+                    0 0.05em 0 0 hsl(var(--sgb1-hue) calc(var(--sgb1-active) * 97%) calc((var(--sgb1-active) * 50%) + 30%)) inset,
+                    0 -0.05em 0 0 hsl(var(--sgb1-hue) calc(var(--sgb1-active) * 97%) calc(var(--sgb1-active) * 60%)) inset;
+                  transition: box-shadow var(--sgb1-transition), scale var(--sgb1-transition), background var(--sgb1-transition);
+                  animation: sgb1-gradient-drift var(--sgb1-drift-duration, 9s) ease-in-out infinite;
                   scale: calc(1 + (var(--sgb1-active) * 0.1));
                 }
                 @property --sgb1-driftx1 {
@@ -1859,6 +2225,111 @@ ${deskRules.join("\n")}
                 .sgb1-btn:active {
                   scale: 1;
                 }
+                .sgb1-btn:is(:hover, :focus-visible) {
+                  --sgb1-active: 1;
+                }
+                .sgb1-stage.sgb1-preview-active .sgb1-btn {
+                  --sgb1-active: 1;
+                }
+                .sgb1 svg {
+                  overflow: visible;
+                }
+                .sgb1-sparkle {
+                  inline-size: 1.25em;
+                  translate: -25% -5%;
+                  position: relative;
+                  z-index: 1;
+                }
+                .sgb1-sparkle path {
+                  color: hsl(0 0% calc((var(--sgb1-active, 0) * 70%) + var(--sgb1-base)));
+                  transform-box: fill-box;
+                  transform-origin: center;
+                  fill: currentColor;
+                  stroke: currentColor;
+                  animation-duration: 0.6s;
+                  transition: color var(--sgb1-transition);
+                }
+                .sgb1-sparkle path:nth-of-type(1) { --sgb1-scale: 0.5; --sgb1-base: 40%; animation-delay: calc(var(--sgb1-transition) * 1.5 + 0.1s); }
+                .sgb1-sparkle path:nth-of-type(2) { --sgb1-scale: 1.5; --sgb1-base: 20%; animation-delay: calc(var(--sgb1-transition) * 1.5 + 0.2s); }
+                .sgb1-sparkle path:nth-of-type(3) { --sgb1-scale: 2.5; --sgb1-base: 30%; animation-delay: calc(var(--sgb1-transition) * 1.5 + 0.35s); }
+                .sgb1-btn:is(:hover, :focus-visible) .sgb1-sparkle path {
+                  animation-name: sgb1-bounce;
+                }
+                .sgb1-stage.sgb1-preview-active .sgb1-sparkle path {
+                  animation-name: sgb1-bounce;
+                }
+                @keyframes sgb1-bounce {
+                  35%, 65% { scale: var(--sgb1-scale); }
+                }
+                .sgb1-btn:before {
+                  content: "";
+                  position: absolute;
+                  inset: -0.25em;
+                  z-index: -1;
+                  border: 0.25em solid hsl(var(--sgb1-hue) 97% 50% / 0.5);
+                  border-radius: var(--sgb1-radius, 100px);
+                  opacity: var(--sgb1-active, 0);
+                  transition: opacity var(--sgb1-transition);
+                }
+                .sgb1-spark {
+                  position: absolute;
+                  inset: 0;
+                  border-radius: var(--sgb1-radius, 100px);
+                  rotate: 0deg;
+                  overflow: hidden;
+                  mask: linear-gradient(white, transparent 50%);
+                  animation: sgb1-flip calc(var(--sgb1-spark) * 2) infinite steps(2, end);
+                }
+                @keyframes sgb1-flip {
+                  to { rotate: 360deg; }
+                }
+                .sgb1-spark:before {
+                  content: "";
+                  position: absolute;
+                  width: 200%;
+                  aspect-ratio: 1;
+                  top: 0%;
+                  left: 50%;
+                  z-index: -1;
+                  translate: -50% -15%;
+                  transform: rotate(-90deg);
+                  opacity: calc(var(--sgb1-active) + 0.4);
+                  background: conic-gradient(from 0deg, transparent 0 340deg, white 360deg);
+                  transition: opacity var(--sgb1-transition);
+                  animation: sgb1-rotate var(--sgb1-spark) linear infinite both;
+                }
+                @keyframes sgb1-rotate {
+                  to { transform: rotate(90deg); }
+                }
+                .sgb1-spark:after {
+                  content: "";
+                  position: absolute;
+                  inset: var(--sgb1-cut);
+                  border-radius: var(--sgb1-radius, 100px);
+                }
+                .sgb1-backdrop {
+                  position: absolute;
+                  inset: var(--sgb1-cut);
+                  background: var(--sgb1-bg);
+                  border-radius: var(--sgb1-radius, 100px);
+                  transition: background var(--sgb1-transition);
+                }
+                .sgb1-bodydrop {
+                  position: absolute;
+                  inset: -2rem;
+                  border-radius: 1.5rem;
+                  background: hsl(var(--sgb1-hue) calc(var(--sgb1-active, 0) * 97%) 6%);
+                  z-index: -2;
+                  opacity: 0;
+                  transition: opacity var(--sgb1-transition), background var(--sgb1-transition);
+                  pointer-events: none;
+                }
+                .sgb1-btn:is(:hover, :focus-visible) ~ .sgb1-bodydrop {
+                  opacity: 1;
+                }
+                .sgb1-stage.sgb1-preview-active .sgb1-bodydrop {
+                  opacity: 1;
+                }
                 .sgb1-particle-pen {
                   position: absolute;
                   width: 200%;
@@ -1869,10 +2340,13 @@ ${deskRules.join("\n")}
                   mask: radial-gradient(white, transparent 65%);
                   z-index: -1;
                   opacity: 0;
-                  transition: opacity var(--sgb1-transition, 0.55s);
+                  transition: opacity var(--sgb1-transition);
                   pointer-events: none;
                 }
                 .sgb1-btn:is(:hover, :focus-visible) ~ .sgb1-particle-pen {
+                  opacity: 1;
+                }
+                .sgb1-stage.sgb1-preview-active .sgb1-particle-pen {
                   opacity: 1;
                 }
                 .sgb1-particle {
@@ -1880,15 +2354,18 @@ ${deskRules.join("\n")}
                   width: calc(var(--sgb1-size, 0.25) * 1rem);
                   aspect-ratio: 1;
                   position: absolute;
-                  top: calc(var(--sgb1-y, 50) * 1%);
-                  left: calc(var(--sgb1-x, 50) * 1%);
-                  opacity: var(--sgb1-alpha, 0.7);
-                  animation: sgb1-float-out calc(var(--sgb1-duration, 8) * 1s) calc(var(--sgb1-delay, 0) * -1s) infinite linear;
-                  transform-origin: var(--sgb1-origin-x, 400%) var(--sgb1-origin-y, 400%);
+                  top: calc(var(--sgb1-y) * 1%);
+                  left: calc(var(--sgb1-x) * 1%);
+                  opacity: var(--sgb1-alpha, 1);
+                  animation: sgb1-float-out calc(var(--sgb1-duration, 1) * 1s) calc(var(--sgb1-delay) * -1s) infinite linear;
+                  transform-origin: var(--sgb1-origin-x, 1000%) var(--sgb1-origin-y, 1000%);
                   z-index: -1;
                   animation-play-state: paused;
                 }
                 .sgb1-btn:is(:hover, :focus-visible) ~ .sgb1-particle-pen .sgb1-particle {
+                  animation-play-state: running;
+                }
+                .sgb1-stage.sgb1-preview-active .sgb1-particle-pen .sgb1-particle {
                   animation-play-state: running;
                 }
                 .sgb1-particle path {
@@ -1908,15 +2385,201 @@ ${deskRules.join("\n")}
                   -webkit-background-clip: text;
                   background-clip: text;
                   color: transparent;
-                  transition: background var(--sgb1-transition, 0.55s);
+                  transition: background var(--sgb1-transition);
                 }
                 @media (prefers-reduced-motion: reduce) {
-                  .sgb1-particle {
+                  .sgb1-spark, .sgb1-spark:before, .sgb1-particle {
                     animation: none;
                   }
                 }
               `}</style>
             </div>
+          </div>
+
+          {/* Cursor Tracking Aurora Gradient Button (CodeFronts import) */}
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h3 className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Cursor Tracking Aurora Gradient Button</h3>
+              <SectionBadge label="CodeFronts Import" color="cyan" />
+            </div>
+
+            <div className="ctg1 relative flex items-center justify-center p-8 rounded-xl min-h-[320px] overflow-hidden">
+              <div className="ctg1-card">
+                <span className="ctg1-badge">Early access</span>
+                <h3 className="ctg1-title">The next cruise drops soon</h3>
+                <p className="ctg1-copy">Fans on the waitlist get first pick of cabins and presale tickets before the lineup goes public.</p>
+                <button
+                  type="button"
+                  className="ctg1-btn"
+                  ref={ctg1BtnRef}
+                  onPointerMove={handleCtg1PointerMove}
+                  onPointerEnter={handleCtg1PointerEnter}
+                  onPointerLeave={handleCtg1PointerLeave}
+                >
+                  <span className="ctg1-spark" aria-hidden="true">✦</span>
+                  Join the waitlist
+                </button>
+                <p className="ctg1-fine">No spam · 2,418 fans already in</p>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-white/40">
+              Source:{" "}
+              <a
+                href="https://codefronts.com/try/?c=css-gradient-buttons&d=cursor-tracking-aurora-gradient-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60"
+              >
+                codefronts.com – Cursor Tracking Aurora Gradient Button
+              </a>
+              {" "}(copy adapted for 7th Heaven; gradient-tracking mechanics ported as-is)
+            </p>
+
+            <style jsx>{`
+              .ctg1, .ctg1 *, .ctg1 *::before, .ctg1 *::after {
+                box-sizing: border-box;
+              }
+              .ctg1 ::selection {
+                background: #67e8f9;
+                color: #0a0d1c;
+              }
+              @property --ctg1-x {
+                syntax: '<percentage>';
+                inherits: true;
+                initial-value: 50%;
+              }
+              @property --ctg1-y {
+                syntax: '<percentage>';
+                inherits: true;
+                initial-value: 50%;
+              }
+              .ctg1 {
+                --ctg1-bg: #0a0d1c;
+                --ctg1-ink: #e6e9f5;
+                --ctg1-mut: #8a91ad;
+                --ctg1-a1: #67e8f9;
+                --ctg1-a2: #a78bfa;
+                background: radial-gradient(90% 70% at 15% 0%, rgba(103, 232, 249, 0.06), transparent 55%),
+                  radial-gradient(80% 60% at 90% 100%, rgba(167, 139, 250, 0.08), transparent 55%),
+                  var(--ctg1-bg);
+              }
+              .ctg1-card {
+                width: min(400px, 100%);
+                text-align: center;
+                padding: 36px 32px;
+                border-radius: 24px;
+                background: rgba(255, 255, 255, 0.025);
+                border: 1px solid rgba(148, 163, 184, 0.12);
+                box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+              }
+              .ctg1-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                padding: 5px 12px;
+                border-radius: 999px;
+                border: 1px solid rgba(103, 232, 249, 0.25);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--ctg1-a1);
+              }
+              .ctg1-badge:before {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--ctg1-a1);
+                box-shadow: 0 0 8px var(--ctg1-a1);
+              }
+              .ctg1-title {
+                margin-top: 18px;
+                font-size: 24px;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+                color: var(--ctg1-ink);
+              }
+              .ctg1-copy {
+                margin: 10px auto 0;
+                max-width: 32ch;
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--ctg1-mut);
+              }
+              .ctg1-btn {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                width: 100%;
+                margin-top: 26px;
+                padding: 17px 28px;
+                border: 0;
+                border-radius: 16px;
+                font: inherit;
+                font-size: 15px;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                color: var(--ctg1-ink);
+                cursor: pointer;
+                isolation: isolate;
+                background: radial-gradient(150% 120% at var(--ctg1-x) var(--ctg1-y), rgba(124, 58, 237, 0.28), transparent 55%), #10142b;
+                transition: --ctg1-x 0.35s ease-out, --ctg1-y 0.35s ease-out, transform 0.3s ease;
+              }
+              .ctg1-btn:active {
+                transform: scale(0.98);
+              }
+              .ctg1-btn:focus-visible {
+                outline: 2px solid var(--ctg1-a1);
+                outline-offset: 4px;
+              }
+              .ctg1-btn:before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                padding: 1.5px;
+                background: radial-gradient(130px 90px at var(--ctg1-x) var(--ctg1-y), var(--ctg1-a1), var(--ctg1-a2) 45%, rgba(148, 163, 184, 0.16) 75%);
+                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                mask-composite: exclude;
+                z-index: -1;
+              }
+              .ctg1-btn:after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                background: radial-gradient(140px 100px at var(--ctg1-x) var(--ctg1-y), rgba(103, 232, 249, 0.3), rgba(167, 139, 250, 0.22) 45%, rgba(240, 171, 252, 0.1) 65%, transparent 78%);
+                opacity: 0.35;
+                transition: opacity 0.45s ease;
+                z-index: -1;
+              }
+              .ctg1-btn.is-lit:after {
+                opacity: 1;
+              }
+              .ctg1-spark {
+                font-size: 17px;
+                line-height: 1;
+                transform: translateY(-1px);
+              }
+              .ctg1-fine {
+                margin-top: 14px;
+                font-size: 11.5px;
+                letter-spacing: 0.03em;
+                color: var(--ctg1-mut);
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .ctg1-btn,
+                .ctg1-btn:after {
+                  transition: none;
+                }
+              }
+            `}</style>
           </div>
         </section>
 
@@ -2866,7 +3529,7 @@ ${deskRules.join("\n")}
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition ${multiUserColorMode
-                    ? "bg-[var(--color-accent)]  text-white shadow-sm"
+                    ? "bg-emerald-600 text-white shadow-sm"
                     : "bg-white/10 text-white/50"
                     }`}
                 >
@@ -2960,7 +3623,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${bubbleFontSize === s
-                        ? "bg-[var(--color-accent)]  border-emerald-400 text-white"
+                        ? "bg-emerald-600 border-emerald-400 text-white"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3131,7 +3794,7 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="w-5 h-5  rounded-lg  border border-white/20 bg-transparent cursor-pointer"
+                    className="w-5 h-5 rounded-md border border-white/20 bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
                   <span className="text-[9px] font-mono text-white/60 uppercase truncate max-w-[80px]">
@@ -3215,13 +3878,36 @@ ${deskRules.join("\n")}
 
           {/* Role Badges */}
           <div className="space-y-3">
-            <h3 className="text-xs font-mono font-bold text-purple-400uppercase tracking-wider">Role & Section Badges</h3>
+            <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Role & Section Badges</h3>
             <div className="flex flex-wrap items-center gap-3">
               <RoleBadge role="admin" />
               <RoleBadge role="crew" />
               <RoleBadge role="fan" />
               <SectionBadge label="VIP BACKSTAGE PASS" color="amber" />
               <SectionBadge label="LIVE SHOW HUB" color="cyan" />
+            </div>
+          </div>
+
+          {/* React Bits Gradient Text Component */}
+          <div className="space-y-4 pt-4 border-t border-white/10">
+            <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">React Bits — GradientText Component</h3>
+            <div className="flex flex-wrap items-center gap-6 p-6 rounded-2xl bg-black/40 border border-white/10">
+              <GradientText
+                colors={["#5227FF", "#a826cc", "#9625ff"]}
+                animationSpeed={6}
+                showBorder={true}
+                className="text-lg font-black"
+              >
+                Add a splash of color!
+              </GradientText>
+              <GradientText
+                colors={["#FF0A3D", "#FF9FFC", "#851def"]}
+                animationSpeed={4}
+                showBorder={false}
+                className="text-2xl font-black uppercase tracking-widest"
+              >
+                7TH HEAVEN LIVE
+              </GradientText>
             </div>
           </div>
 
@@ -3671,7 +4357,7 @@ ${deskRules.join("\n")}
             <button
               onClick={handleCopyCanvasSpec}
               className={`px-4 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec
-                ? "bg-[var(--color-accent)]  border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                ? "bg-emerald-600 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]"
                 : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"
                 }`}
             >
@@ -3711,7 +4397,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainOpacity === op
-                        ? "bg-[var(--color-accent)]  border-emerald-400 text-white"
+                        ? "bg-emerald-600 border-emerald-400 text-white"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3743,7 +4429,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
                       className={`flex-1 py-1 rounded text-[10px] font-bold uppercase border transition ${canvasGrainSize === sz
-                        ? "bg-[var(--color-accent)]  border-emerald-400 text-white"
+                        ? "bg-emerald-600 border-emerald-400 text-white"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3769,7 +4455,7 @@ ${deskRules.join("\n")}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
                       className={`py-1.5 px-1 rounded text-[10px] font-bold border truncate transition ${canvasGrainBlend === mode.val
-                        ? "bg-[var(--color-accent)] /40 border-emerald-400 text-emerald-200"
+                        ? "bg-emerald-600/40 border-emerald-400 text-emerald-200"
                         : "bg-white/5 border-white/10 text-white/60 hover:text-white"
                         }`}
                     >
@@ -3843,7 +4529,7 @@ ${deskRules.join("\n")}
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="w-6 h-6  rounded-lg  border border-white/20 bg-transparent cursor-pointer ml-auto"
+                    className="w-6 h-6 rounded-md border border-white/20 bg-transparent cursor-pointer ml-auto"
                     title="Custom Hex Picker"
                   />
                 </div>

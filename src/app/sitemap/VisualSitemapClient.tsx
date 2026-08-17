@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
 import {
   ReactFlow,
   MiniMap,
@@ -128,9 +130,12 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         {/* CLICKABLE REAL JPG SCREENSHOT PREVIEW WITH HOVER EFFECT */}
         <div className="w-full h-36 bg-[#080810] border-b border-white/10 overflow-hidden relative cursor-pointer">
           {!imgError ? (
-            <img
+            <Image
               src={data.imgUrl}
               alt={data.title}
+              width={400}
+              height={200}
+              unoptimized
               onError={() => setImgError(true)}
               className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
             />

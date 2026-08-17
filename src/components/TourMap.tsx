@@ -133,8 +133,11 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
       return { minShowTime: now, maxShowTime: now + 180 * 24 * 60 * 60 * 1000 };
     }
     const timestamps = shows
-      .map((s) => getShowDateTime(s.startDate, s.date, s.time).getTime())
-      .filter((t) => t > 0)
+      .reduce<number[]>((acc, s) => {
+        const t = getShowDateTime(s.startDate, s.date, s.time).getTime();
+        if (t > 0) acc.push(t);
+        return acc;
+      }, [])
       .sort((a, b) => a - b);
 
     if (timestamps.length === 0) {
@@ -427,21 +430,19 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
 
     const uniqueVenues = Object.values(showGroups);
 
-    const filteredVenues = uniqueVenues
-      .map((v) => {
-        const matchingShows = v.shows.filter((s) => {
-          if (!isDateFiltered) return true;
-          const t = getShowDateTime(undefined, s.date, s.time).getTime();
-          if (t === 0) return true;
-          return t >= activeStart && t <= activeEnd;
-        });
-        return { ...v, shows: matchingShows };
-      })
-      .filter((v) => {
-        if (v.shows.length === 0) return false;
-        if (selectedTypes.size === 0) return true;
-        return selectedTypes.has(v.type);
+    const filteredVenues = uniqueVenues.reduce<typeof uniqueVenues>((acc, v) => {
+      if (selectedTypes.size > 0 && !selectedTypes.has(v.type)) return acc;
+      const matchingShows = v.shows.filter((s) => {
+        if (!isDateFiltered) return true;
+        const t = getShowDateTime(undefined, s.date, s.time).getTime();
+        if (t === 0) return true;
+        return t >= activeStart && t <= activeEnd;
       });
+      if (matchingShows.length > 0) {
+        acc.push({ ...v, shows: matchingShows });
+      }
+      return acc;
+    }, []);
 
     setMarkerCount(filteredVenues.length);
 

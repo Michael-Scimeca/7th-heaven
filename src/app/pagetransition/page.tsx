@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import SlideUpReveal from "@/components/SlideUpReveal";
@@ -53,14 +53,16 @@ export default function PageTransitionDemo() {
     dimDuration,
     easeKey,
   });
-  settingsRef.current = {
-    slantFrac,
-    slantStartFrac,
-    wipeDuration,
-    holdDuration,
-    dimDuration,
-    easeKey,
-  };
+  useEffect(() => {
+    settingsRef.current = {
+      slantFrac,
+      slantStartFrac,
+      wipeDuration,
+      holdDuration,
+      dimDuration,
+      easeKey,
+    };
+  }, [slantFrac, slantStartFrac, wipeDuration, holdDuration, dimDuration, easeKey]);
 
   // Curtain-only timeline — no text animation anywhere in here on purpose.
   // Three beats, in order:

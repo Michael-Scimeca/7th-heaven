@@ -478,7 +478,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#6700ff] font-extrabold active"
+                    ? "!text-[#9333ea] font-extrabold active"
                     : "text-white/80 hover:text-white"
                     }`}
                 >
@@ -491,7 +491,7 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#6700ff] font-extrabold active"
+                ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -517,7 +517,7 @@ export function Header() {
               }
             }}
             className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:relative lg:mx-auto z-50 ${effectivePathname === "/"
-              ? "!text-[#6700ff]"
+              ? "!text-[#9333ea]"
               : "!text-white hover:!text-white/80"
               }`}
             title="7th Heaven — Go to Home Page"
@@ -533,7 +533,7 @@ export function Header() {
             <TransitionLink
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
-                ? "!text-[#6700ff] font-extrabold active"
+                ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -545,7 +545,7 @@ export function Header() {
             <TransitionLink
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
-                ? "!text-[#6700ff] font-extrabold active"
+                ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -556,7 +556,7 @@ export function Header() {
             <TransitionLink
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
-                ? "!text-[#6700ff] font-extrabold active"
+                ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
