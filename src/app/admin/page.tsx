@@ -224,15 +224,7 @@ export default function AdminGatewayPage() {
   const fullPin = pin.join("");
 
   return (
-    <div className="fixed inset-0 h-screen w-screen   text-white flex items-center justify-center px-6 overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <style jsx global>{`
-        html, body {
-          overflow: hidden !important;
-          height: 100vh !important;
-          max-height: 100vh !important;
-          touch-action: none !important;
-        }
-      `}</style>
+    <div className="fixed inset-0 h-screen w-screen text-white flex items-center justify-center px-6 overflow-hidden lock-scroll-fullscreen" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Blurred Hero Background Overlay */}
       <div

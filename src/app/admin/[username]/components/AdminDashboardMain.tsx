@@ -3228,7 +3228,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       await updateGlobalBanner({ isActive: newActive });
                     }}
                     disabled={bannerUpdating}
-                    className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded overflow-hidden ${bannerActive
+                    className={`relative px-4 py-1.5 text-[0.6rem] rounded-lg font-black uppercase tracking-widest transition-colors duration-300 border cursor-pointer shrink-0 rounded-lg overflow-hidden ${bannerActive
                       ? 'bg-purple-600 text-white border-purple-500 shadow-sm'
                       : 'bg-white/5 text-white/50 border-white/10 hover:border-white/20'
                       } disabled:opacity-50`}
@@ -3322,7 +3322,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                 {/* Expiry info */}
                 {bannerExpiresAt && (
-                  <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded bg-black/30 border border-white/5 w-fit">
+                  <div className="flex items-center gap-2 text-[0.55rem] px-2 py-1 rounded-lg bg-black/30 border border-white/5 w-fit">
                     <span className="text-white/30 font-bold uppercase tracking-widest">Auto-off at:</span>
                     <span className="font-bold text-purple-300 tracking-wider">{new Date(bannerExpiresAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}</span>
                     {new Date(bannerExpiresAt) < new Date() && (
@@ -5231,7 +5231,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         <td className="py-2.5 px-4 font-mono">{log.segments} SMS</td>
                         <td className="py-2.5 px-4 font-extrabold text-rose-400">${log.cost.toFixed(2)}</td>
                         <td className="py-2.5 pl-4 pr-0 text-right">
-                          <span className="px-2 py-0.5 bg-emerald-500/10 text-[var(--color-accent)] border border-emerald-500/30 text-[10px] font-bold rounded">
+                          <span className="px-2 py-0.5 bg-emerald-500/10 text-[var(--color-accent)] border border-emerald-500/30 text-[10px] font-bold rounded-lg">
                             {log.status}
                           </span>
                         </td>
@@ -5559,7 +5559,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || '');
                                       }}
-                                      className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
+                                      className="group relative inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-tight  text-[var(--color-accent)] dark:text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded-lg leading-none shrink-0 shadow-xs cursor-pointer transition-colors hover:scale-105"
                                       title={`Click to change or edit role(s): ${r.duty}`}
                                     >
                                       <span className="truncate max-w-[180px] md:max-w-[260px]">{r.duty}</span>
@@ -5573,7 +5573,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                         setEditingDutyMemberId(isEditingThis ? null : editKey);
                                         setEditingDutyValue(r.duty || '');
                                       }}
-                                      className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded border border-white/10 transition-colors flex items-center gap-1"
+                                      className="text-[9.5px] text-white/50 hover:text-purple-300 italic leading-none shrink-0 cursor-pointer bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded-lg border border-white/10 transition-colors flex items-center gap-1"
                                       title="Click to assign role(s)"
                                     >
                                       <span>+ Assign Role</span>
@@ -5588,7 +5588,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                       setEditingDutyMemberId(isEditingThis ? null : editKey);
                                       setEditingDutyValue(r.duty || '');
                                     }}
-                                    className="p-1 rounded bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
+                                    className="p-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-white/40 hover:text-white/80 transition-colors cursor-pointer flex items-center justify-center"
                                     title="Edit Role"
                                   >
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z" /></svg>
@@ -5630,7 +5630,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           setNewSmsGroupError('');
                           setShowSaveSmsGroup(true);
                         }}
-                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded text-[10px] transition-colors cursor-pointer border-none flex items-center gap-1 shadow-sm uppercase tracking-wider"
+                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-lg text-[10px] transition-colors cursor-pointer border-none flex items-center gap-1 shadow-sm uppercase tracking-wider"
                       >
                         Create Group
                       </button>
@@ -5797,7 +5797,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                                           setEditingDutyMemberId(isEditingThis ? null : editKey);
                                           setEditingDutyValue(r.duty || r.role || '');
                                         }}
-                                        className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
+                                        className="text-[7.5px] font-black uppercase tracking-tight text-purple-300 hover:text-purple-300 px-1.5 py-0.5 border border-purple-500/30 bg-purple-500/10 rounded-lg shrink-0 font-mono hover:bg-purple-500/20 cursor-pointer transition-colors flex items-center gap-1 max-w-[200px]"
                                         title={`Click to edit role(s): ${displayRole}`}
                                       >
                                         <span className="truncate">{displayRole}</span>
@@ -5833,7 +5833,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                           <button
                             type="button"
                             onClick={handleSaveSmsGroup}
-                            className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded transition-colors cursor-pointer border-none flex-1"
+                            className="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer border-none flex-1"
                           >
                             Save Group
                           </button>
@@ -6223,7 +6223,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             <button
                               type="button"
                               onClick={() => handleDeletePresetRole(role)}
-                              className="p-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 transition-colors cursor-pointer border-none flex items-center justify-center"
+                              className="p-1 -lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 transition-colors cursor-pointer border-none flex items-center justify-center"
                               title="Delete Preset"
                             >
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
@@ -6303,7 +6303,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         const allKeys = allBandCombined.flatMap(b => { const k = normalizePhoneNumber(b.phone) || b.id || b.name; return k ? [k] : []; });
                         setSelectedBandPhones(allKeys);
                       }}
-                      className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded transition-colors cursor-pointer"
+                      className="px-2 py-0.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                     >
                       Select All ({allBandCombined.length})
                     </button>
@@ -6781,7 +6781,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           </h3>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/sitemap/flowchart" className="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 border border-purple-500/30 text-[0.6rem] font-bold uppercase tracking-widest rounded transition-colors flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+          <Link href="/sitemap/flowchart" className="px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-200 border border-purple-500/30 text-[0.6rem] font-bold uppercase tracking-widest rounded-lg transition-colors flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
             Fullscreen Flowchart ↗
           </Link>
           <div className={"w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300 " + (isSectionOpen('emailflow') ? 'rotate-0' : '-rotate-90')}>

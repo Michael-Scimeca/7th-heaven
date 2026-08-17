@@ -28,15 +28,7 @@ function findRaffleByPin(pin: string) {
 }
 
 const renderBackground = () => (
-  <>
-    <style jsx global>{`
-      html, body {
-        overflow: hidden !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        touch-action: none !important;
-      }
-    `}</style>
+  <div className="lock-scroll-fullscreen">
     <div
       style={{
         position: "fixed",
@@ -51,7 +43,7 @@ const renderBackground = () => (
       }}
     />
     <div className="fixed inset-0 bg-black/55 backdrop-blur-md z-0 pointer-events-none" />
-  </>
+  </div>
 );
 
 const MODAL_GLASS_STYLE: React.CSSProperties = {

@@ -183,16 +183,6 @@ export default function ClaimPage() {
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${status === 'valid' ? 'flash-bg' : ' '}`}
       style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}>
-      <style>{`
-        @keyframes winnerFlash {
-          0%, 100% { background-color: #08080d; }
-          50% { background-color: #9333ea; }
-        }
-        .flash-bg {
-          background-color: #08080d;
-          animation: winnerFlash 0.6s ease-in-out 6;
-        }
-      `}</style>
 
       {/* Header */}
       <div className="w-full max-w-sm mb-8 text-center">

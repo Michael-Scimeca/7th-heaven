@@ -8,15 +8,7 @@ import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 
 // ─── Digit-by-digit PIN input (same UX as cruise verify) ───────────────────
 const renderBg = () => (
-  <>
-    <style jsx global>{`
-      html, body {
-        overflow: hidden !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        touch-action: none !important;
-      }
-    `}</style>
+  <div className="lock-scroll-fullscreen">
     <div
       style={{
         position: "fixed",
@@ -31,7 +23,7 @@ const renderBg = () => (
       }}
     />
     <div style={{ position: "fixed", inset: 0, background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(4px)", zIndex: 1, pointerEvents: "none" }} />
-  </>
+  </div>
 );
 
 function PlannerVerifyContent() {
