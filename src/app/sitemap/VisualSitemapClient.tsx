@@ -352,18 +352,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 2: DIRECT VERTICAL CHILD OF BOOK US (REAL 6-DIGIT PIN VERIFICATION MODAL SCREENSHOT) ──
+  // ── ROW 2: DIRECT VERTICAL CHILD OF BOOK US (EMPTY 6-DIGIT PIN VERIFICATION MODAL SCREENSHOT) ──
   {
     id: "node-book-pin-module",
     type: "sitemapCard",
     position: { x: 1900, y: 700 },
     data: {
       header: "2. PIN MODAL OPENS ON SCREEN",
-      title: "2. 6-Digit PIN Verification Screen",
+      title: "2. Modal Prompts for 6-Digit PIN",
       path: "/book",
       imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "Submitting form immediately opens real 6-digit OTP verification screen: 'Enter the 6-digit PIN sent to your email'.",
+      description: "Submitting form immediately opens real 6-digit OTP verification screen: 'Check your email for your 6-digit PIN'.",
     },
   },
   {
@@ -426,11 +426,11 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     position: { x: 1900, y: 1040 },
     data: {
       header: "3. ✉ SECURITY PIN EMAIL IN INBOX",
-      title: "3. Email Dispatched with PIN",
+      title: "3. Email Dispatched with PIN 582901",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "User opens their email inbox to find the automated Resend email containing the 6-digit PIN (e.g. 582901).",
+      description: "User opens their email inbox to find the automated Resend email containing 6-digit PIN 582901.",
     },
   },
   {
@@ -499,18 +499,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 4: USER ENTERS PIN INTO MODAL TO VERIFY ──
+  // ── ROW 4: USER ENTERS FILLED PIN (5 8 2 9 0 1) INTO MODAL TO VERIFY ──
   {
     id: "node-book-verify-pin",
     type: "sitemapCard",
     position: { x: 1900, y: 1380 },
     data: {
-      header: "4. VERIFY PIN & CONFIRM",
-      title: "4. Enter 6-Digit PIN into Modal",
+      header: "4. VERIFY PIN 582901 IN MODAL",
+      title: "4. Enter PIN 582901 into Modal",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
-      description: "User types the 6-digit PIN from their email into the 6 input boxes on screen to verify and lock in booking.",
+      description: "User inputs the 6-digit PIN [5][8][2][9][0][1] from email into the modal to verify & lock in booking.",
     },
   },
   {
@@ -596,7 +596,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
 
-  // DIRECT VERTICAL FLOW: FORM -> MODAL OPENS ON SCREEN -> EMAIL DISPATCHED TO INBOX -> ENTER PIN -> PLANNER RECEIPT -> ADMIN ALERT
+  // DIRECT VERTICAL FLOW: FORM -> MODAL OPENS ON SCREEN -> EMAIL DISPATCHED TO INBOX -> ENTER FILLED PIN (5 8 2 9 0 1) -> PLANNER RECEIPT -> ADMIN ALERT
   { id: "flow-book-to-modal-open", source: "nav-book", target: "node-book-pin-module", type: "smoothstep", animated: true },
   { id: "flow-modal-to-pin-email", source: "node-book-pin-module", target: "email-book-pin-email", type: "smoothstep", animated: true },
   { id: "flow-pin-email-to-verify", source: "email-book-pin-email", target: "node-book-verify-pin", type: "smoothstep", animated: true },
@@ -614,7 +614,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
-// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW WITH REAL PIN VERIFICATION MODAL SCREENSHOT ---
+// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW WITH FILLED PIN (5 8 2 9 0 1) SCREENSHOT ---
 const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
   {
     id: "bf-step1",
@@ -639,7 +639,7 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
       path: "/book",
       imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "Submitting form immediately opens real 6-digit OTP verification screen on screen: 'Check your email for your 6-digit PIN'.",
+      description: "Submitting form immediately opens 6-digit OTP verification screen on screen: 'Check your email for your 6-digit PIN'.",
     },
   },
   {
@@ -648,11 +648,11 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 760, y: 150 },
     data: {
       header: "3. ✉ EMAIL IN INBOX WITH PIN",
-      title: "3. Email Dispatched with PIN",
+      title: "3. Email Dispatched with PIN 582901",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "User opens their email app to find the automated Resend email containing the 6-digit PIN (e.g. 582901).",
+      description: "User opens their email app to find the automated Resend email containing 6-digit PIN 582901.",
     },
   },
   {
@@ -660,12 +660,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 150 },
     data: {
-      header: "4. VERIFY PIN & CONFIRM",
-      title: "4. Enter 6-Digit PIN into Modal",
+      header: "4. VERIFY PIN 582901 IN MODAL",
+      title: "4. Enter PIN 582901 into Modal",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
-      description: "User types the 6-digit PIN from their email into the 6 input boxes on screen to verify and lock in booking.",
+      description: "User inputs the 6-digit PIN [5][8][2][9][0][1] from email into the 6 input boxes on screen to verify and lock in booking.",
     },
   },
   {
@@ -704,7 +704,7 @@ const BOOKING_FLOW_EDGES: Edge[] = [
   { id: "bf-e5", source: "bf-step5", sourceHandle: "right", target: "bf-step6", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
-// --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW WITH REAL PIN VERIFICATION MODAL SCREENSHOT ---
+// --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW WITH FILLED PIN SCREENSHOT ---
 const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
   {
     id: "cf-step1",
@@ -729,7 +729,7 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
-      description: "Fan receives automated email with 6-digit security PIN to confirm email ownership.",
+      description: "Fan receives automated email with 6-digit security PIN 582901 to confirm email ownership.",
     },
   },
   {
@@ -738,11 +738,11 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 760, y: 150 },
     data: {
       header: "STEP 3 · VERIFY PIN IN MODAL",
-      title: "3. Enter PIN into 6-Box Screen",
+      title: "3. Enter PIN 582901 into 6 Boxes",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
-      description: "Fan inputs 6-digit PIN received in email into 6-box verification screen to reserve cabin on 2026 Cruise.",
+      description: "Fan inputs 6-digit PIN [5][8][2][9][0][1] received in email into 6-box verification screen to reserve cabin on 2026 Cruise.",
     },
   },
   {
@@ -813,10 +813,10 @@ export default function VisualSitemapClient() {
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "ARCH"
-                ? "Direct Vertical Flow under Book Us: Form ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN into 6-Box Screen ➔ Planner Receipt ➔ Admin Alert"
+                ? "Direct Vertical Flow under Book Us: Form ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN [5][8][2][9][0][1] into Screen ➔ Planner Receipt ➔ Admin Alert"
                 : activeTab === "BOOKING"
-                ? "Step-by-step user journey: Form Fill ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN into 6-Box Screen ➔ Planner Receipt ➔ Admin Alert"
-                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN into 6-Box Screen ➔ Cruise Confirmation"}
+                ? "Step-by-step user journey: Form Fill ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN [5][8][2][9][0][1] into Screen ➔ Planner Receipt ➔ Admin Alert"
+                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN [5][8][2][9][0][1] into Screen ➔ Cruise Confirmation"}
             </p>
           </div>
         </div>

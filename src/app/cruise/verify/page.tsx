@@ -18,9 +18,12 @@ const outfit = Outfit({
 function CruiseVerifyContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const email = searchParams.get("email") || "";
+  const email = searchParams.get("email") || "alex@7thheaven.com";
+  const initialPin = searchParams.get("pin") || "";
 
-  const [digits, setDigits] = useState(["", "", "", "", "", ""]);
+  const [digits, setDigits] = useState<string[]>(
+    initialPin.length === 6 ? initialPin.split("") : ["", "", "", "", "", ""]
+  );
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [resendStatus, setResendStatus] = useState<"idle" | "sending" | "sent">("idle");
