@@ -2,7 +2,7 @@
 /* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control, react-doctor/prefer-useReducer */
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
@@ -444,22 +444,20 @@ export default function HomeVideoShowcase() {
     setShowBottomCategoryTabs(true);
   };
 
-  const [effectiveCardsVisible, setEffectiveCardsVisible] = useState<number>(3);
+  const [windowWidth, setWindowWidth] = useState<number>(1200);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setEffectiveCardsVisible(1.18);
-      } else if (window.innerWidth < 1024) {
-        setEffectiveCardsVisible(2.1);
-      } else {
-        setEffectiveCardsVisible(cardsVisible);
-      }
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [cardsVisible]);
+  }, []);
+
+  const effectiveCardsVisible = useMemo(() => {
+    if (windowWidth < 640) return 1.18;
+    if (windowWidth < 1024) return 2.1;
+    return cardsVisible;
+  }, [windowWidth, cardsVisible]);
 
   const gapPx = getGapPx();
 
