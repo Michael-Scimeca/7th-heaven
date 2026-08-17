@@ -1843,9 +1843,6 @@ select::placeholder,
   }
 }
 
-
-
-
 :root {
   --page-padding-x: 18px;
 }
@@ -1856,7 +1853,7 @@ select::placeholder,
   }
 }
 
-@media (min-width: 1124px) {
+@media (min-width: 1024px) {
   :root {
     --page-padding-x: 42px;
   }
@@ -3303,7 +3300,7 @@ textarea,
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 24px;
+  left: max(var(--page-padding-x), calc((100% - 1400px) / 2 + var(--page-padding-x)));
   z-index: 50;
   pointer-events: none;
 }
@@ -3410,8 +3407,6 @@ textarea,
   background: transparent;
 }
 
-
-
 .su-card-inner {
   position: relative;
   z-index: 2;
@@ -3421,7 +3416,6 @@ textarea,
   align-items: center;
   text-align: center;
   gap: 16px;
-
 }
 
 .su-tag {
