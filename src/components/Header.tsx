@@ -40,6 +40,51 @@ const EASE_IN_OUT_LINEAR =
 const EASE_OUT_LINEAR =
   "linear(0, 0.1709, 0.2591, 0.33, 0.3902, 0.4437, 0.4913, 0.5343, 0.5735, 0.6094, 0.6426, 0.6732, 0.7016, 0.7279, 0.7525, 0.7753, 0.7964, 0.8161, 0.8344, 0.8514, 0.8673, 0.8819, 0.8955, 0.9081, 0.9196, 0.9302, 0.94, 0.9489, 0.957, 0.9643, 0.9708, 0.9765, 0.9817, 0.9862, 0.9899, 0.993, 0.9955, 0.9975, 0.9988, 0.9996, 1)";
 
+// NOTE: an earlier version of this file also transformed `.content-area`
+// (scale/rotate/translateY) on menu open, on the theory that exoape's page
+// recedes behind the menu the same way it apparently does on their actual
+// route-to-route navigation. Checked that against a real recording of
+// exoape's menu opening and closing (tracked the hero headline pixel-by-
+// pixel across the whole clip) and it does NOT move at all — the menu is
+// only the clip-path wipe below, nothing else. Removed the page-recede
+// effect here; PAGE_RECEDE_EASE is kept only because the icon timeline
+// below (a separate, confirmed finding) reuses this exact curve as its
+// GSAP timeline default.
+//
+// Ease is a GSAP CustomEase built from an SVG-path bezier
+// "M0,0 C0.496,0.004 0,1 1,1" — decodes directly to a plain CSS
+// cubic-bezier (start/end pinned at (0,0)/(1,1), the two control points
+// are the C command's first pair and third pair).
+const PAGE_RECEDE_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
+
+// The hamburger icon itself isn't a rotate-lines-into-an-X morph on exoape —
+// dug into their menu-button component (also in d5d162b.js) and it's two
+// entirely separate SVG icons (a 3-line burger, a 2-line X) that cross-fade,
+// with each icon's strokes drawn on/off via GSAP's drawSVG plugin (animates
+// stroke-dasharray/dashoffset, i.e. the line visibly retracts/extends, not
+// just fades) rather than plain opacity. Their onToggle() builds a timeline:
+//   t=0:   iconBurger.children draw off (100% -> 0% stroke length) + fade
+//          out, staggered 0.1s apart, over 0.5s.
+//   t=0.5: iconClose.children draw on (0% -> 100%) + fade in, staggered
+//          0.1s, over another 0.5s — starting right as the burger finishes
+//          retracting, so the two never fully overlap.
+// Timeline default ease is the exact same custom bezier as PAGE_RECEDE_EASE
+// above (cubic-bezier(0.496,0.004,0,1)) — they reuse one signature "swoosh"
+// curve across both the page-recede tween and this icon timeline.
+// drawSVG is a paid GSAP Club plugin; reproduced here with plain CSS
+// stroke-dasharray/stroke-dashoffset transitions, no library needed.
+// (Their button also has a "Menu"/"Close" text label that cross-fades with
+// its own rotate/translateY, using two more bespoke eases — M0,0 C0.198,0
+// 1,0.1 1,1 for the outgoing label and M0,0 C0,0.202 0.204,1 1,1 for the
+// incoming one — and a scroll-triggered show/hide + hover-rotate on the
+// button itself. Left those out: both are gated behind
+// `!this.$device.isMobile` in their source, so neither one ever runs on
+// their own mobile hamburger — nothing to match there. The text label is a
+// structural addition, not a transition, so it's skipped too; this button
+// stays icon-only like it already was.)
+const ICON_LINE_LEN = 21; // stroke length in this SVG's own units (x: 1.5 -> 22.5)
+const ICON_X_LINE_LEN = 20; // diagonal stroke length (x/y: 5 -> 19)
+
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
@@ -483,38 +528,56 @@ export function Header() {
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"
                 className="w-8.5 h-8.5 overflow-visible"
               >
+                {/* Burger — 3 lines, draw themselves off + fade out on open.
+                    Staggered 0.1s apart on open (matches exoape); collapsed
+                    to no stagger on close, same convention already used for
+                    the nav-link stagger above (transitionDelay -> 0ms). */}
+                {[6, 12, 18].map((y, i) => (
+                  <line
+                    key={`burger-${y}`}
+                    x1="1.5"
+                    y1={y}
+                    x2="22.5"
+                    y2={y}
+                    style={{
+                      strokeDasharray: ICON_LINE_LEN,
+                      strokeDashoffset: mobileOpen ? ICON_LINE_LEN : 0,
+                      opacity: mobileOpen ? 0 : 1,
+                      transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
+                      transitionDelay: mobileOpen ? `${i * 100}ms` : "0ms",
+                    }}
+                  />
+                ))}
+                {/* Close (X) — 2 diagonal lines, draw themselves on + fade in,
+                    starting half a second after the burger begins retracting
+                    (0.5s duration each, offset by 0.5s = 1s total, matching
+                    exoape's own timeline). */}
                 <line
-                  x1="1.5"
-                  y1="6"
-                  x2="22.5"
-                  y2="6"
-                  className="transition-[transform,opacity,color] duration-300 ease-in-out origin-[12px_12px]"
+                  x1="5"
+                  y1="5"
+                  x2="19"
+                  y2="19"
                   style={{
-                    transform: mobileOpen ? "translateY(6px) rotate(45deg)" : "translateY(0px) rotate(0deg)",
+                    strokeDasharray: ICON_X_LINE_LEN,
+                    strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
+                    opacity: mobileOpen ? 1 : 0,
+                    transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
+                    transitionDelay: mobileOpen ? "500ms" : "0ms",
                   }}
                 />
                 <line
-                  x1="1.5"
-                  y1="12"
-                  x2="22.5"
-                  y2="12"
-                  className="transition-[transform,opacity,color] duration-300 ease-in-out origin-[12px_12px]"
+                  x1="19"
+                  y1="5"
+                  x2="5"
+                  y2="19"
                   style={{
-                    opacity: mobileOpen ? 0 : 1,
-                    transform: mobileOpen ? "scaleX(0)" : "scaleX(1)",
-                  }}
-                />
-                <line
-                  x1="1.5"
-                  y1="18"
-                  x2="22.5"
-                  y2="18"
-                  className="transition-[transform,opacity,color] duration-300 ease-in-out origin-[12px_12px]"
-                  style={{
-                    transform: mobileOpen ? "translateY(-6px) rotate(-45deg)" : "translateY(0px) rotate(0deg)",
+                    strokeDasharray: ICON_X_LINE_LEN,
+                    strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
+                    opacity: mobileOpen ? 1 : 0,
+                    transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
+                    transitionDelay: mobileOpen ? "600ms" : "0ms",
                   }}
                 />
               </svg>

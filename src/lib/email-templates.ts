@@ -315,10 +315,56 @@ export function cruiseConfirmation(b: {
 </body></html>`;
 }
 
+export function plannerPinVerification(pin: string = '582901', email: string = 'planner@example.com') {
+  return wrap(`
+    <div style="text-align:center;margin-bottom:24px;">
+      <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#a855f7;font-weight:800;">SECURITY VERIFICATION</p>
+      <h1 style="margin:0 0 8px;color:#fff;font-size:26px;font-weight:900;">Planner Access Security PIN</h1>
+      <p style="margin:0;color:rgba(255,255,255,0.5);font-size:13px;">Enter the 6-digit verification code below to authorize your 7th Heaven Planner Dashboard account.</p>
+    </div>
+
+    <!-- Glowing 6-Digit PIN Box -->
+    <div style="background:rgba(124,58,237,0.08);border:2px solid rgba(168,85,247,0.4);border-radius:16px;padding:32px 24px;margin:28px 0;text-align:center;box-shadow:0 12px 40px rgba(124,58,237,0.25);">
+      <p style="margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:rgba(255,255,255,0.4);font-weight:700;">YOUR 6-DIGIT VERIFICATION PIN</p>
+      <div style="font-size:46px;font-weight:900;letter-spacing:14px;color:#ffffff;font-family:monospace;margin:0 auto;text-shadow:0 0 20px rgba(168,85,247,0.8);">
+        ${sanitize(pin)}
+      </div>
+      <p style="margin:14px 0 0;font-size:12px;color:#a855f7;font-weight:600;letter-spacing:1px;">⏱️ EXPIRES IN 10 MINUTES</p>
+    </div>
+
+    <!-- Instructions & Details -->
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;margin-bottom:24px;">
+      <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">VERIFICATION DETAILS</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:140px;">Requested For</td><td style="padding:6px 0;color:#fff;font-size:14px;font-weight:600;">${sanitize(email)}</td></tr>
+        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Action Required</td><td style="padding:6px 0;color:#a855f7;font-size:14px;font-weight:700;">Enter PIN into the Planner Access Modal</td></tr>
+        <tr><td style="padding:6px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;">Security Status</td><td style="padding:6px 0;color:#22c55e;font-size:14px;font-weight:700;">Encrypted 256-Bit Auth</td></tr>
+      </table>
+    </div>
+
+    <!-- CTA Button -->
+    <div style="text-align:center;margin-bottom:24px;">
+      <a href="https://7thheavenband.com/book" style="${btnStyle}">Return to Booking Form →</a>
+    </div>
+
+    <p style="color:rgba(255,255,255,0.35);font-size:12px;text-align:center;margin:0;">
+      If you did not request this verification PIN, please ignore this message or contact <a href="mailto:support@7thheavenband.com" style="color:#a855f7;text-decoration:none;">support@7thheavenband.com</a>.
+    </p>
+  `);
+}
+
 // ═══════════════════════════════════════════════
 // TEMPLATE REGISTRY — used by preview page
 // ═══════════════════════════════════════════════
 export const EMAIL_TEMPLATES = [
+  {
+    id: 'auth_pin',
+    name: 'Planner Verification PIN',
+    description: 'Sent to event planners with a 6-digit security code to verify identity.',
+    category: 'Security',
+    status: 'live' as const,
+    render: () => plannerPinVerification('582901', 'planner@example.com'),
+  },
   {
     id: 'booking_confirmation',
     name: 'Booking Confirmation',
