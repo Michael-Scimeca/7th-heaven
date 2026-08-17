@@ -580,15 +580,15 @@ export function Header() {
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {isLoggedIn || isDemoPage ? (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-1.5">
                 <div className="relative shrink-0 flex items-center justify-center">
                   {/* Cart Icon attached directly to avatar profile circle when signed in */}
                   <TransitionLink
                     href="/merch"
-                    className="absolute -top-1 -left-1.5 w-5 h-5 bg-[#851def] hover:bg-[#7415d8] text-white rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 z-20"
+                    className="absolute -top-0.5 -left-1 w-4 h-4 sm:w-5 sm:h-5 bg-[#851def] hover:bg-[#7415d8] text-white rounded-full flex items-center justify-center shadow-md transition-transform hover:scale-110 z-20"
                     title="Cart / Merch"
                   >
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="9" cy="21" r="1" />
                       <circle cx="20" cy="21" r="1" />
                       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -596,14 +596,14 @@ export function Header() {
                   </TransitionLink>
                   <TransitionLink
                     href={dashboardHref}
-                    className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform"
-                    style={{ width: "44px", height: "44px", borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
+                    className="relative flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md hover:scale-105 transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11"
+                    style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}
                     title={displayName}
                   >
                     {isAvatarUrl ? (
                       <Image width={200} height={200} unoptimized src={member?.avatar} alt={displayName} className="w-full h-full object-cover" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }} />
                     ) : (
-                      <div className="w-full h-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white font-black text-sm shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
+                      <div className="w-full h-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white font-black text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)" }}>
                         {initials}
                       </div>
                     )}
@@ -611,7 +611,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-1 -right-3.5 px-1.5 py-0.5 min-w-[26px] h-6 text-[9.5px] font-black uppercase text-white flex items-center justify-center leading-none ${badgeBg}`}
+                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[8px] sm:text-[9.5px] font-black uppercase text-white flex items-center justify-center leading-none shadow-sm ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
