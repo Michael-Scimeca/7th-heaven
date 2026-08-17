@@ -4,6 +4,7 @@ import { useEffect, useRef, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
+import Logo from "@/components/Logo";
 
 // exoape.com's own nav-triggered page transition, decompiled straight from
 // their production bundle (chunk 6f3a20d.js — Nuxt's `transition:{enter,
@@ -105,11 +106,18 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  *                the destination route has this entire second to load in
  *                the background while the OLD page is still what's on
  *                screen. → mode: "covered" once the recede/fade finishes.
- *   covered    → waiting for the ACTUAL new route to be ready before
- *                revealing it — see "Two-stage ready check" below. Since
- *                loading started a full second earlier (not after reaching
- *                this state), this is usually near-instant now instead of
- *                a visible hold.
+ *   covered    → a real branded loading beat, not a rushed pass-through.
+ *                Watching exoape.com's actual site live (not just its
+ *                code) shows their curtain holds on their logo mark — with
+ *                a slow shimmer/pulse on it — for a couple of SECONDS
+ *                before revealing the destination, every single nav click,
+ *                not just on slow loads. That's a deliberate minimum
+ *                display time for the loading moment, not a byproduct of
+ *                network speed. MIN_COVERED_HOLD_MS below reproduces that:
+ *                the curtain won't leave "covered" before it elapses, even
+ *                if the destination route was ready instantly. See "Two-
+ *                stage ready check" below for how readiness AND the hold
+ *                floor combine.
  *   uncovering → curtain is hidden immediately; the new page reveals
  *                itself via its own clip-path wipe while settling out of
  *                its receded pose. Back to "idle" once that finishes.
@@ -144,6 +152,12 @@ function getUntransformedViewportTop(el: HTMLElement): number {
  * keeps rendering (and the leave animation keeps playing over it
  * uninterrupted) for however long step 1 takes — an early router.push()
  * doesn't yank content out from under the recede/fade.
+ *
+ * Readiness (steps 1+2) and MIN_COVERED_HOLD_MS are independent, and
+ * "covered" only ends once BOTH are satisfied: readiness so the reveal
+ * never shows a half-loaded page, the hold floor so a fast/prefetched route
+ * doesn't skip the branded loading beat entirely. Whichever takes longer
+ * wins — usually the hold floor, same as exoape's real site.
  */
 
 // ─── Page-ready check (Fonts + DOM Text + Images + Double RAF) ─────────────
@@ -225,11 +239,26 @@ async function waitForPageReady(): Promise<void> {
 // route), don't leave the curtain — and the site — stuck forever.
 const MAX_PENDING_WAIT_MS = 6000;
 
+// Minimum time to spend in "covered" before revealing the destination,
+// regardless of how fast it was actually ready. Timed against exoape.com's
+// real site live: their logo-holding curtain sat there for multiple full
+// seconds on every nav click tested, not just heavy ones — a deliberate
+// branded pause, not network latency. 2.4s lands in that range without
+// being punishing on a site this much lighter than a portfolio/case-study
+// site.
+const MIN_COVERED_HOLD_MS = 2400;
+
 export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { mode, setMode, pendingHref, clearPendingHref, isPending } = useTransition();
   const contentRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  // Stamped the instant we enter "covered" (see the covering effect's
+  // onComplete below) so the readiness effect can compute how much of
+  // MIN_COVERED_HOLD_MS is left, rather than always waiting the full
+  // duration even when readiness resolves late.
+  const coveredEnteredAtRef = useRef<number | null>(null);
 
   // covering → current page recedes while the curtain fades in over it.
   // The real navigation already fired back in requestTransition() the
@@ -243,7 +272,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (!content || !curtain) return;
 
     const tl = gsap.timeline({
-      onComplete: () => setMode("covered"),
+      onComplete: () => {
+        coveredEnteredAtRef.current = Date.now();
+        setMode("covered");
+      },
     });
 
     // `content` wraps the whole routed page (not just the viewport) — on a
@@ -307,18 +339,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   // covered → wait for the new route to actually land (React's isPending
   // clears + pathname matches what we navigated to), THEN wait for its
-  // fonts/images/DOM to actually be paintable, before revealing it.
+  // fonts/images/DOM to actually be paintable, AND make sure the branded
+  // hold has been on screen for at least MIN_COVERED_HOLD_MS — whichever
+  // of "ready" and "hold floor" finishes last is what actually gates the
+  // reveal.
   useEffect(() => {
     if (mode !== "covered") return;
     if (isPending) return; // React hasn't finished rendering the new route yet
     if (pendingHref && pathname !== pendingHref) return; // swap hasn't landed yet
 
     let cancelled = false;
+    let holdTimeout: ReturnType<typeof setTimeout> | null = null;
+
     waitForPageReady().then(() => {
-      if (!cancelled) setMode("uncovering");
+      if (cancelled) return;
+      const elapsed = Date.now() - (coveredEnteredAtRef.current ?? Date.now());
+      const remaining = Math.max(0, MIN_COVERED_HOLD_MS - elapsed);
+      holdTimeout = setTimeout(() => {
+        if (!cancelled) setMode("uncovering");
+      }, remaining);
     });
+
     return () => {
       cancelled = true;
+      if (holdTimeout) clearTimeout(holdTimeout);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, isPending, pathname, pendingHref]);
@@ -335,6 +379,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, isPending]);
+
+  // Logo shimmer — exoape's real loading curtain doesn't just sit static on
+  // their ape mark, it has a slow breathing pulse on it the whole time it
+  // holds. Runs for the entire covering+covered span (not just "covered")
+  // so it's already going by the time the curtain is opaque enough to read,
+  // and stops cleanly (reset to full opacity) the moment we leave either.
+  useEffect(() => {
+    if (mode !== "covering" && mode !== "covered") return;
+    const logo = logoRef.current;
+    if (!logo) return;
+
+    const tween = gsap.to(logo, {
+      opacity: 0.45,
+      duration: 0.9,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+
+    return () => {
+      tween.kill();
+      gsap.set(logo, { opacity: 1 });
+    };
+  }, [mode]);
 
   // uncovering → curtain is hidden immediately (exoape's real enter hook
   // sets the entering page's own z-index above everything else and reveals
@@ -431,12 +499,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           pointerEvents: "none",
         }}
       >
-        <span
-          className="text-2xl md:text-4xl font-black italic uppercase tracking-tight text-white"
-          style={{ fontFamily: "var(--font-barlow-condensed)" }}
-        >
-          7th heaven
-        </span>
+        <div ref={logoRef}>
+          <Logo className="h-8 md:h-11 w-auto text-white" />
+        </div>
       </div>
     </>
   );

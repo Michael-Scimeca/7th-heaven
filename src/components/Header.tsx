@@ -470,14 +470,14 @@ export function Header() {
         >
 
           {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
-          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-6 xl:gap-8 font-[family-name:var(--font-barlow)] relative z-50">
+          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 font-[family-name:var(--font-barlow)] relative z-50">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
+                  className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
                     ? "!text-[#9333ea] font-extrabold active"
                     : "text-white/80 hover:text-white"
                     }`}
@@ -490,7 +490,7 @@ export function Header() {
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
                 ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
@@ -532,7 +532,7 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
                 ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
@@ -544,7 +544,7 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
                 ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
@@ -555,7 +555,7 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
+              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
                 ? "!text-[#9333ea] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
