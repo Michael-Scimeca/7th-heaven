@@ -1187,7 +1187,7 @@ ${filterLine}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
           <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] z-[900] mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck  py-3 ' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-            <div className="relative flex-1 min-w-[120px] lg:min-w-0">
+            <div className="relative order-2 lg:order-none flex-1 min-w-0">
               <GooeyMessagesDropdown
                 placeholder="MONTH"
                 defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
@@ -1196,7 +1196,7 @@ ${filterLine}
                 triggerTextClassName="!text-[clamp(14px,1.2vw,18px)]"
               />
             </div>
-            <div className="input-glow-border rounded-xl w-full flex-1 min-w-[160px] lg:w-full">
+            <div className="input-glow-border rounded-xl w-full order-1 lg:order-none shrink-0">
               <div className="relative flex items-center w-full">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -1205,7 +1205,7 @@ ${filterLine}
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
-            <div className="relative flex-1 min-w-[120px] lg:min-w-0 ml-auto flex justify-end lg:block lg:ml-0">
+            <div className="relative order-3 lg:order-none flex-1 min-w-0">
               <GooeyMessagesDropdown
                 placeholder="CITY"
                 defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
