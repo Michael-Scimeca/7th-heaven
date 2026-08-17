@@ -307,10 +307,15 @@ export default function AudioPlayerSection() {
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      if (el.scrollHeight > el.clientHeight) {
+      if (el.scrollHeight <= el.clientHeight) return;
+      const delta = e.deltaY;
+      const atTop = el.scrollTop <= 0 && delta < 0;
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1 && delta > 0;
+
+      if (!atTop && !atBottom) {
         e.preventDefault();
         e.stopPropagation();
-        el.scrollTop += e.deltaY;
+        el.scrollTop += delta;
       }
     };
 
@@ -324,10 +329,15 @@ export default function AudioPlayerSection() {
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      if (el.scrollHeight > el.clientHeight) {
+      if (el.scrollHeight <= el.clientHeight) return;
+      const delta = e.deltaY;
+      const atTop = el.scrollTop <= 0 && delta < 0;
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1 && delta > 0;
+
+      if (!atTop && !atBottom) {
         e.preventDefault();
         e.stopPropagation();
-        el.scrollTop += e.deltaY;
+        el.scrollTop += delta;
       }
     };
 

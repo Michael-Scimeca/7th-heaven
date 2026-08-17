@@ -6,35 +6,75 @@ import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
 import Logo from "@/components/Logo";
 
-// ─── What this actually is (corrected) ──────────────────────────────────────
-// An earlier version of this file/comment claimed the leave/enter motion
-// below was "decompiled straight from exoape.com's production bundle." That
-// claim was wrong and has been retracted — there's no real decompilation
-// happening in this environment, and a from-scratch reverse-engineer of a
-// minified bundle down to exact GSAP calls isn't something that was actually
-// done. What *is* verified, from directly and repeatedly watching
-// exoape.com's real site: a full-bleed curtain covers the screen, holds on
-// their icon mark with a slow shimmer for a beat, then reveals the
-// destination. The exact leave-transform/clip-path choreography that used to
-// live here was speculative on top of that and is the direct cause of a real
-// bug: it tied the curtain's own opacity fade to the SAME 1s duration as a
-// transform on the live page content, so on a fast/local route (content
-// swaps in well under 1s) the curtain was still partly transparent when the
-// new page rendered underneath it — showing the new page, darkened, with the
-// logo ghosted on top of it. Confirmed with a frame-by-frame recording of
-// this exact bug happening on Cruise → Book Us and again on Book Us →
-// Contact.
+// ─── What this actually is (third pass, live-verified against exoape.com) ──
+// This component has gone through two wrong models before this one:
 //
-// The fix: the curtain's own opacity is now driven independently and FAST
-// (COVER_DURATION below), so it's fully opaque well before React could
-// plausibly have swapped the routed content underneath it, regardless of how
-// quickly the destination route becomes ready. No transform is applied to
-// the live page content anymore — that was the thing whose timing could
-// slip out of sync with the curtain and cause the bleed-through. The reveal
-// (uncovering) is a plain opacity fade for the same reason: simple, and
-// impossible for its timing to desync from what's actually on screen.
+//   1. A "leave/enter motion decompiled from exoape.com's production
+//      bundle" — false, retracted. Nothing was ever decompiled.
+//   2. A curtain that ALWAYS held for a fixed MIN_COVERED_HOLD_MS (1.6s)
+//      before revealing, with a plain opacity fade in both directions.
+//      That fixed a real ghosting/bleed-through bug (see the
+//      PAGE_REVEAL_CLIP note below for the safe version of the fix that
+//      replaced it) but was rejected outright once compared side-by-side
+//      with exoape.com, because it made EVERY nav click show a slow,
+//      unskippable black hold — not what their site actually does.
+//
+// What's actually true, from three back-to-back live nav clicks on
+// exoape.com in one session, each captured as a rapid screenshot burst:
+//
+//   - Home → News (the FIRST navigation of the session, nothing
+//     prefetched yet): a real black curtain, holding on their ape mark
+//     with a shimmer, for however long that route actually took to
+//     become ready.
+//   - News → Work and Work → Contact (later navigations, same session —
+//     those routes were already warm): NO black curtain at all. The new
+//     page just wipes straight up from the bottom over the old one, with
+//     a diagonal leading edge, in well under half a second.
+//
+// So the curtain+logo hold is a fallback for "the destination genuinely
+// isn't ready yet," not a fixed branded pause on every click. The bug
+// with the old fixed hold: on localhost, a route that's already compiled
+// resolves near-instantly, so a 1.6s floor forced the slow branded hold
+// to show on literally every navigation — the opposite of what
+// exoape.com does. That floor is gone. Two things now gate how long
+// "covering"/"covered" actually last, both readiness-driven, no fixed
+// minimum:
+//
+//   - GRACE_MS below: the curtain doesn't even start fading in until this
+//     elapses AND the destination still isn't ready. If it becomes ready
+//     first, the curtain never appears at all — straight to the wipe.
+//   - Once the curtain IS showing, "covered" ends the instant the
+//     destination is actually ready (see the readiness effect below) —
+//     no artificial floor.
 const COVER_DURATION = 0.35;
-const REVEAL_DURATION = 0.6;
+const REVEAL_DURATION = 0.55;
+// How long to wait, after a click, before showing the curtain at all.
+// Standard "don't flash a loading state for something that finishes
+// instantly" pattern — exoape's own warm-route clicks show no curtain
+// whatsoever, so showing one immediately on every click (even ones that
+// resolve in a few ms on localhost) would itself be wrong. 180ms is a
+// reasonable default for that grace window, not a number pulled from
+// exoape.com — their exact internal threshold isn't observable.
+const GRACE_MS = 180;
+
+// The diagonal wipe shape: a thin sliver pinned to the bottom edge (the
+// right side lags slightly behind the left, via the 110% vs 100% offset
+// below — that's what gives the boundary its tilt instead of a flat
+// horizontal line) growing to cover the full viewport. Matches both the
+// reference recording the user provided and the live Work→Contact
+// capture (new page's white content wiping up over the old page, higher
+// on the left edge than the right at any given moment).
+//
+// Applied to `content` — NOT the curtain — and only during "uncovering",
+// once the readiness effect has already confirmed the new route landed
+// AND waitForPageReady() resolved. That's what makes this safe: content
+// is guaranteed to already be the correct, ready new page by the time
+// this starts animating, so unlike the old page-recede transform (the
+// thing that caused the original ghosting bug — see the retracted
+// MIN_COVERED_HOLD_MS/decompile comments above), there's no way for this
+// clip-path's timing to race React's own swap.
+const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 110%, 100% 100%, 0% 100%)";
+const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
 /**
  * PageTransition
@@ -46,27 +86,32 @@ const REVEAL_DURATION = 0.6;
  * to "covering"; everything below reacts to that.
  *
  *   idle       → no overlay, normal page.
- *   covering   → the curtain fades to fully opaque FAST (COVER_DURATION —
- *                deliberately much shorter than a typical route swap, see
- *                the note above COVER_DURATION for why). router.push()
- *                ALREADY fired the instant the click happened — see
- *                TransitionContext.requestTransition — so the destination
- *                route is loading in the background the whole time.
- *                → mode: "covered" once the curtain is fully opaque.
- *   covered    → a real branded loading beat, not a rushed pass-through.
- *                Watching exoape.com's actual site live shows their curtain
- *                holds on their icon mark — with a slow shimmer/pulse on it
- *                — for a beat before revealing the destination.
- *                MIN_COVERED_HOLD_MS below reproduces that: the curtain
- *                won't leave "covered" before it elapses, even if the
- *                destination route was ready instantly. See "Two-stage
- *                ready check" below for how readiness AND the hold floor
- *                combine.
- *   uncovering → curtain fades back out (REVEAL_DURATION) over the new
- *                page, which is simply what's underneath — no transform
- *                applied to it. Back to "idle" once that finishes.
+ *   covering   → router.push() ALREADY fired the instant the click
+ *                happened (see TransitionContext.requestTransition), so
+ *                the destination is loading in the background this whole
+ *                phase. Nothing is shown yet — a GRACE_MS timer is
+ *                running. If the destination becomes ready before that
+ *                timer fires, the curtain is skipped entirely and mode
+ *                jumps straight to "uncovering" (see the readiness effect
+ *                below). Only if GRACE_MS elapses first does the curtain
+ *                actually fade in (COVER_DURATION) → mode: "covered".
+ *   covered    → the curtain is opaque and holding on the logo (with a
+ *                shimmer) because the destination genuinely isn't ready
+ *                yet. No fixed floor — ends the instant readiness clears
+ *                (see the readiness effect below), however long that
+ *                takes. This is what reproduces exoape.com's real
+ *                behavior: their hold length tracks actual load time,
+ *                it isn't a fixed branded pause (confirmed by watching
+ *                three consecutive live nav clicks on their site — see
+ *                the file-level comment above for details).
+ *   uncovering → curtain (if it was ever shown — safe to hide
+ *                unconditionally either way, see below) disappears
+ *                instantly, and the new page — already confirmed ready by
+ *                this point — wipes up into view via the diagonal
+ *                PAGE_REVEAL_CLIP_FROM → PAGE_REVEAL_CLIP_TO clip-path.
+ *                Back to "idle" once that finishes.
  *
- * ─── Two-stage ready check (the standard App Router pattern for this) ─────
+ * ─── Ready check (the standard App Router pattern for this) ───────────────
  * router.push() is fire-and-forget: it returns immediately, before Next.js
  * has fetched/rendered the destination route. The naive version of this
  * component called router.push() then started polling the DOM right away —
@@ -83,25 +128,19 @@ const REVEAL_DURATION = 0.6;
  * instance, so this component reads the actual pending state of that push
  * rather than one of its own that would never see it flip). React only
  * clears `isPending` once the new route's tree has actually rendered and
- * committed to the DOM, so:
+ * committed to the DOM, so the readiness effect below:
  *
- *   1. Wait for `isPending` to go false AND `pathname` to actually equal
+ *   1. Waits for `isPending` to go false AND `pathname` to actually equal
  *      the href we navigated to (belt-and-suspenders — confirms the swap
  *      really landed, not just that some unrelated transition finished).
- *   2. Only THEN run waitForPageReady() — the fonts/images/double-RAF
+ *   2. Only THEN runs waitForPageReady() — the fonts/images/double-RAF
  *      check — since step 1 only guarantees the new React tree is mounted,
  *      not that its images have decoded or its web fonts have painted.
  *
  * Because startTransition defers committing the new tree, the OLD page
- * keeps rendering (and the leave animation keeps playing over it
- * uninterrupted) for however long step 1 takes — an early router.push()
- * doesn't yank content out from under the recede/fade.
- *
- * Readiness (steps 1+2) and MIN_COVERED_HOLD_MS are independent, and
- * "covered" only ends once BOTH are satisfied: readiness so the reveal
- * never shows a half-loaded page, the hold floor so a fast/prefetched route
- * doesn't skip the branded loading beat entirely. Whichever takes longer
- * wins — usually the hold floor, same as exoape's real site.
+ * keeps rendering underneath (whatever's visible — curtain or nothing)
+ * for however long step 1 takes — an early router.push() doesn't yank
+ * content out from under anything.
  */
 
 // ─── Page-ready check (Fonts + DOM Text + Images + Double RAF) ─────────────
@@ -183,128 +222,101 @@ async function waitForPageReady(): Promise<void> {
 // route), don't leave the curtain — and the site — stuck forever.
 const MAX_PENDING_WAIT_MS = 6000;
 
-// Minimum time to spend in "covered" before revealing the destination,
-// regardless of how fast it was actually ready. Correction: an earlier
-// version of this comment claimed exoape.com's hold was a "confirmed
-// deliberate branded pause of 3-4+ seconds, not network latency." That
-// wasn't reliable — re-testing their live site produced wildly different
-// results across attempts (one nav click revealed in under a second,
-// another sat on the curtain for 9+ seconds and then landed back on their
-// homepage instead of the clicked link), so their real hold time can't be
-// pinned down from watching it and may just be that page's own load time,
-// not a fixed floor at all. 1.6s here is a deliberately modest, defensible
-// middle ground: enough for the logo + shimmer to actually register as a
-// moment rather than a flicker, without inventing a specific number and
-// presenting it as verified.
-const MIN_COVERED_HOLD_MS = 1600;
-
 export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { mode, setMode, pendingHref, clearPendingHref, isPending } = useTransition();
   const contentRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
-  // Stamped the instant we enter "covered" (see the covering effect's
-  // onComplete below) so the readiness effect can compute how much of
-  // MIN_COVERED_HOLD_MS is left, rather than always waiting the full
-  // duration even when readiness resolves late.
-  const coveredEnteredAtRef = useRef<number | null>(null);
+  // Holds the cleanup for whichever curtain tween/listeners the grace-timer
+  // callback below created, if it ever fired (declared before the effect
+  // that uses it since this is a plain component-body ref, not hoisted).
+  const curtainCleanupRef = useRef<(() => void) | null>(null);
 
-  // covering → the curtain fades to fully opaque, FAST. No transform is
-  // applied to `content` here anymore — see the note above COVER_DURATION
-  // for why a previous version's page-recede transform (tied to the same
-  // slow ~1s duration as the curtain fade) is exactly what caused the
-  // reported bleed-through/ghosting bug: `content` renders whatever
-  // `children` React has currently committed, and on a fast route that can
-  // swap from the old page to the new one well before a 1s tween finishes,
-  // so the still-partially-transparent curtain ended up showing the NEW
-  // page, darkened, with the logo ghosted on top of it. Keeping this fade
-  // fast and untouched by content changes means the curtain is fully opaque
-  // long before that swap can happen, regardless of route speed.
-  // The real navigation already fired back in requestTransition() the
-  // instant the click happened (see the two-stage ready check above for
-  // why) — this effect doesn't start it, just plays the cover and flips to
-  // "covered" once it's fully opaque.
+  // covering → wait GRACE_MS before even starting to fade the curtain in.
+  // If mode has already moved on (because the readiness effect below found
+  // the destination ready first and jumped straight to "uncovering") by
+  // the time this timer fires, this effect's cleanup (the mode dependency
+  // changing) has already cleared it — so on a fast/warm route, the
+  // curtain never appears at all, matching exoape.com's News→Work /
+  // Work→Contact behavior. Only on a genuinely slow/cold route does this
+  // timer actually fire and start the fade.
   useEffect(() => {
     if (mode !== "covering") return;
     const curtain = curtainRef.current;
     if (!curtain) return;
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        coveredEnteredAtRef.current = Date.now();
-        setMode("covered");
-      },
-    });
+    const graceTimer = setTimeout(() => {
+      const tl = gsap.timeline({ onComplete: () => setMode("covered") });
 
-    tl.set(curtain, {
-      autoAlpha: 0,
-      pointerEvents: "auto",
-    }).to(curtain, { autoAlpha: 1, duration: COVER_DURATION, ease: "power2.out" });
+      tl.set(curtain, {
+        autoAlpha: 0,
+        pointerEvents: "auto",
+      }).to(curtain, { autoAlpha: 1, duration: COVER_DURATION, ease: "power2.out" });
 
-    // Safety net #1: GSAP timelines are driven by requestAnimationFrame,
-    // which browsers straight-up DON'T FIRE (not just throttle) once
-    // `document.visibilityState` is "hidden" — confirmed by direct
-    // instrumentation: sampling this exact curtain's computed opacity every
-    // 150ms showed it pinned at the tween's starting value for 6+ seconds
-    // straight while visibilityState read "hidden", even though the tab was
-    // the active/focused one from the OS's point of view. A plain
-    // setTimeout guard is NOT a reliable rescue for this case — setTimeout
-    // is throttled/coalesced under the same background conditions (backed
-    // by the same instrumentation run: a 150ms setInterval landed samples
-    // ~1000ms apart instead), so it can fire many multiples of its delay
-    // late. Kept even with COVER_DURATION now short, as a backstop against
-    // any other reason a tween might stall.
-    const stuckGuard = setTimeout(() => tl.progress(1), 1200);
+      // Safety net #1: GSAP timelines are driven by requestAnimationFrame,
+      // which browsers straight-up DON'T FIRE (not just throttle) once
+      // `document.visibilityState` is "hidden" — confirmed by direct
+      // instrumentation: sampling this exact curtain's computed opacity
+      // every 150ms showed it pinned at the tween's starting value for 6+
+      // seconds straight while visibilityState read "hidden", even though
+      // the tab was the active/focused one from the OS's point of view. A
+      // plain setTimeout guard is NOT a reliable rescue for this case —
+      // setTimeout is throttled/coalesced under the same background
+      // conditions (backed by the same instrumentation run: a 150ms
+      // setInterval landed samples ~1000ms apart instead), so it can fire
+      // many multiples of its delay late. Kept even with COVER_DURATION
+      // now short, as a backstop against any other reason a tween might
+      // stall.
+      const stuckGuard = setTimeout(() => tl.progress(1), 1200);
 
-    // Safety net #2: `visibilitychange` is a real DOM event fired the
-    // instant the tab's visibility flips, NOT a timer — it isn't subject to
-    // the throttling/suspension above, so it's the reliable way to catch
-    // "the tab was hidden for however long mid-tween, and just came back."
-    // Forcing straight to the end state (rather than letting the tween try
-    // to resume from wherever it was) avoids any weird half-animated catch
-    // up after an arbitrarily long hidden gap.
-    const forceCompleteIfVisible = () => {
-      if (document.visibilityState === "visible") tl.progress(1);
-    };
-    document.addEventListener("visibilitychange", forceCompleteIfVisible);
-    window.addEventListener("focus", forceCompleteIfVisible);
+      // Safety net #2: `visibilitychange` is a real DOM event fired the
+      // instant the tab's visibility flips, NOT a timer — it isn't subject
+      // to the throttling/suspension above, so it's the reliable way to
+      // catch "the tab was hidden for however long mid-tween, and just
+      // came back." Forcing straight to the end state (rather than letting
+      // the tween try to resume from wherever it was) avoids any weird
+      // half-animated catch up after an arbitrarily long hidden gap.
+      const forceCompleteIfVisible = () => {
+        if (document.visibilityState === "visible") tl.progress(1);
+      };
+      document.addEventListener("visibilitychange", forceCompleteIfVisible);
+      window.addEventListener("focus", forceCompleteIfVisible);
+
+      curtainCleanupRef.current = () => {
+        clearTimeout(stuckGuard);
+        document.removeEventListener("visibilitychange", forceCompleteIfVisible);
+        window.removeEventListener("focus", forceCompleteIfVisible);
+        tl.kill();
+      };
+    }, GRACE_MS);
 
     return () => {
-      clearTimeout(stuckGuard);
-      document.removeEventListener("visibilitychange", forceCompleteIfVisible);
-      window.removeEventListener("focus", forceCompleteIfVisible);
-      tl.kill();
+      clearTimeout(graceTimer);
+      curtainCleanupRef.current?.();
+      curtainCleanupRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  // covered → wait for the new route to actually land (React's isPending
-  // clears + pathname matches what we navigated to), THEN wait for its
-  // fonts/images/DOM to actually be paintable, AND make sure the branded
-  // hold has been on screen for at least MIN_COVERED_HOLD_MS — whichever
-  // of "ready" and "hold floor" finishes last is what actually gates the
-  // reveal.
+  // Readiness → the single source of truth for when to stop
+  // covering/waiting and start the reveal. Runs across BOTH "covering"
+  // (curtain not shown yet, still inside/past the grace window) and
+  // "covered" (curtain shown, holding) — whichever state we're in when the
+  // destination becomes ready, jump straight to "uncovering". No fixed
+  // minimum hold: exoape.com's own hold length tracks real load time, not
+  // a fixed branded pause (see the file-level comment above).
   useEffect(() => {
-    if (mode !== "covered") return;
+    if (mode !== "covering" && mode !== "covered") return;
     if (isPending) return; // React hasn't finished rendering the new route yet
     if (pendingHref && pathname !== pendingHref) return; // swap hasn't landed yet
 
     let cancelled = false;
-    let holdTimeout: ReturnType<typeof setTimeout> | null = null;
-
     waitForPageReady().then(() => {
-      if (cancelled) return;
-      const elapsed = Date.now() - (coveredEnteredAtRef.current ?? Date.now());
-      const remaining = Math.max(0, MIN_COVERED_HOLD_MS - elapsed);
-      holdTimeout = setTimeout(() => {
-        if (!cancelled) setMode("uncovering");
-      }, remaining);
+      if (!cancelled) setMode("uncovering");
     });
-
     return () => {
       cancelled = true;
-      if (holdTimeout) clearTimeout(holdTimeout);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, isPending, pathname, pendingHref]);
@@ -314,7 +326,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // seconds and reveal whatever's there rather than hiding the site behind
   // a black curtain indefinitely.
   useEffect(() => {
-    if (mode !== "covered" || !isPending) return;
+    if ((mode !== "covering" && mode !== "covered") || !isPending) return;
     const t = setTimeout(() => {
       waitForPageReady().then(() => setMode("uncovering"));
     }, MAX_PENDING_WAIT_MS);
@@ -346,30 +358,41 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     };
   }, [mode]);
 
-  // uncovering → the curtain fades back out over the new page. By this
-  // point `mode` only got here because the "covered" effect above already
-  // confirmed the new route landed AND waitForPageReady() resolved, so
-  // `content` (rendering the current `children`) is genuinely the new,
-  // ready page — no transform, no clip-path, just a plain fade so there's
-  // nothing here whose timing could desync from what's actually on screen.
+  // uncovering → the curtain (if it was ever shown at all — see GRACE_MS
+  // above) disappears INSTANTLY, no fade, and the new page wipes up into
+  // view via the diagonal clip-path instead. By this point `mode` only got
+  // here because the readiness effect above already confirmed the new
+  // route landed AND waitForPageReady() resolved, so `content` (rendering
+  // the current `children`) is genuinely the new, ready page — safe to
+  // animate its own clip-path with no risk of racing React's swap (see the
+  // PAGE_REVEAL_CLIP note near the top of this file for why that's true
+  // here but wasn't for the old page-recede transform).
+  //
+  // Hiding the curtain unconditionally (autoAlpha: 0, no tween) is correct
+  // whether or not it was ever actually shown: on the fast/no-curtain path
+  // its autoAlpha is already 0 from the initial inline style, so this is a
+  // harmless no-op; on the slow/curtain-shown path this is what actually
+  // reveals the wipe instead of leaving a black screen up while `content`
+  // animates invisibly underneath it.
   useEffect(() => {
     if (mode !== "uncovering") return;
     const curtain = curtainRef.current;
-    if (!curtain) return;
+    const content = contentRef.current;
+    if (!curtain || !content) return;
 
-    const tween = gsap.to(curtain, {
-      autoAlpha: 0,
+    gsap.set(curtain, { autoAlpha: 0, pointerEvents: "none" });
+    gsap.set(content, { clipPath: PAGE_REVEAL_CLIP_FROM, willChange: "clip-path" });
+
+    const tween = gsap.to(content, {
+      clipPath: PAGE_REVEAL_CLIP_TO,
       duration: REVEAL_DURATION,
-      ease: "power2.inOut",
+      ease: "power2.out",
       onComplete: () => {
+        gsap.set(content, { clipPath: "none", willChange: "auto" });
         clearPendingHref();
         setMode("idle");
       },
     });
-    // pointerEvents flips off immediately (not waiting on the fade) so the
-    // new page is clickable/scrollable right away rather than sitting
-    // behind an invisible-but-still-intercepting curtain for REVEAL_DURATION.
-    gsap.set(curtain, { pointerEvents: "none" });
 
     // Same throttled/hidden-tab safety net as the covering effect above —
     // both a timeout backstop AND an immediate visibilitychange/focus
