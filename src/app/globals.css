@@ -1853,7 +1853,7 @@ select::placeholder,
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1124px) {
   :root {
     --page-padding-x: 42px;
   }

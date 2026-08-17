@@ -1410,38 +1410,39 @@ ${filterLine}
 
                   {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 text-sm text-[var(--color-text-secondary)]  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 p-4 my-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-purple-500/30 transition-all text-sm text-[var(--color-text-secondary)] ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "border-purple-500/40 bg-purple-500/5" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
-                    {/* Header Row: Date & Time */}
-                    <div className="flex items-center justify-between pb-2.5">
-                      <div className="flex items-baseline gap-2 whitespace-nowrap">
-                        <span className="font-[var(--font-heading)] font-bold text-[15px] uppercase text-[var(--color-accent)] whitespace-nowrap">{show.day}</span>
-                        <span className="text-white font-bold text-[19px] whitespace-nowrap">{show.date}</span>
+                    {/* Header Row: Date Badge & Time */}
+                    <div className="flex items-center justify-between gap-2 pb-1 border-b border-white/5">
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-1 rounded-md bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black tracking-wider uppercase whitespace-nowrap">
+                          {show.day} • {show.date}
+                        </span>
                       </div>
                       <div className="flex flex-col items-end gap-1">
                         {(show.doorsTime || show.time || show.playTime) && (
-                          <div className="flex flex-col items-end gap-0.5">
+                          <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className="text-white/60 text-xs font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
+                              <span className="text-white/60 text-[11px] font-medium px-2 py-0.5 bg-white/5 border border-white/10 rounded whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-rose-400 text-[15px] font-extrabold px-2 py-0.5 bg-rose-500/15 border border-rose-500/25 rounded whitespace-nowrap">
+                              <span className="text-purple-300 text-[11px] font-extrabold px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded whitespace-nowrap">
                                 Show: {show.playTime}
                               </span>
                             )}
-                            {show.time && (
-                              <span className="text-white/80 text-xs font-semibold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
-                                {show.playTime ? `Event: ${show.time}` : show.time}
+                            {show.time && !show.playTime && (
+                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
+                                {show.time}
                               </span>
                             )}
                           </div>
                         )}
                         {isShowToday(show) && (
-                          <span className="text-xs font-black uppercase tracking-wider text-rose-600 animate-pulse">
+                          <span className="text-xs font-black uppercase tracking-wider text-rose-500 animate-pulse">
                             {getCountdownString(show)}
                           </span>
                         )}
@@ -1449,10 +1450,11 @@ ${filterLine}
                     </div>
 
                     {/* Details: Venue & Location */}
-                    <div>
-                      <h4 className="text-[21px] font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
+                    <div className="pt-0.5">
+                      <h4 className="text-2xl font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {(show.city || show.state) && (
-                        <p className="text-[15px] text-white/70 flex items-center gap-1 mt-1 font-semibold">
+                        <p className="text-sm text-white/70 flex items-center gap-1.5 mt-1 font-semibold">
+                          <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
                           {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}
                         </p>
                       )}
@@ -1462,22 +1464,22 @@ ${filterLine}
                     {!isPrivate && (
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <span className="text-xs">{getShowIcon(show)}</span>
-                        {show.info && <span className="text-[var(--font-size-2xs)] text-white/40 italic">{show.info}</span>}
+                        {show.info && <span className="text-xs text-white/50 italic">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-green-500/10 text-green-400 border border-green-500/20 rounded">All Ages</span>
+                          <span className="px-2 py-0.5 text-[0.65rem] font-extrabold bg-green-500/15 text-green-400 border border-green-500/25 rounded-md uppercase">All Ages</span>
                         )}
                         {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="px-1.5 py-0.5 text-[0.6rem] font-bold bg-red-500/10 text-red-400 border border-red-500/20 rounded">21+</span>
+                          <span className="px-2 py-0.5 text-[0.65rem] font-extrabold bg-red-500/15 text-red-400 border border-red-500/25 rounded-md uppercase">21+</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
-                          let tagColors = "bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/20";
-                          if (tag === "Unplugged") tagColors = "bg-purple-600/10 text-purple-300 border-purple-500/20";
-                          else if (tag === "Outdoor") tagColors = "bg-sky-500/10 text-sky-400 border-sky-500/20";
-                          else if (tag === "Special Event") tagColors = "bg-[var(--color-accent)]/10  text-[var(--color-accent)] border-[var(--color-accent)]/20";
-                          else if (tag === "Casino") tagColors = "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+                          let tagColors = "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/20";
+                          if (tag === "Unplugged") tagColors = "bg-purple-600/15 text-purple-300 border-purple-500/30";
+                          else if (tag === "Outdoor") tagColors = "bg-sky-500/15 text-sky-400 border-sky-500/30";
+                          else if (tag === "Special Event") tagColors = "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30";
+                          else if (tag === "Casino") tagColors = "bg-yellow-500/15 text-yellow-400 border-yellow-500/30";
                           return (
-                            <span key={tag} className={`px-1.5 py-0.5 text-[0.6rem] font-bold border rounded ${tagColors}`}>{tag}</span>
+                            <span key={tag} className={`px-2 py-0.5 text-[0.65rem] font-extrabold border rounded-md uppercase ${tagColors}`}>{tag}</span>
                           );
                         })}
                       </div>
@@ -1485,7 +1487,7 @@ ${filterLine}
 
                     {/* Action Buttons Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-3 mt-5">
+                      <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/5">
                         {/* Map Directions */}
                         {(() => {
                           const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
@@ -1501,9 +1503,10 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={hasExplicitMap ? "Get Directions" : "Search Directions"}
-                              className="w-9 h-9 flex items-center justify-center  rounded-lg  bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
+                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white font-bold text-xs transition-all hover:bg-purple-600/60 active:scale-95"
                             >
-                              <MapPin className="w-4 h-4 text-white" />
+                              <MapPin className="w-3.5 h-3.5 text-purple-300" />
+                              <span>Map</span>
                             </a>
                           );
                         })()}
@@ -1522,9 +1525,10 @@ ${filterLine}
                                   ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
                                   : "Search Parking"
                               }
-                              className="w-9 h-9 flex items-center justify-center  rounded-lg  bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
+                              className="flex-1 py-2 px-3 flex items-center justify-center gap-1.5 rounded-lg bg-purple-600/30 border border-purple-400/30 text-white font-bold text-xs transition-all hover:bg-purple-600/60 active:scale-95"
                             >
-                              <Car className="w-4 h-4 text-white" />
+                              <Car className="w-3.5 h-3.5 text-purple-300" />
+                              <span>Ride / Park</span>
                             </a>
                           );
                         })()}
@@ -1534,7 +1538,7 @@ ${filterLine}
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className={`w-9 h-9 flex items-center justify-center  rounded-lg  transition-all duration-300 cursor-pointer border shrink-0 bg-purple-600/40 border-purple-400/40 text-white hover:bg-purple-600/80`}
+                            className="p-2 w-9 h-9 flex items-center justify-center rounded-lg border shrink-0 bg-purple-600/30 border-purple-400/30 text-white hover:bg-purple-600/60 transition-all active:scale-95"
                           >
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
