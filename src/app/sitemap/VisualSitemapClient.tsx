@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   ReactFlow,
@@ -20,7 +20,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { ExternalLink, Layers, Terminal, Lock, UserCheck, Radio, Sparkles, ShoppingBag, Globe } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
@@ -28,96 +28,109 @@ export interface SitemapNodeData extends Record<string, unknown> {
   path?: string;
   imgUrl: string;
   description?: string;
-  badgeType?: "PAGE" | "MODULE" | "EMAIL" | "API";
+  badgeType?: "PAGE" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH REAL JPG SCREENSHOTS & CATEGORY BADGES ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH CRISP IMAGE PREVIEWS & BROWSER CHROME ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
+  const [imgError, setImgError] = useState(false);
   const isEmail = data.badgeType === "EMAIL";
-  const isApi = data.badgeType === "API";
   const isModule = data.badgeType === "MODULE";
 
   return (
     <div className={`w-64 rounded-xl border ${
       isEmail
         ? "border-amber-400/50 bg-[#161005]"
-        : isApi
-        ? "border-emerald-400/50 bg-[#05140b]"
         : isModule
         ? "border-cyan-400/50 bg-[#051218]"
         : "border-white/15 bg-[#0f0f17]"
-    } shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl`}>
+    } shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl group`}>
       <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${
-        isEmail ? "!bg-amber-400" : isApi ? "!bg-emerald-400" : isModule ? "!bg-cyan-400" : "!bg-purple-400"
+        isEmail ? "!bg-amber-400" : isModule ? "!bg-cyan-400" : "!bg-purple-400"
       } !border-0`} />
       
-      {/* Top Header Bar */}
+      {/* Top Browser Header Bar */}
       <div className={`${
         isEmail
           ? "bg-amber-500/20 border-b border-amber-500/30"
-          : isApi
-          ? "bg-emerald-500/20 border-b border-emerald-500/30"
           : isModule
           ? "bg-cyan-500/20 border-b border-cyan-500/30"
           : "bg-[#181824] border-b border-white/10"
       } py-1.5 px-3 flex items-center justify-between`}>
-        <span className={`font-extrabold text-xs tracking-wider uppercase truncate ${
-          isEmail ? "text-amber-300" : isApi ? "text-emerald-300" : isModule ? "text-cyan-300" : "text-purple-300"
-        }`}>
-          {data.header}
-        </span>
-        {isEmail ? (
-          <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <div className="flex items-center gap-1 shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
+          </div>
+          <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${
+            isEmail ? "text-amber-300" : isModule ? "text-cyan-300" : "text-purple-300"
+          }`}>
+            {data.header}
+          </span>
+        </div>
+        {isEmail && (
+          <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black shrink-0">
             ✉ RESEND
           </span>
-        ) : isApi ? (
-          <span className="px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-200 text-[7px] font-mono font-black">
-            API
-          </span>
-        ) : null}
+        )}
       </div>
 
-      {/* REAL HIGH-SPEED JPG SCREENSHOT PREVIEW */}
-      <div className="w-full h-36 bg-black border-b border-white/10 overflow-hidden relative group">
-        <img
-          src={data.imgUrl}
-          alt={data.title}
-          className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
-        />
+      {/* REAL HIGH-SPEED JPG SCREENSHOT PREVIEW WITH FALLBACK */}
+      <div className="w-full h-36 bg-[#080810] border-b border-white/10 overflow-hidden relative">
+        {!imgError ? (
+          <img
+            src={data.imgUrl}
+            alt={data.title}
+            onError={() => setImgError(true)}
+            className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
+          />
+        ) : (
+          <div className="w-full h-full p-3 flex flex-col justify-between bg-gradient-to-br from-[#12121f] to-[#080810]">
+            <div className="flex justify-between items-center text-[8px] font-mono text-cyan-300">
+              <span>{data.path || "/"}</span>
+              <span>7H ENGINE</span>
+            </div>
+            <div className="space-y-1">
+              <div className="h-3 bg-purple-500/30 rounded w-3/4" />
+              <div className="h-2 bg-white/20 rounded w-1/2" />
+            </div>
+            <span className="text-[7px] font-mono text-white/40">VISUAL PREVIEW</span>
+          </div>
+        )}
+
         <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${
           isEmail
             ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
-            : isApi
-            ? "bg-emerald-950/90 border-emerald-500/40 text-emerald-300"
             : "bg-black/80 border-white/20 text-cyan-300"
         }`}>
-          {isEmail ? "EMAIL SCREENSHOT" : isApi ? "JSON ENDPOINT" : "REAL SCREENSHOT"}
+          {isEmail ? "EMAIL PREVIEW" : data.path ? data.path : "MODULE"}
         </div>
       </div>
 
       {/* Body Content */}
       <div className="p-3 text-left space-y-1">
         {data.path ? (
-          <Link href={data.path} className="font-bold text-xs text-cyan-300 hover:text-white hover:underline block leading-snug">
+          <Link href={data.path} className="font-bold text-xs text-cyan-300 hover:text-white hover:underline block leading-snug truncate">
             {data.title}
           </Link>
         ) : (
-          <span className={`font-bold text-xs block leading-snug ${
-            isEmail ? "text-amber-200" : isApi ? "text-emerald-200" : "text-cyan-300"
+          <span className={`font-bold text-xs block leading-snug truncate ${
+            isEmail ? "text-amber-200" : "text-cyan-300"
           }`}>
             {data.title}
           </span>
         )}
 
         {data.description && (
-          <p className="text-white/60 text-[11px] leading-snug mt-1">
+          <p className="text-white/60 text-[11px] leading-snug mt-1 line-clamp-2">
             {data.description}
           </p>
         )}
       </div>
 
       <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${
-        isEmail ? "!bg-amber-400" : isApi ? "!bg-emerald-400" : "!bg-cyan-400"
+        isEmail ? "!bg-amber-400" : "!bg-cyan-400"
       } !border-0`} />
     </div>
   );
@@ -169,7 +182,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- FULL DEVELOPER ROUTE DIRECTORY TREE (ALL 8 CATEGORIES FROM DevRouteList.tsx) ---
+// --- FULL DEVELOPER ROUTE DIRECTORY TREE (ALL DISTINCT & ACCURATE SCREENSHOTS) ---
 const INITIAL_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME (Center Top at x = 1520, y = 30)
   {
@@ -258,8 +271,8 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1900, y: 360 },
     data: {
-      header: "Privacy & Terms",
-      title: "Privacy Policy & Terms of Service",
+      header: "Privacy Policy",
+      title: "Privacy Policy — 7th Heaven",
       path: "/privacy",
       imgUrl: "/sitemap-thumbs/privacy.jpg",
       badgeType: "PAGE",
@@ -267,7 +280,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // 🛍️ STORE & MERCH BRANCH (Row 1 continued: x = 2280..3040, y = 360)
+  // 🛍️ STORE & MERCH BRANCH (Row 1 continued: x = 2280..2660, y = 360)
   {
     id: "node-merch",
     type: "sitemapCard",
@@ -330,7 +343,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Cruise 2026",
       title: "Caribbean Rock Cruise 2026",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/cruise.jpg",
+      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
       badgeType: "PAGE",
       description: "2026 Fan Cruise itinerary, cabin options, and reservation signup.",
     },
@@ -384,7 +397,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       header: "Crew HQ",
       title: "Road Crew & Staff Portal",
       path: "/crew",
-      imgUrl: "/sitemap-thumbs/crew.jpg",
+      imgUrl: "/sitemap-thumbs/crew-dashboard.jpg",
       badgeType: "PAGE",
       description: "Tour staff schedule, stage setup checklists, equipment inventory, and shift alerts.",
     },
@@ -400,6 +413,32 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       imgUrl: "/sitemap-thumbs/style-guide.jpg",
       badgeType: "PAGE",
       description: "Component library, button variants, color palette, and fluid typography tokens.",
+    },
+  },
+
+  // 🔐 AUTH MODALS & VERIFICATION MODULES (Row 2 continued: x = 3040..3420, y = 700)
+  {
+    id: "node-login-modal",
+    type: "sitemapCard",
+    position: { x: 3040, y: 700 },
+    data: {
+      header: "Sign In Module",
+      title: "Passwordless Auth Modal",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      badgeType: "MODULE",
+      description: "Passwordless OTP email sign in modal and JWT session authentication.",
+    },
+  },
+  {
+    id: "node-signup-modal",
+    type: "sitemapCard",
+    position: { x: 3420, y: 700 },
+    data: {
+      header: "Sign Up Module",
+      title: "Fan Registration Modal",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      badgeType: "MODULE",
+      description: "Fan registration, username creation, opt-in tracking, and instant signup PIN.",
     },
   },
 
@@ -499,6 +538,8 @@ const INITIAL_EDGES: Edge[] = [
   { id: "e-privacy-admin", source: "node-privacy", target: "node-admin", type: "smoothstep" },
   { id: "e-merch-crew", source: "node-merch", target: "node-crew", type: "smoothstep" },
   { id: "e-payment-style", source: "node-payment-test", target: "node-styleguide", type: "smoothstep" },
+  { id: "e-style-login", source: "node-styleguide", target: "node-login-modal", type: "smoothstep" },
+  { id: "e-style-signup", source: "node-styleguide", target: "node-signup-modal", type: "smoothstep" },
 
   // Row 2 -> Transactional Email Triggers
   { id: "flow-fans-otp", source: "node-fans", target: "email-otp-pin", type: "smoothstep" },
@@ -538,7 +579,7 @@ export default function VisualSitemapClient() {
               7th Heaven Developer Route & Email Directory
             </h1>
             <p className="text-xs text-white/50">
-              Interactive visual sitemap tree mapping all 8 categories from DevRouteList with real 15KB thumbnail screenshots
+              Interactive visual sitemap tree with distinct, high-res real page, modal & email screenshots
             </p>
           </div>
         </div>
