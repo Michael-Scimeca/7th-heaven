@@ -482,7 +482,7 @@ export function Header() {
             </TransitionLink>
           </nav>
 
-          {/* ── LOGO (Dead-centered horizontally & vertically) ── */}
+          {/* ── LOGO (Left-aligned on mobile aligned with site-container; dead-centered on desktop >= 1024px) ── */}
           <TransitionLink
             href="/"
             id="header-logo"
@@ -493,20 +493,20 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer group transition-colors duration-200 flex items-center justify-center m-0 p-0 ${mobileOpen ? "z-[10001]" : "z-50"
+            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-200 m-0 p-0 relative lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 ${mobileOpen ? "z-[10001]" : "z-50"
               } ${isNavActive("/")
                 ? "!text-[#6700ff]"
                 : "text-white hover:!text-[#6700ff]"
               }`}
             title="7th Heaven — Go to Home Page"
           >
-            <div className="w-[150px] sm:w-[180px] lg:w-[220px] h-[36px] sm:h-[40px] flex items-center justify-center">
+            <div className="w-[120px] sm:w-[160px] lg:w-[220px] h-[30px] sm:h-[40px] flex items-center justify-start lg:justify-center">
               <Logo className="w-full h-full text-current drop-shadow-sm transition-colors duration-200" />
             </div>
           </TransitionLink>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <div className={`flex items-center justify-end gap-3 lg:gap-4 lg:flex-1 ml-auto font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
+          <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
 
             {/* Cruise link */}
             <TransitionLink
@@ -744,10 +744,8 @@ export function Header() {
                   transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
                 }}
               >
-              {/* Top bar: logo left, close right — mirrors the main header's
-                  row but doesn't reuse it directly since #header-logo is
-                  absolutely centered for the regular bar, not left-aligned. */}
-              <div className="flex items-center justify-between px-6 sm:px-10 pt-6 pb-2 shrink-0">
+              {/* Top bar: logo left, close right — aligned with site-container padding */}
+              <div className="flex items-center justify-between site-container pt-6 pb-2 shrink-0">
                 <TransitionLink
                   href="/"
                   onClick={() => setMobileOpen(false)}

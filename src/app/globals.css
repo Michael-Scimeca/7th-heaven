@@ -2199,16 +2199,32 @@ html.tour-sort-stuck #tour-sort-bar {
 
 /* ── Header logo responsive positioning & hover ── */
 #header-logo {
-  position: absolute !important;
-  top: calc(50% - -20px) !important;
-  left: calc(50% - -85px) !important;
-  transform: translate(-50%, -50%) !important;
   z-index: 50;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 0 !important;
   transition: color 0.2s ease-in-out;
+}
+
+@media (max-width: 1023px) {
+  #header-logo {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    justify-content: flex-start !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #header-logo {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
 }
 
 #header-logo:hover,
