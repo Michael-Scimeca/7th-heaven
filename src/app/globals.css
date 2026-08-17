@@ -3302,8 +3302,8 @@ textarea,
   --su-rail-padding-desktop: var(--page-padding-x);
 
   --su-rail-offset-mobile: -12px;
-  --su-rail-offset-tablet: 0px;
-  --su-rail-offset-desktop: 0px;
+  --su-rail-offset-tablet: -16px;
+  --su-rail-offset-desktop: -16px;
 
   --su-rail-padding: var(--su-rail-padding-mobile);
   --su-rail-offset: var(--su-rail-offset-mobile);
@@ -3513,6 +3513,7 @@ textarea,
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 15%;
   z-index: 1;
 }
 
@@ -3524,6 +3525,8 @@ textarea,
   width: auto;
   aspect-ratio: 16/9;
   min-width: 100%;
+  object-fit: cover;
+  object-position: center 15%;
   transform: translate(-50%, -50%);
   border: 0;
   z-index: 1;
@@ -3532,12 +3535,16 @@ textarea,
 
 @media (max-width: 720px) {
   .su-thumbs {
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .su-thumb {
-    flex: 1 1 calc(50% - 8px);
-    aspect-ratio: 1/1;
+    flex: 1 1 100%;
+    width: 100%;
+    aspect-ratio: 16/9;
+    height: auto;
+    max-height: 240px;
   }
 
   .su-rail {
