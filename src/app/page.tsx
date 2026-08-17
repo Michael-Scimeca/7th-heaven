@@ -173,7 +173,7 @@ export default async function Home() {
 
       {/* ====== HERO (Full 100vh Viewport Height) ====== */}
       <section
-        className="relative w-full h-[100dvh] min-h-screen p-0 m-0 overflow-hidden morph-pick"
+        className="relative w-full h-[100dvh] max-h-[100dvh] p-0 m-0 overflow-hidden morph-pick"
         data-pick-label="Play Music"
         id="hero"
         style={{
@@ -183,7 +183,7 @@ export default async function Home() {
         }}
       >
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div id="hero-card" className="relative w-full h-full min-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
+        <div id="hero-card" className="relative w-full h-full max-h-[100dvh] overflow-hidden bg-transparent flex flex-col justify-between p-0 m-0 morph-pick" data-pick-label="Play Music">
           <HeroVideoPlayer>
             <HeroLiveThumbs />
           </HeroVideoPlayer>

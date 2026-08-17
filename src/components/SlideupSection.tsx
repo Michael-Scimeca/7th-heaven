@@ -234,7 +234,6 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
                         loading="lazy"
                       />
                     )}
-                    <span>{t.label}</span>
                   </div>
                 ))}
               </div>
