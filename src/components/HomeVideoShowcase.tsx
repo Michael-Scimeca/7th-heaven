@@ -444,6 +444,23 @@ export default function HomeVideoShowcase() {
     setShowBottomCategoryTabs(true);
   };
 
+  const [effectiveCardsVisible, setEffectiveCardsVisible] = useState<number>(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setEffectiveCardsVisible(1.18);
+      } else if (window.innerWidth < 1024) {
+        setEffectiveCardsVisible(2.1);
+      } else {
+        setEffectiveCardsVisible(cardsVisible);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [cardsVisible]);
+
   const gapPx = getGapPx();
 
   return (
@@ -489,7 +506,7 @@ export default function HomeVideoShowcase() {
                 style={{
                   width: smooothyVertical
                     ? "100%"
-                    : `${100 / cardsVisible}%`,
+                    : `${100 / effectiveCardsVisible}%`,
                   paddingLeft: smooothyVertical ? 0 : `${gapPx / 2}px`,
                   paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
                   paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,

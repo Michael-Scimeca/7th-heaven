@@ -1185,7 +1185,7 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] z-[900] md:mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 mdpy-3.5 w-full ${isSortBarStuck ? 'is-stuck  py-3 ' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] z-[900] sm:pt-4 sm:pb-4 md:mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 mdpy-3.5 w-full ${isSortBarStuck ? 'is-stuck  py-3 ' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
             <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative order-2 lg:order-none flex-1 min-w-0">
               <GooeyMessagesDropdown
@@ -1410,14 +1410,14 @@ ${filterLine}
 
                   {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 p-4 my-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-purple-500/30 transition-all text-sm text-[var(--color-text-secondary)] ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "border-purple-500/40 bg-purple-500/5" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3.5 pt-4 pb-4 my-2 text-sm text-[var(--color-text-secondary)] ${isHighlighted ? " animate-pulse" : isUpNext ? "" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
                     {/* Header Row: Date Badge & Time */}
-                    <div className="flex items-center justify-between gap-2 pb-1 border-b border-white/5">
+                    <div className="flex items-center justify-between gap-2 ">
                       <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-md bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black tracking-wider uppercase whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg bg-purple-600/20 border border-purple-500/30 text-purple-300 text-xs font-black tracking-wider uppercase whitespace-nowrap">
                           {show.day} • {show.date}
                         </span>
                       </div>
@@ -1425,17 +1425,17 @@ ${filterLine}
                         {(show.doorsTime || show.time || show.playTime) && (
                           <div className="flex items-center gap-1.5 flex-wrap justify-end">
                             {show.doorsTime && (
-                              <span className="text-white/60 text-[11px] font-medium px-2 py-0.5 bg-white/5 border border-white/10 rounded whitespace-nowrap">
+                              <span className="text-white/60 text-[11px] font-medium px-2 py-0.5 bg-white/5 border border-white/10 rounded0lg whitespace-nowrap">
                                 Doors: {show.doorsTime}
                               </span>
                             )}
                             {show.playTime && (
-                              <span className="text-purple-300 text-[11px] font-extrabold px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded whitespace-nowrap">
+                              <span className="text-purple-300 text-[11px] font-extrabold px-2 py-0.5 bg-purple-500/15 border border-purple-500/25 rounded-lg whitespace-nowrap">
                                 Show: {show.playTime}
                               </span>
                             )}
                             {show.time && !show.playTime && (
-                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border border-white/15 rounded whitespace-nowrap">
+                              <span className="text-white/90 text-xs font-bold px-2 py-0.5 bg-white/10 border border-white/15 rounded-lg whitespace-nowrap">
                                 {show.time}
                               </span>
                             )}
@@ -1453,8 +1453,8 @@ ${filterLine}
                     <div className="pt-0.5">
                       <h4 className="text-2xl font-black text-white leading-tight uppercase tracking-tight italic" style={{ fontFamily: "var(--font-barlow-condensed)" }}>{show.venue}</h4>
                       {(show.city || show.state) && (
-                        <p className="text-sm text-white/70 flex items-center gap-1.5 mt-1 font-semibold">
-                          <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                        <p className="text-base text-white/80 flex items-center gap-1.5 mt-1 font-semibold">
+                          <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
                           {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state}
                         </p>
                       )}
@@ -1462,24 +1462,20 @@ ${filterLine}
 
                     {/* Tags Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-xs">{getShowIcon(show)}</span>
-                        {show.info && <span className="text-xs text-white/50 italic">{show.info}</span>}
+                      <div className="flex items-center gap-2 flex-wrap text-sm sm:text-base font-bold">
+                        <span className="text-sm">{getShowIcon(show)}</span>
+                        {show.info && <span className="text-sm sm:text-base text-white/70 italic font-medium">{show.info}</span>}
                         {(show.allAges === true || (show.info && (show.info.toLowerCase().includes("all age") || show.info.toLowerCase().includes("all-age"))) || (show.tags && (show.tags.includes("all ages") || show.tags.includes("all-ages")))) && (
-                          <span className="px-2 py-0.5 text-[0.65rem] font-extrabold bg-green-500/15 text-green-400 border border-green-500/25 rounded-md uppercase">All Ages</span>
+                          <span className="text-xs sm:text-sm font-black text-purple-300 uppercase">All Ages</span>
                         )}
                         {(show.allAges === false || (show.info && (show.info.toLowerCase().includes("21 &") || show.info.toLowerCase().includes("21+"))) || (show.tags && show.tags.includes("21+"))) && (
-                          <span className="px-2 py-0.5 text-[0.65rem] font-extrabold bg-red-500/15 text-red-400 border border-red-500/25 rounded-md uppercase">21+</span>
+                          <span className="text-xs sm:text-sm font-black text-red-400 uppercase">21+</span>
                         )}
                         {getShowTags(show).map(tag => {
                           if (tag === "All Ages" || tag === "21+") return null;
-                          let tagColors = "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border-[var(--color-accent)]/20";
-                          if (tag === "Unplugged") tagColors = "bg-purple-600/15 text-purple-300 border-purple-500/30";
-                          else if (tag === "Outdoor") tagColors = "bg-sky-500/15 text-sky-400 border-sky-500/30";
-                          else if (tag === "Special Event") tagColors = "bg-[var(--color-accent)]/15 text-[var(--color-accent)] border-[var(--color-accent)]/30";
-                          else if (tag === "Casino") tagColors = "bg-yellow-500/15 text-yellow-400 border-yellow-500/30";
+                          let tagColors = "text-[var(--color-accent)]";
                           return (
-                            <span key={tag} className={`px-2 py-0.5 text-[0.65rem] font-extrabold border rounded-md uppercase ${tagColors}`}>{tag}</span>
+                            <span key={tag} className={`text-xs sm:text-sm font-black uppercase ${tagColors}`}>{tag}</span>
                           );
                         })}
                       </div>
@@ -1487,7 +1483,7 @@ ${filterLine}
 
                     {/* Action Buttons Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/5">
+                      <div className="flex items-center gap-2">
                         {/* Map Directions */}
                         {(() => {
                           const hasExplicitMap = Boolean(show.mapUrl || show.directionsLink);
