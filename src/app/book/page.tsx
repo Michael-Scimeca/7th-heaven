@@ -219,7 +219,7 @@ const RadioPillField = ({ label, name, options, value, onChange, required }: { l
           onClick={() => onChange({ target: { name, value: o } } as any)}
           className={`py-2 px-4 text-lg font-bold tracking-wide transition-colors border rounded-xl
             ${value === o
-              ? "bg-cyan-600/80 backdrop-blur-md text-white border-cyan-400 shadow-md shadow-cyan-600/30 font-black"
+              ? "bg-purple-600/80 backdrop-blur-md text-white border-purple-400 shadow-md shadow-purple-600/30 font-black"
               : "bg-white/5 backdrop-blur-md border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20 hover:text-white"
             }
           `}

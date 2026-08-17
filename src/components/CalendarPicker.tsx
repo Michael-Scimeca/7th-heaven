@@ -225,8 +225,8 @@ export function CalendarPicker({
                     ${isBlocked
                       ? "bg-rose-500/20 border border-rose-500/30 text-rose-400 line-through"
                       : isSelected
-                        ? "bg-cyan-600 text-white font-black shadow-lg shadow-cyan-600/40 scale-105"
-                        : "bg-white/5 border border-white/10 hover:border-cyan-400/60 hover:bg-white/10 text-white"}
+                        ? "bg-purple-600 border-2 border-purple-400 text-white font-black shadow-lg shadow-purple-600/40 scale-105"
+                        : "bg-white/5 border border-white/10 hover:border-purple-400/60 hover:bg-white/10 text-white"}
                   `}
                 >
                   {date.getDate()}
