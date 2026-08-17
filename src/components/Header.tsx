@@ -452,7 +452,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${mobileOpen ? "z-[9999]" : "z-[1000]"} transition-colors duration-300 pointer-events-none  ${scrolled
+      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none  ${scrolled
         ? "bg-[var(--surface-overlay)] backdrop-blur-xl  text-[var(--text-color)]"
         : "bg-transparent text-white"
         }`}
@@ -516,8 +516,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-200 m-0 p-0 relative lg:relative lg:mx-auto ${mobileOpen ? "z-[10001]" : "z-50"
-              } ${isNavActive("/")
+            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:relative lg:mx-auto z-50 ${isNavActive("/")
                 ? "!text-[#6700ff]"
                 : "text-white hover:!text-[#6700ff]"
               }`}
@@ -767,28 +766,7 @@ export function Header() {
                   transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
                 }}
               >
-                {/* Top bar: logo left, close right — aligned with site-container padding */}
-                <div className="flex items-center justify-between site-container pt-6 pb-2 shrink-0">
-                  <TransitionLink
-                    href="/"
-                    onClick={() => setMobileOpen(false)}
-                    className="text-white/90 hover:text-white transition-colors"
-                    title="7th Heaven — Go to Home Page"
-                  >
-                    <Logo className="h-6 sm:h-7 w-auto" />
-                  </TransitionLink>
-                  <button
-                    aria-label="Close menu"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 text-white/70 hover:text-white transition-colors cursor-pointer"
-                  >
-                    <span className="text-xs font-bold uppercase tracking-[0.2em]">Close</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                      <line x1="4" y1="4" x2="20" y2="20" />
-                      <line x1="20" y1="4" x2="4" y2="20" />
-                    </svg>
-                  </button>
-                </div>
+                <div className="pt-[80px]" />
 
                 {/* Main: portrait media panel + stacked links, side by side
                   from sm up; panel drops out on phones so links get full
@@ -809,7 +787,7 @@ export function Header() {
                     </div>
                   </div>
 
-                  <nav className="flex flex-col gap-1.5 font-[family-name:var(--font-rockstar)]">
+                  <nav className="flex flex-col gap-1.5 font-[family-name:var(--font-barlow-condensed)]">
                     {[
                       { href: "/#band", label: "BAND" },
                       { href: "/#tour", label: "SHOWS" },
