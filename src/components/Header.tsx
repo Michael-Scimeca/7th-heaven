@@ -773,22 +773,20 @@ export function Header() {
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
               <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
-                <div className="hidden sm:block w-[180px] md:w-[220px] shrink-0 aspect-[4/5] overflow-hidden bg-white/5">
-                  {/* "Photo" panel reuses the hero video rather than a new
-                      static asset — no autoplay/loop, so it just settles on
-                      whatever frame currentTime lands on (nudged past the
-                      first instant so it isn't a black opening frame) and
-                      sits still, reading as a poster image, not a video. */}
+                <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-2xl border border-purple-500/40 shadow-2xl relative bg-black/80 group">
                   <video
                     src="/movie/be-here-clip.mp4"
+                    autoPlay
+                    loop
                     muted
                     playsInline
-                    preload="metadata"
                     className="w-full h-full object-cover"
-                    onLoadedMetadata={(e) => {
-                      try { e.currentTarget.currentTime = 1.5; } catch { /* noop */ }
-                    }}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-purple-300">
+                    <span>7H LIVE STAGE</span>
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                  </div>
                 </div>
 
                 <nav className="flex flex-col gap-1 font-[family-name:var(--font-rockstar)]">
