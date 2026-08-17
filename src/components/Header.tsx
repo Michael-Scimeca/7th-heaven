@@ -516,9 +516,9 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:relative lg:mx-auto z-50 ${isNavActive("/")
+            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:relative lg:mx-auto z-50 ${effectivePathname === "/"
                 ? "!text-[#6700ff]"
-                : "text-white hover:!text-[#6700ff]"
+                : "!text-white hover:!text-white/80"
               }`}
             title="7th Heaven — Go to Home Page"
           >
