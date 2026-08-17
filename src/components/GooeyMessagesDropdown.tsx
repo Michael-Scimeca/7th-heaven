@@ -77,6 +77,7 @@ export interface GooeyMessagesDropdownProps {
   /** Called when the user picks a customer from the list. */
   onSelect?: (customer: GooeyCustomer) => void;
   className?: string;
+  triggerTextClassName?: string;
   /** Background class when open/active. Defaults to "bg-[#2f2f3c]". */
   activeBg?: string;
   /** Background class when closed/default. Defaults to "bg-[#2f2f3c]". */
@@ -121,6 +122,7 @@ export default function GooeyMessagesDropdown({
   defaultSelectedId,
   onSelect,
   className = "",
+  triggerTextClassName = "",
   activeBg = "bg-[#2f2f3c]",
   defaultBg = "bg-[#2f2f3c]",
   fullWidth = false,
@@ -370,7 +372,7 @@ export default function GooeyMessagesDropdown({
         aria-expanded={open}
         aria-label={triggerText}
       >
-        <span className={`text-xs font-black uppercase tracking-wider text-white truncate ${fullWidth ? "text-left flex-1" : "text-center whitespace-nowrap"}`}>
+        <span className={`text-xs font-black uppercase tracking-wider text-white truncate ${fullWidth ? "text-left flex-1" : "text-center whitespace-nowrap"} ${triggerTextClassName}`}>
           {triggerText}
         </span>
         <svg

@@ -1186,13 +1186,14 @@ ${filterLine}
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
           <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] z-[900] mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck  py-3 ' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
-            <span className="hidden lg:inline-block text-[clamp(12px,1.1vw,17px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative flex-1 min-w-[120px] lg:min-w-0">
               <GooeyMessagesDropdown
                 placeholder="MONTH"
                 defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
                 customers={months.map((m) => ({ id: m, name: m }))}
                 onSelect={(opt) => setActiveMonth(opt.id)}
+                triggerTextClassName="!text-[clamp(14px,1.2vw,18px)]"
               />
             </div>
             <div className="input-glow-border rounded-xl w-full flex-1 min-w-[160px] lg:w-full">
@@ -1200,7 +1201,7 @@ ${filterLine}
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[clamp(13px,1.2vw,17px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[clamp(16px,1.3vw,21px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
@@ -1210,12 +1211,13 @@ ${filterLine}
                 defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
                 customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
                 onSelect={(opt) => setActiveCity(opt.id)}
+                triggerTextClassName="!text-[clamp(14px,1.2vw,18px)]"
               />
             </div>
-            <span className="hidden lg:inline-block text-[clamp(12px,1.1vw,18px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-            <span className="hidden lg:inline-block text-[clamp(12px,1.1vw,18px)] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-            <span className="hidden lg:inline-block text-[clamp(12px,1.1vw,18px)] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+            <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
             {member?.role === 'admin' && (
               <div className="hidden lg:block text-right" />
             )}
