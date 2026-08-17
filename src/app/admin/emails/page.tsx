@@ -129,7 +129,7 @@ export default function EmailPreviewPage() {
                 <button aria-label="Action button"
                   onClick={handleSendTest}
                   disabled={sending}
-                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-md transition-colors cursor-pointer"
+                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5  rounded-lg  transition-colors cursor-pointer"
                 >
                   {sending ? "Sending..." : "Send Test"}
                 </button>

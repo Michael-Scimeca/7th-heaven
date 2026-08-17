@@ -1055,7 +1055,7 @@ function BookPageContent() {
           {/* Your Scheduled Shows (Full Width Grid) */}
           <div className="bg-[var(--color-section-bg)] relative">
             {bookingSlots.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-white/15 bg-white/[0.02] rounded-2xl">
+              <div className="text-center p-6 rounded-lg border-2 border-dashed border-white/15 bg-white/[0.02] rounded-2xl">
                 <span className="text-4xl block mb-4">📅</span>
                 <h4 className="text-lg font-bold text-white uppercase tracking-wider mb-2">No Dates Selected Yet</h4>
                 <p className="text-white/60 text-base max-w-md mx-auto">

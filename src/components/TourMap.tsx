@@ -797,11 +797,10 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                 <button
                   type="button"
                   onClick={() => setIsDateUiOpen(true)}
-                  className={`flex items-center gap-2.5 px-6 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${
-                    isDateFiltered
+                  className={`flex items-center gap-2.5 px-6 py-2.5 bg-[rgba(8,8,18,0.92)] backdrop-blur-md border rounded-lg text-[15px] font-bold uppercase tracking-wider text-white/90 transition-all cursor-pointer shadow-lg ${isDateFiltered
                       ? "border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.4)] bg-purple-950/80"
                       : "border-white/10 hover:border-purple-400/50 hover:text-purple-300"
-                  }`}
+                    }`}
                   title="Zoom in on dates & filter show markers"
                 >
                   <span className="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse" />
@@ -843,7 +842,7 @@ export default function TourMap({ shows, nextShowVenue, nextShowCity, onPinClick
                       <span className="text-white/40">→</span>
                       <span>{formatDateLabel(activeEnd)}</span>
                     </div>
-                    <span className="text-[10px] font-black text-purple-300 bg-purple-600/40 px-2 py-0.5 rounded-md border border-purple-400/30">
+                    <span className="text-[10px] font-black text-purple-300 bg-purple-600/40 px-2 py-0.5  rounded-lg  border border-purple-400/30">
                       {markerCount} Shows
                     </span>
                   </div>

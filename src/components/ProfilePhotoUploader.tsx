@@ -134,7 +134,7 @@ export default function ProfilePhotoUploader({ compact = false }: { compact?: bo
         <button aria-label="Action button"
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-wider rounded-md transition-colors cursor-pointer disabled:opacity-50"
+          className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 text-white font-bold text-xs uppercase tracking-wider  rounded-lg  transition-colors cursor-pointer disabled:opacity-50"
         >
           {isUploading ? "Uploading..." : isAvatarUrl ? "Change" : "Upload"}
         </button>

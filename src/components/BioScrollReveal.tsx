@@ -109,11 +109,10 @@ export default function BioScrollReveal({
                 </div>
 
                 <h3
-                  className={`text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tight transition-all duration-300 ${
-                    isActive
+                  className={`text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tight transition-all duration-300 ${isActive
                       ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
                       : "text-white/30 group-hover:text-white/70"
-                  }`}
+                    }`}
                   style={{ fontFamily: "var(--font-barlow-condensed)" }}
                 >
                   {member.name}
@@ -121,9 +120,8 @@ export default function BioScrollReveal({
 
                 {member.description && (
                   <p
-                    className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${
-                      isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
-                    }`}
+                    className={`mt-3 text-sm leading-relaxed max-w-lg transition-opacity duration-300 ${isActive ? "text-white/80 opacity-100" : "text-white/30 opacity-40"
+                      }`}
                   >
                     {member.description}
                   </p>
@@ -133,9 +131,8 @@ export default function BioScrollReveal({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`inline-flex items-center gap-2 mt-4 text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] hover:underline transition-opacity ${
-                      isActive ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
+                    className={`inline-flex items-center gap-2 mt-4 text-xs font-bold uppercase tracking-widest text-[var(--color-accent)] hover:underline transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"
+                      }`}
                   >
                     <span>View Full Bio</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -156,11 +153,10 @@ export default function BioScrollReveal({
               return (
                 <div
                   key={member.id}
-                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${
-                    isActive
+                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive
                       ? "opacity-100 scale-100 pointer-events-auto"
                       : "opacity-0 scale-105 pointer-events-none"
-                  }`}
+                    }`}
                 >
                   <Image
                     src={member.imageUrl}
@@ -172,10 +168,10 @@ export default function BioScrollReveal({
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
-                  
+
                   {/* Portrait Caption Overlay */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/10">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--color-accent)] bg-black/60 backdrop-blur-md px-2.5 py-1  rounded-lg  border border-white/10">
                       {member.role}
                     </span>
                     <h4 className="text-xl font-black uppercase tracking-tight text-white mt-2 drop-shadow-md">

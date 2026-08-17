@@ -118,7 +118,7 @@ export default function NorthCheckoutPage() {
             <div className="mb-6 space-y-2">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3 text-xs">
-                  <div className="relative w-9 h-9 shrink-0 rounded-md overflow-hidden bg-black/40">
+                  <div className="relative w-9 h-9 shrink-0  rounded-lg  overflow-hidden bg-black/40">
                     <Image src={item.imageUrl} alt={item.title} fill sizes="36px" unoptimized className="object-cover" />
                   </div>
                   <span className="text-white/70 flex-1 truncate">

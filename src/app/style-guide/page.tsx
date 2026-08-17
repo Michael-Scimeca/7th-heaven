@@ -3131,7 +3131,7 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="w-5 h-5 rounded-md border border-white/20 bg-transparent cursor-pointer"
+                    className="w-5 h-5  rounded-lg  border border-white/20 bg-transparent cursor-pointer"
                     title="Custom Color Picker"
                   />
                   <span className="text-[9px] font-mono text-white/60 uppercase truncate max-w-[80px]">
@@ -3843,7 +3843,7 @@ ${deskRules.join("\n")}
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="w-6 h-6 rounded-md border border-white/20 bg-transparent cursor-pointer ml-auto"
+                    className="w-6 h-6  rounded-lg  border border-white/20 bg-transparent cursor-pointer ml-auto"
                     title="Custom Hex Picker"
                   />
                 </div>

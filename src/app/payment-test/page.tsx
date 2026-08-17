@@ -52,11 +52,10 @@ function ProductCard({
                 key={variant.id}
                 type="button"
                 onClick={() => setUserSelectedVariantId(variant.id)}
-                className={`px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${
-                  selectedVariant.id === variant.id
+                className={`px-3 py-1.5  rounded-lg  text-xs font-bold transition-colors ${selectedVariant.id === variant.id
                     ? "bg-[var(--color-accent)] text-white"
                     : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
-                }`}
+                  }`}
               >
                 {variant.label}
               </button>
@@ -210,11 +209,10 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors shrink-0 ${
-                  activeCategory === cat
+                className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-colors shrink-0 ${activeCategory === cat
                     ? "bg-cyan-500 text-black"
                     : "bg-white/5 border border-white/10 text-white/60 hover:text-white"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -276,7 +274,7 @@ export default function PaymentTestShopPage() {
                       <button
                         type="button"
                         onClick={() => cart.removeOneItemFromCart(item.id)}
-                        className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 rounded-md text-white/70 hover:text-white text-sm font-bold"
+                        className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10  rounded-lg  text-white/70 hover:text-white text-sm font-bold"
                       >
                         −
                       </button>
@@ -295,7 +293,7 @@ export default function PaymentTestShopPage() {
                             unitPrice: item.unitPrice,
                           })
                         }
-                        className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10 rounded-md text-white/70 hover:text-white text-sm font-bold"
+                        className="w-7 h-7 flex items-center justify-center bg-white/5 border border-white/10  rounded-lg  text-white/70 hover:text-white text-sm font-bold"
                       >
                         +
                       </button>

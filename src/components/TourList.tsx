@@ -1177,7 +1177,7 @@ ${filterLine}
               {hasActiveFilters && (
                 <button aria-label="Action button"
                   onClick={clearAll}
-                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)] rounded-md px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]"
+                  className="text-[0.6rem] font-bold uppercase tracking-wider  text-[var(--color-accent)] hover:text-white border border-[rgba(255,10,61,0.3)] hover:border-[rgba(255,10,61,0.6)]  rounded-lg  px-2.5 py-1 transition-colors duration-200 cursor-pointer whitespace-nowrap]"
                 >Clear</button>
               )}
             </div>
@@ -1275,7 +1275,7 @@ ${filterLine}
                               onClick={() => handleToggleNotification(show)}
                               disabled={subscribingId === show._id}
                               title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                              className={`w-6 h-6 flex items-center justify-center rounded-md transition-colors duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id)
+                              className={`w-6 h-6 flex items-center justify-center  rounded-lg  transition-colors duration-300 shadow-xs cursor-pointer border shrink-0 ${subscribedShowIdsSet.has(show._id)
                                 ? "bg-[var(--color-accent)] border-[var(--color-accent)]  text-[var(--color-accent)] hover:bg-[var(--color-accent)]"
                                 : "bg-gray-100 border-black/15 text-black hover:bg-gray-200"
                                 }`}
@@ -1499,7 +1499,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={hasExplicitMap ? "Get Directions" : "Search Directions"}
-                              className="w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
+                              className="w-9 h-9 flex items-center justify-center  rounded-lg  bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
                             >
                               <MapPin className="w-4 h-4 text-white" />
                             </a>
@@ -1520,7 +1520,7 @@ ${filterLine}
                                   ? (show.parkingInfo ? `Parking: ${show.parkingInfo}` : "Parking Directions")
                                   : "Search Parking"
                               }
-                              className="w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
+                              className="w-9 h-9 flex items-center justify-center  rounded-lg  bg-purple-600/40 border border-purple-400/40 text-white transition-all shrink-0 opacity-100 hover:bg-purple-600/80"
                             >
                               <Car className="w-4 h-4 text-white" />
                             </a>
@@ -1532,7 +1532,7 @@ ${filterLine}
                             onClick={() => handleToggleNotification(show)}
                             disabled={subscribingId === show._id}
                             title={subscribedShowIdsSet.has(show._id) ? "Mute notifications for this show" : "Notify me about this show"}
-                            className={`w-9 h-9 flex items-center justify-center rounded-md transition-all duration-300 cursor-pointer border shrink-0 bg-purple-600/40 border-purple-400/40 text-white hover:bg-purple-600/80`}
+                            className={`w-9 h-9 flex items-center justify-center  rounded-lg  transition-all duration-300 cursor-pointer border shrink-0 bg-purple-600/40 border-purple-400/40 text-white hover:bg-purple-600/80`}
                           >
                             {subscribingId === show._id ? (
                               <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -1545,7 +1545,7 @@ ${filterLine}
                         {/* Calendar Add */}
                         {!isPrivate && (
                           <div className="relative calendar-dropdown-container shrink-0">
-                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center rounded-md bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
+                            <button aria-label="Action button" onClick={() => setActiveCalDropdownId(activeCalDropdownId === `${rowId}-mobile` ? null : `${rowId}-mobile`)} title="Add to Calendar" className="w-9 h-9 flex items-center justify-center  rounded-lg  bg-purple-600/40 border border-purple-400/40 text-white hover:bg-purple-600/80 transition-all duration-300 cursor-pointer">
                               <CalendarDays className="w-4 h-4 text-white" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
@@ -1580,7 +1580,7 @@ ${filterLine}
                               target="_blank"
                               rel="noopener noreferrer"
                               title={show.notes ? `Parking & Directions:\n${show.notes}` : 'Get Directions & Parking'}
-                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-colors rounded-md text-center"
+                              className="flex-1 flex items-center justify-center gap-1.5 whitespace-nowrap text-xs font-bold uppercase tracking-wider h-9 bg-[rgba(255,255,255,0.06)] border border-white/10 text-white/80 hover:text-white hover:bg-[rgba(255,255,255,0.12)] hover:border-white/20 transition-colors  rounded-lg  text-center"
                             >
                               <MapPin className="w-3.5 h-3.5 shrink-0" />
                               Directions{show.notes ? ' & Parking' : ''}

@@ -192,7 +192,7 @@ const SidebarDateButton = React.memo(({
       type="button"
       onClick={() => show.date && onClick(show.date)}
       className={`w-full text-left px-2 py-1.5 flex items-center gap-2 cursor-pointer transition-colors duration-150 group ${isSelected
-        ? 'bg-purple-500/15 ring-1 ring-amber-500/30 rounded-md border-b-transparent'
+        ? 'bg-purple-500/15 ring-1 ring-amber-500/30  rounded-lg  border-b-transparent'
         : isActiveWeek
           ? 'bg-white/[0.04]'
           : 'bg-transparent'
@@ -3301,7 +3301,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setBannerExpiresAt(expiry);
                             await updateGlobalBanner({ expiresAt: expiry });
                           }}
-                          className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
+                          className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${isSelected
                             ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white shadow-[0_0_10px_rgba(255,10,61,0.2)]'
                             : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
                             }`}
@@ -3314,7 +3314,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                         setBannerExpiresAt(null);
                         await updateGlobalBanner({ expiresAt: null });
                       }}
-                      className={`px-3 py-1.5 rounded-md text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
+                      className={`px-3 py-1.5  rounded-lg  text-[0.55rem] font-bold uppercase tracking-wider transition-colors cursor-pointer border ${!bannerExpiresAt ? 'border-purple-500/50 bg-purple-500/15 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.15)]' : 'border-transparent bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/70'
                         }`}
                     >Off</button>
                   </div>
@@ -3493,19 +3493,19 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                 </div>
 
                 <div className="space-y-2 text-xs">
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
                     <span> Mobile Safari (iPhone)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">52.4%</span>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
                     <span> Chrome Mobile (Android)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">28.1%</span>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
                     <span> Chrome Desktop</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">13.8%</span>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)] rounded-md font-semibold text-[var(--text-color)]">
+                  <div className="flex items-center justify-between p-2 bg-black/30 border border-[var(--border-color)]  rounded-lg  font-semibold text-[var(--text-color)]">
                     <span> Safari Desktop (Mac)</span>
                     <span className="font-mono font-bold text-[var(--text-color)]">5.7%</span>
                   </div>
@@ -6398,7 +6398,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
 
                               {/* Role badge */}
                               <div className="flex items-center gap-1.5 shrink-0">
-                                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1 rounded-md leading-none shrink-0">
+                                <span className="inline-block text-[9px] font-black uppercase tracking-wider text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-1  rounded-lg  leading-none shrink-0">
                                   {r.role}
                                 </span>
                               </div>
@@ -7702,24 +7702,24 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       </div>
                       {/* Checked off */}
                       <div className="flex justify-center">
-                        <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        <button aria-label="Toggle checked off" onClick={() => toggleFlag(s.id, 'checked_off', !s.checkedOff)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.checkedOff ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
                           {s.checkedOff && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                         </button>
                       </div>
                       {/* Deposit paid */}
                       <div className="flex justify-center">
-                        <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        <button aria-label="Toggle deposit paid" onClick={() => toggleFlag(s.id, 'deposit_paid', !s.depositPaid)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.depositPaid ? 'bg-emerald-500/20 border-emerald-500/40 text-[var(--color-accent)]' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
                           {s.depositPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                         </button>
                       </div>
                       {/* Full paid */}
                       <div className="flex justify-center">
-                        <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
+                        <button aria-label="Toggle full paid" onClick={() => toggleFlag(s.id, 'full_paid', !s.fullPaid)} className={`w-6 h-6  rounded-lg  border flex items-center justify-center transition-colors cursor-pointer ${s.fullPaid ? 'bg-purple-500/20 border-purple-500/40 text-purple-300' : 'bg-black/20 border-white/10 text-white/10 hover:border-white/20'}`}>
                           {s.fullPaid && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}
                         </button>
                       </div>
                       {/* Delete */}
-                      <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6 rounded-md border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
+                      <button aria-label={`Delete signup ${s.name || ''}`} onClick={() => deleteSignup(s.id, s.name)} className="w-6 h-6  rounded-lg  border border-transparent hover:border-rose-500/30 flex items-center justify-center text-white/10 hover:text-rose-400 transition-colors opacity-0 group-hover/row:opacity-100 cursor-pointer">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
                       </button>
                     </div>
@@ -8379,7 +8379,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               e.stopPropagation();
               handleEditShiftClick(shift);
             }}
-            className="wiw-card select-none cursor-pointer rounded-md bg-[#252530] border border-white/10 py-3 px-3 flex items-center justify-center text-center w-full min-h-[60px]"
+            className="wiw-card select-none cursor-pointer  rounded-lg  bg-[#252530] border border-white/10 py-3 px-3 flex items-center justify-center text-center w-full min-h-[60px]"
           >
             <span className="text-[var(--font-size-3xs)] font-extrabold text-white/40 uppercase tracking-wider">
               Time Off All Day
@@ -8421,7 +8421,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
             backgroundColor: roleStyle.bg,
             opacity: isBeingDragged ? 0.3 : 1
           }}
-          className={`wiw-card group relative select-none rounded-md p-1.5 flex flex-col justify-between shadow-sm text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
+          className={`wiw-card group relative select-none  rounded-lg  p-1.5 flex flex-col justify-between shadow-sm text-white ${showCrewName ? 'min-h-[100px]' : 'min-h-[48px]'
             } ${shift.isDraft ? 'wiw-striped' : ''
             } ${activeLockingEditor ? 'ring-2 ring-pink-500/80 shadow-[0_0_12px_rgba(236,72,153,0.5)] animate-pulse' : ''
             }`}
@@ -9269,7 +9269,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             left: '4px',
                             right: '4px',
                           }}
-                          className={`wiw-card text-white p-1 rounded-md text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer shadow-sm ${shift.isDraft ? 'wiw-striped' : ''
+                          className={`wiw-card text-white p-1  rounded-lg  text-[var(--font-size-4xs)] font-bold overflow-hidden cursor-pointer shadow-sm ${shift.isDraft ? 'wiw-striped' : ''
                             }`}
                         >
                           <div className="truncate">{shift.crewName}</div>
@@ -10768,7 +10768,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                       <button
                         type="button"
                         onClick={addScheduleItem}
-                        className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider rounded-md shadow-sm transition-colors cursor-pointer border-none"
+                        className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-[11px] uppercase tracking-wider  rounded-lg  shadow-sm transition-colors cursor-pointer border-none"
                       >
                         {editingShiftId ? 'Save Changes' : 'Confirm Schedule'}
                       </button>
@@ -10782,7 +10782,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
                             setDraggedCrewMemberId(null);
                             setEditingShiftId(null);
                           }}
-                          className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider rounded-md transition-colors cursor-pointer"
+                          className="w-full py-1.5 bg-red-600/20 hover:bg-red-600 border border-red-500/30 text-red-200 hover:text-white font-extrabold text-[10.5px] uppercase tracking-wider  rounded-lg  transition-colors cursor-pointer"
                         >
                           Delete Shift
                         </button>
@@ -12792,14 +12792,14 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
               <button
                 type="button"
                 onClick={() => setSidebarMode('jump')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'jump' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
               >
                 Navigate
               </button>
               <button
                 type="button"
                 onClick={() => setSidebarMode('organize')}
-                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider rounded-md text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 py-1 text-[var(--font-size-3xs)] font-bold uppercase tracking-wider  rounded-lg  text-center transition-colors border-none bg-transparent cursor-pointer ${sidebarMode === 'organize' ? 'bg-white/10 text-white shadow-sm font-black' : 'text-white/40 hover:text-white'}`}
               >
                 Arrange
               </button>

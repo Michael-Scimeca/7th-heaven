@@ -4156,11 +4156,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       {userAvail ? (
                                         <div className="flex items-center gap-1.5">
                                           {userAvail.type === 'available' ? (
-                                            <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)] rounded-md text-[9px] font-black uppercase tracking-wider leading-none">
+                                            <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/25 text-[var(--color-accent)]  rounded-lg  text-[9px] font-black uppercase tracking-wider leading-none">
                                               🟢 Available
                                             </span>
                                           ) : (
-                                            <span className="px-1.5 py-0.5 bg-purple-600/10 border border-purple-500/25 text-purple-300 rounded-md text-[9px] font-black uppercase tracking-wider leading-none">
+                                            <span className="px-1.5 py-0.5 bg-purple-600/10 border border-purple-500/25 text-purple-300  rounded-lg  text-[9px] font-black uppercase tracking-wider leading-none">
                                               🔴 Unavailable
                                             </span>
                                           )}

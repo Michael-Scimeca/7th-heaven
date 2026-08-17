@@ -291,22 +291,22 @@ export default function PastShowsClient({ years, totalShowsCount }: PastShowsCli
                           {/* Badges */}
                           <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-600 rounded-md border border-rose-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-600  rounded-lg  border border-rose-500/30">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-purple-600/20  text-[var(--color-accent)] rounded-md border border-purple-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-purple-600/20  text-[var(--color-accent)]  rounded-lg  border border-purple-500/30">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-[var(--color-accent)]/20  text-[var(--color-accent)] rounded-md border border-[var(--color-accent)]/30">
+                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-[var(--color-accent)]/20  text-[var(--color-accent)]  rounded-lg  border border-[var(--color-accent)]/30">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-sky-500/20 text-sky-600 rounded-md border border-sky-500/30">
+                              <span className="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-sky-500/20 text-sky-600  rounded-lg  border border-sky-500/30">
                                 Special Tour
                               </span>
                             )}

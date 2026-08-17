@@ -399,7 +399,7 @@ export default function AudioPlayerSection() {
                     window.dispatchEvent(new CustomEvent("7h-album-change", { detail: { albumId: album.id } }));
                   }
                 }}
-                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1 rounded-md ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0' : 'hover:bg-white/10'}`}
+                className={`w-full flex items-center justify-between text-left group transition-colors gap-2.5 overflow-hidden py-1  rounded-lg  ${originalIdx === activeAlbumIndex ? 'bg-[var(--color-accent)]/15 border-0' : 'hover:bg-white/10'}`}
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-1">
                   {album.image && (
