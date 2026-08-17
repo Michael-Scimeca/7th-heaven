@@ -931,14 +931,14 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                       >
                         <div>
                           {room.image && (
-                            <div className="relative h-44 w-full overflow-hidden text-center">
+                            <div className="relative rounded-lg h-44 w-full overflow-hidden text-center">
                               <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
                             </div>
                           )}
                           <div className="px-0 py-5">
                             <div className="flex justify-between items-start gap-2 mb-3 text-left">
                               {room.icon && <span className="text-xl">{room.icon}</span>}
-                              <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2.5 py-1 rounded tracking-wider border-0 ${room.status === "soldout" ? "bg-red-500/20 text-red-300" :
+                              <span className={`text-[var(--font-size-3xs)] font-black uppercase px-2.5 py-1 rounded-lg tracking-wider border-0 ${room.status === "soldout" ? "bg-red-500/20 text-red-300" :
                                 room.status === "warning" ? "bg-purple-500/20 text-purple-300" :
                                   "bg-purple-500/20 text-purple-300"
                                 }`}>{room.badge}</span>
@@ -996,7 +996,7 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                           <button
                             key={room.code || room.selectValue}
                             onClick={() => handleSelectCabin(room.selectValue)}
-                            className="overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
+                            className="w-full text-left overflow-hidden rounded-2xl flex flex-col justify-between cursor-pointer group relative shadow-none border-0 bg-transparent"
                           >
                             {isYo && (
                               <div className="absolute top-3 right-3 bg-purple-600 text-white text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-1 rounded-full tracking-widest shadow-md flex items-center gap-1 border-0 z-10">
@@ -1006,17 +1006,17 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
                             )}
                             <div>
                               {room.image && (
-                                <div className="relative h-44 w-full overflow-hidden text-center">
+                                <div className="relative h-44 w-full rounded-lg overflow-hidden text-center">
                                   <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
                                 </div>
                               )}
-                              <div className="px-0 py-5">
+                              <div className="px-0 py-5 text-left">
                                 <div className="flex justify-between items-start gap-2 mb-3 text-left">
                                   {room.icon && <span className="text-2xl">{room.icon}</span>}
                                   <span className={` rounded-lg text-[var(--font-size-4xs)] font-black uppercase px-2.5 py-0.5 rounded tracking-wider border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'
                                     }`}>{room.label}</span>
                                 </div>
-                                <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block">{room.code} Category</span>
+                                <span className="text-[var(--font-size-3xs)] font-bold text-white/50 uppercase tracking-widest block text-left">{room.code} Category</span>
                                 <h4 className="text-base font-black text-white uppercase tracking-tight mt-0.5 text-left">{room.title}</h4>
                               </div>
                             </div>

@@ -2,6 +2,7 @@
 
 import Link, { LinkProps } from "next/link";
 import { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { useTransition } from "@/context/TransitionContext";
 
 type TransitionLinkProps = LinkProps &
@@ -27,8 +28,26 @@ export default function TransitionLink({
   onClick,
   ...rest
 }: TransitionLinkProps) {
+  const pathname = usePathname();
+  const { requestTransition } = useTransition();
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(e);
+    if (e.defaultPrevented) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      return;
+    }
+
+    const targetHref = typeof href === "string" ? href : href.pathname ?? "";
+    if (!targetHref || targetHref.includes("#")) return; // anchor scroll, not a page change
+    if (targetHref === pathname) return; // already there
+
+    e.preventDefault();
+    requestTransition(targetHref);
+  };
+
   return (
-    <Link href={href} onClick={onClick} {...rest}>
+    <Link href={href} onClick={handleClick} {...rest}>
       {children}
     </Link>
   );
