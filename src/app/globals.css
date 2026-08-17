@@ -3297,14 +3297,37 @@ textarea,
 }
 
 .su-rail-track {
-  --su-rail-padding: var(--page-padding-x);
-  --su-rail-offset: 0px;
+  --su-rail-padding-mobile: var(--page-padding-x);
+  --su-rail-padding-tablet: var(--page-padding-x);
+  --su-rail-padding-desktop: var(--page-padding-x);
+
+  --su-rail-offset-mobile: -12px;
+  --su-rail-offset-tablet: 0px;
+  --su-rail-offset-desktop: 0px;
+
+  --su-rail-padding: var(--su-rail-padding-mobile);
+  --su-rail-offset: var(--su-rail-offset-mobile);
+
   position: absolute;
   top: 0;
   bottom: 0;
   left: max(calc(var(--su-rail-padding) + var(--su-rail-offset)), calc((100% - 1400px) / 2 + var(--su-rail-padding) + var(--su-rail-offset)));
   z-index: 50;
   pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .su-rail-track {
+    --su-rail-padding: var(--su-rail-padding-tablet);
+    --su-rail-offset: var(--su-rail-offset-tablet);
+  }
+}
+
+@media (min-width: 1124px) {
+  .su-rail-track {
+    --su-rail-padding: var(--su-rail-padding-desktop);
+    --su-rail-offset: var(--su-rail-offset-desktop);
+  }
 }
 
 .su-rail {
