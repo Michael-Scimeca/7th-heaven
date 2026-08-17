@@ -1,22 +1,7 @@
-import { Barlow, Barlow_Condensed } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Inter, Inter_Tight, Barlow_Condensed, Barlow } from "next/font/google";
 import "./globals.css";
-
-const barlow = Barlow({
-  subsets: ["latin"],
-  weight: ["400", "700", "800"],
-  variable: "--font-barlow",
-  display: "swap",
-});
-
-const barlowCondensed = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["800"],
-  style: ["italic"],
-  variable: "--font-barlow-condensed",
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -38,12 +23,52 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { GrainOverlay } from "@/components/GrainOverlay";
 import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
+import CursorFollower from "@/components/CursorFollower";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
+
+const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
+
+import localFont from "next/font/local";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
 import { ThemeTokens } from "@/lib/theme-tokens";
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+const rockstar = localFont({
+  src: "../../public/Fonts/Rockstar-ExtraBold.otf",
+  variable: "--font-rockstar",
+  display: "swap",
+});
+
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["800"],
+  style: ["italic"],
+  variable: "--font-barlow-condensed",
+  display: "swap",
+});
+
+const barlow = Barlow({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-barlow",
+  display: "swap",
+});
+
+const PRELOAD_SCRIPT_CONTENT = "try{if(!sessionStorage.getItem('7h-preloaded')){document.documentElement.classList.add('is-preloading')}}catch(e){}";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://7thheavenband.com"),
@@ -142,19 +167,35 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`dark ${barlow.variable} ${barlowCondensed.variable}`} data-theme="dark" suppressHydrationWarning>
+    <html lang="en" className={`dark ${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
+        {/* Decides whether the preloader runs, BEFORE anything paints.
+         *
+         * This has to be a plain inline <script> in <head> rather than a
+         * next/script or a React effect: sessionStorage is only readable on
+         * the client, and by the time React mounts the browser has already
+         * painted the real page — you would see it for a frame and then get
+         * covered by black, which is worse than no preloader at all.
+         *
+         * It only adds a class. All styling lives in globals.css
+         * (html.is-preloading) and all timing lives in Preloader.tsx, so a
+         * blocked or failed script degrades to simply not showing the
+         * preloader rather than to a stuck black screen. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: PRELOAD_SCRIPT_CONTENT,
+          }}
+        />
       </head>
-      <body style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+      <body className={`${inter.variable} ${interTight.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} style={{ fontFamily: "var(--font-family-sans, var(--font-barlow))", letterSpacing: "0" }} suppressHydrationWarning>
+        <Preloader />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
         )}
         <Script
           id="band-jsonld"
           type="application/ld+json"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             // Escape <, > and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
@@ -165,7 +206,7 @@ export default async function RootLayout({
           }}
         />
 
-        <Script id="bypass-animations" strategy="lazyOnload" dangerouslySetInnerHTML={{
+        <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{
           __html: `
           if (window.location.search.includes('bypass=true')) {
             var style = document.createElement('style');
@@ -182,7 +223,7 @@ export default async function RootLayout({
                   <Header />
                   {/* content-area class + CSS guarantees min-height: 100svh so footer
                       can NEVER appear before page content loads */}
-                  <div className="content-area flex-1 flex flex-col time">
+                  <div className="content-area flex-1 flex flex-col site-container">
                     <PageTransition>
                       {children}
                     </PageTransition>
@@ -192,6 +233,7 @@ export default async function RootLayout({
                   {isDraftMode && <VisualEditing />}
                   <PageNav />
                   <ClientOnlyExtras />
+                  <HomeShaderGradient />
                   <GrainOverlay />
                 </div>
               </SmoothScroll>
