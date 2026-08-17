@@ -2218,13 +2218,13 @@ html.tour-sort-stuck #tour-sort-bar {
 
 @media (min-width: 1024px) {
   #header-logo {
-    position: fixed !important;
-    top: 40px !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     justify-content: center !important;
-    margin: 0 !important;
-    z-index: 1001 !important;
   }
 }
 

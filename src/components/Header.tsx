@@ -516,7 +516,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-200 m-0 p-0 relative lg:fixed lg:left-1/2 lg:top-[40px] lg:-translate-x-1/2 lg:-translate-y-1/2 ${mobileOpen ? "z-[10001]" : "z-[1001]"
+            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-200 m-0 p-0 relative lg:relative lg:mx-auto ${mobileOpen ? "z-[10001]" : "z-50"
               } ${isNavActive("/")
                 ? "!text-[#6700ff]"
                 : "text-white hover:!text-[#6700ff]"
@@ -530,7 +530,6 @@ export function Header() {
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
           <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
-
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
@@ -742,9 +741,10 @@ export function Header() {
               // comment above): it makes the wipe edge read as a slight
               // diagonal that self-levels as it finishes, rather than a
               // flat curtain.
-              className="fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto"
+              className="fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto bg-black/30 backdrop-blur-[21px]"
               style={{
-                backgroundColor: "rgb(13, 14, 19)",
+                backdropFilter: "blur(21px)",
+                WebkitBackdropFilter: "blur(21px)",
                 clipPath: overlayVisible
                   ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
                   : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
@@ -767,136 +767,135 @@ export function Header() {
                   transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
                 }}
               >
-              {/* Top bar: logo left, close right — aligned with site-container padding */}
-              <div className="flex items-center justify-between site-container pt-6 pb-2 shrink-0">
-                <TransitionLink
-                  href="/"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-white/90 hover:text-white transition-colors"
-                  title="7th Heaven — Go to Home Page"
-                >
-                  <Logo className="h-6 sm:h-7 w-auto" />
-                </TransitionLink>
-                <button
-                  aria-label="Close menu"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors cursor-pointer"
-                >
-                  <span className="text-xs font-bold uppercase tracking-[0.2em]">Close</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <line x1="4" y1="4" x2="20" y2="20" />
-                    <line x1="20" y1="4" x2="4" y2="20" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Main: portrait media panel + stacked links, side by side
-                  from sm up; panel drops out on phones so links get full
-                  width rather than getting cramped. */}
-              <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
-                <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-2xl border border-purple-500/40 shadow-2xl relative bg-black/80 group">
-                  <video
-                    src="/movie/be-here-clip.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-purple-300">
-                    <span>7H LIVE STAGE</span>
-                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                  </div>
+                {/* Top bar: logo left, close right — aligned with site-container padding */}
+                <div className="flex items-center justify-between site-container pt-6 pb-2 shrink-0">
+                  <TransitionLink
+                    href="/"
+                    onClick={() => setMobileOpen(false)}
+                    className="text-white/90 hover:text-white transition-colors"
+                    title="7th Heaven — Go to Home Page"
+                  >
+                    <Logo className="h-6 sm:h-7 w-auto" />
+                  </TransitionLink>
+                  <button
+                    aria-label="Close menu"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 text-white/70 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <span className="text-xs font-bold uppercase tracking-[0.2em]">Close</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <line x1="4" y1="4" x2="20" y2="20" />
+                      <line x1="20" y1="4" x2="4" y2="20" />
+                    </svg>
+                  </button>
                 </div>
 
-                <nav className="flex flex-col gap-1 font-[family-name:var(--font-rockstar)]">
-                  {[
-                    { href: "/#band", label: "BAND" },
-                    { href: "/#tour", label: "SHOWS" },
-                    { href: "/merch", label: "MERCH" },
-                    { href: "/media", label: "MEDIA" },
-                    { href: "/fan-photo-wall", label: "FAN WALL" },
-                    { href: "/pagetransition", label: "TRANSITION" },
-                    { href: "/live", label: "LIVE" },
-                    { href: "/cruise", label: "CRUISE" },
-                    { href: "/book", label: "BOOK US" },
-                    { href: "/contact", label: "CONTACT" },
-                  ].map((link, i) => (
-                    <TransitionLink
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setMobileOpen(false)}
-                      className={`text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
-                        }`}
-                      style={{
-                        // exoape's own per-link reveal: rotate:7deg -> 0 and
-                        // yPercent:100 -> 0 (a full line-height slide, not a
-                        // token nudge) with their easeOut curve, staggered
-                        // 0.1s apart starting half a second into the wipe.
-                        // Their site has ~4 links so the full 0.1s/1s combo
-                        // reads great; ours has 10, so the stagger/duration
-                        // are trimmed a bit to keep the last link's reveal
-                        // from lagging the wipe by seconds — same shape,
-                        // tuned for length.
-                        opacity: overlayVisible ? 1 : 0,
-                        transform: overlayVisible ? "translateY(0) rotate(0deg)" : "translateY(100%) rotate(7deg)",
-                        transformOrigin: "0% 100%",
-                        transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
-                        transitionDelay: overlayVisible ? `${450 + i * 70}ms` : "0ms",
-                      }}
-                    >
-                      {link.label}
-                    </TransitionLink>
-                  ))}
-                </nav>
-              </div>
+                {/* Main: portrait media panel + stacked links, side by side
+                  from sm up; panel drops out on phones so links get full
+                  width rather than getting cramped. */}
+                <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
+                  <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-2xl border border-purple-500/40 shadow-2xl relative bg-black/80 group">
+                    <video
+                      src="/movie/fest1-clip.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-purple-300">
+                      <span>7H FESTIVAL STAGE</span>
+                    </div>
+                  </div>
 
-              {/* Bottom utility row: social links + account action, below a
+                  <nav className="flex flex-col gap-1.5 font-[family-name:var(--font-rockstar)]">
+                    {[
+                      { href: "/#band", label: "BAND" },
+                      { href: "/#tour", label: "SHOWS" },
+                      { href: "/merch", label: "MERCH" },
+                      { href: "/media", label: "MEDIA" },
+                      { href: "/fan-photo-wall", label: "FAN WALL" },
+                      { href: "/pagetransition", label: "TRANSITION" },
+                      { href: "/live", label: "LIVE" },
+                      { href: "/cruise", label: "CRUISE" },
+                      { href: "/book", label: "BOOK US" },
+                      { href: "/contact", label: "CONTACT" },
+                    ].map((link, i) => (
+                      <TransitionLink
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMobileOpen(false)}
+                        className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-[1.08] transition-colors duration-300 ${effectivePathname === link.href ? "!text-[#c084fc]" : "!text-[#6700ff] hover:!text-[#c084fc]"
+                          }`}
+                        style={{
+                          // exoape's own per-link reveal: rotate:7deg -> 0 and
+                          // yPercent:100 -> 0 (a full line-height slide, not a
+                          // token nudge) with their easeOut curve, staggered
+                          // 0.1s apart starting half a second into the wipe.
+                          // Their site has ~4 links so the full 0.1s/1s combo
+                          // reads great; ours has 10, so the stagger/duration
+                          // are trimmed a bit to keep the last link's reveal
+                          // from lagging the wipe by seconds — same shape,
+                          // tuned for length.
+                          opacity: overlayVisible ? 1 : 0,
+                          transform: overlayVisible ? "translateY(0) rotate(0deg)" : "translateY(100%) rotate(7deg)",
+                          transformOrigin: "0% 100%",
+                          transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
+                          transitionDelay: overlayVisible ? `${450 + i * 70}ms` : "0ms",
+                        }}
+                      >
+                        {link.label}
+                      </TransitionLink>
+                    ))}
+                  </nav>
+                </div>
+
+                {/* Bottom utility row: social links + account action, below a
                   hairline divider — same structural beat as exoape's
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
-              <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
-                <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/50">
-                  <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
-                  <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a>
-                  <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
-                  <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline hover:text-white transition-colors">YouTube</a>
-                </div>
+                <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
+                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/50">
+                    <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
+                    <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a>
+                    <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
+                    <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline hover:text-white transition-colors">YouTube</a>
+                  </div>
 
-                {isLoggedIn ? (
-                  <button
-                    aria-label="Sign out of account"
-                    onClick={async () => {
-                      await logout();
-                      setMobileOpen(false);
-                      const isRestricted =
-                        pathname.startsWith("/admin") ||
-                        pathname.startsWith("/crew") ||
-                        pathname.startsWith("/fans") ||
-                        pathname.startsWith("/planner") ||
-                        pathname.startsWith("/cruise/dashboard");
-                      if (isRestricted) {
-                        router.push("/");
-                      }
-                    }}
-                    className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
-                  >
-                    Sign Out
-                  </button>
-                ) : (
-                  <button
-                    aria-label="Sign in to account"
-                    onClick={() => {
-                      setMobileOpen(false);
-                      openModal("login");
-                    }}
-                    className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-[#c084fc] hover:text-white transition-colors cursor-pointer"
-                  >
-                    Sign In
-                  </button>
-                )}
-              </div>
+                  {isLoggedIn ? (
+                    <button
+                      aria-label="Sign out of account"
+                      onClick={async () => {
+                        await logout();
+                        setMobileOpen(false);
+                        const isRestricted =
+                          pathname.startsWith("/admin") ||
+                          pathname.startsWith("/crew") ||
+                          pathname.startsWith("/fans") ||
+                          pathname.startsWith("/planner") ||
+                          pathname.startsWith("/cruise/dashboard");
+                        if (isRestricted) {
+                          router.push("/");
+                        }
+                      }}
+                      className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
+                    >
+                      Sign Out
+                    </button>
+                  ) : (
+                    <button
+                      aria-label="Sign in to account"
+                      onClick={() => {
+                        setMobileOpen(false);
+                        openModal("login");
+                      }}
+                      className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-[#c084fc] hover:text-white transition-colors cursor-pointer"
+                    >
+                      Sign In
+                    </button>
+                  )}
+                </div>
               </div>
             </div>,
             document.body
