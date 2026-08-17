@@ -20,7 +20,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Layers, ArrowRight, Mail, Calendar, Ship, ShoppingBag } from "lucide-react";
 
 export interface SitemapNodeData extends Record<string, unknown> {
   header: string;
@@ -66,6 +66,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
           ? "!bg-amber-400"
           : "!bg-emerald-400"
       } !border-0`} />
+      <Handle type="target" position={Position.Left} id="left" className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
       
       {/* CLICKABLE SCREENSHOT & HEADER CONTAINER */}
       <Link href={targetPath} className="block cursor-pointer">
@@ -190,6 +191,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
           ? "!bg-amber-400"
           : "!bg-cyan-400"
       } !border-0`} />
+      <Handle type="source" position={Position.Right} id="right" className="!w-2.5 !h-2.5 !bg-purple-400 !border-0" />
     </div>
   );
 }
@@ -240,9 +242,9 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- IMMACULATE SITEMAP TREE: ROW 1 = HEADER NAV, ROW 2 = FOOTER NAV & LEGAL PAGES ---
-const INITIAL_NODES: Node<SitemapNodeData>[] = [
-  // ROOT HOME PAGE (Center Top at x = 1330, y = 30)
+// --- VIEW 1: FULL SITE ARCHITECTURE (HEADER NAV, FOOTER NAV, PORTALS & EMAILS) ---
+const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
+  // ROOT HOME PAGE
   {
     id: "root",
     type: "sitemapCard",
@@ -253,12 +255,10 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       path: "/",
       imgUrl: "/sitemap-thumbs/home.jpg",
       badgeType: "HEADER_NAV",
-      description:
-        "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of live performances.",
+      description: "7th Heaven chart-topping rock experience from Chicago with #1 Billboard hits.",
     },
   },
-
-  // ── ROW 1: PRIMARY HEADER NAVIGATION BAR LINKS (7 MAIN HEADER LINKS) (y = 360) ──
+  // ROW 1: HEADER NAV
   {
     id: "nav-merch",
     type: "sitemapCard",
@@ -350,8 +350,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       description: "Direct contact inquiry form for booking agents and event organizers.",
     },
   },
-
-  // ── ROW 2: FOOTER NAVIGATION & LEGAL PAGES (BLUE BADGES) (y = 700) ──
+  // ROW 2: FOOTER NAV
   {
     id: "footer-shows",
     type: "sitemapCard",
@@ -404,8 +403,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       description: "Footer legal terms of service, ticket policies, and user agreements.",
     },
   },
-
-  // ── ROW 3: INTERNAL PORTALS & ADMIN DASHBOARDS (CYAN BADGES) (y = 1040) ──
+  // ROW 3: PORTALS
   {
     id: "node-fans",
     type: "sitemapCard",
@@ -471,8 +469,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       description: "Master admin dashboard, concert manager, financial reports, and broadcast center.",
     },
   },
-
-  // ── ROW 4: RESEND API TRANSACTIONAL EMAIL PIPELINES (AMBER BADGES) (y = 1380) ──
+  // ROW 4: TRANSACTIONAL EMAILS
   {
     id: "email-otp-pin",
     type: "sitemapCard",
@@ -553,9 +550,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   },
 ];
 
-// --- CLEAN & TRUTHFUL NAVIGATION EDGES ---
-const INITIAL_EDGES: Edge[] = [
-  // Root Home -> Primary Header Navigation Bar Links (Row 1)
+const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-merch", source: "root", target: "nav-merch", type: "smoothstep" },
   { id: "e-root-media", source: "root", target: "nav-media", type: "smoothstep" },
   { id: "e-root-fanwall", source: "root", target: "nav-fanwall", type: "smoothstep" },
@@ -563,21 +558,15 @@ const INITIAL_EDGES: Edge[] = [
   { id: "e-root-cruise", source: "root", target: "nav-cruise", type: "smoothstep" },
   { id: "e-root-book", source: "root", target: "nav-book", type: "smoothstep" },
   { id: "e-root-contact", source: "root", target: "nav-contact", type: "smoothstep" },
-
-  // Root Home -> Footer Navigation & Legal Pages (Row 2)
   { id: "e-root-footer-shows", source: "root", target: "footer-shows", type: "smoothstep" },
   { id: "e-root-footer-faq", source: "root", target: "footer-faq", type: "smoothstep" },
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
-
-  // Footer / Header Pages -> Portals (Row 3)
   { id: "e-shows-planner", source: "footer-shows", target: "node-planner", type: "smoothstep" },
   { id: "e-shows-crew", source: "footer-shows", target: "node-crew", type: "smoothstep" },
   { id: "e-fanwall-fans", source: "nav-fanwall", target: "node-fans", type: "smoothstep" },
   { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
   { id: "e-live-admin", source: "nav-live", target: "node-admin", type: "smoothstep" },
-
-  // Portals / Pages -> Resend Transactional Email Pipelines (Row 4)
   { id: "flow-fans-otp", source: "node-fans", target: "email-otp-pin", type: "smoothstep" },
   { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
   { id: "flow-book-receipt", source: "nav-book", target: "email-booking-planner", type: "smoothstep" },
@@ -586,9 +575,160 @@ const INITIAL_EDGES: Edge[] = [
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
+// --- VIEW 2: STEP-BY-STEP EVENT BOOKING & PIN EMAIL FLOW ---
+const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
+  {
+    id: "bf-step1",
+    type: "sitemapCard",
+    position: { x: 0, y: 150 },
+    data: {
+      header: "STEP 1 · FILL BOOKING FORM",
+      title: "1. Fill Booking Details",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/book.jpg",
+      badgeType: "HEADER_NAV",
+      description: "Planner fills event date, venue type, times, budget, and inputs planner email address.",
+    },
+  },
+  {
+    id: "bf-step2",
+    type: "sitemapCard",
+    position: { x: 380, y: 150 },
+    data: {
+      header: "STEP 2 · OTP PIN TRIGGERED",
+      title: "2. Verification PIN Dispatched",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      badgeType: "EMAIL",
+      description: "Resend API sends an automated email with 6-digit security PIN (e.g. 849201) to planner.",
+    },
+  },
+  {
+    id: "bf-step3",
+    type: "sitemapCard",
+    position: { x: 760, y: 150 },
+    data: {
+      header: "STEP 3 · ENTER PIN IN MODAL",
+      title: "3. Verify 6-Digit PIN",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      badgeType: "MODULE",
+      description: "Planner enters 6-digit PIN into popup modal to authenticate and lock in booking request.",
+    },
+  },
+  {
+    id: "bf-step4",
+    type: "sitemapCard",
+    position: { x: 1140, y: 150 },
+    data: {
+      header: "STEP 4 · PLANNER RECEIPT EMAIL",
+      title: "4. Planner Gets Receipt Email",
+      path: "/book/success",
+      imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
+      badgeType: "EMAIL",
+      description: "Planner receives official booking confirmation email with event summary & details.",
+    },
+  },
+  {
+    id: "bf-step5",
+    type: "sitemapCard",
+    position: { x: 1520, y: 150 },
+    data: {
+      header: "STEP 5 · ADMIN ALERT EMAIL",
+      title: "5. Band Gets Booking Alert",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
+      badgeType: "EMAIL",
+      description: "7th Heaven management receives instant notification with Quick Approve & Decline links.",
+    },
+  },
+];
+
+const BOOKING_FLOW_EDGES: Edge[] = [
+  { id: "bf-e1", source: "bf-step1", sourceHandle: "right", target: "bf-step2", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "bf-e2", source: "bf-step2", sourceHandle: "right", target: "bf-step3", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "bf-e3", source: "bf-step3", sourceHandle: "right", target: "bf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "bf-e4", source: "bf-step4", sourceHandle: "right", target: "bf-step5", targetHandle: "left", animated: true, type: "smoothstep" },
+];
+
+// --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW ---
+const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
+  {
+    id: "cf-step1",
+    type: "sitemapCard",
+    position: { x: 0, y: 150 },
+    data: {
+      header: "STEP 1 · CRUISE SIGNUP FORM",
+      title: "1. Fill Cabin Registration",
+      path: "/cruise",
+      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
+      badgeType: "HEADER_NAV",
+      description: "Fan selects cabin option (Balcony, Oceanview, Suite), guest count, and inputs contact info.",
+    },
+  },
+  {
+    id: "cf-step2",
+    type: "sitemapCard",
+    position: { x: 380, y: 150 },
+    data: {
+      header: "STEP 2 · RECEIVE EMAIL WITH PIN",
+      title: "2. Resend Dispatches Security PIN",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      badgeType: "EMAIL",
+      description: "Fan receives automated email with 6-digit security PIN to confirm email ownership.",
+    },
+  },
+  {
+    id: "cf-step3",
+    type: "sitemapCard",
+    position: { x: 760, y: 150 },
+    data: {
+      header: "STEP 3 · VERIFY PIN IN MODAL",
+      title: "3. Enter PIN & Lock In Cabin",
+      path: "/cruise",
+      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      badgeType: "MODULE",
+      description: "Fan inputs 6-digit PIN to authenticate and reserve cabin on 2026 Cruise.",
+    },
+  },
+  {
+    id: "cf-step4",
+    type: "sitemapCard",
+    position: { x: 1140, y: 150 },
+    data: {
+      header: "STEP 4 · CABIN CONFIRMATION EMAIL",
+      title: "4. Official Cruise Confirmation",
+      path: "/cruise",
+      imgUrl: "/sitemap-thumbs/email-cruise-confirm.jpg",
+      badgeType: "EMAIL",
+      description: "Fan receives official cabin reservation confirmation & cruise itinerary email.",
+    },
+  },
+];
+
+const CRUISE_FLOW_EDGES: Edge[] = [
+  { id: "cf-e1", source: "cf-step1", sourceHandle: "right", target: "cf-step2", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "cf-e2", source: "cf-step2", sourceHandle: "right", target: "cf-step3", targetHandle: "left", animated: true, type: "smoothstep" },
+  { id: "cf-e3", source: "cf-step3", sourceHandle: "right", target: "cf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
+];
+
 export default function VisualSitemapClient() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(INITIAL_NODES);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(INITIAL_EDGES);
+  const [activeTab, setActiveTab] = useState<"ARCH" | "BOOKING" | "CRUISE">("BOOKING");
+
+  const nodes =
+    activeTab === "BOOKING"
+      ? BOOKING_FLOW_NODES
+      : activeTab === "CRUISE"
+      ? CRUISE_FLOW_NODES
+      : ARCHITECTURE_NODES;
+
+  const edges =
+    activeTab === "BOOKING"
+      ? BOOKING_FLOW_EDGES
+      : activeTab === "CRUISE"
+      ? CRUISE_FLOW_EDGES
+      : ARCHITECTURE_EDGES;
 
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-20 pb-12">
@@ -600,35 +740,80 @@ export default function VisualSitemapClient() {
         .react-flow svg path {
           fill: none !important;
           stroke: #a855f7 !important;
-          stroke-width: 2px !important;
+          stroke-width: 2.5px !important;
         }
       `}</style>
 
-      {/* Header bar */}
-      <div className="max-w-[1700px] mx-auto px-6 py-4 flex items-center justify-between border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-2xl backdrop-blur-xl">
+      {/* Header bar with View Selector Tabs */}
+      <div className="max-w-[1700px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] mb-4 shadow-2xl rounded-2xl backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-black text-sm shadow-md">
             7H
           </div>
           <div>
             <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
-              7th Heaven Site Directory & Navigation Architecture
+              {activeTab === "BOOKING"
+                ? "Event Booking & PIN Email Step-by-Step Flow"
+                : activeTab === "CRUISE"
+                ? "Cruise Reservation & Security PIN Flow"
+                : "7th Heaven Complete Site Architecture"}
             </h1>
             <p className="text-xs text-white/50">
-              Row 1: Header Navigation Links (Purple) | Row 2: Footer Navigation Links (Blue) | Row 3: Internal Portals (Cyan) | Row 4: Transactional Emails (Amber)
+              {activeTab === "BOOKING"
+                ? "Step-by-step user journey: Form Fill ➔ Email with PIN ➔ Enter PIN ➔ Planner Receipt ➔ Admin Alert"
+                : activeTab === "CRUISE"
+                ? "Step-by-step user journey: Cabin Request ➔ Email PIN ➔ Verify PIN ➔ Cruise Confirmation"
+                : "Interactive visual tree of Header Links, Footer Links, Portals, and Resend Email Workflows"}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* VIEW SELECTOR TABS */}
+        <div className="flex items-center gap-2 bg-black/60 p-1.5 rounded-xl border border-white/10">
+          <button
+            onClick={() => setActiveTab("BOOKING")}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
+              activeTab === "BOOKING"
+                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Calendar className="w-3.5 h-3.5 text-cyan-300" />
+            <span>Booking & PIN Email Flow</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("CRUISE")}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
+              activeTab === "CRUISE"
+                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Ship className="w-3.5 h-3.5 text-amber-300" />
+            <span>Cruise & PIN Flow</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("ARCH")}
+            className={`px-3.5 py-1.5 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-all ${
+              activeTab === "ARCH"
+                ? "bg-purple-600 text-white shadow-lg border border-purple-400/50"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 text-purple-300" />
+            <span>Full Site Architecture</span>
+          </button>
+
           <a
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-1.5 rounded-lg border border-white/15 bg-white/5 text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 text-white font-bold text-xs hover:bg-white/10 transition flex items-center gap-1 ml-1"
           >
-            <span>XML Sitemap</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <span>XML</span>
+            <ExternalLink className="w-3 h-3" />
           </a>
         </div>
       </div>
@@ -636,14 +821,13 @@ export default function VisualSitemapClient() {
       {/* Interactive Flow Canvas */}
       <div className="max-w-[1700px] mx-auto h-[950px] rounded-2xl border border-purple-500/30 bg-[#09090f] overflow-hidden shadow-2xl relative">
         <ReactFlow
+          key={activeTab}
           nodes={nodes}
           edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
-          fitViewOptions={{ padding: 0.08 }}
+          fitViewOptions={{ padding: 0.12 }}
           colorMode="dark"
         >
           <Background color="#1e1b4b" gap={24} size={1} />
