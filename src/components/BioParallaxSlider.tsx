@@ -542,14 +542,13 @@ lerpSpeed: ${lerpSpeed}`;
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY]);
+  }, [itemTotalWidth, displayMembers.length, cardWidth, imageScale, imageOffsetY, isTabletView]);
 
   // Go to slide
   const goToSlide = (idx: number) => {
     const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, idx));
     targetXRef.current = safeIdx * itemTotalWidth;
   };
-
 
   // Global Keyboard Arrow Navigation (Left / Right Arrow, A / D keys)
   useEffect(() => {
@@ -559,10 +558,12 @@ lerpSpeed: ${lerpSpeed}`;
 
       if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
         e.preventDefault();
-        goToSlide(activeIndex - 1);
+        const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, activeIndex - 1));
+        targetXRef.current = safeIdx * itemTotalWidth;
       } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         e.preventDefault();
-        goToSlide(activeIndex + 1);
+        const safeIdx = Math.max(0, Math.min(displayMembers.length - 1, activeIndex + 1));
+        targetXRef.current = safeIdx * itemTotalWidth;
       }
     };
 
