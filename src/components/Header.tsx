@@ -189,6 +189,20 @@ export function Header() {
     return () => clearTimeout(t);
   }, [mobileOpen]);
 
+  // Auto-close mobile overlay menu when window resizes back to desktop breakpoint (>= 1024px)
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [mobileOpen]);
+
   // Drives the page-recede effect described in the PAGE_RECEDE_EASE comment
   // above — `.content-area` (the actual routed page, not this header) grows,
   // rotates, and slides down while the menu wipes open over it, then reverses
