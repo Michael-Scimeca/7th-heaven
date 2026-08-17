@@ -31,11 +31,12 @@ export interface SitemapNodeData extends Record<string, unknown> {
   badgeType?: "PAGE" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH CRISP IMAGE PREVIEWS & BROWSER CHROME ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH CLICKABLE SCREENSHOTS & HOVER OVERLAY ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const [imgError, setImgError] = useState(false);
   const isEmail = data.badgeType === "EMAIL";
   const isModule = data.badgeType === "MODULE";
+  const targetPath = data.path || "/";
 
   return (
     <div className={`w-64 rounded-xl border ${
@@ -44,83 +45,87 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
         : isModule
         ? "border-cyan-400/50 bg-[#051218]"
         : "border-white/15 bg-[#0f0f17]"
-    } shadow-2xl overflow-hidden select-none hover:border-purple-400/60 transition-all duration-200 backdrop-blur-xl group`}>
+    } shadow-2xl overflow-hidden select-none hover:border-purple-400/80 transition-all duration-200 backdrop-blur-xl group`}>
       <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${
         isEmail ? "!bg-amber-400" : isModule ? "!bg-cyan-400" : "!bg-purple-400"
       } !border-0`} />
       
-      {/* Top Browser Header Bar */}
-      <div className={`${
-        isEmail
-          ? "bg-amber-500/20 border-b border-amber-500/30"
-          : isModule
-          ? "bg-cyan-500/20 border-b border-cyan-500/30"
-          : "bg-[#181824] border-b border-white/10"
-      } py-1.5 px-3 flex items-center justify-between`}>
-        <div className="flex items-center gap-1.5 min-w-0">
-          <div className="flex items-center gap-1 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
-          </div>
-          <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${
-            isEmail ? "text-amber-300" : isModule ? "text-cyan-300" : "text-purple-300"
-          }`}>
-            {data.header}
-          </span>
-        </div>
-        {isEmail && (
-          <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black shrink-0">
-            ✉ RESEND
-          </span>
-        )}
-      </div>
-
-      {/* REAL HIGH-SPEED JPG SCREENSHOT PREVIEW WITH FALLBACK */}
-      <div className="w-full h-36 bg-[#080810] border-b border-white/10 overflow-hidden relative">
-        {!imgError ? (
-          <img
-            src={data.imgUrl}
-            alt={data.title}
-            onError={() => setImgError(true)}
-            className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
-          />
-        ) : (
-          <div className="w-full h-full p-3 flex flex-col justify-between bg-gradient-to-br from-[#12121f] to-[#080810]">
-            <div className="flex justify-between items-center text-[8px] font-mono text-cyan-300">
-              <span>{data.path || "/"}</span>
-              <span>7H ENGINE</span>
-            </div>
-            <div className="space-y-1">
-              <div className="h-3 bg-purple-500/30 rounded w-3/4" />
-              <div className="h-2 bg-white/20 rounded w-1/2" />
-            </div>
-            <span className="text-[7px] font-mono text-white/40">VISUAL PREVIEW</span>
-          </div>
-        )}
-
-        <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${
+      {/* CLICKABLE SCREENSHOT & HEADER CONTAINER */}
+      <Link href={targetPath} className="block cursor-pointer">
+        {/* Top Browser Header Bar */}
+        <div className={`${
           isEmail
-            ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
-            : "bg-black/80 border-white/20 text-cyan-300"
-        }`}>
-          {isEmail ? "EMAIL PREVIEW" : data.path ? data.path : "MODULE"}
+            ? "bg-amber-500/20 border-b border-amber-500/30 group-hover:bg-amber-500/30"
+            : isModule
+            ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
+            : "bg-[#181824] border-b border-white/10 group-hover:bg-[#222234]"
+        } py-1.5 px-3 flex items-center justify-between transition-colors`}>
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
+            </div>
+            <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${
+              isEmail ? "text-amber-300" : isModule ? "text-cyan-300" : "text-purple-300"
+            }`}>
+              {data.header}
+            </span>
+          </div>
+          {isEmail ? (
+            <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black shrink-0">
+              ✉ RESEND
+            </span>
+          ) : (
+            <ExternalLink className="w-3 h-3 text-white/50 group-hover:text-cyan-300 transition-colors shrink-0" />
+          )}
         </div>
-      </div>
+
+        {/* CLICKABLE REAL JPG SCREENSHOT PREVIEW WITH HOVER EFFECT */}
+        <div className="w-full h-36 bg-[#080810] border-b border-white/10 overflow-hidden relative cursor-pointer">
+          {!imgError ? (
+            <img
+              src={data.imgUrl}
+              alt={data.title}
+              onError={() => setImgError(true)}
+              className="w-full h-full object-cover object-top opacity-95 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 block"
+            />
+          ) : (
+            <div className="w-full h-full p-3 flex flex-col justify-between bg-gradient-to-br from-[#12121f] to-[#080810]">
+              <div className="flex justify-between items-center text-[8px] font-mono text-cyan-300">
+                <span>{targetPath}</span>
+                <span>7H ENGINE</span>
+              </div>
+              <div className="space-y-1">
+                <div className="h-3 bg-purple-500/30 rounded w-3/4" />
+                <div className="h-2 bg-white/20 rounded w-1/2" />
+              </div>
+              <span className="text-[7px] font-mono text-white/40">VISUAL PREVIEW</span>
+            </div>
+          )}
+
+          {/* Hover Overlay Hint Badge */}
+          <div className="absolute inset-0 bg-purple-950/40 opacity-0 group-hover:opacity-100 transition-all duration-200 flex items-center justify-center gap-1.5 text-white font-extrabold text-xs tracking-wider backdrop-blur-[2px]">
+            <span className="bg-purple-600/90 px-3 py-1 rounded-full border border-purple-300/40 shadow-xl flex items-center gap-1.5">
+              OPEN PAGE <ExternalLink className="w-3.5 h-3.5 text-cyan-300" />
+            </span>
+          </div>
+
+          <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${
+            isEmail
+              ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
+              : "bg-black/80 border-white/20 text-cyan-300"
+          }`}>
+            {isEmail ? "EMAIL PREVIEW" : targetPath}
+          </div>
+        </div>
+      </Link>
 
       {/* Body Content */}
       <div className="p-3 text-left space-y-1">
-        {data.path ? (
-          <Link href={data.path} className="font-bold text-xs text-cyan-300 hover:text-white hover:underline block leading-snug truncate">
-            {data.title}
-          </Link>
-        ) : (
-          <span className={`font-bold text-xs block leading-snug truncate ${
-            isEmail ? "text-amber-200" : "text-cyan-300"
-          }`}>
-            {data.title}
-          </span>
-        )}
+        <Link href={targetPath} className="font-bold text-xs text-cyan-300 hover:text-white hover:underline block leading-snug truncate">
+          {data.title}
+        </Link>
 
         {data.description && (
           <p className="text-white/60 text-[11px] leading-snug mt-1 line-clamp-2">
@@ -182,7 +187,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- FULL DEVELOPER ROUTE DIRECTORY TREE (ALL DISTINCT & ACCURATE SCREENSHOTS) ---
+// --- FULL DEVELOPER ROUTE DIRECTORY TREE (ALL CLICKABLE NODES TO REAL ROUTES) ---
 const INITIAL_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME (Center Top at x = 1520, y = 30)
   {
@@ -424,6 +429,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "Sign In Module",
       title: "Passwordless Auth Modal",
+      path: "/fans",
       imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "MODULE",
       description: "Passwordless OTP email sign in modal and JWT session authentication.",
@@ -436,6 +442,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "Sign Up Module",
       title: "Fan Registration Modal",
+      path: "/fans",
       imgUrl: "/sitemap-thumbs/signup-modal.jpg",
       badgeType: "MODULE",
       description: "Fan registration, username creation, opt-in tracking, and instant signup PIN.",
@@ -450,6 +457,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ OTP Verification",
       title: "6-Digit Security PIN Email",
+      path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
       badgeType: "EMAIL",
       description: "Dispatched via Resend API on Fan Signup & Cruise Registration.",
@@ -462,6 +470,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Cruise Confirmation",
       title: "Cruise Cabin Reservation Email",
+      path: "/cruise",
       imgUrl: "/sitemap-thumbs/email-cruise-confirm.jpg",
       badgeType: "EMAIL",
       description: "Sent upon 6-digit PIN verification for Cruise 2026 registrations.",
@@ -474,6 +483,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Booking Receipt",
       title: "Planner Booking Confirmation",
+      path: "/book/success",
       imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
       badgeType: "EMAIL",
       description: "Sent to show planner upon booking form submission with event summary.",
@@ -486,6 +496,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Admin Booking Alert",
       title: "New Booking Notification",
+      path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
       badgeType: "EMAIL",
       description: "Sent to 7th Heaven management with quick Approve / Decline action links.",
@@ -498,6 +509,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Merch Pickup Email",
       title: "Flash Order Pickup Receipt",
+      path: "/payment-test",
       imgUrl: "/sitemap-thumbs/email-flash-pickup.jpg",
       badgeType: "EMAIL",
       description: "Sent instantly upon Shopify merchandise purchase for venue pickup.",
@@ -510,6 +522,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
     data: {
       header: "✉ Tour Announcement",
       title: "Newsletter Broadcast Email",
+      path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-newsletter-blast.jpg",
       badgeType: "EMAIL",
       description: "Dispatched from Admin Newsletter Studio to subscribed fan members.",
@@ -579,7 +592,7 @@ export default function VisualSitemapClient() {
               7th Heaven Developer Route & Email Directory
             </h1>
             <p className="text-xs text-white/50">
-              Interactive visual sitemap tree with distinct, high-res real page, modal & email screenshots
+              Click any screenshot thumbnail or node title to navigate directly to that live page
             </p>
           </div>
         </div>
