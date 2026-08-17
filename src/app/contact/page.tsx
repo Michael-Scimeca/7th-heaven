@@ -22,7 +22,7 @@ export default async function ContactPage() {
     const contacts = settings?.contacts?.length ? settings.contacts : FALLBACK_CONTACTS;
 
     return (
-        <section className="site-container pt-[123px] flex flex-col text-[var(--text-color)]">
+        <section className="site-container flex flex-col text-[var(--text-color)] pt-[100px]">
             {/* Header */}
             <div className="mb-8 text-left">
                 <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-tight text-left text-[var(--text-color)]">
@@ -33,12 +33,12 @@ export default async function ContactPage() {
                 </p>
             </div>
 
-            {/* Contact Cards (Single Column) */}
-            <div className="flex flex-col gap-10 md:gap-12 max-w-2xl">
+            {/* Contact Items (2 Columns on Desktop) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 max-w-5xl">
                 {contacts.map((contact) => (
                     <div key={contact.category || contact.name} className="flex flex-col justify-between" id={`contact-card-${contact.category}`}>
                         <div>
-                            <h3 className="font-[var(--font-heading)] text-2xl md:text-3xl font-black  text-[var(--color-accent)] mb-2">
+                            <h3 className="font-[var(--font-heading)] text-2xl md:text-3xl font-black text-[var(--color-accent)] mb-2">
                                 {contact.category}
                             </h3>
                             {contact.company && <p className="text-base md:text-xl font-extrabold text-[var(--text-color)] mb-0.5">{contact.company}</p>}

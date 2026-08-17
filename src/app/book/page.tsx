@@ -928,11 +928,11 @@ function BookPageContent() {
   }
 
   return (
-    <div className="  min-h-screen relative overflow-clip pt-[88px]">
+    <div className="min-h-screen relative overflow-clip pt-[100px]">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[var(--color-accent)] opacity-[0.07] blur-[120px] pointer-events-none" />
 
-      <section className="site-container pt-[25px] relative z-10" id="book-event">
+      <section className="site-container relative z-10" id="book-event">
 
         {/* Signed-in Identity Block */}
         {isLoggedIn && member && (

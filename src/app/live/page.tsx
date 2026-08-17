@@ -253,7 +253,7 @@ export default function LiveHubPage() {
 
 
         {/* ── HEADER ── */}
-        <div className="pt-[21px] mb-10 site-container">
+        <div className="mb-10 site-container">
           {/* Title & Fan Sign Up Row */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4">
             <div className="text-left">

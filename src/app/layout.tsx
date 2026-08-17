@@ -1,6 +1,22 @@
+import { Barlow, Barlow_Condensed } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
+
+const barlow = Barlow({
+  subsets: ["latin"],
+  weight: ["400", "700", "800"],
+  variable: "--font-barlow",
+  display: "swap",
+});
+
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["800"],
+  style: ["italic"],
+  variable: "--font-barlow-condensed",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -126,26 +142,8 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" className={`dark ${barlow.variable} ${barlowCondensed.variable}`} data-theme="dark" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
-          media="print"
-          id="gf-stylesheet"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var l=document.getElementById('gf-stylesheet');if(l){if(l.sheet){l.media='all';}else{l.addEventListener('load',function(){l.media='all'});setTimeout(function(){l.media='all';},300);}}})();`,
-          }}
-        />
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://acfzdcyqdskrmfuuoesb.supabase.co" />
       </head>

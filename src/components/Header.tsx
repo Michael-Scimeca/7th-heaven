@@ -5,12 +5,14 @@ import { createPortal } from "react-dom";
 
 import TransitionLink from "@/components/TransitionLink";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
+
+const emptySubscribe = () => () => {};
 
 const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
@@ -152,8 +154,11 @@ export function Header() {
   // <header>'s own ~80px-tall box, not the screen, collapsing it to a
   // sliver instead of a fullscreen panel. `mounted` guards the portal
   // since `document` doesn't exist during SSR.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   // Open/close animation for the mobile overlay. Two states instead of one
   // because a plain `{mobileOpen && ...}` conditional mount/unmounts the
@@ -468,6 +473,28 @@ export function Header() {
           className="w-full h-[80px] flex items-center justify-between relative pointer-events-auto gap-4 z-50"
         >
 
+          {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop >= 1024px) ── */}
+          <TransitionLink
+            href="/"
+            id="header-logo"
+            onClick={(e) => {
+              setMobileOpen(false);
+              if (pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-50 ${effectivePathname === "/"
+              ? "!text-[#9333ea]"
+              : "!text-white hover:!text-white/80"
+              }`}
+            title="7th Heaven — Go to Home Page"
+          >
+            <div className="w-[180px] h-[36px] sm:h-[40px] flex items-center justify-center">
+              <Logo className="w-full h-full text-current transition-colors duration-200" />
+            </div>
+          </TransitionLink>
+
           {/* ── LEFT NAV GROUP (Desktop >= 1024px) ── */}
           <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-5 xl:gap-8 font-[family-name:var(--font-barlow)] relative z-50">
             {leftNavLinks.map((link) => {
@@ -477,7 +504,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#9333ea] font-extrabold active"
+                    ? "!text-[#9333ea]"
                     : "text-white/80 hover:text-white"
                     }`}
                 >
@@ -490,7 +517,7 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(13px,0.95vw,17px)] whitespace-nowrap font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#9333ea] font-extrabold active"
+                ? "!text-[#9333ea]"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -503,28 +530,6 @@ export function Header() {
               LIVE
             </TransitionLink>
           </nav>
-
-          {/* ── LOGO (Left-aligned on mobile aligned with site-container; dead-centered on desktop >= 1024px) ── */}
-          <TransitionLink
-            href="/"
-            id="header-logo"
-            onClick={(e) => {
-              setMobileOpen(false);
-              if (pathname === "/") {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
-            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-300 m-0 p-0 relative lg:relative lg:mx-auto z-50 ${effectivePathname === "/"
-              ? "!text-[#9333ea]"
-              : "!text-white hover:!text-white/80"
-              }`}
-            title="7th Heaven — Go to Home Page"
-          >
-            <div className="w-[120px] sm:w-[160px] lg:w-[220px] h-[30px] sm:h-[40px] flex items-center justify-start lg:justify-center">
-              <Logo className="w-full h-full text-current transition-colors duration-200" />
-            </div>
-          </TransitionLink>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
           <div className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 lg:flex-1 ml-auto shrink-0 font-[family-name:var(--font-barlow)] relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
@@ -786,8 +791,6 @@ export function Header() {
 
                   <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full font-[family-name:var(--font-barlow-condensed)]">
                     {[
-                      { href: "/#band", label: "BAND" },
-                      { href: "/#tour", label: "SHOWS" },
                       { href: "/merch", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },

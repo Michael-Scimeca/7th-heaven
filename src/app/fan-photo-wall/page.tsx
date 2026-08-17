@@ -161,13 +161,13 @@ export default function FansPage() {
   return (
     <div className="min-h-screen pt-[88px]">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="site-container relative pt-[25px] pb-8 overflow-hidden flex flex-col justify-center" id="fan-wall">
+      <section className="site-container relative pb-8 overflow-hidden flex flex-col justify-center" id="fan-wall">
         <div className="relative z-10">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8 mb-6">
             <div>
 
-              <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop- leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                 FAN PHOTO & VIDEO <span className="gradient-text">WALL</span>
               </h1>
 
@@ -177,9 +177,9 @@ export default function FansPage() {
 
               {/* Login Promo text if guest */}
               {!effectivelyLoggedIn && (
-                <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-none md:whitespace-nowrap">
+                <div className="mt-4 text-xs text-white/70 flex items-center gap-2 max-w-xl flex-wrap">
 
-                  <Lock className="w-4 h-4 text-purple-400shrink-0" />
+                  <Lock className="w-4 h-4 text-purple-400 shrink-0" />
                   <p>
                     You must be a <span className="font-extrabold text-white">Fan Member</span> to share your moments.{" "}
                     <button aria-label="Action button"
@@ -209,7 +209,7 @@ export default function FansPage() {
                   setShowUpload(!showUpload);
                 }
               }}
-              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-colors flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start md:self-auto hover:scale-105"
+              className="px-8 py-4 bg-[var(--color-accent)] text-white text-xs font-black uppercase tracking-widest hover:brightness-110 transition-colors flex items-center gap-3 shadow-[0_0_30px_rgba(255,10,61,0.4)] cursor-pointer shrink-0 self-start lg:self-auto hover:scale-105"
             >
               <Camera className="w-4 h-4" />
               <span>{showUpload ? "Hide Upload Form" : "Upload Photo / Video"}</span>

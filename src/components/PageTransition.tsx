@@ -233,42 +233,29 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     const curtain = curtainRef.current;
     if (!curtain) return;
 
+    let tlInstance: gsap.core.Timeline | undefined;
+
+    const forceCompleteIfVisible = () => {
+      tlInstance?.progress(1);
+    };
+
+    document.addEventListener("visibilitychange", forceCompleteIfVisible);
+    window.addEventListener("focus", forceCompleteIfVisible);
+
+    // Safety net #1: GSAP timelines are driven by requestAnimationFrame,
+    // which browsers straight-up DON'T FIRE (not just throttle) once
+    // `document.visibilityState` is "hidden". A plain setTimeout guard is
+    // kept as a backstop against any other reason a tween might stall.
+    const stuckGuard = setTimeout(() => tlInstance?.progress(1), GRACE_MS + 1200);
+
     const graceTimer = setTimeout(() => {
       const tl = gsap.timeline({ onComplete: () => setMode("covered") });
+      tlInstance = tl;
 
       tl.set(curtain, {
         autoAlpha: 0,
         pointerEvents: "auto",
       }).to(curtain, { autoAlpha: 1, duration: COVER_DURATION, ease: "power2.out" });
-
-      // Safety net #1: GSAP timelines are driven by requestAnimationFrame,
-      // which browsers straight-up DON'T FIRE (not just throttle) once
-      // `document.visibilityState` is "hidden" — confirmed by direct
-      // instrumentation: sampling this exact curtain's computed opacity
-      // every 150ms showed it pinned at the tween's starting value for 6+
-      // seconds straight while visibilityState read "hidden", even though
-      // the tab was the active/focused one from the OS's point of view. A
-      // plain setTimeout guard is NOT a reliable rescue for this case —
-      // setTimeout is throttled/coalesced under the same background
-      // conditions (backed by the same instrumentation run: a 150ms
-      // setInterval landed samples ~1000ms apart instead), so it can fire
-      // many multiples of its delay late. Kept even with COVER_DURATION
-      // now short, as a backstop against any other reason a tween might
-      // stall.
-      const stuckGuard = setTimeout(() => tl.progress(1), 1200);
-
-      // Safety net #2: `visibilitychange` is a real DOM event fired the
-      // instant the tab's visibility flips, NOT a timer — it isn't subject
-      // to the throttling/suspension above, so it's the reliable way to
-      // catch "the tab was hidden for however long mid-tween, and just
-      // came back." Forcing straight to the end state (rather than letting
-      // the tween try to resume from wherever it was) avoids any weird
-      // half-animated catch up after an arbitrarily long hidden gap.
-      const forceCompleteIfVisible = () => {
-        if (document.visibilityState === "visible") tl.progress(1);
-      };
-      document.addEventListener("visibilitychange", forceCompleteIfVisible);
-      window.addEventListener("focus", forceCompleteIfVisible);
 
       curtainCleanupRef.current = () => {
         clearTimeout(stuckGuard);
@@ -280,6 +267,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     return () => {
       clearTimeout(graceTimer);
+      clearTimeout(stuckGuard);
+      document.removeEventListener("visibilitychange", forceCompleteIfVisible);
+      window.removeEventListener("focus", forceCompleteIfVisible);
+      tlInstance?.kill();
       curtainCleanupRef.current?.();
       curtainCleanupRef.current = null;
     };
