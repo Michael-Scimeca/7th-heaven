@@ -516,7 +516,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-200 m-0 p-0 relative lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 ${mobileOpen ? "z-[10001]" : "z-50"
+            className={`shrink-0 min-w-0 flex items-center justify-start cursor-pointer group transition-all duration-200 m-0 p-0 relative lg:fixed lg:left-1/2 lg:top-[40px] lg:-translate-x-1/2 lg:-translate-y-1/2 ${mobileOpen ? "z-[10001]" : "z-[1001]"
               } ${isNavActive("/")
                 ? "!text-[#6700ff]"
                 : "text-white hover:!text-[#6700ff]"

@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import SlideUpReveal from "@/components/SlideUpReveal";
-import TransitionLink from "@/components/TransitionLink";
 import { buildStagedCurtainClipPath, CURTAIN_MAX_SLANT_FRAC } from "@/lib/curtainClipPath";
 
 const EASE_OPTIONS = [
@@ -142,19 +141,12 @@ export default function PageTransitionDemo() {
           itself: slant, timing, easing. It is NOT the real thing. The real,
           live page-to-page transition now runs on actual navigation via{" "}
           <code>TransitionLink</code> (wired into the site&apos;s header
-          nav, and into the link below), and now shares the exact same
-          clip-path math as this sandbox via{" "}
-          <code>src/lib/curtainClipPath.ts</code> — a URL you load directly
-          never shows a transition, since there&apos;s no previous page to
-          transition from. Click through to see the real one:
+          nav), and now shares the exact same clip-path math as this
+          sandbox via <code>src/lib/curtainClipPath.ts</code> — a URL you
+          load directly never shows a transition, since there&apos;s no
+          previous page to transition from. Click any header nav link to
+          see the real one.
         </p>
-        <TransitionLink
-          href="/pageslidetransition"
-          className="w-fit rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors"
-          style={{ backgroundColor: "var(--color-accent)" }}
-        >
-          See the real transition →
-        </TransitionLink>
       </div>
 
       <section className="flex flex-col gap-4">
