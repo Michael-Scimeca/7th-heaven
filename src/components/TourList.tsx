@@ -1205,7 +1205,7 @@ ${filterLine}
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
-            <div className="relative flex-1 min-w-[120px] lg:min-w-0">
+            <div className="relative flex-1 min-w-[120px] lg:min-w-0 ml-auto flex justify-end lg:block lg:ml-0">
               <GooeyMessagesDropdown
                 placeholder="CITY"
                 defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
