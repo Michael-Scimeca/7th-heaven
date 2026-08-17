@@ -1359,7 +1359,6 @@ export default function FeaturesPage() {
 
         <div className="relative max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-[var(--color-accent)]/10 border border-[#851DEF]/30 text-[#c084fc] text-sm font-bold uppercase tracking-[0.25em] mb-10">
-            <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
             Full Platform Overview · All Features Live & Documented
           </div>
 

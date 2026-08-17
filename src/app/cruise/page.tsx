@@ -715,11 +715,6 @@ ${formData.notes ? `\n--- Additional Notes ---\n${formData.notes}` : ''}
 
         {/* Hero Text */}
         <div className="relative z-10 text-center px-[32px] max-w-5xl mx-auto mb-2">
-          {/* Cruise Line & Booking Center Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/30 text-white text-xs font-black uppercase tracking-[0.25em] mb-4 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-            <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
-            ROYAL CARIBBEAN INTERNATIONAL · OFFICIAL GROUP CRUISE
-          </div>
 
           {/* Main Title: Cruise Name */}
           <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-md leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>

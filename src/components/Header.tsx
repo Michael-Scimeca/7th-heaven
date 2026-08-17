@@ -16,7 +16,6 @@ const leftNavLinks = [
   { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-photo-wall", label: "FAN WALL" },
-  { href: "/pagetransition", label: "TRANSITION" },
 ];
 
 // Lifted directly from exoape.com's own hamburger-menu open animation.
@@ -625,7 +624,7 @@ export function Header() {
                     router.push("/");
                     router.refresh();
                   }}
-                  className="px-2.5 py-1 text-xs font-black uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-all cursor-pointer bg-white/5 hover:bg-white/10 rounded-full border border-purple-500/20 ml-3"
+                  className="px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-all cursor-pointer bg-white/5 hover:bg-white/10 rounded-full border border-purple-500/20 ml-3"
                   title="Sign Out of Account"
                   id="header-sign-out"
                 >
@@ -792,7 +791,6 @@ export function Header() {
                       { href: "/merch", label: "MERCH" },
                       { href: "/media", label: "MEDIA" },
                       { href: "/fan-photo-wall", label: "FAN WALL" },
-                      { href: "/pagetransition", label: "TRANSITION" },
                       { href: "/live", label: "LIVE" },
                       { href: "/cruise", label: "CRUISE" },
                       { href: "/book", label: "BOOK US" },
@@ -855,7 +853,7 @@ export function Header() {
                           router.push("/");
                         }
                       }}
-                      className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
+                      className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.15em] text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
                     >
                       Sign Out
                     </button>

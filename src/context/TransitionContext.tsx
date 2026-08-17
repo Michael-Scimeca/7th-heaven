@@ -130,6 +130,13 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       // current page see it immediately and skip their expensive draw calls.
       if (typeof window !== "undefined") {
         (window as any).__pageTransitionActive = true;
+        // Must be synchronous and BEFORE startViewTransition() below: that
+        // call captures the "old" snapshot immediately, and the film-grain
+        // layer has to already be hidden at that instant or it gets baked
+        // into the snapshot and flickers against the "new" one. See the
+        // .is-page-transitioning rule in globals.css. Cleared in
+        // PageTransition.tsx's finish().
+        document.documentElement.classList.add("is-page-transitioning");
       }
       setPendingHref(href);
       setModeState("covering");

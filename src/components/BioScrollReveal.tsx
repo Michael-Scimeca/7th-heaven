@@ -74,7 +74,6 @@ export default function BioScrollReveal({
       {/* Header */}
       <div className="mb-16 max-w-2xl">
         <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-2 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
           {subtitle}
         </span>
         <h2
@@ -110,8 +109,8 @@ export default function BioScrollReveal({
 
                 <h3
                   className={`text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tight transition-all duration-300 ${isActive
-                      ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
-                      : "text-white/30 group-hover:text-white/70"
+                    ? "text-white scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]"
+                    : "text-white/30 group-hover:text-white/70"
                     }`}
                   style={{ fontFamily: "var(--font-barlow-condensed)" }}
                 >
@@ -154,8 +153,8 @@ export default function BioScrollReveal({
                 <div
                   key={member.id}
                   className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive
-                      ? "opacity-100 scale-100 pointer-events-auto"
-                      : "opacity-0 scale-105 pointer-events-none"
+                    ? "opacity-100 scale-100 pointer-events-auto"
+                    : "opacity-0 scale-105 pointer-events-none"
                     }`}
                 >
                   <Image

@@ -64,7 +64,7 @@ export default function CustomVideoPlayer({
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch {}
+        } catch { }
       }
       try {
         playerRef.current = new window.YT.Player(playerDivId.current, {
@@ -102,7 +102,7 @@ export default function CustomVideoPlayer({
             },
           },
         });
-      } catch {}
+      } catch { }
     };
 
     loadYouTubeAPI(initPlayer);
@@ -113,7 +113,7 @@ export default function CustomVideoPlayer({
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch {}
+        } catch { }
         playerRef.current = null;
       }
     };
@@ -130,7 +130,7 @@ export default function CustomVideoPlayer({
           if (typeof cur === "number") setCurrentTime(cur);
           if (typeof dur === "number" && dur > 0) setDuration(dur);
           if (typeof buf === "number") setBuffered(buf * 100);
-        } catch {}
+        } catch { }
       }
       animRef.current = requestAnimationFrame(update);
     };
@@ -188,9 +188,9 @@ export default function CustomVideoPlayer({
     e.stopPropagation();
     if (!containerRef.current) return;
     if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => { });
     } else {
-      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => { });
     }
     resetHideTimer();
   };
@@ -241,9 +241,8 @@ export default function CustomVideoPlayer({
 
       {/* Top Header Overlay with Title & Close Button */}
       <div
-        className={`absolute top-0 inset-x-0 z-30 p-4 bg-gradient-to-b from-black/80 via-black/40 to-transparent flex items-center justify-between transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute top-0 inset-x-0 z-30 p-4 bg-gradient-to-b from-black/80 via-black/40 to-transparent flex items-center justify-between transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+          }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-2 max-w-[80%]">
@@ -255,25 +254,13 @@ export default function CustomVideoPlayer({
           </h4>
         </div>
 
-        {onClose && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onClose();
-            }}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-[var(--color-accent)] text-white/80 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-lg"
-            aria-label="Close Player"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
+
       </div>
 
       {/* Bottom Custom Control Bar */}
       <div
-        className={`absolute bottom-0 inset-x-0 z-30 px-4 pb-4 pt-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute bottom-0 inset-x-0 z-30 px-4 pb-4 pt-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+          }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Custom Progress Bar */}
@@ -361,9 +348,8 @@ export default function CustomVideoPlayer({
               </button>
 
               <div
-                className={`flex items-center transition-all duration-300 overflow-hidden ${
-                  showVolume ? "w-20 opacity-100" : "w-0 opacity-0"
-                }`}
+                className={`flex items-center transition-all duration-300 overflow-hidden ${showVolume ? "w-20 opacity-100" : "w-0 opacity-0"
+                  }`}
               >
                 <input
                   type="range"

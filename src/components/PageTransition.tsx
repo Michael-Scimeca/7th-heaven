@@ -61,7 +61,31 @@ import Logo from "@/components/Logo";
 //     without it those browsers would just see an instant, motionless
 //     page swap once the curtain (if shown) lifts.
 const COVER_DURATION = 0.35;
+// Fallback-path reveal length only. The real (View Transition) animation's
+// length lives in globals.css as --page-transition-duration and is read at
+// runtime by readViewTransitionMs() below — see the comment there.
 const REVEAL_DURATION = 0.55;
+
+// The View Transition animation is defined entirely in CSS, so its duration
+// is a CSS value. Reading it back instead of keeping a second hardcoded copy
+// here means the two can't drift: previously globals.css said 0.55s and this
+// file independently said 0.55s, and changing one silently left the other
+// wrong (during debugging, a CSS override to 4s left this file still clearing
+// transition state at 550ms — mode went back to "idle" while the page was
+// still visibly mid-animation).
+const VIEW_TRANSITION_FALLBACK_MS = 900;
+
+function readViewTransitionMs(): number {
+  if (typeof window === "undefined") return VIEW_TRANSITION_FALLBACK_MS;
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue("--page-transition-duration")
+    .trim();
+  if (!raw) return VIEW_TRANSITION_FALLBACK_MS;
+  // Accept either "900ms" or "0.9s".
+  const n = parseFloat(raw);
+  if (!Number.isFinite(n)) return VIEW_TRANSITION_FALLBACK_MS;
+  return raw.endsWith("ms") ? n : n * 1000;
+}
 // How long to wait, after a click, before showing the curtain at all.
 // Standard "don't flash a loading state for something that finishes
 // instantly" pattern — exoape's own warm-route clicks show no curtain
@@ -363,11 +387,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       // the very first one as permanently "mid-transition."
       if (typeof window !== "undefined") {
         (window as unknown as { __pageTransitionActive?: boolean }).__pageTransitionActive = false;
+        // Paired with the add() in TransitionContext.requestTransition —
+        // brings the film-grain layer back (it fades in via the transition on
+        // .grain-overlay). This lives in finish() specifically because
+        // finish() is the one path every route change goes through, including
+        // the timeout safety nets, so the grain can't get stranded hidden.
+        document.documentElement.classList.remove("is-page-transitioning");
       }
     };
 
     if (supportsViewTransition()) {
-      const t = setTimeout(finish, REVEAL_DURATION * 1000);
+      // Hold transition state for exactly as long as the CSS animation
+      // actually runs, +1 frame of slack so `finish()` can never land on the
+      // frame the browser is still compositing the final keyframe on.
+      const t = setTimeout(finish, readViewTransitionMs() + 16);
       return () => clearTimeout(t);
     }
 

@@ -2105,6 +2105,34 @@ html.tour-sort-stuck #tour-sort-bar {
   z-index: 99999;
   pointer-events: none;
   overflow: hidden;
+  /* Fade back in after a page transition — see the .is-page-transitioning
+   * rule below. Only the fade-IN uses this; hiding is deliberately instant. */
+  transition: opacity 260ms ease 60ms;
+}
+
+/* Hide the grain for the duration of a page transition.
+ *
+ * Why it has to go: startViewTransition() captures the entire document, and
+ * this layer is fixed, full-viewport and permanently animating
+ * (filmGrainJitter, steps(8)). So the old snapshot freezes it at one jitter
+ * step and the new snapshot freezes it at a different one — then those two
+ * grain fields rotate, zoom and dim independently on top of each other. The
+ * result reads as a flicker.
+ *
+ * Why not give it a view-transition-name, as the header gets: this layer
+ * relies on mix-blend-mode: overlay against whatever is behind it, and a
+ * snapshot is composited as a plain image, so the blend does not survive
+ * being captured. Lifting it into its own group would replace the flicker
+ * with a flat grey wash, which is worse.
+ *
+ * Dropping it entirely for ~900ms is imperceptible for a texture this subtle,
+ * and the class is applied SYNCHRONOUSLY before startViewTransition() so the
+ * layer is already gone when the "old" snapshot is taken. `transition: none`
+ * matters for the same reason — a fade-out here would still be at opacity ~1
+ * at capture time and defeat the whole thing. */
+html.is-page-transitioning .grain-overlay {
+  opacity: 0;
+  transition: none;
 }
 
 .grain-overlay::after {
@@ -2561,17 +2589,45 @@ textarea,
  * client-side routing can't do on its own (the old route's tree is just
  * gone the instant the new one commits).
  *
- * Shape is a live-verified match for exoape.com's actual behavior, not a
- * guess: three back-to-back nav clicks on their site, each captured as a
- * rapid screenshot burst, consistently showed BOTH pages translating
- * vertically together — the outgoing page visibly slides up and off the
- * top of the screen WHILE the incoming page slides up from below with a
- * gently tilted (not flat-horizontal) leading edge — a "push," not a
- * static reveal-through-a-hole. Confirmed by tracking a text landmark
- * ("Digital") across consecutive frames of the outgoing page: its on-screen
- * position shifted ~300px upward well before the incoming page ever
- * reached it, which only happens if the outgoing page itself is being
- * transformed, not merely covered.
+ * Every number in the keyframes below was measured off the reference screen
+ * recording (Work -> Contact leg), frame by frame at native rate, rather than
+ * eyeballed. Method: track a fixed content patch on the outgoing page across
+ * frames to get its travel and its luminance, and detect the incoming page's
+ * leading edge per column (strongest dark->bright step) to get that edge's
+ * position and its angle via a least-squares line fit.
+ *
+ * What that produced, and what earlier passes at this had WRONG:
+ *   - The outgoing page moves at ~45% of the incoming page's speed (328px vs
+ *     724px over the same window). It is a parallax, not a lockstep push, so
+ *     the two layers must NOT share a travel distance.
+ *   - The incoming page's leading edge is not a constant diagonal. It enters
+ *     essentially flat (0.19deg), tilts to a peak of 5.25deg, then relaxes
+ *     back to ~0.65deg as it settles. A fixed clip-path cannot express that.
+ *   - The tilt runs higher-on-the-LEFT. A previous version had the polygon
+ *     cutting the top-left corner, i.e. backwards.
+ *   - The outgoing page dims to ~43% brightness on the way out. Measured on a
+ *     tracked patch, so it is the pixels dimming, not the content scrolling
+ *     to a darker region.
+ *   - Motion peaks around 40% of the way through and then has a long
+ *     ease-out tail. The timing function is `linear` because the easing is
+ *     baked into the measured stop values themselves rather than
+ *     approximated by a bezier.
+ *
+ * DENSITY IN THE TAIL IS NOT OPTIONAL. An earlier version had only two stops
+ * after the 70% mark, so the browser interpolated that whole last stretch
+ * LINEARLY — a constant-speed drift — and it read as wrong even though the
+ * total duration was about right. The real motion decelerates exponentially
+ * at the end. Measured by tracking the destination's photo (deliberately not
+ * its headline, which is a marquee that never stops, and not the header,
+ * which runs its own separate ~500ms colour animation — both of those
+ * inflated an earlier frame-differencing estimate):
+ *     the match score reaches exactly 1.00 at 667ms, i.e. rotation and scale
+ *     are fully resolved by then, yet the layer is still 98px from home;
+ *     that remaining 98px then decays 98 -> 78 -> 62 -> 48 -> 37 -> 27 -> 19
+ *     -> 13 -> 8 -> 4 -> 2 -> 0, arriving at ~1033ms.
+ * So roughly the last 40% of the timeline is pure vertical settle with the
+ * geometry already finished, and it needs stops close enough together to
+ * describe that decay.
  *
  * `animation: none` on the shared rule below removes the browser's DEFAULT
  * behavior for these two pseudo-elements (a 0.25s cross-fade, plus a
@@ -2579,6 +2635,14 @@ textarea,
  * so our own transform-only keyframes are the entire effect — no fading,
  * just movement, matching what was actually observed.
  */
+:root {
+  /* Single source of truth for the transition length. PageTransition.tsx
+   * reads this at runtime via getComputedStyle instead of hardcoding its own
+   * copy, so the JS that clears transition state can never drift out of sync
+   * with the CSS that actually does the animating. Change it here only. */
+  --page-transition-duration: 930ms;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -2587,24 +2651,199 @@ textarea,
 
 ::view-transition-old(root) {
   z-index: 1;
-  animation: page-push-out 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: page-push-out var(--page-transition-duration) linear forwards;
 }
 
 ::view-transition-new(root) {
   z-index: 2;
-  /* Constant (not animated) slight tilt on the leading edge — this is what
-   * makes the seam between old/new read as a diagonal line sweeping up
-   * rather than a flat horizontal one, matching the reference recording. */
-  clip-path: polygon(0% 3%, 100% 0%, 100% 100%, 0% 100%);
-  animation: page-push-in 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  transform-origin: 50% 50%;
+  animation: page-push-in var(--page-transition-duration) linear forwards;
 }
 
+/* OUTGOING page: travels only ~45% as far as the incoming page (measured
+ * 328px vs 724px over the same interval), dims as it goes, AND rotates into
+ * the tilt as it leaves.
+ *
+ * The dimming is real rather than content scrolling past: the same tracked
+ * patch of pixels fell to ~43% of its original luminance.
+ *
+ * DELIBERATE DEPARTURE: the brightness curve below only bottoms out at 0.864,
+ * not the measured 0.38 — the dimming was pulled back twice on request
+ * because the measured depth read as far too heavy. The SHAPE of the curve is
+ * still the measured one; every stop is remapped as
+ * 1 - (1 - measured) * 0.22, so the darkening still ramps in step with the
+ * movement instead of going flat or linear. Do not "correct" this back toward
+ * 0.38 on the grounds that it fails to match the reference — the mismatch is
+ * intentional, as with the blur below.
+ *
+ * To retune, change only that 0.22 factor and re-derive: 1.0 restores the
+ * measured depth, 0 removes the dimming entirely.
+ *
+ * MEASURING THIS CORRECTLY MATTERS — two earlier attempts got it wrong.
+ * Tracking a single patch CANNOT separate rotation from translation: a small
+ * rotation about a distant centre and a small shift produce nearly identical
+ * displacement, so a solver trades one against the other and reports whatever
+ * mix fits. That method claimed ~5deg here, and it was roughly 4x too much.
+ *
+ * The reliable method is two patches ~700px apart on the same layer, each
+ * tracked with translation only. A pure translation moves both by the same
+ * dY; a rotation moves them by different dY. Their difference gives rotation
+ * with no fitting trade-off, and is immune to the scale below (both patches
+ * sit on the same rows, so a scale about centre shifts them equally).
+ * Measured, and consistent across BOTH transitions in the reference footage:
+ *     200ms -> -0.33deg     300ms -> -0.49deg
+ *     267ms -> -0.57deg     333ms -> -0.82deg     367ms -> -1.39deg
+ * Beyond ~367ms both patches fall below a 0.5 match score, so the stops after
+ * that are a gentle continuation of the trend, not data.
+ *
+ * Note the sign: this is the OPPOSITE direction to the incoming page. The
+ * right-hand patch consistently rises MORE than the left-hand one, so this
+ * layer turns anticlockwise while the incoming layer turns clockwise. The two
+ * counter-rotate rather than moving as one rigid sheet.
+ *
+ * The scale() here is NOT the corner-coverage fudge used on the incoming
+ * layer — it is a real, measured zoom. At any instant the left patch moves
+ * LEFT while the right patch moves RIGHT (-28px and +29px respectively at
+ * 367ms), which is divergence, not translation. Solving the pair gives the
+ * scale factor, while net horizontal translation works out to only ~1-4px and
+ * is ignored here as negligible:
+ *     267ms -> 1.021    333ms -> 1.046    367ms -> 1.081
+ * This zoom also happens to exceed what the (now much smaller) rotation needs
+ * for corner coverage, so no separate fudge factor is required. */
+/* NOTE on the blur(): unlike every other number in this keyframe block, the
+ * blur is NOT measured off the reference footage — there is no defocus in it.
+ * It is a deliberate addition, requested on top of the matched motion. Kept
+ * on a gentle ramp that stays under 1px for the first fifth of the timeline
+ * so the outgoing page still reads sharp while it is the thing you are
+ * looking at, then builds as it leaves.
+ *
+ * It has to share the one `filter` declaration with brightness — filter is a
+ * single property, so a second declaration would replace the first and the
+ * dimming would silently vanish. */
 @keyframes page-push-out {
-  from { transform: translateY(0%); }
-  to { transform: translateY(-100%); }
+  0%     { transform: translateY(0)       rotate(0deg)      scale(1);     filter: brightness(1)     blur(0);     }
+  3.5%   { transform: translateY(-0.23%)  rotate(-0.05deg)  scale(1.001); filter: brightness(0.999) blur(0);     }
+  7.2%   { transform: translateY(-0.9%)   rotate(-0.15deg)  scale(1.004); filter: brightness(0.997) blur(0.1px); }
+  10.7%  { transform: translateY(-1.6%)   rotate(-0.33deg)  scale(1.011); filter: brightness(0.994) blur(0.2px); }
+  14.3%  { transform: translateY(-2.1%)   rotate(-0.45deg)  scale(1.016); filter: brightness(0.989) blur(0.3px); }
+  17.9%  { transform: translateY(-3.8%)   rotate(-0.57deg)  scale(1.021); filter: brightness(0.980) blur(0.5px); }
+  21.4%  { transform: translateY(-5.7%)   rotate(-0.7deg)   scale(1.032); filter: brightness(0.977) blur(0.8px); }
+  25%    { transform: translateY(-11.6%)  rotate(-0.82deg)  scale(1.046); filter: brightness(0.958) blur(1.3px); }
+  28.6%  { transform: translateY(-22.6%)  rotate(-1.39deg)  scale(1.081); filter: brightness(0.919) blur(2.4px); }
+  32.2%  { transform: translateY(-27.5%)  rotate(-1.7deg)   scale(1.095); filter: brightness(0.900) blur(3.2px); }
+  35.7%  { transform: translateY(-31%)    rotate(-1.9deg)   scale(1.105); filter: brightness(0.887) blur(3.9px); }
+  39.3%  { transform: translateY(-32.3%)  rotate(-2deg)     scale(1.112); filter: brightness(0.882) blur(4.3px); }
+  46.5%  { transform: translateY(-36%)    rotate(-2.2deg)   scale(1.122); filter: brightness(0.876) blur(5px);   }
+  53.8%  { transform: translateY(-38.7%)  rotate(-2.35deg)  scale(1.131); filter: brightness(0.872) blur(5.6px); }
+  60.8%  { transform: translateY(-40.9%)  rotate(-2.45deg)  scale(1.137); filter: brightness(0.869) blur(6.2px); }
+  67.8%  { transform: translateY(-42.4%)  rotate(-2.5deg)   scale(1.143); filter: brightness(0.867) blur(6.7px); }
+  71.5%  { transform: translateY(-43%)    rotate(-2.53deg)  scale(1.145); filter: brightness(0.866) blur(7px);   }
+  78.6%  { transform: translateY(-43.9%)  rotate(-2.56deg)  scale(1.147); filter: brightness(0.865) blur(7.4px); }
+  85.7%  { transform: translateY(-44.5%)  rotate(-2.58deg)  scale(1.149); filter: brightness(0.865) blur(7.7px); }
+  92.9%  { transform: translateY(-44.8%)  rotate(-2.59deg)  scale(1.150); filter: brightness(0.864) blur(7.9px); }
+  100%   { transform: translateY(-45%)    rotate(-2.6deg)   scale(1.150); filter: brightness(0.864) blur(8px);   }
 }
 
+/* INCOMING page: slides a full viewport height WHILE ROTATED, then unrotates
+ * as it settles. This is a real rotation of the whole layer, not a clipped
+ * corner — an earlier version of this file used an animated clip-path, which
+ * produces a slanted seam but leaves the content itself sitting perfectly
+ * level, and that is visibly wrong.
+ *
+ * Evidence: the incoming page's headline has no descenders, so the bottom of
+ * its glyphs is a single baseline. Fitting a line to that baseline gives the
+ * rotation of the CONTENT (not just the seam):
+ *     267ms -> 3.56deg (R^2 0.992, n=26)
+ *     367ms -> 2.02deg (R^2 0.999, n=57)
+ *     400ms -> 1.56deg (R^2 0.997, n=88)
+ *     433ms -> 1.30deg
+ *     467ms -> 1.05deg
+ * Those track the angle of the panel's top edge measured independently, which
+ * is what you would expect if the edge is simply the top of a rotated layer.
+ * The photo and body copy are visibly tilted in the same frames too.
+ *
+ * Direction: the content descends left-to-right (right side lower), which is
+ * a positive/clockwise CSS rotation.
+ *
+ * The scale() is not decorative. A w*h rectangle rotated by t no longer covers
+ * its own bounding box, so at 5deg a full-viewport layer would show bare
+ * triangles at the corners. The minimum cover factor is
+ * (h*cos t + w*sin t)/h, which is ~1.12 at 5deg for a 1480x1080 frame; scale
+ * is therefore tied to the rotation and reaches exactly 1 when rotation
+ * reaches 0, so the settled page is never left zoomed.
+ *
+ * The outgoing page rotates too — see the note on page-push-out above. Do not
+ * try to check that one by fitting a baseline to its text: that method reports
+ * ~8deg even on frame 0, where the page is provably at rest, because it locks
+ * onto the diagonal roofline inside the hero photo rather than onto any text.
+ * Use the normalized rotation+shift search described there instead. */
 @keyframes page-push-in {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0%); }
+  0%     { transform: translateY(100%)  rotate(5deg)     scale(1.120); }
+  3.5%   { transform: translateY(99.5%) rotate(5deg)     scale(1.120); }
+  7.2%   { transform: translateY(98%)   rotate(5deg)     scale(1.120); }
+  10.7%  { transform: translateY(96.5%) rotate(4.8deg)   scale(1.115); }
+  14.3%  { transform: translateY(95.4%) rotate(4.3deg)   scale(1.103); }
+  17.9%  { transform: translateY(91.5%) rotate(3.56deg)  scale(1.085); }
+  21.4%  { transform: translateY(87.4%) rotate(2.8deg)   scale(1.067); }
+  25%    { transform: translateY(74.3%) rotate(2.3deg)   scale(1.055); }
+  28.6%  { transform: translateY(49.8%) rotate(2.02deg)  scale(1.048); }
+  32.2%  { transform: translateY(39%)   rotate(1.56deg)  scale(1.037); }
+  35.7%  { transform: translateY(31.2%) rotate(1.3deg)   scale(1.031); }
+  39.3%  { transform: translateY(28.2%) rotate(1.05deg)  scale(1.025); }
+  46.5%  { transform: translateY(20%)   rotate(0.7deg)   scale(1.017); }
+  53.8%  { transform: translateY(14%)   rotate(0.45deg)  scale(1.011); }
+  60.8%  { transform: translateY(9.1%)  rotate(0.28deg)  scale(1.007); }
+  67.8%  { transform: translateY(5.7%)  rotate(0.15deg)  scale(1.004); }
+  71.5%  { transform: translateY(4.4%)  rotate(0.1deg)   scale(1.002); }
+  78.6%  { transform: translateY(2.5%)  rotate(0.05deg)  scale(1.001); }
+  85.7%  { transform: translateY(1.2%)  rotate(0.02deg)  scale(1); }
+  92.9%  { transform: translateY(0.4%)  rotate(0deg)     scale(1); }
+  100%   { transform: translateY(0)     rotate(0deg)     scale(1); }
+}
+
+/* HEADER: sits OUT of the page transition entirely.
+ *
+ * By default startViewTransition() snapshots the whole document, so the header
+ * ends up baked into both the old and new snapshots and rides along with the
+ * rotation, zoom and dim — which is wrong. Frame differencing on the reference
+ * footage showed the whole frame changing by 70.8 during peak motion while the
+ * top 70px strip changed by only 16.7: the header barely moves at all.
+ *
+ * Giving it a view-transition-name lifts it into its own snapshot pair, out of
+ * ::view-transition-*(root). Because the header occupies the same box on every
+ * route, its group has nothing to morph, so it simply stays put while the page
+ * moves underneath it — and the old/new pair cross-fades, which is what
+ * carries the light-page/dark-page colour swap.
+ *
+ * 500ms (rather than the page's 900ms) comes from a DevTools Animations
+ * capture of the reference site, which showed `color` on the wordmark, the nav
+ * and the menu button, plus `opacity` on the logo's SVG paths, all running
+ * 500ms — a separate, shorter track from the page movement itself.
+ *
+ * mix-blend-mode is deliberately left at the UA default (plus-lighter) here,
+ * unlike the root rule above: plus-lighter is what stops a cross-fade dipping
+ * through a muddy middle, and this pair genuinely is a cross-fade. */
+header {
+  view-transition-name: site-header;
+}
+
+::view-transition-group(site-header) {
+  animation-duration: 500ms;
+}
+
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation-duration: 500ms;
+  animation-timing-function: ease;
+}
+
+/* Respect a user's reduced-motion preference: keep the route swap instant
+ * rather than sliding a full viewport height past them. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(site-header),
+  ::view-transition-new(site-header) {
+    animation: none;
+  }
 }

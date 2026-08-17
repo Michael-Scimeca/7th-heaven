@@ -356,7 +356,6 @@ export default function MediaPage() {
             <div className="relative z-10  flex items-end pb-24 h-screen pointer-events-none site-container">
               <div className="max-w-lg pointer-events-auto transform-gpu isolate">
                 <span className="text-xs font-black uppercase tracking-[0.3em] text-[var(--color-accent)] mb-3 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
                   Featured Media
                 </span>
                 <h1

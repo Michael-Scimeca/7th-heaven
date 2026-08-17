@@ -166,10 +166,6 @@ export default function FansPage() {
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6">
             <div>
-              <div className="inline-flex items-center gap-2  text-[var(--color-accent)] text-xs font-black uppercase tracking-[0.25em] mb-6">
-                <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                COMMUNITY GALLERY & FAN MOMENTS
-              </div>
 
               <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-white drop- leading-none" style={{ fontFamily: "var(--font-barlow-condensed)" }}>
                 FAN PHOTO & VIDEO <span className="gradient-text">WALL</span>

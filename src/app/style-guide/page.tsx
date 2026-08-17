@@ -137,18 +137,6 @@ const sections = [
   { id: "crew-scheduling", label: "13. Crew Scheduling & Groups", icon: Calendar },
 ];
 
-// Default configuration for the FreeFrontend Sparkle Generate Button demo (Module Scope)
-const SGB_DEFAULTS = {
-  hue: 260,
-  speed: 1.8,
-  transitionSpeed: 0.25,
-  driftSpeed: 9,
-  fontSize: 1.5,
-  radius: 100,
-  glow: 1,
-  particleCount: 12,
-};
-
 export default function StyleGuidePage() {
   const { openModal } = useMember();
   const { tokens, isSaving, hasUnsavedChanges, updateToken, saveTheme, resetToDefaults, exportThemeJson } = useThemeTokens();
@@ -178,14 +166,24 @@ export default function StyleGuidePage() {
   const [sbPanelOpen, setSbPanelOpen] = useState(false);
 
   /* ── FreeFrontend Sparkle Generate Button Demo State ── */
-  const [sgbHue, setSgbHue] = useState(SGB_DEFAULTS.hue);
-  const [sgbSpeed, setSgbSpeed] = useState(SGB_DEFAULTS.speed);
-  const [sgbTransitionSpeed, setSgbTransitionSpeed] = useState(SGB_DEFAULTS.transitionSpeed);
-  const [sgbDriftSpeed, setSgbDriftSpeed] = useState(SGB_DEFAULTS.driftSpeed);
-  const [sgbFontSize, setSgbFontSize] = useState(SGB_DEFAULTS.fontSize);
-  const [sgbRadius, setSgbRadius] = useState(SGB_DEFAULTS.radius);
-  const [sgbGlowSize, setSgbGlowSize] = useState(SGB_DEFAULTS.glow);
-  const [sgbParticleCount, setSgbParticleCount] = useState(SGB_DEFAULTS.particleCount);
+  const sgbDefaults = {
+    hue: 260,
+    speed: 1.8,
+    transitionSpeed: 0.25,
+    driftSpeed: 9,
+    fontSize: 1.5,
+    radius: 100,
+    glow: 1,
+    particleCount: 12,
+  };
+  const [sgbHue, setSgbHue] = useState(sgbDefaults.hue);
+  const [sgbSpeed, setSgbSpeed] = useState(sgbDefaults.speed);
+  const [sgbTransitionSpeed, setSgbTransitionSpeed] = useState(sgbDefaults.transitionSpeed);
+  const [sgbDriftSpeed, setSgbDriftSpeed] = useState(sgbDefaults.driftSpeed);
+  const [sgbFontSize, setSgbFontSize] = useState(sgbDefaults.fontSize);
+  const [sgbRadius, setSgbRadius] = useState(sgbDefaults.radius);
+  const [sgbGlowSize, setSgbGlowSize] = useState(sgbDefaults.glow);
+  const [sgbParticleCount, setSgbParticleCount] = useState(sgbDefaults.particleCount);
   const [sgbPanelOpen, setSgbPanelOpen] = useState(false);
   const [sgbForceHover, setSgbForceHover] = useState(false);
   const [sgbReady, setSgbReady] = useState(false);
@@ -194,14 +192,14 @@ export default function StyleGuidePage() {
   const SGB_STORAGE_KEY = "7thheaven-style-guide:sgb1-sparkle-button";
 
   const sgbResetDefaults = () => {
-    setSgbHue(SGB_DEFAULTS.hue);
-    setSgbSpeed(SGB_DEFAULTS.speed);
-    setSgbTransitionSpeed(SGB_DEFAULTS.transitionSpeed);
-    setSgbDriftSpeed(SGB_DEFAULTS.driftSpeed);
-    setSgbFontSize(SGB_DEFAULTS.fontSize);
-    setSgbRadius(SGB_DEFAULTS.radius);
-    setSgbGlowSize(SGB_DEFAULTS.glow);
-    setSgbParticleCount(SGB_DEFAULTS.particleCount);
+    setSgbHue(sgbDefaults.hue);
+    setSgbSpeed(sgbDefaults.speed);
+    setSgbTransitionSpeed(sgbDefaults.transitionSpeed);
+    setSgbDriftSpeed(sgbDefaults.driftSpeed);
+    setSgbFontSize(sgbDefaults.fontSize);
+    setSgbRadius(sgbDefaults.radius);
+    setSgbGlowSize(sgbDefaults.glow);
+    setSgbParticleCount(sgbDefaults.particleCount);
   };
 
   // Load any previously-saved styling from this browser on mount.
@@ -2190,26 +2188,26 @@ ${deskRules.join("\n")}
                     '--sgb1-glow': sgbGlowSize,
                   } as React.CSSProperties}
                 >
-                  <div className={`sgb1-stage ${sgbForceHover ? "sgb1-preview-active" : ""}`}>
-                    <button type="button" className="sgb1-btn">
-                      <span className="sgb1-spark" />
-                      <span className="sgb1-backdrop" />
-                      <svg className="sgb1-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                <div className={`sgb1-stage ${sgbForceHover ? "sgb1-preview-active" : ""}`}>
+                  <button type="button" className="sgb1-btn">
+                    <span className="sgb1-spark" />
+                    <span className="sgb1-backdrop" />
+                    <svg className="sgb1-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z" fill="black" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="sgb1-text">Generate Site</span>
+                  </button>
+                  <div className="sgb1-bodydrop" />
+                  <span aria-hidden="true" className="sgb1-particle-pen" ref={sgbParticlePenRef}>
+                    {Array.from({ length: sgbParticleCount }).map((_, i) => (
+                      <svg key={i} className="sgb1-particle" viewBox="0 0 175.61 205.14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M104.95,197.32c-10.36,10.42-23.6,10.5-34.38-.13-14.06-13.86-25.31-29.37-35.52-46.39-11.28-18.79-21.13-37.58-28.91-58.02C-6.08,60.65-1.19,26.78,31.05,12.17c35.54-16.11,77.06-16.22,112.7-.38,32.89,14.62,38.16,48.45,25.63,81.07-9.81,25.55-22.66,49.2-37.85,72.02-7.93,11.91-16.58,22.37-26.58,32.43Z" />
                       </svg>
-                      <span className="sgb1-text">Generate Site</span>
-                    </button>
-                    <div className="sgb1-bodydrop" />
-                    <span aria-hidden="true" className="sgb1-particle-pen" ref={sgbParticlePenRef}>
-                      {Array.from({ length: sgbParticleCount }).map((_, i) => (
-                        <svg key={i} className="sgb1-particle" viewBox="0 0 175.61 205.14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M104.95,197.32c-10.36,10.42-23.6,10.5-34.38-.13-14.06-13.86-25.31-29.37-35.52-46.39-11.28-18.79-21.13-37.58-28.91-58.02C-6.08,60.65-1.19,26.78,31.05,12.17c35.54-16.11,77.06-16.22,112.7-.38,32.89,14.62,38.16,48.45,25.63,81.07-9.81,25.55-22.66,49.2-37.85,72.02-7.93,11.91-16.58,22.37-26.58,32.43Z" />
-                        </svg>
-                      ))}
-                    </span>
-                  </div>
+                    ))}
+                  </span>
+                </div>
                 </div>
               </div>
 
@@ -2493,6 +2491,7 @@ ${deskRules.join("\n")}
                 onPointerEnter={handleCtg1PointerEnter}
                 onPointerLeave={handleCtg1PointerLeave}
               >
+                <span className="ctg1-spark" aria-hidden="true">✦</span>
                 Join the waitlist
               </button>
             </div>
@@ -2598,7 +2597,7 @@ ${deskRules.join("\n")}
                 color: var(--ctg1-ink);
                 cursor: pointer;
                 isolation: isolate;
-                background: radial-gradient(150% 120% at var(--ctg1-x) var(--ctg1-y),  #a855f759, transparent 55%), #10142b;
+                background: radial-gradient(150% 120% at var(--ctg1-x) var(--ctg1-y), rgba(147, 51, 234, 0.32), transparent 55%), #10142b;
                 transition: --ctg1-x 0.35s ease-out, --ctg1-y 0.35s ease-out, transform 0.3s ease;
               }
               .ctg1-btn:active {
@@ -2661,23 +2660,28 @@ ${deskRules.join("\n")}
               <SectionBadge label="CodeFronts Inspired" color="amber" />
             </div>
 
-            <div className="htc1 relative flex flex-col items-center justify-center p-8 sm:p-12 rounded-2xl min-h-[200px] overflow-hidden">
-              <button
-                type="button"
-                className="htc1-btn"
-                ref={htc1BtnRef}
-                onPointerDown={handleHtc1PointerDown}
-                onPointerUp={htc1CancelHold}
-                onPointerLeave={htc1CancelHold}
-                onPointerCancel={htc1CancelHold}
-              >
-                <span className="htc1-labs">
-                  <span className="htc1-lab htc1-lab-idle">Hold to cancel pass</span>
-                  <span className="htc1-lab htc1-lab-done" aria-hidden="true">✓ Pass canceled</span>
-                </span>
-              </button>
-              <p className="htc1-status mt-3" ref={htc1StatusRef} aria-live="polite">Hold for 1.2s to confirm</p>
-              <button type="button" onClick={handleHtc1Reset} className="htc1-reset mt-2">Reset demo</button>
+            <div className="htc1 relative flex items-center justify-center p-8 rounded-xl min-h-[320px] overflow-hidden">
+              <div className="htc1-card">
+                <p className="htc1-kicker">Members only</p>
+                <h3 className="htc1-title">Cancel your VIP pass</h3>
+                <p className="htc1-copy">You&apos;ll lose early ticket access, presale codes, and merch drops right away. Hold the button to confirm.</p>
+                <button
+                  type="button"
+                  className="htc1-btn"
+                  ref={htc1BtnRef}
+                  onPointerDown={handleHtc1PointerDown}
+                  onPointerUp={htc1CancelHold}
+                  onPointerLeave={htc1CancelHold}
+                  onPointerCancel={htc1CancelHold}
+                >
+                  <span className="htc1-labs">
+                    <span className="htc1-lab htc1-lab-idle">Hold to cancel pass</span>
+                    <span className="htc1-lab htc1-lab-done" aria-hidden="true">✓ Pass canceled</span>
+                  </span>
+                </button>
+                <p className="htc1-status" ref={htc1StatusRef} aria-live="polite">Hold for 1.2s to confirm</p>
+                <button type="button" onClick={handleHtc1Reset} className="htc1-reset">Reset demo</button>
+              </div>
             </div>
 
             <p className="text-[11px] text-white/40">
@@ -2698,43 +2702,80 @@ ${deskRules.join("\n")}
                 box-sizing: border-box;
               }
               .htc1 {
-                --htc1-bg: transparent;
-                --htc1-panel: rgba(18, 18, 24, 0.45);
-                --htc1-line: rgba(168, 85, 247, 0.25);
-                --htc1-c1: #c084fc;
-                --htc1-c2: #a855f7;
-                --htc1-c3: #9333ea;
-                --htc1-ink: #ffffff;
-                --htc1-mut: #a78bfa;
+                --htc1-bg: #150c08;
+                --htc1-panel: #1f130d;
+                --htc1-line: rgba(251, 191, 36, 0.14);
+                --htc1-c1: #fbbf24;
+                --htc1-c2: #f97316;
+                --htc1-c3: #ef4444;
+                --htc1-ink: #f5ede4;
+                --htc1-mut: #a08670;
                 font-family: inherit;
-                background: radial-gradient(120% 140% at 50% 50%, rgba(168, 85, 247, 0.12), transparent 70%);
+                background: radial-gradient(120% 140% at 18% -10%, rgba(251, 191, 36, 0.06), transparent 55%), var(--htc1-bg);
+              }
+              .htc1-card {
+                width: min(400px, 100%);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)), var(--htc1-panel);
+                border: 1px solid var(--htc1-line);
+                border-radius: 20px;
+                padding: 28px 28px 24px;
+                box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+              }
+              .htc1-kicker {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--htc1-c1);
+              }
+              .htc1-kicker:before {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--htc1-c3);
+                box-shadow: 0 0 6px var(--htc1-c3);
+              }
+              .htc1-title {
+                margin-top: 10px;
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--htc1-ink);
+              }
+              .htc1-copy {
+                margin-top: 8px;
+                font-size: 13.5px;
+                line-height: 1.55;
+                color: var(--htc1-mut);
               }
               .htc1-btn {
                 --htc1-charge: 0;
                 position: relative;
-                width: min(340px, 100%);
-                margin: 0 auto;
-                padding: 16px 28px;
-                border: 1px solid rgba(168, 85, 247, 0.35);
-                border-radius: 8px;
-                background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(126, 34, 206, 0.2));
+                width: 100%;
+                margin-top: 22px;
+                padding: 16px 24px;
+                border: 0;
+                border-radius: 999px;
+                background: linear-gradient(120deg, #2a1a12, #1f130d);
                 color: var(--htc1-ink);
                 font: inherit;
                 font-size: 15px;
-                font-weight: 700;
+                font-weight: 600;
                 cursor: pointer;
                 isolation: isolate;
                 touch-action: none;
                 user-select: none;
-                backdrop-filter: blur(12px);
               }
               .htc1-btn:before {
                 content: "";
                 position: absolute;
-                inset: -1px;
+                inset: 0;
                 border-radius: inherit;
                 padding: 2px;
-                background: conic-gradient(from 0deg, var(--htc1-c1) calc(var(--htc1-charge) * 3.6deg), var(--htc1-c2) calc(var(--htc1-charge) * 3.6deg), var(--htc1-c3) calc(var(--htc1-charge) * 3.6deg), rgba(255, 255, 255, 0.15) 0);
+                background: conic-gradient(from 0deg, var(--htc1-c1) calc(var(--htc1-charge) * 3.6deg), var(--htc1-c2) calc(var(--htc1-charge) * 3.6deg), var(--htc1-c3) calc(var(--htc1-charge) * 3.6deg), rgba(255, 255, 255, 0.12) 0);
                 -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
                 -webkit-mask-composite: xor;
                 mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -2747,7 +2788,7 @@ ${deskRules.join("\n")}
                 inset: 0;
                 border-radius: inherit;
                 background: linear-gradient(120deg, var(--htc1-c1), var(--htc1-c2) 50%, var(--htc1-c3));
-                opacity: calc(var(--htc1-charge) / 100);
+                opacity: calc(var(--htc1-charge) / 140);
                 z-index: -1;
               }
               .htc1-btn:focus-visible {
@@ -2776,12 +2817,11 @@ ${deskRules.join("\n")}
                 inset: 0;
                 opacity: 0;
                 transform: translateY(6px);
-                color: #ffffff;
+                color: #1f130d;
                 font-weight: 700;
               }
               .htc1-btn.is-done {
                 background: linear-gradient(120deg, var(--htc1-c1), var(--htc1-c2) 50%, var(--htc1-c3));
-                box-shadow: 0 0 24px rgba(168, 85, 247, 0.6);
               }
               .htc1-btn.is-done .htc1-lab-idle {
                 opacity: 0;
@@ -2821,6 +2861,122 @@ ${deskRules.join("\n")}
                 }
                 .htc1-lab {
                   transition: none;
+                }
+              }
+            `}</style>
+          </div>
+
+          {/* Shiny Call-to-Action Button (original build, inspired by CodePen) */}
+          <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <h3 className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">Shiny VIP Access Button</h3>
+              <SectionBadge label="CodePen Inspired" color="amber" />
+            </div>
+
+            <div className="scta1 relative flex items-center justify-center p-8 rounded-xl min-h-[220px] overflow-hidden">
+              <button type="button" className="scta1-btn">
+                <span className="scta1-label">Get VIP access</span>
+              </button>
+            </div>
+
+            <p className="text-[11px] text-white/40">
+              Inspired by:{" "}
+              <a
+                href="https://codepen.io/hexagoncircle/pen/MWMqXbK"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60"
+              >
+                Ryan Mulligan (hexagoncircle) – Shiny call-to-action button
+              </a>
+              {" "}(original build: own CSS implementation of a rotating gradient border + shimmer-text sweep, themed for 7th Heaven)
+            </p>
+
+            <style jsx>{`
+              .scta1, .scta1 *, .scta1 *::before, .scta1 *::after {
+                box-sizing: border-box;
+              }
+              .scta1 {
+                --scta1-bg: #0d0a12;
+                --scta1-ink: #f5f3f8;
+                --scta1-c1: #9333ea;
+                --scta1-c2: #fbbf24;
+                --scta1-c3: #c084fc;
+                background: radial-gradient(70% 90% at 50% 100%, rgba(147, 51, 234, 0.1), transparent 60%), var(--scta1-bg);
+              }
+              @property --scta1-angle {
+                syntax: '<angle>';
+                initial-value: 0deg;
+                inherits: false;
+              }
+              @keyframes scta1-spin {
+                to {
+                  --scta1-angle: 360deg;
+                }
+              }
+              @keyframes scta1-shine {
+                to {
+                  background-position: -200% 0;
+                }
+              }
+              .scta1-btn {
+                position: relative;
+                isolation: isolate;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: 0;
+                border-radius: 999px;
+                padding: 1em 2em;
+                font: inherit;
+                font-size: 16px;
+                font-weight: 700;
+                letter-spacing: 0.01em;
+                cursor: pointer;
+                background: transparent;
+                overflow: hidden;
+                transition: transform 0.2s ease;
+              }
+              .scta1-btn:active {
+                transform: scale(0.97);
+              }
+              .scta1-btn:before {
+                content: "";
+                position: absolute;
+                inset: -2px;
+                z-index: -2;
+                border-radius: inherit;
+                background: conic-gradient(from var(--scta1-angle), var(--scta1-c1), var(--scta1-c2), var(--scta1-c3), var(--scta1-c1));
+                animation: scta1-spin 5s linear infinite;
+              }
+              .scta1-btn:hover:before {
+                animation-duration: 1.6s;
+              }
+              .scta1-btn:after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                border-radius: inherit;
+                background: linear-gradient(135deg, #1a1024, #120c1a);
+              }
+              .scta1-btn:focus-visible {
+                outline: 2px solid var(--scta1-c1);
+                outline-offset: 4px;
+              }
+              .scta1-label {
+                position: relative;
+                background: linear-gradient(110deg, var(--scta1-ink) 40%, #fff 50%, var(--scta1-ink) 60%);
+                background-size: 250% 100%;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                animation: scta1-shine 3.2s linear infinite;
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .scta1-btn:before,
+                .scta1-label {
+                  animation: none;
                 }
               }
             `}</style>
