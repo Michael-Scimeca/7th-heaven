@@ -478,7 +478,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={`text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors duration-200 relative ${active
-                    ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                    ? "!text-[#6700ff] font-extrabold active"
                     : "text-white/80 hover:text-white"
                     }`}
                 >
@@ -491,7 +491,7 @@ export function Header() {
             <TransitionLink
               href="/live"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 z-50 ${isNavActive("/live")
-                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                ? "!text-[#6700ff] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -524,7 +524,7 @@ export function Header() {
             title="7th Heaven — Go to Home Page"
           >
             <div className="w-[120px] sm:w-[160px] lg:w-[220px] h-[30px] sm:h-[40px] flex items-center justify-start lg:justify-center">
-              <Logo className="w-full h-full text-current drop-shadow-sm transition-colors duration-200" />
+              <Logo className="w-full h-full text-current transition-colors duration-200" />
             </div>
           </TransitionLink>
 
@@ -534,7 +534,7 @@ export function Header() {
             <TransitionLink
               href="/cruise"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/cruise")
-                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                ? "!text-[#6700ff] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -546,7 +546,7 @@ export function Header() {
             <TransitionLink
               href="/book"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/book")
-                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                ? "!text-[#6700ff] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -557,7 +557,7 @@ export function Header() {
             <TransitionLink
               href="/contact"
               className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(11px,1.1vw,19px)] font-bold uppercase tracking-wider transition-colors py-1 ${isNavActive("/contact")
-                ? "!text-[#6700ff] font-extrabold active drop-shadow-[0_0_12px_rgba(103,0,255,0.8)]"
+                ? "!text-[#6700ff] font-extrabold active"
                 : "text-white/80 hover:text-white"
                 }`}
             >
@@ -794,7 +794,7 @@ export function Header() {
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
                 <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
-                  <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-2xl border border-purple-500/40 shadow-2xl relative bg-black/80 group">
+                  <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-lg  relative  group">
                     <video
                       src="/movie/fest1-clip.mp4"
                       autoPlay
@@ -803,8 +803,8 @@ export function Header() {
                       playsInline
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-purple-950/80 via-transparent to-transparent pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-purple-300">
+                    <div className="absolute inset-0 pointer-events-none" />
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[9px] font-black uppercase tracking-widest">
                       <span>7H FESTIVAL STAGE</span>
                     </div>
                   </div>
@@ -856,11 +856,11 @@ export function Header() {
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
                 <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
-                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/50">
-                    <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
-                    <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a>
-                    <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
-                    <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline hover:text-white transition-colors">YouTube</a>
+                  <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white">
+                    <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Instagram</a>
+                    <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Facebook</a>
+                    <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="!text-white hover:!text-[#c084fc] transition-colors">Twitter</a>
+                    <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline !text-white hover:!text-[#c084fc] transition-colors">YouTube</a>
                   </div>
 
                   {isLoggedIn ? (
@@ -890,7 +890,7 @@ export function Header() {
                         setMobileOpen(false);
                         openModal("login");
                       }}
-                      className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-[#c084fc] hover:text-white transition-colors cursor-pointer"
+                      className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white hover:text-[#c084fc] transition-colors cursor-pointer"
                     >
                       Sign In
                     </button>
