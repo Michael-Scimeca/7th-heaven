@@ -3297,10 +3297,12 @@ textarea,
 }
 
 .su-rail-track {
+  --su-rail-padding: var(--page-padding-x);
+  --su-rail-offset: 0px;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: max(var(--page-padding-x), calc((100% - 1400px) / 2 + var(--page-padding-x)));
+  left: max(calc(var(--su-rail-padding) + var(--su-rail-offset)), calc((100% - 1400px) / 2 + var(--su-rail-padding) + var(--su-rail-offset)));
   z-index: 50;
   pointer-events: none;
 }
