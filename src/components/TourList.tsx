@@ -1185,9 +1185,9 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-[60] mt-5 md:mt-0 flex flex-wrap md:grid ${gridClass} gap-3 sm:gap-4 md:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck border-0 rounded-2xl shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
-            <span className="hidden md:inline-block text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-            <div className="relative flex-1 min-w-[120px] md:min-w-0">
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[88px] z-[60] mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 py-3.5 w-full ${isSortBarStuck ? 'is-stuck border-0 rounded-2xl shadow-xl' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow] duration-200`}>
+            <span className="hidden lg:inline-block text-[1.08rem] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
+            <div className="relative flex-1 min-w-[120px] lg:min-w-0">
               <GooeyMessagesDropdown
                 placeholder="MONTH"
                 defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
@@ -1195,7 +1195,7 @@ ${filterLine}
                 onSelect={(opt) => setActiveMonth(opt.id)}
               />
             </div>
-            <div className="input-glow-border rounded-xl w-full sm:w-auto flex-1 min-w-[160px] md:max-w-[200px] md:w-full">
+            <div className="input-glow-border rounded-xl w-full sm:w-auto flex-1 min-w-[160px] lg:max-w-[200px] lg:w-full">
               <div className="relative flex items-center w-full">
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -1204,7 +1204,7 @@ ${filterLine}
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
             </div>
-            <div className="relative flex-1 min-w-[120px] md:min-w-0">
+            <div className="relative flex-1 min-w-[120px] lg:min-w-0">
               <GooeyMessagesDropdown
                 placeholder="CITY"
                 defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
@@ -1212,12 +1212,12 @@ ${filterLine}
                 onSelect={(opt) => setActiveCity(opt.id)}
               />
             </div>
-            <span className="hidden md:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
+            <span className="hidden lg:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
-            <span className="hidden md:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
-            <span className="hidden md:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
+            <span className="hidden lg:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-center">Map/Cal</span>
+            <span className="hidden lg:inline-block text-[1.18rem] font-black uppercase tracking-widest text-[var(--text-color)] text-right">Website</span>
             {member?.role === 'admin' && (
-              <div className="hidden md:block text-right" />
+              <div className="hidden lg:block text-right" />
             )}
           </div>
 
@@ -1243,9 +1243,9 @@ ${filterLine}
                   onMouseEnter={() => setHoveredRowIdx(i)}
                   onMouseLeave={() => setHoveredRowIdx(null)}
                 >
-                  {/* Desktop / Tablet Row Layout */}
+                  {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden md:grid ${gridClass} gap-3 sm:gap-4 md:gap-6 lg:gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} gap-8 py-3.5 items-center text-[22px] text-white  ${isHighlighted ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="font-[var(--font-heading)] font-extrabold text-[21px] uppercase text-[var(--color-accent)]">{show.day}</span>
@@ -1406,9 +1406,9 @@ ${filterLine}
                     )}
                   </div>
 
-                  {/* Mobile Only Card Layout */}
+                  {/* Mobile/Tablet Card Layout */}
                   <div
-                    className={`tour-row-item relative md:hidden flex flex-col gap-3 py-3 text-sm text-[var(--color-text-secondary)]  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative lg:hidden flex flex-col gap-3 py-3 text-sm text-[var(--color-text-secondary)]  ${isHighlighted ? "bg-[rgba(255,10,61,0.15)] shadow-[0_0_20px_rgba(255,10,61,0.2)] animate-pulse" : isUpNext ? "" : "bg-transparent"} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
 
