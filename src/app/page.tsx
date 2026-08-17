@@ -18,24 +18,24 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroUpcomingShows from "@/components/HeroUpcomingShows";
 import LiveStatusSign from "@/components/LiveStatusSign";
 import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
-const LogoTicker = dynamic(() => import("@/components/LogoTicker"), { ssr: false });
+const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
 
 // Lazy-loaded: canvas/rAF/below-the-fold components
-const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"), { ssr: false });
+const VinylHeroPlayer = dynamic(() => import("@/components/VinylHeroPlayer"));
 const HeroVideoPlayer = dynamic(() => import("@/components/HeroVideoPlayer"));
-const HeroAlbumPlayer = dynamic(() => import("@/components/HeroAlbumPlayer"), { ssr: false });
-const HeroLiveThumbs = dynamic(() => import("@/components/HeroLiveThumbs"), { ssr: false });
+const HeroAlbumPlayer = dynamic(() => import("@/components/HeroAlbumPlayer"));
+const HeroLiveThumbs = dynamic(() => import("@/components/HeroLiveThumbs"));
 const TourList = dynamic(() => import("@/components/TourList"));
-const TourMap = dynamic(() => import("@/components/TourMap"), { ssr: false });
-const BehindTheScenes = dynamic(() => import("@/components/BehindTheScenes"), { ssr: false });
-const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"), { ssr: false });
-const HomeMerch = dynamic(() => import("@/components/HomeMerch"), { ssr: false });
-const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"), { ssr: false });
-const AudioPlayerSection = dynamic(() => import("@/components/AudioPlayer"), { ssr: false });
-const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"), { ssr: false });
-const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"), { ssr: false });
-const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"), { ssr: false });
-const SlideupSection = dynamic(() => import("@/components/SlideupSection"), { ssr: false });
+const TourMap = dynamic(() => import("@/components/TourMap"));
+const BehindTheScenes = dynamic(() => import("@/components/BehindTheScenes"));
+const ProximityNotify = dynamic(() => import("@/components/ProximityNotify"));
+const HomeMerch = dynamic(() => import("@/components/HomeMerch"));
+const FeaturedTrack = dynamic(() => import("@/components/FeaturedTrack"));
+const AudioPlayerSection = dynamic(() => import("@/components/AudioPlayer"));
+const BioParallaxSlider = dynamic(() => import("@/components/BioParallaxSlider"));
+const HomeNewsSection = dynamic(() => import("@/components/HomeNewsSection"));
+const HomeVideoShowcase = dynamic(() => import("@/components/HomeVideoShowcase"));
+const SlideupSection = dynamic(() => import("@/components/SlideupSection"));
 import LazySection from "@/components/LazySection";
 
 
