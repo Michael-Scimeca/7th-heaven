@@ -1584,6 +1584,30 @@ ${deskRules.join("\n")}
               </div>
             </div>
 
+            {/* Animated Mesh Gradient Button */}
+            <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <h3 className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Animated Mesh Gradient Button</h3>
+                <SectionBadge label="Interactive Mesh" color="purple" />
+              </div>
+              <div className="flex flex-wrap items-center gap-4 p-6 rounded-xl bg-[#08070d]">
+                <button className="mesh-gradient px-7 py-3.5 rounded-2xl border border-white/20 text-white font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all group">
+                  <div className="frosted-backdrop" />
+                  <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
+                    <Sparkles className="w-4 h-4 text-pink-400 animate-pulse" />
+                    Animated Mesh CTA
+                  </span>
+                </button>
+
+                <button className="mesh-gradient px-6 py-3 rounded-full border border-purple-400/40 text-purple-200 font-extrabold text-xs uppercase tracking-widest shadow-xl hover:border-purple-300 transition-all">
+                  <div className="frosted-backdrop" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Explore Experience →
+                  </span>
+                </button>
+              </div>
+            </div>
+
             {/* Gradient CTA Button (CodeFronts import) */}
             <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -2889,7 +2913,7 @@ ${deskRules.join("\n")}
               >
                 Ryan Mulligan (hexagoncircle) – Shiny call-to-action button
               </a>
-              {" "}(original build: own CSS implementation of a rotating gradient border + shimmer-text sweep, themed for 7th Heaven)
+              {" "}(original build: own CSS implementation of a rotating conic-gradient border, dot texture, inner shimmer sweep, and hover glow, themed for 7th Heaven)
             </p>
 
             <style jsx>{`
@@ -2898,10 +2922,10 @@ ${deskRules.join("\n")}
               }
               .scta1 {
                 --scta1-bg: #0d0a12;
+                --scta1-bg-subtle: #1c1626;
                 --scta1-ink: #f5f3f8;
-                --scta1-c1: #9333ea;
-                --scta1-c2: #fbbf24;
-                --scta1-c3: #c084fc;
+                --scta1-highlight: #9333ea;
+                --scta1-highlight-subtle: #c9a4fb;
                 background: radial-gradient(70% 90% at 50% 100%, rgba(147, 51, 234, 0.1), transparent 60%), var(--scta1-bg);
               }
               @property --scta1-angle {
@@ -2909,73 +2933,126 @@ ${deskRules.join("\n")}
                 initial-value: 0deg;
                 inherits: false;
               }
+              @property --scta1-angle-offset {
+                syntax: '<angle>';
+                initial-value: 0deg;
+                inherits: false;
+              }
+              @property --scta1-percent {
+                syntax: '<percentage>';
+                initial-value: 5%;
+                inherits: false;
+              }
+              @property --scta1-shine {
+                syntax: '<color>';
+                initial-value: #ffffff;
+                inherits: false;
+              }
               @keyframes scta1-spin {
                 to {
                   --scta1-angle: 360deg;
                 }
               }
-              @keyframes scta1-shine {
+              @keyframes scta1-shimmer-spin {
                 to {
-                  background-position: -200% 0;
+                  rotate: 360deg;
+                }
+              }
+              @keyframes scta1-breathe {
+                from, to {
+                  scale: 1;
+                }
+                50% {
+                  scale: 1.15;
                 }
               }
               .scta1-btn {
-                position: relative;
                 isolation: isolate;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border: 0;
-                border-radius: 999px;
-                padding: 1em 2em;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+                border: 1px solid transparent;
+                border-radius: 360px;
+                padding: 1.1em 2.2em;
                 font: inherit;
                 font-size: 16px;
                 font-weight: 700;
-                letter-spacing: 0.01em;
-                cursor: pointer;
-                background: transparent;
-                overflow: hidden;
-                transition: transform 0.2s ease;
+                color: var(--scta1-ink);
+                background:
+                  linear-gradient(var(--scta1-bg), var(--scta1-bg)) padding-box,
+                  conic-gradient(
+                    from calc(var(--scta1-angle) - var(--scta1-angle-offset)),
+                    transparent,
+                    var(--scta1-highlight) var(--scta1-percent),
+                    var(--scta1-shine) calc(var(--scta1-percent) * 2),
+                    var(--scta1-highlight) calc(var(--scta1-percent) * 3),
+                    transparent calc(var(--scta1-percent) * 4)
+                  ) border-box;
+                box-shadow: inset 0 0 0 1px var(--scta1-bg-subtle);
+                animation: scta1-spin 3.5s linear infinite;
+                transition: --scta1-angle-offset 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                  --scta1-percent 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                  --scta1-shine 0.7s ease;
               }
               .scta1-btn:active {
-                transform: scale(0.97);
+                translate: 0 1px;
               }
               .scta1-btn:before {
                 content: "";
                 position: absolute;
-                inset: -2px;
-                z-index: -2;
+                inset: 3px;
+                z-index: -1;
                 border-radius: inherit;
-                background: conic-gradient(from var(--scta1-angle), var(--scta1-c1), var(--scta1-c2), var(--scta1-c3), var(--scta1-c1));
-                animation: scta1-spin 5s linear infinite;
-              }
-              .scta1-btn:hover:before {
-                animation-duration: 1.6s;
+                background: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.9) 0.6px, transparent 0) 0 0 / 8px 8px;
+                mask-image: conic-gradient(from calc(var(--scta1-angle) + 45deg), black, transparent 10% 90%, black);
+                opacity: 0.35;
               }
               .scta1-btn:after {
                 content: "";
                 position: absolute;
                 inset: 0;
                 z-index: -1;
-                border-radius: inherit;
-                background: linear-gradient(135deg, #1a1024, #120c1a);
+                width: 100%;
+                aspect-ratio: 1;
+                background: linear-gradient(-50deg, transparent, var(--scta1-highlight), transparent);
+                mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+                opacity: 0.5;
+                animation: scta1-shimmer-spin 3.5s linear infinite;
               }
               .scta1-btn:focus-visible {
-                outline: 2px solid var(--scta1-c1);
+                outline: 2px solid var(--scta1-highlight);
                 outline-offset: 4px;
+              }
+              .scta1-btn:is(:hover, :focus-visible) {
+                --scta1-angle-offset: 95deg;
+                --scta1-percent: 20%;
+                --scta1-shine: var(--scta1-highlight-subtle);
               }
               .scta1-label {
                 position: relative;
-                background: linear-gradient(110deg, var(--scta1-ink) 40%, #fff 50%, var(--scta1-ink) 60%);
-                background-size: 250% 100%;
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-                animation: scta1-shine 3.2s linear infinite;
+                z-index: 1;
+              }
+              .scta1-label:before {
+                content: "";
+                position: absolute;
+                inset-inline-start: 50%;
+                inset-block-start: 50%;
+                translate: -50% -50%;
+                width: calc(100% + 1.5rem);
+                height: calc(100% + 1.5rem);
+                box-shadow: inset 0 -1ex 2rem 4px var(--scta1-highlight);
+                opacity: 0;
+                transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+                animation: scta1-breathe 5.25s linear infinite;
+                pointer-events: none;
+              }
+              .scta1-btn:is(:hover, :focus-visible) .scta1-label:before {
+                opacity: 1;
               }
               @media (prefers-reduced-motion: reduce) {
-                .scta1-btn:before,
-                .scta1-label {
+                .scta1-btn,
+                .scta1-btn:after,
+                .scta1-label:before {
                   animation: none;
                 }
               }
