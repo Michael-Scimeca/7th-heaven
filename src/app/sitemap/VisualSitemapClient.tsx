@@ -28,33 +28,38 @@ export interface SitemapNodeData extends Record<string, unknown> {
   path?: string;
   imgUrl: string;
   description?: string;
-  badgeType?: "PAGE" | "MODULE" | "EMAIL";
+  badgeType?: "NAV" | "PAGE" | "MODULE" | "EMAIL";
 }
 
-// --- SLEEK DARK MODE SITEMAP CARD NODE WITH CLICKABLE SCREENSHOTS & HOVER OVERLAY ---
+// --- SLEEK DARK MODE SITEMAP CARD NODE WITH CLICKABLE SCREENSHOTS & HEADER NAV BADGE ---
 function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   const [imgError, setImgError] = useState(false);
+  const isNav = data.badgeType === "NAV";
   const isEmail = data.badgeType === "EMAIL";
   const isModule = data.badgeType === "MODULE";
   const targetPath = data.path || "/";
 
   return (
     <div className={`w-64 rounded-xl border ${
-      isEmail
+      isNav
+        ? "border-purple-400/60 bg-[#120b22]"
+        : isEmail
         ? "border-amber-400/50 bg-[#161005]"
         : isModule
         ? "border-cyan-400/50 bg-[#051218]"
         : "border-white/15 bg-[#0f0f17]"
-    } shadow-2xl overflow-hidden select-none hover:border-purple-400/80 transition-all duration-200 backdrop-blur-xl group`}>
+    } shadow-2xl overflow-hidden select-none hover:border-purple-400/90 transition-all duration-200 backdrop-blur-xl group`}>
       <Handle type="target" position={Position.Top} className={`!w-2.5 !h-2.5 ${
-        isEmail ? "!bg-amber-400" : isModule ? "!bg-cyan-400" : "!bg-purple-400"
+        isNav ? "!bg-purple-400" : isEmail ? "!bg-amber-400" : isModule ? "!bg-cyan-400" : "!bg-purple-400"
       } !border-0`} />
       
       {/* CLICKABLE SCREENSHOT & HEADER CONTAINER */}
       <Link href={targetPath} className="block cursor-pointer">
         {/* Top Browser Header Bar */}
         <div className={`${
-          isEmail
+          isNav
+            ? "bg-purple-600/30 border-b border-purple-500/40 group-hover:bg-purple-600/40"
+            : isEmail
             ? "bg-amber-500/20 border-b border-amber-500/30 group-hover:bg-amber-500/30"
             : isModule
             ? "bg-cyan-500/20 border-b border-cyan-500/30 group-hover:bg-cyan-500/30"
@@ -67,12 +72,16 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
             </div>
             <span className={`font-extrabold text-[10px] tracking-wider uppercase truncate ${
-              isEmail ? "text-amber-300" : isModule ? "text-cyan-300" : "text-purple-300"
+              isNav ? "text-purple-200" : isEmail ? "text-amber-300" : isModule ? "text-cyan-300" : "text-purple-300"
             }`}>
               {data.header}
             </span>
           </div>
-          {isEmail ? (
+          {isNav ? (
+            <span className="px-1.5 py-0.2 rounded bg-purple-500/40 text-purple-200 text-[7px] font-mono font-black shrink-0">
+              HEADER NAV
+            </span>
+          ) : isEmail ? (
             <span className="px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 text-[7px] font-mono font-black shrink-0">
               ✉ RESEND
             </span>
@@ -112,7 +121,9 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
           </div>
 
           <div className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded border text-[7px] font-mono font-bold ${
-            isEmail
+            isNav
+              ? "bg-purple-950/90 border-purple-400/50 text-purple-300"
+              : isEmail
               ? "bg-amber-950/90 border-amber-500/40 text-amber-300"
               : "bg-black/80 border-white/20 text-cyan-300"
           }`}>
@@ -135,7 +146,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
       </div>
 
       <Handle type="source" position={Position.Bottom} className={`!w-2.5 !h-2.5 ${
-        isEmail ? "!bg-amber-400" : "!bg-cyan-400"
+        isNav ? "!bg-purple-400" : isEmail ? "!bg-amber-400" : "!bg-cyan-400"
       } !border-0`} />
     </div>
   );
@@ -187,150 +198,148 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- FULL DEVELOPER ROUTE DIRECTORY TREE (ALL CLICKABLE NODES TO REAL ROUTES) ---
+// --- IMMACULATE SITEMAP TREE: ROW 1 IS 100% EXCLUSIVELY PRIMARY HEADER NAV PAGES ---
 const INITIAL_NODES: Node<SitemapNodeData>[] = [
-  // ROOT HOME (Center Top at x = 1520, y = 30)
+  // ROOT HOME PAGE (Center Top at x = 1140, y = 30)
   {
     id: "root",
     type: "sitemapCard",
-    position: { x: 1520, y: 30 },
+    position: { x: 1140, y: 30 },
     data: {
       header: "Home Page",
       title: "7th Heaven — Official Band Website",
       path: "/",
       imgUrl: "/sitemap-thumbs/home.jpg",
-      badgeType: "PAGE",
+      badgeType: "NAV",
       description:
         "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of live performances.",
     },
   },
 
-  // 🌐 PUBLIC PAGES BRANCH (Row 1: y = 360)
+  // ── ROW 1: PRIMARY HEADER NAVIGATION BAR PAGES (7 MAIN NAV LINKS) (y = 360, 380px pitch) ──
   {
-    id: "node-shows",
+    id: "nav-merch",
     type: "sitemapCard",
     position: { x: 0, y: 360 },
     data: {
-      header: "Concert Shows",
-      title: "Live Concerts & Tour Dates",
-      path: "/shows/past",
-      imgUrl: "/sitemap-thumbs/shows.jpg",
-      badgeType: "PAGE",
-      description: "Live concert archives, tour dates schedule, venue details, and setlists.",
-    },
-  },
-  {
-    id: "node-contact",
-    type: "sitemapCard",
-    position: { x: 380, y: 360 },
-    data: {
-      header: "Contact & Booking",
-      title: "Contact Management & Band Inquiries",
-      path: "/contact",
-      imgUrl: "/sitemap-thumbs/contact.jpg",
-      badgeType: "PAGE",
-      description: "Direct contact inquiry form for booking agents and event organizers.",
-    },
-  },
-  {
-    id: "node-book",
-    type: "sitemapCard",
-    position: { x: 760, y: 360 },
-    data: {
-      header: "Booking Form",
-      title: "Book 7th Heaven — Live Band",
-      path: "/book",
-      imgUrl: "/sitemap-thumbs/book.jpg",
-      badgeType: "PAGE",
-      description: "Multi-step event booking request form with date picker and instant quote.",
-    },
-  },
-  {
-    id: "node-media",
-    type: "sitemapCard",
-    position: { x: 1140, y: 360 },
-    data: {
-      header: "Media & Press Kit",
-      title: "Photos, Videos & High-Res Press Kit",
-      path: "/media",
-      imgUrl: "/sitemap-thumbs/media.jpg",
-      badgeType: "PAGE",
-      description: "Official promotional assets, high-res photos, stage rider, and press kit downloads.",
-    },
-  },
-  {
-    id: "node-faq",
-    type: "sitemapCard",
-    position: { x: 1520, y: 360 },
-    data: {
-      header: "FAQ Page",
-      title: "Frequently Asked Questions",
-      path: "/faq",
-      imgUrl: "/sitemap-thumbs/faq.jpg",
-      badgeType: "PAGE",
-      description: "Frequently asked questions regarding concerts, ticket sales, and booking.",
-    },
-  },
-  {
-    id: "node-privacy",
-    type: "sitemapCard",
-    position: { x: 1900, y: 360 },
-    data: {
-      header: "Privacy Policy",
-      title: "Privacy Policy — 7th Heaven",
-      path: "/privacy",
-      imgUrl: "/sitemap-thumbs/privacy.jpg",
-      badgeType: "PAGE",
-      description: "Data collection rules, user rights, terms of service, and cookie policy.",
-    },
-  },
-
-  // 🛍️ STORE & MERCH BRANCH (Row 1 continued: x = 2280..2660, y = 360)
-  {
-    id: "node-merch",
-    type: "sitemapCard",
-    position: { x: 2280, y: 360 },
-    data: {
-      header: "Official Store",
-      title: "7th Heaven Merch & Apparel",
+      header: "MERCH",
+      title: "Official Band Store & Merchandise",
       path: "/merch",
       imgUrl: "/sitemap-thumbs/merch.jpg",
-      badgeType: "PAGE",
+      badgeType: "NAV",
       description: "Official band merchandise — tees, hoodies, vinyl records, and stage picks.",
     },
   },
   {
-    id: "node-payment-test",
+    id: "nav-media",
     type: "sitemapCard",
-    position: { x: 2660, y: 360 },
+    position: { x: 380, y: 360 },
     data: {
-      header: "Payment Checkout",
-      title: "Shopify Checkout & EPX Test",
-      path: "/payment-test",
-      imgUrl: "/sitemap-thumbs/payment-test.jpg",
-      badgeType: "PAGE",
-      description: "Live merchandise checkout gateway, instant card processing, and pickup receipt.",
+      header: "MEDIA",
+      title: "Photos, Videos & Press Kit",
+      path: "/media",
+      imgUrl: "/sitemap-thumbs/media.jpg",
+      badgeType: "NAV",
+      description: "Official promotional assets, high-res photos, stage rider, and press kit downloads.",
+    },
+  },
+  {
+    id: "nav-fanwall",
+    type: "sitemapCard",
+    position: { x: 760, y: 360 },
+    data: {
+      header: "FAN WALL",
+      title: "Fan Photo Wall & Concert Uploads",
+      path: "/fan-photo-wall",
+      imgUrl: "/sitemap-thumbs/fan-photo-wall.jpg",
+      badgeType: "NAV",
+      description: "Live concert photo upload wall, AI face scanning, and fan gallery.",
+    },
+  },
+  {
+    id: "nav-live",
+    type: "sitemapCard",
+    position: { x: 1140, y: 360 },
+    data: {
+      header: "LIVE STREAM",
+      title: "Live Concert Stream & Broadcast",
+      path: "/live",
+      imgUrl: "/sitemap-thumbs/live.jpg",
+      badgeType: "NAV",
+      description: "LiveKit powered multi-camera live video stream, band audio feeds, and fan chat.",
+    },
+  },
+  {
+    id: "nav-cruise",
+    type: "sitemapCard",
+    position: { x: 1520, y: 360 },
+    data: {
+      header: "CRUISE",
+      title: "Caribbean Rock Cruise 2026",
+      path: "/cruise",
+      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
+      badgeType: "NAV",
+      description: "2026 Fan Cruise itinerary, cabin options, and reservation signup.",
+    },
+  },
+  {
+    id: "nav-book",
+    type: "sitemapCard",
+    position: { x: 1900, y: 360 },
+    data: {
+      header: "BOOK US",
+      title: "Book 7th Heaven — Live Band",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/book.jpg",
+      badgeType: "NAV",
+      description: "Multi-step event booking request form with date picker and instant quote.",
+    },
+  },
+  {
+    id: "nav-contact",
+    type: "sitemapCard",
+    position: { x: 2280, y: 360 },
+    data: {
+      header: "CONTACT",
+      title: "Contact Management & Inquiries",
+      path: "/contact",
+      imgUrl: "/sitemap-thumbs/contact.jpg",
+      badgeType: "NAV",
+      description: "Direct contact inquiry form for booking agents and event organizers.",
     },
   },
 
-  // 🌟 FAN PORTAL & CRUISE BRANCH (Row 2: y = 700)
+  // ── ROW 2: SECONDARY PAGES & PORTAL DASHBOARDS (y = 700) ──
+  {
+    id: "node-shows",
+    type: "sitemapCard",
+    position: { x: 0, y: 700 },
+    data: {
+      header: "Concert Shows",
+      title: "1,200+ Performance Archive",
+      path: "/shows/past",
+      imgUrl: "/sitemap-thumbs/shows.jpg",
+      badgeType: "PAGE",
+      description: "Historical concert dates, venue search, and setlist archives since 1985.",
+    },
+  },
   {
     id: "node-fans",
     type: "sitemapCard",
-    position: { x: 0, y: 700 },
+    position: { x: 380, y: 700 },
     data: {
       header: "Fan Club Hub",
       title: "Fan Club VIP Member Portal",
       path: "/fans",
       imgUrl: "/sitemap-thumbs/fan-dashboard.jpg",
       badgeType: "PAGE",
-      description: "VIP fan dashboard, photo upload wall, referral badges, and exclusive perks.",
+      description: "VIP fan dashboard, referral badges, and exclusive member perks.",
     },
   },
   {
     id: "node-picks",
     type: "sitemapCard",
-    position: { x: 380, y: 700 },
+    position: { x: 760, y: 700 },
     data: {
       header: "Pick Collector",
       title: "Guitar Pick Lottery Game",
@@ -338,19 +347,6 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       imgUrl: "/sitemap-thumbs/picks.jpg",
       badgeType: "PAGE",
       description: "Interactive guitar pick collector game and concert raffle entry.",
-    },
-  },
-  {
-    id: "node-cruise",
-    type: "sitemapCard",
-    position: { x: 760, y: 700 },
-    data: {
-      header: "Cruise 2026",
-      title: "Caribbean Rock Cruise 2026",
-      path: "/cruise",
-      imgUrl: "/sitemap-thumbs/cruise-form-filled.jpg",
-      badgeType: "PAGE",
-      description: "2026 Fan Cruise itinerary, cabin options, and reservation signup.",
     },
   },
   {
@@ -363,28 +359,13 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
       path: "/planner",
       imgUrl: "/sitemap-thumbs/planner.jpg",
       badgeType: "PAGE",
-      description: "Private event planner dashboard, date checklist, and event coordinator portal.",
+      description: "Private event planner dashboard, date checklist, and coordinator portal.",
     },
   },
-  {
-    id: "node-live",
-    type: "sitemapCard",
-    position: { x: 1520, y: 700 },
-    data: {
-      header: "Live Stream Hub",
-      title: "Live Concert Stream & Chat",
-      path: "/live",
-      imgUrl: "/sitemap-thumbs/live.jpg",
-      badgeType: "PAGE",
-      description: "LiveKit powered multi-camera live video stream, band audio feeds, and fan chat.",
-    },
-  },
-
-  // 🔐 ADMIN & CREW BRANCH (Row 2 continued: x = 1900..2660, y = 700)
   {
     id: "node-admin",
     type: "sitemapCard",
-    position: { x: 1900, y: 700 },
+    position: { x: 1520, y: 700 },
     data: {
       header: "Master Admin",
       title: "Admin Command Center",
@@ -397,59 +378,31 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "node-crew",
     type: "sitemapCard",
-    position: { x: 2280, y: 700 },
+    position: { x: 1900, y: 700 },
     data: {
       header: "Crew HQ",
       title: "Road Crew & Staff Portal",
       path: "/crew",
       imgUrl: "/sitemap-thumbs/crew-dashboard.jpg",
       badgeType: "PAGE",
-      description: "Tour staff schedule, stage setup checklists, equipment inventory, and shift alerts.",
+      description: "Tour staff schedule, stage setup checklists, and shift alerts.",
     },
   },
   {
-    id: "node-styleguide",
+    id: "node-privacy",
     type: "sitemapCard",
-    position: { x: 2660, y: 700 },
+    position: { x: 2280, y: 700 },
     data: {
-      header: "UI Style Guide",
-      title: "Fluid Design System & Studio",
-      path: "/style-guide",
-      imgUrl: "/sitemap-thumbs/style-guide.jpg",
+      header: "Privacy & Terms",
+      title: "Privacy Policy & Terms of Service",
+      path: "/privacy",
+      imgUrl: "/sitemap-thumbs/privacy.jpg",
       badgeType: "PAGE",
-      description: "Component library, button variants, color palette, and fluid typography tokens.",
+      description: "Data collection rules, user rights, terms of service, and cookie policy.",
     },
   },
 
-  // 🔐 AUTH MODALS & VERIFICATION MODULES (Row 2 continued: x = 3040..3420, y = 700)
-  {
-    id: "node-login-modal",
-    type: "sitemapCard",
-    position: { x: 3040, y: 700 },
-    data: {
-      header: "Sign In Module",
-      title: "Passwordless Auth Modal",
-      path: "/fans",
-      imgUrl: "/sitemap-thumbs/login-modal.jpg",
-      badgeType: "MODULE",
-      description: "Passwordless OTP email sign in modal and JWT session authentication.",
-    },
-  },
-  {
-    id: "node-signup-modal",
-    type: "sitemapCard",
-    position: { x: 3420, y: 700 },
-    data: {
-      header: "Sign Up Module",
-      title: "Fan Registration Modal",
-      path: "/fans",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
-      badgeType: "MODULE",
-      description: "Fan registration, username creation, opt-in tracking, and instant signup PIN.",
-    },
-  },
-
-  // ✉ TRANSACTIONAL EMAIL PIPELINES (Row 3: y = 1040)
+  // ── ROW 3: RESEND API TRANSACTIONAL EMAIL PIPELINES (y = 1040) ──
   {
     id: "email-otp-pin",
     type: "sitemapCard",
@@ -492,7 +445,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-booking-admin",
     type: "sitemapCard",
-    position: { x: 1900, y: 1040 },
+    position: { x: 1520, y: 1040 },
     data: {
       header: "✉ Admin Booking Alert",
       title: "New Booking Notification",
@@ -505,7 +458,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-merch-pickup",
     type: "sitemapCard",
-    position: { x: 2280, y: 1040 },
+    position: { x: 1900, y: 1040 },
     data: {
       header: "✉ Merch Pickup Email",
       title: "Flash Order Pickup Receipt",
@@ -518,7 +471,7 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   {
     id: "email-newsletter-blast",
     type: "sitemapCard",
-    position: { x: 2660, y: 1040 },
+    position: { x: 2280, y: 1040 },
     data: {
       header: "✉ Tour Announcement",
       title: "Newsletter Broadcast Email",
@@ -530,37 +483,33 @@ const INITIAL_NODES: Node<SitemapNodeData>[] = [
   },
 ];
 
-// --- CONNECTING LINES FROM ROOT TO DEVELOPER ROUTE BRANCHES ---
+// --- CONNECTING LINES FROM ROOT TO PRIMARY HEADER NAV & SECONDARY PAGES ---
 const INITIAL_EDGES: Edge[] = [
-  // Root -> Main Category Branches
-  { id: "e-root-shows", source: "root", target: "node-shows", type: "smoothstep" },
-  { id: "e-root-contact", source: "root", target: "node-contact", type: "smoothstep" },
-  { id: "e-root-book", source: "root", target: "node-book", type: "smoothstep" },
-  { id: "e-root-media", source: "root", target: "node-media", type: "smoothstep" },
-  { id: "e-root-faq", source: "root", target: "node-faq", type: "smoothstep" },
-  { id: "e-root-privacy", source: "root", target: "node-privacy", type: "smoothstep" },
-  { id: "e-root-merch", source: "root", target: "node-merch", type: "smoothstep" },
-  { id: "e-root-payment", source: "root", target: "node-payment-test", type: "smoothstep" },
+  // Root Home -> Primary Header Navigation Bar Links (Row 1)
+  { id: "e-root-nav-merch", source: "root", target: "nav-merch", type: "smoothstep" },
+  { id: "e-root-nav-media", source: "root", target: "nav-media", type: "smoothstep" },
+  { id: "e-root-nav-fanwall", source: "root", target: "nav-fanwall", type: "smoothstep" },
+  { id: "e-root-nav-live", source: "root", target: "nav-live", type: "smoothstep" },
+  { id: "e-root-nav-cruise", source: "root", target: "nav-cruise", type: "smoothstep" },
+  { id: "e-root-nav-book", source: "root", target: "nav-book", type: "smoothstep" },
+  { id: "e-root-nav-contact", source: "root", target: "nav-contact", type: "smoothstep" },
 
-  // Row 1 -> Row 2 Branches
-  { id: "e-shows-fans", source: "node-shows", target: "node-fans", type: "smoothstep" },
-  { id: "e-contact-picks", source: "node-contact", target: "node-picks", type: "smoothstep" },
-  { id: "e-book-cruise", source: "node-book", target: "node-cruise", type: "smoothstep" },
-  { id: "e-media-planner", source: "node-media", target: "node-planner", type: "smoothstep" },
-  { id: "e-faq-live", source: "node-faq", target: "node-live", type: "smoothstep" },
-  { id: "e-privacy-admin", source: "node-privacy", target: "node-admin", type: "smoothstep" },
-  { id: "e-merch-crew", source: "node-merch", target: "node-crew", type: "smoothstep" },
-  { id: "e-payment-style", source: "node-payment-test", target: "node-styleguide", type: "smoothstep" },
-  { id: "e-style-login", source: "node-styleguide", target: "node-login-modal", type: "smoothstep" },
-  { id: "e-style-signup", source: "node-styleguide", target: "node-signup-modal", type: "smoothstep" },
+  // Primary Header Nav -> Secondary Pages & Dashboards (Row 2)
+  { id: "e-merch-shows", source: "nav-merch", target: "node-shows", type: "smoothstep" },
+  { id: "e-fanwall-fans", source: "nav-fanwall", target: "node-fans", type: "smoothstep" },
+  { id: "e-fanwall-picks", source: "nav-fanwall", target: "node-picks", type: "smoothstep" },
+  { id: "e-live-planner", source: "nav-live", target: "node-planner", type: "smoothstep" },
+  { id: "e-cruise-admin", source: "nav-cruise", target: "node-admin", type: "smoothstep" },
+  { id: "e-book-crew", source: "nav-book", target: "node-crew", type: "smoothstep" },
+  { id: "e-contact-privacy", source: "nav-contact", target: "node-privacy", type: "smoothstep" },
 
-  // Row 2 -> Transactional Email Triggers
+  // Secondary Pages -> Transactional Email Pipelines (Row 3)
   { id: "flow-fans-otp", source: "node-fans", target: "email-otp-pin", type: "smoothstep" },
-  { id: "flow-cruise-confirm", source: "node-cruise", target: "email-cruise-confirm", type: "smoothstep" },
+  { id: "flow-cruise-confirm", source: "nav-cruise", target: "email-cruise-confirm", type: "smoothstep" },
   { id: "flow-planner-receipt", source: "node-planner", target: "email-booking-planner", type: "smoothstep" },
   { id: "flow-admin-alert", source: "node-admin", target: "email-booking-admin", type: "smoothstep" },
   { id: "flow-crew-pickup", source: "node-crew", target: "email-merch-pickup", type: "smoothstep" },
-  { id: "flow-style-blast", source: "node-styleguide", target: "email-newsletter-blast", type: "smoothstep" },
+  { id: "flow-privacy-blast", source: "node-privacy", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
 export default function VisualSitemapClient() {
@@ -589,10 +538,10 @@ export default function VisualSitemapClient() {
           </div>
           <div>
             <h1 className="font-extrabold text-base text-white tracking-wider uppercase">
-              7th Heaven Developer Route & Email Directory
+              7th Heaven Header Navigation & Sitemap Directory
             </h1>
             <p className="text-xs text-white/50">
-              Click any screenshot thumbnail or node title to navigate directly to that live page
+              Row 1 maps the primary site Header Navigation Bar (`MERCH`, `MEDIA`, `FAN WALL`, `LIVE STREAM`, `CRUISE`, `BOOK US`, `CONTACT`)
             </p>
           </div>
         </div>
