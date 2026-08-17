@@ -4,48 +4,62 @@ import { useEffect, useRef, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useTransition } from "@/context/TransitionContext";
+import { waitForPageReady } from "@/lib/waitForPageReady";
+import { supportsViewTransition } from "@/lib/supportsViewTransition";
+import { curtainHideRef } from "@/lib/curtainHideRef";
 import Logo from "@/components/Logo";
 
-// ─── What this actually is (third pass, live-verified against exoape.com) ──
-// This component has gone through two wrong models before this one:
+// ─── What this actually is (fourth pass, live-verified against exoape.com) ──
+// This component has gone through three wrong models before this one:
 //
 //   1. A "leave/enter motion decompiled from exoape.com's production
 //      bundle" — false, retracted. Nothing was ever decompiled.
 //   2. A curtain that ALWAYS held for a fixed MIN_COVERED_HOLD_MS (1.6s)
-//      before revealing, with a plain opacity fade in both directions.
-//      That fixed a real ghosting/bleed-through bug (see the
-//      PAGE_REVEAL_CLIP note below for the safe version of the fix that
-//      replaced it) but was rejected outright once compared side-by-side
-//      with exoape.com, because it made EVERY nav click show a slow,
-//      unskippable black hold — not what their site actually does.
+//      before revealing, with a plain opacity fade in both directions —
+//      rejected once compared side-by-side with exoape.com, because it
+//      made EVERY nav click show a slow, unskippable black hold, which
+//      isn't what their site does.
+//   3. A curtain with the fixed hold removed (readiness-gated instead) and
+//      a GSAP clip-path reveal on `content` alone, mimicking a wipe. This
+//      fixed the "holds too long" problem but was STILL not close: a
+//      frame-by-frame re-check of the reference recording (tracking the
+//      "Digital" text on exoape's own Home page across consecutive frames)
+//      showed the OUTGOING page visibly translates upward and off-screen
+//      WHILE the incoming page slides up from below — both moving
+//      together, a "push." Model 3 only ever animated the incoming page;
+//      the outgoing one just vanished (React had already unmounted it by
+//      the time the reveal ran), so there was never any push sensation —
+//      just a static wipe. That's almost certainly what read as "not even
+//      close": the defining motion of exoape's transition was missing
+//      entirely, not just mistimed.
 //
-// What's actually true, from three back-to-back live nav clicks on
-// exoape.com in one session, each captured as a rapid screenshot burst:
+// Model 4 (this one): the push is real, physical motion of TWO different
+// page trees on screen at once, which plain React/Next.js client-side
+// routing fundamentally can't do — the App Router replaces `children`
+// atomically, there's never a moment where both the old and new route's
+// DOM both exist to animate independently. The browser's native View
+// Transitions API is built exactly for this: `document.startViewTransition()`
+// (called from TransitionContext.requestTransition) snapshots the whole
+// document before and after the route swap, and CSS animates those two
+// snapshots independently — see the "PAGE TRANSITION" section of
+// globals.css for the actual translateY/clip-path keyframes that do the
+// push + diagonal leading edge.
 //
-//   - Home → News (the FIRST navigation of the session, nothing
-//     prefetched yet): a real black curtain, holding on their ape mark
-//     with a shimmer, for however long that route actually took to
-//     become ready.
-//   - News → Work and Work → Contact (later navigations, same session —
-//     those routes were already warm): NO black curtain at all. The new
-//     page just wipes straight up from the bottom over the old one, with
-//     a diagonal leading edge, in well under half a second.
+// So this component's job shrank: it no longer owns the page-to-page
+// reveal motion at all on browsers that support the native API (the
+// `supportsViewTransition()` branches below just get out of the way). What
+// it still owns everywhere:
 //
-// So the curtain+logo hold is a fallback for "the destination genuinely
-// isn't ready yet," not a fixed branded pause on every click. The bug
-// with the old fixed hold: on localhost, a route that's already compiled
-// resolves near-instantly, so a 1.6s floor forced the slow branded hold
-// to show on literally every navigation — the opposite of what
-// exoape.com does. That floor is gone. Two things now gate how long
-// "covering"/"covered" actually last, both readiness-driven, no fixed
-// minimum:
-//
-//   - GRACE_MS below: the curtain doesn't even start fading in until this
-//     elapses AND the destination still isn't ready. If it becomes ready
-//     first, the curtain never appears at all — straight to the wipe.
-//   - Once the curtain IS showing, "covered" ends the instant the
-//     destination is actually ready (see the readiness effect below) —
-//     no artificial floor.
+//   - The black curtain + logo shimmer "hold" overlay, for when the
+//     destination genuinely isn't ready yet — the browser's View
+//     Transition freezes the outgoing snapshot while its update callback
+//     is pending, but doesn't provide any "still waiting" indicator of its
+//     own, which is exactly the gap exoape.com's own hold-with-shimmer
+//     fills on a cold/slow load (see GRACE_MS below).
+//   - The GSAP clip-path reveal, as a fallback ONLY for browsers without
+//     View Transition support (Firefox as of when this was written) —
+//     without it those browsers would just see an instant, motionless
+//     page swap once the curtain (if shown) lifts.
 const COVER_DURATION = 0.35;
 const REVEAL_DURATION = 0.55;
 // How long to wait, after a click, before showing the curtain at all.
@@ -57,23 +71,12 @@ const REVEAL_DURATION = 0.55;
 // exoape.com — their exact internal threshold isn't observable.
 const GRACE_MS = 180;
 
-// The diagonal wipe shape: a thin sliver pinned to the bottom edge (the
-// right side lags slightly behind the left, via the 110% vs 100% offset
-// below — that's what gives the boundary its tilt instead of a flat
-// horizontal line) growing to cover the full viewport. Matches both the
-// reference recording the user provided and the live Work→Contact
-// capture (new page's white content wiping up over the old page, higher
-// on the left edge than the right at any given moment).
-//
-// Applied to `content` — NOT the curtain — and only during "uncovering",
-// once the readiness effect has already confirmed the new route landed
-// AND waitForPageReady() resolved. That's what makes this safe: content
-// is guaranteed to already be the correct, ready new page by the time
-// this starts animating, so unlike the old page-recede transform (the
-// thing that caused the original ghosting bug — see the retracted
-// MIN_COVERED_HOLD_MS/decompile comments above), there's no way for this
-// clip-path's timing to race React's own swap.
-const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 110%, 100% 100%, 0% 100%)";
+// Fallback-only reveal shape (see supportsViewTransition() note above) — a
+// thin sliver pinned to the bottom edge, growing to cover the full
+// viewport, with a slight tilt so the leading edge isn't a flat horizontal
+// line. On browsers with View Transition support this is unused; the real
+// push+tilt animation lives in globals.css instead.
+const PAGE_REVEAL_CLIP_FROM = "polygon(0% 100%, 100% 103%, 100% 100%, 0% 100%)";
 const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
 /**
@@ -106,10 +109,13 @@ const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
  *                the file-level comment above for details).
  *   uncovering → curtain (if it was ever shown — safe to hide
  *                unconditionally either way, see below) disappears
- *                instantly, and the new page — already confirmed ready by
- *                this point — wipes up into view via the diagonal
- *                PAGE_REVEAL_CLIP_FROM → PAGE_REVEAL_CLIP_TO clip-path.
- *                Back to "idle" once that finishes.
+ *                instantly. On browsers with View Transition support the
+ *                actual page-push reveal is already running natively (see
+ *                globals.css) by this point — this just waits it out. On
+ *                browsers without support, the new page — already
+ *                confirmed ready by this point — wipes up into view via
+ *                the fallback PAGE_REVEAL_CLIP_FROM → PAGE_REVEAL_CLIP_TO
+ *                clip-path instead. Back to "idle" once that finishes.
  *
  * ─── Ready check (the standard App Router pattern for this) ───────────────
  * router.push() is fire-and-forget: it returns immediately, before Next.js
@@ -141,80 +147,12 @@ const PAGE_REVEAL_CLIP_TO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
  * keeps rendering underneath (whatever's visible — curtain or nothing)
  * for however long step 1 takes — an early router.push() doesn't yank
  * content out from under anything.
+ *
+ * waitForPageReady() itself now lives in src/lib/waitForPageReady.ts,
+ * shared with TransitionContext.tsx's View Transition callback — both need
+ * the same definition of "ready" (see that file for the fonts/DOM
+ * text/images/double-RAF check itself).
  */
-
-// ─── Page-ready check (Fonts + DOM Text + Images + Double RAF) ─────────────
-const MAX_WAIT_MS = 1200;
-async function waitForPageReady(): Promise<void> {
-  // 1. Wait for custom web fonts (Barlow, Rockstar, Inter, etc.) to fully load
-  if (typeof document !== "undefined" && "fonts" in document) {
-    try {
-      await document.fonts.ready;
-      if (document.fonts.status === "loading") {
-        await new Promise<void>((resolve) => {
-          const onDone = () => {
-            document.fonts.removeEventListener("loadingdone", onDone);
-            resolve();
-          };
-          document.fonts.addEventListener("loadingdone", onDone);
-          setTimeout(resolve, 600);
-        });
-      }
-    } catch {}
-  }
-
-  // 2. Ensure text content is rendered in DOM and images/paint passes complete
-  return new Promise<void>((resolve) => {
-    let resolved = false;
-    const finish = () => {
-      if (resolved) return;
-      resolved = true;
-      clearTimeout(deadline);
-      // Double RAF ensures Next.js layout & browser font paint frames have finished
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => resolve());
-      });
-    };
-
-    const deadline = setTimeout(finish, MAX_WAIT_MS);
-
-    const check = () => {
-      if (resolved) return;
-
-      // Verify DOM has rendered text
-      const target = document.querySelector("main") || document.body;
-      const textLength = (target.innerText || target.textContent || "").trim()
-        .length;
-
-      // Find visible images that haven't finished loading
-      const pendingImages = Array.from(
-        document.querySelectorAll<HTMLImageElement>("img")
-      ).filter((img) => {
-        if (img.complete) return false;
-        const r = img.getBoundingClientRect();
-        return r.top < window.innerHeight && r.bottom > 0;
-      });
-
-      if (textLength > 30 && pendingImages.length === 0) {
-        finish();
-      } else if (pendingImages.length > 0) {
-        let remaining = pendingImages.length;
-        const imgDone = () => {
-          if (--remaining <= 0) finish();
-        };
-        pendingImages.forEach((img) => {
-          img.addEventListener("load", imgDone, { once: true });
-          img.addEventListener("error", imgDone, { once: true });
-        });
-      } else {
-        // Re-check next frame if React DOM is still mounting text
-        requestAnimationFrame(check);
-      }
-    };
-
-    requestAnimationFrame(check);
-  });
-}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 // Safety net: if isPending somehow never clears (e.g. router.push targets
@@ -232,6 +170,31 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // callback below created, if it ever fired (declared before the effect
   // that uses it since this is a plain component-body ref, not hoisted).
   const curtainCleanupRef = useRef<(() => void) | null>(null);
+
+  // Registers the imperative "hide the curtain right now" function that
+  // TransitionContext calls just before resolving a View Transition's
+  // update callback — see curtainHideRef.ts for why this can't just be the
+  // mode-driven "uncovering" effect below (timing isn't guaranteed early
+  // enough relative to when the browser takes its "after" snapshot).
+  // gsap.set is synchronous, so this really does take effect immediately.
+  //
+  // Also kills whatever curtain fade-in tween/timeline the covering effect
+  // below may still have running (via curtainCleanupRef) — without this,
+  // if readiness clears while the fade-in is mid-tween, GSAP's next tick
+  // would just animate straight back toward opaque, silently undoing the
+  // gsap.set() below on the very next frame.
+  useEffect(() => {
+    curtainHideRef.current = () => {
+      curtainCleanupRef.current?.();
+      curtainCleanupRef.current = null;
+      const curtain = curtainRef.current;
+      if (!curtain) return;
+      gsap.set(curtain, { autoAlpha: 0, pointerEvents: "none" });
+    };
+    return () => {
+      curtainHideRef.current = null;
+    };
+  }, []);
 
   // covering → wait GRACE_MS before even starting to fade the curtain in.
   // If mode has already moved on (because the readiness effect below found
@@ -359,21 +322,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   }, [mode]);
 
   // uncovering → the curtain (if it was ever shown at all — see GRACE_MS
-  // above) disappears INSTANTLY, no fade, and the new page wipes up into
-  // view via the diagonal clip-path instead. By this point `mode` only got
-  // here because the readiness effect above already confirmed the new
-  // route landed AND waitForPageReady() resolved, so `content` (rendering
-  // the current `children`) is genuinely the new, ready page — safe to
-  // animate its own clip-path with no risk of racing React's swap (see the
-  // PAGE_REVEAL_CLIP note near the top of this file for why that's true
-  // here but wasn't for the old page-recede transform).
+  // above) disappears INSTANTLY, no fade. What happens to `content` next
+  // depends on whether the browser supports the native View Transitions
+  // API (see the file-level comment above and TransitionContext.tsx):
   //
-  // Hiding the curtain unconditionally (autoAlpha: 0, no tween) is correct
-  // whether or not it was ever actually shown: on the fast/no-curtain path
-  // its autoAlpha is already 0 from the initial inline style, so this is a
-  // harmless no-op; on the slow/curtain-shown path this is what actually
-  // reveals the wipe instead of leaving a black screen up while `content`
-  // animates invisibly underneath it.
+  //   - Supported: nothing here animates `content` at all. By the time
+  //     mode reaches "uncovering", TransitionContext's View Transition
+  //     callback has already resolved, which means the browser has ALREADY
+  //     taken its "after" snapshot and started running the real push
+  //     animation (globals.css) — this effect just hides the curtain
+  //     (which was drawn on top of the still-live DOM during the wait, see
+  //     TransitionContext's comment on why that overlay still works) and,
+  //     after roughly the same duration as that CSS animation, clears
+  //     state back to idle. Animating `content`'s own clip-path here too
+  //     would be redundant at best (the live DOM is behind the browser's
+  //     snapshot overlay for the whole animation, so it wouldn't even be
+  //     visible) and risks a visible double-motion if timing ever drifts.
+  //   - Not supported (Firefox, as of when this was written): falls back
+  //     to the old GSAP clip-path wipe on `content` — no push, no diagonal
+  //     leading edge, just a plain reveal, but still safe: `content` is
+  //     already confirmed to be the correct, ready new page by this point
+  //     (the readiness effect above only reaches "uncovering" after
+  //     confirming that), so there's no risk of racing React's own swap
+  //     the way the very first version of this curtain's page-recede
+  //     transform did.
   useEffect(() => {
     if (mode !== "uncovering") return;
     const curtain = curtainRef.current;
@@ -381,6 +353,24 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (!curtain || !content) return;
 
     gsap.set(curtain, { autoAlpha: 0, pointerEvents: "none" });
+
+    const finish = () => {
+      clearPendingHref();
+      setMode("idle");
+      // Reset the flag TransitionContext.requestTransition set synchronously
+      // on click — nothing was ever clearing this, so canvas rAF loops
+      // reading it (see AudioPlayer.tsx) would treat every navigation after
+      // the very first one as permanently "mid-transition."
+      if (typeof window !== "undefined") {
+        (window as unknown as { __pageTransitionActive?: boolean }).__pageTransitionActive = false;
+      }
+    };
+
+    if (supportsViewTransition()) {
+      const t = setTimeout(finish, REVEAL_DURATION * 1000);
+      return () => clearTimeout(t);
+    }
+
     gsap.set(content, { clipPath: PAGE_REVEAL_CLIP_FROM, willChange: "clip-path" });
 
     const tween = gsap.to(content, {
@@ -389,8 +379,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       ease: "power2.out",
       onComplete: () => {
         gsap.set(content, { clipPath: "none", willChange: "auto" });
-        clearPendingHref();
-        setMode("idle");
+        finish();
       },
     });
 
