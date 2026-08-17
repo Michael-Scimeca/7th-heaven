@@ -196,7 +196,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   );
 }
 
-// --- CUSTOM TREE EDGE (Forces stroke-only 2px lines, absolutely zero fill) ---
+// --- CUSTOM TREE EDGE (Forces stroke-only 2.5px lines, absolutely zero fill) ---
 function CustomTreeEdge({
   id,
   sourceX,
@@ -242,7 +242,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- VIEW 1: FULL SITE ARCHITECTURE WITH DIRECT VERTICAL BOOKING & PIN EMAIL FLOW ---
+// --- VIEW 1: FULL SITE ARCHITECTURE (DIRECT VERTICAL FLOW UNDER BOOK US: FORM -> EMAIL WITH PIN FIRST -> ENTER PIN IN MODAL -> RECEIPT -> ADMIN ALERT) ---
 const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME PAGE
   {
@@ -352,18 +352,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 2: VERTICAL CHILD OF BOOK US (PIN MODULE: CREATE ACCOUNT) ──
+  // ── ROW 2: DIRECT VERTICAL CHILD OF BOOK US (SECURITY PIN EMAIL DISPATCHED FIRST) ──
   {
-    id: "node-book-pin-module",
+    id: "email-book-pin-email",
     type: "sitemapCard",
     position: { x: 1900, y: 700 },
     data: {
-      header: "PIN VERIFICATION MODULE",
-      title: "2. Create Account & PIN Modal",
-      path: "/book",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
-      badgeType: "MODULE",
-      description: "Form triggers passwordless account creation modal asking for 6-digit PIN.",
+      header: "✉ SECURITY PIN EMAIL",
+      title: "2. Receive Email With PIN First",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      badgeType: "EMAIL",
+      description: "Upon submitting form, Resend API dispatches an email containing the 6-digit security PIN (e.g. 849201) FIRST to planner's inbox.",
     },
   },
   {
@@ -419,18 +419,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 3: VERTICAL CHILD UNDER PIN MODULE (EMAIL WITH PIN) ──
+  // ── ROW 3: VERTICAL CHILD UNDER PIN EMAIL (ENTER PIN INTO VERIFICATION MODAL) ──
   {
-    id: "email-book-pin-email",
+    id: "node-book-pin-module",
     type: "sitemapCard",
     position: { x: 1900, y: 1040 },
     data: {
-      header: "✉ SECURITY PIN EMAIL",
-      title: "3. Receive Email With PIN",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
-      badgeType: "EMAIL",
-      description: "User receives automated email containing the 6-digit security PIN (e.g. 849201) to enter into modal.",
+      header: "PIN VERIFICATION MODAL",
+      title: "3. Enter PIN into Modal",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      badgeType: "MODULE",
+      description: "Planner types in the 6-digit PIN received from their email into the modal to authenticate and confirm booking.",
     },
   },
   {
@@ -499,7 +499,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 4: CONFIRMATION & ADMIN NOTIFICATION EMAILS ──
+  // ── ROW 4: CONFIRMATION RECEIPT & BAND ADMIN NOTIFICATION EMAILS ──
   {
     id: "email-booking-planner",
     type: "sitemapCard",
@@ -510,7 +510,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       path: "/book/success",
       imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
       badgeType: "EMAIL",
-      description: "Sent to planner upon PIN verification with official event summary.",
+      description: "Sent to planner upon PIN verification with official event summary & details.",
     },
   },
   {
@@ -523,7 +523,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
       badgeType: "EMAIL",
-      description: "Sent to 7th Heaven management with Quick Approve action links.",
+      description: "Sent to 7th Heaven management with Quick Approve & Decline action links.",
     },
   },
   {
@@ -567,7 +567,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   },
 ];
 
-// --- VERTICAL FLOW CONNECTIONS DIRECTLY UNDER BOOK US ---
+// --- VERTICAL FLOW CONNECTIONS: FORM -> EMAIL WITH PIN FIRST -> ENTER PIN IN MODAL -> RECEIPT -> ADMIN ALERT ---
 const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-merch", source: "root", target: "nav-merch", type: "smoothstep" },
   { id: "e-root-media", source: "root", target: "nav-media", type: "smoothstep" },
@@ -581,10 +581,10 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "e-root-footer-privacy", source: "root", target: "footer-privacy", type: "smoothstep" },
   { id: "e-root-footer-terms", source: "root", target: "footer-terms", type: "smoothstep" },
 
-  // DIRECT VERTICAL FLOW UNDER BOOK US FORM
-  { id: "flow-book-to-pin-module", source: "nav-book", target: "node-book-pin-module", type: "smoothstep", animated: true },
-  { id: "flow-module-to-pin-email", source: "node-book-pin-module", target: "email-book-pin-email", type: "smoothstep", animated: true },
-  { id: "flow-pin-email-to-receipt", source: "email-book-pin-email", target: "email-booking-planner", type: "smoothstep", animated: true },
+  // EXACT VERTICAL FLOW DIRECTLY UNDER BOOK US FORM
+  { id: "flow-book-to-pin-email", source: "nav-book", target: "email-book-pin-email", type: "smoothstep", animated: true },
+  { id: "flow-pin-email-to-modal", source: "email-book-pin-email", target: "node-book-pin-module", type: "smoothstep", animated: true },
+  { id: "flow-modal-to-receipt", source: "node-book-pin-module", target: "email-booking-planner", type: "smoothstep", animated: true },
   { id: "flow-receipt-to-admin", source: "email-booking-planner", target: "email-booking-admin", type: "smoothstep", animated: true },
 
   // Other section connections
@@ -598,7 +598,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
-// --- VIEW 2: STEP-BY-STEP EVENT BOOKING & PIN EMAIL FLOW ---
+// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW (EMAIL WITH PIN FIRST) ---
 const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
   {
     id: "bf-step1",
@@ -606,7 +606,7 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 0, y: 150 },
     data: {
       header: "STEP 1 · FILL BOOKING FORM",
-      title: "1. Fill Booking Details",
+      title: "1. Fill Booking Form",
       path: "/book",
       imgUrl: "/sitemap-thumbs/book.jpg",
       badgeType: "HEADER_NAV",
@@ -618,12 +618,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 380, y: 150 },
     data: {
-      header: "STEP 2 · CREATE ACCOUNT & PIN MODAL",
-      title: "2. Passwordless PIN Modal",
-      path: "/book",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
-      badgeType: "MODULE",
-      description: "Form triggers account creation modal asking for 6-digit security PIN.",
+      header: "STEP 2 · RECEIVE EMAIL WITH PIN",
+      title: "2. Dispatches PIN Email First",
+      path: "/admin/emails",
+      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
+      badgeType: "EMAIL",
+      description: "Upon submitting form, Resend API dispatches automated email with 6-digit security PIN FIRST to planner's inbox.",
     },
   },
   {
@@ -631,12 +631,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 760, y: 150 },
     data: {
-      header: "STEP 3 · RECEIVE EMAIL WITH PIN",
-      title: "3. Resend Dispatches 6-Digit PIN",
-      path: "/admin/emails",
-      imgUrl: "/sitemap-thumbs/email-pin-verification.jpg",
-      badgeType: "EMAIL",
-      description: "User receives automated email with 6-digit security PIN (e.g. 849201) to enter into modal.",
+      header: "STEP 3 · ENTER PIN IN MODAL",
+      title: "3. Enter PIN into Modal",
+      path: "/book",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      badgeType: "MODULE",
+      description: "Planner types in the 6-digit PIN received from their email into the modal to verify and lock in booking.",
     },
   },
   {
@@ -644,21 +644,8 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 1140, y: 150 },
     data: {
-      header: "STEP 4 · ENTER PIN & CONFIRM",
-      title: "4. Verify 6-Digit PIN",
-      path: "/book",
-      imgUrl: "/sitemap-thumbs/login-modal.jpg",
-      badgeType: "MODULE",
-      description: "Planner enters 6-digit PIN into popup modal to authenticate and lock in booking request.",
-    },
-  },
-  {
-    id: "bf-step5",
-    type: "sitemapCard",
-    position: { x: 1520, y: 150 },
-    data: {
-      header: "STEP 5 · PLANNER RECEIPT EMAIL",
-      title: "5. Planner Gets Receipt Email",
+      header: "STEP 4 · PLANNER RECEIPT EMAIL",
+      title: "4. Planner Receipt Email",
       path: "/book/success",
       imgUrl: "/sitemap-thumbs/email-booking-confirm.jpg",
       badgeType: "EMAIL",
@@ -666,12 +653,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "bf-step6",
+    id: "bf-step5",
     type: "sitemapCard",
-    position: { x: 1900, y: 150 },
+    position: { x: 1520, y: 150 },
     data: {
-      header: "STEP 6 · ADMIN ALERT EMAIL",
-      title: "6. Band Gets Booking Alert",
+      header: "STEP 5 · ADMIN ALERT EMAIL",
+      title: "5. Band Booking Alert Email",
       path: "/admin/emails",
       imgUrl: "/sitemap-thumbs/email-booking-admin.jpg",
       badgeType: "EMAIL",
@@ -685,7 +672,6 @@ const BOOKING_FLOW_EDGES: Edge[] = [
   { id: "bf-e2", source: "bf-step2", sourceHandle: "right", target: "bf-step3", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "bf-e3", source: "bf-step3", sourceHandle: "right", target: "bf-step4", targetHandle: "left", animated: true, type: "smoothstep" },
   { id: "bf-e4", source: "bf-step4", sourceHandle: "right", target: "bf-step5", targetHandle: "left", animated: true, type: "smoothstep" },
-  { id: "bf-e5", source: "bf-step5", sourceHandle: "right", target: "bf-step6", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
 // --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW ---
@@ -722,11 +708,11 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 760, y: 150 },
     data: {
       header: "STEP 3 · VERIFY PIN IN MODAL",
-      title: "3. Enter PIN & Lock In Cabin",
+      title: "3. Enter PIN into Modal",
       path: "/cruise",
       imgUrl: "/sitemap-thumbs/signup-modal.jpg",
       badgeType: "MODULE",
-      description: "Fan inputs 6-digit PIN to authenticate and reserve cabin on 2026 Cruise.",
+      description: "Fan inputs 6-digit PIN received in email to authenticate and reserve cabin on 2026 Cruise.",
     },
   },
   {
@@ -797,10 +783,10 @@ export default function VisualSitemapClient() {
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "ARCH"
-                ? "Direct Vertical Flow under Book Us: Booking Form ➔ PIN Verification Module ➔ Security PIN Email ➔ Receipt & Admin Alert"
+                ? "Direct Vertical Flow under Book Us: Booking Form ➔ PIN Email Received First ➔ Enter PIN into Modal ➔ Planner Receipt ➔ Admin Alert"
                 : activeTab === "BOOKING"
-                ? "Step-by-step user journey: Form Fill ➔ Email with PIN ➔ Enter PIN ➔ Planner Receipt ➔ Admin Alert"
-                : "Step-by-step user journey: Cabin Request ➔ Email PIN ➔ Verify PIN ➔ Cruise Confirmation"}
+                ? "Step-by-step user journey: Form Fill ➔ Email with PIN Received First ➔ Enter PIN into Modal ➔ Planner Receipt ➔ Admin Alert"
+                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN into Modal ➔ Cruise Confirmation"}
             </p>
           </div>
         </div>
