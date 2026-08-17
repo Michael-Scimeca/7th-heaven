@@ -131,6 +131,11 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
+        />
+        <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;700;800&display=swap"
           media="print"
@@ -138,7 +143,7 @@ export default async function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var l=document.getElementById('gf-stylesheet');if(l){l.addEventListener('load',function(){l.media='all'});setTimeout(function(){l.media='all'},1000);}})();`,
+            __html: `(function(){var l=document.getElementById('gf-stylesheet');if(l){if(l.sheet){l.media='all';}else{l.addEventListener('load',function(){l.media='all'});setTimeout(function(){l.media='all';},300);}}})();`,
           }}
         />
         <link rel="preconnect" href="https://acfzdcyqdskrmfuuoesb.supabase.co" crossOrigin="anonymous" />

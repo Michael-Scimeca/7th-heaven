@@ -258,7 +258,17 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       .to(content, { scale: 1.3, rotate: -7, y: "-50vh", duration: 1, ease: PAGE_RECEDE_EASE }, 0)
       .to(curtain, { autoAlpha: 1, duration: 1, ease: PAGE_RECEDE_EASE }, 0);
 
+    // Safety net: GSAP timelines are driven by requestAnimationFrame, which
+    // browsers can throttle or fully suspend for a backgrounded/unfocused
+    // tab — if that happens mid-tween, onComplete above never fires,
+    // router.push() never happens, and the curtain would sit there frozen
+    // with no way forward. tl.progress(1) forces the SAME timeline to its
+    // end state, which fires the onComplete above exactly once (a no-op if
+    // it already fired naturally) rather than duplicating that logic here.
+    const stuckGuard = setTimeout(() => tl.progress(1), 2500);
+
     return () => {
+      clearTimeout(stuckGuard);
       tl.kill();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -343,7 +353,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       },
     });
 
+    // Same throttled-tab safety net as the covering effect above.
+    const stuckGuard = setTimeout(() => tween.progress(1), 2500);
+
     return () => {
+      clearTimeout(stuckGuard);
       tween.kill();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
