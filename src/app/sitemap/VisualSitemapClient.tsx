@@ -242,7 +242,7 @@ const edgeTypes = {
   default: CustomTreeEdge,
 };
 
-// --- VIEW 1: FULL SITE ARCHITECTURE (DIRECT VERTICAL FLOW UNDER BOOK US) ---
+// --- VIEW 1: FULL SITE ARCHITECTURE (DIRECT VERTICAL FLOW UNDER BOOK US WITH REAL PIN VERIFICATION MODAL SCREENSHOT) ---
 const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
   // ROOT HOME PAGE
   {
@@ -352,18 +352,18 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
 
-  // ── ROW 2: DIRECT VERTICAL CHILD OF BOOK US (PIN VERIFICATION MODAL OPENS ON SCREEN) ──
+  // ── ROW 2: DIRECT VERTICAL CHILD OF BOOK US (REAL 6-DIGIT PIN VERIFICATION MODAL SCREENSHOT) ──
   {
     id: "node-book-pin-module",
     type: "sitemapCard",
     position: { x: 1900, y: 700 },
     data: {
       header: "2. PIN MODAL OPENS ON SCREEN",
-      title: "2. Modal Prompts for 6-Digit PIN",
+      title: "2. 6-Digit PIN Verification Screen",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "Submitting form immediately opens modal on screen: 'Check your email for your 6-digit PIN'.",
+      description: "Submitting form immediately opens real 6-digit OTP verification screen: 'Enter the 6-digit PIN sent to your email'.",
     },
   },
   {
@@ -506,11 +506,11 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     position: { x: 1900, y: 1380 },
     data: {
       header: "4. VERIFY PIN & CONFIRM",
-      title: "4. Enter PIN into Modal",
+      title: "4. Enter 6-Digit PIN into Modal",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "User types the 6-digit PIN from their email into the modal on screen to verify and lock in booking.",
+      description: "User types the 6-digit PIN from their email into the 6 input boxes on screen to verify and lock in booking.",
     },
   },
   {
@@ -614,7 +614,7 @@ const ARCHITECTURE_EDGES: Edge[] = [
   { id: "flow-admin-blast", source: "node-admin", target: "email-newsletter-blast", type: "smoothstep" },
 ];
 
-// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW (EXPLICIT ON-SCREEN vs IN-INBOX) ---
+// --- VIEW 2: STEP-BY-STEP HORIZONTAL FLOW WITH REAL PIN VERIFICATION MODAL SCREENSHOT ---
 const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
   {
     id: "bf-step1",
@@ -634,12 +634,12 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     type: "sitemapCard",
     position: { x: 380, y: 150 },
     data: {
-      header: "2. MODAL OPENS ON SCREEN",
-      title: "2. Modal Prompts for 6-Digit PIN",
+      header: "2. PIN MODAL OPENS ON SCREEN",
+      title: "2. 6-Digit PIN Verification Screen",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "Submitting form immediately opens modal on screen: 'Check your email for your 6-digit PIN'.",
+      description: "Submitting form immediately opens real 6-digit OTP verification screen on screen: 'Check your email for your 6-digit PIN'.",
     },
   },
   {
@@ -661,11 +661,11 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 1140, y: 150 },
     data: {
       header: "4. VERIFY PIN & CONFIRM",
-      title: "4. Enter PIN into Modal",
+      title: "4. Enter 6-Digit PIN into Modal",
       path: "/book",
-      imgUrl: "/sitemap-thumbs/login-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "User types the 6-digit PIN from their email into the modal on screen to verify and lock in booking.",
+      description: "User types the 6-digit PIN from their email into the 6 input boxes on screen to verify and lock in booking.",
     },
   },
   {
@@ -704,7 +704,7 @@ const BOOKING_FLOW_EDGES: Edge[] = [
   { id: "bf-e5", source: "bf-step5", sourceHandle: "right", target: "bf-step6", targetHandle: "left", animated: true, type: "smoothstep" },
 ];
 
-// --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW ---
+// --- VIEW 3: STEP-BY-STEP CRUISE RESERVATION FLOW WITH REAL PIN VERIFICATION MODAL SCREENSHOT ---
 const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
   {
     id: "cf-step1",
@@ -738,11 +738,11 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
     position: { x: 760, y: 150 },
     data: {
       header: "STEP 3 · VERIFY PIN IN MODAL",
-      title: "3. Enter PIN into Modal",
+      title: "3. Enter PIN into 6-Box Screen",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-verification-modal.jpg",
       badgeType: "MODULE",
-      description: "Fan inputs 6-digit PIN received in email to authenticate and reserve cabin on 2026 Cruise.",
+      description: "Fan inputs 6-digit PIN received in email into 6-box verification screen to reserve cabin on 2026 Cruise.",
     },
   },
   {
@@ -813,10 +813,10 @@ export default function VisualSitemapClient() {
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "ARCH"
-                ? "Direct Vertical Flow under Book Us: Form ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN ➔ Planner Receipt ➔ Admin Alert"
+                ? "Direct Vertical Flow under Book Us: Form ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN into 6-Box Screen ➔ Planner Receipt ➔ Admin Alert"
                 : activeTab === "BOOKING"
-                ? "Step-by-step user journey: Form Fill ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN ➔ Planner Receipt ➔ Admin Alert"
-                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN into Modal ➔ Cruise Confirmation"}
+                ? "Step-by-step user journey: Form Fill ➔ Modal Opens ➔ Email Received with PIN ➔ Enter PIN into 6-Box Screen ➔ Planner Receipt ➔ Admin Alert"
+                : "Step-by-step user journey: Cabin Request ➔ Email PIN Received First ➔ Enter PIN into 6-Box Screen ➔ Cruise Confirmation"}
             </p>
           </div>
         </div>
