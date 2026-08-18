@@ -498,7 +498,7 @@ export function BookingManager({ email }: { email?: string }) {
 
         {regError && <p className="text-rose-400 text-xs mt-1">{regError}</p>}
 
-        <button aria-label="Action button" type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-black uppercase tracking-widest text-xs rounded-lg transition-colors shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+        <button aria-label="Action button" type="submit" disabled={registering} className="w-full mt-2 py-2.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-black tracking-wider text-xs rounded-lg transition-all shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
           {registering ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Complete Cruise Registration"}
         </button>
       </form>
@@ -873,7 +873,7 @@ function PaymentModal({ isOpen, onClose, balanceDue, email, onSuccess }: Payment
                   </button>
                   <button aria-label="Action button"
                     type="submit"
-                    className="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-black uppercase tracking-widest transition-colors cursor-pointer shadow-lg shadow-purple-600/30"
+                    className="flex-1 py-2.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-xs font-black tracking-wider rounded-lg transition-all cursor-pointer shadow-lg shadow-purple-600/30"
                   >
                     Pay {balanceDue}
                   </button>

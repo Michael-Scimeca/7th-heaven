@@ -310,7 +310,7 @@ export default function FansPage() {
                       <button aria-label="Action button"
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="py-3 text-[0.6rem] font-black uppercase tracking-widest text-white bg-purple-600 hover:bg-purple-500 transition-colors cursor-pointer shadow-[0_0_15px_rgba(147,51,234,0.3)]"
+                        className="py-3 px-4 text-[0.6rem] font-black tracking-wider text-white bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 rounded-lg transition-all cursor-pointer shadow-[0_0_15px_rgba(105,23,191,0.3)]"
                       >
                         Safe & Approve
                       </button>

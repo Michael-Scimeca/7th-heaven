@@ -639,7 +639,7 @@ export function Header() {
             ) : (
               <button aria-label="Action button"
                 onClick={() => openModal("login")}
-                className="px-3.5 py-1.5 bg-[var(--color-accent)] hover:bg-[#851de7] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-colors shadow-md cursor-pointer shrink-0"
+                className="px-3.5 py-1.5 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-xs font-black tracking-wider rounded-lg transition-all shadow-md cursor-pointer shrink-0"
                 id="header-sign-in"
               >
                 SIGN IN

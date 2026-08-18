@@ -211,7 +211,7 @@ export default function ClaimPage() {
             </p>
             <button aria-label="Action button"
               onClick={() => openModal()}
-              className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors"
+              className="w-full py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-extrabold text-xs tracking-wider rounded-lg transition-all cursor-pointer"
             >
               Sign In to Verify
             </button>
@@ -295,7 +295,7 @@ export default function ClaimPage() {
                 ) : (
                   <button aria-label="Action button"
                     onClick={handleClaimConfirm}
-                    className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-widest transition-colors cursor-pointer font-sans"
+                    className="w-full py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white font-extrabold text-xs tracking-wider rounded-lg transition-all cursor-pointer font-sans"
                   >
                     Confirm Prize Claim
                   </button>

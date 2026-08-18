@@ -612,7 +612,7 @@ export default function ShowPageClient({
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <button aria-label="Action button" onClick={copyLink} className="px-6 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest hover:bg-purple-500 transition-colors">
+                <button aria-label="Action button" onClick={copyLink} className="px-6 py-3 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] hover:brightness-110 text-white text-sm font-black tracking-wider rounded-lg transition-all cursor-pointer">
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </button>
                 <a
