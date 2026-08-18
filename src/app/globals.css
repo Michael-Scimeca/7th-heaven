@@ -757,6 +757,7 @@ button,
 [role="button"] {
   cursor: pointer;
   border-radius: 8px;
+  background-image: linear-gradient(to right, #6917BF, #8c0eaf, #6F008E);
 }
 
 /* Global Liquid Gradient Button Setup */
@@ -772,7 +773,7 @@ button,
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  background: linear-gradient(135deg, #6917BF 0%, #8c0eaf 35%, #6F008E 65%, #230434 100%);
+  background: linear-gradient(to right, #6917BF, #8c0eaf, #6F008E);
   padding: 1rem 1.5rem;
   font-weight: 800;
   letter-spacing: 0.025em;
