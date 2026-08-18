@@ -2201,7 +2201,7 @@ html.is-page-transitioning .grain-overlay {
   top: calc(50% - -20px) !important;
   left: calc(50% - -85px) !important;
   transform: translate(-50%, -50%) !important;
-  z-index: 50;
+  z-index: 30001 !important;
   display: flex;
   align-items: center;
   justify-content: center;
