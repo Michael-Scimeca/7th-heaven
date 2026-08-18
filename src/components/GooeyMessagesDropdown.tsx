@@ -155,7 +155,7 @@ export default function GooeyMessagesDropdown({
             </div>
           )}
 
-          <div className="max-h-60 overflow-y-auto gooey-dropdown-scrollbar space-y-1 pr-3.5 pl-1 py-1" data-lenis-prevent="true">
+          <div className="max-h-48 overflow-y-scroll gooey-dropdown-scrollbar space-y-1 pr-3.5 pl-1 py-1" data-lenis-prevent="true">
             {normalizedCustomers.map((c) => {
               const isSelected = c.id === activeSelectedId;
               return (
