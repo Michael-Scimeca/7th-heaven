@@ -22,11 +22,11 @@ import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
 const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
-const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), { ssr: false });
-const PageNav = dynamic(() => import("@/components/PageNav").then((m) => m.PageNav), { ssr: false });
-const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"), { ssr: false });
-const SanityLive = dynamic(() => import("@/sanity/live").then((m) => m.SanityLive), { ssr: false });
-const VisualEditing = dynamic(() => import("next-sanity/visual-editing").then((m) => m.VisualEditing), { ssr: false });
+const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"));
+const PageNav = dynamic(() => import("@/components/PageNav").then((m) => m.PageNav));
+const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
+const SanityLive = dynamic(() => import("@/sanity/live").then((m) => m.SanityLive));
+const VisualEditing = dynamic(() => import("next-sanity/visual-editing").then((m) => m.VisualEditing));
 
 import localFont from "next/font/local";
 
