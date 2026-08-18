@@ -48,12 +48,9 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ forceShow = false, onComplete }: PreloaderProps = {}) {
-  // Starts false on both server and client so hydration matches. The black for
-  // the very first paint does NOT come from this component — it comes from the
-  // html.is-preloading::before rule, which the blocking inline script in
-  // layout.tsx switches on before anything paints. Without that there would be
-  // a visible flash of the real page before React ever mounted.
-  const [active, setActive] = useState(false);
+  // Rendered during SSR so the preloader logo SVG paints on frame 0 in initial HTML.
+  // When React mounts, useEffect manages scroll locking and the reveal animation.
+  const [destroyed, setDestroyed] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const doneRef = useRef(false);
 
@@ -86,6 +83,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     if (!shouldRun) {
       root.classList.remove("is-preloading");
       unlockScroll();
+      setDestroyed(true);
       onComplete?.();
       return;
     }
@@ -93,7 +91,6 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     // Lock all scrolling while preloader is active
     lockScroll();
 
-    setActive(true);
     const startedAt = performance.now();
     const timers: ReturnType<typeof setTimeout>[] = [];
 
@@ -112,7 +109,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           // The overlay stays mounted for the whole reveal so it can travel
           // off screen. Unmounting it when the reveal starts (as an earlier
           // version did) made it vanish on the first frame instead of leaving.
-          setActive(false);
+          setDestroyed(true);
           root.classList.remove("is-preloading", "is-revealing");
           unlockScroll();
           onComplete?.();
@@ -133,7 +130,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     return () => timers.forEach(clearTimeout);
   }, [forceShow, onComplete]);
 
-  if (!active) return null;
+  if (destroyed) return null;
 
   return (
     <div
