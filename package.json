@@ -17,6 +17,7 @@
     "sitemap": "node scripts/generate-sitemap.js",
     "optimize-images": "node scripts/optimize_images.js",
     "doctor": "npx react-doctor@latest",
+    "check-deploy": "node scripts/check-function-size.js",
     "predeploy": "netlify build"
   },
   "browserslist": [
