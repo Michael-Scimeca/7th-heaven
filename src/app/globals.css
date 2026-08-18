@@ -4090,7 +4090,7 @@ html.is-preloading.is-revealing #page-content-wrapper {
   --preloader-logo-width: clamp(180px, 30vw, 420px);
   --preloader-min-visible: 450ms;
   /* floor on visible time. Fast fill for snappy load. */
-  --preloader-reveal-duration: 380ms;
+  --preloader-reveal-duration: 930ms;
   /* the exit is the SAME movement as a route change */
   --preloader-mark-exit-extra: 60vh;
   /* travel added to the overlay's -45% so the mark clears the top */

@@ -25,7 +25,7 @@ import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // Every tunable lives in globals.css (:root) and is read back at runtime, so
 // this file cannot drift out of step with the stylesheet.
-const FALLBACK = { minVisible: 450, reveal: 380 };
+const FALLBACK = { minVisible: 450, reveal: 930 };
 
 function cssMs(name: string, fallback: number): number {
   if (typeof window === "undefined") return fallback;
