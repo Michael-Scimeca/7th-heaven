@@ -201,12 +201,14 @@ export default function GooeyMessagesDropdown({
     optionButtons.forEach((btn: any) => {
       if (btn.scrollWidth) maxTextW = Math.max(maxTextW, btn.scrollWidth);
     });
-    const measuredW = Math.max(maxTextW > 0 ? maxTextW + 36 : el.offsetWidth, triggerWidth);
-    const measuredH = Math.min(el.offsetHeight + 8, 280);
+    const measuredW = fullWidth
+      ? triggerWidth
+      : Math.max(maxTextW > 0 ? maxTextW + 24 : el.offsetWidth, triggerWidth);
+    const measuredH = Math.min(el.offsetHeight + 6, 280);
 
     setPanelWidth((prev) => (prev !== measuredW ? measuredW : prev));
     setPanelHeight((prev) => (prev !== measuredH ? measuredH : prev));
-  }, [open, triggerWidth]);
+  }, [open, triggerWidth, fullWidth]);
 
   useEffect(() => {
     if (!open) return;
@@ -378,8 +380,8 @@ export default function GooeyMessagesDropdown({
         style={{ backgroundColor: open ? '#242630' : '#2f2f3c' }}
         className={`relative z-50 ${fullWidth
           ? "w-full justify-between text-left"
-          : "min-w-[52px] justify-center text-center"
-          } px-5 py-3 rounded-full ${currentBg} ${noBorder ? "border-none" : ""} flex items-center gap-2 cursor-pointer transition-colors hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`}
+          : "min-w-fit justify-center text-center"
+          } ${noPadding ? "p-0" : fullWidth ? "px-5 py-3" : "px-3.5 py-2"} rounded-full ${currentBg} ${noBorder ? "border-none" : ""} flex items-center gap-2 cursor-pointer transition-colors hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={handleToggle}
         aria-haspopup="listbox"
         aria-expanded={open}
