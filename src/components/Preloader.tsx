@@ -25,7 +25,7 @@ import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // Every tunable lives in globals.css (:root) and is read back at runtime, so
 // this file cannot drift out of step with the stylesheet.
-const FALLBACK = { minVisible: 1250, reveal: 620 };
+const FALLBACK = { minVisible: 450, reveal: 380 };
 
 function cssMs(name: string, fallback: number): number {
   if (typeof window === "undefined") return fallback;
@@ -62,19 +62,36 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
     const root = document.documentElement;
     const shouldRun = forceShow || root.classList.contains("is-preloading");
 
-    if (!shouldRun) {
-      root.classList.remove("is-preloading");
+    const getLenis = () =>
+      typeof window !== "undefined" ? (window as any).__lenis || (window as any).lenis : null;
+
+    const lockScroll = () => {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      const l = getLenis();
+      if (l && typeof l.stop === "function") {
+        try { l.stop(); } catch {}
+      }
+    };
+
+    const unlockScroll = () => {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
-      (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
+      const l = getLenis();
+      if (l && typeof l.start === "function") {
+        try { l.start(); } catch {}
+      }
+    };
+
+    if (!shouldRun) {
+      root.classList.remove("is-preloading");
+      unlockScroll();
       onComplete?.();
       return;
     }
 
     // Lock all scrolling while preloader is active
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-    (window as unknown as { lenis?: { stop: () => void } }).lenis?.stop();
+    lockScroll();
 
     setActive(true);
     const startedAt = performance.now();
@@ -97,9 +114,7 @@ export default function Preloader({ forceShow = false, onComplete }: PreloaderPr
           // version did) made it vanish on the first frame instead of leaving.
           setActive(false);
           root.classList.remove("is-preloading", "is-revealing");
-          document.body.style.overflow = "";
-          document.documentElement.style.overflow = "";
-          (window as unknown as { lenis?: { start: () => void } }).lenis?.start();
+          unlockScroll();
           onComplete?.();
         }, revealDurationMs())
       );

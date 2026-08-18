@@ -4083,20 +4083,15 @@ html.is-preloading.is-revealing #page-content-wrapper {
 :root {
   --preloader-start-opacity: 0.269;
   /* mark's brightness the instant it appears */
-  --preloader-hold-dim: 200ms;
+  --preloader-hold-dim: 100ms;
   /* how long it sits dim before filling */
-  --preloader-brighten: 1030ms;
+  --preloader-brighten: 450ms;
   /* dim -> full */
   --preloader-logo-width: clamp(180px, 30vw, 420px);
-  --preloader-min-visible: 1250ms;
-  /* floor on visible time. 0 reveals the moment assets are
-                                         ready, which on a warm cache means the whole preloader is
-                                         over in ~1s and effectively never seen. 1250ms clears the
-                                         200ms dim hold + 1030ms fill. */
-  --preloader-reveal-duration: 620ms;
-  /* the exit is the SAME movement as a route change, just
-                                         played quicker. All three exit animations must share this
-                                         one value or the overlay, mark and page separate. */
+  --preloader-min-visible: 450ms;
+  /* floor on visible time. Fast fill for snappy load. */
+  --preloader-reveal-duration: 380ms;
+  /* the exit is the SAME movement as a route change */
   --preloader-mark-exit-extra: 60vh;
   /* travel added to the overlay's -45% so the mark clears the top */
 }

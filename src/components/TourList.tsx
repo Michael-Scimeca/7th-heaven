@@ -1194,12 +1194,18 @@ ${filterLine}
               }}
             />
             <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
-            <div className="relative order-2 lg:order-none flex-1 min-w-0">
+            <div className="relative order-2 lg:order-none flex items-center gap-2 shrink-0">
               <GooeyMessagesDropdown
                 placeholder="MONTH"
                 defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
                 customers={months.map((m) => ({ id: m, name: m }))}
                 onSelect={(opt) => setActiveMonth(opt.id)}
+              />
+              <GooeyMessagesDropdown
+                placeholder="CITY"
+                defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
+                customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
+                onSelect={(opt) => setActiveCity(opt.id)}
               />
             </div>
             <div className="input-glow-border rounded-xl w-full order-1 lg:order-none shrink-0">
@@ -1207,17 +1213,9 @@ ${filterLine}
                 <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/80 pointer-events-none z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-9 pr-7 py-2 text-[clamp(16px,1.3vw,21px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
+                <input aria-label="Search" type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 rounded-xl pl-11 pr-7 py-2 text-[clamp(16px,1.3vw,21px)] text-white placeholder:text-white/50 focus:outline-none transition-all font-semibold" id="tour-search" />
                 {searchQuery && (<button aria-label="Clear search" onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--muted-text)] hover:text-white text-[1.08rem] cursor-pointer z-10"><X className="w-3.5 h-3.5" /></button>)}
               </div>
-            </div>
-            <div className="relative order-3 lg:order-none flex-1 min-w-0 flex justify-end lg:block">
-              <GooeyMessagesDropdown
-                placeholder="CITY"
-                defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
-                customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
-                onSelect={(opt) => setActiveCity(opt.id)}
-              />
             </div>
             <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
 
