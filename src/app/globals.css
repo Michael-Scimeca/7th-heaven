@@ -20,6 +20,7 @@ html {
 }
 
 body {
+  background: #000000;
   background-color: transparent !important;
   background: transparent !important;
   color: #ffffff;
@@ -2100,6 +2101,35 @@ html.tour-sort-stuck #tour-sort-bar {
   box-shadow: 0 0 20px rgba(192, 132, 252, 1) !important;
 }
 
+/* 4px Slim Dropdown Scrollbar (No Track Color) */
+.gooey-dropdown-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(168, 85, 247, 0.6) transparent !important;
+}
+
+.gooey-dropdown-scrollbar::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
+  display: block !important;
+  -webkit-appearance: none !important;
+}
+
+.gooey-dropdown-scrollbar::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: none !important;
+}
+
+.gooey-dropdown-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.6) !important;
+  border-radius: 9999px !important;
+  min-height: 24px !important;
+}
+
+.gooey-dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(236, 72, 153, 0.9) !important;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.8) !important;
+}
+
 /* Prevent transition flash during window resize */
 @media (max-width: 1023px) {
   #main-nav {
@@ -2142,6 +2172,7 @@ html.tour-sort-stuck #tour-sort-bar {
   pointer-events: none;
   overflow: hidden;
 }
+
 /* Film-grain overlay remains permanently visible at all times */
 
 .grain-overlay::after {
