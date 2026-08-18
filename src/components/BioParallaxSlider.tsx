@@ -780,10 +780,12 @@ lerpSpeed: ${lerpSpeed}`;
                         <Image
                           src={imageSrc}
                           alt={m?.name || "Member Photo"}
-                          width={600}
-                          height={800}
+                          width={1200}
+                          height={1600}
+                          quality={100}
+                          unoptimized
+                          priority={i === 2}
                           draggable={false}
-                          sizes="(max-width: 768px) 50vw, 600px"
                           className="smooothy-img h-full w-auto max-w-none object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] pointer-events-none select-none origin-bottom relative z-0 transition-all duration-200"
                           style={{
                             maxHeight: `${imageHeight}px`,
