@@ -1185,7 +1185,10 @@ ${filterLine}
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
           <div ref={sentinelRef} className="h-0" aria-hidden="true" />
-          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`sticky top-[80px] sm:top-[88px] z-[900] sm:pt-4 sm:pb-4 md:mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 mdpy-3.5 w-full ${isSortBarStuck ? 'is-stuck py-3' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow,backdrop-filter] duration-200`}>
+          <div id="tour-sort-bar" ref={sortBarRef} style={{ opacity: sortBarOpacityRef.current, pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none" }} className={`relative sticky top-[80px] sm:top-[88px] z-[900] sm:pt-4 sm:pb-4 md:mt-5 lg:mt-0 flex flex-wrap lg:grid ${gridClass} gap-3 sm:gap-4 lg:gap-8 mdpy-3.5 w-full ${isSortBarStuck ? 'is-stuck py-3' : 'bg-transparent border-0'} items-center text-white transition-[background-color,border-radius,padding,box-shadow,backdrop-filter] duration-200`}>
+            {isSortBarStuck && (
+              <div className="absolute inset-y-0 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen backdrop-blur-2xl bg-[rgba(12,12,18,0.85)] border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)] pointer-events-none -z-10" />
+            )}
             <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,21px)] font-black uppercase tracking-widest text-[var(--text-color)]">Day</span>
             <div className="relative order-2 lg:order-none flex-1 min-w-0">
               <GooeyMessagesDropdown

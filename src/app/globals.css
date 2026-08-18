@@ -553,25 +553,6 @@ header {
   z-index: 900 !important;
 }
 
-#tour-sort-bar.is-stuck::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  width: 100vw;
-  background: rgba(12, 12, 18, 0.85);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  z-index: -1;
-  pointer-events: none;
-}
-
 /* =============================================
  7TH HEAVEN — Tailwind v4 Theme Configuration
  ============================================= */
