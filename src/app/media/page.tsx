@@ -33,11 +33,11 @@ function VideoThumbnail({ videoId, title, isActive }: { videoId: string; title: 
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
   const [failed, setFailed] = useState(false);
 
-  const previewUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=20&playsinline=1&modestbranding=1&enablejsapi=1`;
+  const previewUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=16&playsinline=1&modestbranding=1&enablejsapi=1`;
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-[#1a0f2e] via-[#0c0817] to-black flex items-center justify-center overflow-hidden">
-      {/* 10-Second Video Preview Loop when active starting 10s into video */}
+      {/* 6-Second Video Preview Loop when active starting 10s into video */}
       {isActive && (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <iframe
