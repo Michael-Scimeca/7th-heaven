@@ -230,6 +230,7 @@ export default function MediaPage() {
 
   const handleAddVideoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAdmin) return;
     const parsedId = extractYouTubeId(newUrl);
     if (!parsedId || parsedId.length !== 11) {
       alert("Please enter a valid 11-character YouTube video URL or ID.");
@@ -466,14 +467,16 @@ export default function MediaPage() {
               placeholder="SEARCH MEDIA..."
               containerClassName="min-w-[220px] max-w-[300px] flex-1 sm:flex-initial"
             />
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
-              title="Add a video to the Media Vault & Sanity CMS"
-            >
-              <Plus className="w-4 h-4" />
-              <span>+ Add Video</span>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-105 cursor-pointer shrink-0"
+                title="Add a video to the Media Vault & Sanity CMS"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Add Video</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -628,7 +631,7 @@ export default function MediaPage() {
       )}
 
       {/* ── ADD YOUTUBE VIDEO MODAL (Sanity CMS + Media Vault) ── */}
-      {isAddModalOpen && (
+      {isAdmin && isAddModalOpen && (
         <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
           <div className="bg-[#0f0921] border border-purple-500/40 rounded-lg  w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(147,51,234,0.3)] p-6 relative">
             <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
