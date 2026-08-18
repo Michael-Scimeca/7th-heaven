@@ -181,6 +181,8 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable} ${rockstar.variable} ${barlowCondensed.variable} ${barlow.variable}`} data-theme="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
