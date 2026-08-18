@@ -376,10 +376,18 @@ export default function SlideupSection({ showIntro = false }: { showIntro?: bool
           z-index:1;
           pointer-events:none;
         }
-        @media (max-width: 720px){
-          .su-thumbs{ flex-wrap:wrap; }
-          .su-thumb{ flex:1 1 calc(50% - 8px); aspect-ratio:1/1; }
-          .su-rail{ left:12px; }
+        /* Tablet (641px - 1024px): exactly 3 videos */
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .su-thumbs { flex-wrap: nowrap; gap: 12px; }
+          .su-thumb { flex: 1; aspect-ratio: 9/16; max-height: 44vh; }
+          .su-thumb:nth-child(n+4) { display: none !important; }
+        }
+        /* Mobile (max-width: 640px): exactly 2 videos */
+        @media (max-width: 640px) {
+          .su-thumbs { flex-wrap: nowrap; gap: 10px; }
+          .su-thumb { flex: 1; aspect-ratio: 9/16; max-height: 44vh; }
+          .su-thumb:nth-child(n+3) { display: none !important; }
+          .su-rail { left: 12px; }
         }
       `}</style>
 
