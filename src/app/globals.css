@@ -206,6 +206,8 @@ a:hover {
 input,
 select,
 textarea {
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
   background: #a855f71f !important;
   backdrop-filter: blur(var(--input-blur)) !important;
   -webkit-backdrop-filter: blur(var(--input-blur)) !important;
@@ -215,7 +217,6 @@ textarea {
   padding: var(--input-padding-y) var(--input-padding-x);
   outline: none !important;
   transition: all 0.2s ease-in-out !important;
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05) !important;
 }
 
 input[inputmode="numeric"] {

@@ -168,7 +168,7 @@ const InputField = ({ label, labelRight, required, id, className = "", ...props 
       </div>
       <div className="input-glow-border rounded-lg">
         <input aria-label="Input field" id={inputId} {...props} required={required}
-          className="w-full bg-white/5 border-0 px-4 py-3 text-lg text-white placeholder:text-white/30 focus:outline-none transition-colors rounded-lg"
+          className="w-full bg-white/5 border-0 px-4 py-3.5 text-xl font-bold text-white placeholder:text-white/45 placeholder:font-medium focus:outline-none transition-colors rounded-lg"
         />
       </div>
     </div>
