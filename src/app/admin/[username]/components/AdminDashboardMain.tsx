@@ -11640,10 +11640,7 @@ export function AdminDashboardMain({ params }: { params: Promise<{ username: str
           visibility: visible !important;
         }
 
-        #admin-dashboard-root button[aria-haspopup="listbox"] {
-          background-color: #242630 !important;
-          background: #242630 !important;
-        }
+
 
         /* Global Textarea & Input Style: Transparent Dark Background & Crisp White Text */
         #admin-dashboard-root textarea,

@@ -1200,7 +1200,6 @@ ${filterLine}
                 defaultSelectedId={activeMonth !== "All" ? activeMonth : undefined}
                 customers={months.map((m) => ({ id: m, name: m }))}
                 onSelect={(opt) => setActiveMonth(opt.id)}
-                triggerTextClassName="!text-[clamp(14px,1.2vw,18px)]"
               />
             </div>
             <div className="input-glow-border rounded-xl w-full order-1 lg:order-none shrink-0">
@@ -1218,7 +1217,6 @@ ${filterLine}
                 defaultSelectedId={activeCity !== "All" ? activeCity : undefined}
                 customers={locationOptions.map(({ city, count }) => ({ id: city, name: `${city} (${count})` }))}
                 onSelect={(opt) => setActiveCity(opt.id)}
-                triggerTextClassName="!text-[clamp(14px,1.2vw,18px)]"
               />
             </div>
             <span className="hidden lg:inline-block text-[clamp(16px,1.4vw,22px)] font-black uppercase tracking-widest text-[var(--text-color)]">Time</span>
